@@ -31,6 +31,7 @@ using cyber::common::GetAbsolutePath;
 
 bool TrafficLightCameraPerception::Init(
     const CameraPerceptionInitOptions &options) {
+  AINFO << "Arif called TrafficLightCameraPerception::Init";
   std::string work_root = "";
   if (options.use_cyber_work_root) {
     work_root = GetCyberWorkRoot();
@@ -90,6 +91,7 @@ bool TrafficLightCameraPerception::Init(
 
 bool TrafficLightCameraPerception::Perception(
     const CameraPerceptionOptions &options, CameraFrame *frame) {
+  AINFO << "Arif called TrafficLightCameraPerception::Perception";
   PERF_FUNCTION();
   PERF_BLOCK_START();
   TrafficLightDetectorOptions detector_options;

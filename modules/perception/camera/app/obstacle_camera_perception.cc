@@ -37,6 +37,7 @@ using cyber::common::GetAbsolutePath;
 
 bool ObstacleCameraPerception::Init(
     const CameraPerceptionInitOptions &options) {
+  AINFO << "Arif called ObstacleCameraPerception::Init";
   std::string work_root = "";
   if (options.use_cyber_work_root) {
     work_root = GetCyberWorkRoot();
@@ -183,6 +184,7 @@ bool ObstacleCameraPerception::Init(
 void ObstacleCameraPerception::InitLane(
     const std::string &work_root,
     const app::PerceptionParam &perception_param) {
+  AINFO << "Arif called ObstacleCameraPerception::InitLane";
   // Init lane
   CHECK_GT(perception_param.lane_param_size(), 0)
       << "Failed to include lane_param";
@@ -302,6 +304,7 @@ void ObstacleCameraPerception::SetIm2CarHomography(
 
 bool ObstacleCameraPerception::GetCalibrationService(
     BaseCalibrationService **calibration_service) {
+  AINFO << "Arif called ObstacleCameraPerception::GetCalibrationService";
   *calibration_service = calibration_service_.get();
   return true;
 }

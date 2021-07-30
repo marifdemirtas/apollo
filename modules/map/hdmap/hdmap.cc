@@ -22,6 +22,7 @@ namespace hdmap {
 
 int HDMap::LoadMapFromFile(const std::string& map_filename) {
   AINFO << "Loading HDMap: " << map_filename << " ...";
+  AINFO << "Arif called HDMap::LoadMapFromFile";
   return impl_.LoadMapFromFile(map_filename);
 }
 
