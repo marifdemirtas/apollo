@@ -22,7 +22,31 @@ namespace hdmap {
 
 int HDMap::LoadMapFromFile(const std::string& map_filename) {
   AINFO << "Loading HDMap: " << map_filename << " ...";
-  AINFO << "Arif called HDMap::LoadMapFromFile";
+  try
+  {
+    AINFO << "Arif called macro 1:" << __func__;
+  }
+  catch(const std::exception& e)
+  {
+    AINFO << "Arif called macro 1 and it raised an exception";
+  }
+  try
+  {
+    AINFO << "Arif called macro 2:" << __FUNCTION__;
+  }
+  catch(const std::exception& e)
+  {
+    AINFO << "Arif called macro 2 and it raised an exception";
+  }
+  try
+  {
+    AINFO << "Arif called macro 3:" << __PRETTY_FUNCTION__;
+  }
+  catch(const std::exception& e)
+  {
+    AINFO << "Arif called macro 3 and it raised an exception";
+  }
+  
   return impl_.LoadMapFromFile(map_filename);
 }
 
