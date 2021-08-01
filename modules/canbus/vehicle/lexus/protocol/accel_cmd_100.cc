@@ -29,15 +29,21 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Accelcmd100::ID = 0x100;
 
 // public
-Accelcmd100::Accelcmd100() { Reset(); }
+Accelcmd100::Accelcmd100() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Accelcmd100::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Accelcmd100::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_ignore_overrides(data, ignore_overrides_);
   set_p_enable(data, enable_);
   set_p_clear_override(data, clear_override_);
@@ -46,6 +52,8 @@ void Accelcmd100::UpdateData(uint8_t* data) {
 }
 
 void Accelcmd100::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(QiL) you should check this manually
   ignore_overrides_ = false;
   enable_ = false;
@@ -55,6 +63,8 @@ void Accelcmd100::Reset() {
 }
 
 Accelcmd100* Accelcmd100::set_ignore_overrides(bool ignore_overrides) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ignore_overrides_ = ignore_overrides;
   return this;
 }
@@ -63,6 +73,8 @@ Accelcmd100* Accelcmd100::set_ignore_overrides(bool ignore_overrides) {
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 1,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Accelcmd100::set_p_ignore_overrides(uint8_t* data, bool ignore_overrides) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = ignore_overrides;
 
   Byte to_set(data + 0);
@@ -70,6 +82,8 @@ void Accelcmd100::set_p_ignore_overrides(uint8_t* data, bool ignore_overrides) {
 }
 
 Accelcmd100* Accelcmd100::set_enable(bool enable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   enable_ = enable;
   return this;
 }
@@ -78,6 +92,8 @@ Accelcmd100* Accelcmd100::set_enable(bool enable) {
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Accelcmd100::set_p_enable(uint8_t* data, bool enable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = enable;
 
   Byte to_set(data + 0);
@@ -85,6 +101,8 @@ void Accelcmd100::set_p_enable(uint8_t* data, bool enable) {
 }
 
 Accelcmd100* Accelcmd100::set_clear_override(bool clear_override) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   clear_override_ = clear_override;
   return this;
 }
@@ -93,6 +111,8 @@ Accelcmd100* Accelcmd100::set_clear_override(bool clear_override) {
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 2,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Accelcmd100::set_p_clear_override(uint8_t* data, bool clear_override) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = clear_override;
 
   Byte to_set(data + 0);
@@ -100,6 +120,8 @@ void Accelcmd100::set_p_clear_override(uint8_t* data, bool clear_override) {
 }
 
 Accelcmd100* Accelcmd100::set_clear_faults(bool clear_faults) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   clear_faults_ = clear_faults;
   return this;
 }
@@ -108,6 +130,8 @@ Accelcmd100* Accelcmd100::set_clear_faults(bool clear_faults) {
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 3,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Accelcmd100::set_p_clear_faults(uint8_t* data, bool clear_faults) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = clear_faults;
 
   Byte to_set(data + 0);
@@ -115,6 +139,8 @@ void Accelcmd100::set_p_clear_faults(uint8_t* data, bool clear_faults) {
 }
 
 Accelcmd100* Accelcmd100::set_accel_cmd(double accel_cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   accel_cmd_ = accel_cmd;
   return this;
 }
@@ -123,6 +149,8 @@ Accelcmd100* Accelcmd100::set_accel_cmd(double accel_cmd) {
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 15,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 void Accelcmd100::set_p_accel_cmd(uint8_t* data, double accel_cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const double scaling_bias = 0.0;   // estimated from the garage test data
   const double scaling_gain = 1.20;  // estimated from the garage test data
   accel_cmd = std::max(0.0, (accel_cmd - scaling_bias) / (scaling_gain * 100));

@@ -27,11 +27,15 @@ namespace devkit {
 
 using ::apollo::drivers::canbus::Byte;
 
-Vcureport505::Vcureport505() {}
+Vcureport505::Vcureport505() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Vcureport505::ID = 0x505;
 
 void Vcureport505::Parse(const std::uint8_t* bytes, int32_t length,
                          ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_devkit()->mutable_vcu_report_505()->set_vehicle_mode_state(
       vehicle_mode_state(bytes, length));
   chassis->mutable_devkit()->mutable_vcu_report_505()->set_frontcrash_state(
@@ -54,6 +58,8 @@ void Vcureport505::Parse(const std::uint8_t* bytes, int32_t length,
 // '[0|0]', 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 Vcu_report_505::Vehicle_mode_stateType Vcureport505::vehicle_mode_state(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(3, 2);
 
@@ -68,6 +74,8 @@ Vcu_report_505::Vehicle_mode_stateType Vcureport505::vehicle_mode_state(
 // '[0|0]', 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 Vcu_report_505::Frontcrash_stateType Vcureport505::frontcrash_state(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(1, 1);
 
@@ -82,6 +90,8 @@ Vcu_report_505::Frontcrash_stateType Vcureport505::frontcrash_state(
 // '[0|0]', 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 Vcu_report_505::Backcrash_stateType Vcureport505::backcrash_state(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(2, 1);
 
@@ -96,6 +106,8 @@ Vcu_report_505::Backcrash_stateType Vcureport505::backcrash_state(
 // 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 Vcu_report_505::Aeb_stateType Vcureport505::aeb_state(const std::uint8_t* bytes,
                                                       int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 1);
 
@@ -108,6 +120,8 @@ Vcu_report_505::Aeb_stateType Vcureport505::aeb_state(const std::uint8_t* bytes,
 // 'offset': 0.0, 'order': 'motorola', 'physical_range': '[-10|10]',
 // 'physical_unit': 'm/s^2', 'precision': 0.01, 'type': 'double'}
 double Vcureport505::acc(const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -127,6 +141,8 @@ double Vcureport505::acc(const std::uint8_t* bytes, int32_t length) const {
 // 'speed', 'offset': 0.0, 'order': 'motorola', 'physical_range': '[0|65.535]',
 // 'physical_unit': 'm/s', 'precision': 0.001, 'type': 'double'}
 double Vcureport505::speed(const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 

@@ -35,6 +35,8 @@ using apollo::common::math::AABoxKDTreeParams;
 using apollo::common::math::Vec2d;
 
 Id CreateHDMapId(const std::string& string_id) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Id id;
   id.set_id(string_id);
   return id;
@@ -48,6 +50,8 @@ constexpr int kBackwardDistance = 4;
 }  // namespace
 
 int HDMapImpl::LoadMapFromFile(const std::string& map_filename) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Clear();
   // TODO(All) seems map_ can be changed to a local variable of this
   // function, but test will fail if I do so. if so.
@@ -63,6 +67,8 @@ int HDMapImpl::LoadMapFromFile(const std::string& map_filename) {
 }
 
 int HDMapImpl::LoadMapFromProto(const Map& map_proto) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (&map_proto != &map_) {  // avoid an unnecessary copy
     Clear();
     map_ = map_proto;
@@ -153,76 +159,106 @@ int HDMapImpl::LoadMapFromProto(const Map& map_proto) {
 }
 
 LaneInfoConstPtr HDMapImpl::GetLaneById(const Id& id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   LaneTable::const_iterator it = lane_table_.find(id.id());
   return it != lane_table_.end() ? it->second : nullptr;
 }
 
 JunctionInfoConstPtr HDMapImpl::GetJunctionById(const Id& id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   JunctionTable::const_iterator it = junction_table_.find(id.id());
   return it != junction_table_.end() ? it->second : nullptr;
 }
 
 SignalInfoConstPtr HDMapImpl::GetSignalById(const Id& id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SignalTable::const_iterator it = signal_table_.find(id.id());
   return it != signal_table_.end() ? it->second : nullptr;
 }
 
 CrosswalkInfoConstPtr HDMapImpl::GetCrosswalkById(const Id& id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CrosswalkTable::const_iterator it = crosswalk_table_.find(id.id());
   return it != crosswalk_table_.end() ? it->second : nullptr;
 }
 
 StopSignInfoConstPtr HDMapImpl::GetStopSignById(const Id& id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   StopSignTable::const_iterator it = stop_sign_table_.find(id.id());
   return it != stop_sign_table_.end() ? it->second : nullptr;
 }
 
 YieldSignInfoConstPtr HDMapImpl::GetYieldSignById(const Id& id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   YieldSignTable::const_iterator it = yield_sign_table_.find(id.id());
   return it != yield_sign_table_.end() ? it->second : nullptr;
 }
 
 ClearAreaInfoConstPtr HDMapImpl::GetClearAreaById(const Id& id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ClearAreaTable::const_iterator it = clear_area_table_.find(id.id());
   return it != clear_area_table_.end() ? it->second : nullptr;
 }
 
 SpeedBumpInfoConstPtr HDMapImpl::GetSpeedBumpById(const Id& id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SpeedBumpTable::const_iterator it = speed_bump_table_.find(id.id());
   return it != speed_bump_table_.end() ? it->second : nullptr;
 }
 
 OverlapInfoConstPtr HDMapImpl::GetOverlapById(const Id& id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   OverlapTable::const_iterator it = overlap_table_.find(id.id());
   return it != overlap_table_.end() ? it->second : nullptr;
 }
 
 RoadInfoConstPtr HDMapImpl::GetRoadById(const Id& id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   RoadTable::const_iterator it = road_table_.find(id.id());
   return it != road_table_.end() ? it->second : nullptr;
 }
 
 ParkingSpaceInfoConstPtr HDMapImpl::GetParkingSpaceById(const Id& id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ParkingSpaceTable::const_iterator it = parking_space_table_.find(id.id());
   return it != parking_space_table_.end() ? it->second : nullptr;
 }
 
 PNCJunctionInfoConstPtr HDMapImpl::GetPNCJunctionById(const Id& id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   PNCJunctionTable::const_iterator it = pnc_junction_table_.find(id.id());
   return it != pnc_junction_table_.end() ? it->second : nullptr;
 }
 
 RSUInfoConstPtr HDMapImpl::GetRSUById(const Id& id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   RSUTable::const_iterator it = rsu_table_.find(id.id());
   return it != rsu_table_.end() ? it->second : nullptr;
 }
 int HDMapImpl::GetLanes(const PointENU& point, double distance,
                         std::vector<LaneInfoConstPtr>* lanes) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetLanes({point.x(), point.y()}, distance, lanes);
 }
 
 int HDMapImpl::GetLanes(const Vec2d& point, double distance,
                         std::vector<LaneInfoConstPtr>* lanes) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (lanes == nullptr || lane_segment_kdtree_ == nullptr) {
     return -1;
   }
@@ -241,11 +277,15 @@ int HDMapImpl::GetLanes(const Vec2d& point, double distance,
 
 int HDMapImpl::GetRoads(const PointENU& point, double distance,
                         std::vector<RoadInfoConstPtr>* roads) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetRoads({point.x(), point.y()}, distance, roads);
 }
 
 int HDMapImpl::GetRoads(const Vec2d& point, double distance,
                         std::vector<RoadInfoConstPtr>* roads) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<LaneInfoConstPtr> lanes;
   if (GetLanes(point, distance, &lanes) != 0) {
     return -1;
@@ -269,12 +309,16 @@ int HDMapImpl::GetRoads(const Vec2d& point, double distance,
 int HDMapImpl::GetJunctions(
     const PointENU& point, double distance,
     std::vector<JunctionInfoConstPtr>* junctions) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetJunctions({point.x(), point.y()}, distance, junctions);
 }
 
 int HDMapImpl::GetJunctions(
     const Vec2d& point, double distance,
     std::vector<JunctionInfoConstPtr>* junctions) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (junctions == nullptr || junction_polygon_kdtree_ == nullptr) {
     return -1;
   }
@@ -293,11 +337,15 @@ int HDMapImpl::GetJunctions(
 
 int HDMapImpl::GetSignals(const PointENU& point, double distance,
                           std::vector<SignalInfoConstPtr>* signals) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetSignals({point.x(), point.y()}, distance, signals);
 }
 
 int HDMapImpl::GetSignals(const Vec2d& point, double distance,
                           std::vector<SignalInfoConstPtr>* signals) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (signals == nullptr || signal_segment_kdtree_ == nullptr) {
     return -1;
   }
@@ -317,12 +365,16 @@ int HDMapImpl::GetSignals(const Vec2d& point, double distance,
 int HDMapImpl::GetCrosswalks(
     const PointENU& point, double distance,
     std::vector<CrosswalkInfoConstPtr>* crosswalks) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetCrosswalks({point.x(), point.y()}, distance, crosswalks);
 }
 
 int HDMapImpl::GetCrosswalks(
     const Vec2d& point, double distance,
     std::vector<CrosswalkInfoConstPtr>* crosswalks) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (crosswalks == nullptr || crosswalk_polygon_kdtree_ == nullptr) {
     return -1;
   }
@@ -342,12 +394,16 @@ int HDMapImpl::GetCrosswalks(
 int HDMapImpl::GetStopSigns(
     const PointENU& point, double distance,
     std::vector<StopSignInfoConstPtr>* stop_signs) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetStopSigns({point.x(), point.y()}, distance, stop_signs);
 }
 
 int HDMapImpl::GetStopSigns(
     const Vec2d& point, double distance,
     std::vector<StopSignInfoConstPtr>* stop_signs) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (stop_signs == nullptr || stop_sign_segment_kdtree_ == nullptr) {
     return -1;
   }
@@ -367,12 +423,16 @@ int HDMapImpl::GetStopSigns(
 int HDMapImpl::GetYieldSigns(
     const PointENU& point, double distance,
     std::vector<YieldSignInfoConstPtr>* yield_signs) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetYieldSigns({point.x(), point.y()}, distance, yield_signs);
 }
 
 int HDMapImpl::GetYieldSigns(
     const Vec2d& point, double distance,
     std::vector<YieldSignInfoConstPtr>* yield_signs) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (yield_signs == nullptr || yield_sign_segment_kdtree_ == nullptr) {
     return -1;
   }
@@ -393,12 +453,16 @@ int HDMapImpl::GetYieldSigns(
 int HDMapImpl::GetClearAreas(
     const PointENU& point, double distance,
     std::vector<ClearAreaInfoConstPtr>* clear_areas) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetClearAreas({point.x(), point.y()}, distance, clear_areas);
 }
 
 int HDMapImpl::GetClearAreas(
     const Vec2d& point, double distance,
     std::vector<ClearAreaInfoConstPtr>* clear_areas) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (clear_areas == nullptr || clear_area_polygon_kdtree_ == nullptr) {
     return -1;
   }
@@ -419,12 +483,16 @@ int HDMapImpl::GetClearAreas(
 int HDMapImpl::GetSpeedBumps(
     const PointENU& point, double distance,
     std::vector<SpeedBumpInfoConstPtr>* speed_bumps) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetSpeedBumps({point.x(), point.y()}, distance, speed_bumps);
 }
 
 int HDMapImpl::GetSpeedBumps(
     const Vec2d& point, double distance,
     std::vector<SpeedBumpInfoConstPtr>* speed_bumps) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (speed_bumps == nullptr || speed_bump_segment_kdtree_ == nullptr) {
     return -1;
   }
@@ -445,12 +513,16 @@ int HDMapImpl::GetSpeedBumps(
 int HDMapImpl::GetParkingSpaces(
     const PointENU& point, double distance,
     std::vector<ParkingSpaceInfoConstPtr>* parking_spaces) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetParkingSpaces({point.x(), point.y()}, distance, parking_spaces);
 }
 
 int HDMapImpl::GetParkingSpaces(
     const Vec2d& point, double distance,
     std::vector<ParkingSpaceInfoConstPtr>* parking_spaces) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (parking_spaces == nullptr || parking_space_polygon_kdtree_ == nullptr) {
     return -1;
   }
@@ -471,12 +543,16 @@ int HDMapImpl::GetParkingSpaces(
 int HDMapImpl::GetPNCJunctions(
     const apollo::common::PointENU& point, double distance,
     std::vector<PNCJunctionInfoConstPtr>* pnc_junctions) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetPNCJunctions({point.x(), point.y()}, distance, pnc_junctions);
 }
 
 int HDMapImpl::GetPNCJunctions(
     const apollo::common::math::Vec2d& point, double distance,
     std::vector<PNCJunctionInfoConstPtr>* pnc_junctions) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (pnc_junctions == nullptr || pnc_junction_polygon_kdtree_ == nullptr) {
     return -1;
   }
@@ -499,6 +575,8 @@ int HDMapImpl::GetPNCJunctions(
 int HDMapImpl::GetNearestLane(const PointENU& point,
                               LaneInfoConstPtr* nearest_lane, double* nearest_s,
                               double* nearest_l) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetNearestLane({point.x(), point.y()}, nearest_lane, nearest_s,
                         nearest_l);
 }
@@ -506,6 +584,8 @@ int HDMapImpl::GetNearestLane(const PointENU& point,
 int HDMapImpl::GetNearestLane(const Vec2d& point,
                               LaneInfoConstPtr* nearest_lane, double* nearest_s,
                               double* nearest_l) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(nearest_lane);
   CHECK_NOTNULL(nearest_s);
   CHECK_NOTNULL(nearest_l);
@@ -531,6 +611,8 @@ int HDMapImpl::GetNearestLaneWithHeading(
     const PointENU& point, const double distance, const double central_heading,
     const double max_heading_difference, LaneInfoConstPtr* nearest_lane,
     double* nearest_s, double* nearest_l) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetNearestLaneWithHeading({point.x(), point.y()}, distance,
                                    central_heading, max_heading_difference,
                                    nearest_lane, nearest_s, nearest_l);
@@ -540,6 +622,8 @@ int HDMapImpl::GetNearestLaneWithHeading(
     const Vec2d& point, const double distance, const double central_heading,
     const double max_heading_difference, LaneInfoConstPtr* nearest_lane,
     double* nearest_s, double* nearest_l) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(nearest_lane);
   CHECK_NOTNULL(nearest_s);
   CHECK_NOTNULL(nearest_l);
@@ -585,6 +669,8 @@ int HDMapImpl::GetLanesWithHeading(const PointENU& point, const double distance,
                                    const double central_heading,
                                    const double max_heading_difference,
                                    std::vector<LaneInfoConstPtr>* lanes) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetLanesWithHeading({point.x(), point.y()}, distance, central_heading,
                              max_heading_difference, lanes);
 }
@@ -593,6 +679,8 @@ int HDMapImpl::GetLanesWithHeading(const Vec2d& point, const double distance,
                                    const double central_heading,
                                    const double max_heading_difference,
                                    std::vector<LaneInfoConstPtr>* lanes) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(lanes);
   std::vector<LaneInfoConstPtr> all_lanes;
   const int status = GetLanes(point, distance, &all_lanes);
@@ -623,6 +711,8 @@ int HDMapImpl::GetRoadBoundaries(
     const PointENU& point, double radius,
     std::vector<RoadROIBoundaryPtr>* road_boundaries,
     std::vector<JunctionBoundaryPtr>* junctions) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(road_boundaries);
   CHECK_NOTNULL(junctions);
 
@@ -682,6 +772,8 @@ int HDMapImpl::GetRoadBoundaries(
     const PointENU& point, double radius,
     std::vector<RoadRoiPtr>* road_boundaries,
     std::vector<JunctionInfoConstPtr>* junctions) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (road_boundaries == nullptr || junctions == nullptr) {
     AERROR << "the pointer in parameter is null";
     return -1;
@@ -752,6 +844,8 @@ int HDMapImpl::GetRoadBoundaries(
 int HDMapImpl::GetRoi(const apollo::common::PointENU& point, double radius,
                       std::vector<RoadRoiPtr>* roads_roi,
                       std::vector<PolygonRoiPtr>* polygons_roi) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (roads_roi == nullptr || polygons_roi == nullptr) {
     AERROR << "the pointer in parameter is null";
     return -1;
@@ -862,6 +956,8 @@ int HDMapImpl::GetRoi(const apollo::common::PointENU& point, double radius,
 int HDMapImpl::GetForwardNearestSignalsOnLane(
     const apollo::common::PointENU& point, const double distance,
     std::vector<SignalInfoConstPtr>* signals) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(signals);
 
   signals->clear();
@@ -969,6 +1065,8 @@ int HDMapImpl::GetForwardNearestSignalsOnLane(
 
 int HDMapImpl::GetStopSignAssociatedStopSigns(
     const Id& id, std::vector<StopSignInfoConstPtr>* stop_signs) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(stop_signs);
 
   const auto& stop_sign = GetStopSignById(id);
@@ -1006,6 +1104,8 @@ int HDMapImpl::GetStopSignAssociatedStopSigns(
 
 int HDMapImpl::GetStopSignAssociatedLanes(
     const Id& id, std::vector<LaneInfoConstPtr>* lanes) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(lanes);
 
   const auto& stop_sign = GetStopSignById(id);
@@ -1054,6 +1154,8 @@ int HDMapImpl::GetStopSignAssociatedLanes(
 int HDMapImpl::GetLocalMap(const apollo::common::PointENU& point,
                            const std::pair<double, double>& range,
                            Map* local_map) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(local_map);
 
   double distance = std::max(range.first, range.second);
@@ -1195,6 +1297,8 @@ int HDMapImpl::GetForwardNearestRSUs(const apollo::common::PointENU& point,
                     double distance, double central_heading,
                     double max_heading_difference,
                     std::vector<RSUInfoConstPtr>* rsus) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(rsus);
 
   rsus->clear();
@@ -1338,6 +1442,8 @@ void HDMapImpl::BuildPolygonKDTree(const Table& table,
 }
 
 void HDMapImpl::BuildLaneSegmentKDTree() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
   params.max_leaf_size = 16;
@@ -1346,6 +1452,8 @@ void HDMapImpl::BuildLaneSegmentKDTree() {
 }
 
 void HDMapImpl::BuildJunctionPolygonKDTree() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
   params.max_leaf_size = 1;
@@ -1354,6 +1462,8 @@ void HDMapImpl::BuildJunctionPolygonKDTree() {
 }
 
 void HDMapImpl::BuildCrosswalkPolygonKDTree() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
   params.max_leaf_size = 1;
@@ -1362,6 +1472,8 @@ void HDMapImpl::BuildCrosswalkPolygonKDTree() {
 }
 
 void HDMapImpl::BuildSignalSegmentKDTree() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
   params.max_leaf_size = 4;
@@ -1370,6 +1482,8 @@ void HDMapImpl::BuildSignalSegmentKDTree() {
 }
 
 void HDMapImpl::BuildStopSignSegmentKDTree() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
   params.max_leaf_size = 4;
@@ -1378,6 +1492,8 @@ void HDMapImpl::BuildStopSignSegmentKDTree() {
 }
 
 void HDMapImpl::BuildYieldSignSegmentKDTree() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
   params.max_leaf_size = 4;
@@ -1386,6 +1502,8 @@ void HDMapImpl::BuildYieldSignSegmentKDTree() {
 }
 
 void HDMapImpl::BuildClearAreaPolygonKDTree() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
   params.max_leaf_size = 4;
@@ -1394,6 +1512,8 @@ void HDMapImpl::BuildClearAreaPolygonKDTree() {
 }
 
 void HDMapImpl::BuildSpeedBumpSegmentKDTree() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
   params.max_leaf_size = 4;
@@ -1402,6 +1522,8 @@ void HDMapImpl::BuildSpeedBumpSegmentKDTree() {
 }
 
 void HDMapImpl::BuildParkingSpacePolygonKDTree() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
   params.max_leaf_size = 4;
@@ -1411,6 +1533,8 @@ void HDMapImpl::BuildParkingSpacePolygonKDTree() {
 }
 
 void HDMapImpl::BuildPNCJunctionPolygonKDTree() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
   params.max_leaf_size = 1;
@@ -1440,6 +1564,8 @@ int HDMapImpl::SearchObjects(const Vec2d& center, const double radius,
 }
 
 void HDMapImpl::Clear() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   map_.Clear();
   lane_table_.clear();
   junction_table_.clear();

@@ -26,14 +26,20 @@ using torch::indexing::None;
 using torch::indexing::Slice;
 using apollo::common::math::NormalizeAngle;
 
-DirectionDetection::DirectionDetection() {}
+DirectionDetection::DirectionDetection() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-DirectionDetection::~DirectionDetection() {}
+DirectionDetection::~DirectionDetection() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 std::pair<Point3D, double> DirectionDetection::EstimateSoundSource(
     std::vector<std::vector<double>>&& channels_vec,
     const std::string& respeaker_extrinsic_file, const int sample_rate,
     const double mic_distance) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!respeaker2imu_ptr_.get()) {
     respeaker2imu_ptr_.reset(new Eigen::Matrix4d);
     LoadExtrinsics(respeaker_extrinsic_file, respeaker2imu_ptr_.get());
@@ -55,6 +61,8 @@ std::pair<Point3D, double> DirectionDetection::EstimateSoundSource(
 double DirectionDetection::EstimateDirection(
     std::vector<std::vector<double>>&& channels_vec, const int sample_rate,
     const double mic_distance) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<torch::Tensor> channels_ts;
   auto options = torch::TensorOptions().dtype(torch::kFloat64);
   int size = static_cast<int>(channels_vec[0].size());
@@ -84,6 +92,8 @@ double DirectionDetection::EstimateDirection(
 
 bool DirectionDetection::LoadExtrinsics(const std::string& yaml_file,
                                         Eigen::Matrix4d* respeaker_extrinsic) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!apollo::cyber::common::PathExists(yaml_file)) {
     AINFO << yaml_file << " does not exist!";
     return false;
@@ -130,6 +140,8 @@ bool DirectionDetection::LoadExtrinsics(const std::string& yaml_file,
 double DirectionDetection::GccPhat(const torch::Tensor& sig,
                                    const torch::Tensor& refsig, int fs,
                                    double max_tau, int interp) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const int n_sig = sig.size(0), n_refsig = refsig.size(0),
             n = n_sig + n_refsig;
   torch::Tensor psig = at::constant_pad_nd(sig, {0, n_refsig}, 0);
@@ -156,11 +168,15 @@ double DirectionDetection::GccPhat(const torch::Tensor& sig,
 }
 
 void DirectionDetection::ConjugateTensor(torch::Tensor* tensor) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   tensor->index_put_({"...", 1}, -tensor->index({"...", 1}));
 }
 
 torch::Tensor DirectionDetection::ComplexMultiply(const torch::Tensor& a,
                                                   const torch::Tensor& b) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   torch::Tensor real = a.index({"...", 0}) * b.index({"...", 0}) -
                        a.index({"...", 1}) * b.index({"...", 1});
   torch::Tensor imag = a.index({"...", 0}) * b.index({"...", 1}) +
@@ -169,6 +185,8 @@ torch::Tensor DirectionDetection::ComplexMultiply(const torch::Tensor& a,
 }
 
 torch::Tensor DirectionDetection::ComplexAbsolute(const torch::Tensor& tensor) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   torch::Tensor res = tensor * tensor;
   res = at::sqrt(res.sum(1)).reshape({-1, 1});
 

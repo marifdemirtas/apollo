@@ -27,6 +27,8 @@ namespace base {
 bool DownSamplePointCloudBeams(base::PointFCloudPtr cloud_ptr,
                                base::PointFCloudPtr out_cloud_ptr,
                                int downsample_factor) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (downsample_factor <= 0) {
     return false;
   }
@@ -44,6 +46,8 @@ bool DownSamplePointCloudBeams(base::PointFCloudPtr cloud_ptr,
 }
 
 void GetPointCloudCentroid(const PointFCloud& cloud, PointF* centroid) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (size_t i = 0; i < cloud.size(); ++i) {
     centroid->x += cloud[i].x;
     centroid->y += cloud[i].y;
@@ -55,6 +59,8 @@ void GetPointCloudCentroid(const PointFCloud& cloud, PointF* centroid) {
 }
 
 void CloudDemean(PointFCloud* pc) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Demean by using centroid.
   PointF centroid;
   GetPointCloudCentroid(*pc, &centroid);
@@ -66,6 +72,8 @@ void CloudDemean(PointFCloud* pc) {
 }
 
 double OrientCloud(const PointFCloud& pc, PointFCloud* pc_out, bool demean) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Approach#1:
   // Find car dominant direction on XY plane.
   /*Eigen::VectorXf coeff;
@@ -83,6 +91,8 @@ double OrientCloud(const PointFCloud& pc, PointFCloud* pc_out, bool demean) {
   transform.rotate(Eigen::AngleAxisf(-theta, Eigen::Vector3f(0, 0, 1)));
   pc.TransformPointCloud(transform, pc_out, true);
   if (demean) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
     CloudDemean(pc_out);
   }
   return theta;

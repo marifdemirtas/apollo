@@ -24,6 +24,8 @@ namespace adapter {
 
 Status JunctionsXmlParser::Parse(const tinyxml2::XMLElement& xml_node,
                                  std::vector<JunctionInternal>* junctions) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const tinyxml2::XMLElement* junction_node =
       xml_node.FirstChildElement("junction");
   while (junction_node) {

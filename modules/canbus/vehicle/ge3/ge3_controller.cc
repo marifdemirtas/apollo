@@ -40,6 +40,8 @@ const int32_t CHECK_RESPONSE_SPEED_UNIT_FLAG = 2;
 ErrorCode Ge3Controller::Init(
     const VehicleParameter& params, CanSender<ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (is_initialized_) {
     AINFO << "Ge3Controller has already been initiated.";
     return ErrorCode::CANBUS_ERROR;
@@ -114,9 +116,13 @@ ErrorCode Ge3Controller::Init(
   return ErrorCode::OK;
 }
 
-Ge3Controller::~Ge3Controller() {}
+Ge3Controller::~Ge3Controller() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool Ge3Controller::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_initialized_) {
     AERROR << "Ge3Controller has NOT been initialized.";
     return false;
@@ -128,6 +134,8 @@ bool Ge3Controller::Start() {
 }
 
 void Ge3Controller::Stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_initialized_) {
     AERROR << "Ge3Controller stops or starts improperly!";
     return;
@@ -141,6 +149,8 @@ void Ge3Controller::Stop() {
 }
 
 Chassis Ge3Controller::chassis() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis_.Clear();
 
   ChassisDetail chassis_detail;
@@ -391,6 +401,8 @@ Chassis Ge3Controller::chassis() {
 }
 
 void Ge3Controller::Emergency() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
   // In emergency case, the hazard lamp should be on
@@ -399,6 +411,8 @@ void Ge3Controller::Emergency() {
 }
 
 ErrorCode Ge3Controller::EnableAutoMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
     AINFO << "already in COMPLETE_AUTO_DRIVE mode";
     return ErrorCode::OK;
@@ -426,6 +440,8 @@ ErrorCode Ge3Controller::EnableAutoMode() {
 }
 
 ErrorCode Ge3Controller::DisableAutoMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ResetProtocol();
   can_sender_->Update();
   set_driving_mode(Chassis::COMPLETE_MANUAL);
@@ -435,6 +451,8 @@ ErrorCode Ge3Controller::DisableAutoMode() {
 }
 
 ErrorCode Ge3Controller::EnableSteeringOnlyMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_STEER_ONLY) {
     set_driving_mode(Chassis::AUTO_STEER_ONLY);
@@ -462,6 +480,8 @@ ErrorCode Ge3Controller::EnableSteeringOnlyMode() {
 }
 
 ErrorCode Ge3Controller::EnableSpeedOnlyMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_SPEED_ONLY) {
     set_driving_mode(Chassis::AUTO_SPEED_ONLY);
@@ -490,6 +510,8 @@ ErrorCode Ge3Controller::EnableSpeedOnlyMode() {
 
 // NEUTRAL, REVERSE, DRIVE
 void Ge3Controller::Gear(Chassis::GearPosition gear_position) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
     AINFO << "This drive mode no need to set gear.";
@@ -538,6 +560,8 @@ void Ge3Controller::Gear(Chassis::GearPosition gear_position) {
 // acceleration_spd:60 ~ 100, suggest: 90
 // -> pedal
 void Ge3Controller::Brake(double pedal) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Update brake value based on mode
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -550,6 +574,8 @@ void Ge3Controller::Brake(double pedal) {
 // drive with old acceleration
 // gas:0.00~99.99 unit:
 void Ge3Controller::Throttle(double pedal) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
     AINFO << "The current drive mode does not need to set acceleration.";
@@ -563,6 +589,8 @@ void Ge3Controller::Throttle(double pedal) {
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 void Ge3Controller::Steer(double angle) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_STEER_ONLY)) {
     AINFO << "The current driving mode does not need to set steer.";
@@ -576,6 +604,8 @@ void Ge3Controller::Steer(double angle) {
 // drive with acceleration/deceleration
 // acc:-7.0 ~ 5.0, unit:m/s^2
 void Ge3Controller::Acceleration(double acc) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
     AINFO << "The current drive mode does not need to set acceleration.";
@@ -588,6 +618,8 @@ void Ge3Controller::Acceleration(double acc) {
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void Ge3Controller::Steer(double angle, double angle_spd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
     AINFO << "The current driving mode does not need to set steer.";
@@ -606,6 +638,8 @@ void Ge3Controller::Steer(double angle, double angle_spd) {
 }
 
 void Ge3Controller::SetEpbBreak(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (command.parking_brake()) {
     pc_epb_203_->set_pc_epbreq(Pc_epb_203::PC_EPBREQ_APPLY);
   } else {
@@ -614,6 +648,8 @@ void Ge3Controller::SetEpbBreak(const ControlCommand& command) {
 }
 
 void Ge3Controller::SetBeam(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (command.signal().high_beam()) {
     pc_bcm_201_->set_pc_lowbeamreq(Pc_bcm_201::PC_LOWBEAMREQ_NOREQ);
     pc_bcm_201_->set_pc_highbeamreq(Pc_bcm_201::PC_HIGHBEAMREQ_REQ);
@@ -627,6 +663,8 @@ void Ge3Controller::SetBeam(const ControlCommand& command) {
 }
 
 void Ge3Controller::SetHorn(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (command.signal().horn()) {
     pc_bcm_201_->set_pc_hornreq(Pc_bcm_201::PC_HORNREQ_REQ);
   } else {
@@ -635,6 +673,8 @@ void Ge3Controller::SetHorn(const ControlCommand& command) {
 }
 
 void Ge3Controller::SetTurningSignal(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Set Turn Signal
   auto signal = command.signal().turn_signal();
   if (signal == common::VehicleSignal::TURN_LEFT) {
@@ -649,9 +689,13 @@ void Ge3Controller::SetTurningSignal(const ControlCommand& command) {
   }
 }
 
-void Ge3Controller::ResetProtocol() { message_manager_->ResetSendMessages(); }
+void Ge3Controller::ResetProtocol() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ message_manager_->ResetSendMessages(); }
 
 bool Ge3Controller::CheckChassisError() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ChassisDetail chassis_detail;
   message_manager_->GetSensorData(&chassis_detail);
   if (!chassis_detail.has_ge3()) {
@@ -705,6 +749,8 @@ bool Ge3Controller::CheckChassisError() {
 }
 
 void Ge3Controller::SecurityDogThreadFunc() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
 
@@ -771,6 +817,8 @@ void Ge3Controller::SecurityDogThreadFunc() {
 }
 
 bool Ge3Controller::CheckResponse(const int32_t flags, bool need_wait) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int32_t retry_num = 20;
   ChassisDetail chassis_detail;
   bool is_eps_online = false;
@@ -817,28 +865,38 @@ bool Ge3Controller::CheckResponse(const int32_t flags, bool need_wait) {
 }
 
 void Ge3Controller::set_chassis_error_mask(const int32_t mask) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t Ge3Controller::chassis_error_mask() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode Ge3Controller::chassis_error_code() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
 }
 
 void Ge3Controller::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
 }
 
 bool Ge3Controller::CheckSafetyError(
     const ::apollo::canbus::ChassisDetail& chassis_detail) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return false;
 }
 

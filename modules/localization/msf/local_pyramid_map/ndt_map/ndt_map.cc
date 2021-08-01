@@ -21,9 +21,13 @@ namespace localization {
 namespace msf {
 namespace pyramid_map {
 
-NdtMap::NdtMap(NdtMapConfig* config) : BaseMap(config) {}
+NdtMap::NdtMap(NdtMapConfig* config) : BaseMap(config) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-NdtMap::~NdtMap() {}
+NdtMap::~NdtMap() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 }  // namespace pyramid_map
 }  // namespace msf

@@ -25,11 +25,15 @@ namespace ch {
 
 using ::apollo::drivers::canbus::Byte;
 
-Ecustatus3517::Ecustatus3517() {}
+Ecustatus3517::Ecustatus3517() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Ecustatus3517::ID = 0x517;
 
 void Ecustatus3517::Parse(const std::uint8_t* bytes, int32_t length,
                           ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_ch()->mutable_ecu_status_3_517()->set_ultrasound_dist_1(
       ultrasound_dist_1(bytes, length));
   chassis->mutable_ch()->mutable_ecu_status_3_517()->set_ultrasound_dist_2(
@@ -54,6 +58,8 @@ void Ecustatus3517::Parse(const std::uint8_t* bytes, int32_t length,
 // 'bit': 0, 'type': 'int', 'order': 'intel', 'physical_unit': 'cm'}
 int Ecustatus3517::ultrasound_dist_1(const std::uint8_t* bytes,
                                      int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -67,6 +73,8 @@ int Ecustatus3517::ultrasound_dist_1(const std::uint8_t* bytes,
 // 'bit': 8, 'type': 'int', 'order': 'intel', 'physical_unit': 'cm'}
 int Ecustatus3517::ultrasound_dist_2(const std::uint8_t* bytes,
                                      int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -80,6 +88,8 @@ int Ecustatus3517::ultrasound_dist_2(const std::uint8_t* bytes,
 // 'bit': 16, 'type': 'int', 'order': 'intel', 'physical_unit': 'cm'}
 int Ecustatus3517::ultrasound_dist_3(const std::uint8_t* bytes,
                                      int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -93,6 +103,8 @@ int Ecustatus3517::ultrasound_dist_3(const std::uint8_t* bytes,
 // 'bit': 24, 'type': 'int', 'order': 'intel', 'physical_unit': 'cm'}
 int Ecustatus3517::ultrasound_dist_4(const std::uint8_t* bytes,
                                      int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 
@@ -106,6 +118,8 @@ int Ecustatus3517::ultrasound_dist_4(const std::uint8_t* bytes,
 // 'bit': 32, 'type': 'int', 'order': 'intel', 'physical_unit': 'cm'}
 int Ecustatus3517::ultrasound_dist_5(const std::uint8_t* bytes,
                                      int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 
@@ -119,6 +133,8 @@ int Ecustatus3517::ultrasound_dist_5(const std::uint8_t* bytes,
 // 'bit': 40, 'type': 'int', 'order': 'intel', 'physical_unit': 'cm'}
 int Ecustatus3517::ultrasound_dist_6(const std::uint8_t* bytes,
                                      int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);
 
@@ -132,6 +148,8 @@ int Ecustatus3517::ultrasound_dist_6(const std::uint8_t* bytes,
 // 'bit': 48, 'type': 'int', 'order': 'intel', 'physical_unit': 'cm'}
 int Ecustatus3517::ultrasound_dist_7(const std::uint8_t* bytes,
                                      int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
 
@@ -145,6 +163,8 @@ int Ecustatus3517::ultrasound_dist_7(const std::uint8_t* bytes,
 // 'bit': 56, 'type': 'int', 'order': 'intel', 'physical_unit': 'cm'}
 int Ecustatus3517::ultrasound_dist_8(const std::uint8_t* bytes,
                                      int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
 

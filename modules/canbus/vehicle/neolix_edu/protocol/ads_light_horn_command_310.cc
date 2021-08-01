@@ -27,15 +27,21 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Adslighthorncommand310::ID = 0x310;
 
 // public
-Adslighthorncommand310::Adslighthorncommand310() { Reset(); }
+Adslighthorncommand310::Adslighthorncommand310() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Adslighthorncommand310::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Adslighthorncommand310::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_turn_right_light_command(data, turn_right_light_command_);
   set_p_turn_left_light_command(data, turn_left_light_command_);
   set_p_horn_command(data, horn_command_);
@@ -49,6 +55,8 @@ void Adslighthorncommand310::UpdateData(uint8_t* data) {
 }
 
 void Adslighthorncommand310::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  you should check this manually
   turn_right_light_command_ = false;
   turn_left_light_command_ = false;
@@ -60,6 +68,8 @@ void Adslighthorncommand310::Reset() {
 
 Adslighthorncommand310* Adslighthorncommand310::set_turn_right_light_command(
     bool turn_right_light_command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   turn_right_light_command_ = turn_right_light_command;
   return this;
 }
@@ -70,6 +80,8 @@ Adslighthorncommand310* Adslighthorncommand310::set_turn_right_light_command(
 // 'order': 'motorola', 'physical_unit': 'bit'}
 void Adslighthorncommand310::set_p_turn_right_light_command(
     uint8_t* data, bool turn_right_light_command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = turn_right_light_command;
 
   Byte to_set(data + 1);
@@ -78,6 +90,8 @@ void Adslighthorncommand310::set_p_turn_right_light_command(
 
 Adslighthorncommand310* Adslighthorncommand310::set_turn_left_light_command(
     bool turn_left_light_command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   turn_left_light_command_ = turn_left_light_command;
   return this;
 }
@@ -88,6 +102,8 @@ Adslighthorncommand310* Adslighthorncommand310::set_turn_left_light_command(
 // 'order': 'motorola', 'physical_unit': 'bit'}
 void Adslighthorncommand310::set_p_turn_left_light_command(
     uint8_t* data, bool turn_left_light_command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = turn_left_light_command;
 
   Byte to_set(data + 1);
@@ -96,6 +112,8 @@ void Adslighthorncommand310::set_p_turn_left_light_command(
 
 Adslighthorncommand310* Adslighthorncommand310::set_horn_command(
     bool horn_command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   horn_command_ = horn_command;
   return this;
 }
@@ -105,6 +123,8 @@ Adslighthorncommand310* Adslighthorncommand310::set_horn_command(
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': 'bit'}
 void Adslighthorncommand310::set_p_horn_command(uint8_t* data,
                                                 bool horn_command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = horn_command;
 
   Byte to_set(data + 1);
@@ -113,6 +133,8 @@ void Adslighthorncommand310::set_p_horn_command(uint8_t* data,
 
 Adslighthorncommand310* Adslighthorncommand310::set_beam_command(
     int beam_command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   beam_command_ = beam_command;
   return this;
 }
@@ -123,6 +145,8 @@ Adslighthorncommand310* Adslighthorncommand310::set_beam_command(
 // 'motorola', 'physical_unit': 'bit'}
 void Adslighthorncommand310::set_p_beam_command(uint8_t* data,
                                                 int beam_command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   beam_command = ProtocolData::BoundedValue(0, 1, beam_command);
   int x = beam_command;
 
@@ -132,6 +156,8 @@ void Adslighthorncommand310::set_p_beam_command(uint8_t* data,
 
 Adslighthorncommand310* Adslighthorncommand310::set_auto_drivercmd_alivecounter(
     int auto_drivercmd_alivecounter) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto_drivercmd_alivecounter_ = auto_drivercmd_alivecounter;
   return this;
 }
@@ -141,6 +167,8 @@ Adslighthorncommand310* Adslighthorncommand310::set_auto_drivercmd_alivecounter(
 // '[0|0]', 'bit': 51, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adslighthorncommand310::set_p_auto_drivercmd_alivecounter(
     uint8_t* data, int auto_drivercmd_alivecounter) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto_drivercmd_alivecounter =
       ProtocolData::BoundedValue(0, 15, auto_drivercmd_alivecounter);
   int x = auto_drivercmd_alivecounter;
@@ -151,6 +179,8 @@ void Adslighthorncommand310::set_p_auto_drivercmd_alivecounter(
 
 Adslighthorncommand310* Adslighthorncommand310::set_auto_drivercmd_checksum(
     int auto_drivercmd_checksum) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto_drivercmd_checksum_ = auto_drivercmd_checksum;
   return this;
 }
@@ -160,6 +190,8 @@ Adslighthorncommand310* Adslighthorncommand310::set_auto_drivercmd_checksum(
 // '[0|0]', 'bit': 63, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adslighthorncommand310::set_p_auto_drivercmd_checksum(
     uint8_t* data, int auto_drivercmd_checksum) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto_drivercmd_checksum =
       ProtocolData::BoundedValue(0, 255, auto_drivercmd_checksum);
   int x = auto_drivercmd_checksum;

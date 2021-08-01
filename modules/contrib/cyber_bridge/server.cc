@@ -26,13 +26,19 @@ Server::Server(Node* node)
       endpoint(boost::asio::ip::tcp::v4(), (uint16_t)FLAGS_port),
       acceptor(io, endpoint),
       socket(io) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   signals.add(SIGTERM);
   signals.add(SIGINT);
 }
 
-Server::~Server() {}
+Server::~Server() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void Server::run() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   signals.async_wait(boost::bind(&Server::stop, shared_from_this(),
                                  boost::asio::placeholders::error,
                                  boost::asio::placeholders::signal_number));
@@ -43,6 +49,8 @@ void Server::run() {
 }
 
 void Server::stop(const boost::system::error_code& ec, int signal_number) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (ec) {
     AERROR << "Error waiting on signals: " << ec.message();
   } else {
@@ -53,12 +61,16 @@ void Server::stop(const boost::system::error_code& ec, int signal_number) {
 }
 
 void Server::begin_accept() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   acceptor.async_accept(socket,
                         boost::bind(&Server::end_accept, shared_from_this(),
                                     boost::asio::placeholders::error));
 }
 
 void Server::end_accept(const boost::system::error_code& ec) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!acceptor.is_open()) {
     return;
   }

@@ -31,10 +31,14 @@ ObstacleDetector::ObstacleDetector(const std::string &net_file,
                                    const std::vector<std::string> &outputs):
                                    net_file_(net_file),
                                    model_file_(model_file),
-                                   output_names_(outputs) {}
+                                   output_names_(outputs) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool ObstacleDetector::Init(const std::map<std::string,
                             std::vector<int>> &shapes) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (gpu_id_ >= 0) {
     device_type_ = torch::kCUDA;
     device_id_ = gpu_id_;
@@ -89,10 +93,14 @@ ObstacleDetector::ObstacleDetector(const std::string &net_file,
                    const std::vector<std::string> &outputs,
                    const std::vector<std::string> &inputs):
                    net_file_(net_file), model_file_(model_file),
-                   output_names_(outputs), input_names_(inputs) {}
+                   output_names_(outputs), input_names_(inputs) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 std::shared_ptr<Blob<float>> ObstacleDetector::get_blob(
     const std::string &name) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto iter = blobs_.find(name);
   if (iter == blobs_.end()) {
     return nullptr;
@@ -101,6 +109,8 @@ std::shared_ptr<Blob<float>> ObstacleDetector::get_blob(
 }
 
 void ObstacleDetector::Infer() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   torch::Device device(device_type_, device_id_);
   auto blob = blobs_[input_names_[0]];
   auto input_K = blobs_[input_names_[1]];

@@ -27,15 +27,21 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Adsepscommand56::ID = 0x56;
 
 // public
-Adsepscommand56::Adsepscommand56() { Reset(); }
+Adsepscommand56::Adsepscommand56() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Adsepscommand56::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Adsepscommand56::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_drive_enable(data, drive_enable_);
   set_p_auto_target_angle(data, auto_target_angle_);
   ++auto_drivercmd_alivecounter_;
@@ -47,6 +53,8 @@ void Adsepscommand56::UpdateData(uint8_t* data) {
 }
 
 void Adsepscommand56::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  you should check this manually
   drive_enable_ = false;
   auto_target_angle_ = 0.0;
@@ -55,6 +63,8 @@ void Adsepscommand56::Reset() {
 }
 
 Adsepscommand56* Adsepscommand56::set_drive_enable(bool drive_enable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   drive_enable_ = drive_enable;
   return this;
 }
@@ -64,6 +74,8 @@ Adsepscommand56* Adsepscommand56::set_drive_enable(bool drive_enable) {
 // 'physical_range': '[0|0]', 'bit': 0, 'type': 'bool', 'order': 'motorola',
 // 'physical_unit': ''}
 void Adsepscommand56::set_p_drive_enable(uint8_t* data, bool drive_enable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = drive_enable;
 
   Byte to_set(data + 0);
@@ -72,6 +84,8 @@ void Adsepscommand56::set_p_drive_enable(uint8_t* data, bool drive_enable) {
 
 Adsepscommand56* Adsepscommand56::set_auto_target_angle(
     double auto_target_angle) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto_target_angle_ = -auto_target_angle;
   return this;
 }
@@ -81,6 +95,8 @@ Adsepscommand56* Adsepscommand56::set_auto_target_angle(
 // 23, 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 void Adsepscommand56::set_p_auto_target_angle(uint8_t* data,
                                               double auto_target_angle) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto_target_angle =
       ProtocolData::BoundedValue(-380.0, 380.0, auto_target_angle);
   int x = (auto_target_angle - -2048.000000) / 0.062500;
@@ -98,6 +114,8 @@ void Adsepscommand56::set_p_auto_target_angle(uint8_t* data,
 
 Adsepscommand56* Adsepscommand56::set_auto_drivercmd_alivecounter(
     int auto_drivercmd_alivecounter) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto_drivercmd_alivecounter_ = auto_drivercmd_alivecounter;
   return this;
 }
@@ -107,6 +125,8 @@ Adsepscommand56* Adsepscommand56::set_auto_drivercmd_alivecounter(
 // '[0|0]', 'bit': 51, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsepscommand56::set_p_auto_drivercmd_alivecounter(
     uint8_t* data, int auto_drivercmd_alivecounter) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto_drivercmd_alivecounter =
       ProtocolData::BoundedValue(0, 15, auto_drivercmd_alivecounter);
   int x = auto_drivercmd_alivecounter;
@@ -117,6 +137,8 @@ void Adsepscommand56::set_p_auto_drivercmd_alivecounter(
 
 Adsepscommand56* Adsepscommand56::set_auto_drivercmd_checksum(
     int auto_drivercmd_checksum) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto_drivercmd_checksum_ = auto_drivercmd_checksum;
   return this;
 }
@@ -126,6 +148,8 @@ Adsepscommand56* Adsepscommand56::set_auto_drivercmd_checksum(
 // '[0|0]', 'bit': 63, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsepscommand56::set_p_auto_drivercmd_checksum(
     uint8_t* data, int auto_drivercmd_checksum) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto_drivercmd_checksum =
       ProtocolData::BoundedValue(0, 255, auto_drivercmd_checksum);
   int x = auto_drivercmd_checksum;

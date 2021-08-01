@@ -30,10 +30,14 @@ namespace hdmap {
 
 ChannelVerify::ChannelVerify(std::shared_ptr<JsonConf> sp_conf)
     : sp_conf_(sp_conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Reset();
 }
 
 void ChannelVerify::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return_state_ = ErrorCode::SUCCESS;
   checked_records_.clear();
   sp_vec_check_result_ =
@@ -42,6 +46,8 @@ void ChannelVerify::Reset() {
 
 ErrorCode ChannelVerify::Check(
     const std::string& record_dir_or_record_full_path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<std::string> records_path;
   records_path = GetRecordsPath(record_dir_or_record_full_path);
   if (records_path.empty()) {
@@ -56,11 +62,15 @@ ErrorCode ChannelVerify::Check(
 
 std::shared_ptr<std::vector<OneRecordChannelCheckResult>>
 ChannelVerify::get_check_result() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return sp_vec_check_result_;
 }
 
 int ChannelVerify::IncrementalCheck(
     const std::vector<std::string>& records_path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<std::string> not_check_records_path;
   AINFO << "all records path:";
   for (size_t i = 0; i < records_path.size(); ++i) {
@@ -85,6 +95,8 @@ int ChannelVerify::IncrementalCheck(
 }
 
 bool ChannelVerify::IsRecordFile(const std::string& record_path) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!boost::filesystem::exists(record_path)) {
     AINFO << "path [" << record_path << "] does not exist";
     return false;
@@ -100,6 +112,8 @@ bool ChannelVerify::IsRecordFile(const std::string& record_path) const {
 
 std::vector<std::string> ChannelVerify::GetRecordsPath(
     const std::string& record_dir_or_record_full_path) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // record_dir_or_record_full_path is record fullpath or
   // directory which contains some records
   std::vector<std::string> records_path;
@@ -126,11 +140,15 @@ std::vector<std::string> ChannelVerify::GetRecordsPath(
 }
 
 bool ChannelVerify::IsRecordChecked(const std::string& record_path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return !checked_records_.insert(record_path).second;
 }
 
 std::shared_ptr<CyberRecordInfo> ChannelVerify::GetRecordInfo(
     const std::string& record_path) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!IsRecordFile(record_path)) {
     AINFO << "get_record_info failed.[" << record_path
           << "] is not record file";
@@ -166,6 +184,8 @@ std::shared_ptr<CyberRecordInfo> ChannelVerify::GetRecordInfo(
 
 OneRecordChannelCheckResult ChannelVerify::CheckRecordChannels(
     const std::string& record_path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   OneRecordChannelCheckResult check_result;
   std::shared_ptr<CyberRecordInfo> sp_record_info = GetRecordInfo(record_path);
   if (sp_record_info == nullptr) {
@@ -212,7 +232,9 @@ OneRecordChannelCheckResult ChannelVerify::CheckRecordChannels(
   return check_result;
 }
 
-ErrorCode ChannelVerify::GetReturnState() const { return return_state_; }
+ErrorCode ChannelVerify::GetReturnState() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return return_state_; }
 
 }  // namespace hdmap
 }  // namespace apollo

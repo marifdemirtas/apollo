@@ -27,15 +27,21 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Wipercmd134::ID = 0x134;
 
 // public
-Wipercmd134::Wipercmd134() { Reset(); }
+Wipercmd134::Wipercmd134() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Wipercmd134::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Wipercmd134::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_ignore_overrides(data, ignore_overrides_);
   set_p_enable(data, enable_);
   set_p_clear_override(data, clear_override_);
@@ -44,6 +50,8 @@ void Wipercmd134::UpdateData(uint8_t* data) {
 }
 
 void Wipercmd134::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(QiL) you should check this manually
   ignore_overrides_ = false;
   enable_ = false;
@@ -53,6 +61,8 @@ void Wipercmd134::Reset() {
 }
 
 Wipercmd134* Wipercmd134::set_ignore_overrides(bool ignore_overrides) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ignore_overrides_ = ignore_overrides;
   return this;
 }
@@ -61,6 +71,8 @@ Wipercmd134* Wipercmd134::set_ignore_overrides(bool ignore_overrides) {
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 1,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Wipercmd134::set_p_ignore_overrides(uint8_t* data, bool ignore_overrides) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = ignore_overrides;
 
   Byte to_set(data + 0);
@@ -68,6 +80,8 @@ void Wipercmd134::set_p_ignore_overrides(uint8_t* data, bool ignore_overrides) {
 }
 
 Wipercmd134* Wipercmd134::set_enable(bool enable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   enable_ = enable;
   return this;
 }
@@ -76,6 +90,8 @@ Wipercmd134* Wipercmd134::set_enable(bool enable) {
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Wipercmd134::set_p_enable(uint8_t* data, bool enable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = enable;
 
   Byte to_set(data + 0);
@@ -83,6 +99,8 @@ void Wipercmd134::set_p_enable(uint8_t* data, bool enable) {
 }
 
 Wipercmd134* Wipercmd134::set_clear_override(bool clear_override) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   clear_override_ = clear_override;
   return this;
 }
@@ -91,6 +109,8 @@ Wipercmd134* Wipercmd134::set_clear_override(bool clear_override) {
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 2,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Wipercmd134::set_p_clear_override(uint8_t* data, bool clear_override) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = clear_override;
 
   Byte to_set(data + 0);
@@ -99,6 +119,8 @@ void Wipercmd134::set_p_clear_override(uint8_t* data, bool clear_override) {
 
 Wipercmd134* Wipercmd134::set_wiper_cmd(
     Wiper_cmd_134::Wiper_cmdType wiper_cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   wiper_cmd_ = wiper_cmd;
   return this;
 }
@@ -112,6 +134,8 @@ Wipercmd134* Wipercmd134::set_wiper_cmd(
 // 'physical_unit': ''}
 void Wipercmd134::set_p_wiper_cmd(uint8_t* data,
                                   Wiper_cmd_134::Wiper_cmdType wiper_cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = wiper_cmd;
 
   Byte to_set(data + 1);
@@ -119,6 +143,8 @@ void Wipercmd134::set_p_wiper_cmd(uint8_t* data,
 }
 
 Wipercmd134* Wipercmd134::set_clear_faults(bool clear_faults) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   clear_faults_ = clear_faults;
   return this;
 }
@@ -127,6 +153,8 @@ Wipercmd134* Wipercmd134::set_clear_faults(bool clear_faults) {
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 3,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Wipercmd134::set_p_clear_faults(uint8_t* data, bool clear_faults) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = clear_faults;
 
   Byte to_set(data + 0);

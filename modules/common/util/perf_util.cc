@@ -19,6 +19,8 @@
 
 namespace {
 std::string func_name_simplified(const std::string& str) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   constexpr char kLeftBracket = '(';
   constexpr char kSpace = ' ';
 
@@ -43,6 +45,8 @@ namespace util {
 
 std::string function_signature(const std::string& func_name,
                                const std::string& indicator) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto simplified_name = func_name_simplified(func_name);
   if (indicator.empty()) {
     return simplified_name;
@@ -50,9 +54,13 @@ std::string function_signature(const std::string& func_name,
   return absl::StrCat(indicator, "_", simplified_name);
 }
 
-void Timer::Start() { start_time_ = Time::Now(); }
+void Timer::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ start_time_ = Time::Now(); }
 
 int64_t Timer::End(const std::string& msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   end_time_ = Time::Now();
   int64_t elapsed_time = (end_time_ - start_time_).ToNanosecond() / 1e6;
   ADEBUG << "TIMER " << msg << " elapsed_time: " << elapsed_time << " ms";

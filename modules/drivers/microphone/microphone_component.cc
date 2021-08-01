@@ -21,6 +21,8 @@ namespace drivers {
 namespace microphone {
 
 bool MicrophoneComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   microphone_config_ptr_ = std::make_shared<MicrophoneConfig>();
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
                                                microphone_config_ptr_.get())) {
@@ -72,6 +74,8 @@ bool MicrophoneComponent::Init() {
 }
 
 void MicrophoneComponent::fill_channel_data(int chunk_i) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // next index of channel data to be filled
   int pos = chunk_i * chunk_ * sample_width_;
   for (int buff_i = 0; buff_i < chunk_size_; pos += sample_width_) {
@@ -84,6 +88,8 @@ void MicrophoneComponent::fill_channel_data(int chunk_i) {
 }
 
 void MicrophoneComponent::run() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int chunk_i;
   while (!cyber::IsShutdown()) {
     try {
@@ -100,6 +106,8 @@ void MicrophoneComponent::run() {
 }
 
 MicrophoneComponent::~MicrophoneComponent() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   free(buffer_);
   if (running_.load()) {
     running_.exchange(false);

@@ -29,6 +29,8 @@ const int kNonEmptyGridLabel = -2;
 }  // namespace
 
 int FloodFill::Pos(float x, float y) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const int irow = static_cast<int>((y + _offset_y) / _cell_size);
   if (!IsValidRowIndex(irow)) {
     return -1;
@@ -41,6 +43,8 @@ int FloodFill::Pos(float x, float y) const {
 }
 
 bool FloodFill::Pos2d(float x, float y, int* irow, int* jcol) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   *irow = static_cast<int>((y + _offset_y) / _cell_size);
   if (!IsValidRowIndex(*irow)) {
     return false;
@@ -53,6 +57,8 @@ bool FloodFill::Pos2d(float x, float y, int* irow, int* jcol) const {
 }
 
 void FloodFill::BuildGrid(base::PointFCloudConstPtr cloud) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_GT(_grid_radius, 0.0);
   CHECK_GT(_cell_size, 0.0);
   // .1 calculate grid size
@@ -98,6 +104,8 @@ void FloodFill::BuildGrid(base::PointFCloudConstPtr cloud) {
 }
 
 int FloodFill::GetConnectedComponents() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int num_components = 0;
   for (int idx = 0; idx < _grid_size; ++idx) {
     auto& label = _label[idx];
@@ -111,6 +119,8 @@ int FloodFill::GetConnectedComponents() {
 }
 
 void FloodFill::DfsColoring(int i, int j, int curr_component) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // recursively label the neighbors
   for (int direction = 0; direction < kNumDirections; ++direction) {
     const int i2 = i + di[direction];
@@ -128,6 +138,8 @@ void FloodFill::DfsColoring(int i, int j, int curr_component) {
 void FloodFill::GetSegments(base::PointFCloudConstPtr cloud,
                             std::vector<std::vector<int>>* segments_indices,
                             std::vector<int>* num_cells_per_segment) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(segments_indices);
   CHECK_NOTNULL(num_cells_per_segment);
   // .1 build grid

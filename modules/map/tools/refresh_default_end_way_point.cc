@@ -35,6 +35,8 @@ namespace hdmap {
 
 apollo::common::PointENU SLToXYZ(const std::string& lane_id, const double s,
                                  const double l) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const auto lane_info = HDMapUtil::BaseMap().GetLaneById(MakeMapId(lane_id));
   ACHECK(lane_info);
   return lane_info->GetSmoothPoint(s);
@@ -42,6 +44,8 @@ apollo::common::PointENU SLToXYZ(const std::string& lane_id, const double s,
 
 void XYZToSL(const apollo::common::PointENU& point, std::string* lane_id,
              double* s, double* l) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(lane_id);
   ACHECK(s);
   ACHECK(l);
@@ -53,6 +57,8 @@ void XYZToSL(const apollo::common::PointENU& point, std::string* lane_id,
 
 double XYZDistance(const apollo::common::PointENU& p1,
                    const apollo::common::PointENU& p2) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const double x_diff = p1.x() - p2.x();
   const double y_diff = p1.y() - p2.y();
   const double z_diff = p1.z() - p2.z();
@@ -60,6 +66,8 @@ double XYZDistance(const apollo::common::PointENU& p1,
 }
 
 void RefreshDefaultEndPoint() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   apollo::routing::POI old_poi;
   ACHECK(cyber::common::GetProtoFromASCIIFile(EndWayPointFile(), &old_poi));
 
@@ -108,6 +116,8 @@ void RefreshDefaultEndPoint() {
 }  // namespace apollo
 
 int main(int argc, char* argv[]) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   google::InitGoogleLogging(argv[0]);
   google::ParseCommandLineFlags(&argc, &argv, true);
   FLAGS_logtostderr = true;

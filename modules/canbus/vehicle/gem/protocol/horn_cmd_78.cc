@@ -27,22 +27,32 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Horncmd78::ID = 0x78;
 
 // public
-Horncmd78::Horncmd78() { Reset(); }
+Horncmd78::Horncmd78() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Horncmd78::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
-void Horncmd78::UpdateData(uint8_t* data) { set_p_horn_cmd(data, horn_cmd_); }
+void Horncmd78::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ set_p_horn_cmd(data, horn_cmd_); }
 
 void Horncmd78::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(QiL) :you should check this manually
   horn_cmd_ = Horn_cmd_78::HORN_CMD_OFF;
 }
 
 Horncmd78* Horncmd78::set_horn_cmd(Horn_cmd_78::Horn_cmdType horn_cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   horn_cmd_ = horn_cmd;
   return this;
 }
@@ -53,6 +63,8 @@ Horncmd78* Horncmd78::set_horn_cmd(Horn_cmd_78::Horn_cmdType horn_cmd) {
 // 'motorola', 'physical_unit': ''}
 void Horncmd78::set_p_horn_cmd(uint8_t* data,
                                Horn_cmd_78::Horn_cmdType horn_cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = horn_cmd;
 
   Byte to_set(data + 0);

@@ -27,15 +27,21 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Adsdiagnosis628::ID = 0x628;
 
 // public
-Adsdiagnosis628::Adsdiagnosis628() { Reset(); }
+Adsdiagnosis628::Adsdiagnosis628() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Adsdiagnosis628::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Adsdiagnosis628::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_faultrank(data, faultrank_);
   set_p_adas_fault_code(data, adas_fault_code_);
   set_p_adas_softwareversion(data, adas_softwareversion_);
@@ -43,6 +49,8 @@ void Adsdiagnosis628::UpdateData(uint8_t* data) {
 }
 
 void Adsdiagnosis628::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  you should check this manually
   faultrank_ = 0;
   adas_fault_code_ = 0;
@@ -51,6 +59,8 @@ void Adsdiagnosis628::Reset() {
 }
 
 Adsdiagnosis628* Adsdiagnosis628::set_faultrank(int faultrank) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   faultrank_ = faultrank;
   return this;
 }
@@ -61,6 +71,8 @@ Adsdiagnosis628* Adsdiagnosis628::set_faultrank(int faultrank) {
 // 'physical_range': '[0|5]', 'bit': 7, 'type': 'int', 'order': 'motorola',
 // 'physical_unit': 'bit'}
 void Adsdiagnosis628::set_p_faultrank(uint8_t* data, int faultrank) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   faultrank = ProtocolData::BoundedValue(0, 5, faultrank);
   int x = faultrank;
 
@@ -69,6 +81,8 @@ void Adsdiagnosis628::set_p_faultrank(uint8_t* data, int faultrank) {
 }
 
 Adsdiagnosis628* Adsdiagnosis628::set_adas_fault_code(int adas_fault_code) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adas_fault_code_ = adas_fault_code;
   return this;
 }
@@ -78,6 +92,8 @@ Adsdiagnosis628* Adsdiagnosis628::set_adas_fault_code(int adas_fault_code) {
 // 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsdiagnosis628::set_p_adas_fault_code(uint8_t* data,
                                             int adas_fault_code) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adas_fault_code = ProtocolData::BoundedValue(0, 65535, adas_fault_code);
   int x = adas_fault_code;
   uint8_t t = 0;
@@ -104,6 +120,8 @@ void Adsdiagnosis628::set_p_adas_fault_code(uint8_t* data,
 
 Adsdiagnosis628* Adsdiagnosis628::set_adas_softwareversion(
     int adas_softwareversion) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adas_softwareversion_ = adas_softwareversion;
   return this;
 }
@@ -114,6 +132,8 @@ Adsdiagnosis628* Adsdiagnosis628::set_adas_softwareversion(
 // 'bit'}
 void Adsdiagnosis628::set_p_adas_softwareversion(uint8_t* data,
                                                  int adas_softwareversion) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adas_softwareversion =
       ProtocolData::BoundedValue(0, 255, adas_softwareversion);
   int x = adas_softwareversion;
@@ -124,6 +144,8 @@ void Adsdiagnosis628::set_p_adas_softwareversion(uint8_t* data,
 
 Adsdiagnosis628* Adsdiagnosis628::set_adas_hardwareversion(
     int adas_hardwareversion) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adas_hardwareversion_ = adas_hardwareversion;
   return this;
 }
@@ -134,6 +156,8 @@ Adsdiagnosis628* Adsdiagnosis628::set_adas_hardwareversion(
 // 'bit'}
 void Adsdiagnosis628::set_p_adas_hardwareversion(uint8_t* data,
                                                  int adas_hardwareversion) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adas_hardwareversion =
       ProtocolData::BoundedValue(0, 255, adas_hardwareversion);
   int x = adas_hardwareversion;

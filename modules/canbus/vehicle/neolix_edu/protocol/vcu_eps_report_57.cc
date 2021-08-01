@@ -27,11 +27,15 @@ namespace neolix_edu {
 
 using ::apollo::drivers::canbus::Byte;
 
-Vcuepsreport57::Vcuepsreport57() {}
+Vcuepsreport57::Vcuepsreport57() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Vcuepsreport57::ID = 0x57;
 
 void Vcuepsreport57::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_neolix_edu()
       ->mutable_vcu_eps_report_57()
       ->set_drive_enable_resp(drive_enable_resp(bytes, length));
@@ -71,6 +75,8 @@ void Vcuepsreport57::Parse(const std::uint8_t* bytes, int32_t length,
 // 'motorola', 'physical_unit': ''}
 bool Vcuepsreport57::drive_enable_resp(const std::uint8_t* bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 
@@ -87,6 +93,8 @@ bool Vcuepsreport57::drive_enable_resp(const std::uint8_t* bytes,
 // '[0|7]', 'bit': 6, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Vcu_eps_report_57::Control_mode_respType Vcuepsreport57::control_mode_resp(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 3);
 
@@ -101,6 +109,8 @@ Vcu_eps_report_57::Control_mode_respType Vcuepsreport57::control_mode_resp(
 // 'motorola', 'physical_unit': ''}
 bool Vcuepsreport57::vcu_eps_report(const std::uint8_t* bytes,
                                     int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(7, 1);
 
@@ -114,6 +124,8 @@ bool Vcuepsreport57::vcu_eps_report(const std::uint8_t* bytes,
 // 'physical_unit': ''}
 double Vcuepsreport57::vcu_real_angle(const std::uint8_t* bytes,
                                       int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -132,6 +144,8 @@ double Vcuepsreport57::vcu_real_angle(const std::uint8_t* bytes,
 // 'motorola', 'physical_unit': ''}
 bool Vcuepsreport57::vcu_real_angle_valid(const std::uint8_t* bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 1);
 
@@ -145,6 +159,8 @@ bool Vcuepsreport57::vcu_real_angle_valid(const std::uint8_t* bytes,
 // 'order': 'motorola', 'physical_unit': ''}
 bool Vcuepsreport57::vcu_target_angle_valid(const std::uint8_t* bytes,
                                             int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(1, 1);
 
@@ -157,6 +173,8 @@ bool Vcuepsreport57::vcu_target_angle_valid(const std::uint8_t* bytes,
 // 'bit': 47, 'type': 'double', 'order': 'motorola', 'physical_unit': 'deg'}
 double Vcuepsreport57::vcu_target_angle(const std::uint8_t* bytes,
                                         int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);
 
@@ -174,6 +192,8 @@ double Vcuepsreport57::vcu_target_angle(const std::uint8_t* bytes,
 // '[0|0]', 'bit': 51, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vcuepsreport57::vcu_eps_rept_alivecounter(const std::uint8_t* bytes,
                                               int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 4);
 
@@ -186,6 +206,8 @@ int Vcuepsreport57::vcu_eps_rept_alivecounter(const std::uint8_t* bytes,
 // '[0|0]', 'bit': 63, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vcuepsreport57::vcu_eps_rept_checksum(const std::uint8_t* bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
 

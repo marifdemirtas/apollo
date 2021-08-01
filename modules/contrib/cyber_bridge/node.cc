@@ -19,11 +19,17 @@
 
 using apollo::cyber::message::PyMessageWrap;
 
-Node::Node() : node(apollo::cyber::CreateNode("bridge")) {}
+Node::Node() : node(apollo::cyber::CreateNode("bridge")) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-Node::~Node() {}
+Node::~Node() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void Node::remove(std::shared_ptr<Client> client) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (auto it = writers.begin(); it != writers.end(); /* empty */) {
     if (it->second.clients.find(client) != it->second.clients.end()) {
       ADEBUG << "Removing client writer";
@@ -59,6 +65,8 @@ void Node::remove(std::shared_ptr<Client> client) {
 
 void Node::add_reader(const std::string& channel, const std::string& type,
                       std::shared_ptr<Client> client) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto rit = readers.find(channel);
   if (rit != readers.end()) {
     ADEBUG << "Adding client to existing " << channel;
@@ -92,6 +100,8 @@ void Node::add_reader(const std::string& channel, const std::string& type,
 
 void Node::add_writer(const std::string& channel, const std::string& type,
                       std::shared_ptr<Client> client) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto wit = writers.find(channel);
   if (wit != writers.end()) {
     wit->second.clients.insert(client);
@@ -122,6 +132,8 @@ void Node::add_writer(const std::string& channel, const std::string& type,
 }
 
 void Node::publish(const std::string& channel, const std::string& data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto writer = writers.find(channel);
   if (writer == writers.end()) {
     AWARN << "No writer registered on channel " << channel;

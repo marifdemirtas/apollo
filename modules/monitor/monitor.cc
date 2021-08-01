@@ -38,6 +38,8 @@ namespace apollo {
 namespace monitor {
 
 bool Monitor::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   MonitorManager::Instance()->Init(node_);
 
   // Only the one CAN card corresponding to current mode will take effect.
@@ -75,6 +77,8 @@ bool Monitor::Init() {
 }
 
 bool Monitor::Proc() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const double current_time = apollo::cyber::Clock::NowInSeconds();
   if (!MonitorManager::Instance()->StartFrame(current_time)) {
     return false;

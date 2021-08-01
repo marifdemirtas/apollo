@@ -27,6 +27,8 @@ using Json = nlohmann::json;
 using google::protobuf::util::MessageToJsonString;
 
 google::protobuf::util::JsonOptions JsonOption() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   google::protobuf::util::JsonOptions json_option;
   json_option.always_print_primitive_fields = true;
   return json_option;
@@ -36,6 +38,8 @@ google::protobuf::util::JsonOptions JsonOption() {
 
 nlohmann::json JsonUtil::ProtoToTypedJson(
     const std::string &json_type, const google::protobuf::Message &proto) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   static const auto kJsonOption = JsonOption();
   std::string json_string;
   const auto status = MessageToJsonString(proto, &json_string, kJsonOption);
@@ -49,6 +53,8 @@ nlohmann::json JsonUtil::ProtoToTypedJson(
 
 bool JsonUtil::GetString(const Json &json, const std::string &key,
                          std::string *value) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const auto iter = json.find(key);
   if (iter == json.end()) {
     AERROR << "The json has no such key: " << key;
@@ -64,6 +70,8 @@ bool JsonUtil::GetString(const Json &json, const std::string &key,
 
 bool JsonUtil::GetStringVector(const Json &json, const std::string &key,
                                std::vector<std::string> *value) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const auto iter = json.find(key);
   if (iter == json.end()) {
     AERROR << "The json has no such key: " << key;
@@ -92,6 +100,8 @@ bool JsonUtil::GetStringVector(const Json &json, const std::string &key,
 
 bool JsonUtil::GetBoolean(const nlohmann::json &json, const std::string &key,
                           bool *value) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const auto iter = json.find(key);
   if (iter == json.end()) {
     AERROR << "The json has no such key: " << key;

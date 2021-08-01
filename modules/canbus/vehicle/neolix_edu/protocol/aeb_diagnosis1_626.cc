@@ -27,11 +27,15 @@ namespace neolix_edu {
 
 using ::apollo::drivers::canbus::Byte;
 
-Aebdiagnosis1626::Aebdiagnosis1626() {}
+Aebdiagnosis1626::Aebdiagnosis1626() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Aebdiagnosis1626::ID = 0x626;
 
 void Aebdiagnosis1626::Parse(const std::uint8_t* bytes, int32_t length,
                              ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_neolix_edu()
       ->mutable_aeb_diagnosis1_626()
       ->set_aeb_softwareversion(aeb_softwareversion(bytes, length));
@@ -46,6 +50,8 @@ void Aebdiagnosis1626::Parse(const std::uint8_t* bytes, int32_t length,
 // 'physical_unit': 'bit'}
 double Aebdiagnosis1626::aeb_softwareversion(const std::uint8_t* bytes,
                                              int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
 
@@ -59,6 +65,8 @@ double Aebdiagnosis1626::aeb_softwareversion(const std::uint8_t* bytes,
 // 'physical_unit': 'bit'}
 double Aebdiagnosis1626::aeb_hardwareversion(const std::uint8_t* bytes,
                                              int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
 

@@ -330,6 +330,8 @@ class OfflineLidarObstaclePerception {
 }  // namespace apollo
 
 int main(int argc, char** argv) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   FLAGS_alsologtostderr = 1;
   google::ParseCommandLineFlags(&argc, &argv, true);
   google::InitGoogleLogging(argv[0]);

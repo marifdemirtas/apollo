@@ -38,9 +38,13 @@ using apollo::data::SmartRecorderStatus;
 
 RecorderMonitor::RecorderMonitor()
     : RecurrentRunner(FLAGS_smart_recorder_monitor_name,
-                      FLAGS_smart_recorder_monitor_interval) {}
+                      FLAGS_smart_recorder_monitor_interval) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void RecorderMonitor::RunOnce(const double current_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto manager = MonitorManager::Instance();
   auto* component = apollo::common::util::FindOrNull(
       *manager->GetStatus()->mutable_components(),
@@ -67,6 +71,8 @@ void RecorderMonitor::RunOnce(const double current_time) {
   // Translate SmartRecorderStatus to ComponentStatus. Note that ERROR and FATAL
   // will trigger safety mode in current settings.
   switch (status->recording_state()) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
     case RecordingState::RECORDING:
       SummaryMonitor::EscalateStatus(ComponentStatus::OK, "", component_status);
       break;

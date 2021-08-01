@@ -32,6 +32,8 @@ namespace onboard {
 std::atomic<uint32_t> DetectionComponent::seq_num_{0};
 
 bool DetectionComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   LidarDetectionComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
     return false;
@@ -55,6 +57,8 @@ bool DetectionComponent::Init() {
 
 bool DetectionComponent::Proc(
     const std::shared_ptr<drivers::PointCloud>& message) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << std::setprecision(16)
         << "Enter detection component, message timestamp: "
         << message->measurement_time()
@@ -71,6 +75,8 @@ bool DetectionComponent::Proc(
 }
 
 bool DetectionComponent::InitAlgorithmPlugin() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(common::SensorManager::Instance()->GetSensorInfo(sensor_name_,
                                                           &sensor_info_));
 
@@ -97,6 +103,8 @@ bool DetectionComponent::InitAlgorithmPlugin() {
 bool DetectionComponent::InternalProc(
     const std::shared_ptr<const drivers::PointCloud>& in_message,
     const std::shared_ptr<LidarFrameMessage>& out_message) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint32_t seq_num = seq_num_.fetch_add(1);
   const double timestamp = in_message->measurement_time();
   const double cur_time = Clock::NowInSeconds();

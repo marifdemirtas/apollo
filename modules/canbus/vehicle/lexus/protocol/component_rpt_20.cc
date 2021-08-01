@@ -27,11 +27,15 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Componentrpt20::Componentrpt20() {}
+Componentrpt20::Componentrpt20() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Componentrpt20::ID = 0x20;
 
 void Componentrpt20::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_lexus()->mutable_component_rpt_20()->set_component_type(
       component_type(bytes, length));
   chassis->mutable_lexus()->mutable_component_rpt_20()->set_component_func(
@@ -51,6 +55,8 @@ void Componentrpt20::Parse(const std::uint8_t* bytes, int32_t length,
 // 'order': 'motorola', 'physical_unit': ''}
 Component_rpt_20::Component_typeType Componentrpt20::component_type(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -68,6 +74,8 @@ Component_rpt_20::Component_typeType Componentrpt20::component_type(
 // 'bit': 15, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Component_rpt_20::Component_funcType Componentrpt20::component_func(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -80,6 +88,8 @@ Component_rpt_20::Component_funcType Componentrpt20::component_func(
 // 'is_signed_var': False, 'physical_range': '[0|15]', 'bit': 19, 'type': 'int',
 // 'order': 'motorola', 'physical_unit': ''}
 int Componentrpt20::counter(const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 4);
 
@@ -92,6 +102,8 @@ int Componentrpt20::counter(const std::uint8_t* bytes, int32_t length) const {
 // 'int', 'order': 'motorola', 'physical_unit': ''}
 int Componentrpt20::complement(const std::uint8_t* bytes,
                                int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(4, 4);
 
@@ -104,6 +116,8 @@ int Componentrpt20::complement(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Componentrpt20::config_fault(const std::uint8_t* bytes,
                                   int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 1);
 

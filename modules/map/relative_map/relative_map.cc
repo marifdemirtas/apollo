@@ -35,9 +35,13 @@ using apollo::perception::PerceptionObstacles;
 
 RelativeMap::RelativeMap()
     : monitor_logger_buffer_(MonitorMessageItem::RELATIVE_MAP),
-      vehicle_state_provider_(nullptr) {}
+      vehicle_state_provider_(nullptr) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 Status RelativeMap::Init(common::VehicleStateProvider* vehicle_state_provider) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   vehicle_state_provider_ = vehicle_state_provider;
   if (!FLAGS_use_navigation_mode) {
     AERROR << "FLAGS_use_navigation_mode is false, system is not configured "
@@ -63,17 +67,23 @@ Status RelativeMap::Init(common::VehicleStateProvider* vehicle_state_provider) {
 }
 
 void LogErrorStatus(MapMsg* map_msg, const std::string& error_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto* status = map_msg->mutable_header()->mutable_status();
   status->set_msg(error_msg);
   status->set_error_code(ErrorCode::RELATIVE_MAP_ERROR);
 }
 
 apollo::common::Status RelativeMap::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   monitor_logger_buffer_.INFO("RelativeMap started");
   return Status::OK();
 }
 
 bool RelativeMap::Process(MapMsg* const map_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
     CreateMapFromNavigationLane(map_msg);
@@ -82,6 +92,8 @@ bool RelativeMap::Process(MapMsg* const map_msg) {
 }
 
 void RelativeMap::OnNavigationInfo(const NavigationInfo& navigation_info) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
     navigation_lane_.UpdateNavigationInfo(navigation_info);
@@ -90,6 +102,8 @@ void RelativeMap::OnNavigationInfo(const NavigationInfo& navigation_info) {
 
 void RelativeMap::OnPerception(
     const PerceptionObstacles& perception_obstacles) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
     perception_obstacles_.CopyFrom(perception_obstacles);
@@ -97,6 +111,8 @@ void RelativeMap::OnPerception(
 }
 
 void RelativeMap::OnChassis(const Chassis& chassis) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
     chassis_.CopyFrom(chassis);
@@ -104,6 +120,8 @@ void RelativeMap::OnChassis(const Chassis& chassis) {
 }
 
 void RelativeMap::OnLocalization(const LocalizationEstimate& localization) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
     localization_.CopyFrom(localization);
@@ -111,6 +129,8 @@ void RelativeMap::OnLocalization(const LocalizationEstimate& localization) {
 }
 
 bool RelativeMap::CreateMapFromNavigationLane(MapMsg* map_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(map_msg);
 
   // update vehicle state from localization and chassis
@@ -149,7 +169,9 @@ bool RelativeMap::CreateMapFromNavigationLane(MapMsg* map_msg) {
   return true;
 }
 
-void RelativeMap::Stop() { monitor_logger_buffer_.INFO("RelativeMap stopped"); }
+void RelativeMap::Stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ monitor_logger_buffer_.INFO("RelativeMap stopped"); }
 
 }  // namespace relative_map
 }  // namespace apollo

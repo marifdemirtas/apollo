@@ -62,9 +62,13 @@ LocalizationLidarProcess::LocalizationLidarProcess()
       unstable_threshold_(0.3),
       out_map_count_(0),
       forecast_integ_state_(ForecastState::NOT_VALID),
-      forecast_timer_(-1) {}
+      forecast_timer_(-1) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 LocalizationLidarProcess::~LocalizationLidarProcess() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   delete locator_;
   locator_ = nullptr;
 
@@ -73,6 +77,8 @@ LocalizationLidarProcess::~LocalizationLidarProcess() {
 }
 
 Status LocalizationLidarProcess::Init(const LocalizationIntegParam& params) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // initial_success_ = false;
   map_path_ = params.map_path;
   lidar_extrinsic_file_ = params.lidar_extrinsic_file;
@@ -152,6 +158,8 @@ Status LocalizationLidarProcess::Init(const LocalizationIntegParam& params) {
 double LocalizationLidarProcess::ComputeDeltaYawLimit(
     const int64_t index_cur, const int64_t index_stable, const double limit_min,
     const double limit_max) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (index_cur > index_stable) {
     return limit_min;
   }
@@ -162,6 +170,8 @@ double LocalizationLidarProcess::ComputeDeltaYawLimit(
 }
 
 void LocalizationLidarProcess::PcdProcess(const LidarFrame& lidar_frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!CheckState()) {
     AERROR << "PcdProcess: Receive an invalid lidar msg!";
     return;
@@ -208,6 +218,8 @@ void LocalizationLidarProcess::PcdProcess(const LidarFrame& lidar_frame) {
 void LocalizationLidarProcess::GetResult(int* lidar_status,
                                          TransformD* location,
                                          Matrix3D* covariance) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(lidar_status);
   CHECK_NOTNULL(location);
   CHECK_NOTNULL(covariance);
@@ -218,6 +230,8 @@ void LocalizationLidarProcess::GetResult(int* lidar_status,
 }
 
 int LocalizationLidarProcess::GetResult(LocalizationEstimate* lidar_local_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (lidar_local_msg == nullptr) {
     return static_cast<int>(LidarState::NOT_VALID);
   }
@@ -264,16 +278,22 @@ int LocalizationLidarProcess::GetResult(LocalizationEstimate* lidar_local_msg) {
 }
 
 void LocalizationLidarProcess::IntegPvaProcess(const InsPva& sins_pva_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   pose_forecastor_->PushInspvaData(sins_pva_msg);
 }
 
 void LocalizationLidarProcess::RawImuProcess(const ImuData& imu_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   pose_forecastor_->PushImuData(imu_msg);
 }
 
 bool LocalizationLidarProcess::GetPredictPose(const double lidar_time,
                                               TransformD* predict_pose,
                                               ForecastState* forecast_state) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(predict_pose);
   CHECK_NOTNULL(forecast_state);
 
@@ -338,9 +358,13 @@ bool LocalizationLidarProcess::GetPredictPose(const double lidar_time,
   return true;
 }
 
-bool LocalizationLidarProcess::CheckState() { return true; }
+bool LocalizationLidarProcess::CheckState() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return true; }
 
 void LocalizationLidarProcess::UpdateState(const int ret, const double time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (ret == 0) {  // OK
     double location_score = 0.0;
     locator_->GetResult(&location_, &location_covariance_, &location_score);
@@ -410,6 +434,8 @@ void LocalizationLidarProcess::UpdateState(const int ret, const double time) {
 
 bool LocalizationLidarProcess::LoadLidarExtrinsic(const std::string& file_path,
                                                   TransformD* lidar_extrinsic) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(lidar_extrinsic);
 
   YAML::Node config = YAML::LoadFile(file_path);
@@ -437,6 +463,8 @@ bool LocalizationLidarProcess::LoadLidarExtrinsic(const std::string& file_path,
 
 bool LocalizationLidarProcess::LoadLidarHeight(const std::string& file_path,
                                                LidarHeight* height) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(height);
 
   if (!cyber::common::PathExists(file_path)) {

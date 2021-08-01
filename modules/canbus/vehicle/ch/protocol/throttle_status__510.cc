@@ -25,11 +25,15 @@ namespace ch {
 
 using ::apollo::drivers::canbus::Byte;
 
-Throttlestatus510::Throttlestatus510() {}
+Throttlestatus510::Throttlestatus510() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Throttlestatus510::ID = 0x510;
 
 void Throttlestatus510::Parse(const std::uint8_t* bytes, int32_t length,
                               ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_ch()
       ->mutable_throttle_status__510()
       ->set_throttle_pedal_en_sts(throttle_pedal_en_sts(bytes, length));
@@ -52,6 +56,8 @@ void Throttlestatus510::Parse(const std::uint8_t* bytes, int32_t length,
 Throttle_status__510::Throttle_pedal_en_stsType
 Throttlestatus510::throttle_pedal_en_sts(const std::uint8_t* bytes,
                                          int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -66,6 +72,8 @@ Throttlestatus510::throttle_pedal_en_sts(const std::uint8_t* bytes,
 // 'order': 'intel', 'physical_unit': '%'}
 int Throttlestatus510::throttle_pedal_sts(const std::uint8_t* bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -80,6 +88,8 @@ int Throttlestatus510::throttle_pedal_sts(const std::uint8_t* bytes,
 // 'physical_unit': ''}
 Throttle_status__510::Drive_motor_errType Throttlestatus510::drive_motor_err(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -94,6 +104,8 @@ Throttle_status__510::Drive_motor_errType Throttlestatus510::drive_motor_err(
 // 'bit': 24, 'type': 'enum', 'order': 'intel', 'physical_unit': ''}
 Throttle_status__510::Battery_bms_errType Throttlestatus510::battery_bms_err(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 

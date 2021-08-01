@@ -63,6 +63,8 @@ static const cv::Scalar kFaceColorMap[] = {
 };
 
 base::ObjectSubType GetObjectSubType(const std::string &type_name) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (type_name == "car") {
     return base::ObjectSubType::CAR;
   } else if (type_name == "van") {
@@ -88,6 +90,8 @@ base::ObjectSubType GetObjectSubType(const std::string &type_name) {
 }
 
 bool LoadFromKitti(const std::string &kitti_path, CameraFrame *frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   frame->detected_objects.clear();
   FILE *fp = fopen(kitti_path.c_str(), "r");
   if (fp == nullptr) {
@@ -142,6 +146,8 @@ bool LoadFromKitti(const std::string &kitti_path, CameraFrame *frame) {
 }
 
 int main() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CameraFrame frame;
   DataProvider data_provider;
   frame.data_provider = &data_provider;
@@ -332,6 +338,8 @@ int main() {
 }  // namespace apollo
 
 int main(int argc, char *argv[]) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   google::ParseCommandLineFlags(&argc, &argv, true);
   google::SetUsageMessage(
       "command line brew\n"

@@ -45,6 +45,8 @@ namespace canbus {
 namespace lincoln {
 
 LincolnMessageManager::LincolnMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(Authors): verify which one is recv/sent
   AddSendProtocolData<Brake60, true>();
   AddSendProtocolData<Throttle62, true>();
@@ -72,7 +74,9 @@ LincolnMessageManager::LincolnMessageManager() {
   AddRecvProtocolData<License7e, true>();
 }
 
-LincolnMessageManager::~LincolnMessageManager() {}
+LincolnMessageManager::~LincolnMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 }  // namespace lincoln
 }  // namespace canbus

@@ -27,11 +27,15 @@ namespace apollo {
 namespace data {
 
 SmallTopicsTrigger::SmallTopicsTrigger() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   trigger_name_ = "SmallTopicsTrigger";
 }
 
 bool SmallTopicsTrigger::ShouldRestore(
     const cyber::record::RecordMessage& msg) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const std::set<std::string>& small_channels =
       ChannelPool::Instance()->GetSmallChannels();
   return trigger_obj_->enabled() &&

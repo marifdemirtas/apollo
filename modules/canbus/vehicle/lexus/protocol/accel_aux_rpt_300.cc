@@ -27,11 +27,15 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Accelauxrpt300::Accelauxrpt300() {}
+Accelauxrpt300::Accelauxrpt300() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Accelauxrpt300::ID = 0x300;
 
 void Accelauxrpt300::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_lexus()
       ->mutable_accel_aux_rpt_300()
       ->set_user_interaction_is_valid(user_interaction_is_valid(bytes, length));
@@ -54,6 +58,8 @@ void Accelauxrpt300::Parse(const std::uint8_t* bytes, int32_t length,
 // '[0|1]', 'bit': 42, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Accelauxrpt300::user_interaction_is_valid(const std::uint8_t* bytes,
                                                int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(2, 1);
 
@@ -66,6 +72,8 @@ bool Accelauxrpt300::user_interaction_is_valid(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Accelauxrpt300::user_interaction(const std::uint8_t* bytes,
                                       int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 1);
 
@@ -78,6 +86,8 @@ bool Accelauxrpt300::user_interaction(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 41, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Accelauxrpt300::raw_pedal_force_is_valid(const std::uint8_t* bytes,
                                               int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(1, 1);
 
@@ -90,6 +100,8 @@ bool Accelauxrpt300::raw_pedal_force_is_valid(const std::uint8_t* bytes,
 // 'bit': 23, 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Accelauxrpt300::raw_pedal_force(const std::uint8_t* bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -110,6 +122,8 @@ double Accelauxrpt300::raw_pedal_force(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 40, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Accelauxrpt300::raw_pedal_pos_is_valid(const std::uint8_t* bytes,
                                             int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 1);
 
@@ -122,6 +136,8 @@ bool Accelauxrpt300::raw_pedal_pos_is_valid(const std::uint8_t* bytes,
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Accelauxrpt300::raw_pedal_pos(const std::uint8_t* bytes,
                                      int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 

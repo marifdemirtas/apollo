@@ -31,6 +31,8 @@ namespace canbus {
 namespace zhongyun {
 
 ZhongyunMessageManager::ZhongyunMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Control Messages
   AddSendProtocolData<Brakecontrola4, true>();
   AddSendProtocolData<Gearcontrola1, true>();
@@ -45,7 +47,9 @@ ZhongyunMessageManager::ZhongyunMessageManager() {
   AddRecvProtocolData<Vehiclestatefeedbackc1, true>();
 }
 
-ZhongyunMessageManager::~ZhongyunMessageManager() {}
+ZhongyunMessageManager::~ZhongyunMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 }  // namespace zhongyun
 }  // namespace canbus

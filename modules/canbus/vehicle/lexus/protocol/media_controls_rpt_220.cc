@@ -27,11 +27,15 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Mediacontrolsrpt220::Mediacontrolsrpt220() {}
+Mediacontrolsrpt220::Mediacontrolsrpt220() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Mediacontrolsrpt220::ID = 0x220;
 
 void Mediacontrolsrpt220::Parse(const std::uint8_t* bytes, int32_t length,
                                 ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_lexus()->mutable_media_controls_rpt_220()->set_output_value(
       output_value(bytes, length));
   chassis->mutable_lexus()
@@ -71,6 +75,8 @@ void Mediacontrolsrpt220::Parse(const std::uint8_t* bytes, int32_t length,
 // 31, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Media_controls_rpt_220::Output_valueType Mediacontrolsrpt220::output_value(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 
@@ -92,6 +98,8 @@ Media_controls_rpt_220::Output_valueType Mediacontrolsrpt220::output_value(
 Media_controls_rpt_220::Commanded_valueType
 Mediacontrolsrpt220::commanded_value(const std::uint8_t* bytes,
                                      int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -112,6 +120,8 @@ Mediacontrolsrpt220::commanded_value(const std::uint8_t* bytes,
 // 15, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Media_controls_rpt_220::Manual_inputType Mediacontrolsrpt220::manual_input(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -125,6 +135,8 @@ Media_controls_rpt_220::Manual_inputType Mediacontrolsrpt220::manual_input(
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::vehicle_fault(const std::uint8_t* bytes,
                                         int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(6, 1);
 
@@ -137,6 +149,8 @@ bool Mediacontrolsrpt220::vehicle_fault(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::pacmod_fault(const std::uint8_t* bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
 
@@ -149,6 +163,8 @@ bool Mediacontrolsrpt220::pacmod_fault(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::override_active(const std::uint8_t* bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
 
@@ -161,6 +177,8 @@ bool Mediacontrolsrpt220::override_active(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 4, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::output_reported_fault(const std::uint8_t* bytes,
                                                 int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 1);
 
@@ -173,6 +191,8 @@ bool Mediacontrolsrpt220::output_reported_fault(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 3, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::input_output_fault(const std::uint8_t* bytes,
                                              int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
 
@@ -185,6 +205,8 @@ bool Mediacontrolsrpt220::input_output_fault(const std::uint8_t* bytes,
 // 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::enabled(const std::uint8_t* bytes,
                                   int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 
@@ -197,6 +219,8 @@ bool Mediacontrolsrpt220::enabled(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 2, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::command_output_fault(const std::uint8_t* bytes,
                                                int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
 

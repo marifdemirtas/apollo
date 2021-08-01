@@ -25,9 +25,13 @@
 namespace apollo {
 namespace data {
 
-IntervalPool::IntervalPool() {}
+IntervalPool::IntervalPool() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void IntervalPool::AddInterval(const Interval& interval) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (pool_.empty() || interval.begin_time > pool_iter_->end_time) {
     pool_.push_back(interval);
     pool_iter_ = std::prev(pool_.end());
@@ -40,6 +44,8 @@ void IntervalPool::AddInterval(const Interval& interval) {
 
 void IntervalPool::AddInterval(const uint64_t begin_time,
                                const uint64_t end_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   struct Interval interval;
   interval.begin_time = begin_time;
   interval.end_time = end_time;
@@ -47,6 +53,8 @@ void IntervalPool::AddInterval(const uint64_t begin_time,
 }
 
 void IntervalPool::ReorgIntervals() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Sort the intervals by begin_time ascending
   std::sort(pool_.begin(), pool_.end(),
             [](const Interval& x, const Interval& y) {
@@ -57,6 +65,8 @@ void IntervalPool::ReorgIntervals() {
 }
 
 bool IntervalPool::MessageFallIntoRange(const uint64_t msg_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // For each message comes for checking, the logic is:
   // 1. Add end_time of any intervals whose begin_time is smaller
   //    than message time to the helper set
@@ -75,12 +85,16 @@ bool IntervalPool::MessageFallIntoRange(const uint64_t msg_time) {
 }
 
 void IntervalPool::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   pool_.clear();
   pool_iter_ = pool_.begin();
   accu_end_values_.clear();
 }
 
 void IntervalPool::PrintIntervals() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto idx = 0;
   for (const auto& interval : pool_) {
     AINFO << "Interval " << ++idx << ": " << interval.begin_time << " - "
@@ -93,6 +107,8 @@ void IntervalPool::LogIntervalEvent(const std::string& name,
                                     const uint64_t msg_time,
                                     const uint64_t backward_time,
                                     const uint64_t forward_time) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::ofstream logfile(interval_event_log_file_path_,
                         std::ios::out | std::ios::app);
   if (!logfile) {
@@ -107,6 +123,8 @@ void IntervalPool::LogIntervalEvent(const std::string& name,
 }
 
 Interval IntervalPool::GetNextInterval() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (pool_.empty()) {
     struct Interval interval;
     interval.begin_time = 0;

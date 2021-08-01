@@ -26,11 +26,15 @@ namespace devkit {
 
 using ::apollo::drivers::canbus::Byte;
 
-Parkreport504::Parkreport504() {}
+Parkreport504::Parkreport504() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Parkreport504::ID = 0x504;
 
 void Parkreport504::Parse(const std::uint8_t* bytes, int32_t length,
                           ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_devkit()->mutable_park_report_504()->set_parking_actual(
       parking_actual(bytes, length));
   chassis->mutable_devkit()->mutable_park_report_504()->set_park_flt(
@@ -44,6 +48,8 @@ void Parkreport504::Parse(const std::uint8_t* bytes, int32_t length,
 // 'physical_unit': ''}
 Park_report_504::Parking_actualType Parkreport504::parking_actual(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 
@@ -58,6 +64,8 @@ Park_report_504::Parking_actualType Parkreport504::parking_actual(
 // 'motorola', 'physical_unit': ''}
 Park_report_504::Park_fltType Parkreport504::park_flt(const std::uint8_t* bytes,
                                                       int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 

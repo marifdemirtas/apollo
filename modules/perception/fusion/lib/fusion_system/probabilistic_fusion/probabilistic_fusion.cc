@@ -33,16 +33,24 @@
 #include "modules/perception/proto/probabilistic_fusion_config.pb.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace perception {
 namespace fusion {
 
 using cyber::common::GetAbsolutePath;
 
-ProbabilisticFusion::ProbabilisticFusion() {}
+ProbabilisticFusion::ProbabilisticFusion() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-ProbabilisticFusion::~ProbabilisticFusion() {}
+ProbabilisticFusion::~ProbabilisticFusion() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool ProbabilisticFusion::Init(const FusionInitOptions& init_options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   main_sensors_ = init_options.main_sensors;
 
   BaseInitOptions options;
@@ -108,6 +116,8 @@ bool ProbabilisticFusion::Init(const FusionInitOptions& init_options) {
 bool ProbabilisticFusion::Fuse(const FusionOptions& options,
                                const base::FrameConstPtr& sensor_frame,
                                std::vector<base::ObjectPtr>* fused_objects) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (fused_objects == nullptr) {
     AERROR << "fusion error: fused_objects is nullptr";
     return false;
@@ -161,10 +171,14 @@ bool ProbabilisticFusion::Fuse(const FusionOptions& options,
   return true;
 }
 
-std::string ProbabilisticFusion::Name() const { return "ProbabilisticFusion"; }
+std::string ProbabilisticFusion::Name() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return "ProbabilisticFusion"; }
 
 bool ProbabilisticFusion::IsPublishSensor(
     const base::FrameConstPtr& sensor_frame) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string sensor_id = sensor_frame->sensor_info.name;
   const auto& itr = std::find(
       main_sensors_.begin(), main_sensors_.end(), sensor_id);
@@ -176,6 +190,8 @@ bool ProbabilisticFusion::IsPublishSensor(
 }
 
 void ProbabilisticFusion::FuseFrame(const SensorFramePtr& frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Fusing frame: " << frame->GetSensorId()
         << ", foreground_object_number: "
         << frame->GetForegroundObjects().size()
@@ -188,6 +204,8 @@ void ProbabilisticFusion::FuseFrame(const SensorFramePtr& frame) {
 }
 
 void ProbabilisticFusion::FuseForegroundTrack(const SensorFramePtr& frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   PERF_BLOCK_START();
   std::string indicator = "fusion_" + frame->GetSensorId();
 
@@ -215,6 +233,8 @@ void ProbabilisticFusion::FuseForegroundTrack(const SensorFramePtr& frame) {
 void ProbabilisticFusion::UpdateAssignedTracks(
     const SensorFramePtr& frame,
     const std::vector<TrackMeasurmentPair>& assignments) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Attention: match_distance should be used
   // in ExistenceFusion to calculate existence score.
   // We set match_distance to zero if track and object are matched,
@@ -232,6 +252,8 @@ void ProbabilisticFusion::UpdateAssignedTracks(
 void ProbabilisticFusion::UpdateUnassignedTracks(
     const SensorFramePtr& frame,
     const std::vector<size_t>& unassigned_track_inds) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Attention: match_distance(min_match_distance) should be used
   // in ExistenceFusion to calculate toic score.
   // Due to it hasn't been used(mainly for front radar object pub in
@@ -250,6 +272,8 @@ void ProbabilisticFusion::UpdateUnassignedTracks(
 void ProbabilisticFusion::CreateNewTracks(
     const SensorFramePtr& frame,
     const std::vector<size_t>& unassigned_obj_inds) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (size_t i = 0; i < unassigned_obj_inds.size(); ++i) {
     size_t obj_ind = unassigned_obj_inds[i];
 
@@ -281,6 +305,8 @@ void ProbabilisticFusion::CreateNewTracks(
 }
 
 void ProbabilisticFusion::FusebackgroundTrack(const SensorFramePtr& frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // 1. association
   size_t track_size = scenes_->GetBackgroundTracks().size();
   size_t obj_size = frame->GetBackgroundObjects().size();
@@ -336,6 +362,8 @@ void ProbabilisticFusion::FusebackgroundTrack(const SensorFramePtr& frame) {
 }
 
 void ProbabilisticFusion::RemoveLostTrack() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // need to remove tracker at the same time
   size_t foreground_track_count = 0;
   std::vector<TrackPtr>& foreground_tracks = scenes_->GetForegroundTracks();
@@ -371,6 +399,8 @@ void ProbabilisticFusion::RemoveLostTrack() {
 
 void ProbabilisticFusion::CollectFusedObjects(
     double timestamp, std::vector<base::ObjectPtr>* fused_objects) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   fused_objects->clear();
 
   size_t fg_obj_num = 0;
@@ -403,6 +433,8 @@ void ProbabilisticFusion::CollectFusedObjects(
 void ProbabilisticFusion::CollectObjectsByTrack(
     double timestamp, const TrackPtr& track,
     std::vector<base::ObjectPtr>* fused_objects) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const FusedObjectPtr& fused_object = track->GetFusedObject();
   base::ObjectPtr obj = base::ObjectPool::Instance().Get();
   *obj = *(fused_object->GetBaseObject());
@@ -453,6 +485,8 @@ void ProbabilisticFusion::CollectObjectsByTrack(
 void ProbabilisticFusion::CollectSensorMeasurementFromObject(
     const SensorObjectConstPtr& object,
     base::SensorObjectMeasurement* measurement) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   measurement->sensor_id = object->GetSensorId();
   measurement->timestamp = object->GetTimestamp();
   measurement->track_id = object->GetBaseObject()->track_id;

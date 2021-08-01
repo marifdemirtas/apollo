@@ -25,6 +25,8 @@ namespace localization {
 namespace msf {
 
 bool OnlineLocalizationExpert::Init(const LocalizationIntegParam &param) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   msf_status_.set_local_lidar_consistency(MSF_LOCAL_LIDAR_CONSISTENCY_03);
   msf_status_.set_gnss_consistency(MSF_GNSS_CONSISTENCY_03);
   msf_status_.set_local_lidar_status(MSF_LOCAL_LIDAR_UNDEFINED_STATUS);
@@ -53,6 +55,8 @@ bool OnlineLocalizationExpert::Init(const LocalizationIntegParam &param) {
 }
 
 void OnlineLocalizationExpert::AddImu(const ImuData &data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double cur_imu_time = data.measurement_time;
   CheckImuDelayStatus(cur_imu_time);
   CheckImuMissingStatus(cur_imu_time);
@@ -61,11 +65,15 @@ void OnlineLocalizationExpert::AddImu(const ImuData &data) {
 
 void OnlineLocalizationExpert::AddFusionLocalization(
     const LocalizationEstimate &data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SetLocalizationStatus(data);
 }
 
 void OnlineLocalizationExpert::AddLidarLocalization(
     const LocalizationEstimate &data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   msf_status_mutex_.lock();
   msf_status_.set_local_lidar_status(data.msf_status().local_lidar_status());
   msf_status_.set_local_lidar_quality(data.msf_status().local_lidar_quality());
@@ -77,6 +85,8 @@ void OnlineLocalizationExpert::AddLidarLocalization(
 
 void OnlineLocalizationExpert::AddGnssBestPose(
     const drivers::gnss::GnssBestPose &msg, const MeasureData &data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int gnss_solution_status = static_cast<int>(msg.sol_status());
   int gnss_position_type = static_cast<int>(msg.sol_type());
 
@@ -98,6 +108,8 @@ void OnlineLocalizationExpert::AddGnssBestPose(
 }
 
 void OnlineLocalizationExpert::CheckImuDelayStatus(const double &cur_imu_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   sensor_status_.set_imu_delay_status(apollo::localization::IMU_DELAY_NORMAL);
   double cur_system_time = apollo::cyber::Clock::NowInSeconds();
   double delta_system_time = cur_system_time - cur_imu_time;
@@ -121,6 +133,8 @@ void OnlineLocalizationExpert::CheckImuDelayStatus(const double &cur_imu_time) {
 
 void OnlineLocalizationExpert::CheckImuMissingStatus(
     const double &cur_imu_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   sensor_status_.set_imu_missing_status(
       ImuMsgMissingStatus::IMU_MISSING_NORMAL);
   static double pre_imu_time = cur_imu_time;
@@ -153,6 +167,8 @@ void OnlineLocalizationExpert::CheckImuMissingStatus(
 
 void OnlineLocalizationExpert::CheckGnssLidarMsfStatus(
     const double &cur_imu_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(msf_status_mutex_);
   latest_gnsspos_timestamp_mutex_.lock();
   if (cur_imu_time - latest_gnsspos_timestamp_ >
@@ -179,6 +195,8 @@ void OnlineLocalizationExpert::CheckGnssLidarMsfStatus(
 
 void OnlineLocalizationExpert::SetLocalizationStatus(
     const LocalizationEstimate &data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   apollo::common::Point3D position_std = data.uncertainty().position_std_dev();
   std::lock_guard<std::mutex> lock(msf_status_mutex_);
   if (position_std.x() < localization_std_x_threshold_1_ &&
@@ -427,6 +445,8 @@ void OnlineLocalizationExpert::SetLocalizationStatus(
 void OnlineLocalizationExpert::GetFusionStatus(
     MsfStatus *msf_status, MsfSensorMsgStatus *sensor_status,
     LocalizationIntegStatus *integ_status) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   {
     std::unique_lock<std::mutex> lock(msf_status_mutex_);
     msf_status->set_local_lidar_consistency(
@@ -446,6 +466,8 @@ void OnlineLocalizationExpert::GetFusionStatus(
 }
 
 void OnlineLocalizationExpert::GetGnssStatus(MsfStatus *msf_status) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::unique_lock<std::mutex> lock(msf_status_mutex_);
   msf_status->set_gnsspos_position_type(msf_status_.gnsspos_position_type());
 }

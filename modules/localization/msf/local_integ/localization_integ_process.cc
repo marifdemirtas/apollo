@@ -35,7 +35,9 @@ LocalizationIntegProcess::LocalizationIntegProcess()
       gnss_antenna_extrinsic_(TransformD::Identity()),
       integ_state_(IntegState::NOT_INIT),
       ins_pva_(),
-      pva_covariance_{0.0},
+      pva_covariance_{
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+0.0},
       corrected_imu_(),
       earth_param_(),
       keep_running_(false),
@@ -43,6 +45,8 @@ LocalizationIntegProcess::LocalizationIntegProcess()
       delay_output_counter_(0) {}
 
 LocalizationIntegProcess::~LocalizationIntegProcess() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   StopThreadLoop();
 
   delete sins_;
@@ -50,6 +54,8 @@ LocalizationIntegProcess::~LocalizationIntegProcess() {
 }
 
 Status LocalizationIntegProcess::Init(const LocalizationIntegParam &param) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // sins init
   sins_->Init(param.is_ins_can_self_align);
   sins_->SetSinsAlignFromVel(param.is_sins_align_with_vel);
@@ -81,6 +87,8 @@ Status LocalizationIntegProcess::Init(const LocalizationIntegParam &param) {
 }
 
 void LocalizationIntegProcess::RawImuProcess(const ImuData &imu_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   integ_state_ = IntegState::NOT_INIT;
   double cur_imu_time = imu_msg.measurement_time;
 
@@ -151,6 +159,8 @@ void LocalizationIntegProcess::RawImuProcess(const ImuData &imu_msg) {
 }
 
 void LocalizationIntegProcess::GetValidFromOK() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (integ_state_ != IntegState::OK) {
     return;
   }
@@ -164,6 +174,8 @@ void LocalizationIntegProcess::GetValidFromOK() {
 }
 
 void LocalizationIntegProcess::GetState(IntegState *state) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(state);
 
   *state = integ_state_;
@@ -171,6 +183,8 @@ void LocalizationIntegProcess::GetState(IntegState *state) {
 
 void LocalizationIntegProcess::GetResult(IntegState *state,
                                          LocalizationEstimate *localization) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(state);
   CHECK_NOTNULL(localization);
 
@@ -249,6 +263,8 @@ void LocalizationIntegProcess::GetResult(IntegState *state,
 
 void LocalizationIntegProcess::GetResult(IntegState *state, InsPva *sins_pva,
                                          double pva_covariance[9][9]) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(state);
   CHECK_NOTNULL(sins_pva);
   CHECK_NOTNULL(pva_covariance);
@@ -259,6 +275,8 @@ void LocalizationIntegProcess::GetResult(IntegState *state, InsPva *sins_pva,
 }
 
 void LocalizationIntegProcess::GetCorrectedImu(ImuData *imu_data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(imu_data);
 
   *imu_data = corrected_imu_;
@@ -266,6 +284,8 @@ void LocalizationIntegProcess::GetCorrectedImu(ImuData *imu_data) {
 
 void LocalizationIntegProcess::GetEarthParameter(
     InertialParameter *earth_param) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(earth_param);
 
   *earth_param = earth_param_;
@@ -273,24 +293,32 @@ void LocalizationIntegProcess::GetEarthParameter(
 
 void LocalizationIntegProcess::MeasureDataProcess(
     const MeasureData &measure_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   measure_data_queue_mutex_.lock();
   measure_data_queue_.push(measure_msg);
   measure_data_queue_mutex_.unlock();
 }
 
 void LocalizationIntegProcess::StartThreadLoop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   keep_running_ = true;
   measure_data_queue_size_ = 150;
   cyber::Async(&LocalizationIntegProcess::MeasureDataThreadLoop, this);
 }
 
 void LocalizationIntegProcess::StopThreadLoop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (keep_running_.load()) {
     keep_running_ = false;
   }
 }
 
 void LocalizationIntegProcess::MeasureDataThreadLoop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Started measure data process thread";
   while (keep_running_.load()) {
     {
@@ -327,6 +355,8 @@ void LocalizationIntegProcess::MeasureDataThreadLoop() {
 
 void LocalizationIntegProcess::MeasureDataProcessImpl(
     const MeasureData &measure_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   common::util::Timer timer;
   timer.Start();
 
@@ -341,6 +371,8 @@ void LocalizationIntegProcess::MeasureDataProcessImpl(
 
 bool LocalizationIntegProcess::CheckIntegMeasureData(
     const MeasureData &measure_data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (measure_data.measure_type == MeasureType::ODOMETER_VEL_ONLY) {
     AERROR << "receive a new odometry measurement!!!\n";
   }
@@ -364,6 +396,8 @@ bool LocalizationIntegProcess::CheckIntegMeasureData(
 
 bool LocalizationIntegProcess::LoadGnssAntennaExtrinsic(
     const std::string &file_path, TransformD *extrinsic) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(extrinsic);
 
   YAML::Node confige = YAML::LoadFile(file_path);

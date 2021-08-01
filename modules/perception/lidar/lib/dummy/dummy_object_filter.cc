@@ -17,15 +17,21 @@
 #include "modules/perception/lidar/lib/dummy/dummy_object_filter.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace perception {
 namespace lidar {
 
 bool DummyObjectFilter::Init(const ObjectFilterInitOptions& options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return true;
 }
 
 bool DummyObjectFilter::Filter(const ObjectFilterOptions& options,
                                LidarFrame* frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return true;
 }
 

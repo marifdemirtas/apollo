@@ -23,6 +23,8 @@ namespace base {
 
 // @brief call pool instance once to initialize memory
 __attribute__((constructor)) void PoolInitialize() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ObjectPool::Instance();
   PointFCloudPool::Instance();
   PointDCloudPool::Instance();

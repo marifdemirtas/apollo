@@ -26,6 +26,8 @@ namespace perception {
 namespace benchmark {
 
 bool OptionParser::parse_from_string(const std::string& input) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _options.clear();
   std::vector<std::string> option_pairs = absl::StrSplit(input, '|');
   // std::string str = StringUtil::trim_all(input);

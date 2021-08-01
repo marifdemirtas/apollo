@@ -41,6 +41,8 @@ namespace canbus {
 namespace devkit {
 
 DevkitMessageManager::DevkitMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Control Messages
   AddSendProtocolData<Brakecommand101, true>();
   AddSendProtocolData<Gearcommand103, true>();
@@ -64,7 +66,9 @@ DevkitMessageManager::DevkitMessageManager() {
   AddRecvProtocolData<Wheelspeedreport506, true>();
 }
 
-DevkitMessageManager::~DevkitMessageManager() {}
+DevkitMessageManager::~DevkitMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 }  // namespace devkit
 }  // namespace canbus

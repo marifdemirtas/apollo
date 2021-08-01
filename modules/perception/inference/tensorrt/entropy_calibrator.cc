@@ -25,6 +25,8 @@ Int8EntropyCalibrator::Int8EntropyCalibrator(
     const apollo::perception::inference::BatchStream &stream, int first_batch,
     bool read_cache, std::string network)
     : stream_(stream), read_cache_(read_cache), network_(network) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   DimsNCHW dims = stream_.getDims();
   input_count_ = stream_.getBatchSize() * dims.c() * dims.h() * dims.w();
   cudaMalloc(&device_input_, input_count_ * sizeof(float));
@@ -32,6 +34,8 @@ Int8EntropyCalibrator::Int8EntropyCalibrator(
 }
 
 Int8EntropyCalibrator::~Int8EntropyCalibrator() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (device_input_) {
     (cudaFree(device_input_));
   }
@@ -39,6 +43,8 @@ Int8EntropyCalibrator::~Int8EntropyCalibrator() {
 
 bool Int8EntropyCalibrator::getBatch(void *bindings[], const char *names[],
                                      int nbBindings) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!stream_.next()) {
     return false;
   }
@@ -50,6 +56,8 @@ bool Int8EntropyCalibrator::getBatch(void *bindings[], const char *names[],
 }
 
 const void *Int8EntropyCalibrator::readCalibrationCache(size_t &length) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   calibration_cache_.clear();
   std::ifstream input(
       apollo::perception::inference::locateFile(network_, "CalibrationTable"),
@@ -66,6 +74,8 @@ const void *Int8EntropyCalibrator::readCalibrationCache(size_t &length) {
 
 void Int8EntropyCalibrator::writeCalibrationCache(const void *cache,
                                                   size_t length) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::ofstream output(
       apollo::perception::inference::locateFile(network_, "CalibrationTable"),
       std::ios::binary);

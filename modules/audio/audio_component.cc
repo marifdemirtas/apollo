@@ -26,14 +26,20 @@ using apollo::common::Point3D;
 using apollo::common::util::FillHeader;
 using apollo::drivers::microphone::config::AudioData;
 
-AudioComponent::~AudioComponent() {}
+AudioComponent::~AudioComponent() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 std::string AudioComponent::Name() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(all) implement
   return "";
 }
 
 bool AudioComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AudioConf audio_conf;
   if (!ComponentBase::GetProtoConfig(&audio_conf)) {
     AERROR << "Unable to load audio conf file: "
@@ -50,6 +56,8 @@ bool AudioComponent::Init() {
 }
 
 bool AudioComponent::Proc(const std::shared_ptr<AudioData>& audio_data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(all) remove GetSignals() multiple calls
   AudioDetection audio_detection;
   MessageProcess::OnMicrophone(*audio_data, respeaker_extrinsics_file_,

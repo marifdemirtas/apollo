@@ -17,6 +17,10 @@
 #include "modules/perception/radar/lib/tracker/filter/adaptive_kalman_filter.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace perception {
 namespace radar {
 
@@ -28,6 +32,8 @@ std::string RadarTrack::s_chosen_filter_ =  // NOLINT
     "AdaptiveKalmanFilter";
 
 RadarTrack::RadarTrack(const base::ObjectPtr& obs, const double timestamp) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   s_current_idx_ %= MAX_RADAR_IDX;
   obs_id_ = s_current_idx_++;
   obs_radar_ = base::ObjectPool::Instance().Get();
@@ -46,6 +52,8 @@ RadarTrack::RadarTrack(const base::ObjectPtr& obs, const double timestamp) {
 
 void RadarTrack::UpdataObsRadar(const base::ObjectPtr& obs_radar,
                                 const double timestamp) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   *obs_radar_ = *obs_radar;
   *obs_ = *obs_radar;
   double time_diff = timestamp - timestamp_;
@@ -68,19 +76,31 @@ void RadarTrack::UpdataObsRadar(const base::ObjectPtr& obs_radar,
 }
 
 void RadarTrack::SetObsRadarNullptr() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   obs_radar_ = nullptr;
   obs_ = nullptr;
 }
 
-base::ObjectPtr RadarTrack::GetObsRadar() { return obs_radar_; }
+base::ObjectPtr RadarTrack::GetObsRadar() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return obs_radar_; }
 
-base::ObjectPtr RadarTrack::GetObs() { return obs_; }
+base::ObjectPtr RadarTrack::GetObs() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return obs_; }
 
-int RadarTrack::GetObsId() const { return obs_id_; }
+int RadarTrack::GetObsId() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return obs_id_; }
 
-double RadarTrack::GetTimestamp() { return timestamp_; }
+double RadarTrack::GetTimestamp() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return timestamp_; }
 
-double RadarTrack::GetTrackingTime() { return tracking_time_; }
+double RadarTrack::GetTrackingTime() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return tracking_time_; }
 }  // namespace radar
 }  // namespace perception
 }  // namespace apollo

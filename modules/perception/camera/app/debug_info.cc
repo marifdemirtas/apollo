@@ -42,6 +42,8 @@ std::vector<std::string> sub_type_string = {"UNKNOWN",
 
 void WriteCamera2World(std::ofstream &fout, int frame_num,
                        const Eigen::Affine3d &pose) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!fout.is_open()) {
     AERROR << "Cannot write Camera2World!";
     return;
@@ -66,6 +68,8 @@ void WriteCamera2World(std::ofstream &fout, int frame_num,
 
 void WriteTracking(std::ofstream &fout, int frame_num,
                    const std::vector<base::ObjectPtr> &tracked_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!fout.is_open()) {
     AERROR << "Cannot write tracking!";
     return;
@@ -92,6 +96,8 @@ void WriteTracking(std::ofstream &fout, int frame_num,
 
 int WriteDetections(const bool enabled, const std::string &out_path,
                     const std::vector<base::ObjectPtr> &objects) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!enabled) {
     return -1;
   }
@@ -176,6 +182,8 @@ int WriteDetections(const bool enabled, const std::string &out_path,
 
 int WriteDetections(const bool enabled, const std::string &out_path,
                     CameraFrame *frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!enabled) {
     return -1;
   }
@@ -211,6 +219,8 @@ int WriteDetections(const bool enabled, const std::string &out_path,
 
 int WriteLanelines(const bool enabled, const std::string &save_path,
                    const std::vector<base::LaneLine> &lane_objects) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!enabled) {
     return -1;
   }
@@ -289,6 +299,8 @@ int WriteLanelines(const bool enabled, const std::string &save_path,
 
 int WriteCalibrationOutput(bool enabled, const std::string &out_path,
                            const CameraFrame *frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!enabled) {
     return -1;
   }
@@ -314,6 +326,8 @@ int WriteCalibrationOutput(bool enabled, const std::string &out_path,
 void WriteFusionTracking(std::ofstream &fout, int frame_num,
                          const std::string &camera_name,
                          const std::vector<base::ObjectPtr> &tracked_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!fout.is_open()) {
     AERROR << "Failed to write tracking!";
     return;

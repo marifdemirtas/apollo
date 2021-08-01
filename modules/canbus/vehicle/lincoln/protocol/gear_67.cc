@@ -28,6 +28,8 @@ const int32_t Gear67::ID = 0x67;
 
 void Gear67::Parse(const std::uint8_t *bytes, int32_t length,
                    ChassisDetail *chassis_detail) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int32_t gear = gear_state(bytes, length);
   switch (gear) {
     case 0x01:
@@ -93,6 +95,8 @@ void Gear67::Parse(const std::uint8_t *bytes, int32_t length,
 }
 
 int32_t Gear67::gear_state(const std::uint8_t *bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame(bytes + 0);
   int32_t x = frame.get_byte(0, 3);
   return x;
@@ -100,18 +104,24 @@ int32_t Gear67::gear_state(const std::uint8_t *bytes, int32_t length) const {
 
 bool Gear67::is_driver_override(const std::uint8_t *bytes,
                                 int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame(bytes + 0);
   return frame.is_bit_1(3);
 }
 
 int32_t Gear67::reported_gear_cmd(const std::uint8_t *bytes,
                                   int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame(bytes + 0);
   int32_t x = frame.get_byte(4, 3);
   return x;
 }
 
 bool Gear67::is_canbus_fault(const std::uint8_t *bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame(bytes + 0);
   return frame.is_bit_1(7);
 }

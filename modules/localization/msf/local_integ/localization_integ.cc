@@ -29,18 +29,26 @@ using common::Status;
 using common::util::TimeUtil;
 
 LocalizationInteg::LocalizationInteg()
-    : localization_integ_impl_(new LocalizationIntegImpl()) {}
+    : localization_integ_impl_(new LocalizationIntegImpl()) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 LocalizationInteg::~LocalizationInteg() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   delete localization_integ_impl_;
   localization_integ_impl_ = nullptr;
 }
 
 Status LocalizationInteg::Init(const LocalizationIntegParam &params) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return localization_integ_impl_->Init(params);
 }
 
 void LocalizationInteg::PcdProcess(const drivers::PointCloud &message) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   LidarFrame lidar_frame;
   LidarMsgTransfer transfer;
   transfer.Transfer(message, &lidar_frame);
@@ -48,12 +56,16 @@ void LocalizationInteg::PcdProcess(const drivers::PointCloud &message) {
 }
 
 void LocalizationInteg::RawImuProcessFlu(const drivers::gnss::Imu &imu_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ImuData imu;
   TransferImuFlu(imu_msg, &imu);
   localization_integ_impl_->RawImuProcessRfu(imu);
 }
 
 void LocalizationInteg::RawImuProcessRfu(const drivers::gnss::Imu &imu_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ImuData imu;
   TransferImuRfu(imu_msg, &imu);
   localization_integ_impl_->RawImuProcessRfu(imu);
@@ -61,41 +73,57 @@ void LocalizationInteg::RawImuProcessRfu(const drivers::gnss::Imu &imu_msg) {
 
 void LocalizationInteg::RawObservationProcess(
     const drivers::gnss::EpochObservation &raw_obs_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   localization_integ_impl_->RawObservationProcess(raw_obs_msg);
 }
 
 void LocalizationInteg::RawEphemerisProcess(
     const drivers::gnss::GnssEphemeris &gnss_orbit_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   localization_integ_impl_->RawEphemerisProcess(gnss_orbit_msg);
 }
 
 void LocalizationInteg::GnssBestPoseProcess(
     const drivers::gnss::GnssBestPose &bestgnsspos_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   localization_integ_impl_->GnssBestPoseProcess(bestgnsspos_msg);
 }
 
 void LocalizationInteg::GnssHeadingProcess(
     const drivers::gnss::Heading &gnssheading_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   localization_integ_impl_->GnssHeadingProcess(gnssheading_msg);
 }
 
 const LocalizationResult &LocalizationInteg::GetLastestLidarLocalization()
     const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return localization_integ_impl_->GetLastestLidarLocalization();
 }
 
 const LocalizationResult &LocalizationInteg::GetLastestIntegLocalization()
     const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return localization_integ_impl_->GetLastestIntegLocalization();
 }
 
 const LocalizationResult &LocalizationInteg::GetLastestGnssLocalization()
     const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return localization_integ_impl_->GetLastestGnssLocalization();
 }
 
 void LocalizationInteg::TransferImuRfu(const drivers::gnss::Imu &imu_msg,
                                        ImuData *imu_rfu) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(imu_rfu);
 
   double measurement_time = TimeUtil::Gps2Unix(imu_msg.measurement_time());
@@ -111,6 +139,8 @@ void LocalizationInteg::TransferImuRfu(const drivers::gnss::Imu &imu_msg,
 
 void LocalizationInteg::TransferImuFlu(const drivers::gnss::Imu &imu_msg,
                                        ImuData *imu_flu) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(imu_flu);
 
   double measurement_time = TimeUtil::Gps2Unix(imu_msg.measurement_time());

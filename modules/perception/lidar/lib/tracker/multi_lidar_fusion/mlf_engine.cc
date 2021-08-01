@@ -35,6 +35,8 @@ using apollo::prediction::Feature;
 using cyber::common::GetAbsolutePath;
 
 bool MlfEngine::Init(const MultiTargetTrackerInitOptions& options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig(Name(), &model_config));
@@ -78,6 +80,8 @@ bool MlfEngine::Init(const MultiTargetTrackerInitOptions& options) {
 
 bool MlfEngine::Track(const MultiTargetTrackerOptions& options,
                       LidarFrame* frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // 0. modify objects timestamp if necessary
   if (use_frame_timestamp_) {
     for (auto& object : frame->segmented_objects) {
@@ -124,6 +128,8 @@ bool MlfEngine::Track(const MultiTargetTrackerOptions& options,
 void MlfEngine::SplitAndTransformToTrackedObjects(
     const std::vector<base::ObjectPtr>& objects,
     const base::SensorInfo& sensor_info) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<TrackedObjectPtr> tracked_objects;
   TrackedObjectPool::Instance().BatchGet(objects.size(), &tracked_objects);
   foreground_objects_.clear();
@@ -151,6 +157,8 @@ void MlfEngine::TrackObjectMatchAndAssign(
     const MlfTrackObjectMatcherOptions& match_options,
     const std::vector<TrackedObjectPtr>& objects, const std::string& name,
     std::vector<MlfTrackDataPtr>* tracks) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<std::pair<size_t, size_t>> assignments;
   std::vector<size_t> unassigned_tracks;
   std::vector<size_t> unassigned_objects;
@@ -175,6 +183,8 @@ void MlfEngine::TrackObjectMatchAndAssign(
 
 void MlfEngine::TrackStateFilter(const std::vector<MlfTrackDataPtr>& tracks,
                                  double frame_timestamp) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<TrackedObjectPtr> objects;
   for (auto& track_data : tracks) {
     track_data->GetAndCleanCachedObjectsInTimeInterval(&objects);
@@ -189,6 +199,8 @@ void MlfEngine::TrackStateFilter(const std::vector<MlfTrackDataPtr>& tracks,
 
 void convertPoseToLoc(const Eigen::Affine3d& pose,
                       localization::LocalizationEstimate* localization) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ADEBUG << "translation x y z " << pose.translation()[0] << " "
          << pose.translation()[1] << " " << pose.translation()[2];
   localization->mutable_pose()->mutable_position()->set_x(
@@ -241,6 +253,8 @@ void convertPoseToLoc(const Eigen::Affine3d& pose,
 //}
 
 void MlfEngine::CollectTrackedResult(LidarFrame* frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto& tracked_objects = frame->tracked_objects;
   tracked_objects.clear();
   size_t num_objects =
@@ -305,6 +319,8 @@ void MlfEngine::CollectTrackedResult(LidarFrame* frame) {
 
 void MlfEngine::RemoveStaleTrackData(const std::string& name, double timestamp,
                                      std::vector<MlfTrackDataPtr>* tracks) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t pos = 0;
   for (size_t i = 0; i < tracks->size(); ++i) {
     if (tracks->at(i)->latest_visible_time_ + reserved_invisible_time_ >=

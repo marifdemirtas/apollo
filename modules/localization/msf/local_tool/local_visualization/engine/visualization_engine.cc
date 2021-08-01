@@ -41,6 +41,8 @@ const char car_img_path[3][1024] = {
 
 // =================VisualizationEngine=================
 bool MapImageKey::operator<(const MapImageKey &key) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Compare elements by priority.
   return std::forward_as_tuple(level, zone_id, node_north_id, node_east_id) <
          std::forward_as_tuple(key.level, key.zone_id, key.node_north_id,
@@ -49,6 +51,8 @@ bool MapImageKey::operator<(const MapImageKey &key) const {
 
 // =================MapImageCache=================
 bool MapImageCache::Get(const MapImageKey &key, cv::Mat *image) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto found_iter = _map.find(key);
   if (found_iter == _map.end()) {
     return false;
@@ -60,6 +64,8 @@ bool MapImageCache::Get(const MapImageKey &key, cv::Mat *image) {
 }
 
 void MapImageCache::Set(const MapImageKey &key, const cv::Mat &image) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto found_iter = _map.find(key);
   if (found_iter != _map.end()) {
     // move the corresponding key to list front
@@ -83,7 +89,9 @@ VisualizationEngine::VisualizationEngine()
     : map_image_cache_(20),
       image_window_(1024, 1024, CV_8UC3, cv::Scalar(0, 0, 0)),
       big_window_(3072, 3072, CV_8UC3),
-      tips_window_(48, 1024, CV_8UC3, cv::Scalar(0, 0, 0)) {}
+      tips_window_(48, 1024, CV_8UC3, cv::Scalar(0, 0, 0)) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool VisualizationEngine::Init(const std::string &map_folder,
                                const std::string &map_visual_folder,
@@ -92,6 +100,8 @@ bool VisualizationEngine::Init(const std::string &map_folder,
                                const int zone_id,
                                const Eigen::Affine3d &extrinsic,
                                const unsigned int loc_info_num) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   map_folder_ = map_folder;
   map_visual_folder_ = map_visual_folder;
   map_param_ = map_param;
@@ -144,6 +154,8 @@ bool VisualizationEngine::Init(const std::string &map_folder,
 void VisualizationEngine::Visualize(
     ::apollo::common::EigenVector<LocalizatonInfo> &&loc_infos,
     const ::apollo::common::EigenVector3dVec &cloud) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_init_) {
     AERROR << "Visualziation should be init first.";
     return;
@@ -174,11 +186,15 @@ void VisualizationEngine::Visualize(
 }
 
 void VisualizationEngine::SetAutoPlay(bool auto_play) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto_play_ = auto_play;
 }
 
 void VisualizationEngine::Preprocess(const std::string &map_folder,
                                      const std::string &map_visual_folder) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string image_path = map_folder_ + "/image";
   std::string image_visual_path = map_visual_folder;
   char buf[256];
@@ -234,6 +250,8 @@ void VisualizationEngine::Preprocess(const std::string &map_folder,
 }
 
 void VisualizationEngine::Draw() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   UpdateLevel();
 
   if (follow_car_) {
@@ -300,6 +318,8 @@ void VisualizationEngine::Draw() {
 }
 
 void VisualizationEngine::DrawTrajectory(const cv::Point &bias) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Draw trajectory.";
   if (cur_level_ == 0 && is_draw_trajectory_) {
     unsigned int i = (car_loc_id_ + 1) % loc_info_num_;
@@ -352,6 +372,8 @@ void VisualizationEngine::DrawTrajectory(const cv::Point &bias) {
 }
 
 void VisualizationEngine::DrawLoc(const cv::Point &bias) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Draw loc.";
   if (cur_level_ == 0) {
     unsigned int i = (car_loc_id_ + 1) % loc_info_num_;
@@ -417,6 +439,8 @@ void VisualizationEngine::DrawLoc(const cv::Point &bias) {
 }
 
 void VisualizationEngine::DrawStd(const cv::Point &bias) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Draw std.";
   if (cur_level_ == 0 && is_draw_std_) {
     unsigned int i = (car_loc_id_ + 1) % loc_info_num_;
@@ -451,6 +475,8 @@ void VisualizationEngine::DrawStd(const cv::Point &bias) {
 }
 
 void VisualizationEngine::DrawCloud(const cv::Point &bias) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!cur_loc_infos_[car_loc_id_].is_has_attitude) {
     return;
   }
@@ -473,6 +499,8 @@ void VisualizationEngine::DrawCloud(const cv::Point &bias) {
 }
 
 void VisualizationEngine::DrawLegend() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Draw legend.";
   int fontFace = cv::FONT_HERSHEY_SIMPLEX;
   double fontScale = 0.6;
@@ -503,6 +531,8 @@ void VisualizationEngine::DrawLegend() {
 }
 
 void VisualizationEngine::DrawInfo() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Draw info.";
   LocalizatonInfo &loc_info = cur_loc_infos_[car_loc_id_];
 
@@ -533,6 +563,8 @@ void VisualizationEngine::DrawInfo() {
 }
 
 void VisualizationEngine::DrawTips() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Draw tips.";
 
   tips_window_.setTo(cv::Scalar(0, 0, 0));
@@ -569,6 +601,8 @@ void VisualizationEngine::DrawTips() {
 }
 
 void VisualizationEngine::UpdateLevel() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (cur_scale_ > max_stride_ * 1.5) {
     SetScale(max_stride_ * 1.5);
   }
@@ -589,6 +623,8 @@ void VisualizationEngine::UpdateLevel() {
 void VisualizationEngine::GenerateMutiResolutionImages(
     const std::vector<std::string> &src_files, const int base_path_length,
     const std::string &dst_folder) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x_min = std::numeric_limits<int>::max();
   int x_max = -1;
   int y_min = std::numeric_limits<int>::max();
@@ -679,6 +715,8 @@ void VisualizationEngine::GenerateMutiResolutionImages(
 }
 
 bool VisualizationEngine::InitOtherParams(const std::string &params_file) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x_min = 0;
   int y_min = 0;
   int x_max = 0;
@@ -708,6 +746,8 @@ void VisualizationEngine::InitOtherParams(const int x_min, const int y_min,
                                           const int x_max, const int y_max,
                                           const int level,
                                           const std::string &path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   lt_node_index_.x = x_min;
   lt_node_index_.y = y_min;
   lt_node_grid_index_.x = lt_node_index_.x * map_param_.map_node_size_x;
@@ -736,6 +776,8 @@ void VisualizationEngine::CloudToMat(
     const Eigen::Affine3d &cur_pose, const Eigen::Affine3d &velodyne_extrinsic,
     const ::apollo::common::EigenVector3dVec &cloud, cv::Mat *cloud_img,
     cv::Mat *cloud_img_mask) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int img_width = map_param_.map_node_size_x;
   unsigned int img_height = map_param_.map_node_size_y;
   Eigen::Vector3d cen = car_pose_.translation();
@@ -771,6 +813,8 @@ void VisualizationEngine::CloudToMat(
 
 void VisualizationEngine::CoordToImageKey(const Eigen::Vector2d &coord,
                                           MapImageKey *key) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   key->level = cur_level_;
 
   DCHECK_LT(resolution_id_, map_param_.map_resolutions.size());
@@ -812,6 +856,8 @@ void VisualizationEngine::CoordToImageKey(const Eigen::Vector2d &coord,
 cv::Point VisualizationEngine::CoordToMapGridIndex(
     const Eigen::Vector2d &coord, const unsigned int resolution_id,
     const int stride) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   cv::Point p;
   p.x = static_cast<int>((coord[0] - map_param_.map_min_x) /
                          map_param_.map_resolutions[resolution_id]);
@@ -828,6 +874,8 @@ cv::Point VisualizationEngine::CoordToMapGridIndex(
 }
 
 cv::Point VisualizationEngine::MapGridIndexToNodeGridIndex(const cv::Point &p) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   cv::Point pi;
   pi.x = p.x % map_param_.map_node_size_x;
   pi.x = pi.x < 0 ? pi.x + map_param_.map_node_size_x : pi.x;
@@ -838,6 +886,8 @@ cv::Point VisualizationEngine::MapGridIndexToNodeGridIndex(const cv::Point &p) {
 }
 
 bool VisualizationEngine::LoadImageToCache(const MapImageKey &key) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   cv::Mat img;
 
   if (!map_image_cache_.Get(key, &img)) {
@@ -859,6 +909,8 @@ bool VisualizationEngine::LoadImageToCache(const MapImageKey &key) {
 
 void VisualizationEngine::RotateImg(const cv::Mat &in_img, cv::Mat *out_img,
                                     double angle) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int width = (in_img.cols > in_img.rows) ? in_img.cols : in_img.rows;
   width += 4;
   cv::Mat mat_tem(width, width, CV_8UC3);
@@ -874,23 +926,33 @@ void VisualizationEngine::RotateImg(const cv::Mat &in_img, cv::Mat *out_img,
 
 void VisualizationEngine::SetViewCenter(const double center_x,
                                         const double center_y) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _view_center[0] = center_x;
   _view_center[1] = center_y;
 }
 
 void VisualizationEngine::UpdateViewCenter(const double move_x,
                                            const double move_y) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _view_center[0] += move_x;
   _view_center[1] += move_y;
 }
 
-void VisualizationEngine::SetScale(const double scale) { cur_scale_ = scale; }
+void VisualizationEngine::SetScale(const double scale) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ cur_scale_ = scale; }
 
 void VisualizationEngine::UpdateScale(const double factor) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   cur_scale_ *= factor;
 }
 
 bool VisualizationEngine::UpdateCarLocId() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (unsigned int i = 0; i < loc_info_num_ - 1; i++) {
     unsigned int tem_car_loc_id = (car_loc_id_ + i + 1) % loc_info_num_;
     if (cur_loc_infos_[tem_car_loc_id].is_valid) {
@@ -903,6 +965,8 @@ bool VisualizationEngine::UpdateCarLocId() {
 }
 
 bool VisualizationEngine::UpdateCarLocId(const unsigned int car_loc_id) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (car_loc_id >= loc_info_num_) {
     return false;
   }
@@ -917,6 +981,8 @@ bool VisualizationEngine::UpdateCarLocId(const unsigned int car_loc_id) {
 }
 
 bool VisualizationEngine::UpdateTrajectoryGroups() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (unsigned int i = 0; i < loc_info_num_; i++) {
     if (cur_loc_infos_[i].is_valid) {
       Eigen::Vector2d loc;
@@ -932,6 +998,8 @@ bool VisualizationEngine::UpdateTrajectoryGroups() {
 }
 
 void VisualizationEngine::ProcessKey(int key) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const int move = 20;
   char c_key = static_cast<char>(key);
   switch (c_key) {

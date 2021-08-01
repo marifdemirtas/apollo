@@ -34,6 +34,8 @@ namespace drivers {
 namespace hesai {
 
 Input::Input(uint16_t port, uint16_t gpsPort) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   socketForLidar = -1;
   socketForLidar = socket(PF_INET, SOCK_DGRAM, 0);
   if (-1 == socketForLidar) {
@@ -91,6 +93,8 @@ Input::Input(uint16_t port, uint16_t gpsPort) {
 }
 
 Input::~Input(void) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (socketForGPS > 0) close(socketForGPS);
   if (socketForLidar > 0) (void)close(socketForLidar);
 }
@@ -99,6 +103,8 @@ Input::~Input(void) {
 //          1 - gps
 //         -1 - error
 int Input::GetPacket(HesaiPacket *pkt) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   struct pollfd fds[socketNumber];
   if (socketNumber == 2) {
     fds[0].fd = socketForGPS;

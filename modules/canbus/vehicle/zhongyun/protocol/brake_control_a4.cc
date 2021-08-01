@@ -27,26 +27,36 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Brakecontrola4::ID = 0xA4;
 
 // public
-Brakecontrola4::Brakecontrola4() { Reset(); }
+Brakecontrola4::Brakecontrola4() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Brakecontrola4::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(ChaoM) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Brakecontrola4::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_brake_torque(data, brake_torque_);
   set_p_brake_enable_control(data, brake_enable_control_);
 }
 
 void Brakecontrola4::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(ChaoM) :  you should check this manually
   brake_torque_ = 0.0;
   brake_enable_control_ = Brake_control_a4::BRAKE_ENABLE_CONTROL_BRAKE_MANUAL;
 }
 
 Brakecontrola4* Brakecontrola4::set_brake_torque(double brake_torque) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   brake_torque_ = brake_torque;
   return this;
 }
@@ -55,6 +65,8 @@ Brakecontrola4* Brakecontrola4::set_brake_torque(double brake_torque) {
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|100]', 'bit': 8,
 // 'type': 'double', 'order': 'intel', 'physical_unit': '%'}
 void Brakecontrola4::set_p_brake_torque(uint8_t* data, double brake_torque) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   brake_torque = ProtocolData::BoundedValue(0.0, 100.0, brake_torque);
   int x = static_cast<int>(brake_torque / 0.050000);
   uint8_t t = 0;
@@ -71,6 +83,8 @@ void Brakecontrola4::set_p_brake_torque(uint8_t* data, double brake_torque) {
 
 Brakecontrola4* Brakecontrola4::set_brake_enable_control(
     Brake_control_a4::Brake_enable_controlType brake_enable_control) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   brake_enable_control_ = brake_enable_control;
   return this;
 }
@@ -83,6 +97,8 @@ Brakecontrola4* Brakecontrola4::set_brake_enable_control(
 void Brakecontrola4::set_p_brake_enable_control(
     uint8_t* data,
     Brake_control_a4::Brake_enable_controlType brake_enable_control) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = brake_enable_control;
 
   Byte to_set(data + 0);

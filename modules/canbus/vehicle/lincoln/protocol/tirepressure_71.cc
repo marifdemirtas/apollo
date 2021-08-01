@@ -28,6 +28,8 @@ const int32_t Tirepressure71::ID = 0x71;
 
 void Tirepressure71::Parse(const std::uint8_t *bytes, int32_t length,
                            ChassisDetail *chassis_detail) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis_detail->mutable_safety()->set_front_left_tire_press(
       front_left_tire(bytes, length));
   chassis_detail->mutable_safety()->set_front_right_tire_press(
@@ -40,6 +42,8 @@ void Tirepressure71::Parse(const std::uint8_t *bytes, int32_t length,
 
 int32_t Tirepressure71::front_left_tire(const std::uint8_t *bytes,
                                         int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte high_frame(bytes + 1);
   int32_t high = high_frame.get_byte(0, 8);
   Byte low_frame(bytes + 0);
@@ -49,6 +53,8 @@ int32_t Tirepressure71::front_left_tire(const std::uint8_t *bytes,
 
 int32_t Tirepressure71::front_right_tire(const std::uint8_t *bytes,
                                          int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte high_frame(bytes + 3);
   int32_t high = high_frame.get_byte(0, 8);
   Byte low_frame(bytes + 2);
@@ -58,6 +64,8 @@ int32_t Tirepressure71::front_right_tire(const std::uint8_t *bytes,
 
 int32_t Tirepressure71::rear_left_tire(const std::uint8_t *bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte high_frame(bytes + 5);
   int32_t high = high_frame.get_byte(0, 8);
   Byte low_frame(bytes + 4);
@@ -67,6 +75,8 @@ int32_t Tirepressure71::rear_left_tire(const std::uint8_t *bytes,
 
 int32_t Tirepressure71::rear_right_tire(const std::uint8_t *bytes,
                                         int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte high_frame(bytes + 7);
   int32_t high = high_frame.get_byte(0, 8);
   Byte low_frame(bytes + 6);

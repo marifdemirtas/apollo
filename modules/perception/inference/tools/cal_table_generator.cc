@@ -49,6 +49,8 @@ DEFINE_int32(mean_r, 0, "image r");
 DEFINE_bool(hwc_input, true, "input blob is hwc order.");
 
 int evaluate_image_list() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_EQ(FLAGS_image_channel_num, 3);
   const int height = FLAGS_height;
   const int width = FLAGS_width;
@@ -161,6 +163,8 @@ int evaluate_image_list() {
 }
 
 int main(int argc, char **argv) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   google::ParseCommandLineFlags(&argc, &argv, true);
 
   if (FLAGS_gen_batch) {

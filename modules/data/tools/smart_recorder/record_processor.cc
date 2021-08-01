@@ -38,9 +38,13 @@ using cyber::record::RecordWriter;
 RecordProcessor::RecordProcessor(const std::string& source_record_dir,
                                  const std::string& restored_output_dir)
     : source_record_dir_(source_record_dir),
-      restored_output_dir_(restored_output_dir) {}
+      restored_output_dir_(restored_output_dir) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool RecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Init input/output
   if (!DirectoryExists(source_record_dir_)) {
     AERROR << "source record dir does not exist: " << source_record_dir_;
@@ -76,6 +80,8 @@ bool RecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
 }
 
 bool RecordProcessor::InitTriggers(const SmartRecordTrigger& trigger_conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   triggers_.push_back(std::unique_ptr<TriggerBase>(new DriveEventTrigger));
   triggers_.push_back(std::unique_ptr<TriggerBase>(new EmergencyModeTrigger));
   triggers_.push_back(std::unique_ptr<TriggerBase>(new HardBrakeTrigger));
@@ -93,6 +99,8 @@ bool RecordProcessor::InitTriggers(const SmartRecordTrigger& trigger_conf) {
 
 bool RecordProcessor::ShouldRestore(
     const cyber::record::RecordMessage& msg) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (const auto& trigger : triggers_) {
     if (trigger->ShouldRestore(msg)) {
       return true;

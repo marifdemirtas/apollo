@@ -56,7 +56,9 @@ FrameHistory::FrameHistory()
 
 Frame::Frame(uint32_t sequence_num)
     : sequence_num_(sequence_num),
-      monitor_logger_buffer_(common::monitor::MonitorMessageItem::PLANNING) {}
+      monitor_logger_buffer_(common::monitor::MonitorMessageItem::PLANNING) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 Frame::Frame(uint32_t sequence_num, const LocalView &local_view,
              const common::TrajectoryPoint &planning_start_point,
@@ -67,23 +69,33 @@ Frame::Frame(uint32_t sequence_num, const LocalView &local_view,
       planning_start_point_(planning_start_point),
       vehicle_state_(vehicle_state),
       reference_line_provider_(reference_line_provider),
-      monitor_logger_buffer_(common::monitor::MonitorMessageItem::PLANNING) {}
+      monitor_logger_buffer_(common::monitor::MonitorMessageItem::PLANNING) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 Frame::Frame(uint32_t sequence_num, const LocalView &local_view,
              const common::TrajectoryPoint &planning_start_point,
              const common::VehicleState &vehicle_state)
     : Frame(sequence_num, local_view, planning_start_point, vehicle_state,
-            nullptr) {}
+            nullptr) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 const common::TrajectoryPoint &Frame::PlanningStartPoint() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return planning_start_point_;
 }
 
 const common::VehicleState &Frame::vehicle_state() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return vehicle_state_;
 }
 
 bool Frame::Rerouting(PlanningContext *planning_context) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (FLAGS_use_navigation_mode) {
     AERROR << "Rerouting not supported in navigation mode";
     return false;
@@ -133,15 +145,21 @@ bool Frame::Rerouting(PlanningContext *planning_context) {
 }
 
 const std::list<ReferenceLineInfo> &Frame::reference_line_info() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return reference_line_info_;
 }
 
 std::list<ReferenceLineInfo> *Frame::mutable_reference_line_info() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return &reference_line_info_;
 }
 
 void Frame::UpdateReferenceLinePriority(
     const std::map<std::string, uint32_t> &id_to_priority) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (const auto &pair : id_to_priority) {
     const auto id = pair.first;
     const auto priority = pair.second;
@@ -159,6 +177,8 @@ void Frame::UpdateReferenceLinePriority(
 bool Frame::CreateReferenceLineInfo(
     const std::list<ReferenceLine> &reference_lines,
     const std::list<hdmap::RouteSegments> &segments) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   reference_line_info_.clear();
   auto ref_line_iter = reference_lines.begin();
   auto segments_iter = segments.begin();
@@ -207,6 +227,8 @@ bool Frame::CreateReferenceLineInfo(
 const Obstacle *Frame::CreateStopObstacle(
     ReferenceLineInfo *const reference_line_info,
     const std::string &obstacle_id, const double obstacle_s) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (reference_line_info == nullptr) {
     AERROR << "reference_line_info nullptr";
     return nullptr;
@@ -230,6 +252,8 @@ const Obstacle *Frame::CreateStopObstacle(
 const Obstacle *Frame::CreateStopObstacle(const std::string &obstacle_id,
                                           const std::string &lane_id,
                                           const double lane_s) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!hdmap_) {
     AERROR << "Invalid HD Map.";
     return nullptr;
@@ -262,6 +286,8 @@ const Obstacle *Frame::CreateStaticObstacle(
     ReferenceLineInfo *const reference_line_info,
     const std::string &obstacle_id, const double obstacle_start_s,
     const double obstacle_end_s) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (reference_line_info == nullptr) {
     AERROR << "reference_line_info nullptr";
     return nullptr;
@@ -305,6 +331,8 @@ const Obstacle *Frame::CreateStaticObstacle(
 
 const Obstacle *Frame::CreateStaticVirtualObstacle(const std::string &id,
                                                    const Box2d &box) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const auto *object = obstacles_.Find(id);
   if (object) {
     AWARN << "obstacle " << id << " already exist.";

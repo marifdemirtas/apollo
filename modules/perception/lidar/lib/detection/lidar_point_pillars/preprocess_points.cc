@@ -59,12 +59,16 @@ PreprocessPoints::PreprocessPoints(
       min_x_range_(min_x_range),
       min_y_range_(min_y_range),
       min_z_range_(min_z_range),
-      num_inds_for_scan_(num_inds_for_scan) {}
+      num_inds_for_scan_(num_inds_for_scan) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void PreprocessPoints::InitializeVariables(int* coor_to_pillaridx,
                                            float* sparse_pillar_map,
                                            float* pillar_point_feature,
                                            float* pillar_coors) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (int i = 0; i < grid_y_size_; ++i) {
     for (int j = 0; j < grid_x_size_; ++j) {
       coor_to_pillaridx[i * grid_x_size_ + j] = -1;
@@ -94,6 +98,8 @@ void PreprocessPoints::Preprocess(const float* in_points_array,
                                   float* pillar_point_feature,
                                   float* pillar_coors, float* sparse_pillar_map,
                                   int* host_pillar_count) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int pillar_count = 0;
   // init variables
   int* coor_to_pillaridx = new int[grid_y_size_ * grid_x_size_];

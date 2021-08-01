@@ -22,11 +22,17 @@ namespace localization {
 namespace msf {
 namespace pyramid_map {
 
-PyramidMapNodeConfig::PyramidMapNodeConfig() {}
+PyramidMapNodeConfig::PyramidMapNodeConfig() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-PyramidMapNodeConfig::~PyramidMapNodeConfig() {}
+PyramidMapNodeConfig::~PyramidMapNodeConfig() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 std::shared_ptr<BaseMapNodeConfig> PyramidMapNodeConfig::Clone() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::shared_ptr<PyramidMapNodeConfig> map_node_config(
       new PyramidMapNodeConfig());
   map_node_config->node_index_ = node_index_;

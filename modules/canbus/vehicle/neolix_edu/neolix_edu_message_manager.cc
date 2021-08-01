@@ -44,6 +44,8 @@ namespace canbus {
 namespace neolix_edu {
 
 Neolix_eduMessageManager::Neolix_eduMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Control Messages
   AddSendProtocolData<Adsbrakecommand46, true>();
   AddSendProtocolData<Adsdiagnosis628, true>();
@@ -70,7 +72,9 @@ Neolix_eduMessageManager::Neolix_eduMessageManager() {
   AddRecvProtocolData<Pas2nddata312, true>();
 }
 
-Neolix_eduMessageManager::~Neolix_eduMessageManager() {}
+Neolix_eduMessageManager::~Neolix_eduMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 }  // namespace neolix_edu
 }  // namespace canbus

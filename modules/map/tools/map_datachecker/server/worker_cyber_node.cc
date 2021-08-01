@@ -29,6 +29,8 @@ namespace hdmap {
 
 MapDataCheckerCyberNode::MapDataCheckerCyberNode(
     std::shared_ptr<MapDataCheckerAgent> agent, bool *init_success) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!agent) {
     AFATAL << "MapDataCheckerAgent pointer is nullptr";
     *init_success = false;
@@ -51,6 +53,8 @@ MapDataCheckerCyberNode::MapDataCheckerCyberNode(
 }
 
 int MapDataCheckerCyberNode::CreateChannelSubscriber() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "create bestgnsspos reader, topic: " << FLAGS_topic_bestgnsspos;
   bestgnsspos_reader_ = node_->CreateReader<GnssBestPose_t>(
       FLAGS_topic_bestgnsspos,

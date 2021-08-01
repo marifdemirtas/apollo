@@ -78,6 +78,8 @@ namespace canbus {
 namespace lexus {
 
 LexusMessageManager::LexusMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Control Messages
   AddSendProtocolData<Accelcmd100, true>();
   AddSendProtocolData<Brakecmd104, true>();
@@ -139,7 +141,9 @@ LexusMessageManager::LexusMessageManager() {
   AddRecvProtocolData<Yawraterpt40d, true>();
 }
 
-LexusMessageManager::~LexusMessageManager() {}
+LexusMessageManager::~LexusMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 }  // namespace lexus
 }  // namespace canbus

@@ -30,12 +30,16 @@ using TimedValue = std::pair<uint8, double>;
 const uint8 kMaxWindowSize = std::numeric_limits<uint8>::max() / 2;
 
 MF::MeanFilter(const uint8 window_size) : window_size_(window_size) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_GT(window_size_, 0);
   CHECK_LE(window_size_, kMaxWindowSize);
   initialized_ = true;
 }
 
 double MF::GetMin() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (min_candidates_.empty()) {
     return std::numeric_limits<double>::infinity();
   } else {
@@ -44,6 +48,8 @@ double MF::GetMin() const {
 }
 
 double MF::GetMax() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (max_candidates_.empty()) {
     return -std::numeric_limits<double>::infinity();
   } else {
@@ -52,6 +58,8 @@ double MF::GetMax() const {
 }
 
 double MF::Update(const double measurement) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(initialized_);
   CHECK_LE(values_.size(), window_size_);
   CHECK_LE(min_candidates_.size(), window_size_);
@@ -71,6 +79,8 @@ double MF::Update(const double measurement) {
 }
 
 bool MF::ShouldPopOldestCandidate(const uint8 old_time) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (old_time < window_size_) {
     CHECK_LE(time_, old_time + window_size_);
     return old_time + window_size_ == time_;
@@ -83,6 +93,8 @@ bool MF::ShouldPopOldestCandidate(const uint8 old_time) const {
 }
 
 void MF::RemoveEarliest() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_EQ(values_.size(), window_size_);
   double removed = values_.front();
   values_.pop_front();
@@ -96,6 +108,8 @@ void MF::RemoveEarliest() {
 }
 
 void MF::Insert(const double value) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   values_.push_back(value);
   sum_ += value;
   while (min_candidates_.size() > 0 && min_candidates_.back().second > value) {

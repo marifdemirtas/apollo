@@ -21,6 +21,8 @@ namespace canbus {
 
 void AbstractVehicleFactory::SetVehicleParameter(
     const VehicleParameter &vehicle_parameter) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   vehicle_parameter_ = vehicle_parameter;
 }
 

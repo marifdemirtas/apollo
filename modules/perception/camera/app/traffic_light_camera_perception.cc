@@ -31,6 +31,8 @@ using cyber::common::GetAbsolutePath;
 
 bool TrafficLightCameraPerception::Init(
     const CameraPerceptionInitOptions &options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Arif called TrafficLightCameraPerception::Init";
   std::string work_root = "";
   if (options.use_cyber_work_root) {
@@ -91,6 +93,8 @@ bool TrafficLightCameraPerception::Init(
 
 bool TrafficLightCameraPerception::Perception(
     const CameraPerceptionOptions &options, CameraFrame *frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Arif called TrafficLightCameraPerception::Perception";
   PERF_FUNCTION();
   PERF_BLOCK_START();

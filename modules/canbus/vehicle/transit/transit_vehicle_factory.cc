@@ -26,11 +26,15 @@ namespace canbus {
 
 std::unique_ptr<VehicleController>
 TransitVehicleFactory::CreateVehicleController() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return std::unique_ptr<VehicleController>(new transit::TransitController());
 }
 
 std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>
 TransitVehicleFactory::CreateMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>(
       new transit::TransitMessageManager());
 }

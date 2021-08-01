@@ -21,6 +21,8 @@ namespace perception {
 namespace base {
 
 Object::Object() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   center_uncertainty << 0.0f, 0, 0, 0, 0.0f, 0, 0, 0, 0.0f;
   velocity_uncertainty << 0.0f, 0, 0, 0, 0.0f, 0, 0, 0, 0.0f;
   acceleration_uncertainty << 0.0f, 0, 0, 0, 0.0f, 0, 0, 0, 0.0f;
@@ -31,6 +33,8 @@ Object::Object() {
 }
 
 void Object::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   id = -1;
   polygon.clear();
   direction = Eigen::Vector3f(1.0f, 0.0f, 0.0f);
@@ -72,6 +76,8 @@ void Object::Reset() {
 }
 
 std::string Object::ToString() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::ostringstream oss;
   oss << "Object [id: " << id << ", track_id: " << track_id << ", direction: ("
       << direction[0] << "," << direction[1] << "," << direction[2]

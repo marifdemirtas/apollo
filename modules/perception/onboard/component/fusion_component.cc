@@ -29,6 +29,8 @@ uint32_t FusionComponent::s_seq_num_ = 0;
 std::mutex FusionComponent::s_mutex_;
 
 bool FusionComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   FusionComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
     return false;
@@ -53,6 +55,8 @@ bool FusionComponent::Init() {
 }
 
 bool FusionComponent::Proc(const std::shared_ptr<SensorFrameMessage>& message) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (message->process_stage_ == ProcessStage::SENSOR_FUSION) {
     return true;
   }
@@ -83,6 +87,8 @@ bool FusionComponent::Proc(const std::shared_ptr<SensorFrameMessage>& message) {
 }
 
 bool FusionComponent::InitAlgorithmPlugin() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   fusion_.reset(new fusion::ObstacleMultiSensorFusion());
   fusion::ObstacleMultiSensorFusionParam param;
   param.main_sensors = fusion_main_sensors_;
@@ -101,6 +107,8 @@ bool FusionComponent::InternalProc(
     const std::shared_ptr<SensorFrameMessage const>& in_message,
     std::shared_ptr<PerceptionObstacles> out_message,
     std::shared_ptr<SensorFrameMessage> viz_message) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   {
     std::unique_lock<std::mutex> lock(s_mutex_);
     s_seq_num_++;

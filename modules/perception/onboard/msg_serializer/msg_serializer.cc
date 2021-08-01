@@ -38,6 +38,8 @@ bool MsgSerializer::SerializeMsg(double timestamp, uint64_t lidar_timestamp,
                                  const std::vector<base::ObjectPtr> &objects,
                                  const apollo::common::ErrorCode &error_code,
                                  PerceptionObstacles *obstacles) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double publish_time = Clock::NowInSeconds();
   ::apollo::common::Header *header = obstacles->mutable_header();
   header->set_timestamp_sec(publish_time);
@@ -60,6 +62,8 @@ bool MsgSerializer::SerializeMsg(double timestamp, uint64_t lidar_timestamp,
 
 bool MsgSerializer::ConvertObjectToPb(const base::ObjectPtr &object_ptr,
                                       PerceptionObstacle *pb_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (object_ptr == nullptr || pb_msg == nullptr) {
     return false;
   }

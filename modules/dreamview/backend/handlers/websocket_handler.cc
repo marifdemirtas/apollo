@@ -25,6 +25,8 @@ namespace dreamview {
 using apollo::common::util::ContainsKey;
 
 void WebSocketHandler::handleReadyState(CivetServer *server, Connection *conn) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   {
     std::unique_lock<std::mutex> lock(mutex_);
     connections_.emplace(conn, std::make_shared<std::mutex>());
@@ -40,6 +42,8 @@ void WebSocketHandler::handleReadyState(CivetServer *server, Connection *conn) {
 
 void WebSocketHandler::handleClose(CivetServer *server,
                                    const Connection *conn) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Remove from the store of currently open connections. Copy the mutex out
   // so that it won't be reclaimed during map.erase().
   Connection *connection = const_cast<Connection *>(conn);
@@ -62,6 +66,8 @@ void WebSocketHandler::handleClose(CivetServer *server,
 }
 
 bool WebSocketHandler::BroadcastData(const std::string &data, bool skippable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<Connection *> connections_to_send;
   {
     std::unique_lock<std::mutex> lock(mutex_);
@@ -86,11 +92,15 @@ bool WebSocketHandler::BroadcastData(const std::string &data, bool skippable) {
 
 bool WebSocketHandler::SendBinaryData(Connection *conn, const std::string &data,
                                       bool skippable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return SendData(conn, data, skippable, MG_WEBSOCKET_OPCODE_BINARY);
 }
 
 bool WebSocketHandler::SendData(Connection *conn, const std::string &data,
                                 bool skippable, int op_code) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::shared_ptr<std::mutex> connection_lock;
   {
     std::unique_lock<std::mutex> lock(mutex_);
@@ -153,6 +163,8 @@ thread_local std::stringstream WebSocketHandler::data_;
 
 bool WebSocketHandler::handleData(CivetServer *server, Connection *conn,
                                   int bits, char *data, size_t data_len) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Ignore connection close request.
   if ((bits & 0x0F) == MG_WEBSOCKET_OPCODE_CONNECTION_CLOSE) {
     return false;
@@ -193,6 +205,8 @@ bool WebSocketHandler::handleData(CivetServer *server, Connection *conn,
 
 bool WebSocketHandler::handleJsonData(Connection *conn,
                                       const std::string &data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Json json;
   try {
     json = Json::parse(data.begin(), data.end());
@@ -218,6 +232,8 @@ bool WebSocketHandler::handleJsonData(Connection *conn,
 
 bool WebSocketHandler::handleBinaryData(Connection *conn,
                                         const std::string &data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto type = "Binary";
   message_handlers_[type](data, conn);
   return true;

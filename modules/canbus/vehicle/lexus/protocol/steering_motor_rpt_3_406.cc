@@ -27,11 +27,15 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Steeringmotorrpt3406::Steeringmotorrpt3406() {}
+Steeringmotorrpt3406::Steeringmotorrpt3406() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Steeringmotorrpt3406::ID = 0x406;
 
 void Steeringmotorrpt3406::Parse(const std::uint8_t* bytes, int32_t length,
                                  ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_lexus()
       ->mutable_steering_motor_rpt_3_406()
       ->set_torque_output(torque_output(bytes, length));
@@ -46,6 +50,8 @@ void Steeringmotorrpt3406::Parse(const std::uint8_t* bytes, int32_t length,
 // 'motorola', 'physical_unit': 'N-m'}
 double Steeringmotorrpt3406::torque_output(const std::uint8_t* bytes,
                                            int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -77,6 +83,8 @@ double Steeringmotorrpt3406::torque_output(const std::uint8_t* bytes,
 // 'motorola', 'physical_unit': 'N-m'}
 double Steeringmotorrpt3406::torque_input(const std::uint8_t* bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 

@@ -46,6 +46,8 @@ using ReaderAndMessagePair = std::pair<std::shared_ptr<cyber::ReaderBase>,
                                        std::shared_ptr<drivers::Image>>;
 
 ReaderAndMessagePair CreateReaderAndLatestsMessage(const std::string& camera) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const auto reader =
       MonitorManager::Instance()->CreateReader<drivers::Image>(camera);
   reader->Observe();
@@ -65,9 +67,13 @@ static const auto camera_topic_set = std::set<std::string>{
 
 CameraMonitor::CameraMonitor()
     : RecurrentRunner(FLAGS_camera_monitor_name,
-                      FLAGS_camera_monitor_interval) {}
+                      FLAGS_camera_monitor_interval) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void CameraMonitor::RunOnce(const double current_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto* manager = MonitorManager::Instance();
   auto* component = apollo::common::util::FindOrNull(
       *manager->GetStatus()->mutable_components(), FLAGS_camera_component_name);
@@ -80,6 +86,8 @@ void CameraMonitor::RunOnce(const double current_time) {
 }
 
 void CameraMonitor::UpdateStatus(ComponentStatus* status) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   status->clear_status();
   std::string frame_id = "";
   for (const auto& topic : camera_topic_set) {

@@ -21,6 +21,8 @@ namespace common {
 
 void ConnectedComponentAnalysis(const std::vector<std::vector<int>>& graph,
                                 std::vector<std::vector<int>>* components) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (components == nullptr) {
     AERROR << "components is not available";
     return;

@@ -25,6 +25,8 @@ namespace lidar {
 
 void SppEngine::Init(size_t width, size_t height, float range,
                      const SppParams& param, const std::string& sensor_name) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // initialize connect component detector
   detector_2d_cc_.Init(static_cast<int>(height), static_cast<int>(width));
   detector_2d_cc_.SetData(data_.obs_prob_data_ref, data_.offset_data,
@@ -53,6 +55,8 @@ void SppEngine::Init(size_t width, size_t height, float range,
 
 size_t SppEngine::ProcessConnectedComponentCluster(
     const base::PointFCloudConstPtr point_cloud, const CloudMask& mask) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Timer timer;
   data_.category_pt_blob->cpu_data();
   data_.instance_pt_blob->cpu_data();
@@ -123,6 +127,8 @@ size_t SppEngine::ProcessConnectedComponentCluster(
 
 size_t SppEngine::ProcessForegroundSegmentation(
     const base::PointFCloudConstPtr point_cloud) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   mask_.clear();
   ProcessConnectedComponentCluster(point_cloud, mask_);
   AINFO << "Foreground: " << clusters_.size() << " clusters";
@@ -133,6 +139,8 @@ size_t SppEngine::RemoveGroundPointsInForegroundCluster(
     const base::PointFCloudConstPtr full_point_cloud,
     const base::PointIndices& roi_indices,
     const base::PointIndices& roi_non_ground_indices) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   mask_.Set(full_point_cloud->size(), 0);
   mask_.AddIndices(roi_indices);
   mask_.RemoveIndicesOfIndices(roi_indices, roi_non_ground_indices);

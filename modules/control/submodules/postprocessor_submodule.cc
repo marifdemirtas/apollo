@@ -37,10 +37,14 @@ using apollo::common::Status;
 using apollo::cyber::Clock;
 
 std::string PostprocessorSubmodule::Name() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return FLAGS_postprocessor_submodule_name;
 }
 
 bool PostprocessorSubmodule::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(cyber::common::GetProtoFromFile(FLAGS_control_common_conf_file,
                                          &control_common_conf_))
       << "Unable to load control common conf file: "
@@ -54,6 +58,8 @@ bool PostprocessorSubmodule::Init() {
 
 bool PostprocessorSubmodule::Proc(
     const std::shared_ptr<ControlCommand>& control_core_command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const auto start_time = Clock::Instance()->Now();
   ControlCommand control_command;
   // get all fields from control_core_command for now

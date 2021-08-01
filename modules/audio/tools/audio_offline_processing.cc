@@ -41,6 +41,8 @@ using apollo::perception::PerceptionObstacles;
 
 void GetRecordFileNames(const boost::filesystem::path& p,
                         std::vector<std::string>* record_files) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!boost::filesystem::exists(p)) {
     return;
   }
@@ -64,6 +66,8 @@ void ProcessSingleRecordFile(const AudioConf& audio_conf,
     DirectionDetection* direction_detection,
     MovingDetection* moving_detection,
     SirenDetection* siren_detection) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   RecordReader reader(input_record_filepath);
   RecordMessage message;
   RecordWriter writer;
@@ -114,6 +118,8 @@ void ProcessSingleRecordFile(const AudioConf& audio_conf,
 }
 
 void ProcessFolder() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (FLAGS_audio_records_dir.empty()) {
     AERROR << "The input folder is empty";
     return;
@@ -145,6 +151,8 @@ void ProcessFolder() {
 }  // namespace apollo
 
 int main(int argc, char* argv[]) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   google::ParseCommandLineFlags(&argc, &argv, true);
   apollo::audio::ProcessFolder();
   return 0;

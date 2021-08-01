@@ -36,9 +36,13 @@ using apollo::localization::LocalizationEstimate;
 using apollo::planning::ADCTrajectory;
 
 ControlComponent::ControlComponent()
-    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {}
+    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool ControlComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   injector_ = std::make_shared<DependencyInjector>();
   init_time_ = Clock::Now();
 
@@ -122,6 +126,8 @@ bool ControlComponent::Init() {
 }
 
 void ControlComponent::OnPad(const std::shared_ptr<PadMessage> &pad) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(mutex_);
   pad_msg_.CopyFrom(*pad);
   ADEBUG << "Received Pad Msg:" << pad_msg_.DebugString();
@@ -129,6 +135,8 @@ void ControlComponent::OnPad(const std::shared_ptr<PadMessage> &pad) {
 }
 
 void ControlComponent::OnChassis(const std::shared_ptr<Chassis> &chassis) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ADEBUG << "Received chassis data: run chassis callback.";
   std::lock_guard<std::mutex> lock(mutex_);
   latest_chassis_.CopyFrom(*chassis);
@@ -136,6 +144,8 @@ void ControlComponent::OnChassis(const std::shared_ptr<Chassis> &chassis) {
 
 void ControlComponent::OnPlanning(
     const std::shared_ptr<ADCTrajectory> &trajectory) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ADEBUG << "Received chassis data: run trajectory callback.";
   std::lock_guard<std::mutex> lock(mutex_);
   latest_trajectory_.CopyFrom(*trajectory);
@@ -143,6 +153,8 @@ void ControlComponent::OnPlanning(
 
 void ControlComponent::OnLocalization(
     const std::shared_ptr<LocalizationEstimate> &localization) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ADEBUG << "Received control data: run localization message callback.";
   std::lock_guard<std::mutex> lock(mutex_);
   latest_localization_.CopyFrom(*localization);
@@ -150,6 +162,8 @@ void ControlComponent::OnLocalization(
 
 void ControlComponent::OnMonitor(
     const common::monitor::MonitorMessage &monitor_message) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (const auto &item : monitor_message.item()) {
     if (item.log_level() == common::monitor::MonitorMessageItem::FATAL) {
       estop_ = true;
@@ -160,6 +174,8 @@ void ControlComponent::OnMonitor(
 
 Status ControlComponent::ProduceControlCommand(
     ControlCommand *control_command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Status status = CheckInput(&local_view_);
   // check data
 
@@ -277,6 +293,8 @@ Status ControlComponent::ProduceControlCommand(
 }
 
 bool ControlComponent::Proc() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const auto start_time = Clock::Now();
 
   chassis_reader_->Observe();
@@ -418,6 +436,8 @@ bool ControlComponent::Proc() {
 }
 
 Status ControlComponent::CheckInput(LocalView *local_view) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ADEBUG << "Received localization:"
          << local_view->localization().ShortDebugString();
   ADEBUG << "Received chassis:" << local_view->chassis().ShortDebugString();
@@ -449,6 +469,8 @@ Status ControlComponent::CheckInput(LocalView *local_view) {
 }
 
 Status ControlComponent::CheckTimestamp(const LocalView &local_view) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!control_conf_.enable_input_timestamp_check() ||
       control_conf_.is_control_test_mode()) {
     ADEBUG << "Skip input timestamp check by gflags.";

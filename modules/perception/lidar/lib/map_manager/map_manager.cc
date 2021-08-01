@@ -22,12 +22,16 @@
 #include "modules/perception/proto/map_manager_config.pb.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace perception {
 namespace lidar {
 
 using cyber::common::GetAbsolutePath;
 
 bool MapManager::Init(const MapManagerInitOptions& options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig(Name(), &model_config));
@@ -50,6 +54,8 @@ bool MapManager::Init(const MapManagerInitOptions& options) {
 }
 
 bool MapManager::Update(const MapManagerOptions& options, LidarFrame* frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!frame) {
     AINFO << "Frame is nullptr.";
     return false;
@@ -81,6 +87,8 @@ bool MapManager::Update(const MapManagerOptions& options, LidarFrame* frame) {
   return true;
 }
 bool MapManager::QueryPose(Eigen::Affine3d* sensor2world_pose) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(...): map-based alignment to refine pose
   return false;
 }

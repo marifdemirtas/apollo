@@ -31,16 +31,22 @@ ABSL_FLAG(double, module_monitor_interval, 1.5,
           "Process status checking interval in seconds.");
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace monitor {
 
 ModuleMonitor::ModuleMonitor()
     : RecurrentRunner(absl::GetFlag(FLAGS_module_monitor_name),
                       absl::GetFlag(FLAGS_module_monitor_interval)) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   node_manager_ =
       cyber::service_discovery::TopologyManager::Instance()->node_manager();
 }
 
 void ModuleMonitor::RunOnce(const double current_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto manager = MonitorManager::Instance();
   const auto& mode = manager->GetHMIMode();
 
@@ -61,6 +67,8 @@ void ModuleMonitor::RunOnce(const double current_time) {
 void ModuleMonitor::UpdateStatus(
     const apollo::dreamview::ModuleMonitorConfig& config,
     const std::string& module_name, ComponentStatus* status) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   status->clear_status();
 
   bool all_nodes_matched = true;

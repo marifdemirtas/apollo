@@ -205,6 +205,8 @@ YAML::Emitter& operator<<(YAML::Emitter& out, const Calibration& calibration) {
 }
 
 void Calibration::read(const std::string& calibration_file) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::ifstream fin(calibration_file.c_str());
 
   if (!fin.is_open()) {
@@ -228,6 +230,8 @@ void Calibration::read(const std::string& calibration_file) {
 }
 
 void Calibration::write(const std::string& calibration_file) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::ofstream fout(calibration_file.c_str());
   YAML::Emitter out;
   out << *this;

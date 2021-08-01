@@ -43,6 +43,8 @@ using apollo::cyber::common::GetAbsolutePath;
 using cyber::common::EnsureDirectory;
 
 bool LaneCameraPerception::Init(const CameraPerceptionInitOptions &options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string work_root = "";
   if (options.use_cyber_work_root) {
     work_root = GetCyberWorkRoot();
@@ -70,6 +72,8 @@ bool LaneCameraPerception::Init(const CameraPerceptionInitOptions &options) {
 void LaneCameraPerception::InitLane(
     const std::string &work_root, base::BaseCameraModelPtr &model,
     const app::PerceptionParam &perception_param) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Init lane
   CHECK_GT(perception_param.lane_param_size(), 0)
       << "Failed to include lane_param";
@@ -140,6 +144,8 @@ void LaneCameraPerception::InitLane(
 void LaneCameraPerception::InitCalibrationService(
     const std::string &work_root, const base::BaseCameraModelPtr model,
     const app::PerceptionParam &perception_param) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Init calibration service
   ACHECK(perception_param.has_calibration_service_param())
       << "Failed to include calibration_service_param";
@@ -170,6 +176,10 @@ void LaneCameraPerception::SetCameraHeightAndPitch(
     const std::map<std::string, float> name_camera_ground_height_map,
     const std::map<std::string, float> name_camera_pitch_angle_diff_map,
     const float &pitch_angle_calibrator_working_sensor) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (calibration_service_ == nullptr) {
     AERROR << "Calibraion service is not available";
     return;
@@ -181,6 +191,8 @@ void LaneCameraPerception::SetCameraHeightAndPitch(
 
 void LaneCameraPerception::SetIm2CarHomography(
     Eigen::Matrix3d homography_im2car) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (calibration_service_ == nullptr) {
     AERROR << "Calibraion service is not available";
     return;
@@ -190,12 +202,16 @@ void LaneCameraPerception::SetIm2CarHomography(
 
 bool LaneCameraPerception::GetCalibrationService(
     BaseCalibrationService **calibration_service) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   *calibration_service = calibration_service_.get();
   return true;
 }
 
 bool LaneCameraPerception::Perception(const CameraPerceptionOptions &options,
                                       CameraFrame *frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   PERF_FUNCTION();
   inference::CudaUtil::set_device_id(perception_param_.gpu_id());
   PERF_BLOCK_START();

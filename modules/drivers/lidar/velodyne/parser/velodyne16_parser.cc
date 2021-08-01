@@ -22,6 +22,8 @@ namespace velodyne {
 
 Velodyne16Parser::Velodyne16Parser(const Config& config)
     : VelodyneParser(config), previous_packet_stamp_(0), gps_base_usec_(0) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   inner_time_ = &velodyne::INNER_TIME_16;
   need_two_pt_correction_ = false;
 }
@@ -29,6 +31,8 @@ Velodyne16Parser::Velodyne16Parser(const Config& config)
 void Velodyne16Parser::GeneratePointcloud(
     const std::shared_ptr<VelodyneScan>& scan_msg,
     std::shared_ptr<PointCloud> out_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // allocate a point cloud with same time and frame ID as raw data
   out_msg->mutable_header()->set_frame_id(scan_msg->header().frame_id());
   out_msg->set_height(1);
@@ -54,6 +58,8 @@ void Velodyne16Parser::GeneratePointcloud(
 
 uint64_t Velodyne16Parser::GetTimestamp(double base_time, float time_offset,
                                         uint16_t block_id) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double t = base_time - time_offset;
   uint64_t timestamp = Velodyne16Parser::GetGpsStamp(t, &previous_packet_stamp_,
                                                      &gps_base_usec_);
@@ -67,6 +73,8 @@ uint64_t Velodyne16Parser::GetTimestamp(double base_time, float time_offset,
  */
 void Velodyne16Parser::Unpack(const VelodynePacket& pkt,
                               std::shared_ptr<PointCloud> pc) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   float azimuth_diff = 0.0f;
   float last_azimuth_diff = 0.0f;
   float azimuth_corrected_f = 0.0f;
@@ -158,6 +166,8 @@ void Velodyne16Parser::Unpack(const VelodynePacket& pkt,
 }
 
 void Velodyne16Parser::Order(std::shared_ptr<PointCloud> cloud) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int width = 16;
   cloud->set_width(width);
   int height = cloud->point_size() / cloud->width();

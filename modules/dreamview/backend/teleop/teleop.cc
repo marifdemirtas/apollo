@@ -66,6 +66,8 @@ const std::string planning_pad_channel = "/apollo/planning/pad";
 
 TeleopService::TeleopService(WebSocketHandler *websocket)
     : node_(cyber::CreateNode("teleop")), websocket_(websocket) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   RegisterMessageHandlers();
 
   teleop_status_["audio"] = false;
@@ -83,6 +85,8 @@ TeleopService::TeleopService(WebSocketHandler *websocket)
 }
 
 void TeleopService::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO get topic names from proto
   // TODO update proto to get all modems' info combined with rank
 
@@ -128,6 +132,8 @@ void TeleopService::Start() {
 }
 
 void TeleopService::RegisterMessageHandlers() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Send current teleop status to the new client.
   websocket_->RegisterConnectionReadyHandler(
       [this](WebSocketHandler::Connection *conn) { SendStatus(conn); });
@@ -258,6 +264,8 @@ void TeleopService::RegisterMessageHandlers() {
 }
 
 void TeleopService::SendStatus(WebSocketHandler::Connection *conn) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string to_send;
   {
     boost::shared_lock<boost::shared_mutex> reader_lock(mutex_);
@@ -268,6 +276,8 @@ void TeleopService::SendStatus(WebSocketHandler::Connection *conn) {
 
 void TeleopService::UpdateModem(const std::string &modem_id,
                                 const std::shared_ptr<ModemInfo> &modem_info) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO simplify data and only send necessary info for display
   // update modem_info_
   if (modem_info->has_technology()) {
@@ -294,6 +304,8 @@ void TeleopService::UpdateModem(const std::string &modem_id,
 // callback for messages that originate from the remote computer
 void TeleopService::UpdateCarDaemonRpt(
     const std::shared_ptr<DaemonRpt> &daemon_rpt) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   {
     bool videoIsRunning = false;
     bool voipIsRunning = false;
@@ -376,6 +388,8 @@ void TeleopService::UpdateCarDaemonRpt(
 // callback for messages that originate from this computer
 void TeleopService::UpdateOperatorDaemonRpt(
     const std::shared_ptr<DaemonRpt> &daemon_rpt) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   {
     bool voipIsRunning = false;
     for (int i = 0; i < daemon_rpt->services_size(); i++) {
@@ -418,6 +432,8 @@ void TeleopService::UpdateOperatorDaemonRpt(
 }
 
 void TeleopService::SendVideoStreamCmd(bool start_stop) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   DaemonCmd msg;
   if (start_stop) {
     msg.set_cmd(start_cmd);
@@ -440,6 +456,8 @@ void TeleopService::SendVideoStreamCmd(bool start_stop) {
 }
 
 void TeleopService::SendAudioStreamCmd(bool start_stop) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   DaemonCmd msg;
   if (start_stop) {
     msg.set_cmd(start_cmd);
@@ -455,6 +473,8 @@ void TeleopService::SendAudioStreamCmd(bool start_stop) {
 }
 
 void TeleopService::SendMicStreamCmd(bool start_stop) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // by switching on or off the voip_encoder in the local console
   // we are controlling the mic
   DaemonCmd msg;
@@ -470,6 +490,8 @@ void TeleopService::SendMicStreamCmd(bool start_stop) {
 }
 
 void TeleopService::SendResumeCruiseCmd() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Resume cruise";
   PadMessage pad_msg;
   pad_msg.set_action(DrivingAction::RESUME_CRUISE);
@@ -477,6 +499,8 @@ void TeleopService::SendResumeCruiseCmd() {
 }
 
 void TeleopService::SendEstopCmd() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Pull over";
   PadMessage pad_msg;
   pad_msg.set_action(DrivingAction::PULL_OVER);
@@ -484,6 +508,8 @@ void TeleopService::SendEstopCmd() {
 }
 
 void TeleopService::SendPullOverCmd() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "EStop";
   PadMessage pad_msg;
   pad_msg.set_action(DrivingAction::STOP);
@@ -491,6 +517,8 @@ void TeleopService::SendPullOverCmd() {
 }
 
 void TeleopService::UpdatePlanning(const std::shared_ptr<ADCTrajectory> &msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   static int count = 0;
   ++count;
 

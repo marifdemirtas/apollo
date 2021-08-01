@@ -25,6 +25,8 @@ namespace perception {
 namespace benchmark {
 
 bool LidarOption::set_options() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto iter = _options.find("JACCARD");
   if (iter != _options.end()) {
     if (iter->second.size() > 1) {

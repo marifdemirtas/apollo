@@ -27,15 +27,21 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Brakecommand101::ID = 0x101;
 
 // public
-Brakecommand101::Brakecommand101() { Reset(); }
+Brakecommand101::Brakecommand101() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Brakecommand101::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Brakecommand101::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_aeb_en_ctrl(data, aeb_en_ctrl_);
   set_p_brake_dec(data, brake_dec_);
   set_p_brake_pedal_target(data, brake_pedal_target_);
@@ -46,6 +52,8 @@ void Brakecommand101::UpdateData(uint8_t* data) {
 }
 
 void Brakecommand101::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  you should check this manually
   aeb_en_ctrl_ = Brake_command_101::AEB_EN_CTRL_DISABLE_AEB;
   brake_dec_ = 0.0;
@@ -56,6 +64,8 @@ void Brakecommand101::Reset() {
 
 Brakecommand101* Brakecommand101::set_aeb_en_ctrl(
     Brake_command_101::Aeb_en_ctrlType aeb_en_ctrl) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   aeb_en_ctrl_ = aeb_en_ctrl;
   return this;
 }
@@ -66,6 +76,8 @@ Brakecommand101* Brakecommand101::set_aeb_en_ctrl(
 // 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 void Brakecommand101::set_p_aeb_en_ctrl(
     uint8_t* data, Brake_command_101::Aeb_en_ctrlType aeb_en_ctrl) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = aeb_en_ctrl;
 
   Byte to_set(data + 0);
@@ -73,6 +85,8 @@ void Brakecommand101::set_p_aeb_en_ctrl(
 }
 
 Brakecommand101* Brakecommand101::set_brake_dec(double brake_dec) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   brake_dec_ = brake_dec;
   return this;
 }
@@ -81,6 +95,8 @@ Brakecommand101* Brakecommand101::set_brake_dec(double brake_dec) {
 // 'Brake_Dec', 'offset': 0.0, 'order': 'motorola', 'physical_range': '[0|10]',
 // 'physical_unit': 'm/s^2', 'precision': 0.01, 'type': 'double'}
 void Brakecommand101::set_p_brake_dec(uint8_t* data, double brake_dec) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   brake_dec = ProtocolData::BoundedValue(0.0, 10.0, brake_dec);
   int x = brake_dec / 0.010000;
   uint8_t t = 0;
@@ -96,6 +112,8 @@ void Brakecommand101::set_p_brake_dec(uint8_t* data, double brake_dec) {
 }
 
 Brakecommand101* Brakecommand101::set_checksum_101(int checksum_101) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   checksum_101_ = checksum_101;
   return this;
 }
@@ -104,6 +122,8 @@ Brakecommand101* Brakecommand101::set_checksum_101(int checksum_101) {
 // 'CheckSum_101', 'offset': 0.0, 'order': 'motorola', 'physical_range':
 // '[0|255]', 'physical_unit': '', 'precision': 1.0, 'type': 'int'}
 void Brakecommand101::set_p_checksum_101(uint8_t* data, int checksum_101) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   checksum_101 = ProtocolData::BoundedValue(0, 255, checksum_101);
   int x = checksum_101;
 
@@ -113,6 +133,8 @@ void Brakecommand101::set_p_checksum_101(uint8_t* data, int checksum_101) {
 
 Brakecommand101* Brakecommand101::set_brake_pedal_target(
     double brake_pedal_target) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   brake_pedal_target_ = brake_pedal_target;
   return this;
 }
@@ -122,6 +144,8 @@ Brakecommand101* Brakecommand101::set_brake_pedal_target(
 // '[0|100]', 'physical_unit': '%', 'precision': 0.1, 'type': 'double'}
 void Brakecommand101::set_p_brake_pedal_target(uint8_t* data,
                                                double brake_pedal_target) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   brake_pedal_target =
       ProtocolData::BoundedValue(0.0, 100.0, brake_pedal_target);
   int x = brake_pedal_target / 0.100000;
@@ -139,6 +163,8 @@ void Brakecommand101::set_p_brake_pedal_target(uint8_t* data,
 
 Brakecommand101* Brakecommand101::set_brake_en_ctrl(
     Brake_command_101::Brake_en_ctrlType brake_en_ctrl) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   brake_en_ctrl_ = brake_en_ctrl;
   return this;
 }
@@ -149,6 +175,8 @@ Brakecommand101* Brakecommand101::set_brake_en_ctrl(
 // '[0|1]', 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 void Brakecommand101::set_p_brake_en_ctrl(
     uint8_t* data, Brake_command_101::Brake_en_ctrlType brake_en_ctrl) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = brake_en_ctrl;
 
   Byte to_set(data + 0);

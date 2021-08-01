@@ -24,6 +24,8 @@ PaError err;
 
 // Helper functions
 void report_error(PaError err, const std::string &func_name) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AERROR << "an error occured while calling " << func_name;
   AERROR << "error number: " << err;
   AERROR << "error message: " << Pa_GetErrorText(err);
@@ -31,12 +33,16 @@ void report_error(PaError err, const std::string &func_name) {
 
 // Stream
 Stream::~Stream() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Pa_CloseStream(pastream_ptr_);
   free(input_parameters_ptr_);
 }
 
 void Stream::init_stream(int rate, int channels, int chunk,
                          int input_device_index, PaSampleFormat format) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Init parameters of input device
   input_parameters_ptr_ = new PaStreamParameters;
   input_parameters_ptr_->device = input_device_index;
@@ -60,6 +66,8 @@ void Stream::init_stream(int rate, int channels, int chunk,
 }
 
 void Stream::read_stream(int n_frames, char *buffer) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   err =
       Pa_ReadStream(pastream_ptr_, reinterpret_cast<void *>(buffer), n_frames);
   if (err != paNoError) {
@@ -69,9 +77,13 @@ void Stream::read_stream(int n_frames, char *buffer) const {
 }
 
 // Respeaker
-Respeaker::~Respeaker() { Pa_Terminate(); }
+Respeaker::~Respeaker() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Pa_Terminate(); }
 void Respeaker::init(
     const std::shared_ptr<const MicrophoneConfig> &microphone_config) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (microphone_config->microphone_model() != MicrophoneConfig::RESPEAKER) {
     AERROR << "Microphone driver only supports respeaker model in config file";
   }
@@ -91,6 +103,8 @@ void Respeaker::init(
 
 const PaSampleFormat Respeaker::get_format_from_width(int width,
                                                       bool is_unsigned) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   switch (width) {
     case 1:
       return is_unsigned ? paUInt8 : paInt8;
@@ -108,6 +122,8 @@ const PaSampleFormat Respeaker::get_format_from_width(int width,
 }
 
 const PaDeviceIndex Respeaker::get_respeaker_index() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // return index of respeaker
   const PaHostApiInfo *host_api_info = get_host_api_info(0);
   const PaDeviceInfo *device_info = nullptr;
@@ -125,6 +141,8 @@ const PaDeviceIndex Respeaker::get_respeaker_index() const {
 
 const PaDeviceInfo *Respeaker::get_device_info(
     const PaDeviceIndex index) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const PaDeviceInfo *device_info =
       reinterpret_cast<const PaDeviceInfo *>(Pa_GetDeviceInfo(index));
   if (!device_info) {
@@ -136,6 +154,8 @@ const PaDeviceInfo *Respeaker::get_device_info(
 
 const PaDeviceIndex Respeaker::host_api_device_index_to_device_index(
     const PaHostApiIndex host_api, const int host_api_device_index) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Get standard device index from host-API-specific device index
   PaDeviceIndex device_index =
       Pa_HostApiDeviceIndexToDeviceIndex(host_api, host_api_device_index);
@@ -147,6 +167,8 @@ const PaDeviceIndex Respeaker::host_api_device_index_to_device_index(
 
 const PaHostApiInfo *Respeaker::get_host_api_info(
     const PaHostApiIndex index) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Get host api info by it's index
   const PaHostApiInfo *pa_host_api_info =
       reinterpret_cast<const PaHostApiInfo *>(Pa_GetHostApiInfo(index));
@@ -157,6 +179,8 @@ const PaHostApiInfo *Respeaker::get_host_api_info(
 }
 
 void Respeaker::read_stream(int n_frames, char *buffer) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   stream_ptr_->read_stream(n_frames, buffer);
 }
 

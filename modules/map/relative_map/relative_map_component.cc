@@ -26,6 +26,8 @@ using apollo::localization::LocalizationEstimate;
 using apollo::perception::PerceptionObstacles;
 
 bool RelativeMapComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   vehicle_state_provider_ = std::make_shared<common::VehicleStateProvider>();
   InitReaders();
   return relative_map_.Init(vehicle_state_provider_.get()).ok() &&
@@ -33,6 +35,8 @@ bool RelativeMapComponent::Init() {
 }
 
 bool RelativeMapComponent::Proc() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto map_msg = std::make_shared<MapMsg>();
   if (!relative_map_.Process(map_msg.get())) {
     return false;
@@ -43,6 +47,8 @@ bool RelativeMapComponent::Proc() {
 }
 
 bool RelativeMapComponent::InitReaders() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   perception_reader_ = node_->CreateReader<PerceptionObstacles>(
       FLAGS_perception_obstacle_topic,
       [this](const std::shared_ptr<PerceptionObstacles>& perception_obstacles) {

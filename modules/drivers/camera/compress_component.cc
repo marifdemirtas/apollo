@@ -28,6 +28,8 @@ namespace drivers {
 namespace camera {
 
 bool CompressComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!GetProtoConfig(&config_)) {
     AERROR << "Parse config file failed: " << ConfigFilePath();
     return false;
@@ -48,6 +50,8 @@ bool CompressComponent::Init() {
 }
 
 bool CompressComponent::Proc(const std::shared_ptr<Image>& image) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ADEBUG << "procing compressed";
   auto compressed_image = image_pool_->GetObject();
   compressed_image->mutable_header()->CopyFrom(image->header());

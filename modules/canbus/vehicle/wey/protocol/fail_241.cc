@@ -27,11 +27,15 @@ namespace wey {
 
 using ::apollo::drivers::canbus::Byte;
 
-Fail241::Fail241() {}
+Fail241::Fail241() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Fail241::ID = 0x241;
 
 void Fail241::Parse(const std::uint8_t* bytes, int32_t length,
                     ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_wey()->mutable_fail_241()->set_engfail(
       engfail(bytes, length));
   chassis->mutable_wey()->mutable_fail_241()->set_espfail(
@@ -50,6 +54,8 @@ void Fail241::Parse(const std::uint8_t* bytes, int32_t length,
 // 'bit': 7, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Fail_241::EngfailType Fail241::engfail(const std::uint8_t* bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(7, 1);
 
@@ -63,6 +69,8 @@ Fail_241::EngfailType Fail241::engfail(const std::uint8_t* bytes,
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Fail_241::EspfailType Fail241::espfail(const std::uint8_t* bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(6, 1);
 
@@ -77,6 +85,8 @@ Fail_241::EspfailType Fail241::espfail(const std::uint8_t* bytes,
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Fail_241::EpbfailType Fail241::epbfail(const std::uint8_t* bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(2, 2);
 
@@ -94,6 +104,8 @@ Fail_241::EpbfailType Fail241::epbfail(const std::uint8_t* bytes,
 // 'physical_unit': ''}
 Fail_241::ShiftfailType Fail241::shiftfail(const std::uint8_t* bytes,
                                            int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(4, 4);
 
@@ -108,6 +120,8 @@ Fail_241::ShiftfailType Fail241::shiftfail(const std::uint8_t* bytes,
 // 'physical_unit': ''}
 Fail_241::EpsfailType Fail241::epsfail(const std::uint8_t* bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(5, 1);
 

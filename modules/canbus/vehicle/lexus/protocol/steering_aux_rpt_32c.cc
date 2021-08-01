@@ -27,11 +27,15 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Steeringauxrpt32c::Steeringauxrpt32c() {}
+Steeringauxrpt32c::Steeringauxrpt32c() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Steeringauxrpt32c::ID = 0x32C;
 
 void Steeringauxrpt32c::Parse(const std::uint8_t* bytes, int32_t length,
                               ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_lexus()
       ->mutable_steering_aux_rpt_32c()
       ->set_user_interaction_is_valid(user_interaction_is_valid(bytes, length));
@@ -60,6 +64,8 @@ void Steeringauxrpt32c::Parse(const std::uint8_t* bytes, int32_t length,
 // '[0|1]', 'bit': 59, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringauxrpt32c::user_interaction_is_valid(const std::uint8_t* bytes,
                                                   int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(3, 1);
 
@@ -72,6 +78,8 @@ bool Steeringauxrpt32c::user_interaction_is_valid(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringauxrpt32c::user_interaction(const std::uint8_t* bytes,
                                          int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 1);
 
@@ -84,6 +92,8 @@ bool Steeringauxrpt32c::user_interaction(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 58, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringauxrpt32c::rotation_rate_is_valid(const std::uint8_t* bytes,
                                                int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(2, 1);
 
@@ -96,6 +106,8 @@ bool Steeringauxrpt32c::rotation_rate_is_valid(const std::uint8_t* bytes,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad/s'}
 double Steeringauxrpt32c::rotation_rate(const std::uint8_t* bytes,
                                         int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 
@@ -113,6 +125,8 @@ double Steeringauxrpt32c::rotation_rate(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 57, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringauxrpt32c::raw_torque_is_valid(const std::uint8_t* bytes,
                                             int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(1, 1);
 
@@ -125,6 +139,8 @@ bool Steeringauxrpt32c::raw_torque_is_valid(const std::uint8_t* bytes,
 // 'bit': 23, 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Steeringauxrpt32c::raw_torque(const std::uint8_t* bytes,
                                      int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -145,6 +161,8 @@ double Steeringauxrpt32c::raw_torque(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 56, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringauxrpt32c::raw_position_is_valid(const std::uint8_t* bytes,
                                               int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 1);
 
@@ -157,6 +175,8 @@ bool Steeringauxrpt32c::raw_position_is_valid(const std::uint8_t* bytes,
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Steeringauxrpt32c::raw_position(const std::uint8_t* bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 

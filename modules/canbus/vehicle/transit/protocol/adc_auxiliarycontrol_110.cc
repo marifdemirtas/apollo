@@ -27,15 +27,21 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Adcauxiliarycontrol110::ID = 0x110;
 
 // public
-Adcauxiliarycontrol110::Adcauxiliarycontrol110() { Reset(); }
+Adcauxiliarycontrol110::Adcauxiliarycontrol110() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Adcauxiliarycontrol110::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 10 * 1000;
   return PERIOD;
 }
 
 void Adcauxiliarycontrol110::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_adc_auxcontrol_counter(data, adc_auxcontrol_counter_);
   set_p_adc_auxcontrol_checksum(data, adc_auxcontrol_checksum_);
   set_p_adc_cmd_inverter_controlenable(data, adc_cmd_inverter_controlenable_);
@@ -58,6 +64,8 @@ void Adcauxiliarycontrol110::UpdateData(uint8_t* data) {
 }
 
 void Adcauxiliarycontrol110::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  you should check this manually
   adc_auxcontrol_counter_ = 0;
   adc_auxcontrol_checksum_ = 0;
@@ -82,6 +90,8 @@ void Adcauxiliarycontrol110::Reset() {
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_auxcontrol_counter(
     int adc_auxcontrol_counter) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_auxcontrol_counter_ = adc_auxcontrol_counter;
   return this;
 }
@@ -92,6 +102,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_auxcontrol_counter(
 // 'order': 'intel', 'physical_unit': ''}
 void Adcauxiliarycontrol110::set_p_adc_auxcontrol_counter(
     uint8_t* data, int adc_auxcontrol_counter) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_auxcontrol_counter =
       ProtocolData::BoundedValue(0, 3, adc_auxcontrol_counter);
   uint8_t x = static_cast<uint8_t>(adc_auxcontrol_counter);
@@ -102,6 +114,8 @@ void Adcauxiliarycontrol110::set_p_adc_auxcontrol_counter(
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_auxcontrol_checksum(
     int adc_auxcontrol_checksum) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_auxcontrol_checksum_ = adc_auxcontrol_checksum;
   return this;
 }
@@ -112,6 +126,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_auxcontrol_checksum(
 // 'int', 'order': 'intel', 'physical_unit': ''}
 void Adcauxiliarycontrol110::set_p_adc_auxcontrol_checksum(
     uint8_t* data, int adc_auxcontrol_checksum) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_auxcontrol_checksum =
       ProtocolData::BoundedValue(0, 255, adc_auxcontrol_checksum);
   uint8_t x = static_cast<uint8_t>(adc_auxcontrol_checksum);
@@ -123,6 +139,8 @@ void Adcauxiliarycontrol110::set_p_adc_auxcontrol_checksum(
 Adcauxiliarycontrol110*
 Adcauxiliarycontrol110::set_adc_cmd_inverter_controlenable(
     bool adc_cmd_inverter_controlenable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_inverter_controlenable_ = adc_cmd_inverter_controlenable;
   return this;
 }
@@ -133,6 +151,8 @@ Adcauxiliarycontrol110::set_adc_cmd_inverter_controlenable(
 // '[0|1]', 'bit': 1, 'type': 'bool', 'order': 'intel', 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_inverter_controlenable(
     uint8_t* data, bool adc_cmd_inverter_controlenable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_inverter_controlenable;
 
   Byte to_set(data + 0);
@@ -141,6 +161,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_inverter_controlenable(
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_inverter(
     bool adc_cmd_inverter) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_inverter_ = adc_cmd_inverter;
   return this;
 }
@@ -151,6 +173,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_inverter(
 // 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_inverter(uint8_t* data,
                                                     bool adc_cmd_inverter) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_inverter;
 
   Byte to_set(data + 0);
@@ -159,6 +183,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_inverter(uint8_t* data,
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_wiper(
     int adc_cmd_wiper) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_wiper_ = adc_cmd_wiper;
   return this;
 }
@@ -169,6 +195,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_wiper(
 // 'physical_unit': ''}
 void Adcauxiliarycontrol110::set_p_adc_cmd_wiper(uint8_t* data,
                                                  int adc_cmd_wiper) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_wiper = ProtocolData::BoundedValue(0, 3, adc_cmd_wiper);
   uint8_t x = static_cast<uint8_t>(adc_cmd_wiper);
 
@@ -178,6 +206,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_wiper(uint8_t* data,
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_controlenable(
     bool adc_cmd_pdu_controlenable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_pdu_controlenable_ = adc_cmd_pdu_controlenable;
   return this;
 }
@@ -188,6 +218,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_controlenable(
 // '[0|1]', 'bit': 0, 'type': 'bool', 'order': 'intel', 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_controlenable(
     uint8_t* data, bool adc_cmd_pdu_controlenable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_pdu_controlenable;
 
   Byte to_set(data + 0);
@@ -196,6 +228,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_controlenable(
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch8(
     bool adc_cmd_pdu_ch8) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_pdu_ch8_ = adc_cmd_pdu_ch8;
   return this;
 }
@@ -206,6 +240,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch8(
 // 'order': 'intel', 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch8(uint8_t* data,
                                                    bool adc_cmd_pdu_ch8) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_pdu_ch8;
 
   Byte to_set(data + 1);
@@ -214,6 +250,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch8(uint8_t* data,
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch7(
     bool adc_cmd_pdu_ch7) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_pdu_ch7_ = adc_cmd_pdu_ch7;
   return this;
 }
@@ -224,6 +262,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch7(
 // 'order': 'intel', 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch7(uint8_t* data,
                                                    bool adc_cmd_pdu_ch7) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_pdu_ch7;
 
   Byte to_set(data + 1);
@@ -232,6 +272,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch7(uint8_t* data,
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch6(
     bool adc_cmd_pdu_ch6) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_pdu_ch6_ = adc_cmd_pdu_ch6;
   return this;
 }
@@ -242,6 +284,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch6(
 // 'order': 'intel', 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch6(uint8_t* data,
                                                    bool adc_cmd_pdu_ch6) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_pdu_ch6;
 
   Byte to_set(data + 1);
@@ -250,6 +294,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch6(uint8_t* data,
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch5(
     bool adc_cmd_pdu_ch5) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_pdu_ch5_ = adc_cmd_pdu_ch5;
   return this;
 }
@@ -260,6 +306,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch5(
 // 'order': 'intel', 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch5(uint8_t* data,
                                                    bool adc_cmd_pdu_ch5) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_pdu_ch5;
 
   Byte to_set(data + 1);
@@ -268,6 +316,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch5(uint8_t* data,
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch4(
     bool adc_cmd_pdu_ch4) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_pdu_ch4_ = adc_cmd_pdu_ch4;
   return this;
 }
@@ -278,6 +328,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch4(
 // 'order': 'intel', 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch4(uint8_t* data,
                                                    bool adc_cmd_pdu_ch4) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_pdu_ch4;
 
   Byte to_set(data + 1);
@@ -286,6 +338,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch4(uint8_t* data,
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch3(
     bool adc_cmd_pdu_ch3) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_pdu_ch3_ = adc_cmd_pdu_ch3;
   return this;
 }
@@ -296,6 +350,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch3(
 // 'order': 'intel', 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch3(uint8_t* data,
                                                    bool adc_cmd_pdu_ch3) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_pdu_ch3;
 
   Byte to_set(data + 1);
@@ -304,6 +360,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch3(uint8_t* data,
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch2(
     bool adc_cmd_pdu_ch2) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_pdu_ch2_ = adc_cmd_pdu_ch2;
   return this;
 }
@@ -314,6 +372,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch2(
 // 'order': 'intel', 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch2(uint8_t* data,
                                                    bool adc_cmd_pdu_ch2) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_pdu_ch2;
 
   Byte to_set(data + 1);
@@ -322,6 +382,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch2(uint8_t* data,
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch1(
     bool adc_cmd_pdu_ch1) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_pdu_ch1_ = adc_cmd_pdu_ch1;
   return this;
 }
@@ -332,6 +394,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_pdu_ch1(
 // 'order': 'intel', 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch1(uint8_t* data,
                                                    bool adc_cmd_pdu_ch1) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_pdu_ch1;
 
   Byte to_set(data + 1);
@@ -340,6 +404,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_pdu_ch1(uint8_t* data,
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_hazardlights(
     bool adc_cmd_hazardlights) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_hazardlights_ = adc_cmd_hazardlights;
   return this;
 }
@@ -350,6 +416,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_hazardlights(
 // 'intel', 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_hazardlights(
     uint8_t* data, bool adc_cmd_hazardlights) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_hazardlights;
 
   Byte to_set(data + 3);
@@ -358,6 +426,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_hazardlights(
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_highbeam(
     bool adc_cmd_highbeam) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_highbeam_ = adc_cmd_highbeam;
   return this;
 }
@@ -368,6 +438,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_highbeam(
 // 'intel', 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_highbeam(uint8_t* data,
                                                     bool adc_cmd_highbeam) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_highbeam;
 
   Byte to_set(data + 3);
@@ -376,6 +448,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_highbeam(uint8_t* data,
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_lowbeam(
     bool adc_cmd_lowbeam) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_lowbeam_ = adc_cmd_lowbeam;
   return this;
 }
@@ -386,6 +460,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_lowbeam(
 // 'intel', 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_lowbeam(uint8_t* data,
                                                    bool adc_cmd_lowbeam) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_lowbeam;
 
   Byte to_set(data + 3);
@@ -394,6 +470,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_lowbeam(uint8_t* data,
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_horn(
     bool adc_cmd_horn) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_horn_ = adc_cmd_horn;
   return this;
 }
@@ -404,6 +482,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_horn(
 // 'physical_unit': 'T/F'}
 void Adcauxiliarycontrol110::set_p_adc_cmd_horn(uint8_t* data,
                                                 bool adc_cmd_horn) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_horn;
 
   Byte to_set(data + 0);
@@ -412,6 +492,8 @@ void Adcauxiliarycontrol110::set_p_adc_cmd_horn(uint8_t* data,
 
 Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_turnsignal(
     Adc_auxiliarycontrol_110::Adc_cmd_turnsignalType adc_cmd_turnsignal) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   adc_cmd_turnsignal_ = adc_cmd_turnsignal;
   return this;
 }
@@ -425,6 +507,8 @@ Adcauxiliarycontrol110* Adcauxiliarycontrol110::set_adc_cmd_turnsignal(
 void Adcauxiliarycontrol110::set_p_adc_cmd_turnsignal(
     uint8_t* data,
     Adc_auxiliarycontrol_110::Adc_cmd_turnsignalType adc_cmd_turnsignal) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = adc_cmd_turnsignal;
 
   Byte to_set(data + 3);

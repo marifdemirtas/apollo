@@ -27,11 +27,15 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Headlightauxrpt318::Headlightauxrpt318() {}
+Headlightauxrpt318::Headlightauxrpt318() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Headlightauxrpt318::ID = 0x318;
 
 void Headlightauxrpt318::Parse(const std::uint8_t* bytes, int32_t length,
                                ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_lexus()
       ->mutable_headlight_aux_rpt_318()
       ->set_headlights_mode_is_valid(headlights_mode_is_valid(bytes, length));
@@ -62,6 +66,8 @@ void Headlightauxrpt318::Parse(const std::uint8_t* bytes, int32_t length,
 // '[0|1]', 'bit': 19, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Headlightauxrpt318::headlights_mode_is_valid(const std::uint8_t* bytes,
                                                   int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(3, 1);
 
@@ -77,6 +83,8 @@ bool Headlightauxrpt318::headlights_mode_is_valid(const std::uint8_t* bytes,
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Headlight_aux_rpt_318::Headlights_modeType Headlightauxrpt318::headlights_mode(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -90,6 +98,8 @@ Headlight_aux_rpt_318::Headlights_modeType Headlightauxrpt318::headlights_mode(
 // '[0|1]', 'bit': 18, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Headlightauxrpt318::fog_lights_on_is_valid(const std::uint8_t* bytes,
                                                 int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(2, 1);
 
@@ -102,6 +112,8 @@ bool Headlightauxrpt318::fog_lights_on_is_valid(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Headlightauxrpt318::fog_lights_on(const std::uint8_t* bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
 
@@ -114,6 +126,8 @@ bool Headlightauxrpt318::fog_lights_on(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 17, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Headlightauxrpt318::headlights_on_bright_is_valid(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(1, 1);
 
@@ -126,6 +140,8 @@ bool Headlightauxrpt318::headlights_on_bright_is_valid(
 // '[0|1]', 'bit': 1, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Headlightauxrpt318::headlights_on_bright(const std::uint8_t* bytes,
                                               int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
 
@@ -138,6 +154,8 @@ bool Headlightauxrpt318::headlights_on_bright(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 16, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Headlightauxrpt318::headlights_on_is_valid(const std::uint8_t* bytes,
                                                 int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 1);
 
@@ -150,6 +168,8 @@ bool Headlightauxrpt318::headlights_on_is_valid(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Headlightauxrpt318::headlights_on(const std::uint8_t* bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 

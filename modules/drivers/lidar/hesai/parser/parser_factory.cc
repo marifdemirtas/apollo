@@ -27,6 +27,8 @@ using ::apollo::cyber::Node;
 
 Parser* ParserFactory::CreateParser(const std::shared_ptr<Node>& node,
                                     const Config& conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (conf.model() == HESAI40P) {
     return new Hesai40Parser(node, conf);
   } else if (conf.model() == HESAI64) {

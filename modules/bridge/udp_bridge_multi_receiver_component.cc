@@ -24,9 +24,13 @@ namespace apollo {
 namespace bridge {
 
 UDPBridgeMultiReceiverComponent::UDPBridgeMultiReceiverComponent()
-    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {}
+    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool UDPBridgeMultiReceiverComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "UDP bridge multi :receiver init, startin...";
   apollo::bridge::UDPBridgeReceiverRemoteInfo udp_bridge_remote;
   if (!this->GetProtoConfig(&udp_bridge_remote)) {
@@ -46,11 +50,15 @@ bool UDPBridgeMultiReceiverComponent::Init() {
 }
 
 bool UDPBridgeMultiReceiverComponent::InitSession(uint16_t port) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return listener_->Initialize(
       this, &UDPBridgeMultiReceiverComponent::MsgHandle, port);
 }
 
 void UDPBridgeMultiReceiverComponent::MsgDispatcher() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ADEBUG << "msg dispatcher start successful.";
   listener_->Listen();
 }
@@ -58,6 +66,8 @@ void UDPBridgeMultiReceiverComponent::MsgDispatcher() {
 std::shared_ptr<ProtoDiserializedBufBase>
 UDPBridgeMultiReceiverComponent::CreateBridgeProtoBuf(
     const BridgeHeader &header) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::shared_ptr<ProtoDiserializedBufBase> proto_buf;
   if (IsTimeout(header.GetTimeStamp())) {
     std::vector<std::shared_ptr<ProtoDiserializedBufBase>>::iterator itor =
@@ -88,6 +98,8 @@ UDPBridgeMultiReceiverComponent::CreateBridgeProtoBuf(
 }
 
 bool UDPBridgeMultiReceiverComponent::IsProtoExist(const BridgeHeader &header) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (auto proto : proto_list_) {
     if (proto->IsTheProto(header)) {
       return true;
@@ -97,6 +109,8 @@ bool UDPBridgeMultiReceiverComponent::IsProtoExist(const BridgeHeader &header) {
 }
 
 bool UDPBridgeMultiReceiverComponent::IsTimeout(double time_stamp) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (enable_timeout_ == false) {
     return false;
   }
@@ -111,6 +125,8 @@ bool UDPBridgeMultiReceiverComponent::IsTimeout(double time_stamp) {
 }
 
 bool UDPBridgeMultiReceiverComponent::MsgHandle(int fd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   struct sockaddr_in client_addr;
   socklen_t sock_len = static_cast<socklen_t>(sizeof(client_addr));
   int total_recv = 2 * FRAME_SIZE;
@@ -171,6 +187,8 @@ bool UDPBridgeMultiReceiverComponent::MsgHandle(int fd) {
 
 bool UDPBridgeMultiReceiverComponent::RemoveInvalidBuf(
     uint32_t msg_id, const std::string &msg_name) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (msg_id == 0) {
     return false;
   }

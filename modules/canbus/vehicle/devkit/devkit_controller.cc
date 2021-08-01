@@ -45,6 +45,8 @@ ErrorCode DevkitController::Init(
     const VehicleParameter& params,
     CanSender<::apollo::canbus::ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (is_initialized_) {
     AINFO << "DevkitController has already been initiated.";
     return ErrorCode::CANBUS_ERROR;
@@ -118,9 +120,13 @@ ErrorCode DevkitController::Init(
   return ErrorCode::OK;
 }
 
-DevkitController::~DevkitController() {}
+DevkitController::~DevkitController() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool DevkitController::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_initialized_) {
     AERROR << "DevkitController has NOT been initiated.";
     return false;
@@ -132,6 +138,8 @@ bool DevkitController::Start() {
 }
 
 void DevkitController::Stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_initialized_) {
     AERROR << "DevkitController stops or starts improperly!";
     return;
@@ -145,6 +153,8 @@ void DevkitController::Stop() {
 }
 
 Chassis DevkitController::chassis() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis_.Clear();
 
   ChassisDetail chassis_detail;
@@ -274,11 +284,15 @@ Chassis DevkitController::chassis() {
 }
 
 void DevkitController::Emergency() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
 }
 
 ErrorCode DevkitController::EnableAutoMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
     AINFO << "already in COMPLETE_AUTO_DRIVE mode";
     return ErrorCode::OK;
@@ -314,6 +328,8 @@ ErrorCode DevkitController::EnableAutoMode() {
 }
 
 ErrorCode DevkitController::DisableAutoMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ResetProtocol();
   can_sender_->Update();
   set_driving_mode(Chassis::COMPLETE_MANUAL);
@@ -323,6 +339,8 @@ ErrorCode DevkitController::DisableAutoMode() {
 }
 
 ErrorCode DevkitController::EnableSteeringOnlyMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_STEER_ONLY) {
     set_driving_mode(Chassis::AUTO_STEER_ONLY);
@@ -334,6 +352,8 @@ ErrorCode DevkitController::EnableSteeringOnlyMode() {
 }
 
 ErrorCode DevkitController::EnableSpeedOnlyMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_SPEED_ONLY) {
     set_driving_mode(Chassis::AUTO_SPEED_ONLY);
@@ -346,6 +366,8 @@ ErrorCode DevkitController::EnableSpeedOnlyMode() {
 
 // NEUTRAL, REVERSE, DRIVE
 void DevkitController::Gear(Chassis::GearPosition gear_position) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
     AINFO << "This drive mode no need to set gear.";
@@ -382,6 +404,8 @@ void DevkitController::Gear(Chassis::GearPosition gear_position) {
 // brake with pedal
 // pedal:0.00~99.99, unit:%
 void DevkitController::Brake(double pedal) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // double real_value = params_.max_acc() * acceleration / 100;
   // TODO(All) :  Update brake value based on mode
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
@@ -395,6 +419,8 @@ void DevkitController::Brake(double pedal) {
 // drive with pedal
 // pedal:0.0~99.9 unit:%
 void DevkitController::Throttle(double pedal) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
     AINFO << "The current drive mode does not need to set throttle pedal.";
@@ -406,6 +432,8 @@ void DevkitController::Throttle(double pedal) {
 // confirm the car is driven by acceleration command instead of throttle/brake
 // pedal drive with acceleration/deceleration acc:-7.0 ~ 5.0, unit:m/s^2
 void DevkitController::Acceleration(double acc) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
     AINFO << "The current drive mode does not need to set acceleration.";
@@ -419,6 +447,8 @@ void DevkitController::Acceleration(double acc) {
 // steering with default angle speed, 25-250 (default:250)
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 void DevkitController::Steer(double angle) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
     AINFO << "The current driving mode does not need to set steer.";
@@ -434,6 +464,8 @@ void DevkitController::Steer(double angle) {
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 // angle_spd:25~250, unit:deg/s
 void DevkitController::Steer(double angle, double angle_spd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
     AINFO << "The current driving mode does not need to set steer.";
@@ -446,6 +478,8 @@ void DevkitController::Steer(double angle, double angle_spd) {
 }
 
 void DevkitController::SetEpbBreak(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (command.parking_brake()) {
     // None
   } else {
@@ -454,6 +488,8 @@ void DevkitController::SetEpbBreak(const ControlCommand& command) {
 }
 
 void DevkitController::SetBeam(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (command.signal().high_beam()) {
     // None
   } else if (command.signal().low_beam()) {
@@ -464,6 +500,8 @@ void DevkitController::SetBeam(const ControlCommand& command) {
 }
 
 void DevkitController::SetHorn(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (command.signal().horn()) {
     // None
   } else {
@@ -472,14 +510,20 @@ void DevkitController::SetHorn(const ControlCommand& command) {
 }
 
 void DevkitController::SetTurningSignal(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Set Turn Signal do not support on devkit
 }
 
 void DevkitController::ResetProtocol() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   message_manager_->ResetSendMessages();
 }
 
 bool DevkitController::CheckChassisError() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ChassisDetail chassis_detail;
   message_manager_->GetSensorData(&chassis_detail);
   if (!chassis_detail.has_devkit()) {
@@ -516,6 +560,8 @@ bool DevkitController::CheckChassisError() {
 }
 
 void DevkitController::SecurityDogThreadFunc() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
 
@@ -582,6 +628,8 @@ void DevkitController::SecurityDogThreadFunc() {
 }
 
 bool DevkitController::CheckResponse(const int32_t flags, bool need_wait) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int32_t retry_num = 20;
   ChassisDetail chassis_detail;
   bool is_eps_online = false;
@@ -630,22 +678,30 @@ bool DevkitController::CheckResponse(const int32_t flags, bool need_wait) {
 }
 
 void DevkitController::set_chassis_error_mask(const int32_t mask) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t DevkitController::chassis_error_mask() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode DevkitController::chassis_error_code() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
 }
 
 void DevkitController::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
 }

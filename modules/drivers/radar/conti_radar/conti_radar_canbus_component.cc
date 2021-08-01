@@ -44,10 +44,16 @@ using apollo::localization::LocalizationEstimate;
 
 ContiRadarCanbusComponent::ContiRadarCanbusComponent()
     : monitor_logger_buffer_(
-          apollo::common::monitor::MonitorMessageItem::CONTI_RADAR) {}
-ContiRadarCanbusComponent::~ContiRadarCanbusComponent() { Stop(); }
+          apollo::common::monitor::MonitorMessageItem::CONTI_RADAR) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
+ContiRadarCanbusComponent::~ContiRadarCanbusComponent() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Stop(); }
 
 bool ContiRadarCanbusComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!GetProtoConfig(&conti_radar_conf_)) {
     return OnError("Unable to load canbus conf file: " + ConfigFilePath());
   }
@@ -93,6 +99,8 @@ bool ContiRadarCanbusComponent::Init() {
 }
 
 apollo::common::ErrorCode ContiRadarCanbusComponent::ConfigureRadar() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   RadarConfig200 radar_config;
   radar_config.set_radar_conf(conti_radar_conf_.radar_conf());
   SenderMessage<ContiRadar> sender_message(RadarConfig200::ID, &radar_config);
@@ -101,6 +109,8 @@ apollo::common::ErrorCode ContiRadarCanbusComponent::ConfigureRadar() {
 }
 
 bool ContiRadarCanbusComponent::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // 1. init and start the can card hardware
   if (can_client_->Start() != ErrorCode::OK) {
     return OnError("Failed to start can client");
@@ -123,6 +133,8 @@ bool ContiRadarCanbusComponent::Start() {
 }
 
 void ContiRadarCanbusComponent::Stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (start_success_) {
     can_receiver_.Stop();
     can_client_->Stop();
@@ -131,6 +143,8 @@ void ContiRadarCanbusComponent::Stop() {
 
 // Send the error to monitor and return it
 bool ContiRadarCanbusComponent::OnError(const std::string& error_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   monitor_logger_buffer_.ERROR(error_msg);
   AERROR << error_msg;
   return false;
@@ -138,6 +152,8 @@ bool ContiRadarCanbusComponent::OnError(const std::string& error_msg) {
 
 void ContiRadarCanbusComponent::PoseCallback(
     const std::shared_ptr<LocalizationEstimate>& pose_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto send_interval = conti_radar_conf_.radar_conf().input_send_interval();
   uint64_t now_nsec = cyber::Time().Now().ToNanosecond();
   if (last_nsec_ != 0 && (now_nsec - last_nsec_) < send_interval) {

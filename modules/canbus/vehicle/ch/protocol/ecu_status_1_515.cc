@@ -25,11 +25,15 @@ namespace ch {
 
 using ::apollo::drivers::canbus::Byte;
 
-Ecustatus1515::Ecustatus1515() {}
+Ecustatus1515::Ecustatus1515() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Ecustatus1515::ID = 0x515;
 
 void Ecustatus1515::Parse(const std::uint8_t* bytes, int32_t length,
                           ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_ch()->mutable_ecu_status_1_515()->set_speed(
       speed(bytes, length));
   chassis->mutable_ch()->mutable_ecu_status_1_515()->set_acc_speed(
@@ -47,6 +51,8 @@ void Ecustatus1515::Parse(const std::uint8_t* bytes, int32_t length,
 // 'physical_range': '[0|0]', 'bit': 0, 'type': 'double', 'order': 'intel',
 // 'physical_unit': 'm/s'}
 double Ecustatus1515::speed(const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -68,6 +74,8 @@ double Ecustatus1515::speed(const std::uint8_t* bytes, int32_t length) const {
 // 'double', 'order': 'intel', 'physical_unit': 'm/s^2'}
 double Ecustatus1515::acc_speed(const std::uint8_t* bytes,
                                 int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 
@@ -90,6 +98,8 @@ double Ecustatus1515::acc_speed(const std::uint8_t* bytes,
 // 'intel', 'physical_unit': ''}
 Ecu_status_1_515::Ctrl_stsType Ecustatus1515::ctrl_sts(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 
@@ -104,6 +114,8 @@ Ecu_status_1_515::Ctrl_stsType Ecustatus1515::ctrl_sts(
 // 'int', 'order': 'intel', 'physical_unit': ''}
 int Ecustatus1515::chassis_sts(const std::uint8_t* bytes,
                                int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);
 
@@ -117,6 +129,8 @@ int Ecustatus1515::chassis_sts(const std::uint8_t* bytes,
 // 'int', 'order': 'intel', 'physical_unit': ''}
 int Ecustatus1515::chassis_err(const std::uint8_t* bytes,
                                int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
 

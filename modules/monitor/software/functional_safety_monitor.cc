@@ -32,6 +32,8 @@ namespace monitor {
 namespace {
 
 bool IsSafe(const std::string& name, const ComponentStatus& status) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (status.status() == ComponentStatus::ERROR ||
       status.status() == ComponentStatus::FATAL) {
     MonitorManager::Instance()->LogBuffer().ERROR(
@@ -44,9 +46,13 @@ bool IsSafe(const std::string& name, const ComponentStatus& status) {
 }  // namespace
 
 FunctionalSafetyMonitor::FunctionalSafetyMonitor()
-    : RecurrentRunner(FLAGS_functional_safety_monitor_name, 0) {}
+    : RecurrentRunner(FLAGS_functional_safety_monitor_name, 0) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void FunctionalSafetyMonitor::RunOnce(const double current_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto* system_status = MonitorManager::Instance()->GetStatus();
   // Everything looks good or has been handled properly.
   if (CheckSafety()) {
@@ -76,6 +82,8 @@ void FunctionalSafetyMonitor::RunOnce(const double current_time) {
 }
 
 bool FunctionalSafetyMonitor::CheckSafety() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // We only check safety in self driving mode.
   auto manager = MonitorManager::Instance();
   if (!manager->IsInAutonomousMode()) {

@@ -18,10 +18,14 @@
 #include <limits>
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace perception {
 namespace camera {
 
 void ObjMapperParams::set_default() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   nr_bins_z = 15;
   nr_bins_ry = 36;
   boundary_len = 20;
@@ -48,6 +52,8 @@ bool ObjMapper::SolveCenterFromNearestVerticalEdge(const float *bbox,
                                                    const float *hwl, float ry,
                                                    float *center,
                                                    float *center_2d) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   center[0] = center[1] = center[2] = 0.0f;
   float height_bbox = bbox[3] - bbox[1];
   float width_bbox = bbox[2] - bbox[0];
@@ -89,6 +95,8 @@ bool ObjMapper::SolveCenterFromNearestVerticalEdge(const float *bbox,
 
 bool ObjMapper::Solve3dBboxGivenOneFullBboxDimensionOrientation(
     const float *bbox, const float *hwl, float *ry, float *center) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const float PI = common::Constant<float>::PI();
   const float PI_HALF = PI / 2;
   const float small_angle_diff =
@@ -123,6 +131,8 @@ bool ObjMapper::Solve3dBboxGivenOneFullBboxDimensionOrientation(
 
 bool ObjMapper::Solve3dBbox(const ObjMapperOptions &options, float center[3],
                             float hwl[3], float *ry) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // set default value for variance
   set_default_variance();
   float var_yaw = 0.0f;
@@ -222,6 +232,8 @@ bool ObjMapper::Solve3dBbox(const ObjMapperOptions &options, float center[3],
 
 void ObjMapper::PostRefineOrientation(const float *bbox, const float *hwl,
                                       const float *center, float *ry) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const int kNrBinsRy = static_cast<int>(ry_score_.size());
   const float PI = common::Constant<float>::PI();
   const float PI_HALF = PI * 0.5f;
@@ -271,6 +283,8 @@ void ObjMapper::PostRefineOrientation(const float *bbox, const float *hwl,
 void ObjMapper::GetCenter(const float *bbox, const float &z_ref,
                           const float &ry, const float *hwl, float *center,
                           float *x) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   float x_target[2] = {(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2};
   const float kMinCost = params_.reproj_err;
   const float EPS_COST_DELTA = params_.eps_mapper;

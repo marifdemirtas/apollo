@@ -22,10 +22,14 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace perception {
 namespace camera {
 
 PlaneMotion::PlaneMotion(int s) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_buffer_size(s);
   if (mat_motion_sensor_.rows() == 3 && mat_motion_sensor_.cols() == 3) {
     is_3d_motion_ = false;
@@ -38,6 +42,8 @@ PlaneMotion::PlaneMotion(int s) {
 }
 
 PlaneMotion::~PlaneMotion(void) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (mot_buffer_ != nullptr) {
     mot_buffer_->clear();
     mot_buffer_ = nullptr;
@@ -46,6 +52,8 @@ PlaneMotion::~PlaneMotion(void) {
 
 // Generate the inverse motion for past trajectory
 void PlaneMotion::generate_motion_matrix(base::VehicleStatus *vehicledata) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   float time_d = static_cast<float>(vehicledata->time_d);
   if (!is_3d_motion_) {
     base::MotionType motion_2d = base::MotionType::Identity();
@@ -98,6 +106,8 @@ void PlaneMotion::generate_motion_matrix(base::VehicleStatus *vehicledata) {
 
 void PlaneMotion::accumulate_motion(const double start_time,
                                     const double end_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // accumulate CAN+IMU / Localization motion
   auto iter = raw_motion_queue_.begin();
   for (; iter != raw_motion_queue_.end() && iter->time_ts <= end_time; ++iter) {
@@ -116,6 +126,8 @@ void PlaneMotion::accumulate_motion(const double start_time,
 void PlaneMotion::update_motion_buffer(const base::VehicleStatus &vehicledata,
                                        const double pre_image_timestamp,
                                        const double image_timestamp) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(mutex_);
   // compute the projection from pevious frames to the last frame
   for (size_t k = 0; k < mot_buffer_->size(); ++k) {
@@ -139,6 +151,8 @@ void PlaneMotion::update_motion_buffer(const base::VehicleStatus &vehicledata,
 
 bool PlaneMotion::find_motion_with_timestamp(double timestamp,
                                              base::VehicleStatus *vs) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(mutex_);
   ADEBUG << "mot_buffer_->size(): " << mot_buffer_->size();
 
@@ -153,6 +167,8 @@ bool PlaneMotion::find_motion_with_timestamp(double timestamp,
 }
 
 base::MotionBuffer PlaneMotion::get_buffer() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(mutex_);
   return *mot_buffer_;
 }
@@ -161,6 +177,8 @@ void PlaneMotion::add_new_motion(double pre_image_timestamp,
                                  double image_timestamp,
                                  int motion_operation_flag,
                                  base::VehicleStatus *vehicledata) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   while (!raw_motion_queue_.empty() &&
          vehicledata->time_ts < raw_motion_queue_.back().time_ts) {
     raw_motion_queue_.pop_back();

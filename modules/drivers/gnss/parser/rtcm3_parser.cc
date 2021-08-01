@@ -33,10 +33,14 @@ constexpr bool is_zero(T value) {
 }  // namespace
 
 Parser *Parser::CreateRtcmV3(bool is_base_station) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return new Rtcm3Parser(is_base_station);
 }
 
 Rtcm3Parser::Rtcm3Parser(bool is_base_station) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (1 != init_rtcm(&rtcm_)) {
     init_flag_ = true;
   } else {
@@ -49,6 +53,8 @@ Rtcm3Parser::Rtcm3Parser(bool is_base_station) {
 }
 
 bool Rtcm3Parser::SetStationPosition() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto iter = station_location_.find(rtcm_.staid);
   if (iter == station_location_.end()) {
     AWARN << "Station " << rtcm_.staid << " has no location info.";
@@ -63,6 +69,8 @@ bool Rtcm3Parser::SetStationPosition() {
 
 void Rtcm3Parser::FillKepplerOrbit(
     const eph_t &eph, apollo::drivers::gnss::KepplerOrbit *keppler_orbit) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   keppler_orbit->set_week_num(eph.week);
 
   keppler_orbit->set_af0(eph.f0);
@@ -106,6 +114,8 @@ void Rtcm3Parser::FillKepplerOrbit(
 
 void Rtcm3Parser::FillGlonassOrbit(const geph_t &eph,
                                    apollo::drivers::gnss::GlonassOrbit *orbit) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   orbit->set_position_x(eph.pos[0]);
   orbit->set_position_y(eph.pos[1]);
   orbit->set_position_z(eph.pos[2]);
@@ -145,6 +155,8 @@ void Rtcm3Parser::FillGlonassOrbit(const geph_t &eph,
 }
 
 void Rtcm3Parser::SetObservationTime() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int week = 0;
   double second = time2gpst(rtcm_.time, &week);
   observation_.set_gnss_time_type(apollo::drivers::gnss::GPS_TIME);
@@ -153,6 +165,8 @@ void Rtcm3Parser::SetObservationTime() {
 }
 
 Parser::MessageType Rtcm3Parser::GetMessage(MessagePtr *message_ptr) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (data_ == nullptr) {
     return MessageType::NONE;
   }
@@ -189,6 +203,8 @@ Parser::MessageType Rtcm3Parser::GetMessage(MessagePtr *message_ptr) {
 }
 
 bool Rtcm3Parser::ProcessObservation() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (rtcm_.obs.n == 0) {
     AWARN << "Obs is zero.";
   }
@@ -262,6 +278,8 @@ bool Rtcm3Parser::ProcessObservation() {
 }
 
 bool Rtcm3Parser::ProcessEphemerides() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   apollo::drivers::gnss::GnssType gnss_type;
 
   if (!gnss_sys(rtcm_.message_type, &gnss_type)) {
@@ -293,6 +311,8 @@ bool Rtcm3Parser::ProcessEphemerides() {
 }
 
 bool Rtcm3Parser::ProcessStationParameters() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // station pose/ant parameters, set pose.
 
   // update station location

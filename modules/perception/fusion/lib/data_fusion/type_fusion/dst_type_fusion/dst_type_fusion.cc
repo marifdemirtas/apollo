@@ -46,6 +46,8 @@ DstTypeFusionOptions DstTypeFusion::options_;
 
 DstTypeFusion::DstTypeFusion(TrackPtr track)
     : BaseTypeFusion(track), fused_dst_(name_) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Dst sensor_dst(name_);
   sensor_dst =
       TypeProbsToDst(track->GetFusedObject()->GetBaseObject()->type_probs);
@@ -65,6 +67,8 @@ DstTypeFusion::DstTypeFusion(TrackPtr track)
 }
 
 bool DstTypeFusion::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   BaseInitOptions options;
   if (!GetFusionInitOptions("DstTypeFusion", &options)) {
     AERROR << "GetFusionInitOptions failed ";
@@ -116,6 +120,8 @@ bool DstTypeFusion::Init() {
 
 void DstTypeFusion::UpdateWithMeasurement(const SensorObjectPtr measurement,
                                           double target_timestamp) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Dst measurement_dst(name_);
   measurement_dst = TypeProbsToDst(measurement->GetBaseObject()->type_probs);
   ADEBUG << "type_probs: "
@@ -135,6 +141,8 @@ void DstTypeFusion::UpdateWithoutMeasurement(const std::string &sensor_id,
                                              double measurement_timestamp,
                                              double target_timestamp,
                                              double min_match_dist) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   common::SensorManager *sensor_manager = common::SensorManager::Instance();
   if (sensor_manager->IsCamera(sensor_id)) {
     // add the evidence of OTHERS_UNMOVABLE
@@ -198,10 +206,14 @@ void DstTypeFusion::UpdateWithoutMeasurement(const std::string &sensor_id,
   }
 }
 
-std::string DstTypeFusion::Name() const { return name_; }
+std::string DstTypeFusion::Name() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return name_; }
 
 bool DstTypeFusion::TypToHyp(size_t object_type,
                              uint64_t *hypothesis_type) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto find_res = dst_maps_.typ_to_hyp_map_.find(object_type);
   if (find_res == dst_maps_.typ_to_hyp_map_.end()) {
     return false;
@@ -212,6 +224,8 @@ bool DstTypeFusion::TypToHyp(size_t object_type,
 
 bool DstTypeFusion::HypToTyp(uint64_t hypothesis_type,
                              size_t *object_type) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto find_res = dst_maps_.hyp_to_typ_map_.find(hypothesis_type);
   if (find_res == dst_maps_.hyp_to_typ_map_.end()) {
     return false;
@@ -221,6 +235,8 @@ bool DstTypeFusion::HypToTyp(uint64_t hypothesis_type,
 }
 
 Dst DstTypeFusion::TypeProbsToDst(const std::vector<float> &type_probs) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Dst res_dst(name_);
   double type_probs_sum =
       std::accumulate(type_probs.begin(), type_probs.end(), 0.0);
@@ -256,6 +272,8 @@ Dst DstTypeFusion::TypeProbsToDst(const std::vector<float> &type_probs) {
 }
 
 double DstTypeFusion::GetReliability(const std::string &sensor_id) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto find_res = options_.sensor_reliability_.find(sensor_id);
   if (find_res == options_.sensor_reliability_.end()) {
     ADEBUG << "the sensor type: " << sensor_id
@@ -267,6 +285,8 @@ double DstTypeFusion::GetReliability(const std::string &sensor_id) const {
 
 double DstTypeFusion::GetReliabilityForUnKnown(
     const std::string &sensor_id, double measurement_timestamp) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto find_res = options_.sensor_reliability_for_unknown_.find(sensor_id);
   if (find_res == options_.sensor_reliability_for_unknown_.end()) {
     ADEBUG << "the sensor type: " << sensor_id
@@ -285,6 +305,8 @@ double DstTypeFusion::GetReliabilityForUnKnown(
 }
 
 void DstTypeFusion::UpdateTypeState() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const std::vector<double> &fused_dst_vec = fused_dst_.GetBbaVec();
   auto max_iter = std::max_element(fused_dst_vec.begin(), fused_dst_vec.end());
   size_t max_hyp_ind = max_iter - fused_dst_vec.begin();

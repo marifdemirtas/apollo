@@ -23,6 +23,8 @@ namespace audio {
 
 MovingResult MovingDetection::Detect(
     const std::vector<std::vector<double>>& signals) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int approaching_count = 0;
   int departing_count = 0;
   for (std::size_t i = 0; i < signals.size(); ++i) {
@@ -47,6 +49,8 @@ MovingResult MovingDetection::Detect(
 
 MovingResult MovingDetection::DetectSingleChannel(
     const std::size_t channel_index, const std::vector<double>& signals) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   static constexpr int kStartFrequency = 3;
   static constexpr int kFrameNumStored = 10;
   std::vector<std::complex<double>> fft_results = fft1d(signals);
@@ -68,6 +72,8 @@ MovingResult MovingDetection::DetectSingleChannel(
 
 MovingResult MovingDetection::AnalyzePower(
     const std::deque<SignalStat>& signal_stats) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int n = static_cast<int>(signal_stats.size());
   if (n < 3) {
     return UNKNOWN;
@@ -86,6 +92,8 @@ MovingResult MovingDetection::AnalyzePower(
 
 MovingResult MovingDetection::AnalyzeTopFrequence(
     const std::deque<SignalStat>& signal_stats) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int n = static_cast<int>(signal_stats.size());
   if (n < 3) {
     return UNKNOWN;
@@ -104,6 +112,8 @@ MovingResult MovingDetection::AnalyzeTopFrequence(
 
 std::vector<std::complex<double>> MovingDetection::fft1d(
     const std::vector<double>& signal) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int n = static_cast<int>(signal.size());
   fftw_complex in[n];  // NOLINT
   fftw_complex out[n];  // NOLINT
@@ -126,6 +136,8 @@ std::vector<std::complex<double>> MovingDetection::fft1d(
 MovingDetection::SignalStat MovingDetection::GetSignalStat(
     const std::vector<std::complex<double>>& fft_results,
     const int start_frequency) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double total_power = 0.0;
   int top_frequency = -1;
   double max_power = -1.0;

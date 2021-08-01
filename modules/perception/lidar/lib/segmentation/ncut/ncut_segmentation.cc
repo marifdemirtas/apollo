@@ -35,6 +35,8 @@ using apollo::cyber::common::GetProtoFromFile;
 using Eigen::MatrixXf;
 
 bool NCutSegmentation::Init(const SegmentationInitOptions& options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string param_file;
   ACHECK(GetConfigs(&param_file));
   AINFO << "--    param_file: " << param_file;
@@ -127,6 +129,8 @@ bool NCutSegmentation::Init(const SegmentationInitOptions& options) {
 }
 
 bool NCutSegmentation::Configure(std::string param_file) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   NCutSegmentationParam seg_param_;
   // get cnnseg params
   ACHECK(GetProtoFromFile(param_file, &seg_param_))
@@ -151,6 +155,8 @@ bool NCutSegmentation::Configure(std::string param_file) {
 }
 
 bool NCutSegmentation::GetConfigs(std::string* param_file) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig("NCutSegmentation", &model_config))
@@ -173,6 +179,8 @@ bool NCutSegmentation::GetConfigs(std::string* param_file) {
 
 bool NCutSegmentation::Segment(const SegmentationOptions& options,
                                LidarFrame* frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // check input
   if (frame == nullptr) {
     AERROR << "Input null frame ptr.";
@@ -400,6 +408,8 @@ bool NCutSegmentation::Segment(const SegmentationOptions& options,
 }
 
 base::ObjectType NCutSegmentation::Label2Type(const std::string& label) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (label == "unknown") {
     return base::ObjectType::UNKNOWN;
   }
@@ -418,6 +428,8 @@ base::ObjectType NCutSegmentation::Label2Type(const std::string& label) {
 void NCutSegmentation::PartitionConnectedComponents(
     const base::PointFCloudPtr& in_cloud, float cell_size,
     std::vector<base::PointFCloudPtr>* out_clouds) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<base::PointFCloudPtr>& temp_clouds = *out_clouds;
   FloodFill FFfilter(grid_radius_, cell_size);
   std::vector<std::vector<int>> component_points;
@@ -435,6 +447,8 @@ void NCutSegmentation::ObstacleFilter(const base::PointFCloudPtr& in_cloud,
                                       bool filter_pedestrian_only,
                                       base::PointFCloudPtr* out_cloud,
                                       std::vector<base::ObjectPtr>* segments) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   FloodFill FFfilter(grid_radius_, cell_size);
   std::vector<std::vector<int>> component_points;
   std::vector<int> num_cells_per_components;
@@ -493,6 +507,8 @@ void NCutSegmentation::ObstacleFilter(const base::PointFCloudPtr& in_cloud,
 }
 
 bool NCutSegmentation::IsOutlier(const base::PointFCloudPtr& in_cloud) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t min_num_points = std::max(outlier_min_num_points_, 1);
   if (in_cloud->size() < min_num_points) {
     return true;
@@ -534,6 +550,8 @@ bool NCutSegmentation::IsOutlier(const base::PointFCloudPtr& in_cloud) {
 
 #ifdef DEBUG_NCUT
 void NCutSegmentation::VisualizePointCloud(const base::PointFCloudPtr& cloud) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // _viewer->removePointCloud(_viewer_id, 0);
   _viewer->removeAllPointClouds(0);
   _viewer->removeAllShapes(0);
@@ -555,6 +573,8 @@ void NCutSegmentation::VisualizePointCloud(const base::PointFCloudPtr& cloud) {
 
 void NCutSegmentation::VisualizeSegments(
     const std::vector<base::ObjectPtr>& segments) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // _viewer->removePointCloud(_viewer_id, 0);
   unsigned int seed;
   _viewer->removeAllPointClouds(0);
@@ -584,6 +604,8 @@ void NCutSegmentation::VisualizeSegments(
 void NCutSegmentation::VisualizeComponents(
     const base::PointFCloudPtr& cloud,
     const std::vector<std::vector<int>>& component_points) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // _viewer->removePointCloud(_viewer_id, 0);
   unsigned int seed;
   _viewer->removeAllPointClouds(0);

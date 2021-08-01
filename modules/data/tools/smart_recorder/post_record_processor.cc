@@ -40,6 +40,8 @@ using cyber::record::RecordViewer;
 using cyber::record::RecordWriter;
 
 bool PostRecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!DirectoryExists(source_record_dir_)) {
     AERROR << "source record dir does not exist: " << source_record_dir_;
     return false;
@@ -58,6 +60,8 @@ bool PostRecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
 }
 
 bool PostRecordProcessor::Process() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // First scan, get intervals
   for (const std::string& record : source_record_files_) {
     const auto reader = std::make_shared<RecordReader>(
@@ -97,6 +101,8 @@ bool PostRecordProcessor::Process() {
 }
 
 std::string PostRecordProcessor::GetDefaultOutputFile() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string src_file_name = source_record_files_.front();
   const std::string record_flag(".record");
   src_file_name.resize(src_file_name.size() - src_file_name.find(record_flag) +
@@ -105,6 +111,8 @@ std::string PostRecordProcessor::GetDefaultOutputFile() const {
 }
 
 void PostRecordProcessor::LoadSourceRecords() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   DIR* dirp = opendir(source_record_dir_.c_str());
   if (dirp == nullptr) {
     AERROR << "failed to open source dir: " << source_record_dir_;

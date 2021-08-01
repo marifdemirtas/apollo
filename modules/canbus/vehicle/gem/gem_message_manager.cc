@@ -52,6 +52,8 @@ namespace canbus {
 namespace gem {
 
 GemMessageManager::GemMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Control Messages
   AddSendProtocolData<Accelcmd67, true>();
   AddSendProtocolData<Brakecmd6b, true>();
@@ -87,7 +89,9 @@ GemMessageManager::GemMessageManager() {
   AddRecvProtocolData<Yawraterpt81, true>();
 }
 
-GemMessageManager::~GemMessageManager() {}
+GemMessageManager::~GemMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 }  // namespace gem
 }  // namespace canbus

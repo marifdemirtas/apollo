@@ -91,6 +91,8 @@ namespace {
 double CalculateAcceleration(
     const Point3D &acceleration, const Point3D &velocity,
     const apollo::canbus::Chassis_GearPosition &gear_location) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Calculates the dot product of acceleration and velocity. The sign
   // of this projection indicates whether this is acceleration or
   // deceleration.
@@ -113,6 +115,8 @@ double CalculateAcceleration(
 }
 
 Object::DisengageType DeduceDisengageType(const Chassis &chassis) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (chassis.error_code() != Chassis::NO_ERROR) {
     return Object::DISENGAGE_CHASSIS_ERROR;
   }
@@ -136,6 +140,8 @@ Object::DisengageType DeduceDisengageType(const Chassis &chassis) {
 void SetObstacleType(const PerceptionObstacle::Type obstacle_type,
                      const PerceptionObstacle::SubType obstacle_subtype,
                      Object *world_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (world_object == nullptr) {
     return;
   }
@@ -167,6 +173,8 @@ void SetObstacleType(const PerceptionObstacle::Type obstacle_type,
 }
 
 void SetStopReason(const StopReasonCode &reason_code, Decision *decision) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   switch (reason_code) {
     case StopReasonCode::STOP_REASON_HEAD_VEHICLE:
       decision->set_stopreason(Decision::STOP_REASON_HEAD_VEHICLE);
@@ -205,6 +213,8 @@ void SetStopReason(const StopReasonCode &reason_code, Decision *decision) {
 
 void UpdateTurnSignal(const apollo::common::VehicleSignal &signal,
                       Object *auto_driving_car) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (signal.turn_signal() == apollo::common::VehicleSignal::TURN_LEFT) {
     auto_driving_car->set_current_signal("LEFT");
   } else if (signal.turn_signal() ==
@@ -218,6 +228,8 @@ void UpdateTurnSignal(const apollo::common::VehicleSignal &signal,
 }
 
 void DownsampleCurve(Curve *curve) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (curve->segment().empty()) {
     return;
   }
@@ -235,7 +247,9 @@ void DownsampleCurve(Curve *curve) {
   }
 }
 
-inline double SecToMs(const double sec) { return sec * 1000.0; }
+inline double SecToMs(const double sec) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return sec * 1000.0; }
 
 }  // namespace
 
@@ -247,6 +261,8 @@ SimulationWorldService::SimulationWorldService(const MapService *map_service,
       map_service_(map_service),
       monitor_logger_buffer_(MonitorMessageItem::SIMULATOR),
       ready_to_push_(false) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   InitReaders();
   InitWriters();
 
@@ -263,6 +279,8 @@ SimulationWorldService::SimulationWorldService(const MapService *map_service,
 }
 
 void SimulationWorldService::InitReaders() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   routing_request_reader_ =
       node_->CreateReader<RoutingRequest>(FLAGS_routing_request_topic);
   routing_response_reader_ =
@@ -315,6 +333,8 @@ void SimulationWorldService::InitReaders() {
 }
 
 void SimulationWorldService::InitWriters() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   navigation_writer_ =
       node_->CreateWriter<NavigationInfo>(FLAGS_navigation_topic);
 
@@ -340,6 +360,8 @@ void SimulationWorldService::InitWriters() {
 }
 
 void SimulationWorldService::Update() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (to_clear_) {
     // Clears received data.
     node_->ClearData();
@@ -396,6 +418,8 @@ void SimulationWorldService::Update() {
 }
 
 void SimulationWorldService::UpdateDelays() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto *delays = world_.mutable_delay();
   delays->set_chassis(SecToMs(chassis_reader_->GetDelaySec()));
   delays->set_localization(SecToMs(localization_reader_->GetDelaySec()));
@@ -409,6 +433,8 @@ void SimulationWorldService::UpdateDelays() {
 }
 
 void SimulationWorldService::UpdateLatencies() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   UpdateLatency("chassis", chassis_reader_.get());
   UpdateLatency("localization", localization_reader_.get());
   UpdateLatency("perception", perception_obstacle_reader_.get());
@@ -420,6 +446,8 @@ void SimulationWorldService::UpdateLatencies() {
 void SimulationWorldService::GetWireFormatString(
     double radius, std::string *sim_world,
     std::string *sim_world_with_planning_data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   PopulateMapInfo(radius);
 
   world_.SerializeToString(sim_world_with_planning_data);
@@ -429,6 +457,8 @@ void SimulationWorldService::GetWireFormatString(
 }
 
 Json SimulationWorldService::GetUpdateAsJson(double radius) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string sim_world_json_string;
   MessageToJsonString(world_, &sim_world_json_string);
 
@@ -442,6 +472,8 @@ Json SimulationWorldService::GetUpdateAsJson(double radius) const {
 
 void SimulationWorldService::GetMapElementIds(double radius,
                                               MapElementIds *ids) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Gather required map element ids based on current location.
   apollo::common::PointENU point;
   const auto &adc = world_.auto_driving_car();
@@ -451,6 +483,8 @@ void SimulationWorldService::GetMapElementIds(double radius,
 }
 
 void SimulationWorldService::PopulateMapInfo(double radius) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   world_.clear_map_element_ids();
   GetMapElementIds(radius, world_.mutable_map_element_ids());
   world_.set_map_hash(map_service_->CalculateMapHash(world_.map_element_ids()));
@@ -458,6 +492,8 @@ void SimulationWorldService::PopulateMapInfo(double radius) {
 }
 
 const Map &SimulationWorldService::GetRelativeMap() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return relative_map_;
 }
 
@@ -574,6 +610,8 @@ void SimulationWorldService::UpdateSimulationWorld(
 
 Object &SimulationWorldService::CreateWorldObjectIfAbsent(
     const PerceptionObstacle &obstacle) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const std::string id = std::to_string(obstacle.id());
   // Create a new world object and put it into object map if the id does not
   // exist in the map yet.
@@ -590,6 +628,8 @@ Object &SimulationWorldService::CreateWorldObjectIfAbsent(
 
 void SimulationWorldService::CreateWorldObjectFromSensorMeasurement(
     const SensorMeasurement &sensor, Object *world_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   world_object->set_id(std::to_string(sensor.id()));
   world_object->set_position_x(sensor.position().x());
   world_object->set_position_y(sensor.position().y());
@@ -602,6 +642,8 @@ void SimulationWorldService::CreateWorldObjectFromSensorMeasurement(
 
 void SimulationWorldService::SetObstacleInfo(const PerceptionObstacle &obstacle,
                                              Object *world_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (world_object == nullptr) {
     return;
   }
@@ -626,6 +668,8 @@ void SimulationWorldService::SetObstacleInfo(const PerceptionObstacle &obstacle,
 
 void SimulationWorldService::SetObstaclePolygon(
     const PerceptionObstacle &obstacle, Object *world_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (world_object == nullptr) {
     return;
   }
@@ -647,6 +691,8 @@ void SimulationWorldService::SetObstaclePolygon(
 
 void SimulationWorldService::SetObstacleSensorMeasurements(
     const PerceptionObstacle &obstacle, Object *world_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (world_object == nullptr) {
     return;
   }
@@ -660,6 +706,8 @@ void SimulationWorldService::SetObstacleSensorMeasurements(
 void SimulationWorldService::SetObstacleSource(
     const apollo::perception::PerceptionObstacle &obstacle,
     Object *world_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (world_object == nullptr || !obstacle.has_source()) {
     return;
   }
@@ -701,6 +749,8 @@ void SimulationWorldService::UpdateSimulationWorld(
 
 void SimulationWorldService::UpdatePlanningTrajectory(
     const ADCTrajectory &trajectory) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Collect trajectory
   world_.clear_planning_trajectory();
   const double base_time = trajectory.header().timestamp_sec();
@@ -727,12 +777,16 @@ void SimulationWorldService::UpdatePlanningTrajectory(
 }
 
 std::string formatDoubleToString(const double data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::stringstream ss;
   ss << std::fixed << std::setprecision(2) << data;
   return ss.str();
 }
 
 void SimulationWorldService::UpdateRSSInfo(const ADCTrajectory &trajectory) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (trajectory.has_rss_info()) {
     if (trajectory.rss_info().is_rss_safe()) {
       if (!world_.is_rss_safe()) {
@@ -766,6 +820,8 @@ void SimulationWorldService::UpdateRSSInfo(const ADCTrajectory &trajectory) {
 void SimulationWorldService::UpdateMainStopDecision(
     const apollo::planning::MainDecision &main_decision,
     double update_timestamp_sec, Object *world_main_decision) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   apollo::common::math::Vec2d stop_pt;
   double stop_heading = 0.0;
   auto decision = world_main_decision->add_decision();
@@ -804,6 +860,8 @@ void SimulationWorldService::UpdateMainStopDecision(
 bool SimulationWorldService::LocateMarker(
     const apollo::planning::ObjectDecisionType &decision,
     Decision *world_decision) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   apollo::common::PointENU fence_point;
   double heading;
   if (decision.has_stop() && decision.stop().has_stop_point()) {
@@ -835,6 +893,8 @@ bool SimulationWorldService::LocateMarker(
 void SimulationWorldService::FindNudgeRegion(
     const apollo::planning::ObjectDecisionType &decision,
     const Object &world_obj, Decision *world_decision) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<apollo::common::math::Vec2d> points;
   for (auto &polygon_pt : world_obj.polygon_point()) {
     points.emplace_back(polygon_pt.x(), polygon_pt.y());
@@ -854,6 +914,8 @@ void SimulationWorldService::FindNudgeRegion(
 
 void SimulationWorldService::UpdateDecision(const DecisionResult &decision_res,
                                             double header_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Update turn signal.
   UpdateTurnSignal(decision_res.vehicle_signal(),
                    world_.mutable_auto_driving_car());
@@ -937,6 +999,8 @@ void SimulationWorldService::UpdateDecision(const DecisionResult &decision_res,
 
 void SimulationWorldService::DownsamplePath(const common::Path &path,
                                             common::Path *downsampled_path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto sampled_indices = DownsampleByAngle(path.path_point(), kAngleThreshold);
 
   downsampled_path->set_name(path.name());
@@ -947,6 +1011,8 @@ void SimulationWorldService::DownsamplePath(const common::Path &path,
 }
 
 void SimulationWorldService::UpdatePlanningData(const PlanningData &data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto *planning_data = world_.mutable_planning_data();
 
   size_t max_interval = 10;
@@ -1096,6 +1162,8 @@ void SimulationWorldService::UpdateSimulationWorld(
 
 void SimulationWorldService::CreatePredictionTrajectory(
     const PredictionObstacle &obstacle, Object *world_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (const auto &traj : obstacle.trajectory()) {
     Prediction *prediction = world_object->add_prediction();
     prediction->set_probability(traj.probability());
@@ -1197,6 +1265,8 @@ void SimulationWorldService::UpdateSimulationWorld(
 }
 
 Json SimulationWorldService::GetRoutePathAsJson() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Json response;
   response["routePath"] = Json::array();
   std::vector<RoutePath> route_paths;
@@ -1220,6 +1290,8 @@ Json SimulationWorldService::GetRoutePathAsJson() const {
 
 void SimulationWorldService::ReadRoutingFromFile(
     const std::string &routing_response_file) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto routing_response = std::make_shared<RoutingResponse>();
   if (!GetProtoFromFile(routing_response_file, routing_response.get())) {
     AWARN << "Unable to read routing response from file: "
@@ -1330,6 +1402,8 @@ void SimulationWorldService::UpdateSimulationWorld(
 }
 
 void SimulationWorldService::UpdateMonitorMessages() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::list<std::shared_ptr<MonitorMessage>> monitor_msgs;
   {
     std::unique_lock<std::mutex> lock(monitor_msgs_mutex_);
@@ -1343,6 +1417,8 @@ void SimulationWorldService::UpdateMonitorMessages() {
 }
 
 void SimulationWorldService::DumpMessages() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   DumpMessageFromReader(chassis_reader_.get());
   DumpMessageFromReader(prediction_obstacle_reader_.get());
   DumpMessageFromReader(routing_request_reader_.get());
@@ -1359,17 +1435,23 @@ void SimulationWorldService::DumpMessages() {
 
 void SimulationWorldService::PublishNavigationInfo(
     const std::shared_ptr<NavigationInfo> &navigation_info) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   FillHeader(FLAGS_dreamview_module_name, navigation_info.get());
   navigation_writer_->Write(navigation_info);
 }
 
 void SimulationWorldService::PublishRoutingRequest(
     const std::shared_ptr<RoutingRequest> &routing_request) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   FillHeader(FLAGS_dreamview_module_name, routing_request.get());
   routing_request_writer_->Write(routing_request);
 }
 
 void SimulationWorldService::PublishTask(const std::shared_ptr<Task> &task) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   FillHeader(FLAGS_dreamview_module_name, task.get());
   task_writer_->Write(task);
 }
@@ -1377,6 +1459,8 @@ void SimulationWorldService::PublishTask(const std::shared_ptr<Task> &task) {
 void SimulationWorldService::PublishMonitorMessage(
     apollo::common::monitor::MonitorMessageItem::LogLevel log_level,
     const std::string &msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   monitor_logger_buffer_.AddMonitorMsgItem(log_level, msg);
   monitor_logger_buffer_.Publish();
 }

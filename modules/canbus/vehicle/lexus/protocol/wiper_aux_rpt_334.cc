@@ -27,11 +27,15 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Wiperauxrpt334::Wiperauxrpt334() {}
+Wiperauxrpt334::Wiperauxrpt334() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Wiperauxrpt334::ID = 0x334;
 
 void Wiperauxrpt334::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_lexus()
       ->mutable_wiper_aux_rpt_334()
       ->set_spray_empty_is_valid(spray_empty_is_valid(bytes, length));
@@ -69,6 +73,8 @@ void Wiperauxrpt334::Parse(const std::uint8_t* bytes, int32_t length,
 // '[0|1]', 'bit': 13, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::spray_empty_is_valid(const std::uint8_t* bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(5, 1);
 
@@ -81,6 +87,8 @@ bool Wiperauxrpt334::spray_empty_is_valid(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::spray_empty(const std::uint8_t* bytes,
                                  int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
 
@@ -93,6 +101,8 @@ bool Wiperauxrpt334::spray_empty(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 12, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::spray_near_empty_is_valid(const std::uint8_t* bytes,
                                                int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(4, 1);
 
@@ -105,6 +115,8 @@ bool Wiperauxrpt334::spray_near_empty_is_valid(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::spray_near_empty(const std::uint8_t* bytes,
                                       int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 1);
 
@@ -117,6 +129,8 @@ bool Wiperauxrpt334::spray_near_empty(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 11, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::rear_spraying_is_valid(const std::uint8_t* bytes,
                                             int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(3, 1);
 
@@ -129,6 +143,8 @@ bool Wiperauxrpt334::rear_spraying_is_valid(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::rear_spraying(const std::uint8_t* bytes,
                                    int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
 
@@ -141,6 +157,8 @@ bool Wiperauxrpt334::rear_spraying(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 10, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::rear_wiping_is_valid(const std::uint8_t* bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(2, 1);
 
@@ -153,6 +171,8 @@ bool Wiperauxrpt334::rear_wiping_is_valid(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::rear_wiping(const std::uint8_t* bytes,
                                  int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
 
@@ -165,6 +185,8 @@ bool Wiperauxrpt334::rear_wiping(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 9, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::front_spraying_is_valid(const std::uint8_t* bytes,
                                              int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(1, 1);
 
@@ -177,6 +199,8 @@ bool Wiperauxrpt334::front_spraying_is_valid(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::front_spraying(const std::uint8_t* bytes,
                                     int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
 
@@ -189,6 +213,8 @@ bool Wiperauxrpt334::front_spraying(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 8, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::front_wiping_is_valid(const std::uint8_t* bytes,
                                            int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 1);
 
@@ -201,6 +227,8 @@ bool Wiperauxrpt334::front_wiping_is_valid(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::front_wiping(const std::uint8_t* bytes,
                                   int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 

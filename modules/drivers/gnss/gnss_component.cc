@@ -23,9 +23,13 @@ using apollo::cyber::proto::RoleAttributes;
 
 GnssDriverComponent::GnssDriverComponent()
     : monitor_logger_buffer_(
-          apollo::common::monitor::MonitorMessageItem::GNSS) {}
+          apollo::common::monitor::MonitorMessageItem::GNSS) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool GnssDriverComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   config::Config gnss_config;
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
                                                &gnss_config)) {

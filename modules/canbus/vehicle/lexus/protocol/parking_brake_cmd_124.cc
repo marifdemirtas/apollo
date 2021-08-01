@@ -27,15 +27,21 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Parkingbrakecmd124::ID = 0x124;
 
 // public
-Parkingbrakecmd124::Parkingbrakecmd124() { Reset(); }
+Parkingbrakecmd124::Parkingbrakecmd124() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Parkingbrakecmd124::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Parkingbrakecmd124::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_ignore_overrides(data, ignore_overrides_);
   set_p_enable(data, enable_);
   set_p_clear_override(data, clear_override_);
@@ -44,6 +50,8 @@ void Parkingbrakecmd124::UpdateData(uint8_t* data) {
 }
 
 void Parkingbrakecmd124::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(QiL) you should check this manually
   ignore_overrides_ = false;
   enable_ = false;
@@ -54,6 +62,8 @@ void Parkingbrakecmd124::Reset() {
 
 Parkingbrakecmd124* Parkingbrakecmd124::set_ignore_overrides(
     bool ignore_overrides) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ignore_overrides_ = ignore_overrides;
   return this;
 }
@@ -63,6 +73,8 @@ Parkingbrakecmd124* Parkingbrakecmd124::set_ignore_overrides(
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Parkingbrakecmd124::set_p_ignore_overrides(uint8_t* data,
                                                 bool ignore_overrides) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = ignore_overrides;
 
   Byte to_set(data + 0);
@@ -70,6 +82,8 @@ void Parkingbrakecmd124::set_p_ignore_overrides(uint8_t* data,
 }
 
 Parkingbrakecmd124* Parkingbrakecmd124::set_enable(bool enable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   enable_ = enable;
   return this;
 }
@@ -78,6 +92,8 @@ Parkingbrakecmd124* Parkingbrakecmd124::set_enable(bool enable) {
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Parkingbrakecmd124::set_p_enable(uint8_t* data, bool enable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = enable;
 
   Byte to_set(data + 0);
@@ -86,6 +102,8 @@ void Parkingbrakecmd124::set_p_enable(uint8_t* data, bool enable) {
 
 Parkingbrakecmd124* Parkingbrakecmd124::set_clear_override(
     bool clear_override) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   clear_override_ = clear_override;
   return this;
 }
@@ -95,6 +113,8 @@ Parkingbrakecmd124* Parkingbrakecmd124::set_clear_override(
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Parkingbrakecmd124::set_p_clear_override(uint8_t* data,
                                               bool clear_override) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = clear_override;
 
   Byte to_set(data + 0);
@@ -103,6 +123,8 @@ void Parkingbrakecmd124::set_p_clear_override(uint8_t* data,
 
 Parkingbrakecmd124* Parkingbrakecmd124::set_parking_brake_cmd(
     bool parking_brake_cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   parking_brake_cmd_ = parking_brake_cmd;
   return this;
 }
@@ -112,6 +134,8 @@ Parkingbrakecmd124* Parkingbrakecmd124::set_parking_brake_cmd(
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Parkingbrakecmd124::set_p_parking_brake_cmd(uint8_t* data,
                                                  bool parking_brake_cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = parking_brake_cmd;
 
   Byte to_set(data + 1);
@@ -119,6 +143,8 @@ void Parkingbrakecmd124::set_p_parking_brake_cmd(uint8_t* data,
 }
 
 Parkingbrakecmd124* Parkingbrakecmd124::set_clear_faults(bool clear_faults) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   clear_faults_ = clear_faults;
   return this;
 }
@@ -127,6 +153,8 @@ Parkingbrakecmd124* Parkingbrakecmd124::set_clear_faults(bool clear_faults) {
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 3,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Parkingbrakecmd124::set_p_clear_faults(uint8_t* data, bool clear_faults) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint8_t x = clear_faults;
 
   Byte to_set(data + 0);

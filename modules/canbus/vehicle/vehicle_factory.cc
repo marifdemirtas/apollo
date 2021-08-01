@@ -31,6 +31,8 @@ namespace apollo {
 namespace canbus {
 
 void VehicleFactory::RegisterVehicleFactory() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Register(apollo::common::LINCOLN_MKZ, []() -> AbstractVehicleFactory * {
     return new LincolnVehicleFactory();
   });
@@ -65,6 +67,8 @@ void VehicleFactory::RegisterVehicleFactory() {
 
 std::unique_ptr<AbstractVehicleFactory> VehicleFactory::CreateVehicle(
     const VehicleParameter &vehicle_parameter) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto abstract_factory = CreateObject(vehicle_parameter.brand());
   if (!abstract_factory) {
     AERROR << "failed to create vehicle factory with "

@@ -31,16 +31,22 @@ UltrasonicRadarMessageManager::UltrasonicRadarMessageManager(
     const int entrance_num,
     const std::shared_ptr<::apollo::cyber::Writer<Ultrasonic>> &writer)
     : entrance_num_(entrance_num), ultrasonic_radar_writer_(writer) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   sensor_data_.mutable_ranges()->Resize(entrance_num_, 0.0);
 }
 
 void UltrasonicRadarMessageManager::set_can_client(
     std::shared_ptr<CanClient> can_client) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   can_client_ = can_client;
 }
 
 void UltrasonicRadarMessageManager::Parse(const uint32_t message_id,
                                           const uint8_t *data, int32_t length) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (message_id == 0x301) {
     sensor_data_.set_ranges(0, data[1]);
     sensor_data_.set_ranges(1, data[2]);

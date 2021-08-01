@@ -27,6 +27,8 @@ bool DetectionEvaluation::init(const std::string& clouds,
                                unsigned int eval_thread_num,
                                unsigned int eval_parrallel_num,
                                const std::string& reserve) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<std::string> strs;
   strs.push_back(clouds);
   strs.push_back(results);
@@ -62,6 +64,8 @@ bool DetectionEvaluation::init(const std::string& clouds,
 }
 
 void DetectionEvaluation::run_evaluation() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // sequential loading and accumulate
   while (true) {
     bool has_more_data = true;

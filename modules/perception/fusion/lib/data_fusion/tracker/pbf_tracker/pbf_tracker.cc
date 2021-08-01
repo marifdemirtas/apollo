@@ -37,11 +37,17 @@ std::string PbfTracker::s_motion_fusion_method_ =  // NOLINT
     "KalmanMotionFusion";
 std::string PbfTracker::s_shape_fusion_method_ = "PbfShapeFusion";  // NOLINT
 
-PbfTracker::PbfTracker() {}
+PbfTracker::PbfTracker() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-PbfTracker::~PbfTracker() {}
+PbfTracker::~PbfTracker() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool PbfTracker::InitParams() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   BaseInitOptions options;
   if (!GetFusionInitOptions("PbfTracker", &options)) {
     return false;
@@ -70,6 +76,8 @@ bool PbfTracker::InitParams() {
 }
 
 bool PbfTracker::InitMethods() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (s_type_fusion_method_ == "DstTypeFusion") {
     type_fusion_.reset(new DstTypeFusion(track_));
   } else {
@@ -102,6 +110,8 @@ bool PbfTracker::InitMethods() {
 }
 
 bool PbfTracker::Init(TrackPtr track, SensorObjectPtr measurement) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   track_ = track;
   if (!InitMethods()) {
     return false;
@@ -113,6 +123,8 @@ bool PbfTracker::Init(TrackPtr track, SensorObjectPtr measurement) {
 void PbfTracker::UpdateWithMeasurement(const TrackerOptions& options,
                                        const SensorObjectPtr measurement,
                                        double target_timestamp) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string sensor_id = measurement->GetSensorId();
   ADEBUG << "fusion_updating..." << track_->GetTrackId() << " with "
          << sensor_id << "..." << measurement->GetBaseObject()->track_id << "@"
@@ -129,6 +141,8 @@ void PbfTracker::UpdateWithoutMeasurement(const TrackerOptions& options,
                                           const std::string& sensor_id,
                                           double measurement_timestamp,
                                           double target_timestamp) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   existence_fusion_->UpdateWithoutMeasurement(sensor_id, measurement_timestamp,
                                               target_timestamp,
                                               options.match_distance);
@@ -142,7 +156,9 @@ void PbfTracker::UpdateWithoutMeasurement(const TrackerOptions& options,
   track_->UpdateWithoutSensorObject(sensor_id, measurement_timestamp);
 }
 
-std::string PbfTracker::Name() const { return "PbfTracker"; }
+std::string PbfTracker::Name() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return "PbfTracker"; }
 
 }  // namespace fusion
 }  // namespace perception

@@ -44,6 +44,8 @@ PointPillarsDetection::PointPillarsDetection()
       y_max_(Params::kMaxYRange),
       z_min_(Params::kMinZRange),
       z_max_(Params::kMaxZRange) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (FLAGS_enable_ground_removal) {
     z_min_ = std::max(z_min_, static_cast<float>(FLAGS_ground_removal_height));
   }
@@ -52,6 +54,8 @@ PointPillarsDetection::PointPillarsDetection()
 // TODO(chenjiahao):
 //  specify score threshold and nms over lap threshold for each class.
 bool PointPillarsDetection::Init(const DetectionInitOptions& options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   point_pillars_ptr_.reset(
       new PointPillars(FLAGS_reproduce_result_mode, FLAGS_score_threshold,
                        FLAGS_nms_overlap_threshold, FLAGS_pfe_torch_file,
@@ -62,6 +66,8 @@ bool PointPillarsDetection::Init(const DetectionInitOptions& options) {
 
 bool PointPillarsDetection::Detect(const DetectionOptions& options,
                                    LidarFrame* frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // check input
   if (frame == nullptr) {
     AERROR << "Input null frame ptr.";
@@ -214,6 +220,8 @@ bool PointPillarsDetection::Detect(const DetectionOptions& options,
 void PointPillarsDetection::CloudToArray(const base::PointFCloudPtr& pc_ptr,
                                          float* out_points_array,
                                          const float normalizing_factor) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (size_t i = 0; i < pc_ptr->size(); ++i) {
     const auto& point = pc_ptr->at(i);
     float x = point.x;
@@ -238,6 +246,8 @@ void PointPillarsDetection::CloudToArray(const base::PointFCloudPtr& pc_ptr,
 void PointPillarsDetection::FuseCloud(
     const base::PointFCloudPtr& out_cloud_ptr,
     const std::deque<base::PointDCloudPtr>& fuse_clouds) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (auto iter = fuse_clouds.rbegin(); iter != fuse_clouds.rend(); ++iter) {
     double delta_t = lidar_frame_ref_->timestamp - (*iter)->get_timestamp();
     // transform prev world point cloud to current sensor's coordinates
@@ -259,6 +269,8 @@ void PointPillarsDetection::FuseCloud(
 std::vector<int> PointPillarsDetection::GenerateIndices(int start_index,
                                                         int size,
                                                         bool shuffle) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // create a range number array
   std::vector<int> indices(size);
   std::iota(indices.begin(), indices.end(), start_index);
@@ -275,6 +287,8 @@ std::vector<int> PointPillarsDetection::GenerateIndices(int start_index,
 void PointPillarsDetection::GetObjects(
     std::vector<std::shared_ptr<Object>>* objects, const Eigen::Affine3d& pose,
     std::vector<float>* detections, std::vector<int>* labels) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int num_objects = detections->size() / FLAGS_num_output_box_feature;
 
   objects->clear();
@@ -353,6 +367,8 @@ void PointPillarsDetection::GetObjects(
 // TODO(all): update the base ObjectSubType with more fine-grained types
 // TODO(chenjiahao): move types into an array in the same order as offline
 base::ObjectSubType PointPillarsDetection::GetObjectSubType(const int label) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   switch (label) {
     case 0:
       return base::ObjectSubType::CAR;

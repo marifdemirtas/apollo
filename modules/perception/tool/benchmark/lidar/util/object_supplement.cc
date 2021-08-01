@@ -20,24 +20,40 @@ namespace perception {
 namespace benchmark {
 
 /**LidarSupplement implementation*/
-LidarSupplement::LidarSupplement() {}
+LidarSupplement::LidarSupplement() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-LidarSupplement::~LidarSupplement() {}
+LidarSupplement::~LidarSupplement() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-LidarSupplement::LidarSupplement(const LidarSupplement& rhs) {}
+LidarSupplement::LidarSupplement(const LidarSupplement& rhs) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 LidarSupplement& LidarSupplement::operator=(const LidarSupplement& rhs) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return (*this);
 }
 
-void LidarSupplement::clone(const LidarSupplement& rhs) {}
+void LidarSupplement::clone(const LidarSupplement& rhs) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 /**RadarSupplement implementation*/
-RadarSupplement::RadarSupplement() {}
+RadarSupplement::RadarSupplement() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-RadarSupplement::~RadarSupplement() {}
+RadarSupplement::~RadarSupplement() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 RadarSupplement::RadarSupplement(const RadarSupplement& rhs) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   range = rhs.range;
   angle = rhs.angle;
   relative_radial_velocity = rhs.relative_radial_velocity;
@@ -45,6 +61,8 @@ RadarSupplement::RadarSupplement(const RadarSupplement& rhs) {
 }
 
 RadarSupplement& RadarSupplement::operator=(const RadarSupplement& rhs) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   range = rhs.range;
   angle = rhs.angle;
   relative_radial_velocity = rhs.relative_radial_velocity;
@@ -53,6 +71,8 @@ RadarSupplement& RadarSupplement::operator=(const RadarSupplement& rhs) {
 }
 
 void RadarSupplement::clone(const RadarSupplement& rhs) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   range = rhs.range;
   angle = rhs.angle;
   relative_radial_velocity = rhs.relative_radial_velocity;
@@ -60,22 +80,32 @@ void RadarSupplement::clone(const RadarSupplement& rhs) {
 }
 
 /**CameraSupplement implementation*/
-CameraSupplement::CameraSupplement() {}
+CameraSupplement::CameraSupplement() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-CameraSupplement::~CameraSupplement() {}
+CameraSupplement::~CameraSupplement() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 CameraSupplement::CameraSupplement(const CameraSupplement& rhs) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;
 }
 
 CameraSupplement& CameraSupplement::operator=(const CameraSupplement& rhs) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;
   return (*this);
 }
 
 void CameraSupplement::clone(const CameraSupplement& rhs) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;
 }

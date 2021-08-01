@@ -27,11 +27,17 @@ namespace apollo {
 namespace drivers {
 namespace smartereye {
 
-SmartereyeDevice::SmartereyeDevice() {}
+SmartereyeDevice::SmartereyeDevice() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-SmartereyeDevice::~SmartereyeDevice() { uninit(); }
+SmartereyeDevice::~SmartereyeDevice() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ uninit(); }
 
 bool SmartereyeDevice::init(const std::shared_ptr<Config>& camera_config) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   pcamera_ = StereoCamera::connect("192.168.1.251");
   pcameraHandler_ = new SmartereyeHandler("camera A");
   pcamera_->enableTasks(TaskId::ObstacleTask | TaskId::DisplayTask);
@@ -41,12 +47,16 @@ bool SmartereyeDevice::init(const std::shared_ptr<Config>& camera_config) {
 }
 
 bool SmartereyeDevice::SetCallback(CallbackFunc ptr) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   pcameraHandler_->SetCallback(ptr);
 
   return true;
 }
 
 int SmartereyeDevice::poll() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   pcamera_->requestFrame(pcameraHandler_, FrameId::Compound);
   is_capturing_ = true;
 
@@ -54,6 +64,8 @@ int SmartereyeDevice::poll() {
 }
 
 int SmartereyeDevice::uninit() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!inited_) {
     return 1;
   }
@@ -65,9 +77,13 @@ int SmartereyeDevice::uninit() {
   return 1;
 }
 
-bool SmartereyeDevice::is_capturing() { return is_capturing_; }
+bool SmartereyeDevice::is_capturing() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return is_capturing_; }
 
 bool SmartereyeDevice::wait_for_device() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (is_capturing_) {
     ADEBUG << "is capturing";
     return true;

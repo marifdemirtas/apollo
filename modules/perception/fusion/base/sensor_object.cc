@@ -26,21 +26,29 @@ namespace fusion {
 // SensorObject implementations
 SensorObject::SensorObject(
     const std::shared_ptr<const base::Object>& object_ptr)
-    : object_(object_ptr), frame_header_(nullptr) {}
+    : object_(object_ptr), frame_header_(nullptr) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 SensorObject::SensorObject(
     const std::shared_ptr<const base::Object>& object_ptr,
     const std::shared_ptr<const SensorFrameHeader>& frame_header)
-    : object_(object_ptr), frame_header_(frame_header) {}
+    : object_(object_ptr), frame_header_(frame_header) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 SensorObject::SensorObject(
     const std::shared_ptr<const base::Object>& object_ptr,
     const std::shared_ptr<SensorFrame>& frame_ptr)
     : object_(object_ptr),
       frame_header_((frame_ptr == nullptr) ? nullptr : frame_ptr->GetHeader()) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 }
 
 double SensorObject::GetTimestamp() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (frame_header_ == nullptr) {
     return 0.0;
   }
@@ -49,6 +57,8 @@ double SensorObject::GetTimestamp() const {
 }
 
 bool SensorObject::GetRelatedFramePose(Eigen::Affine3d* pose) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (pose == nullptr) {
     AERROR << "pose is not available";
     return false;
@@ -62,6 +72,8 @@ bool SensorObject::GetRelatedFramePose(Eigen::Affine3d* pose) const {
 }
 
 std::string SensorObject::GetSensorId() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (frame_header_ == nullptr) {
     return std::string("");
   }
@@ -70,6 +82,8 @@ std::string SensorObject::GetSensorId() const {
 }
 
 base::SensorType SensorObject::GetSensorType() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (frame_header_ == nullptr) {
     return base::SensorType::UNKNOWN_SENSOR_TYPE;
   }
@@ -79,21 +93,29 @@ base::SensorType SensorObject::GetSensorType() const {
 
 // FusedObject implementations
 FusedObject::FusedObject() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   base::ObjectPool& object_pool = base::ObjectPool::Instance();
   object_ = object_pool.Get();
 }
 
 bool IsLidar(const SensorObjectConstPtr& obj) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   base::SensorType type = obj->GetSensorType();
   return common::SensorManager::Instance()->IsLidar(type);
 }
 
 bool IsRadar(const SensorObjectConstPtr& obj) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   base::SensorType type = obj->GetSensorType();
   return common::SensorManager::Instance()->IsRadar(type);
 }
 
 bool IsCamera(const SensorObjectConstPtr& obj) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   base::SensorType type = obj->GetSensorType();
   return common::SensorManager::Instance()->IsCamera(type);
 }

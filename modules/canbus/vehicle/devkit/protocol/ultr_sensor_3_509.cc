@@ -26,11 +26,15 @@ namespace devkit {
 
 using ::apollo::drivers::canbus::Byte;
 
-Ultrsensor3509::Ultrsensor3509() {}
+Ultrsensor3509::Ultrsensor3509() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Ultrsensor3509::ID = 0x509;
 
 void Ultrsensor3509::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_devkit()->mutable_ultr_sensor_3_509()->set_uiuss5_tof_direct(
       uiuss5_tof_direct(bytes, length));
   chassis->mutable_devkit()->mutable_ultr_sensor_3_509()->set_uiuss4_tof_direct(
@@ -46,6 +50,8 @@ void Ultrsensor3509::Parse(const std::uint8_t* bytes, int32_t length,
 // 'bit': 55, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor3509::uiuss5_tof_direct(const std::uint8_t* bytes,
                                          int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
 
@@ -63,6 +69,8 @@ double Ultrsensor3509::uiuss5_tof_direct(const std::uint8_t* bytes,
 // 'bit': 39, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor3509::uiuss4_tof_direct(const std::uint8_t* bytes,
                                          int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 
@@ -80,6 +88,8 @@ double Ultrsensor3509::uiuss4_tof_direct(const std::uint8_t* bytes,
 // 'bit': 23, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor3509::uiuss3_tof_direct(const std::uint8_t* bytes,
                                          int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -97,6 +107,8 @@ double Ultrsensor3509::uiuss3_tof_direct(const std::uint8_t* bytes,
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor3509::uiuss2_tof_direct(const std::uint8_t* bytes,
                                          int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 

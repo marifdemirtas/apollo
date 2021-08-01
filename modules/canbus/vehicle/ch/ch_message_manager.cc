@@ -35,6 +35,8 @@ namespace canbus {
 namespace ch {
 
 ChMessageManager::ChMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Control Messages
   AddSendProtocolData<Brakecommand111, true>();
   AddSendProtocolData<Controlcommand115, true>();
@@ -54,7 +56,9 @@ ChMessageManager::ChMessageManager() {
   AddRecvProtocolData<Turnsignalstatus513, true>();
 }
 
-ChMessageManager::~ChMessageManager() {}
+ChMessageManager::~ChMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 }  // namespace ch
 }  // namespace canbus

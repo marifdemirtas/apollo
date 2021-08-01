@@ -27,11 +27,15 @@ namespace gem {
 
 using ::apollo::drivers::canbus::Byte;
 
-Steeringmotorrpt274::Steeringmotorrpt274() {}
+Steeringmotorrpt274::Steeringmotorrpt274() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Steeringmotorrpt274::ID = 0x74;
 
 void Steeringmotorrpt274::Parse(const std::uint8_t* bytes, int32_t length,
                                 ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_gem()
       ->mutable_steering_motor_rpt_2_74()
       ->set_encoder_temperature(encoder_temperature(bytes, length));
@@ -48,6 +52,8 @@ void Steeringmotorrpt274::Parse(const std::uint8_t* bytes, int32_t length,
 // 'physical_unit': 'deg C'}
 int Steeringmotorrpt274::encoder_temperature(const std::uint8_t* bytes,
                                              int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -69,6 +75,8 @@ int Steeringmotorrpt274::encoder_temperature(const std::uint8_t* bytes,
 // 'physical_unit': 'deg C'}
 int Steeringmotorrpt274::motor_temperature(const std::uint8_t* bytes,
                                            int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -90,6 +98,8 @@ int Steeringmotorrpt274::motor_temperature(const std::uint8_t* bytes,
 // 'motorola', 'physical_unit': 'rev/s'}
 double Steeringmotorrpt274::angular_speed(const std::uint8_t* bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 

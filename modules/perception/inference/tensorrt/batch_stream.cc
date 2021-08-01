@@ -28,6 +28,8 @@ namespace inference {
 
 BatchStream::BatchStream(int batchSize, int maxBatches, std::string dataPath)
     : mBatchSize(batchSize), mMaxBatches(maxBatches), mPath(dataPath) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   FILE *file = fopen((mPath + "Batch0").c_str(), "rb");
   if (file != nullptr) {
     int d[4];
@@ -42,9 +44,13 @@ BatchStream::BatchStream(int batchSize, int maxBatches, std::string dataPath)
   }
 }
 
-BatchStream::BatchStream() : mPath("") {}
+BatchStream::BatchStream() : mPath("") {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void BatchStream::reset(int firstBatch) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (mPath != "") {
     mBatchCount = 0;
     mFileCount = 0;
@@ -54,6 +60,8 @@ void BatchStream::reset(int firstBatch) {
 }
 
 bool BatchStream::next() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (mBatchCount == mMaxBatches) {
     return false;
   }
@@ -78,6 +86,8 @@ bool BatchStream::next() {
 }
 
 void BatchStream::skip(int skipCount) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (mBatchSize >= mDims.n() && mBatchSize % mDims.n() == 0 &&
       mFileBatchPos == mDims.n()) {
     mFileCount += skipCount * mBatchSize / mDims.n();
@@ -92,6 +102,8 @@ void BatchStream::skip(int skipCount) {
 }
 
 bool BatchStream::update() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string inputFileName = absl::StrCat(mPath, "Batch", mFileCount++);
   FILE *file = fopen(inputFileName.c_str(), "rb");
   if (file == nullptr) {

@@ -75,6 +75,8 @@ template <typename Dtype>
 void ROIPoolingLayer<Dtype>::ForwardCPU(
     const std::vector<std::shared_ptr<base::Blob<Dtype>>> &bottom,
     const std::vector<std::shared_ptr<base::Blob<Dtype>>> &top) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   channels_ = bottom[0]->channels();
   height_ = bottom[0]->height();
   width_ = bottom[0]->width();

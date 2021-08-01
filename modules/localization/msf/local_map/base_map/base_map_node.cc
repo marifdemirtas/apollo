@@ -28,9 +28,13 @@ using cyber::common::DirectoryExists;
 using cyber::common::EnsureDirectory;
 
 BaseMapNode::BaseMapNode(BaseMapMatrix* matrix, CompressionStrategy* strategy)
-    : map_matrix_(matrix), compression_strategy_(strategy) {}
+    : map_matrix_(matrix), compression_strategy_(strategy) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 BaseMapNode::~BaseMapNode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (map_matrix_ != nullptr) {
     delete map_matrix_;
   }
@@ -41,6 +45,8 @@ BaseMapNode::~BaseMapNode() {
 
 void BaseMapNode::Init(const BaseMapConfig* map_config,
                        const MapNodeIndex& index, bool create_map_cells) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   map_config_ = map_config;
   index_ = index;
   left_top_corner_ = GetLeftTopCorner(*map_config_, index_);
@@ -53,11 +59,15 @@ void BaseMapNode::Init(const BaseMapConfig* map_config,
 }
 
 void BaseMapNode::InitMapMatrix(const BaseMapConfig* map_config) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   map_config_ = map_config;
   map_matrix_->Init(map_config);
 }
 
 void BaseMapNode::Finalize() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (is_changed_) {
     Save();
     AERROR << "Save Map Node to disk: " << index_ << ".";
@@ -65,6 +75,8 @@ void BaseMapNode::Finalize() {
 }
 
 void BaseMapNode::ResetMapNode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   is_changed_ = false;
   data_is_ready_ = false;
   is_reserved_ = false;
@@ -78,6 +90,8 @@ void BaseMapNode::ResetMapNode() {
 // }
 
 bool BaseMapNode::Save() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SaveIntensityImage();
   char buf[1024];
   std::string path = map_config_->map_folder_path_;
@@ -129,6 +143,8 @@ bool BaseMapNode::Save() {
 }
 
 bool BaseMapNode::Load() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   char buf[1024];
   std::string path = map_config_->map_folder_path_;
   if (!DirectoryExists(path)) {
@@ -168,6 +184,8 @@ bool BaseMapNode::Load() {
 }
 
 bool BaseMapNode::Load(const char* filename) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   data_is_ready_ = false;
   // char buf[1024];
 
@@ -185,6 +203,8 @@ bool BaseMapNode::Load(const char* filename) {
 }
 
 unsigned int BaseMapNode::LoadBinary(FILE* file) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Load the header
   unsigned int header_size = GetHeaderBinarySize();
   std::vector<unsigned char> buf(header_size);
@@ -202,6 +222,8 @@ unsigned int BaseMapNode::LoadBinary(FILE* file) {
 }
 
 unsigned int BaseMapNode::CreateBinary(FILE* file) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int buf_size = GetBinarySize();
   std::vector<unsigned char> buffer;
   buffer.resize(buf_size);
@@ -228,11 +250,15 @@ unsigned int BaseMapNode::CreateBinary(FILE* file) const {
 }
 
 unsigned int BaseMapNode::GetBinarySize() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // It is uncompressed binary size.
   return GetBodyBinarySize() + GetHeaderBinarySize();
 }
 
 unsigned int BaseMapNode::LoadHeaderBinary(unsigned char* buf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int target_size = GetHeaderBinarySize();
   unsigned int* p = reinterpret_cast<unsigned int*>(buf);
   index_.resolution_id_ = *p;
@@ -253,6 +279,8 @@ unsigned int BaseMapNode::LoadHeaderBinary(unsigned char* buf) {
 
 unsigned int BaseMapNode::CreateHeaderBinary(unsigned char* buf,
                                              unsigned int buf_size) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int target_size = GetHeaderBinarySize();
   if (buf_size >= target_size) {
     unsigned int* p = reinterpret_cast<unsigned int*>(buf);
@@ -272,6 +300,8 @@ unsigned int BaseMapNode::CreateHeaderBinary(unsigned char* buf,
 }
 
 unsigned int BaseMapNode::GetHeaderBinarySize() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return static_cast<int>(sizeof(unsigned int)      // index_.resolution_id_
                           + sizeof(int)             // index_.zone_id_
                           + sizeof(unsigned int)    // index_.m_
@@ -292,6 +322,8 @@ unsigned int BaseMapNode::GetHeaderBinarySize() const {
 // }
 
 unsigned int BaseMapNode::LoadBodyBinary(std::vector<unsigned char>* buf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (compression_strategy_ == nullptr) {
     return map_matrix_->LoadBinary(&((*buf)[0]));
   }
@@ -309,6 +341,8 @@ unsigned int BaseMapNode::LoadBodyBinary(std::vector<unsigned char>* buf) {
 
 unsigned int BaseMapNode::CreateBodyBinary(
     std::vector<unsigned char>* buf) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (compression_strategy_ == nullptr) {
     unsigned int body_size = GetBodyBinarySize();
     buf->resize(body_size);
@@ -327,12 +361,16 @@ unsigned int BaseMapNode::CreateBodyBinary(
 }
 
 unsigned int BaseMapNode::GetBodyBinarySize() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return map_matrix_->GetBinarySize();
 }
 
 // bool BaseMapNode::GetCoordinate(const idl::car::core::numerical::Vector2D&
 // coordinate,
 //         unsigned int& x, unsigned int& y) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 //     const idl::car::core::numerical::Vector2D& left_top_corner =
 //     GetLeftTopCorner(); int off_x = static_cast<int>((coordinate[0] -
 //     left_top_corner[0])/GetMapResolution()); int off_y =
@@ -351,6 +389,8 @@ unsigned int BaseMapNode::GetBodyBinarySize() const {
 
 bool BaseMapNode::GetCoordinate(const Eigen::Vector2d& coordinate,
                                 unsigned int* x, unsigned int* y) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const Eigen::Vector2d& left_top_corner = GetLeftTopCorner();
   int off_x = static_cast<int>((coordinate[0] - left_top_corner[0]) /
                                GetMapResolution());
@@ -371,6 +411,8 @@ bool BaseMapNode::GetCoordinate(const Eigen::Vector2d& coordinate,
 // bool BaseMapNode::GetCoordinate(const idl::car::core::numerical::Vector3D&
 // coordinate,
 //         unsigned int& x, unsigned int& y) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 //     idl::car::core::numerical::Vector2D coord2d;
 //     coord2d.init(coordinate.get_data());
 //     return GetCoordinate(coord2d, x, y);
@@ -402,6 +444,8 @@ Eigen::Vector2d BaseMapNode::GetCoordinate(unsigned int x,
 
 // idl::car::core::numerical::Vector2D BaseMapNode::GetLeftTopCorner(
 //     const BaseMapConfig& config, const MapNodeIndex& index) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 //     idl::car::core::numerical::Vector2D coord;
 //     coord[0] = config.map_range_.get_min_x() +
 //             config.map_node_size_x_*config.map_resolutions_[index.resolution_id_]*index.n_;
@@ -429,6 +473,8 @@ Eigen::Vector2d BaseMapNode::GetLeftTopCorner(const BaseMapConfig& config,
 }
 
 bool BaseMapNode::SaveIntensityImage() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   char buf[1024];
   std::string path = map_config_->map_folder_path_;
   if (!EnsureDirectory(path)) {
@@ -468,6 +514,8 @@ bool BaseMapNode::SaveIntensityImage() const {
 }
 
 bool BaseMapNode::SaveIntensityImage(const std::string& path) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   cv::Mat image;
   map_matrix_->GetIntensityImg(&image);
   bool success = cv::imwrite(path, image);

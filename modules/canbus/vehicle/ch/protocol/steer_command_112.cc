@@ -26,20 +26,28 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Steercommand112::ID = 0x112;
 
 // public
-Steercommand112::Steercommand112() { Reset(); }
+Steercommand112::Steercommand112() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Steercommand112::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Steercommand112::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_steer_angle_en_ctrl(data, steer_angle_en_ctrl_);
   set_p_steer_angle_cmd(data, steer_angle_cmd_);
 }
 
 void Steercommand112::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // you should check this manually
   steer_angle_en_ctrl_ = Steer_command_112::STEER_ANGLE_EN_CTRL_DISABLE;
   steer_angle_cmd_ = 0.0;
@@ -47,6 +55,8 @@ void Steercommand112::Reset() {
 
 Steercommand112* Steercommand112::set_steer_angle_en_ctrl(
     Steer_command_112::Steer_angle_en_ctrlType steer_angle_en_ctrl) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   steer_angle_en_ctrl_ = steer_angle_en_ctrl;
   return this;
 }
@@ -59,6 +69,8 @@ Steercommand112* Steercommand112::set_steer_angle_en_ctrl(
 void Steercommand112::set_p_steer_angle_en_ctrl(
     uint8_t* data,
     Steer_command_112::Steer_angle_en_ctrlType steer_angle_en_ctrl) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = steer_angle_en_ctrl;
 
   Byte to_set(data + 0);
@@ -66,6 +78,8 @@ void Steercommand112::set_p_steer_angle_en_ctrl(
 }
 
 Steercommand112* Steercommand112::set_steer_angle_cmd(double steer_angle_cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   steer_angle_cmd_ = steer_angle_cmd;
   return this;
 }
@@ -76,6 +90,8 @@ Steercommand112* Steercommand112::set_steer_angle_cmd(double steer_angle_cmd) {
 // 'double', 'order': 'intel', 'physical_unit': 'radian'}
 void Steercommand112::set_p_steer_angle_cmd(uint8_t* data,
                                             double steer_angle_cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   steer_angle_cmd = ProtocolData::BoundedValue(-0.524, 0.524, steer_angle_cmd);
   int x = static_cast<int>(steer_angle_cmd / 0.001000);
   uint8_t t = 0;

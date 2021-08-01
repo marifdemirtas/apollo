@@ -34,6 +34,8 @@ namespace canbus {
 namespace transit {
 
 TransitMessageManager::TransitMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Control Messages
   AddSendProtocolData<Adcauxiliarycontrol110, true>();
   AddSendProtocolData<Adcmotioncontrol110, true>();
@@ -51,7 +53,9 @@ TransitMessageManager::TransitMessageManager() {
   AddRecvProtocolData<Llcvehiclestatus25, true>();
 }
 
-TransitMessageManager::~TransitMessageManager() {}
+TransitMessageManager::~TransitMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 }  // namespace transit
 }  // namespace canbus

@@ -37,6 +37,8 @@ namespace drivers {
 namespace gnss {
 
 speed_t get_serial_baudrate(uint32_t rate) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   switch (rate) {
     case 9600:
       return B9600;
@@ -105,14 +107,20 @@ SerialStream::SerialStream(const char* device_name, speed_t baud_rate,
       fd_(-1),
       errno_(0),
       is_open_(false) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (device_name_.empty()) {
     status_ = Stream::Status::ERROR;
   }
 }
 
-SerialStream::~SerialStream() { this->close(); }
+SerialStream::~SerialStream() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ this->close(); }
 
 void SerialStream::open(void) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int fd = 0;
   fd = ::open(device_name_.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
   if (fd == -1) {
@@ -140,6 +148,8 @@ void SerialStream::open(void) {
 }
 
 bool SerialStream::configure_port(int fd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (fd < 0) {
     return false;
   }
@@ -220,6 +230,8 @@ bool SerialStream::configure_port(int fd) {
 }
 
 bool SerialStream::Connect() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_open_) {
     this->open();
     if (!is_open_) {
@@ -239,6 +251,8 @@ bool SerialStream::Connect() {
 }
 
 void SerialStream::close(void) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (is_open_) {
     ::close(fd_);
     fd_ = -1;
@@ -248,6 +262,8 @@ void SerialStream::close(void) {
 }
 
 bool SerialStream::Disconnect() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_open_) {
     // not open
     return false;
@@ -258,6 +274,8 @@ bool SerialStream::Disconnect() {
 }
 
 void SerialStream::check_remove() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   char data = 0;
   ssize_t nsent = ::write(fd_, &data, 0);
   if (nsent < 0) {
@@ -274,6 +292,8 @@ void SerialStream::check_remove() {
 }
 
 size_t SerialStream::read(uint8_t* buffer, size_t max_length) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_open_) {
     if (!Connect()) {
       return 0;
@@ -331,6 +351,8 @@ size_t SerialStream::read(uint8_t* buffer, size_t max_length) {
 }
 
 size_t SerialStream::write(const uint8_t* data, size_t length) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_open_) {
     if (!Connect()) {
       return 0;
@@ -384,6 +406,8 @@ size_t SerialStream::write(const uint8_t* data, size_t length) {
 }
 
 bool SerialStream::wait_readable(uint32_t timeout_us) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Setup a select call to block for serial data or a timeout
   timespec timeout_ts;
   fd_set readfds;
@@ -406,6 +430,8 @@ bool SerialStream::wait_readable(uint32_t timeout_us) {
 }
 
 bool SerialStream::wait_writable(uint32_t timeout_us) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Setup a select call to block for serial data or a timeout
   timespec timeout_ts;
   fd_set writefds;
@@ -429,6 +455,8 @@ bool SerialStream::wait_writable(uint32_t timeout_us) {
 
 Stream* Stream::create_serial(const char* device_name, uint32_t baud_rate,
                               uint32_t timeout_usec) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   speed_t baud = get_serial_baudrate(baud_rate);
   return baud == 0 ? nullptr
                    : new SerialStream(device_name, baud, timeout_usec);

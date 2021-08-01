@@ -26,6 +26,8 @@ namespace inference {
 
 nvinfer1::DimsCHW ReshapeDims(const nvinfer1::DimsCHW &dims,
                               const nvinfer1::DimsCHW &inputDims) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   nvinfer1::DimsCHW outDims = inputDims;
   int count = inputDims.d[0] * inputDims.d[1] * inputDims.d[2];
   int constant = 1;
@@ -49,6 +51,8 @@ void ParseNetParam(const NetParameter &net_param,
                    TensorDimsMap *tensor_dims_map,
                    std::map<std::string, std::string> *tensor_modify_map,
                    std::vector<LayerParameter> *order) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (int i = 0; i < net_param.layer_size(); ++i) {
     LayerParameter tensorrt_layer_param = net_param.layer(i);
     if (tensorrt_layer_param.type() == "Input") {
@@ -91,6 +95,8 @@ void ParseNetParam(const NetParameter &net_param,
 }
 
 bool ParserConvParam(const ConvolutionParameter &conv, ConvParam *param) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (conv.has_kernel_h() || conv.has_kernel_w()) {
     if (conv.kernel_size_size() != 0) {
       return false;
@@ -140,6 +146,8 @@ bool ParserConvParam(const ConvolutionParameter &conv, ConvParam *param) {
 }
 
 bool modify_pool_param(PoolingParameter *pool_param) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (pool_param->has_kernel_size()) {
     pool_param->set_kernel_h(pool_param->kernel_size());
     pool_param->set_kernel_w(pool_param->kernel_size());

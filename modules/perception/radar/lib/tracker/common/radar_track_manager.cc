@@ -20,6 +20,8 @@ namespace perception {
 namespace radar {
 
 int RadarTrackManager::RemoveLostTracks() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t track_count = 0;
   for (size_t i = 0; i < tracks_.size(); ++i) {
     if (!tracks_[i]->IsDead()) {
@@ -35,7 +37,9 @@ int RadarTrackManager::RemoveLostTracks() {
   return static_cast<int>(track_count);
 }
 
-void RadarTrackManager::ClearTracks() { tracks_.clear(); }
+void RadarTrackManager::ClearTracks() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ tracks_.clear(); }
 
 }  // namespace radar
 }  // namespace perception

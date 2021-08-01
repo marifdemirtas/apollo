@@ -25,6 +25,8 @@ namespace camera {
 
 void filter_bbox(const SmokeMinDims &min_dims,
                  std::vector<base::ObjectPtr> *objects) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int valid_obj_idx = 0;
   int total_obj_idx = 0;
   while (total_obj_idx < static_cast<int>(objects->size())) {
@@ -48,6 +50,8 @@ void filter_bbox(const SmokeMinDims &min_dims,
 
 void recover_smoke_bbox(int roi_w, int roi_h, int offset_y,
                   std::vector<base::ObjectPtr> *objects) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (auto &obj : *objects) {
     float xmin = obj->camera_supplement.box.xmin;
     float ymin = obj->camera_supplement.box.ymin;
@@ -81,6 +85,8 @@ void recover_smoke_bbox(int roi_w, int roi_h, int offset_y,
 
 void fill_smoke_base(base::ObjectPtr obj, const float *bbox,
                      int width, int height) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   obj->camera_supplement.box.xmin = bbox[0]/width;
   obj->camera_supplement.box.ymin = bbox[1]/height;
   obj->camera_supplement.box.xmax = bbox[2]/width;
@@ -89,6 +95,8 @@ void fill_smoke_base(base::ObjectPtr obj, const float *bbox,
 
 void fill_smoke_bbox3d(bool with_box3d, base::ObjectPtr obj,
                        const float *bbox) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (with_box3d) {
     obj->camera_supplement.alpha = bbox[1];
     obj->size[2] = bbox[6];
@@ -102,6 +110,8 @@ void fill_smoke_bbox3d(bool with_box3d, base::ObjectPtr obj,
 }
 
 base::ObjectSubType get_smoke_object_subtype(int cls) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (cls == 0) {
     return base::ObjectSubType::CAR;
   } else if (cls == 1) {
@@ -121,6 +131,8 @@ void get_smoke_objects_cpu(const SmokeBlobs &smoke_blobs,
                      base::Blob<bool> *overlapped, base::Blob<int> *idx_sm,
                      std::vector<base::ObjectPtr> *objects,
                      int width, int height) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const float* detect_result = smoke_blobs.det1_loc_blob->cpu_data();
   objects->clear();
 

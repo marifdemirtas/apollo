@@ -49,10 +49,14 @@ std::vector<base::ObjectSubType> kTypeRefinedByRef = {
     base::ObjectSubType::CYCLIST,    base::ObjectSubType::MOTORCYCLIST,
     base::ObjectSubType::TRICYCLIST};
 
-ObjectTemplateManager::ObjectTemplateManager() {}
+ObjectTemplateManager::ObjectTemplateManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool ObjectTemplateManager::Init(
     const ObjectTemplateManagerInitOptions &options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   lib::MutexLock lock(&mutex_);
   if (inited_) {
     return true;
@@ -180,6 +184,8 @@ bool ObjectTemplateManager::Init(
 }
 
 void ObjectTemplateManager::LoadVehTemplates(const ObjectTemplate &tmplt) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<std::tuple<float, float, float>> list_tpl;
   list_tpl.resize(0);
   for (int i = 0; i < tmplt.dim_size(); ++i) {
@@ -196,6 +202,8 @@ void ObjectTemplateManager::LoadVehTemplates(const ObjectTemplate &tmplt) {
 
 void ObjectTemplateManager::LoadVehMinMidMaxTemplates(
     const base::ObjectSubType &type, const ObjectTemplate &tmplt) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<std::tuple<float, float, float>> list_tpl;
   list_tpl.resize(0);
   for (int i = 0; i < tmplt.dim_size(); ++i) {
@@ -225,6 +233,8 @@ void ObjectTemplateManager::LoadVehMinMidMaxTemplates(
 // util for tmplt search
 float ObjectTemplateManager::Get3dDimensionSimilarity(const float *hwl1,
                                                       const float *hwl2) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(hwl1 != nullptr);
   ACHECK(hwl2 != nullptr);
 
@@ -245,6 +255,8 @@ float ObjectTemplateManager::Get3dDimensionSimilarity(const float *hwl1,
 // for general visual obj
 float ObjectTemplateManager::VehObjHwlBySearchTemplates(float *hwl, int *index,
                                                         bool *is_flip) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(inited_);
   ACHECK(hwl != nullptr);
 

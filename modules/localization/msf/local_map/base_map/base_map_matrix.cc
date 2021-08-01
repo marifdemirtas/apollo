@@ -20,20 +20,32 @@ namespace apollo {
 namespace localization {
 namespace msf {
 
-BaseMapMatrix::BaseMapMatrix() {}
+BaseMapMatrix::BaseMapMatrix() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-BaseMapMatrix::~BaseMapMatrix() {}
+BaseMapMatrix::~BaseMapMatrix() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-BaseMapMatrix::BaseMapMatrix(const BaseMapMatrix& cells) {}
+BaseMapMatrix::BaseMapMatrix(const BaseMapMatrix& cells) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-unsigned int BaseMapMatrix::LoadBinary(unsigned char* buf) { return 0; }
+unsigned int BaseMapMatrix::LoadBinary(unsigned char* buf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return 0; }
 
 unsigned int BaseMapMatrix::CreateBinary(unsigned char* buf,
                                          unsigned int buf_size) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return 0;
 }
 
-unsigned int BaseMapMatrix::GetBinarySize() const { return 0; }
+unsigned int BaseMapMatrix::GetBinarySize() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return 0; }
 
 }  // namespace msf
 }  // namespace localization

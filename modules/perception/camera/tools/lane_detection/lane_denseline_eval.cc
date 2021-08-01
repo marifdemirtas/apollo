@@ -32,6 +32,8 @@ namespace perception {
 namespace camera {
 
 int lane_postprocessor_eval() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   //  initialize lane detector
   LaneDetectorInitOptions init_options;
   LaneDetectorOptions detetor_options;
@@ -219,6 +221,8 @@ int lane_postprocessor_eval() {
 }  // namespace apollo
 
 int main(int argc, char** argv) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   google::ParseCommandLineFlags(&argc, &argv, true);
   FLAGS_alsologtostderr = true;
   google::InitGoogleLogging(argv[0]);

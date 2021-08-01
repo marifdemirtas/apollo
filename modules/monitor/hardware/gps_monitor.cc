@@ -34,9 +34,13 @@ using apollo::drivers::gnss::GnssBestPose;
 using apollo::drivers::gnss::SolutionType;
 
 GpsMonitor::GpsMonitor()
-    : RecurrentRunner(FLAGS_gps_monitor_name, FLAGS_gps_monitor_interval) {}
+    : RecurrentRunner(FLAGS_gps_monitor_name, FLAGS_gps_monitor_interval) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void GpsMonitor::RunOnce(const double current_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto manager = MonitorManager::Instance();
   Component* component = apollo::common::util::FindOrNull(
       *manager->GetStatus()->mutable_components(), FLAGS_gps_component_name);

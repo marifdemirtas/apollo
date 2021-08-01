@@ -44,6 +44,8 @@ ErrorCode LexusController::Init(
     const VehicleParameter& params,
     CanSender<::apollo::canbus::ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (is_initialized_) {
     AINFO << "LexusController has already been initiated.";
     return ErrorCode::CANBUS_ERROR;
@@ -117,9 +119,13 @@ ErrorCode LexusController::Init(
   return ErrorCode::OK;
 }
 
-LexusController::~LexusController() {}
+LexusController::~LexusController() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool LexusController::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_initialized_) {
     AERROR << "LexusController has NOT been initiated.";
     return false;
@@ -131,6 +137,8 @@ bool LexusController::Start() {
 }
 
 void LexusController::Stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_initialized_) {
     AERROR << "LexusController stops or starts improperly!";
     return;
@@ -144,6 +152,8 @@ void LexusController::Stop() {
 }
 
 Chassis LexusController::chassis() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis_.Clear();
 
   ChassisDetail chassis_detail;
@@ -305,11 +315,15 @@ Chassis LexusController::chassis() {
 }
 
 void LexusController::Emergency() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
 }
 
 ErrorCode LexusController::EnableAutoMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
     AINFO << "Already in COMPLETE_AUTO_DRIVE mode";
     return ErrorCode::OK;
@@ -339,6 +353,8 @@ ErrorCode LexusController::EnableAutoMode() {
 }
 
 ErrorCode LexusController::DisableAutoMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ResetProtocol();
   can_sender_->Update();
   set_driving_mode(Chassis::COMPLETE_MANUAL);
@@ -348,6 +364,8 @@ ErrorCode LexusController::DisableAutoMode() {
 }
 
 ErrorCode LexusController::EnableSteeringOnlyMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_STEER_ONLY) {
     set_driving_mode(Chassis::AUTO_STEER_ONLY);
@@ -373,6 +391,8 @@ ErrorCode LexusController::EnableSteeringOnlyMode() {
 }
 
 ErrorCode LexusController::EnableSpeedOnlyMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_SPEED_ONLY) {
     set_driving_mode(Chassis::AUTO_SPEED_ONLY);
@@ -399,6 +419,8 @@ ErrorCode LexusController::EnableSpeedOnlyMode() {
 
 // NEUTRAL, REVERSE, DRIVE
 void LexusController::Gear(Chassis::GearPosition gear_position) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
     AINFO << "This drive mode no need to set gear.";
@@ -448,6 +470,8 @@ void LexusController::Gear(Chassis::GearPosition gear_position) {
 // acceleration_spd:60 ~ 100, suggest: 90
 // -> pedal
 void LexusController::Brake(double pedal) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // double real_value = params_.max_acc() * acceleration / 100;
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -460,6 +484,8 @@ void LexusController::Brake(double pedal) {
 // drive with old acceleration
 // gas:0.00~99.99 unit:
 void LexusController::Throttle(double pedal) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
     AINFO << "The current drive mode does not need to set acceleration.";
@@ -471,6 +497,8 @@ void LexusController::Throttle(double pedal) {
 // drive with acceleration/deceleration
 // acc:-7.0 ~ 5.0, unit:m/s^2
 void LexusController::Acceleration(double acc) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
     AINFO << "The current drive mode does not need to set acceleration.";
@@ -484,6 +512,8 @@ void LexusController::Acceleration(double acc) {
 // need to be compatible with control module, so reverse steering
 // angle:-99.99~0.00~99.99, unit: %, left:+, right:- in control module
 void LexusController::Steer(double angle) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
     AINFO << "The current driving mode does not need to set steer.";
@@ -503,6 +533,8 @@ void LexusController::Steer(double angle) {
 // angle:-99.99~0.00~99.99, unit:%, left:+, right:- in control module
 // angle_spd:0.00~99.99, unit:%
 void LexusController::Steer(double angle, double angle_spd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
     AINFO << "The current driving mode does not need to set steer.";
@@ -521,6 +553,8 @@ void LexusController::Steer(double angle, double angle_spd) {
 }
 
 void LexusController::SetEpbBreak(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (command.parking_brake()) {
     // None
   } else {
@@ -529,6 +563,8 @@ void LexusController::SetEpbBreak(const ControlCommand& command) {
 }
 
 void LexusController::SetBeam(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (command.signal().high_beam()) {
     // None
   } else if (command.signal().low_beam()) {
@@ -539,6 +575,8 @@ void LexusController::SetBeam(const ControlCommand& command) {
 }
 
 void LexusController::SetHorn(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (command.signal().horn()) {
     // None
   } else {
@@ -547,6 +585,8 @@ void LexusController::SetHorn(const ControlCommand& command) {
 }
 
 void LexusController::SetTurningSignal(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto signal = command.signal().turn_signal();
   if (signal == common::VehicleSignal::TURN_LEFT) {
     turn_cmd_130_->set_turn_signal_cmd(Turn_cmd_130::TURN_SIGNAL_CMD_LEFT);
@@ -557,15 +597,21 @@ void LexusController::SetTurningSignal(const ControlCommand& command) {
   }
 }
 
-void LexusController::ResetProtocol() { message_manager_->ResetSendMessages(); }
+void LexusController::ResetProtocol() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ message_manager_->ResetSendMessages(); }
 
 bool LexusController::CheckChassisError() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   /* ADD YOUR OWN CAR CHASSIS OPERATION
    */
   return false;
 }
 
 void LexusController::SecurityDogThreadFunc() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
 
@@ -632,6 +678,8 @@ void LexusController::SecurityDogThreadFunc() {
 }
 
 bool LexusController::CheckResponse(const int32_t flags, bool need_wait) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // for Lexus, we assume CheckResponse will take 300ms. We leave a 100ms buffer
   // for it.
   // TODO(Yu) : check whether the current retry_num match the assumed time
@@ -683,22 +731,30 @@ bool LexusController::CheckResponse(const int32_t flags, bool need_wait) {
 }
 
 void LexusController::set_chassis_error_mask(const int32_t mask) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t LexusController::chassis_error_mask() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode LexusController::chassis_error_code() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
 }
 
 void LexusController::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
 }

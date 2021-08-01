@@ -33,9 +33,13 @@ using ::apollo::drivers::gnss::GnssEphemeris;
 
 RtcmParser::RtcmParser(const config::Config& config,
                        const std::shared_ptr<apollo::cyber::Node>& node)
-    : config_(config), node_(node) {}
+    : config_(config), node_(node) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool RtcmParser::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   rtcm_parser_.reset(new Rtcm3Parser(true));
 
   if (!rtcm_parser_) {
@@ -52,6 +56,8 @@ bool RtcmParser::Init() {
 }
 
 void RtcmParser::ParseRtcmData(const std::string& msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!init_flag_) {
     return;
   }
@@ -70,6 +76,8 @@ void RtcmParser::ParseRtcmData(const std::string& msg) {
 }
 
 void RtcmParser::DispatchMessage(Parser::MessageType type, MessagePtr message) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   switch (type) {
     case Parser::MessageType::EPHEMERIDES:
       PublishEphemeris(message);
@@ -85,11 +93,15 @@ void RtcmParser::DispatchMessage(Parser::MessageType type, MessagePtr message) {
 }
 
 void RtcmParser::PublishEphemeris(const MessagePtr& message) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto eph = std::make_shared<GnssEphemeris>(*As<GnssEphemeris>(message));
   gnssephemeris_writer_->Write(eph);
 }
 
 void RtcmParser::PublishObservation(const MessagePtr& message) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto observation =
       std::make_shared<EpochObservation>(*As<EpochObservation>(message));
   epochobservation_writer_->Write(observation);

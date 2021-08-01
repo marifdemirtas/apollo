@@ -27,11 +27,15 @@ namespace zhongyun {
 
 using ::apollo::drivers::canbus::Byte;
 
-Vehiclestatefeedback2c4::Vehiclestatefeedback2c4() {}
+Vehiclestatefeedback2c4::Vehiclestatefeedback2c4() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Vehiclestatefeedback2c4::ID = 0xC4;
 
 void Vehiclestatefeedback2c4::Parse(const std::uint8_t* bytes, int32_t length,
                                     ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_zhongyun()
       ->mutable_vehicle_state_feedback_2_c4()
       ->set_motor_speed(motor_speed(bytes, length));
@@ -45,6 +49,8 @@ void Vehiclestatefeedback2c4::Parse(const std::uint8_t* bytes, int32_t length,
 // 'type': 'int', 'order': 'intel', 'physical_unit': 'rpm'}
 int Vehiclestatefeedback2c4::motor_speed(const std::uint8_t* bytes,
                                          int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -65,6 +71,8 @@ int Vehiclestatefeedback2c4::motor_speed(const std::uint8_t* bytes,
 // 16, 'type': 'double', 'order': 'intel', 'physical_unit': '%'}
 double Vehiclestatefeedback2c4::driven_torque_feedback(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 

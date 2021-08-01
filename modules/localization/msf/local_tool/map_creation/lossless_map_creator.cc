@@ -43,6 +43,8 @@ typedef apollo::localization::msf::FeatureXYPlane::PointCloudPtrT
 
 bool ParseCommandLine(int argc, char* argv[],
                       boost::program_options::variables_map* vm) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   boost::program_options::options_description desc("Allowd options");
   desc.add_options()("help", "product help message")(
       "use_plane_inliers_only",
@@ -96,6 +98,8 @@ bool ParseCommandLine(int argc, char* argv[],
 }
 
 void VarianceOnline(double* mean, double* var, unsigned int* N, double x) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ++(*N);
   double value = (x - (*mean)) / (*N);
   double v1 = x - (*mean);
@@ -108,6 +112,8 @@ using ::apollo::common::EigenAffine3dVec;
 using ::apollo::common::EigenVector3dVec;
 
 int main(int argc, char** argv) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   FeatureXYPlane plane_extractor;
 
   boost::program_options::variables_map boost_args;

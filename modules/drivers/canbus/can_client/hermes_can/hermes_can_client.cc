@@ -29,12 +29,16 @@ namespace can {
 using apollo::common::ErrorCode;
 
 HermesCanClient::~HermesCanClient() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (dev_handler_) {
     Stop();
   }
 }
 
 bool HermesCanClient::Init(const CANCardParameter &parameter) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!parameter.has_channel_id()) {
     AERROR << "Init CAN failed: parameter does not have channel id. The "
               "parameter is "
@@ -53,6 +57,8 @@ bool HermesCanClient::Init(const CANCardParameter &parameter) {
 }
 
 ErrorCode HermesCanClient::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (is_init_) {
     return ErrorCode::OK;
   }
@@ -88,6 +94,8 @@ ErrorCode HermesCanClient::Start() {
 }
 
 void HermesCanClient::Stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (is_init_) {
     is_init_ = false;
     int32_t ret = bcan_close(dev_handler_);
@@ -100,6 +108,8 @@ void HermesCanClient::Stop() {
 // Synchronous transmission of CAN messages
 apollo::common::ErrorCode HermesCanClient::Send(
     const std::vector<CanFrame> &frames, int32_t *const frame_num) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   /*
   typedef struct bcan_msg {
       uint32_t bcan_msg_id;        // source CAN node id
@@ -145,6 +155,8 @@ const int RX_TIMEOUT = -7;
 
 apollo::common::ErrorCode HermesCanClient::Receive(
     std::vector<CanFrame> *const frames, int32_t *const frame_num) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_init_) {
     AERROR << "Hermes can client is not init! Please init first!";
     return ErrorCode::CAN_CLIENT_ERROR_RECV_FAILED;
@@ -183,9 +195,13 @@ apollo::common::ErrorCode HermesCanClient::Receive(
   return ErrorCode::OK;
 }
 
-std::string HermesCanClient::GetErrorString(int32_t ntstatus) { return ""; }
+std::string HermesCanClient::GetErrorString(int32_t ntstatus) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return ""; }
 
-void HermesCanClient::SetInited(bool init) { is_init_ = init; }
+void HermesCanClient::SetInited(bool init) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ is_init_ = init; }
 
 }  // namespace can
 }  // namespace canbus

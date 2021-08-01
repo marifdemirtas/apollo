@@ -40,6 +40,8 @@ namespace drivers {
 namespace hesai {
 
 int TcpCmdClient::BuildCmdHeader(const Command& cmd, unsigned char* buffer) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int index = 0;
   buffer[index++] = 0x47;
   buffer[index++] = 0x74;
@@ -53,6 +55,8 @@ int TcpCmdClient::BuildCmdHeader(const Command& cmd, unsigned char* buffer) {
 }
 
 bool TcpCmdClient::GetCalibration(std::string* content) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lck(mutex_);
   if (!Open()) {
     return false;
@@ -81,6 +85,8 @@ bool TcpCmdClient::GetCalibration(std::string* content) {
 
 void TcpCmdClient::ParseHeader(const unsigned char* buffer, const int len,
                                CommandHeader* header) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int index = 0;
   header->cmd = buffer[index++];
   header->ret_code = buffer[index++];
@@ -90,6 +96,8 @@ void TcpCmdClient::ParseHeader(const unsigned char* buffer, const int len,
 }
 
 bool TcpCmdClient::WriteCmd(const Command& cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned char buffer[128];
   int size = BuildCmdHeader(cmd, buffer);
   int ret = write(socket_fd_, buffer, size);
@@ -112,6 +120,8 @@ bool TcpCmdClient::WriteCmd(const Command& cmd) {
 }
 
 bool TcpCmdClient::ReadCmd(Command* feedback) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (feedback == nullptr) {
     return false;
   }
@@ -154,6 +164,8 @@ bool TcpCmdClient::ReadCmd(Command* feedback) {
 }
 
 int TcpCmdClient::Read(unsigned char* buffer, int n) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int nleft = -1, nread = -1;
   unsigned char* ptr = buffer;
   nleft = n;
@@ -175,6 +187,8 @@ int TcpCmdClient::Read(unsigned char* buffer, int n) {
 }
 
 void TcpCmdClient::Close() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (socket_fd_ >= 0) {
     close(socket_fd_);
     socket_fd_ = -1;
@@ -182,6 +196,8 @@ void TcpCmdClient::Close() {
 }
 
 bool TcpCmdClient::Open() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int sockfd = -1;
   struct sockaddr_in servaddr;
   bzero(&servaddr, sizeof(servaddr));

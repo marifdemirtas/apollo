@@ -27,11 +27,15 @@ namespace zhongyun {
 
 using ::apollo::drivers::canbus::Byte;
 
-Enablestatefeedbackc3::Enablestatefeedbackc3() {}
+Enablestatefeedbackc3::Enablestatefeedbackc3() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Enablestatefeedbackc3::ID = 0xC3;
 
 void Enablestatefeedbackc3::Parse(const std::uint8_t* bytes, int32_t length,
                                   ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_zhongyun()
       ->mutable_enable_state_feedback_c3()
       ->set_parking_enable_state(parking_enable_state(bytes, length));
@@ -66,6 +70,8 @@ void Enablestatefeedbackc3::Parse(const std::uint8_t* bytes, int32_t length,
 Enable_state_feedback_c3::Parking_enable_stateType
 Enablestatefeedbackc3::parking_enable_state(const std::uint8_t* bytes,
                                             int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 
@@ -83,6 +89,8 @@ Enablestatefeedbackc3::parking_enable_state(const std::uint8_t* bytes,
 Enable_state_feedback_c3::Steering_enable_stateType
 Enablestatefeedbackc3::steering_enable_state(const std::uint8_t* bytes,
                                              int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -100,6 +108,8 @@ Enablestatefeedbackc3::steering_enable_state(const std::uint8_t* bytes,
 Enable_state_feedback_c3::Gear_enable_actualType
 Enablestatefeedbackc3::gear_enable_actual(const std::uint8_t* bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -116,6 +126,8 @@ Enablestatefeedbackc3::gear_enable_actual(const std::uint8_t* bytes,
 Enable_state_feedback_c3::Driven_enable_stateType
 Enablestatefeedbackc3::driven_enable_state(const std::uint8_t* bytes,
                                            int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -132,6 +144,8 @@ Enablestatefeedbackc3::driven_enable_state(const std::uint8_t* bytes,
 Enable_state_feedback_c3::Brake_enable_stateType
 Enablestatefeedbackc3::brake_enable_state(const std::uint8_t* bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 

@@ -22,11 +22,17 @@ namespace localization {
 namespace msf {
 namespace pyramid_map {
 
-NdtMapNodeConfig::NdtMapNodeConfig() {}
+NdtMapNodeConfig::NdtMapNodeConfig() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-NdtMapNodeConfig::~NdtMapNodeConfig() {}
+NdtMapNodeConfig::~NdtMapNodeConfig() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 std::shared_ptr<BaseMapNodeConfig> NdtMapNodeConfig::Clone() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::shared_ptr<NdtMapNodeConfig> map_node_config(new NdtMapNodeConfig());
   map_node_config->node_index_ = node_index_;
   map_node_config->map_version_ = map_version_;

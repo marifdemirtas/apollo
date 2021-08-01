@@ -27,6 +27,8 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool MlfTracker::Init(const MlfTrackerInitOptions options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig(Name(), &model_config));
@@ -54,12 +56,16 @@ bool MlfTracker::Init(const MlfTrackerInitOptions options) {
 
 void MlfTracker::InitializeTrack(MlfTrackDataPtr new_track_data,
                                  TrackedObjectPtr new_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   new_track_data->Reset(new_object, GetNextTrackId());
   new_track_data->is_current_state_predicted_ = false;
 }
 
 void MlfTracker::UpdateTrackDataWithObject(MlfTrackDataPtr track_data,
                                            TrackedObjectPtr new_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // 1. state filter and store belief in new_object
   for (auto& filter : filters_) {
     filter->UpdateWithObject(filter_options_, track_data, new_object);
@@ -71,6 +77,8 @@ void MlfTracker::UpdateTrackDataWithObject(MlfTrackDataPtr track_data,
 
 void MlfTracker::UpdateTrackDataWithoutObject(double timestamp,
                                               MlfTrackDataPtr track_data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (auto& filter : filters_) {
     filter->UpdateWithoutObject(filter_options_, timestamp, track_data);
   }

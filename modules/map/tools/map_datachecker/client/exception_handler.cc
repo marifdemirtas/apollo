@@ -23,6 +23,8 @@ namespace apollo {
 namespace hdmap {
 
 int ExceptionHandler::ExceptionHandlerFun(ErrorCode error_code) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int ret = 0;
   switch (error_code) {
     case ErrorCode::SUCCESS:

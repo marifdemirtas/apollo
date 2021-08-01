@@ -20,10 +20,14 @@ namespace perception {
 namespace lib {
 
 void ThreadWorker::Bind(const std::function<bool()> &func) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   work_func_ = func;
 }
 
 void ThreadWorker::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (thread_ptr_ == nullptr) {
     thread_ptr_.reset(new std::thread(&ThreadWorker::Core, this));
   }
@@ -33,6 +37,8 @@ void ThreadWorker::Start() {
 }
 
 void ThreadWorker::WakeUp() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   {
     std::lock_guard<std::mutex> lock(mutex_);
     work_flag_ = true;
@@ -41,11 +47,15 @@ void ThreadWorker::WakeUp() {
 }
 
 void ThreadWorker::Join() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::unique_lock<std::mutex> lock(mutex_);
   condition_.wait(lock, [&]() { return !work_flag_; });
 }
 
 void ThreadWorker::Release() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (thread_ptr_ == nullptr) {
     return;
   }
@@ -60,6 +70,8 @@ void ThreadWorker::Release() {
 }
 
 void ThreadWorker::Core() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   while (true) {
     {
       std::unique_lock<std::mutex> lock(mutex_);

@@ -26,6 +26,8 @@ void VehicleModel::RearCenteredKinematicBicycleModel(
     const VehicleModelConfig& vehicle_model_config,
     const double predicted_time_horizon, const VehicleState& cur_vehicle_state,
     VehicleState* predicted_vehicle_state) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Kinematic bicycle model centered at rear axis center by Euler forward
   // discretization
   // Assume constant control command and constant z axis position
@@ -82,6 +84,8 @@ void VehicleModel::RearCenteredKinematicBicycleModel(
 
 VehicleState VehicleModel::Predict(const double predicted_time_horizon,
                                    const VehicleState& cur_vehicle_state) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   VehicleModelConfig vehicle_model_config;
 
   ACHECK(cyber::common::GetProtoFromFile(FLAGS_vehicle_model_config_filename,

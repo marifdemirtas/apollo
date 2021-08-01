@@ -26,9 +26,13 @@ LosslessMapSingleCell::LosslessMapSingleCell()
       intensity_var(0.0),
       altitude(0.0),
       altitude_var(0.0),
-      count(0) {}
+      count(0) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void LosslessMapSingleCell::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   intensity = 0.0;
   intensity_var = 0.0;
   altitude = 0.0;
@@ -37,6 +41,8 @@ void LosslessMapSingleCell::Reset() {
 
 LosslessMapSingleCell& LosslessMapSingleCell::operator=(
     const LosslessMapSingleCell& ref) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   intensity = ref.intensity;
   intensity_var = ref.intensity_var;
   altitude = ref.altitude;
@@ -46,6 +52,8 @@ LosslessMapSingleCell& LosslessMapSingleCell::operator=(
 
 void LosslessMapSingleCell::AddSample(const float new_altitude,
                                       const float new_intensity) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ++count;
   float fcount = static_cast<float>(count);
   float v1 = new_intensity - intensity;
@@ -62,6 +70,8 @@ void LosslessMapSingleCell::AddSample(const float new_altitude,
 }
 
 unsigned int LosslessMapSingleCell::LoadBinary(unsigned char* buf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   float* p = reinterpret_cast<float*>(buf);
   intensity = *p;
   ++p;
@@ -79,6 +89,8 @@ unsigned int LosslessMapSingleCell::LoadBinary(unsigned char* buf) {
 
 unsigned int LosslessMapSingleCell::CreateBinary(unsigned char* buf,
                                                  unsigned int buf_size) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int target_size = GetBinarySize();
   if (buf_size >= target_size) {
     float* p = reinterpret_cast<float*>(buf);
@@ -98,13 +110,19 @@ unsigned int LosslessMapSingleCell::CreateBinary(unsigned char* buf,
 }
 
 unsigned int LosslessMapSingleCell::GetBinarySize() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return static_cast<unsigned int>(sizeof(float) * 4 + sizeof(unsigned int));
 }
 
 // ======================LosslessMapCell===========================
-LosslessMapCell::LosslessMapCell() { layer_num = 1; }
+LosslessMapCell::LosslessMapCell() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ layer_num = 1; }
 
 void LosslessMapCell::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (unsigned int i = 0; i < IDL_CAR_NUM_RESERVED_MAP_LAYER; ++i) {
     map_cells[i].Reset();
   }
@@ -113,6 +131,8 @@ void LosslessMapCell::Reset() {
 
 void LosslessMapCell::SetValueLayer(double altitude, unsigned char intensity,
                                     double altitude_thres) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   DCHECK_LE(layer_num, IDL_CAR_NUM_RESERVED_MAP_LAYER);
 
   unsigned int best_layer_id = GetLayerId(altitude);
@@ -154,12 +174,16 @@ void LosslessMapCell::SetValueLayer(double altitude, unsigned char intensity,
 }
 
 void LosslessMapCell::SetValue(double altitude, unsigned char intensity) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   DCHECK_LE(layer_num, IDL_CAR_NUM_RESERVED_MAP_LAYER);
   LosslessMapSingleCell& cell = map_cells[0];
   cell.AddSample(static_cast<float>(altitude), static_cast<float>(intensity));
 }
 
 unsigned int LosslessMapCell::LoadBinary(unsigned char* buf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int* p = reinterpret_cast<unsigned int*>(buf);
   unsigned int size = *p;
   ++p;
@@ -175,6 +199,8 @@ unsigned int LosslessMapCell::LoadBinary(unsigned char* buf) {
 
 unsigned int LosslessMapCell::CreateBinary(unsigned char* buf,
                                            unsigned int buf_size) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int target_size = GetBinarySize();
   if (buf_size >= target_size) {
     unsigned int* p = reinterpret_cast<unsigned int*>(buf);
@@ -194,6 +220,8 @@ unsigned int LosslessMapCell::CreateBinary(unsigned char* buf,
 }
 
 unsigned int LosslessMapCell::GetBinarySize() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int target_size = sizeof(
       unsigned int);  // The size of the variable for the number of layers.
   for (size_t i = 0; i < layer_num; ++i) {
@@ -204,6 +232,8 @@ unsigned int LosslessMapCell::GetBinarySize() const {
 }
 
 unsigned int LosslessMapCell::GetLayerId(double altitude) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int best_layer_id = 0;
   double best_layer_alt_dif = 1e10;
   for (unsigned int i = 1; i < layer_num; ++i) {
@@ -218,6 +248,8 @@ unsigned int LosslessMapCell::GetLayerId(double altitude) const {
 }
 
 void LosslessMapCell::GetValue(std::vector<unsigned char>* values) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   values->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
     const LosslessMapSingleCell& cell = map_cells[i];
@@ -226,6 +258,8 @@ void LosslessMapCell::GetValue(std::vector<unsigned char>* values) const {
 }
 
 void LosslessMapCell::GetVar(std::vector<float>* vars) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   vars->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
     const LosslessMapSingleCell& cell = map_cells[i];
@@ -234,6 +268,8 @@ void LosslessMapCell::GetVar(std::vector<float>* vars) const {
 }
 
 void LosslessMapCell::GetAlt(std::vector<float>* alts) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   alts->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
     const LosslessMapSingleCell& cell = map_cells[i];
@@ -242,6 +278,8 @@ void LosslessMapCell::GetAlt(std::vector<float>* alts) const {
 }
 
 void LosslessMapCell::GetAltVar(std::vector<float>* alt_vars) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   alt_vars->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
     const LosslessMapSingleCell& cell = map_cells[i];
@@ -250,6 +288,8 @@ void LosslessMapCell::GetAltVar(std::vector<float>* alt_vars) const {
 }
 
 void LosslessMapCell::GetCount(std::vector<unsigned int>* counts) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   counts->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
     const LosslessMapSingleCell& cell = map_cells[i];
@@ -259,12 +299,16 @@ void LosslessMapCell::GetCount(std::vector<unsigned int>* counts) const {
 
 // ======================LosslessMapMatrix===========================
 LosslessMapMatrix::LosslessMapMatrix() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   rows_ = 0;
   cols_ = 0;
   map_cells_ = nullptr;
 }
 
 LosslessMapMatrix::~LosslessMapMatrix() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (map_cells_) {
     delete[] map_cells_;
   }
@@ -274,6 +318,8 @@ LosslessMapMatrix::~LosslessMapMatrix() {
 
 LosslessMapMatrix::LosslessMapMatrix(const LosslessMapMatrix& matrix)
     : BaseMapMatrix(matrix) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Init(matrix.rows_, matrix.cols_);
   for (unsigned int y = 0; y < rows_; ++y) {
     for (unsigned int x = 0; x < cols_; ++x) {
@@ -283,6 +329,8 @@ LosslessMapMatrix::LosslessMapMatrix(const LosslessMapMatrix& matrix)
 }
 
 void LosslessMapMatrix::Init(const BaseMapConfig* config) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int rows = config->map_node_size_y_;
   unsigned int cols = config->map_node_size_x_;
   if (rows_ == rows && cols_ == cols) {
@@ -292,10 +340,14 @@ void LosslessMapMatrix::Init(const BaseMapConfig* config) {
 }
 
 void LosslessMapMatrix::Reset(const BaseMapConfig* config) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Reset(config->map_node_size_y_, config->map_node_size_x_);
 }
 
 void LosslessMapMatrix::Init(unsigned int rows, unsigned int cols) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (map_cells_) {
     delete[] map_cells_;
     map_cells_ = nullptr;
@@ -306,6 +358,8 @@ void LosslessMapMatrix::Init(unsigned int rows, unsigned int cols) {
 }
 
 void LosslessMapMatrix::Reset(unsigned int rows, unsigned int cols) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int length = rows * cols;
   for (unsigned int i = 0; i < length; ++i) {
     map_cells_[i].Reset();
@@ -313,6 +367,8 @@ void LosslessMapMatrix::Reset(unsigned int rows, unsigned int cols) {
 }
 
 unsigned int LosslessMapMatrix::LoadBinary(unsigned char* buf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int* p = reinterpret_cast<unsigned int*>(buf);
   rows_ = *p;
   ++p;
@@ -333,6 +389,8 @@ unsigned int LosslessMapMatrix::LoadBinary(unsigned char* buf) {
 
 unsigned int LosslessMapMatrix::CreateBinary(unsigned char* buf,
                                              unsigned int buf_size) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int target_size = GetBinarySize();
   if (buf_size >= target_size) {
     unsigned int* p = reinterpret_cast<unsigned int*>(buf);
@@ -356,6 +414,8 @@ unsigned int LosslessMapMatrix::CreateBinary(unsigned char* buf,
 }
 
 unsigned int LosslessMapMatrix::GetBinarySize() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // default binary size
   unsigned int target_size =
       static_cast<unsigned int>(sizeof(unsigned int) * 2);  // rows and cols
@@ -369,6 +429,8 @@ unsigned int LosslessMapMatrix::GetBinarySize() const {
 }
 
 void LosslessMapMatrix::GetIntensityImg(cv::Mat* intensity_img) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   *intensity_img = cv::Mat(cv::Size(cols_, rows_), CV_8UC1);
 
   for (uint32_t y = 0; y < rows_; ++y) {

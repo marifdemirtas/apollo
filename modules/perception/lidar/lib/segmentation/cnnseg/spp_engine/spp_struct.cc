@@ -20,6 +20,8 @@ namespace perception {
 namespace lidar {
 
 void SppData::MakeReference(size_t width, size_t height, float range) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   obs_prob_data = category_pt_blob->mutable_cpu_data();
   offset_data = instance_pt_blob->mutable_cpu_data();
   confidence_data = confidence_pt_blob->mutable_cpu_data();
@@ -47,6 +49,8 @@ void SppData::MakeReference(size_t width, size_t height, float range) {
 }
 
 SppData::~SppData() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (obs_prob_data_ref) {
     delete[] obs_prob_data_ref;
   }

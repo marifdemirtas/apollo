@@ -32,6 +32,8 @@ using cyber::common::PathExists;
 
 bool ReadPoseFile(const std::string &filename, Eigen::Affine3d *pose,
                   int *frame_id, double *time_stamp) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (pose == nullptr || frame_id == nullptr || time_stamp == nullptr) {
     AERROR << "Nullptr error.";
     return false;
@@ -58,6 +60,8 @@ bool ReadPoseFile(const std::string &filename, Eigen::Affine3d *pose,
 
 bool LoadBrownCameraIntrinsic(const std::string &yaml_file,
                               base::BrownCameraDistortionModel *model) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!PathExists(yaml_file) || model == nullptr) {
     return false;
   }
@@ -95,6 +99,8 @@ bool LoadBrownCameraIntrinsic(const std::string &yaml_file,
 bool LoadOmnidirectionalCameraIntrinsics(
     const std::string &yaml_file,
     base::OmnidirectionalCameraDistortionModel *model) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!PathExists(yaml_file) || model == nullptr) {
     return false;
   }
@@ -162,6 +168,8 @@ bool LoadOmnidirectionalCameraIntrinsics(
 
 bool GetFileList(const std::string &path, const std::string &suffix,
                  std::vector<std::string> *files) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!PathExists(path)) {
     AINFO << path << " not exist.";
     return false;

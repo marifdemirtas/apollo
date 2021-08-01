@@ -30,6 +30,8 @@ namespace fusion {
 bool DstManager::AddApp(const std::string &app_name,
                         const std::vector<uint64_t> &fod_subsets,
                         const std::vector<std::string> &fod_subset_names) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (dst_common_data_.find(app_name) != dst_common_data_.end()) {
     AWARN << boost::format("Dst %s was added!") % app_name;
   }
@@ -57,6 +59,8 @@ bool DstManager::AddApp(const std::string &app_name,
 }
 
 bool DstManager::IsAppAdded(const std::string &app_name) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto iter = dst_common_data_.find(app_name);
   if (iter == dst_common_data_.end()) {
     return false;
@@ -65,6 +69,8 @@ bool DstManager::IsAppAdded(const std::string &app_name) {
 }
 
 DstCommonDataPtr DstManager::GetAppDataPtr(const std::string &app_name) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!IsAppAdded(app_name)) {
     AERROR << "app_name is not available";
     return nullptr;
@@ -78,6 +84,8 @@ DstCommonDataPtr DstManager::GetAppDataPtr(const std::string &app_name) {
 
 size_t DstManager::FodSubsetToInd(const std::string &app_name,
                                   const uint64_t &fod_subset) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto iter0 = dst_common_data_.find(app_name);
   ACHECK(iter0 != dst_common_data_.end());
   auto iter = iter0->second.subsets_ind_map_.find(fod_subset);
@@ -87,12 +95,16 @@ size_t DstManager::FodSubsetToInd(const std::string &app_name,
 
 uint64_t DstManager::IndToFodSubset(const std::string &app_name,
                                     const size_t &ind) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto iter = dst_common_data_.find(app_name);
   ACHECK(iter != dst_common_data_.end());
   return iter->second.fod_subsets_[ind];
 }
 
 void DstManager::BuildSubsetsIndMap(DstCommonData *dst_data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   dst_data->subsets_ind_map_.clear();
   for (size_t i = 0; i < dst_data->fod_subsets_.size(); ++i) {
     dst_data->subsets_ind_map_[dst_data->fod_subsets_[i]] = i;
@@ -100,6 +112,8 @@ void DstManager::BuildSubsetsIndMap(DstCommonData *dst_data) {
 }
 
 void DstManager::FodCheck(DstCommonData *dst_data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   uint64_t fod = 0;
   for (auto fod_subset : dst_data->fod_subsets_) {
     fod |= fod_subset;
@@ -115,6 +129,8 @@ void DstManager::FodCheck(DstCommonData *dst_data) {
 }
 
 void DstManager::ComputeCardinalities(DstCommonData *dst_data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto count_set_bits = [](uint64_t fod_subset) {
     size_t count = 0;
     while (fod_subset) {
@@ -130,6 +146,8 @@ void DstManager::ComputeCardinalities(DstCommonData *dst_data) {
 }
 
 bool DstManager::ComputeRelations(DstCommonData *dst_data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto reserve_space = [](std::vector<std::vector<size_t>> &relations,
                           size_t size) {
     relations.clear();
@@ -176,6 +194,8 @@ bool DstManager::ComputeRelations(DstCommonData *dst_data) {
 
 void DstManager::BuildNamesMap(const std::vector<std::string> &fod_subset_names,
                                DstCommonData *dst_data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // reset and reserve space
   dst_data->fod_subset_names_.clear();
   dst_data->fod_subset_names_.resize(dst_data->fod_subsets_.size());
@@ -193,6 +213,8 @@ void DstManager::BuildNamesMap(const std::vector<std::string> &fod_subset_names,
 }
 
 Dst::Dst(const std::string &app_name) : app_name_(app_name) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (DstManager::Instance()->IsAppAdded(app_name)) {
     dst_data_ptr_ = DstManager::Instance()->GetAppDataPtr(app_name);
     // default BBA provide no more evidence
@@ -202,6 +224,8 @@ Dst::Dst(const std::string &app_name) : app_name_(app_name) {
 }
 
 void Dst::SelfCheck() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(DstManager::Instance()->IsAppAdded(app_name_));
   if (dst_data_ptr_ == nullptr) {
     dst_data_ptr_ = DstManager::Instance()->GetAppDataPtr(app_name_);
@@ -212,17 +236,23 @@ void Dst::SelfCheck() const {
 }
 
 double Dst::GetSubsetBfmass(uint64_t fod_subset) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SelfCheck();
   size_t idx = DstManager::Instance()->FodSubsetToInd(app_name_, fod_subset);
   return bba_vec_[idx];
 }
 
 double Dst::GetIndBfmass(size_t ind) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SelfCheck();
   return bba_vec_[ind];
 }
 
 bool Dst::SetBbaVec(const std::vector<double> &bba_vec) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SelfCheck();
   if (bba_vec.size() != dst_data_ptr_->fod_subsets_.size()) {
     AERROR << boost::format("input bba_vec size: %d !=  Dst subsets size: %d") %
@@ -244,6 +274,8 @@ bool Dst::SetBbaVec(const std::vector<double> &bba_vec) {
 }
 
 bool Dst::SetBba(const std::map<uint64_t, double> &bba_map) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SelfCheck();
   std::vector<double> bba_vec(dst_data_ptr_->fod_subsets_.size(), 0.0);
   const auto &subsets_ind_map = dst_data_ptr_->subsets_ind_map_;
@@ -270,6 +302,8 @@ bool Dst::SetBba(const std::map<uint64_t, double> &bba_map) {
 }
 
 std::string Dst::PrintBba() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SelfCheck();
   static constexpr size_t total_res_size = 10000;
   static constexpr size_t row_res_size = 1000;
@@ -303,6 +337,8 @@ std::string Dst::PrintBba() const {
 }
 
 void Dst::ComputeSptPlsUct() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SelfCheck();
   auto resize_space = [](std::vector<double> &vec, size_t size) {
     vec.clear();
@@ -336,6 +372,8 @@ void Dst::ComputeSptPlsUct() const {
 
 // use combination_relations to compute all the probability at one time
 void Dst::ComputeProbability() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SelfCheck();
   probability_vec_.clear();
   probability_vec_.resize(bba_vec_.size(), 0.0);
@@ -357,6 +395,8 @@ void Dst::ComputeProbability() const {
 }
 
 void Dst::Normalize() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SelfCheck();
   double mass_sum = std::accumulate(bba_vec_.begin(), bba_vec_.end(), 0.0);
   if (mass_sum == 0.0) {

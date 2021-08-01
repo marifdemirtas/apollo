@@ -27,10 +27,14 @@
 #include "modules/perception/common/sensor_manager/sensor_manager.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace perception {
 namespace camera {
 
 bool MultiCamerasProjection::Init(const MultiCamerasInitOption& options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (options.camera_names.empty()) {
     AERROR << "no cameras to be projected";
     return false;
@@ -83,6 +87,8 @@ bool MultiCamerasProjection::Init(const MultiCamerasInitOption& options) {
 bool MultiCamerasProjection::Project(const CarPose& pose,
                                      const ProjectOption& option,
                                      base::TrafficLight* light) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!HasCamera(option.camera_name)) {
     AERROR << "no camera: " << option.camera_name;
     return false;
@@ -109,6 +115,8 @@ bool MultiCamerasProjection::Project(const CarPose& pose,
 }
 
 bool MultiCamerasProjection::HasCamera(const std::string& camera_name) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto iter =
       std::find(camera_names_.begin(), camera_names_.end(), camera_name);
   return iter != camera_names_.end() &&
@@ -117,6 +125,8 @@ bool MultiCamerasProjection::HasCamera(const std::string& camera_name) const {
 
 int MultiCamerasProjection::getImageWidth(
     const std::string& camera_name) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!HasCamera(camera_name)) {
     AERROR << "getImageWidth failed, camera_name: " << camera_name;
     return -1;
@@ -126,6 +136,8 @@ int MultiCamerasProjection::getImageWidth(
 
 int MultiCamerasProjection::getImageHeight(
     const std::string& camera_name) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!HasCamera(camera_name)) {
     AERROR << "getImageHeight failed, camera_name: " << camera_name;
     return -1;
@@ -138,6 +150,8 @@ bool MultiCamerasProjection::BoundaryBasedProject(
     const Eigen::Matrix4d& c2w_pose,
     const std::vector<base::PointXYZID>& points,
     base::TrafficLight* light) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (camera_model.get() == nullptr) {
     AERROR << "camera_model is not available.";
     return false;

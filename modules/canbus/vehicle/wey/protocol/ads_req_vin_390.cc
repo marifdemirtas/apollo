@@ -27,25 +27,35 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Adsreqvin390::ID = 0x390;
 
 // public
-Adsreqvin390::Adsreqvin390() { Reset(); }
+Adsreqvin390::Adsreqvin390() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Adsreqvin390::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(ChaoMa) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Adsreqvin390::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_req_vin_signal(data, req_vin_signal_);
 }
 
 void Adsreqvin390::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(ChaoMa) :you should check this manually
   req_vin_signal_ = Ads_req_vin_390::REQ_VIN_SIGNAL_NO_REQUEST;
 }
 
 Adsreqvin390* Adsreqvin390::set_req_vin_signal(
     Ads_req_vin_390::Req_vin_signalType req_vin_signal) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   req_vin_signal_ = req_vin_signal;
   return this;
 }
@@ -57,6 +67,8 @@ Adsreqvin390* Adsreqvin390::set_req_vin_signal(
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Adsreqvin390::set_p_req_vin_signal(
     uint8_t* data, Ads_req_vin_390::Req_vin_signalType req_vin_signal) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = req_vin_signal;
 
   Byte to_set(data + 0);

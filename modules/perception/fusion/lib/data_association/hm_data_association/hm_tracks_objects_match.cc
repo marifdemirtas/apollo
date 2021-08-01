@@ -47,6 +47,8 @@ void extract_vector(const std::vector<T>& vec,
 bool HMTrackersObjectsAssociation::Associate(
     const AssociationOptions& options, SensorFramePtr sensor_measurements,
     ScenePtr scene, AssociationResult* association_result) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const std::vector<SensorObjectPtr>& sensor_objects =
       sensor_measurements->GetForegroundObjects();
   const std::vector<TrackPtr>& fusion_tracks = scene->GetForegroundTracks();
@@ -147,6 +149,8 @@ void HMTrackersObjectsAssociation::PostIdAssign(
     const std::vector<size_t>& unassigned_fusion_tracks,
     const std::vector<size_t>& unassigned_sensor_objects,
     std::vector<TrackMeasurmentPair>* post_assignments) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<size_t> valid_unassigned_tracks;
   valid_unassigned_tracks.reserve(unassigned_fusion_tracks.size());
   // only camera track
@@ -181,6 +185,8 @@ bool HMTrackersObjectsAssociation::MinimizeAssignment(
     std::vector<TrackMeasurmentPair>* assignments,
     std::vector<size_t>* unassigned_tracks,
     std::vector<size_t>* unassigned_measurements) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   common::GatedHungarianMatcher<float>::OptimizeFlag opt_flag =
       common::GatedHungarianMatcher<float>::OptimizeFlag::OPTMIN;
   common::SecureMat<float>* global_costs = optimizer_.mutable_global_costs();
@@ -224,6 +230,8 @@ void HMTrackersObjectsAssociation::ComputeDistance(
     const std::vector<size_t>& measurement_ind_l2g,
     const std::vector<std::vector<double>>& association_mat,
     AssociationResult* association_result) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (size_t i = 0; i < association_result->assignments.size(); i++) {
     int track_ind = static_cast<int>(association_result->assignments[i].first);
     int measurement_ind =
@@ -300,6 +308,8 @@ void HMTrackersObjectsAssociation::ComputeAssociationDistanceMat(
     const std::vector<size_t>& unassigned_tracks,
     const std::vector<size_t>& unassigned_measurements,
     std::vector<std::vector<double>>* association_mat) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // if (sensor_objects.empty()) return;
   TrackObjectDistanceOptions opt;
   // TODO(linjian) ref_point
@@ -343,6 +353,8 @@ void HMTrackersObjectsAssociation::IdAssign(
     std::vector<size_t>* unassigned_fusion_tracks,
     std::vector<size_t>* unassigned_sensor_objects, bool do_nothing,
     bool post) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t num_track = fusion_tracks.size();
   size_t num_obj = sensor_objects.size();
   if (num_track == 0 || num_obj == 0 || do_nothing) {
@@ -405,6 +417,8 @@ void HMTrackersObjectsAssociation::GenerateUnassignedData(
     const std::vector<TrackMeasurmentPair>& assignments,
     std::vector<size_t>* unassigned_tracks,
     std::vector<size_t>* unassigned_objects) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<bool> track_flags(track_num, false);
   std::vector<bool> objects_flags(objects_num, false);
   for (auto assignment : assignments) {

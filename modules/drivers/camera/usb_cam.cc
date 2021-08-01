@@ -59,15 +59,21 @@ UsbCam::UsbCam()
       image_seq_(0),
       device_wait_sec_(2),
       last_nsec_(0),
-      frame_drop_interval_(0.0) {}
+      frame_drop_interval_(0.0) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 UsbCam::~UsbCam() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   stop_capturing();
   uninit_device();
   close_device();
 }
 
 bool UsbCam::init(const std::shared_ptr<Config>& cameraconfig) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   config_ = cameraconfig;
 
   if (config_->pixel_format() == "yuyv") {
@@ -100,6 +106,8 @@ bool UsbCam::init(const std::shared_ptr<Config>& cameraconfig) {
 }
 
 int UsbCam::init_mjpeg_decoder(int image_width, int image_height) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   avcodec_register_all();
 
   avcodec_ = avcodec_find_decoder(AV_CODEC_ID_MJPEG);
@@ -159,6 +167,8 @@ int UsbCam::init_mjpeg_decoder(int image_width, int image_height) {
 
 void UsbCam::mjpeg2rgb(char* mjpeg_buffer, int len, char* rgb_buffer,
                        int NumPixels) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   (void)NumPixels;
   int got_picture = 0;
 
@@ -227,6 +237,8 @@ void UsbCam::mjpeg2rgb(char* mjpeg_buffer, int len, char* rgb_buffer,
 }
 
 bool UsbCam::poll(const CameraImagePtr& raw_image) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   raw_image->is_new = 0;
   // free memory in this struct desturctor
   memset(raw_image->image, 0, raw_image->image_size * sizeof(char));
@@ -269,6 +281,8 @@ bool UsbCam::poll(const CameraImagePtr& raw_image) {
 }
 
 bool UsbCam::open_device(void) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   struct stat st;
 
   if (-1 == stat(config_->camera_dev().c_str(), &st)) {
@@ -295,6 +309,8 @@ bool UsbCam::open_device(void) {
 }
 
 bool UsbCam::init_device(void) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   struct v4l2_capability cap;
   struct v4l2_cropcap cropcap;
   struct v4l2_crop crop;
@@ -432,6 +448,8 @@ bool UsbCam::init_device(void) {
 
 #ifndef __aarch64__
 bool UsbCam::set_adv_trigger() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Trigger enable, dev:" << config_->camera_dev()
         << ", fps:" << config_->trigger_fps()
         << ", internal:" << config_->trigger_internal();
@@ -448,6 +466,8 @@ bool UsbCam::set_adv_trigger() {
 #endif
 
 int UsbCam::xioctl(int fd, int request, void* arg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int r = 0;
   do {
     r = ioctl(fd, request, arg);
@@ -457,6 +477,8 @@ int UsbCam::xioctl(int fd, int request, void* arg) {
 }
 
 bool UsbCam::init_read(unsigned int buffer_size) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   buffers_ = reinterpret_cast<buffer*>(calloc(1, sizeof(*buffers_)));
 
   if (!buffers_) {
@@ -478,6 +500,8 @@ bool UsbCam::init_read(unsigned int buffer_size) {
 }
 
 bool UsbCam::init_mmap(void) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   struct v4l2_requestbuffers req;
   CLEAR(req);
 
@@ -527,6 +551,8 @@ bool UsbCam::init_mmap(void) {
 }
 
 bool UsbCam::init_userp(unsigned int buffer_size) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   struct v4l2_requestbuffers req;
   unsigned int page_size = 0;
 
@@ -572,6 +598,8 @@ bool UsbCam::init_userp(unsigned int buffer_size) {
 }
 
 bool UsbCam::start_capturing(void) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (is_capturing_) {
     return true;
   }
@@ -645,6 +673,8 @@ bool UsbCam::start_capturing(void) {
 }
 
 void UsbCam::set_device_config() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (config_->brightness() >= 0) {
     set_v4l_parameter("brightness", config_->brightness());
   }
@@ -694,6 +724,8 @@ void UsbCam::set_device_config() {
 }
 
 bool UsbCam::uninit_device(void) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int i = 0;
 
   switch (config_->io_method()) {
@@ -727,6 +759,8 @@ bool UsbCam::uninit_device(void) {
 }
 
 bool UsbCam::close_device(void) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (-1 == close(fd_)) {
     AERROR << "close";
     return false;
@@ -737,6 +771,8 @@ bool UsbCam::close_device(void) {
 }
 
 bool UsbCam::stop_capturing(void) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_capturing_) {
     return true;
   }
@@ -769,6 +805,8 @@ bool UsbCam::stop_capturing(void) {
 }
 
 bool UsbCam::read_frame(CameraImagePtr raw_image) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   struct v4l2_buffer buf;
   unsigned int i = 0;
   int len = 0;
@@ -928,6 +966,8 @@ bool UsbCam::read_frame(CameraImagePtr raw_image) {
 }
 
 bool UsbCam::process_image(void* src, int len, CameraImagePtr dest) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (src == nullptr || dest == nullptr) {
     AERROR << "process image error. src or dest is null";
     return false;
@@ -956,6 +996,8 @@ bool UsbCam::process_image(void* src, int len, CameraImagePtr dest) {
                    dest->width * dest->height);
 #endif
     } else {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
       AERROR << "unsupported output format:" << config_->output_type();
       return false;
     }
@@ -966,10 +1008,14 @@ bool UsbCam::process_image(void* src, int len, CameraImagePtr dest) {
   return true;
 }
 
-bool UsbCam::is_capturing() { return is_capturing_; }
+bool UsbCam::is_capturing() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return is_capturing_; }
 
 // enables/disables auto focus
 void UsbCam::set_auto_focus(int value) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   struct v4l2_queryctrl queryctrl;
   struct v4l2_ext_control control;
 
@@ -1006,6 +1052,8 @@ void UsbCam::set_auto_focus(int value) {
  * @param param The value to assign
  */
 void UsbCam::set_v4l_parameter(const std::string& param, int value) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_v4l_parameter(param, std::to_string(value));
 }
 /**
@@ -1016,6 +1064,8 @@ void UsbCam::set_v4l_parameter(const std::string& param, int value) {
  */
 void UsbCam::set_v4l_parameter(const std::string& param,
                                const std::string& value) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // build the command
   std::stringstream ss;
   ss << "v4l2-ctl --device=" << config_->camera_dev() << " -c " << param << "="
@@ -1044,6 +1094,8 @@ void UsbCam::set_v4l_parameter(const std::string& param,
 }
 
 bool UsbCam::wait_for_device() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (is_capturing_) {
     ADEBUG << "is capturing";
     return true;
@@ -1068,6 +1120,8 @@ bool UsbCam::wait_for_device() {
 }
 
 void UsbCam::reconnect() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   stop_capturing();
   uninit_device();
   close_device();
@@ -1075,6 +1129,8 @@ void UsbCam::reconnect() {
 
 #ifdef __aarch64__
 int UsbCam::convert_yuv_to_rgb_pixel(int y, int u, int v) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int pixel32 = 0;
   unsigned char* pixel = (unsigned char*)&pixel32;
   int r, g, b;
@@ -1096,6 +1152,8 @@ int UsbCam::convert_yuv_to_rgb_pixel(int y, int u, int v) {
 
 int UsbCam::convert_yuv_to_rgb_buffer(unsigned char* yuv, unsigned char* rgb,
                                       unsigned int width, unsigned int height) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int in, out = 0;
   unsigned int pixel_16;
   unsigned char pixel_24[3];

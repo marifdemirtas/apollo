@@ -45,10 +45,16 @@ using apollo::cyber::common::GetAbsolutePath;
 using apollo::cyber::common::GetProtoFromFile;
 using Eigen::MatrixXf;
 
-NCut::NCut() {}
-NCut::~NCut() { ADEBUG << "NCut destructor done"; }
+NCut::NCut() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
+NCut::~NCut() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ ADEBUG << "NCut destructor done"; }
 
 bool NCut::Init(const NCutParam &param) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!Configure(param)) {
     AERROR << "failed to load ncut config.";
     return false;
@@ -63,6 +69,8 @@ bool NCut::Init(const NCutParam &param) {
 }
 
 bool NCut::Configure(const NCutParam &ncut_param_) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _grid_radius = ncut_param_.grid_radius();
   _connect_radius = ncut_param_.connect_radius();
   _super_pixel_cell_size = ncut_param_.super_pixel_cell_size();
@@ -84,6 +92,8 @@ bool NCut::Configure(const NCutParam &ncut_param_) {
 }
 
 void NCut::Segment(base::PointFCloudConstPtr cloud) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 #ifdef DEBUG_NCUT
   double start_t = omp_get_wtime();
 #endif
@@ -152,12 +162,16 @@ void NCut::Segment(base::PointFCloudConstPtr cloud) {
 void NCut::SuperPixelsFloodFill(base::PointFCloudConstPtr cloud, float radius,
                                 float cell_size,
                                 std::vector<std::vector<int>> *super_pixels) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   FloodFill ff_grid(radius, cell_size);
   std::vector<int> num_cells_per_components;
   ff_grid.GetSegments(cloud, super_pixels, &num_cells_per_components);
 }
 
 void NCut::PrecomputeAllSkeletonAndBbox() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const int num_clusters = static_cast<int>(_cluster_points.size());
   _cluster_skeleton_points.resize(num_clusters);
   _cluster_skeleton_features.resize(num_clusters);
@@ -189,6 +203,8 @@ void NCut::PrecomputeAllSkeletonAndBbox() {
 void NCut::BuildAverageHeightMap(
     base::PointFCloudConstPtr cloud, const FloodFill &ff_map,
     cv::Mat *cv_height_map_in, std::vector<gridIndex> *point_pixel_indices_in) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   cv::Mat &cv_height_map = *cv_height_map_in;
   std::vector<gridIndex> &point_pixel_indices = *point_pixel_indices_in;
   const int num_points = static_cast<int>(cloud->size());
@@ -230,6 +246,8 @@ void NCut::BuildAverageHeightMap(
 void NCut::SampleByGrid(const std::vector<int> &point_gids,
                         MatrixXf *skeleton_coords_in,
                         MatrixXf *skeleton_feature_in) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   MatrixXf &skeleton_coords = *skeleton_coords_in;
   MatrixXf &skeleton_feature = *skeleton_feature_in;
   FloodFill sampler(_grid_radius, _skeleton_cell_size);
@@ -263,6 +281,8 @@ void NCut::SampleByGrid(const std::vector<int> &point_gids,
 }
 
 void NCut::GetPatchFeature(const MatrixXf &points, MatrixXf *features_in) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   MatrixXf &features = *features_in;
   const int num_points = static_cast<int>(points.rows());
   const int dim = _patch_size * _patch_size;
@@ -294,6 +314,8 @@ void NCut::GetPatchFeature(const MatrixXf &points, MatrixXf *features_in) {
 
 NCut::NcutBoundingBox NCut::ComputeClusterBoundingBox(
     const std::vector<int> &point_gids) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // ! Note: do not perform rotation, so just some intuitive guess
   float x_max = -std::numeric_limits<float>::max();
   float y_max = -std::numeric_limits<float>::max();
@@ -321,6 +343,8 @@ NCut::NcutBoundingBox NCut::ComputeClusterBoundingBox(
 }
 
 std::string NCut::GetPcLabel(const base::PointFCloudPtr &cloud) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (cloud->size() < OBSTACLE_MINIMUM_NUM_POINTS) {
     return "unknown";
   }
@@ -340,6 +364,8 @@ std::string NCut::GetPcLabel(const base::PointFCloudPtr &cloud) {
 void NCut::NormalizedCut(float ncuts_threshold, bool use_classifier,
                          std::vector<std::vector<int>> *segment_clusters_in,
                          std::vector<std::string> *segment_labels_in) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<std::vector<int>> &segment_clusters = *segment_clusters_in;
   std::vector<std::string> &segment_labels = *segment_labels_in;
   const int num_clusters = static_cast<int>(_cluster_points.size());
@@ -471,6 +497,8 @@ void NCut::NormalizedCut(float ncuts_threshold, bool use_classifier,
 }
 
 void NCut::ComputeSkeletonWeights(Eigen::MatrixXf *weights_in) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::MatrixXf &weights = *weights_in;
   const int num_clusters = static_cast<int>(_cluster_points.size());
   const double hs2 = _sigma_space * _sigma_space;
@@ -501,6 +529,8 @@ void NCut::ComputeSkeletonWeights(Eigen::MatrixXf *weights_in) {
 float NCut::GetMinNcuts(const Eigen::MatrixXf &in_weights,
                         const std::vector<int> *in_clusters,
                         std::vector<int> *seg1, std::vector<int> *seg2) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // .0 initialization
   const int num_clusters = static_cast<int>(in_weights.rows());
   seg1->resize(num_clusters);
@@ -580,6 +610,8 @@ float NCut::GetMinNcuts(const Eigen::MatrixXf &in_weights,
 
 void NCut::LaplacianDecomposition(const Eigen::MatrixXf &weights,
                                   Eigen::MatrixXf *eigenvectors_in) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 #ifdef DEBUG_NCUT
 // std::cout << "laplacian 0:\n " << weights << std::endl << std::endl;
 #endif
@@ -653,6 +685,8 @@ bool NCut::ComputeSquaredSkeletonDistance(const Eigen::MatrixXf &in1_points,
                                           const Eigen::MatrixXf &in2_features,
                                           float *dist_point,
                                           float *dist_feature) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!((in1_points.rows() == in1_features.rows()) &&
         (in2_points.rows() == in2_features.rows()))) {
     return false;
@@ -691,6 +725,8 @@ bool NCut::ComputeSquaredSkeletonDistance(const Eigen::MatrixXf &in1_points,
 
 bool NCut::IsMovableObstacle(const std::vector<int> &cluster_ids,
                              std::string *label) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   NcutBoundingBox box;
   GetComponentBoundingBox(cluster_ids, &box);
   float dummy_length = GetBboxLength(box);
@@ -709,6 +745,8 @@ bool NCut::IsMovableObstacle(const std::vector<int> &cluster_ids,
 }
 
 std::string NCut::GetClustersLabel(const std::vector<int> &cluster_ids) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<int> point_ids;
   GetClustersPids(cluster_ids, &point_ids);
   base::PointFCloudPtr cloud =
@@ -718,6 +756,8 @@ std::string NCut::GetClustersLabel(const std::vector<int> &cluster_ids) {
 
 void NCut::GetClustersPids(const std::vector<int> &cids,
                            std::vector<int> *pids_in) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<int> &pids = *pids_in;
   int num_points = 0;
   for (size_t i = 0; i < cids.size(); ++i) {
@@ -735,6 +775,8 @@ void NCut::GetClustersPids(const std::vector<int> &cids,
 
 int NCut::GetComponentBoundingBox(const std::vector<int> &cluster_ids,
                                   NcutBoundingBox *box_in) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   NcutBoundingBox &box = *box_in;
   if (cluster_ids.empty()) {
     return 0;
@@ -768,6 +810,8 @@ int NCut::GetComponentBoundingBox(const std::vector<int> &cluster_ids,
 
 std::string NCut::GetPcRoughLabel(const base::PointFCloudPtr &cloud,
                                   bool only_check_pedestrian) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (cloud->size() < OBSTACLE_MINIMUM_NUM_POINTS) {
     return "unknown";
   }
@@ -808,6 +852,8 @@ std::string NCut::GetPcRoughLabel(const base::PointFCloudPtr &cloud,
 
 void NCut::GetSegmentRoughSize(const base::PointFCloudPtr &cloud, float *length,
                                float *width, float *height) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   float x_max = -std::numeric_limits<float>::max();
   float y_max = -std::numeric_limits<float>::max();
   float z_max = -std::numeric_limits<float>::max();

@@ -18,10 +18,16 @@
 #include "modules/perception/common/i_lib/core/i_basic.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace perception {
 namespace camera {
 
-void HistogramEstimatorParams::Init() {  // set default value
+void HistogramEstimatorParams::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+  // set default value
   nr_bins_in_histogram = 64;
   data_sp = 0;
   data_ep = 255;
@@ -44,6 +50,8 @@ void HistogramEstimatorParams::Init() {  // set default value
 }
 
 void HistogramEstimator::Init(const HistogramEstimatorParams *params) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (params != nullptr) {
     params_ = *params;
   }
@@ -56,6 +64,8 @@ void HistogramEstimator::Init(const HistogramEstimatorParams *params) {
 }
 
 bool HistogramEstimator::Process() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // smooth histogram - >
   // get peak & check mass ->
   // shape anlysisi ->
@@ -91,6 +101,8 @@ bool HistogramEstimator::Process() {
 
 void HistogramEstimator::Smooth(const uint32_t *hist_input, int nr_bins,
                                 uint32_t *hist_output) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   assert(nr_bins == params_.nr_bins_in_histogram);
 
   int filter_radius = params_.smooth_kernel_radius;
@@ -148,6 +160,8 @@ void HistogramEstimator::Smooth(const uint32_t *hist_input, int nr_bins,
 }
 
 void HistogramEstimator::GenerateHat(float *hist_hat, int nr_bins) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   assert(nr_bins == params_.nr_bins_in_histogram);
   // Equation: e^(-(x^2 / (2 * a^2)) + b
   // a -> hat_std_allowed
@@ -164,6 +178,8 @@ void HistogramEstimator::GenerateHat(float *hist_hat, int nr_bins) {
 
 bool HistogramEstimator::IsGoodShape(const uint32_t *hist, int nr_bins,
                                      int max_index) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   assert(nr_bins == params_.nr_bins_in_histogram);
   assert(max_index < params_.nr_bins_in_histogram);
   assert(max_index >= 0);
@@ -186,6 +202,8 @@ bool HistogramEstimator::IsGoodShape(const uint32_t *hist, int nr_bins,
 
 void HistogramEstimator::GetPeakIndexAndMass(const uint32_t *hist, int nr_bins,
                                              int *index, uint32_t *mass) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   assert(nr_bins == params_.nr_bins_in_histogram);
   assert(hist != nullptr);
   assert(index != nullptr);

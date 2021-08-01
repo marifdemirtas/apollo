@@ -46,9 +46,13 @@ void SummaryMonitor::EscalateStatus(const ComponentStatus::Status new_status,
 
 // Set interval to 0, so it runs every time when ticking.
 SummaryMonitor::SummaryMonitor()
-    : RecurrentRunner(FLAGS_summary_monitor_name, 0) {}
+    : RecurrentRunner(FLAGS_summary_monitor_name, 0) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void SummaryMonitor::RunOnce(const double current_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto manager = MonitorManager::Instance();
   auto* status = manager->GetStatus();
   // Escalate the summary status to the most severe one.

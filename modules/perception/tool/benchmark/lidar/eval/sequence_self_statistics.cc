@@ -23,11 +23,15 @@ namespace benchmark {
 
 template <typename KeyType>
 SequenceSelfStatistics<KeyType>::SequenceSelfStatistics() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   reset();
 }
 
 template <typename KeyType>
 void SequenceSelfStatistics<KeyType>::reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _type_change_counts.resize(
       MetaStatistics::get_type_dim(),
       std::vector<unsigned int>(MetaStatistics::get_type_dim(), 0));
@@ -36,6 +40,8 @@ void SequenceSelfStatistics<KeyType>::reset() {
 template <typename KeyType>
 bool SequenceSelfStatistics<KeyType>::add_objects(
     const std::vector<ObjectPtr>& objects, KeyType key) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!_sequences.add_data(objects, key)) {
     return false;
   }
@@ -53,6 +59,8 @@ bool SequenceSelfStatistics<KeyType>::add_objects(
 template <typename KeyType>
 void SequenceSelfStatistics<KeyType>::add_statistics(
     SequenceType<KeyType>* sequence) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (sequence->size() <= 1) {
     return;
   }
@@ -67,6 +75,8 @@ void SequenceSelfStatistics<KeyType>::add_statistics(
 template <typename KeyType>
 void SequenceSelfStatistics<KeyType>::get_classification_type_change_rates(
     std::vector<std::vector<double>>* rate_per_class, double* rate) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   rate_per_class->clear();
   rate_per_class->resize(
       MetaStatistics::get_type_dim(),

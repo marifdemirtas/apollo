@@ -23,6 +23,8 @@ namespace msf {
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::BandObservation& in,
                                BandObservationMsg* out) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(out);
   if (in.has_band_id()) {
     out->set_band_id(GnssBandID(in.band_id()));
@@ -53,6 +55,8 @@ void GnssMagTransfer::Transfer(const apollo::drivers::gnss::BandObservation& in,
 void GnssMagTransfer::Transfer(
     const apollo::drivers::gnss::SatelliteObservation& in,
     SatelliteObservationMsg* out) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(out);
   if (in.has_sat_prn()) {
     out->set_sat_prn(in.sat_prn());
@@ -73,6 +77,8 @@ void GnssMagTransfer::Transfer(
 void GnssMagTransfer::Transfer(
     const apollo::drivers::gnss::EpochObservation& in,
     EpochObservationMsg* out) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(out);
   if (in.has_receiver_id()) {
     out->set_receiver_id(in.receiver_id());
@@ -110,6 +116,8 @@ void GnssMagTransfer::Transfer(
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::KepplerOrbit& in,
                                KepplerOrbitMsg* out) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {
     out->set_gnss_type(GnssType(in.gnss_type()));
@@ -229,6 +237,8 @@ void GnssMagTransfer::Transfer(const apollo::drivers::gnss::KepplerOrbit& in,
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::GlonassOrbit& in,
                                GlonassOrbitMsg* out) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {
     out->set_gnss_type(GnssType(in.gnss_type()));
@@ -315,6 +325,8 @@ void GnssMagTransfer::Transfer(const apollo::drivers::gnss::GlonassOrbit& in,
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::GnssEphemeris& in,
                                GnssEphemerisMsg* out) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {
     out->set_gnss_type(GnssType(in.gnss_type()));

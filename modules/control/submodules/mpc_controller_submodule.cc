@@ -35,15 +35,23 @@ using apollo::localization::LocalizationEstimate;
 using apollo::planning::ADCTrajectory;
 
 MPCControllerSubmodule::MPCControllerSubmodule()
-    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {}
+    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-MPCControllerSubmodule::~MPCControllerSubmodule() {}
+MPCControllerSubmodule::~MPCControllerSubmodule() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 std::string MPCControllerSubmodule::Name() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return FLAGS_mpc_controller_submodule_name;
 }
 
 bool MPCControllerSubmodule::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   injector_ = std::make_shared<DependencyInjector>();
   // TODO(SHU): separate common_control conf from controller conf
   ACHECK(cyber::common::GetProtoFromFile(FLAGS_mpc_controller_conf_file,
@@ -64,6 +72,8 @@ bool MPCControllerSubmodule::Init() {
 
 bool MPCControllerSubmodule::Proc(
     const std::shared_ptr<Preprocessor>& preprocessor_status) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const auto start_time = Clock::Now();
 
   ControlCommand control_core_command;
@@ -115,6 +125,8 @@ bool MPCControllerSubmodule::Proc(
 
 Status MPCControllerSubmodule::ProduceControlCoreCommand(
     const LocalView& local_view, ControlCommand* control_core_command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (local_view.chassis().driving_mode() == Chassis::COMPLETE_MANUAL) {
     mpc_controller_.Reset();
     AINFO_EVERY(100) << "Reset Controllers in Manual Mode";

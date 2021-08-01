@@ -24,6 +24,8 @@ int ContiArsPreprocessor::current_idx_ = 0;
 std::unordered_map<int, int> ContiArsPreprocessor::local2global_;
 
 bool ContiArsPreprocessor::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string model_name = "ContiArsPreprocessor";
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(lib::ConfigManager::Instance()->GetModelConfig(model_name,
@@ -36,6 +38,8 @@ bool ContiArsPreprocessor::Preprocess(
     const drivers::ContiRadar& raw_obstacles,
     const PreprocessorOptions& options,
     drivers::ContiRadar* corrected_obstacles) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   PERF_FUNCTION();
   SkipObjects(raw_obstacles, corrected_obstacles);
   ExpandIds(corrected_obstacles);
@@ -44,12 +48,16 @@ bool ContiArsPreprocessor::Preprocess(
 }
 
 std::string ContiArsPreprocessor::Name() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return "ContiArsPreprocessor";
 }
 
 void ContiArsPreprocessor::SkipObjects(
     const drivers::ContiRadar& raw_obstacles,
     drivers::ContiRadar* corrected_obstacles) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   corrected_obstacles->mutable_header()->CopyFrom(raw_obstacles.header());
   double timestamp = raw_obstacles.header().timestamp_sec() - 1e-6;
   for (const auto& contiobs : raw_obstacles.contiobs()) {
@@ -67,6 +75,8 @@ void ContiArsPreprocessor::SkipObjects(
 }
 
 void ContiArsPreprocessor::ExpandIds(drivers::ContiRadar* corrected_obstacles) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (int iobj = 0; iobj < corrected_obstacles->contiobs_size(); ++iobj) {
     const auto& contiobs = corrected_obstacles->contiobs(iobj);
     int id = contiobs.obstacle_id();
@@ -89,12 +99,16 @@ void ContiArsPreprocessor::ExpandIds(drivers::ContiRadar* corrected_obstacles) {
 
 void ContiArsPreprocessor::CorrectTime(
     drivers::ContiRadar* corrected_obstacles) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double correct_timestamp =
       corrected_obstacles->header().timestamp_sec() - delay_time_;
   corrected_obstacles->mutable_header()->set_timestamp_sec(correct_timestamp);
 }
 
 int ContiArsPreprocessor::GetNextId() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ++current_idx_;
   if (MAX_RADAR_IDX == current_idx_) {
     current_idx_ = 1;

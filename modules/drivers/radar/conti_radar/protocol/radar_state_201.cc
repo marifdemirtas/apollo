@@ -27,11 +27,15 @@ namespace conti_radar {
 
 using apollo::drivers::canbus::Byte;
 
-RadarState201::RadarState201() {}
+RadarState201::RadarState201() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const uint32_t RadarState201::ID = 0x201;
 
 void RadarState201::Parse(const std::uint8_t* bytes, int32_t length,
                           ContiRadar* conti_radar) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto state = conti_radar->mutable_radar_state();
   state->set_max_distance(max_dist(bytes, length));
   state->set_output_type(output_type(bytes, length));
@@ -42,6 +46,8 @@ void RadarState201::Parse(const std::uint8_t* bytes, int32_t length,
 }
 
 int RadarState201::max_dist(const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   uint32_t x = t0.get_byte(0, 8);
 
@@ -56,6 +62,8 @@ int RadarState201::max_dist(const std::uint8_t* bytes, int32_t length) const {
 
 int RadarState201::radar_power(const std::uint8_t* bytes,
                                int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 3);
   uint32_t x = t0.get_byte(0, 2);
 
@@ -70,6 +78,8 @@ int RadarState201::radar_power(const std::uint8_t* bytes,
 
 OutputType RadarState201::output_type(const std::uint8_t* bytes,
                                       int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 5);
   uint32_t x = t0.get_byte(2, 2);
 
@@ -87,6 +97,8 @@ OutputType RadarState201::output_type(const std::uint8_t* bytes,
 
 RcsThreshold RadarState201::rcs_threshold(const std::uint8_t* bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 7);
   uint32_t x = t0.get_byte(2, 3);
 
@@ -102,6 +114,8 @@ RcsThreshold RadarState201::rcs_threshold(const std::uint8_t* bytes,
 
 bool RadarState201::send_quality(const std::uint8_t* bytes,
                                  int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 5);
   uint32_t x = t0.get_byte(4, 1);
 
@@ -111,6 +125,8 @@ bool RadarState201::send_quality(const std::uint8_t* bytes,
 
 bool RadarState201::send_ext_info(const std::uint8_t* bytes,
                                   int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 5);
   uint32_t x = t0.get_byte(5, 1);
 

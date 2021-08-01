@@ -32,6 +32,8 @@ namespace camera {
 using cyber::common::GetAbsolutePath;
 
 bool OMTObstacleTracker::Init(const ObstacleTrackerInitOptions &options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string omt_config = GetAbsolutePath(options.root_dir, options.conf_file);
   if (!cyber::common::GetProtoFromFile(omt_config, &omt_param_)) {
     AERROR << "Read config failed: " << omt_config;
@@ -75,10 +77,14 @@ bool OMTObstacleTracker::Init(const ObstacleTrackerInitOptions &options) {
   return true;
 }
 
-std::string OMTObstacleTracker::Name() const { return "OMTObstacleTracker"; }
+std::string OMTObstacleTracker::Name() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return "OMTObstacleTracker"; }
 
 // @description combine targets using iou after association
 bool OMTObstacleTracker::CombineDuplicateTargets() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<Hypothesis> score_list;
   Hypothesis hypo;
   for (size_t i = 0; i < targets_.size(); ++i) {
@@ -165,6 +171,8 @@ bool OMTObstacleTracker::CombineDuplicateTargets() {
 }
 
 void OMTObstacleTracker::GenerateHypothesis(const TrackObjectPtrs &objects) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<Hypothesis> score_list;
   Hypothesis hypo;
   for (size_t i = 0; i < targets_.size(); ++i) {
@@ -221,6 +229,8 @@ void OMTObstacleTracker::GenerateHypothesis(const TrackObjectPtrs &objects) {
 
 float OMTObstacleTracker::ScoreMotion(const Target &target,
                                       TrackObjectPtr track_obj) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector4d x = target.image_center.get_state();
   float target_centerx = static_cast<float>(x[0]);
   float target_centery = static_cast<float>(x[1]);
@@ -233,6 +243,8 @@ float OMTObstacleTracker::ScoreMotion(const Target &target,
 
 float OMTObstacleTracker::ScoreShape(const Target &target,
                                      TrackObjectPtr track_obj) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d shape = target.image_wh.get_state();
   base::RectF rect(track_obj->projected_box);
   float s = static_cast<float>((shape[1] - rect.height) *
@@ -242,6 +254,8 @@ float OMTObstacleTracker::ScoreShape(const Target &target,
 
 float OMTObstacleTracker::ScoreAppearance(const Target &target,
                                           TrackObjectPtr track_obj) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   float energy = 0.0f;
   int count = 0;
   auto sensor_name = track_obj->indicator.sensor_name;
@@ -262,6 +276,8 @@ float OMTObstacleTracker::ScoreAppearance(const Target &target,
 // [new]
 float OMTObstacleTracker::ScoreOverlap(const Target &target,
                                        TrackObjectPtr track_obj) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector4d center = target.image_center.get_state();
   Eigen::VectorXd wh = target.image_wh.get_state();
   base::BBox2DF box_target;
@@ -279,6 +295,8 @@ float OMTObstacleTracker::ScoreOverlap(const Target &target,
 void ProjectBox(const base::BBox2DF &box_origin,
                 const Eigen::Matrix3d &transform,
                 base::BBox2DF *box_projected) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector3d point;
   //  top left
   point << box_origin.xmin, box_origin.ymin, 1;
@@ -294,6 +312,8 @@ void ProjectBox(const base::BBox2DF &box_origin,
 
 bool OMTObstacleTracker::Predict(const ObstacleTrackerOptions &options,
                                  CameraFrame *frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (auto &target : targets_) {
     target.Predict(frame);
     auto obj = target.latest_object;
@@ -303,6 +323,8 @@ bool OMTObstacleTracker::Predict(const ObstacleTrackerOptions &options,
 }
 
 int OMTObstacleTracker::CreateNewTarget(const TrackObjectPtrs &objects) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const TemplateMap &kMinTemplateHWL =
       object_template_manager_->MinTemplateHWL();
   std::vector<base::RectF> target_rects;
@@ -356,6 +378,8 @@ int OMTObstacleTracker::CreateNewTarget(const TrackObjectPtrs &objects) {
 }
 bool OMTObstacleTracker::Associate2D(const ObstacleTrackerOptions &options,
                                      CameraFrame *frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   inference::CudaUtil::set_device_id(gpu_id_);
   frame_list_.Add(frame);
   for (int t = 0; t < frame_list_.Size(); t++) {
@@ -419,6 +443,8 @@ bool OMTObstacleTracker::Associate2D(const ObstacleTrackerOptions &options,
 }
 
 void OMTObstacleTracker::ClearTargets() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int left = 0;
   int end = static_cast<int>(targets_.size() - 1);
   while (left <= end) {
@@ -439,6 +465,8 @@ void OMTObstacleTracker::ClearTargets() {
 
 bool OMTObstacleTracker::Associate3D(const ObstacleTrackerOptions &options,
                                      CameraFrame *frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   reference_.UpdateReference(frame, targets_);
   frame->tracked_objects.clear();
   TrackObjectPtrs track_objects;
@@ -486,6 +514,8 @@ bool OMTObstacleTracker::Associate3D(const ObstacleTrackerOptions &options,
 
 bool OMTObstacleTracker::Track(const ObstacleTrackerOptions &options,
                                CameraFrame *frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return true;
 }
 

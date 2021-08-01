@@ -32,16 +32,22 @@ namespace dreamview {
 using cyber::common::GetProtoFromFile;
 
 VehicleManager::VehicleManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(GetProtoFromFile(FLAGS_vehicle_data_config_filename, &vehicle_data_))
       << "Unable to parse VehicleData config file "
       << FLAGS_vehicle_data_config_filename;
 }
 
 const std::string &VehicleManager::GetVehicleDataPath() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return vehicle_data_path_;
 }
 
 bool VehicleManager::UseVehicle(const std::string &vehicle_data_path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!cyber::common::DirectoryExists(vehicle_data_path)) {
     AERROR << "Cannot find vehicle data: " << vehicle_data_path;
     return false;

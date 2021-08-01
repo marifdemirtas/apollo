@@ -22,9 +22,13 @@ namespace apollo {
 namespace monitor {
 
 RecurrentRunner::RecurrentRunner(const std::string &name, const double interval)
-    : name_(name), interval_(interval) {}
+    : name_(name), interval_(interval) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void RecurrentRunner::Tick(const double current_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (next_round_ <= current_time) {
     ++round_count_;
     AINFO_EVERY(100) << name_ << " is running round #" << round_count_;

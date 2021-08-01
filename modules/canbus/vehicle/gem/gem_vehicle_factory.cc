@@ -26,11 +26,15 @@ namespace canbus {
 
 std::unique_ptr<VehicleController>
 GemVehicleFactory::CreateVehicleController() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return std::unique_ptr<VehicleController>(new gem::GemController());
 }
 
 std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>
 GemVehicleFactory::CreateMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>(
       new gem::GemMessageManager());
 }

@@ -59,6 +59,8 @@ using cyber::record::RecordReader;
 using cyber::record::RecordViewer;
 
 std::string GetNextRecordFileName(const std::string& record_path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   static constexpr int kSuffixLen = 5;
   const std::string kInitialSequence = "00000";
   if (record_path.empty()) {
@@ -74,6 +76,8 @@ std::string GetNextRecordFileName(const std::string& record_path) {
 }
 
 bool IsRecordValid(const std::string& record_path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!PathExists(record_path)) {
     return false;
   }
@@ -93,6 +97,8 @@ RealtimeRecordProcessor::RealtimeRecordProcessor(
     const std::string& source_record_dir,
     const std::string& restored_output_dir)
     : RecordProcessor(source_record_dir, restored_output_dir) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   default_output_filename_ = restored_output_dir_;
   default_output_filename_.erase(
       std::remove(default_output_filename_.begin(),
@@ -103,6 +109,8 @@ RealtimeRecordProcessor::RealtimeRecordProcessor(
 }
 
 bool RealtimeRecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Init input/output, for realtime processor create both
   // input and output dir if they do not exist
   if (!EnsureDirectory(source_record_dir_) ||
@@ -145,6 +153,8 @@ bool RealtimeRecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
 }
 
 bool RealtimeRecordProcessor::Process() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Recorder goes first
   recorder_->Start();
   PublishStatus(RecordingState::RECORDING, "smart recorder started");
@@ -187,6 +197,8 @@ bool RealtimeRecordProcessor::Process() {
 }
 
 void RealtimeRecordProcessor::MonitorStatus() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int status_counter = 0;
   while (!cyber::IsShutdown()) {
     static constexpr int kCheckingFrequency = 100;
@@ -211,6 +223,8 @@ void RealtimeRecordProcessor::MonitorStatus() {
 
 void RealtimeRecordProcessor::PublishStatus(const RecordingState state,
                                             const std::string& message) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SmartRecorderStatus status;
   Header* status_headerpb = status.mutable_header();
   status_headerpb->set_timestamp_sec(Time::Now().ToSecond());
@@ -222,6 +236,8 @@ void RealtimeRecordProcessor::PublishStatus(const RecordingState state,
 
 bool RealtimeRecordProcessor::GetNextValidRecord(
     std::string* record_path) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   *record_path = absl::StrCat(source_record_dir_, "/", default_output_filename_,
                               ".", GetNextRecordFileName(*record_path));
   while (!is_terminating_ && !IsRecordValid(*record_path)) {
@@ -232,6 +248,8 @@ bool RealtimeRecordProcessor::GetNextValidRecord(
 }
 
 void RealtimeRecordProcessor::RestoreMessage(const uint64_t message_time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Check and restore messages, logic is:
   // 1. If new events got triggered, restore reader proceeds all the way to the
   //    event's end

@@ -32,10 +32,14 @@ std::map<base::TLColor, std::string> s_color_strs = {
     {base::TLColor::TL_BLACK, "black"}};
 
 bool compare(const SemanticTable &s1, const SemanticTable &s2) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return s1.semantic == s2.semantic;
 }
 
 bool SemanticReviser::Init(const TrafficLightTrackerInitOptions &options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string proto_path =
       cyber::common::GetAbsolutePath(options.root_dir, options.conf_file);
   if (!cyber::common::GetProtoFromFile(proto_path, &semantic_param_)) {
@@ -60,6 +64,8 @@ bool SemanticReviser::Init(const TrafficLightTrackerInitOptions &options) {
 void SemanticReviser::UpdateHistoryAndLights(
     const SemanticTable &cur, std::vector<base::TrafficLightPtr> *lights,
     std::vector<SemanticTable>::iterator *history) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   (*history)->time_stamp = cur.time_stamp;
   if ((*history)->color == base::TLColor::TL_BLACK) {
     if ((*history)->hystertic_window.hysteretic_color == cur.color) {
@@ -86,6 +92,8 @@ void SemanticReviser::UpdateHistoryAndLights(
 
 base::TLColor SemanticReviser::ReviseBySemantic(
     SemanticTable semantic_table, std::vector<base::TrafficLightPtr> *lights) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<int> vote(static_cast<int>(base::TLColor::TL_TOTAL_COLOR_NUM), 0);
   std::vector<base::TrafficLightPtr> &lights_ref = *lights;
   base::TLColor max_color = base::TLColor::TL_UNKNOWN_COLOR;
@@ -131,6 +139,8 @@ base::TLColor SemanticReviser::ReviseBySemantic(
 void SemanticReviser::ReviseLights(std::vector<base::TrafficLightPtr> *lights,
                                    const std::vector<int> &light_ids,
                                    base::TLColor dst_color) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (auto index : light_ids) {
     lights->at(index)->status.color = dst_color;
   }
@@ -142,6 +152,8 @@ void SemanticReviser::ReviseLights(std::vector<base::TrafficLightPtr> *lights,
 void SemanticReviser::ReviseByTimeSeries(
     double time_stamp, SemanticTable semantic_table,
     std::vector<base::TrafficLightPtr> *lights) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ADEBUG << "revise " << semantic_table.semantic
          << ", lights number:" << semantic_table.light_ids.size();
 
@@ -229,6 +241,8 @@ void SemanticReviser::ReviseByTimeSeries(
 
 bool SemanticReviser::Track(const TrafficLightTrackerOptions &options,
                             CameraFrame *frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double time_stamp = frame->timestamp;
   std::vector<base::TrafficLightPtr> &lights_ref = frame->traffic_lights;
   std::vector<SemanticTable> semantic_table;
@@ -278,7 +292,9 @@ bool SemanticReviser::Track(const TrafficLightTrackerOptions &options,
   return true;
 }
 
-std::string SemanticReviser::Name() const { return "SemanticReviser"; }
+std::string SemanticReviser::Name() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return "SemanticReviser"; }
 
 REGISTER_TRAFFIC_LIGHT_TRACKER(SemanticReviser);
 

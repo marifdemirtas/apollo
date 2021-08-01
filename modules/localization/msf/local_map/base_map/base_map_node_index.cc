@@ -22,9 +22,13 @@ namespace apollo {
 namespace localization {
 namespace msf {
 
-MapNodeIndex::MapNodeIndex() {}
+MapNodeIndex::MapNodeIndex() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool MapNodeIndex::operator<(const MapNodeIndex& index) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Compare elements by priority.
   return std::forward_as_tuple(resolution_id_, zone_id_, m_, n_) <
          std::forward_as_tuple(index.resolution_id_, index.zone_id_, index.m_,
@@ -32,15 +36,21 @@ bool MapNodeIndex::operator<(const MapNodeIndex& index) const {
 }
 
 bool MapNodeIndex::operator==(const MapNodeIndex& index) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return resolution_id_ == index.resolution_id_ && zone_id_ == index.zone_id_ &&
          m_ == index.m_ && n_ == index.n_;
 }
 
 bool MapNodeIndex::operator!=(const MapNodeIndex& index) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return !(*this == index);
 }
 
 std::string MapNodeIndex::ToString() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::ostringstream ss;
   ss << "Map node (Resolution ID: " << resolution_id_
      << " Zone ID: " << zone_id_ << " Easting: " << n_ << " Northing: " << m_
@@ -52,6 +62,8 @@ MapNodeIndex MapNodeIndex::GetMapNodeIndex(const BaseMapConfig& option,
                                            const Eigen::Vector3d& coordinate,
                                            unsigned int resolution_id,
                                            int zone_id) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   return GetMapNodeIndex(option, coord2d, resolution_id, zone_id);
 }
@@ -60,6 +72,8 @@ MapNodeIndex MapNodeIndex::GetMapNodeIndex(const BaseMapConfig& option,
                                            const Eigen::Vector2d& coordinate,
                                            unsigned int resolution_id,
                                            int zone_id) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   DCHECK_LT(resolution_id, option.map_resolutions_.size());
   MapNodeIndex index;
   index.resolution_id_ = resolution_id;
@@ -83,6 +97,8 @@ MapNodeIndex MapNodeIndex::GetMapNodeIndex(const BaseMapConfig& option,
 
 unsigned int MapNodeIndex::GetMapIndexRangeEast(const BaseMapConfig& option,
                                                 unsigned int resolution_id) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return static_cast<unsigned int>(
       (option.map_range_.GetMaxX() - option.map_range_.GetMinX()) /
       (static_cast<float>(option.map_node_size_x_) *
@@ -91,6 +107,8 @@ unsigned int MapNodeIndex::GetMapIndexRangeEast(const BaseMapConfig& option,
 
 unsigned int MapNodeIndex::GetMapIndexRangeNorth(const BaseMapConfig& option,
                                                  unsigned int resolution_id) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return static_cast<unsigned int>(
       (option.map_range_.GetMaxY() - option.map_range_.GetMinY()) /
       (static_cast<float>(option.map_node_size_y_) *

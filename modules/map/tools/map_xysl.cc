@@ -268,6 +268,8 @@ class MapUtil {
 }  // namespace apollo
 
 int main(int argc, char *argv[]) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   google::InitGoogleLogging(argv[0]);
   google::ParseCommandLineFlags(&argc, &argv, true);
   const std::string map_file = apollo::hdmap::BaseMapFile();

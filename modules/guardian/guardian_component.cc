@@ -29,6 +29,8 @@ using apollo::control::ControlCommand;
 using apollo::monitor::SystemStatus;
 
 bool GuardianComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!GetProtoConfig(&guardian_conf_)) {
     AERROR << "Unable to load canbus conf file: " << ConfigFilePath();
     return false;
@@ -64,6 +66,8 @@ bool GuardianComponent::Init() {
 }
 
 bool GuardianComponent::Proc() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   constexpr double kSecondsTillTimeout(2.5);
 
   bool safety_mode_triggered = false;
@@ -91,11 +95,15 @@ bool GuardianComponent::Proc() {
 }
 
 void GuardianComponent::PassThroughControlCommand() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(mutex_);
   guardian_cmd_.mutable_control_command()->CopyFrom(control_cmd_);
 }
 
 void GuardianComponent::TriggerSafetyMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Safety state triggered, with system safety mode trigger time : "
         << system_status_.safety_mode_trigger_time();
   std::lock_guard<std::mutex> lock(mutex_);

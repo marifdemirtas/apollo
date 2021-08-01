@@ -22,6 +22,8 @@ namespace velodyne {
 
 Velodyne64Parser::Velodyne64Parser(const Config& config)
     : VelodyneParser(config) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (int i = 0; i < 4; i++) {
     gps_base_usec_[i] = 0;
     previous_packet_stamp_[i] = 0;
@@ -44,6 +46,8 @@ Velodyne64Parser::Velodyne64Parser(const Config& config)
 }
 
 void Velodyne64Parser::setup() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   VelodyneParser::setup();
   if (!config_.calibration_online() && config_.organized()) {
     InitOffsets();
@@ -51,6 +55,8 @@ void Velodyne64Parser::setup() {
 }
 
 void Velodyne64Parser::SetBaseTimeFromPackets(const VelodynePacket& pkt) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // const RawPacket* raw = (const RawPacket*)&pkt.data[0];
   const RawPacket* raw = (const RawPacket*)pkt.data().c_str();
   StatusType status_type = StatusType(raw->status_type);
@@ -117,6 +123,8 @@ void Velodyne64Parser::SetBaseTimeFromPackets(const VelodynePacket& pkt) {
 }
 
 void Velodyne64Parser::CheckGpsStatus(const VelodynePacket& pkt) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // const RawPacket* raw = (const RawPacket*)&pkt.data[0];
   const RawPacket* raw = (const RawPacket*)pkt.data().c_str();
   StatusType status_type = StatusType(raw->status_type);
@@ -133,6 +141,8 @@ void Velodyne64Parser::CheckGpsStatus(const VelodynePacket& pkt) {
 }
 
 void Velodyne64Parser::InitOffsets() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int width = 64;
   // pre compute col offsets
   for (int i = 0; i < width; ++i) {
@@ -149,6 +159,8 @@ void Velodyne64Parser::InitOffsets() {
 void Velodyne64Parser::GeneratePointcloud(
     const std::shared_ptr<VelodyneScan>& scan_msg,
     std::shared_ptr<PointCloud> pointcloud) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (config_.calibration_online() && !calibration_.initialized_) {
     if (online_calibration_.decode(scan_msg) == -1) {
       return;
@@ -199,6 +211,8 @@ void Velodyne64Parser::GeneratePointcloud(
 
 uint64_t Velodyne64Parser::GetTimestamp(double base_time, float time_offset,
                                         uint16_t block_id) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double t = base_time - time_offset;
   double timestamp = 0.0;
   int index = 0;
@@ -222,6 +236,8 @@ uint64_t Velodyne64Parser::GetTimestamp(double base_time, float time_offset,
 int Velodyne64Parser::IntensityCompensate(const LaserCorrection& corrections,
                                           const uint16_t raw_distance,
                                           int intensity) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   float tmp = 1.0f - static_cast<float>(raw_distance) / 65535.0f;
   intensity +=
       static_cast<int>(corrections.focal_slope *
@@ -239,6 +255,8 @@ int Velodyne64Parser::IntensityCompensate(const LaserCorrection& corrections,
 
 void Velodyne64Parser::Unpack(const VelodynePacket& pkt,
                               std::shared_ptr<PointCloud> pc) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ADEBUG << "Received packet, time: " << pkt.stamp();
 
   // const RawPacket* raw = (const RawPacket*)&pkt.data[0];
@@ -305,6 +323,8 @@ void Velodyne64Parser::Unpack(const VelodynePacket& pkt,
 }
 
 void Velodyne64Parser::Order(std::shared_ptr<PointCloud> cloud) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int height = 64;
   cloud->set_height(height);
   int width = cloud->point_size() / cloud->height();

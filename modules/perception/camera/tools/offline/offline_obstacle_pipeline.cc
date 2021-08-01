@@ -93,7 +93,23 @@ REGISTER_LANE_POSTPROCESSOR(DarkSCNNLanePostprocessor);
 static const float kDefaultPitchAngle = 0.0f;
 static const float kDefaultCameraHeight = 1.5f;
 
-void save_image(const std::string &path, base::Image8U &image) {  // NOLINT
+void save_image(const std::string &path, base::Image8U &image) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+  // NOLINT
   AINFO << path;
   int cv_type = image.type() == base::Color::GRAY ? CV_8UC1 : CV_8UC3;
   cv::Mat cv_img(image.rows(), image.cols(), cv_type, image.mutable_cpu_data(),
@@ -102,6 +118,8 @@ void save_image(const std::string &path, base::Image8U &image) {  // NOLINT
 }
 
 int work() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Init pipeline:
   ObstacleCameraPerception perception;
   CameraPerceptionInitOptions init_option;
@@ -351,6 +369,8 @@ int work() {
 }  // namespace apollo
 
 int main(int argc, char *argv[]) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   google::ParseCommandLineFlags(&argc, &argv, true);
   google::SetUsageMessage(
       "command line brew\n"

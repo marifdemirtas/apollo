@@ -22,11 +22,15 @@
 #include "modules/perception/lidar/lib/tracker/multi_lidar_fusion/mlf_motion_measurement.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace perception {
 namespace lidar {
 
 void MlfMotionMeasurement::ComputeMotionMeasurment(
     const MlfTrackDataConstPtr& track_data, TrackedObjectPtr new_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // prefer to choose objects from the same sensor
   std::string sensor_name = new_object->sensor_info.name;
   TrackedObjectConstPtr latest_object =
@@ -55,6 +59,8 @@ void MlfMotionMeasurement::ComputeMotionMeasurment(
 void MlfMotionMeasurement::MeasurementSelection(
     const MlfTrackDataConstPtr& track_data,
     const TrackedObjectConstPtr& latest_object, TrackedObjectPtr new_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Select measured velocity among candidates according motion consistency
   int64_t corner_index = 0;
   float corner_velocity_gain = 0.0f;
@@ -99,6 +105,8 @@ void MlfMotionMeasurement::MeasurementSelection(
 
 void MlfMotionMeasurement::MeasurementQualityEstimation(
     const TrackedObjectConstPtr& latest_object, TrackedObjectPtr new_object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // 1. point size diff (only for same sensor)
   int pre_num = static_cast<int>(
       latest_object->object_ptr->lidar_supplement.cloud_world.size());

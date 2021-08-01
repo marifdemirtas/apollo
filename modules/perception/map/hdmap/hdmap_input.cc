@@ -44,14 +44,20 @@ using base::PointDCloudPtr;
 using base::RoadBoundary;
 // HDMapInput
 
-HDMapInput::HDMapInput() {}
+HDMapInput::HDMapInput() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool HDMapInput::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   lib::MutexLock lock(&mutex_);
   return InitInternal();
 }
 
 bool HDMapInput::InitInternal() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (inited_) {
     return true;
   }
@@ -63,12 +69,16 @@ bool HDMapInput::InitInternal() {
 }
 
 bool HDMapInput::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   lib::MutexLock lock(&mutex_);
   inited_ = false;
   return InitInternal();
 }
 
 bool HDMapInput::InitHDMap() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   hdmap_.reset(new apollo::hdmap::HDMap());
   const std::string model_name = "HDMapInput";
   const lib::ModelConfig* model_config = nullptr;
@@ -106,6 +116,8 @@ bool HDMapInput::InitHDMap() {
 bool HDMapInput::GetRoiHDMapStruct(
     const base::PointD& pointd, const double distance,
     std::shared_ptr<base::HdmapStruct> hdmap_struct_ptr) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   lib::MutexLock lock(&mutex_);
   if (hdmap_.get() == nullptr) {
     AERROR << "hdmap is not available";
@@ -149,6 +161,8 @@ void HDMapInput::MergeBoundaryJunction(
     EigenVector<base::RoadBoundary>* road_boundaries_ptr,
     EigenVector<base::PointCloud<base::PointD>>* road_polygons_ptr,
     EigenVector<base::PointCloud<base::PointD>>* junction_polygons_ptr) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const int boundary_size = static_cast<int>(boundary.size());
   const int junctions_size = static_cast<int>(junctions.size());
   const int polygon_size = boundary_size;
@@ -233,6 +247,8 @@ bool HDMapInput::GetRoadBoundaryFilteredByJunctions(
     const EigenVector<base::RoadBoundary>& road_boundaries,
     const EigenVector<base::PointCloud<base::PointD>>& junctions,
     EigenVector<base::RoadBoundary>* flt_road_boundaries_ptr) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (size_t n_rd = 0; n_rd < road_boundaries.size(); ++n_rd) {
     const base::RoadBoundary& temp_road_boundary = road_boundaries[n_rd];
     EigenVector<base::PointCloud<base::PointD>> temp_left_boundary_vec;
@@ -263,6 +279,8 @@ bool HDMapInput::GetRoadBoundaryFilteredByJunctions(
 void HDMapInput::DownsamplePoints(const base::PointDCloudPtr& raw_cloud_ptr,
                                   base::PointCloud<base::PointD>* polygon_ptr,
                                   size_t min_points_num_for_sample) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   constexpr double kDoubleEpsilon = std::numeric_limits<double>::epsilon();
   const PointDCloud& raw_cloud = *raw_cloud_ptr;
   unsigned int spt = 0;
@@ -313,6 +331,8 @@ void HDMapInput::SplitBoundary(
     const base::PointCloud<base::PointD>& boundary_line,
     const EigenVector<base::PointCloud<base::PointD>>& junctions,
     EigenVector<base::PointCloud<base::PointD>>* boundary_line_vec_ptr) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<bool> boundary_flag(boundary_line.size());
   for (size_t npt = 0; npt < boundary_line.size(); ++npt) {
     const PointD& pointd = boundary_line[npt];
@@ -356,6 +376,8 @@ void HDMapInput::SplitBoundary(
 
 bool HDMapInput::GetNearestLaneDirection(const base::PointD& pointd,
                                          Eigen::Vector3d* lane_direction) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // if (hdmap_ == nullptr) {
   //   return false;
   // }
@@ -386,6 +408,8 @@ bool HDMapInput::GetNearestLaneDirection(const base::PointD& pointd,
 bool HDMapInput::GetSignalsFromHDMap(
     const Eigen::Vector3d& pointd, double forward_distance,
     std::vector<apollo::hdmap::Signal>* signals) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   apollo::common::PointENU point;
   point.set_x(pointd(0));
   point.set_y(pointd(1));
@@ -410,6 +434,8 @@ bool HDMapInput::GetSignalsFromHDMap(
 bool HDMapInput::GetSignals(const Eigen::Vector3d& pointd,
                             double forward_distance,
                             std::vector<apollo::hdmap::Signal>* signals) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   lib::MutexLock lock(&mutex_);
   if (hdmap_.get() == nullptr) {
     AERROR << "hdmap is not available";

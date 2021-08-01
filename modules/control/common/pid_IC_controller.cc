@@ -26,6 +26,8 @@ namespace apollo {
 namespace control {
 
 double PIDICController::Control(const double error, const double dt) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (dt <= 0) {
     AWARN << "dt <= 0, will use the last output";
     return previous_output_;
@@ -70,6 +72,8 @@ double PIDICController::Control(const double error, const double dt) {
 }
 
 int PIDICController::OutputSaturationStatus() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return output_saturation_status_;
 }
 

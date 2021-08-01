@@ -28,9 +28,13 @@ namespace data {
 
 using apollo::canbus::Chassis;
 
-HardBrakeTrigger::HardBrakeTrigger() { trigger_name_ = "HardBrakeTrigger"; }
+HardBrakeTrigger::HardBrakeTrigger() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ trigger_name_ = "HardBrakeTrigger"; }
 
 void HardBrakeTrigger::Pull(const cyber::record::RecordMessage& msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!trigger_obj_->enabled()) {
     return;
   }
@@ -55,12 +59,16 @@ void HardBrakeTrigger::Pull(const cyber::record::RecordMessage& msg) {
 }
 
 bool HardBrakeTrigger::IsNoisy(const float speed) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const float pre_speed_mps =
       (current_speed_queue_.empty() ? 0.0f : current_speed_queue_.back());
   return fabs(pre_speed_mps - speed) > noisy_diff_;
 }
 
 bool HardBrakeTrigger::IsHardBrake() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (current_speed_queue_.size() < queue_size_ ||
       history_speed_queue_.size() < queue_size_) {
     return false;
@@ -71,6 +79,8 @@ bool HardBrakeTrigger::IsHardBrake() const {
 }
 
 void HardBrakeTrigger::EnqueueMessage(const float speed) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   current_speed_queue_.emplace_back(speed);
   current_total_ += speed;
   if (current_speed_queue_.size() > queue_size_) {

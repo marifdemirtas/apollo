@@ -27,11 +27,15 @@ namespace zhongyun {
 
 using ::apollo::drivers::canbus::Byte;
 
-Errorstatee1::Errorstatee1() {}
+Errorstatee1::Errorstatee1() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Errorstatee1::ID = 0xE1;
 
 void Errorstatee1::Parse(const std::uint8_t* bytes, int32_t length,
                          ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_zhongyun()->mutable_error_state_e1()->set_brake_error_code(
       brake_error_code(bytes, length));
   chassis->mutable_zhongyun()->mutable_error_state_e1()->set_driven_error_code(
@@ -51,6 +55,8 @@ void Errorstatee1::Parse(const std::uint8_t* bytes, int32_t length,
 // 'bit': 32, 'type': 'enum', 'order': 'intel', 'physical_unit': 'bit'}
 Error_state_e1::Brake_error_codeType Errorstatee1::brake_error_code(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 
@@ -66,6 +72,8 @@ Error_state_e1::Brake_error_codeType Errorstatee1::brake_error_code(
 // 'physical_unit': 'bit'}
 Error_state_e1::Driven_error_codeType Errorstatee1::driven_error_code(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 
@@ -81,6 +89,8 @@ Error_state_e1::Driven_error_codeType Errorstatee1::driven_error_code(
 // 'physical_unit': 'bit'}
 Error_state_e1::Steering_error_codeType Errorstatee1::steering_error_code(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -96,6 +106,8 @@ Error_state_e1::Steering_error_codeType Errorstatee1::steering_error_code(
 // 'physical_unit': 'bit'}
 Error_state_e1::Parking_error_codeType Errorstatee1::parking_error_code(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -110,6 +122,8 @@ Error_state_e1::Parking_error_codeType Errorstatee1::parking_error_code(
 // 'bit': 0, 'type': 'enum', 'order': 'intel', 'physical_unit': ''}
 Error_state_e1::Gear_error_msgType Errorstatee1::gear_error_msg(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 

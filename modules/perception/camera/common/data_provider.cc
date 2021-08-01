@@ -26,6 +26,8 @@ namespace perception {
 namespace camera {
 
 bool DataProvider::Init(const DataProvider::InitOptions &options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   src_height_ = options.image_height;
   src_width_ = options.image_width;
   sensor_name_ = options.sensor_name;
@@ -115,6 +117,8 @@ bool DataProvider::Init(const DataProvider::InitOptions &options) {
 
 bool DataProvider::FillImageData(int rows, int cols, const uint8_t *data,
                                  const std::string &encoding) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (cudaSetDevice(device_id_) != cudaSuccess) {
     AERROR << "Failed to set device to: " << device_id_;
     return false;
@@ -195,6 +199,8 @@ bool DataProvider::FillImageData(int rows, int cols, const uint8_t *data,
 #if 0
 bool DataProvider::GetImageBlob(const DataProvider::ImageOptions &options,
                                 base::Blob<float> *blob) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   bool ret = GetImageBlob(options, &temp_uint8_);
   if (!ret) {
     return false;
@@ -219,6 +225,8 @@ bool DataProvider::GetImageBlob(const DataProvider::ImageOptions &options,
 
 bool DataProvider::GetImageBlob(const DataProvider::ImageOptions &options,
                                 base::Blob<uint8_t> *blob) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   base::Image8U image;
   if (!GetImage(options, &image)) {
     return false;
@@ -243,6 +251,8 @@ bool DataProvider::GetImageBlob(const DataProvider::ImageOptions &options,
 
 bool DataProvider::GetImage(const DataProvider::ImageOptions &options,
                             base::Image8U *image) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "GetImage ...";
   if (image == nullptr) {
     return false;
@@ -278,6 +288,8 @@ bool DataProvider::GetImage(const DataProvider::ImageOptions &options,
 }
 
 bool DataProvider::to_gray_image() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!gray_ready_) {
     NppiSize roi;
     roi.height = src_height_;
@@ -303,6 +315,8 @@ bool DataProvider::to_gray_image() {
 }
 
 bool DataProvider::to_rgb_image() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!rgb_ready_) {
     NppiSize roi;
     roi.height = src_height_;
@@ -327,6 +341,8 @@ bool DataProvider::to_rgb_image() {
 }
 
 bool DataProvider::to_bgr_image() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!bgr_ready_) {
     NppiSize roi;
     roi.height = src_height_;

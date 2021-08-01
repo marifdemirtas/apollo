@@ -28,11 +28,15 @@ namespace apollo {
 namespace hdmap {
 
 bool Mapdatachecker::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   grpc_address_ = FLAGS_map_datachecker_host + ":" + FLAGS_map_datachecker_port;
   return true;
 }
 
 bool Mapdatachecker::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Mapdatachecker::Start";
   Init();
 
@@ -62,9 +66,13 @@ bool Mapdatachecker::Start() {
   return true;
 }
 
-bool Mapdatachecker::Stop() { return true; }
+bool Mapdatachecker::Stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return true; }
 
-void Mapdatachecker::Report() {}
+void Mapdatachecker::Report() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 }  // namespace hdmap
 }  // namespace apollo

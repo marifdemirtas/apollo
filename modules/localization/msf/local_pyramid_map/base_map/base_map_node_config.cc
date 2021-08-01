@@ -23,11 +23,17 @@ namespace localization {
 namespace msf {
 namespace pyramid_map {
 
-BaseMapNodeConfig::BaseMapNodeConfig() {}
+BaseMapNodeConfig::BaseMapNodeConfig() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-BaseMapNodeConfig::~BaseMapNodeConfig() {}
+BaseMapNodeConfig::~BaseMapNodeConfig() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 std::shared_ptr<BaseMapNodeConfig> BaseMapNodeConfig::Clone() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::shared_ptr<BaseMapNodeConfig> map_node_config(new BaseMapNodeConfig());
   map_node_config->node_index_ = node_index_;
   map_node_config->map_version_ = map_version_;
@@ -40,6 +46,8 @@ std::shared_ptr<BaseMapNodeConfig> BaseMapNodeConfig::Clone() {
 }
 
 unsigned int BaseMapNodeConfig::LoadBinary(const unsigned char *buf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t binary_size = 0;
 
   // map_version
@@ -87,6 +95,8 @@ unsigned int BaseMapNodeConfig::LoadBinary(const unsigned char *buf) {
 
 unsigned int BaseMapNodeConfig::CreateBinary(unsigned char *buf,
                                              size_t buf_size) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int target_size = GetBinarySize();
 
   if (buf_size < target_size) {
@@ -133,6 +143,8 @@ unsigned int BaseMapNodeConfig::CreateBinary(unsigned char *buf,
 }
 
 unsigned int BaseMapNodeConfig::GetBinarySize() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t binary_size = 0;
 
   // map_version

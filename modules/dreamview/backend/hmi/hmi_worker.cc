@@ -76,6 +76,8 @@ constexpr char kNavigationModeName[] = "Navigation";
 
 // Convert a string to be title-like. E.g.: "hello_world" -> "Hello World".
 std::string TitleCase(std::string_view origin) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<std::string> parts = absl::StrSplit(origin, '_');
   for (auto& part : parts) {
     if (!part.empty()) {
@@ -89,6 +91,8 @@ std::string TitleCase(std::string_view origin) {
 
 // List subdirs and return a dict of {subdir_title: subdir_path}.
 Map<std::string, std::string> ListDirAsDict(const std::string& dir) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Map<std::string, std::string> result;
   const auto subdirs = cyber::common::ListSubPaths(dir);
   for (const auto& subdir : subdirs) {
@@ -102,6 +106,8 @@ Map<std::string, std::string> ListDirAsDict(const std::string& dir) {
 // List files by pattern and return a dict of {file_title: file_path}.
 Map<std::string, std::string> ListFilesAsDict(std::string_view dir,
                                               std::string_view extension) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Map<std::string, std::string> result;
   const std::string pattern = absl::StrCat(dir, "/*", extension);
   for (const std::string& file_path : cyber::common::Glob(pattern)) {
@@ -129,6 +135,8 @@ void SetGlobalFlag(std::string_view flag_name, const ValueType& value,
 }
 
 void System(std::string_view cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const int ret = std::system(cmd.data());
   if (ret == 0) {
     AINFO << "SUCCESS: " << cmd;
@@ -141,10 +149,14 @@ void System(std::string_view cmd) {
 
 HMIWorker::HMIWorker(const std::shared_ptr<Node>& node)
     : config_(LoadConfig()), node_(node) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   InitStatus();
 }
 
 void HMIWorker::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   InitReadersAndWriters();
   RegisterStatusUpdateHandler(
       [this](const bool status_changed, HMIStatus* status) {
@@ -157,6 +169,8 @@ void HMIWorker::Start() {
 }
 
 void HMIWorker::Stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   stop_ = true;
   if (thread_future_.valid()) {
     thread_future_.get();
@@ -164,6 +178,8 @@ void HMIWorker::Stop() {
 }
 
 HMIConfig HMIWorker::LoadConfig() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   HMIConfig config;
   // Get available modes, maps and vehicles by listing data directory.
   *config.mutable_modes() =
@@ -178,6 +194,8 @@ HMIConfig HMIWorker::LoadConfig() {
 }
 
 HMIMode HMIWorker::LoadMode(const std::string& mode_config_path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   HMIMode mode;
   ACHECK(cyber::common::GetProtoFromFile(mode_config_path, &mode))
       << "Unable to parse HMIMode from file " << mode_config_path;
@@ -218,6 +236,8 @@ HMIMode HMIWorker::LoadMode(const std::string& mode_config_path) {
 }
 
 void HMIWorker::InitStatus() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   static constexpr char kDockerImageEnv[] = "DOCKER_IMG";
   status_.set_docker_image(cyber::common::GetEnv(kDockerImageEnv));
   status_.set_utm_zone_id(FLAGS_local_utm_zone_id);
@@ -275,6 +295,8 @@ void HMIWorker::InitStatus() {
 }
 
 void HMIWorker::InitReadersAndWriters() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   status_writer_ = node_->CreateWriter<HMIStatus>(FLAGS_hmi_status_topic);
   pad_writer_ = node_->CreateWriter<control::PadMessage>(FLAGS_pad_topic);
   audio_event_writer_ =
@@ -352,6 +374,8 @@ void HMIWorker::InitReadersAndWriters() {
 }
 
 bool HMIWorker::Trigger(const HMIAction action) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "HMIAction " << HMIAction_Name(action) << " was triggered!";
   switch (action) {
     case HMIAction::NONE:
@@ -374,6 +398,8 @@ bool HMIWorker::Trigger(const HMIAction action) {
 }
 
 bool HMIWorker::Trigger(const HMIAction action, const std::string& value) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "HMIAction " << HMIAction_Name(action) << "(" << value
         << ") was triggered!";
   switch (action) {
@@ -404,6 +430,8 @@ void HMIWorker::SubmitAudioEvent(const uint64_t event_time_ms,
                                  const int moving_result,
                                  const int audio_direction,
                                  const bool is_siren_on) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::shared_ptr<AudioEvent> audio_event = std::make_shared<AudioEvent>();
   apollo::common::util::FillHeader("HMI", audio_event.get());
   // Here we reuse the header time field as the event occurring time.
@@ -440,6 +468,8 @@ void HMIWorker::SubmitDriveEvent(const uint64_t event_time_ms,
                                  const std::string& event_msg,
                                  const std::vector<std::string>& event_types,
                                  const bool is_reportable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::shared_ptr<DriveEvent> drive_event = std::make_shared<DriveEvent>();
   apollo::common::util::FillHeader("HMI", drive_event.get());
   // TODO(xiaoxq): Here we reuse the header time field as the event occurring
@@ -461,12 +491,16 @@ void HMIWorker::SubmitDriveEvent(const uint64_t event_time_ms,
 }
 
 void HMIWorker::SensorCalibrationPreprocess(const std::string& task_type) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string start_command = absl::StrCat(
       "nohup bash /apollo/scripts/extract_data.sh -t ", task_type, " &");
   System(start_command);
 }
 
 void HMIWorker::VehicleCalibrationPreprocess() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string start_command = absl::StrCat(
       "nohup bash /apollo/modules/tools/vehicle_calibration/preprocess.sh "
       "--vehicle_type=\"",
@@ -475,6 +509,8 @@ void HMIWorker::VehicleCalibrationPreprocess() {
 }
 
 bool HMIWorker::ChangeDrivingMode(const Chassis::DrivingMode mode) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Always reset to MANUAL mode before changing to other mode.
   const std::string mode_name = Chassis::DrivingMode_Name(mode);
   if (mode != Chassis::COMPLETE_MANUAL) {
@@ -518,6 +554,8 @@ bool HMIWorker::ChangeDrivingMode(const Chassis::DrivingMode mode) {
 }
 
 void HMIWorker::ChangeMap(const std::string& map_name) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const std::string* map_dir = FindOrNull(config_.maps(), map_name);
   if (map_dir == nullptr) {
     AERROR << "Unknown map " << map_name;
@@ -539,6 +577,8 @@ void HMIWorker::ChangeMap(const std::string& map_name) {
 }
 
 void HMIWorker::ChangeVehicle(const std::string& vehicle_name) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const std::string* vehicle_dir = FindOrNull(config_.vehicles(), vehicle_name);
   if (vehicle_dir == nullptr) {
     AERROR << "Unknown vehicle " << vehicle_name;
@@ -568,6 +608,8 @@ void HMIWorker::ChangeVehicle(const std::string& vehicle_name) {
 }
 
 void HMIWorker::ChangeMode(const std::string& mode_name) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!ContainsKey(config_.modes(), mode_name)) {
     AERROR << "Cannot change to unknown mode " << mode_name;
     return;
@@ -610,6 +652,8 @@ void HMIWorker::ChangeMode(const std::string& mode_name) {
 }
 
 void HMIWorker::StartModule(const std::string& module) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const Module* module_conf = FindOrNull(current_mode_.modules(), module);
   if (module_conf != nullptr) {
     System(module_conf->start_command());
@@ -633,6 +677,8 @@ void HMIWorker::StartModule(const std::string& module) const {
 }
 
 void HMIWorker::StopModule(const std::string& module) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const Module* module_conf = FindOrNull(current_mode_.modules(), module);
   if (module_conf != nullptr) {
     System(module_conf->stop_command());
@@ -642,17 +688,23 @@ void HMIWorker::StopModule(const std::string& module) const {
 }
 
 HMIStatus HMIWorker::GetStatus() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   RLock rlock(status_mutex_);
   return status_;
 }
 
 void HMIWorker::SetupMode() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (const auto& iter : current_mode_.modules()) {
     System(iter.second.start_command());
   }
 }
 
 void HMIWorker::ResetMode() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (const auto& iter : current_mode_.modules()) {
     System(iter.second.stop_command());
   }
@@ -660,6 +712,8 @@ void HMIWorker::ResetMode() const {
 }
 
 void HMIWorker::StatusUpdateThreadLoop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   constexpr int kLoopIntervalMs = 200;
   while (!stop_) {
     std::this_thread::sleep_for(std::chrono::milliseconds(kLoopIntervalMs));
@@ -689,11 +743,15 @@ void HMIWorker::StatusUpdateThreadLoop() {
 }
 
 void HMIWorker::ResetComponentStatusTimer() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   last_status_received_s_ = Clock::NowInSeconds();
   last_status_fingerprint_ = 0;
 }
 
 void HMIWorker::UpdateComponentStatus() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   constexpr double kSecondsTillTimeout(2.5);
   const double now = Clock::NowInSeconds();
   if (now - last_status_received_s_.load() > kSecondsTillTimeout) {

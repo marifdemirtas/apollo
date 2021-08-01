@@ -25,14 +25,20 @@ namespace perception {
 namespace inference {
 
 inline std::string get_dtype(const base::Blob<double> &blob) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return "float64";
 }
 
 inline std::string get_dtype(const base::Blob<float> &blob) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return "float32";
 }
 
 size_t BinaryReadString(FILE *fp, char *name) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t len = 0;
   size_t nmemb = fread(&len, sizeof(len), 1, fp);
   if (nmemb != 1 || len == 0) {
@@ -46,6 +52,8 @@ size_t BinaryReadString(FILE *fp, char *name) {
 }
 
 size_t BinaryWriteString(FILE *fp, const std::string &str) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t len = str.length();
   fwrite(&len, sizeof(len), 1, fp);
   fwrite(str.c_str(), sizeof(str[0]), len, fp);
@@ -54,6 +62,8 @@ size_t BinaryWriteString(FILE *fp, const std::string &str) {
 
 template <typename Dtype>
 std::shared_ptr<base::Blob<Dtype>> BinaryReadBlob(FILE *fp) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int ndim;
   std::shared_ptr<base::Blob<Dtype>> blob(new base::Blob<Dtype>());
   char dtype[kMaxStrLen];
@@ -88,6 +98,8 @@ std::shared_ptr<base::Blob<Dtype>> BinaryReadBlob(FILE *fp) {
 
 template <typename Dtype>
 void BinaryWriteBlob(FILE *fp, const base::Blob<Dtype> &blob) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int ndim, dim;
   // write dtype
   BinaryWriteString(fp, get_dtype(blob));
@@ -114,6 +126,10 @@ template void BinaryWriteBlob(FILE *fp, const base::Blob<double> &blob);
 template <typename Dtype>
 std::map<std::string, std::shared_ptr<base::Blob<Dtype>>> BinaryReadFile(
     const char *file_path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   char name[kMaxStrLen];
   std::map<std::string, std::shared_ptr<base::Blob<Dtype>>> data_dict;
 
@@ -136,6 +152,12 @@ std::map<std::string, std::shared_ptr<base::Blob<Dtype>>> BinaryReadFile(
 template <typename Btype>
 bool BinaryWriteFile(const char *file_path,
                      const std::map<std::string, Btype> &data_dict) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   FILE *fp = fopen(file_path, "wb");
   if (NULL == fp) {
     AERROR << "Failed opening Binaryary file: " << file_path;

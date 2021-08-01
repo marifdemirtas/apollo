@@ -29,13 +29,19 @@ using apollo::drivers::PointCloud;
 Parser::Parser(const std::shared_ptr<::apollo::cyber::Node>& node,
                const Config& conf)
     : node_(node), conf_(conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   tz_second_ = conf_.time_zone() * 3600;
   start_angle_ = static_cast<int>(conf_.start_angle() * 100);
 }
 
-Parser::~Parser() { Stop(); }
+Parser::~Parser() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Stop(); }
 
 bool Parser::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (inited_) {
     return true;
   }
@@ -90,6 +96,8 @@ bool Parser::Init() {
 }
 
 void Parser::ResetRawPointCloud() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // raw_pointcloud_out_ = raw_pointcloud_pool_->GetObject();
   // if (raw_pointcloud_out_ == nullptr) {
   // raw_pointcloud_out_ = std::make_shared<PointCloud>();
@@ -106,6 +114,8 @@ void Parser::ResetRawPointCloud() {
 }
 
 bool Parser::Parse(const std::shared_ptr<HesaiScan>& scan) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ResetRawPointCloud();
   bool is_end = false;
   for (int i = 0; i < scan->firing_pkts_size(); ++i) {
@@ -119,6 +129,8 @@ bool Parser::Parse(const std::shared_ptr<HesaiScan>& scan) {
 }
 
 void Parser::Parse(const uint8_t* data, int size, bool* is_end) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   bool t_is_end = false;
   ParseRawPacket(data, size, &t_is_end);
   ++packet_nums_;
@@ -132,6 +144,8 @@ void Parser::Parse(const uint8_t* data, int size, bool* is_end) {
 }
 
 bool Parser::CheckIsEnd(bool is_end) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (packet_nums_ >= max_packets_) {
     AWARN << "over max packets, packets:" << packet_nums_
           << ", max packets:" << max_packets_;
@@ -146,6 +160,8 @@ bool Parser::CheckIsEnd(bool is_end) {
 }
 
 void Parser::PublishRawPointCloud(int seq) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int size = raw_pointcloud_out_->point_size();
   if (size == 0) {
     AWARN << "All points size is NAN! Please check hesai:" << conf_.model();
@@ -170,6 +186,8 @@ void Parser::PublishRawPointCloud(int seq) {
 }
 
 void Parser::LoadCalibrationThread() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   TcpCmdClient tcp_cmd(conf_.ip(), conf_.tcp_cmd_port());
   std::string content;
   AINFO << "start LoadCalibrationThread";
@@ -193,6 +211,8 @@ void Parser::LoadCalibrationThread() {
 }
 
 void Parser::Stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   running_.store(false);
   if (online_calibration_thread_.joinable()) {
     online_calibration_thread_.join();
@@ -200,6 +220,8 @@ void Parser::Stop() {
 }
 
 bool Parser::LoadCalibration(const char* path_file) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string path(path_file);
   std::string content;
   if (!apollo::cyber::common::GetContent(path, &content)) {
@@ -210,6 +232,8 @@ bool Parser::LoadCalibration(const char* path_file) {
 }
 
 bool Parser::LoadCalibration(const std::string& content) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "parse calibration content:" << content;
   std::istringstream ifs(content);
   std::string line;
@@ -263,6 +287,8 @@ bool Parser::LoadCalibration(const std::string& content) {
 }
 
 void Parser::CheckPktTime(double time_sec) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double now = apollo::cyber::Time().Now().ToSecond();
   double diff = std::abs(now - time_sec);
   if (diff > 0.1) {

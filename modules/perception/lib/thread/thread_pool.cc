@@ -29,6 +29,8 @@ ThreadPool::ThreadPool(int num_workers)
       num_available_workers_(num_workers),
       task_queue_(num_workers),
       started_(false) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   workers_.reserve(num_workers_);
   for (int idx = 0; idx < num_workers_; ++idx) {
     ThreadPoolWorker *worker = new ThreadPoolWorker(this);
@@ -37,6 +39,8 @@ ThreadPool::ThreadPool(int num_workers)
 }
 
 ThreadPool::~ThreadPool() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!started_) {
     return;
   }
@@ -52,21 +56,29 @@ ThreadPool::~ThreadPool() {
 }
 
 void ThreadPool::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (int idx = 0; idx < num_workers_; ++idx) {
     workers_[idx]->Start();
   }
   started_ = true;
 }
 
-void ThreadPool::Add(Closure *closure) { task_queue_.Push(closure); }
+void ThreadPool::Add(Closure *closure) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ task_queue_.Push(closure); }
 
 void ThreadPool::Add(const vector<Closure *> &closures) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (size_t idx = 0; idx < closures.size(); ++idx) {
     Add(closures[idx]);
   }
 }
 
 void ThreadPoolWorker::Run() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   while (true) {
     Closure *closure = nullptr;
     thread_pool_->task_queue_.Pop(&closure);

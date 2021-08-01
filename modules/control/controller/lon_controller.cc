@@ -39,6 +39,8 @@ constexpr double GRA_ACC = 9.8;
 
 LonController::LonController()
     : name_(ControlConf_ControllerType_Name(ControlConf::LON_CONTROLLER)) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (FLAGS_enable_csv_debug) {
     time_t rawtime;
     char name_buffer[80];
@@ -80,6 +82,8 @@ LonController::LonController()
 }
 
 void LonController::CloseLogFile() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (FLAGS_enable_csv_debug) {
     if (speed_log_file_ != nullptr) {
       fclose(speed_log_file_);
@@ -87,12 +91,18 @@ void LonController::CloseLogFile() {
     }
   }
 }
-void LonController::Stop() { CloseLogFile(); }
+void LonController::Stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ CloseLogFile(); }
 
-LonController::~LonController() { CloseLogFile(); }
+LonController::~LonController() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ CloseLogFile(); }
 
 Status LonController::Init(std::shared_ptr<DependencyInjector> injector,
                            const ControlConf *control_conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   control_conf_ = control_conf;
   if (control_conf_ == nullptr) {
     controller_initialized_ = false;
@@ -130,6 +140,8 @@ Status LonController::Init(std::shared_ptr<DependencyInjector> injector,
 
 void LonController::SetDigitalFilterPitchAngle(
     const LonControllerConf &lon_controller_conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double cutoff_freq =
       lon_controller_conf.pitch_angle_filter_conf().cutoff_freq();
   double ts = lon_controller_conf.ts();
@@ -138,6 +150,8 @@ void LonController::SetDigitalFilterPitchAngle(
 
 void LonController::LoadControlCalibrationTable(
     const LonControllerConf &lon_controller_conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const auto &control_table = lon_controller_conf.calibration_table();
   AINFO << "Control calibration table loaded";
   AINFO << "Control calibration table size is "
@@ -158,6 +172,8 @@ Status LonController::ComputeControlCommand(
     const canbus::Chassis *chassis,
     const planning::ADCTrajectory *planning_published_trajectory,
     control::ControlCommand *cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   localization_ = localization;
   chassis_ = chassis;
 
@@ -369,16 +385,22 @@ Status LonController::ComputeControlCommand(
 }
 
 Status LonController::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   speed_pid_controller_.Reset();
   station_pid_controller_.Reset();
   return Status::OK();
 }
 
-std::string LonController::Name() const { return name_; }
+std::string LonController::Name() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return name_; }
 
 void LonController::ComputeLongitudinalErrors(
     const TrajectoryAnalyzer *trajectory_analyzer, const double preview_time,
     const double ts, SimpleLongitudinalDebug *debug) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // the decomposed vehicle motion onto Frenet frame
   // s: longitudinal accumulated distance along reference trajectory
   // s_dot: longitudinal velocity along reference trajectory
@@ -462,6 +484,8 @@ void LonController::ComputeLongitudinalErrors(
 
 void LonController::SetDigitalFilter(double ts, double cutoff_freq,
                                      common::DigitalFilter *digital_filter) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<double> denominators;
   std::vector<double> numerators;
   common::LpfCoefficients(ts, cutoff_freq, &denominators, &numerators);
@@ -470,6 +494,8 @@ void LonController::SetDigitalFilter(double ts, double cutoff_freq,
 
 // TODO(all): Refactor and simplify
 void LonController::GetPathRemain(SimpleLongitudinalDebug *debug) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int stop_index = 0;
   static constexpr double kSpeedThreshold = 1e-3;
   static constexpr double kForwardAccThreshold = -1e-2;

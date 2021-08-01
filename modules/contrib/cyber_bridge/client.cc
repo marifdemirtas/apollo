@@ -27,14 +27,20 @@ enum {
 
 Client::Client(Node* node, Clients* clients, boost::asio::ip::tcp::socket s)
     : node(*node), clients(*clients), socket(std::move(s)) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto endpoint = socket.remote_endpoint();
   AINFO << "Client [" << endpoint.address() << ":" << endpoint.port()
         << "] connected";
 }
 
-Client::~Client() {}
+Client::~Client() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void Client::start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   socket.async_read_some(
       boost::asio::buffer(temp, sizeof(temp)),
       boost::bind(&Client::handle_read, shared_from_this(),
@@ -42,10 +48,14 @@ void Client::start() {
                   boost::asio::placeholders::bytes_transferred));
 }
 
-void Client::stop() { socket.close(); }
+void Client::stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ socket.close(); }
 
 void Client::handle_read(const boost::system::error_code& ec,
                          std::size_t size) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!ec) {
     ADEBUG << "Received " << size << " bytes";
     buffer.insert(buffer.end(), temp, temp + size);
@@ -94,6 +104,8 @@ void Client::handle_read(const boost::system::error_code& ec,
 }
 
 void Client::handle_write(const boost::system::error_code& ec) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (ec) {
     if (ec != boost::asio::error::operation_aborted) {
       AERROR << "Client write failed, disconnecting" << ec;
@@ -116,6 +128,8 @@ void Client::handle_write(const boost::system::error_code& ec) {
 
 // [1] [count] [string] ... [string]
 void Client::handle_register_desc() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (sizeof(uint8_t) + sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_register_desc too short";
     return;
@@ -161,6 +175,8 @@ void Client::handle_register_desc() {
 
 // [2] [channel] [type]
 void Client::handle_add_reader() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_add_reader too short header";
     return;
@@ -199,6 +215,8 @@ void Client::handle_add_reader() {
 
 // [3] [channel] [type]
 void Client::handle_add_writer() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_new_writer too short header";
     return;
@@ -237,6 +255,8 @@ void Client::handle_add_writer() {
 
 // [4] [channel] [message]
 void Client::handle_publish() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     return;
   }
@@ -270,6 +290,8 @@ void Client::handle_publish() {
 
 void fill_data(std::vector<uint8_t>* data, const std::string& channel,
                const std::string& msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   data->reserve(data->size() + sizeof(uint8_t) + sizeof(uint32_t) +
                 channel.size() + sizeof(uint32_t) + msg.size());
 
@@ -292,6 +314,8 @@ void fill_data(std::vector<uint8_t>* data, const std::string& channel,
 }
 
 void Client::publish(const std::string& channel, const std::string& msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(publish_mutex);
   if (writing.empty()) {
     fill_data(&writing, channel, msg);
@@ -308,6 +332,8 @@ void Client::publish(const std::string& channel, const std::string& msg) {
 }
 
 uint32_t Client::get32le(size_t offset) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return buffer[offset + 0] | (buffer[offset + 1] << 8) |
          (buffer[offset + 2] << 16) | (buffer[offset + 3] << 24);
 }

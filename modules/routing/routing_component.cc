@@ -24,6 +24,8 @@
 DECLARE_string(flagfile);
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace routing {
 
 bool RoutingComponent::Init() {

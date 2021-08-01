@@ -19,7 +19,11 @@
 #include "modules/common/math/sin_table.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace common {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace math {
 
 float sin(Angle16 a) {
@@ -44,19 +48,27 @@ float cos(Angle16 a) {
   return sin(b);
 }
 
-float tan(Angle16 a) { return sin(a) / cos(a); }
+float tan(Angle16 a) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return sin(a) / cos(a); }
 
 float sin(Angle8 a) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Angle16 b(static_cast<int16_t>(a.raw() << 8));
   return sin(b);
 }
 
 float cos(Angle8 a) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Angle16 b(static_cast<int16_t>(a.raw() << 8));
   return cos(b);
 }
 
 float tan(Angle8 a) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Angle16 b(static_cast<int16_t>(a.raw() << 8));
   return tan(b);
 }

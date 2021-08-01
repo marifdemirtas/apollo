@@ -30,6 +30,8 @@ namespace velodyne {
 void LoadPcds(const std::string& file_path, const unsigned int frame_index,
               const Eigen::Affine3d& pose, VelodyneFrame* velodyne_frame,
               bool is_global) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   velodyne_frame->frame_index = frame_index;
   velodyne_frame->pose = pose;
   LoadPcds(file_path, frame_index, pose, &velodyne_frame->pt3ds,
@@ -40,6 +42,8 @@ void LoadPcds(const std::string& file_path, const unsigned int frame_index,
               const Eigen::Affine3d& pose,
               ::apollo::common::EigenVector3dVec* pt3ds,
               std::vector<unsigned char>* intensities, bool is_global) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Affine3d pose_inv = pose.inverse();
   pcl::PointCloud<PointXYZIT>::Ptr cloud(new pcl::PointCloud<PointXYZIT>);
   if (pcl::io::loadPCDFile(file_path, *cloud) >= 0) {
@@ -94,6 +98,8 @@ void LoadPcds(const std::string& file_path, const unsigned int frame_index,
 void LoadPcdPoses(const std::string& file_path,
                   ::apollo::common::EigenAffine3dVec* poses,
                   std::vector<double>* timestamps) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<unsigned int> pcd_indices;
   LoadPcdPoses(file_path, poses, timestamps, &pcd_indices);
 }
@@ -102,6 +108,8 @@ void LoadPcdPoses(const std::string& file_path,
                   ::apollo::common::EigenAffine3dVec* poses,
                   std::vector<double>* timestamps,
                   std::vector<unsigned int>* pcd_indices) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   poses->clear();
   timestamps->clear();
   pcd_indices->clear();
@@ -131,6 +139,8 @@ void LoadPosesAndStds(const std::string& file_path,
                       ::apollo::common::EigenAffine3dVec* poses,
                       ::apollo::common::EigenVector3dVec* stds,
                       std::vector<double>* timestamps) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   poses->clear();
   stds->clear();
   timestamps->clear();
@@ -162,6 +172,8 @@ void LoadPosesAndStds(const std::string& file_path,
 }
 
 bool LoadExtrinsic(const std::string& file_path, Eigen::Affine3d* extrinsic) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   YAML::Node config = YAML::LoadFile(file_path);
   if (config["transform"]) {
     if (config["transform"]["translation"]) {

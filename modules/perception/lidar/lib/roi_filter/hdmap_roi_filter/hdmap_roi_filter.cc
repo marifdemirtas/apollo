@@ -38,6 +38,8 @@ template <typename T>
 using Polygon = typename PolygonScanCvter<T>::Polygon;
 
 bool HdmapROIFilter::Init(const ROIFilterInitOptions& options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // load model config
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -78,6 +80,8 @@ bool HdmapROIFilter::Init(const ROIFilterInitOptions& options) {
 
 bool HdmapROIFilter::Filter(const ROIFilterOptions& options,
                             LidarFrame* frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (frame->hdmap_struct == nullptr || frame->cloud == nullptr) {
     AERROR << " Input frame data error !";
     return false;
@@ -147,6 +151,8 @@ bool HdmapROIFilter::FilterWithPolygonMask(
     const base::PointFCloudPtr& cloud,
     const EigenVector<PolygonDType>& map_polygons,
     base::PointIndices* roi_indices) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<Polygon<double>> raw_polygons;
   // convert and obtain the major direction
   raw_polygons.resize(map_polygons.size());
@@ -189,6 +195,8 @@ void HdmapROIFilter::TransformFrame(
     const EigenVector<PolygonDType*>& polygons_world,
     EigenVector<PolygonDType>* polygons_local,
     base::PointFCloudPtr* cloud_local) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector3d vel_location = vel_pose.translation();
   Eigen::Matrix3d vel_rot = vel_pose.linear();
   Eigen::Vector3d x_axis = vel_rot.row(0);
@@ -222,6 +230,8 @@ void HdmapROIFilter::TransformFrame(
 bool HdmapROIFilter::Bitmap2dFilter(const base::PointFCloudPtr& in_cloud,
                                     const Bitmap2D& bitmap,
                                     base::PointIndices* roi_indices) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!bitmap.Check(Eigen::Vector2d(0.0, 0.0))) {
     AWARN << " Car is not in roi!!.";
     return false;

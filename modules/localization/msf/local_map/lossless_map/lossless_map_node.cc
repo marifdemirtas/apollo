@@ -23,12 +23,18 @@ namespace apollo {
 namespace localization {
 namespace msf {
 LosslessMapNode::LosslessMapNode()
-    : BaseMapNode(new LosslessMapMatrix(), new ZlibStrategy()) {}
+    : BaseMapNode(new LosslessMapMatrix(), new ZlibStrategy()) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-LosslessMapNode::~LosslessMapNode() {}
+LosslessMapNode::~LosslessMapNode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void LosslessMapNode::SetValue(const Eigen::Vector3d& coordinate,
                                unsigned char intensity) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -45,6 +51,8 @@ void LosslessMapNode::SetValue(const Eigen::Vector3d& coordinate,
 
 bool LosslessMapNode::SetValueIfInBound(const Eigen::Vector3d& coordinate,
                                         unsigned char intensity) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -65,6 +73,8 @@ bool LosslessMapNode::SetValueIfInBound(const Eigen::Vector3d& coordinate,
 
 void LosslessMapNode::SetValueLayer(const Eigen::Vector3d& coordinate,
                                     unsigned char intensity) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -80,6 +90,8 @@ void LosslessMapNode::SetValueLayer(const Eigen::Vector3d& coordinate,
 
 void LosslessMapNode::GetValue(const Eigen::Vector3d& coordinate,
                                std::vector<unsigned char>* values) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -92,6 +104,8 @@ void LosslessMapNode::GetValue(const Eigen::Vector3d& coordinate,
 
 void LosslessMapNode::GetVar(const Eigen::Vector3d& coordinate,
                              std::vector<float>* vars) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -104,6 +118,8 @@ void LosslessMapNode::GetVar(const Eigen::Vector3d& coordinate,
 
 void LosslessMapNode::GetAlt(const Eigen::Vector3d& coordinate,
                              std::vector<float>* alts) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -116,6 +132,8 @@ void LosslessMapNode::GetAlt(const Eigen::Vector3d& coordinate,
 
 void LosslessMapNode::GetAltVar(const Eigen::Vector3d& coordinate,
                                 std::vector<float>* alt_vars) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -128,6 +146,8 @@ void LosslessMapNode::GetAltVar(const Eigen::Vector3d& coordinate,
 
 void LosslessMapNode::GetCount(const Eigen::Vector3d& coordinate,
                                std::vector<unsigned int>* counts) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -140,6 +160,8 @@ void LosslessMapNode::GetCount(const Eigen::Vector3d& coordinate,
 
 unsigned char LosslessMapNode::GetValue(
     const Eigen::Vector3d& coordinate) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -151,6 +173,8 @@ unsigned char LosslessMapNode::GetValue(
 }
 
 float LosslessMapNode::GetVar(const Eigen::Vector3d& coordinate) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -162,6 +186,8 @@ float LosslessMapNode::GetVar(const Eigen::Vector3d& coordinate) const {
 }
 
 float LosslessMapNode::GetAlt(const Eigen::Vector3d& coordinate) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -173,6 +199,8 @@ float LosslessMapNode::GetAlt(const Eigen::Vector3d& coordinate) const {
 }
 
 float LosslessMapNode::GetAltVar(const Eigen::Vector3d& coordinate) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -185,6 +213,8 @@ float LosslessMapNode::GetAltVar(const Eigen::Vector3d& coordinate) const {
 
 unsigned int LosslessMapNode::GetCount(
     const Eigen::Vector3d& coordinate) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;

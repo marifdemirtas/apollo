@@ -17,14 +17,22 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace perception {
 namespace radar {
 
 double AdaptiveKalmanFilter::s_q_matrix_ratio_ = 0.074;
 
-AdaptiveKalmanFilter::AdaptiveKalmanFilter() { name_ = "AdaptiveKalmanFilter"; }
-AdaptiveKalmanFilter::~AdaptiveKalmanFilter() {}
+AdaptiveKalmanFilter::AdaptiveKalmanFilter() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ name_ = "AdaptiveKalmanFilter"; }
+AdaptiveKalmanFilter::~AdaptiveKalmanFilter() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 void AdaptiveKalmanFilter::Init(const base::Object& object) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   belief_anchor_point_ = object.center;
   belief_velocity_ = object.velocity.cast<double>();
   a_matrix_.setIdentity();
@@ -49,6 +57,8 @@ void AdaptiveKalmanFilter::Init(const base::Object& object) {
   c_matrix_.setIdentity();
 }
 Eigen::VectorXd AdaptiveKalmanFilter::Predict(const double time_diff) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::VectorXd state;
   state.resize(4);
   state[0] = belief_anchor_point_[0] + belief_velocity_[0] * time_diff;
@@ -59,6 +69,8 @@ Eigen::VectorXd AdaptiveKalmanFilter::Predict(const double time_diff) {
 }
 Eigen::VectorXd AdaptiveKalmanFilter::UpdateWithObject(
     const base::Object& new_object, double time_diff) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // predict and then correct
   a_matrix_.setIdentity();
   a_matrix_(0, 2) = time_diff;
@@ -102,6 +114,8 @@ Eigen::VectorXd AdaptiveKalmanFilter::UpdateWithObject(
 }
 void AdaptiveKalmanFilter::GetState(Eigen::Vector3d* anchor_point,
                                     Eigen::Vector3d* velocity) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (anchor_point == nullptr) {
     AERROR << "anchor_point is not available";
     return;

@@ -28,6 +28,8 @@ const int32_t Brakeinfo74::ID = 0x74;
 
 void Brakeinfo74::Parse(const std::uint8_t *bytes, int32_t length,
                         ChassisDetail *chassis_detail) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis_detail->mutable_brake()->set_brake_torque_req(
       braking_torque_request(bytes, length));
   switch (hill_start_assist_status(bytes, length)) {
@@ -113,6 +115,8 @@ void Brakeinfo74::Parse(const std::uint8_t *bytes, int32_t length,
 
 double Brakeinfo74::braking_torque_request(const std::uint8_t *bytes,
                                            int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame_high(bytes + 1);
   int32_t high = frame_high.get_byte(0, 4);
   Byte frame_low(bytes + 0);
@@ -123,6 +127,8 @@ double Brakeinfo74::braking_torque_request(const std::uint8_t *bytes,
 
 int32_t Brakeinfo74::hill_start_assist_status(const std::uint8_t *bytes,
                                               int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // see table for status code
   Byte frame(bytes + 1);
   int32_t x = frame.get_byte(4, 3);
@@ -131,6 +137,8 @@ int32_t Brakeinfo74::hill_start_assist_status(const std::uint8_t *bytes,
 
 bool Brakeinfo74::is_vehicle_stationary(const std::uint8_t *bytes,
                                         int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // false for moving, true for stationary
   Byte frame(bytes + 1);
   return frame.is_bit_1(7);
@@ -138,6 +146,8 @@ bool Brakeinfo74::is_vehicle_stationary(const std::uint8_t *bytes,
 
 double Brakeinfo74::braking_torque_actual(const std::uint8_t *bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame_high(bytes + 3);
   int32_t high = frame_high.get_byte(0, 4);
   Byte frame_low(bytes + 2);
@@ -148,6 +158,8 @@ double Brakeinfo74::braking_torque_actual(const std::uint8_t *bytes,
 
 int32_t Brakeinfo74::hill_start_assist_mode(const std::uint8_t *bytes,
                                             int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // see table for status code
   Byte frame(bytes + 3);
   int32_t x = frame.get_byte(4, 2);
@@ -156,6 +168,8 @@ int32_t Brakeinfo74::hill_start_assist_mode(const std::uint8_t *bytes,
 
 int32_t Brakeinfo74::parking_brake_status(const std::uint8_t *bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // see table for status code
   Byte frame(bytes + 3);
   int32_t x = frame.get_byte(6, 2);
@@ -164,6 +178,8 @@ int32_t Brakeinfo74::parking_brake_status(const std::uint8_t *bytes,
 
 double Brakeinfo74::wheel_torque_actual(const std::uint8_t *bytes,
                                         int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame_high(bytes + 5);
   int32_t high = frame_high.get_byte(0, 6);
   Byte frame_low(bytes + 4);
@@ -177,6 +193,8 @@ double Brakeinfo74::wheel_torque_actual(const std::uint8_t *bytes,
 
 double Brakeinfo74::acceleration_over_ground(const std::uint8_t *bytes,
                                              int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // vehicle acceleration over ground estimate
   Byte frame_high(bytes + 7);
   int32_t high = frame_high.get_byte(0, 2);
@@ -191,36 +209,48 @@ double Brakeinfo74::acceleration_over_ground(const std::uint8_t *bytes,
 
 bool Brakeinfo74::is_abs_active(const std::uint8_t *bytes,
                                 int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame(bytes + 7);
   return frame.is_bit_1(2);
 }
 
 bool Brakeinfo74::is_abs_enabled(const std::uint8_t *bytes,
                                  int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame(bytes + 7);
   return frame.is_bit_1(3);
 }
 
 bool Brakeinfo74::is_stability_control_active(const std::uint8_t *bytes,
                                               int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame(bytes + 7);
   return frame.is_bit_1(4);
 }
 
 bool Brakeinfo74::is_stability_control_enabled(const std::uint8_t *bytes,
                                                int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame(bytes + 7);
   return frame.is_bit_1(5);
 }
 
 bool Brakeinfo74::is_traction_control_active(const std::uint8_t *bytes,
                                              int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame(bytes + 7);
   return frame.is_bit_1(6);
 }
 
 bool Brakeinfo74::is_traction_control_enabled(const std::uint8_t *bytes,
                                               int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame(bytes + 7);
   return frame.is_bit_1(7);
 }

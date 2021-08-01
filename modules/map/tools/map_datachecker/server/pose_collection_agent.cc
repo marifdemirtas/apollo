@@ -24,18 +24,24 @@ namespace apollo {
 namespace hdmap {
 
 PoseCollectionAgent::PoseCollectionAgent(std::shared_ptr<JsonConf> sp_conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   sp_pj_transformer_ = std::make_shared<PJTransformer>(50);
   sp_conf_ = sp_conf;
   Reset();
 }
 
 void PoseCollectionAgent::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   sp_pose_collection_ = std::make_shared<PoseCollection>(sp_conf_);
 }
 
 void PoseCollectionAgent::OnBestgnssposCallback(
     const std::shared_ptr<const apollo::drivers::gnss::GnssBestPose>
         &bestgnsspos) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (sp_pose_collection_ == nullptr) {
     sp_pose_collection_ = std::make_shared<PoseCollection>(sp_conf_);
   }
@@ -78,6 +84,8 @@ void PoseCollectionAgent::OnBestgnssposCallback(
 }
 
 std::shared_ptr<std::vector<FramePose>> PoseCollectionAgent::GetPoses() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (sp_pose_collection_ == nullptr) {
     return nullptr;
   }

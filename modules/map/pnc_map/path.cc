@@ -49,6 +49,8 @@ const double kSampleDistance = 0.25;
 
 bool FindLaneSegment(const MapPathPoint& p1, const MapPathPoint& p2,
                      LaneSegment* const lane_segment) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (const auto& wp1 : p1.lane_waypoints()) {
     for (const auto& wp2 : p2.lane_waypoints()) {
       if (wp1.lane->id().id() == wp2.lane->id().id() && wp1.s < wp2.s) {
@@ -63,6 +65,8 @@ bool FindLaneSegment(const MapPathPoint& p1, const MapPathPoint& p2,
 }  // namespace
 
 std::string LaneWaypoint::DebugString() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (lane == nullptr) {
     return "(lane is null)";
   }
@@ -70,6 +74,8 @@ std::string LaneWaypoint::DebugString() const {
 }
 
 LaneBoundaryType::Type LeftBoundaryType(const LaneWaypoint& waypoint) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!waypoint.lane) {
     return LaneBoundaryType::UNKNOWN;
   }
@@ -87,6 +93,8 @@ LaneBoundaryType::Type LeftBoundaryType(const LaneWaypoint& waypoint) {
 }
 
 LaneBoundaryType::Type RightBoundaryType(const LaneWaypoint& waypoint) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!waypoint.lane) {
     return LaneBoundaryType::UNKNOWN;
   }
@@ -104,6 +112,8 @@ LaneBoundaryType::Type RightBoundaryType(const LaneWaypoint& waypoint) {
 }
 
 LaneWaypoint LeftNeighborWaypoint(const LaneWaypoint& waypoint) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   LaneWaypoint neighbor;
   if (!waypoint.lane) {
     return neighbor;
@@ -133,6 +143,8 @@ LaneWaypoint LeftNeighborWaypoint(const LaneWaypoint& waypoint) {
 }
 
 void LaneSegment::Join(std::vector<LaneSegment>* segments) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   static constexpr double kSegmentDelta = 0.5;
   std::size_t k = 0;
   std::size_t i = 0;
@@ -160,6 +172,8 @@ void LaneSegment::Join(std::vector<LaneSegment>* segments) {
 }
 
 LaneWaypoint RightNeighborWaypoint(const LaneWaypoint& waypoint) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   LaneWaypoint neighbor;
   if (!waypoint.lane) {
     return neighbor;
@@ -188,6 +202,8 @@ LaneWaypoint RightNeighborWaypoint(const LaneWaypoint& waypoint) {
 }
 
 std::string LaneSegment::DebugString() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (lane == nullptr) {
     return "(lane is null)";
   }
@@ -197,12 +213,16 @@ std::string LaneSegment::DebugString() const {
 
 std::vector<MapPathPoint> MapPathPoint::GetPointsFromSegment(
     const LaneSegment& segment) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetPointsFromLane(segment.lane, segment.start_s, segment.end_s);
 }
 
 std::vector<MapPathPoint> MapPathPoint::GetPointsFromLane(LaneInfoConstPtr lane,
                                                           const double start_s,
                                                           const double end_s) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<MapPathPoint> points;
   if (start_s >= end_s) {
     return points;
@@ -236,6 +256,8 @@ std::vector<MapPathPoint> MapPathPoint::GetPointsFromLane(LaneInfoConstPtr lane,
 }
 
 void MapPathPoint::RemoveDuplicates(std::vector<MapPathPoint>* points) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   static constexpr double kDuplicatedPointsEpsilon = 1e-7;
   static constexpr double limit =
       kDuplicatedPointsEpsilon * kDuplicatedPointsEpsilon;
@@ -253,6 +275,8 @@ void MapPathPoint::RemoveDuplicates(std::vector<MapPathPoint>* points) {
 }
 
 std::string MapPathPoint::DebugString() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return absl::StrCat(
       "x = ", x_, "  y = ", y_, "  heading = ", heading_,
       "  lwp = "
@@ -261,6 +285,8 @@ std::string MapPathPoint::DebugString() const {
 }
 
 std::string Path::DebugString() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return absl::StrCat(
       "num_points = ", num_points_,
       "  points = "
@@ -275,22 +301,30 @@ std::string Path::DebugString() const {
 }
 
 std::string PathOverlap::DebugString() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return absl::StrCat(object_id, " ", start_s, " ", end_s);
 }
 
 Path::Path(const std::vector<MapPathPoint>& path_points)
     : path_points_(path_points) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Init();
 }
 
 Path::Path(std::vector<MapPathPoint>&& path_points)
     : path_points_(std::move(path_points)) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Init();
 }
 
 Path::Path(const std::vector<MapPathPoint>& path_points,
            const std::vector<LaneSegment>& lane_segments)
     : path_points_(path_points), lane_segments_(lane_segments) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Init();
 }
 
@@ -298,6 +332,8 @@ Path::Path(std::vector<MapPathPoint>&& path_points,
            std::vector<LaneSegment>&& lane_segments)
     : path_points_(std::move(path_points)),
       lane_segments_(std::move(lane_segments)) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Init();
 }
 
@@ -305,6 +341,8 @@ Path::Path(const std::vector<MapPathPoint>& path_points,
            const std::vector<LaneSegment>& lane_segments,
            const double max_approximation_error)
     : path_points_(path_points), lane_segments_(lane_segments) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Init();
   if (max_approximation_error > 0.0) {
     use_path_approximation_ = true;
@@ -314,6 +352,8 @@ Path::Path(const std::vector<MapPathPoint>& path_points,
 
 Path::Path(const std::vector<LaneSegment>& segments)
     : lane_segments_(segments) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (const auto& segment : lane_segments_) {
     const auto points = MapPathPoint::GetPointsFromLane(
         segment.lane, segment.start_s, segment.end_s);
@@ -326,6 +366,8 @@ Path::Path(const std::vector<LaneSegment>& segments)
 
 Path::Path(std::vector<LaneSegment>&& segments)
     : lane_segments_(std::move(segments)) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (const auto& segment : lane_segments_) {
     const auto points = MapPathPoint::GetPointsFromLane(
         segment.lane, segment.start_s, segment.end_s);
@@ -341,6 +383,8 @@ Path::Path(std::vector<MapPathPoint>&& path_points,
            const double max_approximation_error)
     : path_points_(std::move(path_points)),
       lane_segments_(std::move(lane_segments)) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Init();
   if (max_approximation_error > 0.0) {
     use_path_approximation_ = true;
@@ -349,6 +393,8 @@ Path::Path(std::vector<MapPathPoint>&& path_points,
 }
 
 void Path::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   InitPoints();
   InitLaneSegments();
   InitPointIndex();
@@ -357,6 +403,8 @@ void Path::Init() {
 }
 
 void Path::InitPoints() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   num_points_ = static_cast<int>(path_points_.size());
   CHECK_GE(num_points_, 2);
 
@@ -392,6 +440,8 @@ void Path::InitPoints() {
 }
 
 void Path::InitLaneSegments() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (lane_segments_.empty()) {
     for (int i = 0; i + 1 < num_points_; ++i) {
       LaneSegment lane_segment;
@@ -427,6 +477,8 @@ void Path::InitLaneSegments() {
 }
 
 void Path::InitWidth() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   lane_left_width_.clear();
   lane_left_width_.reserve(num_sample_points_);
   lane_right_width_.clear();
@@ -476,6 +528,8 @@ void Path::InitWidth() {
 }
 
 void Path::InitPointIndex() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   last_point_index_.clear();
   last_point_index_.reserve(num_sample_points_);
   double s = 0.0;
@@ -493,6 +547,8 @@ void Path::InitPointIndex() {
 
 void Path::GetAllOverlaps(GetOverlapFromLaneFunc GetOverlaps_from_lane,
                           std::vector<PathOverlap>* const overlaps) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (overlaps == nullptr) {
     return;
   }
@@ -552,6 +608,8 @@ void Path::GetAllOverlaps(GetOverlapFromLaneFunc GetOverlaps_from_lane,
 }
 
 const PathOverlap* Path::NextLaneOverlap(double s) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto next = std::upper_bound(
       lane_overlaps_.begin(), lane_overlaps_.end(), s,
       [](double s, const PathOverlap& o) { return s < o.start_s; });
@@ -563,6 +621,8 @@ const PathOverlap* Path::NextLaneOverlap(double s) const {
 }
 
 void Path::InitOverlaps() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   GetAllOverlaps(std::bind(&LaneInfo::cross_lanes, _1), &lane_overlaps_);
   GetAllOverlaps(std::bind(&LaneInfo::signals, _1), &signal_overlaps_);
   GetAllOverlaps(std::bind(&LaneInfo::yield_signs, _1), &yield_sign_overlaps_);
@@ -578,6 +638,8 @@ void Path::InitOverlaps() {
 }
 
 MapPathPoint Path::GetSmoothPoint(const InterpolatedIndex& index) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_GE(index.id, 0);
   CHECK_LT(index.id, num_points_);
 
@@ -611,10 +673,14 @@ MapPathPoint Path::GetSmoothPoint(const InterpolatedIndex& index) const {
 }
 
 MapPathPoint Path::GetSmoothPoint(double s) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetSmoothPoint(GetIndexFromS(s));
 }
 
 double Path::GetSFromIndex(const InterpolatedIndex& index) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (index.id < 0) {
     return 0.0;
   }
@@ -625,6 +691,8 @@ double Path::GetSFromIndex(const InterpolatedIndex& index) const {
 }
 
 InterpolatedIndex Path::GetIndexFromS(double s) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (s <= 0.0) {
     return {0, 0.0};
   }
@@ -653,6 +721,8 @@ InterpolatedIndex Path::GetIndexFromS(double s) const {
 }
 
 InterpolatedIndex Path::GetLaneIndexFromS(double s) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (s <= 0.0) {
     return {0, 0.0};
   }
@@ -678,6 +748,8 @@ InterpolatedIndex Path::GetLaneIndexFromS(double s) const {
 
 std::vector<hdmap::LaneSegment> Path::GetLaneSegments(
     const double start_s, const double end_s) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<hdmap::LaneSegment> lanes;
   if (start_s + kMathEpsilon > end_s) {
     return lanes;
@@ -706,12 +778,16 @@ std::vector<hdmap::LaneSegment> Path::GetLaneSegments(
 
 bool Path::GetNearestPoint(const Vec2d& point, double* accumulate_s,
                            double* lateral) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double distance = 0.0;
   return GetNearestPoint(point, accumulate_s, lateral, &distance);
 }
 
 bool Path::GetNearestPoint(const Vec2d& point, double* accumulate_s,
                            double* lateral, double* min_distance) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!GetProjection(point, accumulate_s, lateral, min_distance)) {
     return false;
   }
@@ -727,6 +803,8 @@ bool Path::GetNearestPoint(const Vec2d& point, double* accumulate_s,
 
 bool Path::GetProjection(const common::math::Vec2d& point, double* accumulate_s,
                          double* lateral) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double distance = 0.0;
   return GetProjection(point, accumulate_s, lateral, &distance);
 }
@@ -737,6 +815,8 @@ bool Path::GetProjectionWithHueristicParams(const Vec2d& point,
                                             double* accumulate_s,
                                             double* lateral,
                                             double* min_distance) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (segments_.empty()) {
     return false;
   }
@@ -786,6 +866,8 @@ bool Path::GetProjectionWithHueristicParams(const Vec2d& point,
 
 bool Path::GetProjection(const Vec2d& point, double* accumulate_s,
                          double* lateral, double* min_distance) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (segments_.empty()) {
     return false;
   }
@@ -834,6 +916,8 @@ bool Path::GetProjection(const Vec2d& point, double* accumulate_s,
 }
 
 bool Path::GetHeadingAlongPath(const Vec2d& point, double* heading) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (heading == nullptr) {
     return false;
   }
@@ -847,15 +931,21 @@ bool Path::GetHeadingAlongPath(const Vec2d& point, double* heading) const {
 }
 
 double Path::GetLaneLeftWidth(const double s) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetSample(lane_left_width_, s);
 }
 
 double Path::GetLaneRightWidth(const double s) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetSample(lane_right_width_, s);
 }
 
 bool Path::GetLaneWidth(const double s, double* lane_left_width,
                         double* lane_right_width) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(lane_left_width);
   CHECK_NOTNULL(lane_right_width);
 
@@ -868,15 +958,21 @@ bool Path::GetLaneWidth(const double s, double* lane_left_width,
 }
 
 double Path::GetRoadLeftWidth(const double s) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetSample(road_left_width_, s);
 }
 
 double Path::GetRoadRightWidth(const double s) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return GetSample(road_right_width_, s);
 }
 
 bool Path::GetRoadWidth(const double s, double* road_left_width,
                         double* road_right_width) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(road_left_width);
   CHECK_NOTNULL(road_right_width);
 
@@ -891,6 +987,8 @@ bool Path::GetRoadWidth(const double s, double* road_left_width,
 
 double Path::GetSample(const std::vector<double>& samples,
                        const double s) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (samples.empty()) {
     return 0.0;
   }
@@ -906,6 +1004,8 @@ double Path::GetSample(const std::vector<double>& samples,
 }
 
 bool Path::IsOnPath(const Vec2d& point) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double accumulate_s = 0.0;
   double lateral = 0.0;
   if (!GetProjection(point, &accumulate_s, &lateral)) {
@@ -923,6 +1023,8 @@ bool Path::IsOnPath(const Vec2d& point) const {
 }
 
 bool Path::OverlapWith(const common::math::Box2d& box, double width) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (use_path_approximation_) {
     return approximation_.OverlapWith(*this, box, width);
   }
@@ -941,6 +1043,8 @@ bool Path::OverlapWith(const common::math::Box2d& box, double width) const {
 
 double PathApproximation::compute_max_error(const Path& path, const int s,
                                             const int t) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (s + 1 >= t) {
     return 0.0;
   }
@@ -956,6 +1060,8 @@ double PathApproximation::compute_max_error(const Path& path, const int s,
 
 bool PathApproximation::is_within_max_error(const Path& path, const int s,
                                             const int t) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (s + 1 >= t) {
     return true;
   }
@@ -970,11 +1076,15 @@ bool PathApproximation::is_within_max_error(const Path& path, const int s,
 }
 
 void PathApproximation::Init(const Path& path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   InitDilute(path);
   InitProjections(path);
 }
 
 void PathApproximation::InitDilute(const Path& path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const int num_original_points = path.num_points();
   original_ids_.clear();
   int last_idx = 0;
@@ -1017,6 +1127,8 @@ void PathApproximation::InitDilute(const Path& path) {
 }
 
 void PathApproximation::InitProjections(const Path& path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (num_points_ == 0) {
     return;
   }
@@ -1092,6 +1204,8 @@ bool PathApproximation::GetProjection(const Path& path,
                                       const common::math::Vec2d& point,
                                       double* accumulate_s, double* lateral,
                                       double* min_distance) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (num_points_ == 0) {
     return false;
   }
@@ -1225,6 +1339,8 @@ bool PathApproximation::GetProjection(const Path& path,
 
 bool PathApproximation::OverlapWith(const Path& path, const Box2d& box,
                                     double width) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (num_points_ == 0) {
     return false;
   }

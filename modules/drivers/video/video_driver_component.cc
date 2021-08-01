@@ -25,6 +25,8 @@ namespace video {
 using cyber::common::EnsureDirectory;
 
 bool CompCameraH265Compressed::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Initialize video driver component.";
 
   CameraH265Config video_config;
@@ -64,6 +66,8 @@ bool CompCameraH265Compressed::Init() {
 }
 
 void CompCameraH265Compressed::VideoPoll() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::ofstream fout;
   if (camera_deivce_->Record()) {
     char name[256];

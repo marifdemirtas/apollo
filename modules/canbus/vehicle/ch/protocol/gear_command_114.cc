@@ -26,25 +26,35 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Gearcommand114::ID = 0x114;
 
 // public
-Gearcommand114::Gearcommand114() { Reset(); }
+Gearcommand114::Gearcommand114() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Gearcommand114::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Gearcommand114::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_gear_cmd(data, gear_cmd_);
 }
 
 void Gearcommand114::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // you should check this manually
   gear_cmd_ = Gear_command_114::GEAR_CMD_NEUTRAL;
 }
 
 Gearcommand114* Gearcommand114::set_gear_cmd(
     Gear_command_114::Gear_cmdType gear_cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   gear_cmd_ = gear_cmd;
   return this;
 }
@@ -56,6 +66,8 @@ Gearcommand114* Gearcommand114::set_gear_cmd(
 // 'type': 'enum', 'order': 'intel', 'physical_unit': ''}
 void Gearcommand114::set_p_gear_cmd(uint8_t* data,
                                     Gear_command_114::Gear_cmdType gear_cmd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = gear_cmd;
 
   Byte to_set(data + 0);

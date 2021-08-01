@@ -34,6 +34,8 @@ using cyber::common::GetAbsolutePath;
 
 bool TrafficLightDetection::Init(
     const camera::TrafficLightDetectorInitOptions &options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string proto_path = GetAbsolutePath(options.root_dir, options.conf_file);
   AINFO << "proto_path " << proto_path;
   if (!cyber::common::GetProtoFromFile(proto_path, &detection_param_)) {
@@ -158,6 +160,8 @@ bool TrafficLightDetection::Init(
 //  traffic lights, because so far batch size can only be 1
 bool TrafficLightDetection::Inference(
     std::vector<base::TrafficLightPtr> *lights, DataProvider *data_provider) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (cudaSetDevice(gpu_id_) != cudaSuccess) {
     AERROR << "Failed to set device to " << gpu_id_;
     return false;
@@ -232,6 +236,8 @@ bool TrafficLightDetection::Inference(
 
 bool TrafficLightDetection::Detect(const TrafficLightDetectorOptions &options,
                                    CameraFrame *frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (frame->traffic_lights.empty()) {
     AINFO << "no lights to detect";
     return true;
@@ -292,6 +298,8 @@ bool TrafficLightDetection::SelectOutputBoxes(
     const std::vector<float> &resize_scale_list_col,
     const std::vector<float> &resize_scale_list_row,
     std::vector<base::TrafficLightPtr> *lights) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto output_blob = rt_net_->get_blob(net_outputs_[0]);
   std::string model_type = detection_param_.model_type();
   int result_box_num, each_box_length;
@@ -383,6 +391,8 @@ bool TrafficLightDetection::SelectOutputBoxes(
 
 void TrafficLightDetection::ApplyNMS(std::vector<base::TrafficLightPtr> *lights,
                                      double iou_thresh) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (lights == nullptr) {
     AERROR << "lights are not available";
     return;
@@ -433,6 +443,8 @@ void TrafficLightDetection::ApplyNMS(std::vector<base::TrafficLightPtr> *lights,
 }
 
 std::string TrafficLightDetection::Name() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return "TrafficLightDetection";
 }
 

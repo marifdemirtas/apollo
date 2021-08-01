@@ -31,18 +31,26 @@ namespace ultrasonic_radar {
 
 UltrasonicRadarCanbus::UltrasonicRadarCanbus()
     : monitor_logger_buffer_(
-          common::monitor::MonitorMessageItem::ULTRASONIC_RADAR) {}
+          common::monitor::MonitorMessageItem::ULTRASONIC_RADAR) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 UltrasonicRadarCanbus::~UltrasonicRadarCanbus() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   can_receiver_.Stop();
   can_client_->Stop();
 }
 
-std::string UltrasonicRadarCanbus::Name() const { return "ultrasonic_radar"; }
+std::string UltrasonicRadarCanbus::Name() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return "ultrasonic_radar"; }
 
 apollo::common::Status UltrasonicRadarCanbus::Init(
     const std::string& config_path,
     const std::shared_ptr<::apollo::cyber::Writer<Ultrasonic>>& writer) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!cyber::common::GetProtoFromFile(config_path, &ultrasonic_radar_conf_)) {
     return OnError("Unable to load canbus conf file: " + config_path);
   }
@@ -81,6 +89,8 @@ apollo::common::Status UltrasonicRadarCanbus::Init(
 }
 
 apollo::common::Status UltrasonicRadarCanbus::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // 1. init and start the can card hardware
   if (can_client_->Start() != ErrorCode::OK) {
     return OnError("Failed to start can client");
@@ -101,6 +111,8 @@ apollo::common::Status UltrasonicRadarCanbus::Start() {
 
 // Send the error to monitor and return it
 Status UltrasonicRadarCanbus::OnError(const std::string& error_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   monitor_logger_buffer_.ERROR(error_msg);
   return Status(ErrorCode::CANBUS_ERROR, error_msg);
 }

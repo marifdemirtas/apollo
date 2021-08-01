@@ -37,6 +37,8 @@ using cyber::common::GetAbsolutePath;
 
 bool ObstacleCameraPerception::Init(
     const CameraPerceptionInitOptions &options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Arif called ObstacleCameraPerception::Init";
   std::string work_root = "";
   if (options.use_cyber_work_root) {
@@ -184,6 +186,8 @@ bool ObstacleCameraPerception::Init(
 void ObstacleCameraPerception::InitLane(
     const std::string &work_root,
     const app::PerceptionParam &perception_param) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Arif called ObstacleCameraPerception::InitLane";
   // Init lane
   CHECK_GT(perception_param.lane_param_size(), 0)
@@ -253,6 +257,8 @@ void ObstacleCameraPerception::InitLane(
 void ObstacleCameraPerception::InitCalibrationService(
     const std::string &work_root, const base::BaseCameraModelPtr model,
     const app::PerceptionParam &perception_param) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Init calibration service
   ACHECK(perception_param.has_calibration_service_param())
       << "Failed to include calibration_service_param.";
@@ -284,6 +290,8 @@ void ObstacleCameraPerception::SetCameraHeightAndPitch(
     const std::map<std::string, float> &name_camera_ground_height_map,
     const std::map<std::string, float> &name_camera_pitch_angle_diff_map,
     const float &pitch_angle_calibrator_working_sensor) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (calibration_service_ == nullptr) {
     AERROR << "Calibraion service is not available";
     return;
@@ -295,6 +303,8 @@ void ObstacleCameraPerception::SetCameraHeightAndPitch(
 
 void ObstacleCameraPerception::SetIm2CarHomography(
     Eigen::Matrix3d homography_im2car) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (calibration_service_ == nullptr) {
     AERROR << "Calibraion service is not available";
     return;
@@ -304,6 +314,8 @@ void ObstacleCameraPerception::SetIm2CarHomography(
 
 bool ObstacleCameraPerception::GetCalibrationService(
     BaseCalibrationService **calibration_service) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Arif called ObstacleCameraPerception::GetCalibrationService";
   *calibration_service = calibration_service_.get();
   return true;
@@ -311,6 +323,8 @@ bool ObstacleCameraPerception::GetCalibrationService(
 
 bool ObstacleCameraPerception::Perception(
     const CameraPerceptionOptions &options, CameraFrame *frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   PERF_FUNCTION();
   inference::CudaUtil::set_device_id(perception_param_.gpu_id());
   ObstacleDetectorOptions detector_options;

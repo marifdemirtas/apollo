@@ -25,11 +25,15 @@ namespace ge3 {
 
 using ::apollo::drivers::canbus::Byte;
 
-Scubcs2307::Scubcs2307() {}
+Scubcs2307::Scubcs2307() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Scubcs2307::ID = 0x307;
 
 void Scubcs2307::Parse(const std::uint8_t* bytes, int32_t length,
                        ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_ge3()->mutable_scu_bcs_2_307()->set_bcs_vehspdvd(
       bcs_vehspdvd(bytes, length));
   chassis->mutable_ge3()->mutable_scu_bcs_2_307()->set_bcs_yawrate(
@@ -49,6 +53,8 @@ void Scubcs2307::Parse(const std::uint8_t* bytes, int32_t length,
 // 'physical_unit': '-'}
 Scu_bcs_2_307::Bcs_vehspdvdType Scubcs2307::bcs_vehspdvd(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 1);
 
@@ -63,6 +69,8 @@ Scu_bcs_2_307::Bcs_vehspdvdType Scubcs2307::bcs_vehspdvd(
 // 'motorola', 'physical_unit': 'rad/s'}
 double Scubcs2307::bcs_yawrate(const std::uint8_t* bytes,
                                int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
 
@@ -80,6 +88,8 @@ double Scubcs2307::bcs_yawrate(const std::uint8_t* bytes,
 // 'physical_range': '[0|240]', 'bit': 39, 'type': 'double', 'order':
 // 'motorola', 'physical_unit': 'km/h'}
 double Scubcs2307::bcs_vehspd(const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 
@@ -98,6 +108,8 @@ double Scubcs2307::bcs_vehspd(const std::uint8_t* bytes, int32_t length) const {
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'm/s^2'}
 double Scubcs2307::bcs_vehlongaccel(const std::uint8_t* bytes,
                                     int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -116,6 +128,8 @@ double Scubcs2307::bcs_vehlongaccel(const std::uint8_t* bytes,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'm/s^2'}
 double Scubcs2307::bcs_vehlataccel(const std::uint8_t* bytes,
                                    int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 

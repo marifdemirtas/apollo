@@ -27,6 +27,8 @@ namespace localization {
 namespace msf {
 
 LocationExporter::LocationExporter(const std::string &loc_file_folder) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   gnss_loc_file_ = loc_file_folder + "/gnss_loc.txt";
   lidar_loc_file_ = loc_file_folder + "/lidar_loc.txt";
   fusion_loc_file_ = loc_file_folder + "/fusion_loc.txt";
@@ -53,6 +55,8 @@ LocationExporter::LocationExporter(const std::string &loc_file_folder) {
 }
 
 LocationExporter::~LocationExporter() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (gnss_loc_file_handle_ != nullptr) {
     fclose(gnss_loc_file_handle_);
   }
@@ -71,6 +75,8 @@ LocationExporter::~LocationExporter() {
 }
 
 void LocationExporter::GnssLocCallback(const std::string &msg_string) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "GNSS location callback.";
   LocalizationEstimate msg;
   msg.ParseFromString(msg_string);
@@ -99,6 +105,8 @@ void LocationExporter::GnssLocCallback(const std::string &msg_string) {
 }
 
 void LocationExporter::LidarLocCallback(const std::string &msg_string) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Lidar location callback.";
   LocalizationEstimate msg;
   msg.ParseFromString(msg_string);
@@ -132,6 +140,8 @@ void LocationExporter::LidarLocCallback(const std::string &msg_string) {
 }
 
 void LocationExporter::FusionLocCallback(const std::string &msg_string) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Fusion location callback.";
   LocalizationEstimate msg;
   msg.ParseFromString(msg_string);
@@ -165,6 +175,8 @@ void LocationExporter::FusionLocCallback(const std::string &msg_string) {
 }
 
 void LocationExporter::OdometryLocCallback(const std::string &msg_string) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Odometry location callback.";
   Gps msg;
   msg.ParseFromString(msg_string);

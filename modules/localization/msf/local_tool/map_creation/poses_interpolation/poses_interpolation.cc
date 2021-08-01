@@ -23,12 +23,16 @@
 namespace apollo {
 namespace localization {
 namespace msf {
-PosesInterpolation::PosesInterpolation() {}
+PosesInterpolation::PosesInterpolation() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool PosesInterpolation::Init(const std::string &input_poses_path,
                               const std::string &ref_timestamps_path,
                               const std::string &out_poses_path,
                               const std::string &extrinsic_path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   this->input_poses_path_ = input_poses_path;
   this->ref_timestamps_path_ = ref_timestamps_path;
   this->out_poses_path_ = out_poses_path;
@@ -44,6 +48,8 @@ bool PosesInterpolation::Init(const std::string &input_poses_path,
 }
 
 void PosesInterpolation::DoInterpolation() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Load input poses
   ::apollo::common::EigenVector3dVec input_stds;
   velodyne::LoadPosesAndStds(input_poses_path_, &input_poses_, &input_stds,
@@ -62,6 +68,8 @@ void PosesInterpolation::DoInterpolation() {
 }
 
 void PosesInterpolation::LoadPCDTimestamp() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   FILE *file = fopen(ref_timestamps_path_.c_str(), "r");
   if (file) {
     unsigned int index;
@@ -78,6 +86,8 @@ void PosesInterpolation::LoadPCDTimestamp() {
 }
 
 void PosesInterpolation::WritePCDPoses() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::ofstream fout;
   fout.open(out_poses_path_.c_str(), std::ofstream::out);
 
@@ -113,6 +123,8 @@ void PosesInterpolation::PoseInterpolationByTime(
     const std::vector<unsigned int> &ref_indexes,
     std::vector<unsigned int> *out_indexes, std::vector<double> *out_timestamps,
     ::apollo::common::EigenAffine3dVec *out_poses) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   out_indexes->clear();
   out_timestamps->clear();
   out_poses->clear();

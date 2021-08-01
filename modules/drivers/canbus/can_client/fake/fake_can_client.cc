@@ -26,14 +26,22 @@ namespace can {
 
 using apollo::common::ErrorCode;
 
-bool FakeCanClient::Init(const CANCardParameter &param) { return true; }
+bool FakeCanClient::Init(const CANCardParameter &param) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return true; }
 
-ErrorCode FakeCanClient::Start() { return ErrorCode::OK; }
+ErrorCode FakeCanClient::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return ErrorCode::OK; }
 
-void FakeCanClient::Stop() {}
+void FakeCanClient::Stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 ErrorCode FakeCanClient::Send(const std::vector<CanFrame> &frames,
                               int32_t *const frame_num) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (frame_num == nullptr) {
     AERROR << "frame_num pointer is null";
     return ErrorCode::CAN_CLIENT_ERROR_BASE;
@@ -54,6 +62,8 @@ ErrorCode FakeCanClient::Send(const std::vector<CanFrame> &frames,
 
 ErrorCode FakeCanClient::Receive(std::vector<CanFrame> *const frames,
                                  int32_t *const frame_num) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (frame_num == nullptr || frames == nullptr) {
     AERROR << "frames or frame_num pointer is null";
     return ErrorCode::CAN_CLIENT_ERROR_BASE;
@@ -74,6 +84,8 @@ ErrorCode FakeCanClient::Receive(std::vector<CanFrame> *const frames,
 }
 
 std::string FakeCanClient::GetErrorString(const int32_t /*status*/) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return "";
 }
 

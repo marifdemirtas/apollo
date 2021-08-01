@@ -71,6 +71,8 @@ namespace base {
 template <typename Dtype>
 void Blob<Dtype>::Reshape(const int num, const int channels, const int height,
                           const int width) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::vector<int> shape(4);
   shape[0] = num;
   shape[1] = channels;
@@ -81,6 +83,8 @@ void Blob<Dtype>::Reshape(const int num, const int channels, const int height,
 
 template <typename Dtype>
 void Blob<Dtype>::Reshape(const std::vector<int>& shape) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_LE(shape.size(), kMaxBlobAxes);
   count_ = 1;
   shape_.resize(shape.size());
@@ -108,6 +112,8 @@ void Blob<Dtype>::Reshape(const std::vector<int>& shape) {
 
 template <typename Dtype>
 void Blob<Dtype>::ReshapeLike(const Blob<Dtype>& other) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Reshape(other.shape());
 }
 
@@ -116,6 +122,8 @@ Blob<Dtype>::Blob(const int num, const int channels, const int height,
                   const int width, const bool use_cuda_host_malloc)
     // capacity_ must be initialized before calling Reshape
     : capacity_(0), use_cuda_host_malloc_(use_cuda_host_malloc) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Reshape(num, channels, height, width);
 }
 
@@ -124,23 +132,31 @@ Blob<Dtype>::Blob(const std::vector<int>& shape,
                   const bool use_cuda_host_malloc)
     // capacity_ must be initialized before calling Reshape
     : capacity_(0), use_cuda_host_malloc_(use_cuda_host_malloc) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Reshape(shape);
 }
 
 template <typename Dtype>
 const int* Blob<Dtype>::gpu_shape() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(shape_data_);
   return (const int*)shape_data_->gpu_data();
 }
 
 template <typename Dtype>
 const Dtype* Blob<Dtype>::cpu_data() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(data_);
   return (const Dtype*)data_->cpu_data();
 }
 
 template <typename Dtype>
 void Blob<Dtype>::set_cpu_data(Dtype* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(data);
   // Make sure CPU and GPU sizes remain equal
   size_t size = count_ * sizeof(Dtype);
@@ -152,12 +168,16 @@ void Blob<Dtype>::set_cpu_data(Dtype* data) {
 
 template <typename Dtype>
 const Dtype* Blob<Dtype>::gpu_data() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(data_);
   return (const Dtype*)data_->gpu_data();
 }
 
 template <typename Dtype>
 void Blob<Dtype>::set_gpu_data(Dtype* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(data);
   // Make sure CPU and GPU sizes remain equal
   size_t size = count_ * sizeof(Dtype);
@@ -169,18 +189,24 @@ void Blob<Dtype>::set_gpu_data(Dtype* data) {
 
 template <typename Dtype>
 Dtype* Blob<Dtype>::mutable_cpu_data() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(data_);
   return static_cast<Dtype*>(data_->mutable_cpu_data());
 }
 
 template <typename Dtype>
 Dtype* Blob<Dtype>::mutable_gpu_data() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ACHECK(data_);
   return static_cast<Dtype*>(data_->mutable_gpu_data());
 }
 
 template <typename Dtype>
 void Blob<Dtype>::ShareData(const Blob& other) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_EQ(count_, other.count());
   data_ = other.data();
 }

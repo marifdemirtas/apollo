@@ -27,26 +27,36 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Steeringcmd6d::ID = 0x6D;
 
 // public
-Steeringcmd6d::Steeringcmd6d() { Reset(); }
+Steeringcmd6d::Steeringcmd6d() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Steeringcmd6d::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Steeringcmd6d::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_position_value(data, position_value_);
   set_p_speed_limit(data, speed_limit_);
 }
 
 void Steeringcmd6d::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(QiL) :you should check this manually
   position_value_ = 0.0;
   speed_limit_ = 0.0;
 }
 
 Steeringcmd6d* Steeringcmd6d::set_position_value(double position_value) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   position_value_ = position_value;
   return this;
 }
@@ -56,6 +66,8 @@ Steeringcmd6d* Steeringcmd6d::set_position_value(double position_value) {
 // '[-2147483.648|2147483.647]', 'bit': 7, 'type': 'double', 'order':
 // 'motorola', 'physical_unit': 'radians'}
 void Steeringcmd6d::set_p_position_value(uint8_t* data, double position_value) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   position_value =
       ProtocolData::BoundedValue(-2147483.648, 2147483.647, position_value);
   int x = static_cast<int>(position_value / 0.001000);
@@ -82,6 +94,8 @@ void Steeringcmd6d::set_p_position_value(uint8_t* data, double position_value) {
 }
 
 Steeringcmd6d* Steeringcmd6d::set_speed_limit(double speed_limit) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   speed_limit_ = speed_limit;
   return this;
 }
@@ -90,6 +104,8 @@ Steeringcmd6d* Steeringcmd6d::set_speed_limit(double speed_limit) {
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|65.535]', 'bit': 39,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad/s'}
 void Steeringcmd6d::set_p_speed_limit(uint8_t* data, double speed_limit) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   speed_limit = ProtocolData::BoundedValue(0.0, 65.535, speed_limit);
   int x = static_cast<int>(speed_limit / 0.001000);
   uint8_t t = 0;

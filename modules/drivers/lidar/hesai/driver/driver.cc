@@ -21,6 +21,8 @@ namespace drivers {
 namespace hesai {
 
 bool HesaiDriver::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (node_ == nullptr) {
     AERROR << "node is nullptr";
     return false;
@@ -73,6 +75,8 @@ bool HesaiDriver::Init() {
 }
 
 void HesaiDriver::PollThread() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Poll thread start";
   while (running_) {
     auto start = std::chrono::steady_clock::now();
@@ -97,6 +101,8 @@ void HesaiDriver::PollThread() {
 }
 
 void HesaiDriver::ProcessGps(const HesaiPacket& pkt) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (pkt.size != GPS_PACKET_SIZE) {
     return;
   }
@@ -149,6 +155,8 @@ void HesaiDriver::ProcessGps(const HesaiPacket& pkt) {
 }
 
 void HesaiDriver::ProcessThread() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::shared_ptr<HesaiPacket> pkt = nullptr;
   bool is_end = false;
   int seq = 0;

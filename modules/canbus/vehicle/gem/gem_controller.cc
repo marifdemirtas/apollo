@@ -47,6 +47,8 @@ ErrorCode GemController::Init(
     const VehicleParameter& params,
     CanSender<::apollo::canbus::ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (is_initialized_) {
     AINFO << "GemController has already been initialized.";
     return ErrorCode::CANBUS_ERROR;
@@ -126,9 +128,13 @@ ErrorCode GemController::Init(
   return ErrorCode::OK;
 }
 
-GemController::~GemController() {}
+GemController::~GemController() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool GemController::Start() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_initialized_) {
     AERROR << "GemController has NOT been initiated.";
     return false;
@@ -140,6 +146,8 @@ bool GemController::Start() {
 }
 
 void GemController::Stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!is_initialized_) {
     AERROR << "GemController stops or starts improperly!";
     return;
@@ -153,6 +161,8 @@ void GemController::Stop() {
 }
 
 Chassis GemController::chassis() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis_.Clear();
 
   ChassisDetail chassis_detail;
@@ -290,12 +300,16 @@ Chassis GemController::chassis() {
 }
 
 void GemController::Emergency() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
   set_chassis_error_code(Chassis::CHASSIS_ERROR);
 }
 
 ErrorCode GemController::EnableAutoMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
     AINFO << "Already in COMPLETE_AUTO_DRIVE mode";
     return ErrorCode::OK;
@@ -321,6 +335,8 @@ ErrorCode GemController::EnableAutoMode() {
 }
 
 ErrorCode GemController::DisableAutoMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ResetProtocol();
   can_sender_->Update();
   set_driving_mode(Chassis::COMPLETE_MANUAL);
@@ -330,17 +346,23 @@ ErrorCode GemController::DisableAutoMode() {
 }
 
 ErrorCode GemController::EnableSteeringOnlyMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AFATAL << "Not supported!";
   return ErrorCode::OK;
 }
 
 ErrorCode GemController::EnableSpeedOnlyMode() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AFATAL << "Not supported!";
   return ErrorCode::OK;
 }
 
 // NEUTRAL, REVERSE, DRIVE
 void GemController::Gear(Chassis::GearPosition gear_position) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
     AINFO << "This drive mode no need to set gear.";
@@ -378,6 +400,8 @@ void GemController::Gear(Chassis::GearPosition gear_position) {
 // acceleration_spd:60 ~ 100, suggest: 90
 // -> pedal
 void GemController::Brake(double pedal) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // double real_value = params_.max_acc() * acceleration / 100;
   // TODO(QiL) Update brake value based on mode
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
@@ -392,6 +416,8 @@ void GemController::Brake(double pedal) {
 // drive with old acceleration
 // gas:0.00~99.99 unit:
 void GemController::Throttle(double pedal) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
     AINFO << "The current drive mode does not need to set acceleration.";
@@ -404,6 +430,8 @@ void GemController::Throttle(double pedal) {
 // drive with acceleration/deceleration
 // acc:-7.0 ~ 5.0, unit:m/s^2
 void GemController::Acceleration(double acc) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
     AINFO << "The current drive mode does not need to set acceleration.";
@@ -417,6 +445,8 @@ void GemController::Acceleration(double acc) {
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 void GemController::Steer(double angle) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
     AINFO << "The current driving mode does not need to set steer.";
@@ -432,6 +462,8 @@ void GemController::Steer(double angle) {
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void GemController::Steer(double angle, double angle_spd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
     AINFO << "The current driving mode does not need to set steer.";
@@ -449,6 +481,8 @@ void GemController::Steer(double angle, double angle_spd) {
 }
 
 void GemController::SetEpbBreak(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (command.parking_brake()) {
     // None
   } else {
@@ -457,6 +491,8 @@ void GemController::SetEpbBreak(const ControlCommand& command) {
 }
 
 void GemController::SetBeam(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (command.signal().high_beam()) {
     // None
   } else if (command.signal().low_beam()) {
@@ -467,6 +503,8 @@ void GemController::SetBeam(const ControlCommand& command) {
 }
 
 void GemController::SetHorn(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (command.signal().horn()) {
     // None
   } else {
@@ -475,6 +513,8 @@ void GemController::SetHorn(const ControlCommand& command) {
 }
 
 void GemController::SetTurningSignal(const ControlCommand& command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Set Turn Signal
   auto signal = command.signal().turn_signal();
   if (signal == common::VehicleSignal::TURN_LEFT) {
@@ -486,14 +526,20 @@ void GemController::SetTurningSignal(const ControlCommand& command) {
   }
 }
 
-void GemController::ResetProtocol() { message_manager_->ResetSendMessages(); }
+void GemController::ResetProtocol() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ message_manager_->ResetSendMessages(); }
 
 bool GemController::CheckChassisError() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(QiL) : implement it here
   return false;
 }
 
 void GemController::SecurityDogThreadFunc() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
 
@@ -560,28 +606,38 @@ void GemController::SecurityDogThreadFunc() {
 }
 
 bool GemController::CheckResponse(const int32_t flags, bool need_wait) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   /* ADD YOUR OWN CAR CHASSIS OPERATION
    */
   return true;
 }
 
 void GemController::set_chassis_error_mask(const int32_t mask) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t GemController::chassis_error_mask() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode GemController::chassis_error_code() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
 }
 
 void GemController::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
 }

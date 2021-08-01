@@ -28,6 +28,8 @@ const int32_t Version7f::ID = 0x7f;
 
 void Version7f::Parse(const std::uint8_t *bytes, int32_t length,
                       ChassisDetail *chassis_detail) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   switch (module_name(bytes, length)) {
     case 0x01:
       chassis_detail->mutable_brake()->set_major_version(
@@ -60,6 +62,8 @@ void Version7f::Parse(const std::uint8_t *bytes, int32_t length,
 
 int32_t Version7f::module_name(const std::uint8_t *bytes,
                                int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame(bytes + 0);
   int32_t x = frame.get_byte(0, 8);
   return x;  // 0x03 means Steering/Shifter, otherwise ignore
@@ -67,6 +71,8 @@ int32_t Version7f::module_name(const std::uint8_t *bytes,
 
 int32_t Version7f::major_version(const std::uint8_t *bytes,
                                  int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame_high(bytes + 3);
   int32_t high = frame_high.get_byte(0, 8);
   Byte frame_low(bytes + 2);
@@ -77,6 +83,8 @@ int32_t Version7f::major_version(const std::uint8_t *bytes,
 
 int32_t Version7f::minor_version(const std::uint8_t *bytes,
                                  int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame_high(bytes + 5);
   int32_t high = frame_high.get_byte(0, 8);
   Byte frame_low(bytes + 4);
@@ -87,6 +95,8 @@ int32_t Version7f::minor_version(const std::uint8_t *bytes,
 
 int32_t Version7f::build_number(const std::uint8_t *bytes,
                                 int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte frame_high(bytes + 7);
   int32_t high = frame_high.get_byte(0, 8);
   Byte frame_low(bytes + 6);

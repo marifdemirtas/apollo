@@ -38,15 +38,21 @@ MSFLocalization::MSFLocalization()
           apollo::common::monitor::MonitorMessageItem::LOCALIZATION),
       localization_state_(msf::LocalizationMeasureState::OK),
       pcd_msg_index_(-1),
-      raw_imu_msg_(nullptr) {}
+      raw_imu_msg_(nullptr) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 Status MSFLocalization::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   InitParams();
 
   return localization_integ_.Init(localization_param_);
 }
 
 void MSFLocalization::InitParams() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // integration module
   localization_param_.is_ins_can_self_align = FLAGS_integ_ins_can_self_align;
   localization_param_.is_sins_align_with_vel = FLAGS_integ_sins_align_with_vel;
@@ -193,6 +199,8 @@ void MSFLocalization::InitParams() {
 
 void MSFLocalization::OnPointCloud(
     const std::shared_ptr<drivers::PointCloud> &message) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ++pcd_msg_index_;
   if (pcd_msg_index_ % FLAGS_point_cloud_step != 0) {
     return;
@@ -211,6 +219,8 @@ void MSFLocalization::OnPointCloud(
 
 void MSFLocalization::OnRawImu(
     const std::shared_ptr<drivers::gnss::Imu> &imu_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (FLAGS_imu_coord_rfu) {
     localization_integ_.RawImuProcessRfu(*imu_msg);
   } else {
@@ -245,6 +255,8 @@ void MSFLocalization::OnRawImu(
 
 void MSFLocalization::OnRawImuCache(
     const std::shared_ptr<drivers::gnss::Imu> &imu_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (imu_msg) {
     std::unique_lock<std::mutex> lock(mutex_imu_msg_);
     raw_imu_msg_ = const_cast<std::shared_ptr<drivers::gnss::Imu> &>(imu_msg);
@@ -253,6 +265,8 @@ void MSFLocalization::OnRawImuCache(
 
 void MSFLocalization::OnGnssBestPose(
     const std::shared_ptr<drivers::gnss::GnssBestPose> &bestgnsspos_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
       FLAGS_gnss_only_init) {
@@ -271,6 +285,8 @@ void MSFLocalization::OnGnssBestPose(
 
 void MSFLocalization::OnGnssRtkObs(
     const std::shared_ptr<drivers::gnss::EpochObservation> &raw_obs_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
       FLAGS_gnss_only_init) {
@@ -289,6 +305,8 @@ void MSFLocalization::OnGnssRtkObs(
 
 void MSFLocalization::OnGnssRtkEph(
     const std::shared_ptr<drivers::gnss::GnssEphemeris> &gnss_orbit_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
       FLAGS_gnss_only_init) {
@@ -300,6 +318,8 @@ void MSFLocalization::OnGnssRtkEph(
 
 void MSFLocalization::OnGnssHeading(
     const std::shared_ptr<drivers::gnss::Heading> &gnss_heading_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
       FLAGS_gnss_only_init) {
@@ -309,6 +329,8 @@ void MSFLocalization::OnGnssHeading(
 }
 
 void MSFLocalization::OnLocalizationTimer() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!raw_imu_msg_) {
     return;
   }
@@ -318,11 +340,15 @@ void MSFLocalization::OnLocalizationTimer() {
 
 void MSFLocalization::SetPublisher(
     const std::shared_ptr<LocalizationMsgPublisher> &publisher) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   publisher_ = publisher;
 }
 
 void MSFLocalization::CompensateImuVehicleExtrinsic(
     LocalizationEstimate *local_result) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(local_result);
   // calculate orientation_vehicle_world
   apollo::localization::Pose *posepb_loc = local_result->mutable_pose();
@@ -350,6 +376,8 @@ bool MSFLocalization::LoadGnssAntennaExtrinsic(
     const std::string &file_path, double *offset_x, double *offset_y,
     double *offset_z, double *uncertainty_x, double *uncertainty_y,
     double *uncertainty_z) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   YAML::Node config = YAML::LoadFile(file_path);
   if (config["leverarm"]) {
     if (config["leverarm"]["primary"]["offset"]) {
@@ -375,6 +403,8 @@ bool MSFLocalization::LoadImuVehicleExtrinsic(const std::string &file_path,
                                               double *quat_qx, double *quat_qy,
                                               double *quat_qz,
                                               double *quat_qw) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!cyber::common::PathExists(file_path)) {
     return false;
   }
@@ -395,6 +425,8 @@ bool MSFLocalization::LoadImuVehicleExtrinsic(const std::string &file_path,
 
 bool MSFLocalization::LoadZoneIdFromFolder(const std::string &folder_path,
                                            int *zone_id) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string map_zone_id_folder;
   if (cyber::common::DirectoryExists(folder_path + "/map/000/north")) {
     map_zone_id_folder = folder_path + "/map/000/north";

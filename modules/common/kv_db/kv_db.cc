@@ -90,6 +90,8 @@ class SqliteWraper {
 }  // namespace
 
 bool KVDB::Put(std::string_view key, std::string_view value) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SqliteWraper sqlite;
   return sqlite.SQL(
       absl::StrCat("INSERT OR REPLACE INTO key_value (key, value) VALUES ('",
@@ -97,12 +99,16 @@ bool KVDB::Put(std::string_view key, std::string_view value) {
 }
 
 bool KVDB::Delete(std::string_view key) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SqliteWraper sqlite;
   return sqlite.SQL(
       absl::StrCat("DELETE FROM key_value WHERE key='", key, "';"));
 }
 
 std::optional<std::string> KVDB::Get(std::string_view key) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   SqliteWraper sqlite;
   std::string value;
   const bool ret = sqlite.SQL(

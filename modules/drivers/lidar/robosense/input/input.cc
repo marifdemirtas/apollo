@@ -19,16 +19,22 @@ namespace drivers {
 
 namespace robosense {
 Input::Input(const uint16_t &msop_port, const uint16_t &difop_port) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   this->msop_fd_ = setUpSocket(msop_port);
   this->difop_fd_ = setUpSocket(difop_port);
 }
 
 Input::~Input() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   close(this->msop_fd_);
   close(this->difop_fd_);
 }
 
 int Input::setUpSocket(uint16_t port) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int sock_fd = socket(PF_INET, SOCK_DGRAM, 0);
   if (sock_fd < 0) {
     std::cerr << "socket: " << std::strerror(errno) << std::endl;
@@ -56,6 +62,8 @@ int Input::setUpSocket(uint16_t port) {
 }
 
 InputState Input::getPacket(uint8_t *pkt, uint32_t timeout) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   InputState res = InputState(0);
   if (pkt == NULL) {
     return INPUT_ERROR;

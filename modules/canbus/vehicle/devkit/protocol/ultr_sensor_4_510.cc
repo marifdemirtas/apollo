@@ -26,11 +26,15 @@ namespace devkit {
 
 using ::apollo::drivers::canbus::Byte;
 
-Ultrsensor4510::Ultrsensor4510() {}
+Ultrsensor4510::Ultrsensor4510() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Ultrsensor4510::ID = 0x510;
 
 void Ultrsensor4510::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_devkit()
       ->mutable_ultr_sensor_4_510()
       ->set_uiuss5_tof_indirect(uiuss5_tof_indirect(bytes, length));
@@ -50,6 +54,8 @@ void Ultrsensor4510::Parse(const std::uint8_t* bytes, int32_t length,
 // 'bit': 55, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor4510::uiuss5_tof_indirect(const std::uint8_t* bytes,
                                            int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
 
@@ -67,6 +73,8 @@ double Ultrsensor4510::uiuss5_tof_indirect(const std::uint8_t* bytes,
 // 'bit': 39, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor4510::uiuss4_tof_indirect(const std::uint8_t* bytes,
                                            int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 
@@ -84,6 +92,8 @@ double Ultrsensor4510::uiuss4_tof_indirect(const std::uint8_t* bytes,
 // 'bit': 23, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor4510::uiuss3_tof_indirect(const std::uint8_t* bytes,
                                            int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -101,6 +111,8 @@ double Ultrsensor4510::uiuss3_tof_indirect(const std::uint8_t* bytes,
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor4510::uiuss2_tof_indirect(const std::uint8_t* bytes,
                                            int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 

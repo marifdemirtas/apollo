@@ -21,9 +21,13 @@ namespace hdmap {
 namespace adapter {
 
 CoordinateConvertTool::CoordinateConvertTool()
-    : pj_from_(nullptr), pj_to_(nullptr) {}
+    : pj_from_(nullptr), pj_to_(nullptr) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 CoordinateConvertTool::~CoordinateConvertTool() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (pj_from_) {
     pj_free(pj_from_);
     pj_from_ = nullptr;
@@ -36,12 +40,16 @@ CoordinateConvertTool::~CoordinateConvertTool() {
 }
 
 CoordinateConvertTool* CoordinateConvertTool::GetInstance() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   static CoordinateConvertTool instance;
   return &instance;
 }
 
 Status CoordinateConvertTool::SetConvertParam(const std::string& source_param,
                                               const std::string& dst_param) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   source_convert_param_ = source_param;
   dst_convert_param_ = dst_param;
   if (pj_from_) {
@@ -74,6 +82,8 @@ Status CoordinateConvertTool::CoordiateConvert(const double longitude,
                                                const double height_ellipsoid,
                                                double* utm_x, double* utm_y,
                                                double* utm_z) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(utm_x);
   CHECK_NOTNULL(utm_y);
   CHECK_NOTNULL(utm_z);

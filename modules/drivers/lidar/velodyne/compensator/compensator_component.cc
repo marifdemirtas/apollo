@@ -30,6 +30,8 @@ namespace drivers {
 namespace velodyne {
 
 bool CompensatorComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CompensatorConfig config;
   if (!GetProtoConfig(&config)) {
     AWARN << "Load config failed, config file" << ConfigFilePath();
@@ -53,6 +55,8 @@ bool CompensatorComponent::Init() {
 
 bool CompensatorComponent::Proc(
     const std::shared_ptr<PointCloud>& point_cloud) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const auto start_time = Time::Now();
   std::shared_ptr<PointCloud> point_cloud_compensated =
       compensator_pool_->GetObject();

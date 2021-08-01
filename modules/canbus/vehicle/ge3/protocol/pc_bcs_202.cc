@@ -26,26 +26,36 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Pcbcs202::ID = 0x202;
 
 // public
-Pcbcs202::Pcbcs202() { Reset(); }
+Pcbcs202::Pcbcs202() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Pcbcs202::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Pcbcs202::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_pc_brkpedreq(data, pc_brkpedreq_);
   set_p_pc_brkpedenable(data, pc_brkpedenable_);
 }
 
 void Pcbcs202::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // you should check this manually
   pc_brkpedreq_ = 0.0;
   pc_brkpedenable_ = Pc_bcs_202::PC_BRKPEDENABLE_DISABLE;
 }
 
 Pcbcs202* Pcbcs202::set_pc_brkpedreq(double pc_brkpedreq) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   pc_brkpedreq_ = pc_brkpedreq;
   return this;
 }
@@ -55,6 +65,8 @@ Pcbcs202* Pcbcs202::set_pc_brkpedreq(double pc_brkpedreq) {
 // 'physical_range': '[0|100]', 'bit': 1, 'type': 'double', 'order': 'motorola',
 // 'physical_unit': '%'}
 void Pcbcs202::set_p_pc_brkpedreq(uint8_t* data, double pc_brkpedreq) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   pc_brkpedreq = ProtocolData::BoundedValue(0.0, 100.0, pc_brkpedreq);
   int x = static_cast<int>(pc_brkpedreq / 0.100000);
   uint8_t t = 0;
@@ -71,6 +83,8 @@ void Pcbcs202::set_p_pc_brkpedreq(uint8_t* data, double pc_brkpedreq) {
 
 Pcbcs202* Pcbcs202::set_pc_brkpedenable(
     Pc_bcs_202::Pc_brkpedenableType pc_brkpedenable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   pc_brkpedenable_ = pc_brkpedenable;
   return this;
 }
@@ -82,6 +96,8 @@ Pcbcs202* Pcbcs202::set_pc_brkpedenable(
 // 'physical_unit': ''}
 void Pcbcs202::set_p_pc_brkpedenable(
     uint8_t* data, Pc_bcs_202::Pc_brkpedenableType pc_brkpedenable) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = pc_brkpedenable;
 
   Byte to_set(data + 0);

@@ -22,19 +22,31 @@ namespace localization {
 namespace msf {
 namespace pyramid_map {
 // =================PyramidMapMatrixHandlerSelector=================
-NdtMapMatrixHandlerSelector::NdtMapMatrixHandlerSelector() {}
+NdtMapMatrixHandlerSelector::NdtMapMatrixHandlerSelector() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-NdtMapMatrixHandlerSelector::~NdtMapMatrixHandlerSelector() {}
+NdtMapMatrixHandlerSelector::~NdtMapMatrixHandlerSelector() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 BaseMapMatrixHandler* NdtMapMatrixHandlerSelector::AllocNdtMapMatrixHandler() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return new NdtMapMatrixHandler();
 }
 
-NdtMapMatrixHandler::NdtMapMatrixHandler() {}
-NdtMapMatrixHandler::~NdtMapMatrixHandler() {}
+NdtMapMatrixHandler::NdtMapMatrixHandler() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
+NdtMapMatrixHandler::~NdtMapMatrixHandler() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 size_t NdtMapMatrixHandler::LoadBinary(const unsigned char* buf,
                                        std::shared_ptr<BaseMapMatrix> matrix) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!matrix) {
     return 0;
   }
@@ -50,6 +62,8 @@ size_t NdtMapMatrixHandler::LoadBinary(const unsigned char* buf,
 size_t NdtMapMatrixHandler::CreateBinary(
     const std::shared_ptr<BaseMapMatrix> matrix, unsigned char* buf,
     size_t buf_size) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!matrix) {
     return 0;
   }
@@ -60,6 +74,8 @@ size_t NdtMapMatrixHandler::CreateBinary(
 /**@brief Get the binary size of the object. */
 size_t NdtMapMatrixHandler::GetBinarySize(
     const std::shared_ptr<BaseMapMatrix> matrix) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const std::shared_ptr<NdtMapMatrix> ndt_matrix =
       std::dynamic_pointer_cast<NdtMapMatrix>(matrix);
   return ndt_matrix->GetBinarySize();

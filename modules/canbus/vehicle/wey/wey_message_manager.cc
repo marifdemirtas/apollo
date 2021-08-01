@@ -36,6 +36,8 @@ namespace canbus {
 namespace wey {
 
 WeyMessageManager::WeyMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Control Messages
   AddSendProtocolData<Ads1111, true>();
   AddSendProtocolData<Ads338e, true>();
@@ -55,7 +57,9 @@ WeyMessageManager::WeyMessageManager() {
   AddRecvProtocolData<Vinresp3393, true>();
 }
 
-WeyMessageManager::~WeyMessageManager() {}
+WeyMessageManager::~WeyMessageManager() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 }  // namespace wey
 }  // namespace canbus

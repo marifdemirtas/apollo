@@ -24,6 +24,8 @@ using apollo::drivers::PointCloud;
 using apollo::drivers::velodyne::VelodyneScan;
 
 void Convert::init(const Config& velodyne_config) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   config_ = velodyne_config;
   // we use Beijing time by default
 
@@ -39,6 +41,8 @@ void Convert::init(const Config& velodyne_config) {
 void Convert::ConvertPacketsToPointcloud(
     const std::shared_ptr<VelodyneScan>& scan_msg,
     std::shared_ptr<PointCloud> point_cloud) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ADEBUG << "Convert scan msg seq " << scan_msg->header().sequence_num();
 
   parser_->GeneratePointcloud(scan_msg, point_cloud);

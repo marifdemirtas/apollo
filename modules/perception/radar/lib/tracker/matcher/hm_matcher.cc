@@ -28,11 +28,17 @@ namespace radar {
 
 using cyber::common::GetAbsolutePath;
 
-HMMatcher::HMMatcher() { name_ = "HMMatcher"; }
+HMMatcher::HMMatcher() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ name_ = "HMMatcher"; }
 
-HMMatcher::~HMMatcher() {}
+HMMatcher::~HMMatcher() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool HMMatcher::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto config_manager = lib::ConfigManager::Instance();
   std::string model_name = name_;
   const lib::ModelConfig *model_config = nullptr;
@@ -73,6 +79,8 @@ bool HMMatcher::Match(const std::vector<RadarTrackPtr> &radar_tracks,
                       std::vector<TrackObjectPair> *assignments,
                       std::vector<size_t> *unassigned_tracks,
                       std::vector<size_t> *unassigned_objects) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   IDMatch(radar_tracks, radar_frame, assignments, unassigned_tracks,
           unassigned_objects);
   TrackObjectPropertyMatch(radar_tracks, radar_frame, assignments,
@@ -84,6 +92,8 @@ bool HMMatcher::RefinedTrack(const base::ObjectPtr &track_object,
                              double track_timestamp,
                              const base::ObjectPtr &radar_object,
                              double radar_timestamp) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double dist = 0.5 * DistanceBetweenObs(track_object, track_timestamp,
                                          radar_object, radar_timestamp) +
                 0.5 * DistanceBetweenObs(radar_object, radar_timestamp,
@@ -97,6 +107,8 @@ void HMMatcher::TrackObjectPropertyMatch(
     const base::Frame &radar_frame, std::vector<TrackObjectPair> *assignments,
     std::vector<size_t> *unassigned_tracks,
     std::vector<size_t> *unassigned_objects) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (unassigned_tracks->empty() || unassigned_objects->empty()) {
     return;
   }
@@ -149,6 +161,8 @@ void HMMatcher::ComputeAssociationMat(
     const std::vector<size_t> &unassigned_tracks,
     const std::vector<size_t> &unassigned_objects,
     std::vector<std::vector<double>> *association_mat) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double frame_timestamp = radar_frame.timestamp;
   for (size_t i = 0; i < unassigned_tracks.size(); ++i) {
     for (size_t j = 0; j < unassigned_objects.size(); ++j) {
@@ -171,6 +185,8 @@ double HMMatcher::DistanceBetweenObs(const base::ObjectPtr &obs1,
                                      double timestamp1,
                                      const base::ObjectPtr &obs2,
                                      double timestamp2) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double time_diff = timestamp2 - timestamp1;
   return (obs2->center - obs1->center -
           obs1->velocity.cast<double>() * time_diff)

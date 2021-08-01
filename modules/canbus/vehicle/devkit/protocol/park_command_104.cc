@@ -27,15 +27,21 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Parkcommand104::ID = 0x104;
 
 // public
-Parkcommand104::Parkcommand104() { Reset(); }
+Parkcommand104::Parkcommand104() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Parkcommand104::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Parkcommand104::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_park_target(data, park_target_);
   set_p_park_en_ctrl(data, park_en_ctrl_);
   checksum_104_ =
@@ -44,6 +50,8 @@ void Parkcommand104::UpdateData(uint8_t* data) {
 }
 
 void Parkcommand104::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  you should check this manually
   checksum_104_ = 0;
   park_target_ = Park_command_104::PARK_TARGET_RELEASE;
@@ -51,6 +59,8 @@ void Parkcommand104::Reset() {
 }
 
 Parkcommand104* Parkcommand104::set_checksum_104(int checksum_104) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   checksum_104_ = checksum_104;
   return this;
 }
@@ -59,6 +69,8 @@ Parkcommand104* Parkcommand104::set_checksum_104(int checksum_104) {
 // 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 63,
 // 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Parkcommand104::set_p_checksum_104(uint8_t* data, int checksum_104) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   checksum_104 = ProtocolData::BoundedValue(0, 255, checksum_104);
   int x = checksum_104;
 
@@ -68,6 +80,8 @@ void Parkcommand104::set_p_checksum_104(uint8_t* data, int checksum_104) {
 
 Parkcommand104* Parkcommand104::set_park_target(
     Park_command_104::Park_targetType park_target) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   park_target_ = park_target;
   return this;
 }
@@ -78,6 +92,8 @@ Parkcommand104* Parkcommand104::set_park_target(
 // 'order': 'motorola', 'physical_unit': ''}
 void Parkcommand104::set_p_park_target(
     uint8_t* data, Park_command_104::Park_targetType park_target) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = park_target;
 
   Byte to_set(data + 1);
@@ -86,6 +102,8 @@ void Parkcommand104::set_p_park_target(
 
 Parkcommand104* Parkcommand104::set_park_en_ctrl(
     Park_command_104::Park_en_ctrlType park_en_ctrl) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   park_en_ctrl_ = park_en_ctrl;
   return this;
 }
@@ -96,6 +114,8 @@ Parkcommand104* Parkcommand104::set_park_en_ctrl(
 // 'order': 'motorola', 'physical_unit': ''}
 void Parkcommand104::set_p_park_en_ctrl(
     uint8_t* data, Park_command_104::Park_en_ctrlType park_en_ctrl) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = park_en_ctrl;
 
   Byte to_set(data + 0);

@@ -35,6 +35,8 @@ using ObjectPtr = std::shared_ptr<apollo::perception::base::Object>;
 using apollo::perception::base::ObjectType;
 
 bool IsPtInRoi(const HdmapStructConstPtr roi, const PointD pt) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (std::size_t j = 0; j < roi->road_polygons.size(); j++) {
     if (IsPointXYInPolygon2DXY(pt, roi->road_polygons[j])) {
       return true;
@@ -49,6 +51,8 @@ bool IsPtInRoi(const HdmapStructConstPtr roi, const PointD pt) {
 }
 
 bool IsObjectInRoi(const HdmapStructConstPtr roi, const ObjectConstPtr obj) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   PointD ct;
   ct.x = obj->center[0];
   ct.y = obj->center[1];
@@ -58,6 +62,8 @@ bool IsObjectInRoi(const HdmapStructConstPtr roi, const ObjectConstPtr obj) {
 
 bool IsObjectBboxInRoi(const HdmapStructConstPtr roi,
                        const ObjectConstPtr obj) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Eigen::Vector3d bbox_center = obj->center;
   PointD ct;
   ct.x = bbox_center[0];
@@ -97,6 +103,8 @@ bool IsObjectBboxInRoi(const HdmapStructConstPtr roi,
 bool ObjectInRoiCheck(const HdmapStructConstPtr roi,
                       const std::vector<ObjectPtr>& objects,
                       std::vector<ObjectPtr>* valid_objects) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (roi == nullptr ||
       (roi->road_polygons.empty() && roi->junction_polygons.empty())) {
     valid_objects->assign(objects.begin(), objects.end());

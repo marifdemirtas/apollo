@@ -27,11 +27,15 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Parkingbrakerpt224::Parkingbrakerpt224() {}
+Parkingbrakerpt224::Parkingbrakerpt224() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Parkingbrakerpt224::ID = 0x224;
 
 void Parkingbrakerpt224::Parse(const std::uint8_t* bytes, int32_t length,
                                ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_lexus()->mutable_parking_brake_rpt_224()->set_vehicle_fault(
       vehicle_fault(bytes, length));
   chassis->mutable_lexus()->mutable_parking_brake_rpt_224()->set_pacmod_fault(
@@ -64,6 +68,8 @@ void Parkingbrakerpt224::Parse(const std::uint8_t* bytes, int32_t length,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Parkingbrakerpt224::vehicle_fault(const std::uint8_t* bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(6, 1);
 
@@ -76,6 +82,8 @@ bool Parkingbrakerpt224::vehicle_fault(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Parkingbrakerpt224::pacmod_fault(const std::uint8_t* bytes,
                                       int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
 
@@ -88,6 +96,8 @@ bool Parkingbrakerpt224::pacmod_fault(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Parkingbrakerpt224::override_active(const std::uint8_t* bytes,
                                          int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
 
@@ -100,6 +110,8 @@ bool Parkingbrakerpt224::override_active(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 4, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Parkingbrakerpt224::output_reported_fault(const std::uint8_t* bytes,
                                                int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 1);
 
@@ -112,6 +124,8 @@ bool Parkingbrakerpt224::output_reported_fault(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 3, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Parkingbrakerpt224::input_output_fault(const std::uint8_t* bytes,
                                             int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
 
@@ -124,6 +138,8 @@ bool Parkingbrakerpt224::input_output_fault(const std::uint8_t* bytes,
 // 'order': 'motorola', 'physical_unit': ''}
 bool Parkingbrakerpt224::enabled(const std::uint8_t* bytes,
                                  int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 
@@ -136,6 +152,8 @@ bool Parkingbrakerpt224::enabled(const std::uint8_t* bytes,
 // '[0|1]', 'bit': 2, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Parkingbrakerpt224::command_output_fault(const std::uint8_t* bytes,
                                               int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
 
@@ -148,6 +166,8 @@ bool Parkingbrakerpt224::command_output_fault(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Parkingbrakerpt224::output_value(const std::uint8_t* bytes,
                                       int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 1);
 
@@ -160,6 +180,8 @@ bool Parkingbrakerpt224::output_value(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Parkingbrakerpt224::commanded_value(const std::uint8_t* bytes,
                                          int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 1);
 
@@ -172,6 +194,8 @@ bool Parkingbrakerpt224::commanded_value(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Parkingbrakerpt224::manual_input(const std::uint8_t* bytes,
                                       int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 1);
 

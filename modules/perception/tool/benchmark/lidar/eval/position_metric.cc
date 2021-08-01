@@ -27,6 +27,8 @@ namespace benchmark {
 
 void PositionMetric::cal_position_metric(const ObjectPtr& object,
                                          const PositionMetricOption& option) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (object->cloud->points.empty()) {
     return;
   }
@@ -58,12 +60,16 @@ double DistanceBasedRangeInterface::_s_distance = 60.0;
 double DistanceBasedRangeInterface::_s_half_distance = 30.0;
 
 void DistanceBasedRangeInterface::set_distance(double distance) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _s_distance = distance;
   _s_half_distance = 0.5 * distance;
 }
 
 unsigned int DistanceBasedRangeInterface::get_index(
     const PositionMetric& position) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // unsigned int index = static_cast<unsigned int>(position.radial_distance /
   // 30.0);
   // index = index > 2 ? 2 : index;
@@ -74,9 +80,13 @@ unsigned int DistanceBasedRangeInterface::get_index(
   return index;
 }
 
-unsigned int DistanceBasedRangeInterface::get_dim() const { return 3; }
+unsigned int DistanceBasedRangeInterface::get_dim() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return 3; }
 
 std::string DistanceBasedRangeInterface::get_element(unsigned int index) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (index >= get_dim()) {
     return "Total";
   } else {
@@ -94,6 +104,8 @@ std::string DistanceBasedRangeInterface::get_element(unsigned int index) const {
 
 unsigned int DistanceBasedRangeRadarInterface::get_index(
     const PositionMetric& position) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // unsigned int index = static_cast<unsigned int>(position.radial_distance /
   // 30.0);
   // index = index > 2 ? 2 : index;
@@ -112,10 +124,14 @@ unsigned int DistanceBasedRangeRadarInterface::get_index(
   }
 }
 
-unsigned int DistanceBasedRangeRadarInterface::get_dim() const { return 5; }
+unsigned int DistanceBasedRangeRadarInterface::get_dim() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return 5; }
 
 std::string DistanceBasedRangeRadarInterface::get_element(
     unsigned int index) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (index >= get_dim()) {
     return "Total";
   } else {
@@ -140,23 +156,33 @@ double ViewBasedRangeInterface::_s_front_view_distance = 60.0;
 double ViewBasedRangeInterface::_s_rear_view_distance = 60.0;
 
 void ViewBasedRangeInterface::set_front_view_angle(double angle) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _s_front_view_angle = angle;
 }
 
 void ViewBasedRangeInterface::set_rear_view_angle(double angle) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _s_rear_view_angle = angle;
 }
 
 void ViewBasedRangeInterface::set_front_view_distance(double distance) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _s_front_view_distance = distance;
 }
 
 void ViewBasedRangeInterface::set_rear_view_distance(double distance) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _s_rear_view_distance = distance;
 }
 
 unsigned int ViewBasedRangeInterface::get_index(
     const PositionMetric& position) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (position.radial_distance >= 60.0) {
     return 3;
   }
@@ -182,9 +208,13 @@ unsigned int ViewBasedRangeInterface::get_index(
   return 3;
 }
 
-unsigned int ViewBasedRangeInterface::get_dim() const { return 4; }
+unsigned int ViewBasedRangeInterface::get_dim() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return 4; }
 
 std::string ViewBasedRangeInterface::get_element(unsigned int index) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (index >= get_dim()) {
     return "Total";
   } else {
@@ -209,19 +239,27 @@ double BoxBasedRangeInterface::_s_rear_box_distance = 45.0;
 double BoxBasedRangeInterface::_s_side_box_distance = 10.0;
 
 void BoxBasedRangeInterface::set_front_box_distance(double distance) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _s_front_box_distance = distance;
 }
 
 void BoxBasedRangeInterface::set_rear_box_distance(double distance) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _s_rear_box_distance = distance;
 }
 
 void BoxBasedRangeInterface::set_side_box_distance(double distance) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _s_side_box_distance = distance;
 }
 
 unsigned int BoxBasedRangeInterface::get_index(
     const PositionMetric& position) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (position.vertical_distance <= _s_front_box_distance &&
       position.vertical_distance >= -_s_rear_box_distance &&
       position.horizontal_distance <= _s_side_box_distance) {
@@ -231,9 +269,13 @@ unsigned int BoxBasedRangeInterface::get_index(
   }
 }
 
-unsigned int BoxBasedRangeInterface::get_dim() const { return 2; }
+unsigned int BoxBasedRangeInterface::get_dim() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return 2; }
 
 std::string BoxBasedRangeInterface::get_element(unsigned int index) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (index >= get_dim()) {
     return "Total";
   } else {
@@ -252,11 +294,15 @@ std::string BoxBasedRangeInterface::get_element(unsigned int index) const {
 bool RoiDistanceBasedRangeInterface::_s_ignore_roi_outside = false;
 
 void RoiDistanceBasedRangeInterface::set_ignore_roi_outside(bool ignore) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   _s_ignore_roi_outside = ignore;
 }
 
 unsigned int RoiDistanceBasedRangeInterface::get_index(
     const PositionMetric& position) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int index =
       static_cast<unsigned int>(position.radial_distance / _s_half_distance);
   if (_s_ignore_roi_outside) {
@@ -271,11 +317,15 @@ unsigned int RoiDistanceBasedRangeInterface::get_index(
 }
 
 unsigned int RoiDistanceBasedRangeInterface::get_dim() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return _s_ignore_roi_outside ? 3 : 5;
 }
 
 std::string RoiDistanceBasedRangeInterface::get_element(
     unsigned int index) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (index >= get_dim()) {
     return "Total";
   }

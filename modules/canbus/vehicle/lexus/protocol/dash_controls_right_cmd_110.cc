@@ -27,11 +27,15 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Dashcontrolsrightcmd110::Dashcontrolsrightcmd110() {}
+Dashcontrolsrightcmd110::Dashcontrolsrightcmd110() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Dashcontrolsrightcmd110::ID = 0x110;
 
 void Dashcontrolsrightcmd110::Parse(const std::uint8_t* bytes, int32_t length,
                                     ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_lexus()
       ->mutable_dash_controls_right_cmd_110()
       ->set_ignore_overrides(ignore_overrides(bytes, length));
@@ -53,6 +57,8 @@ void Dashcontrolsrightcmd110::Parse(const std::uint8_t* bytes, int32_t length,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Dashcontrolsrightcmd110::ignore_overrides(const std::uint8_t* bytes,
                                                int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
 
@@ -65,6 +71,8 @@ bool Dashcontrolsrightcmd110::ignore_overrides(const std::uint8_t* bytes,
 // 'order': 'motorola', 'physical_unit': ''}
 bool Dashcontrolsrightcmd110::enable(const std::uint8_t* bytes,
                                      int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 
@@ -77,6 +85,8 @@ bool Dashcontrolsrightcmd110::enable(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Dashcontrolsrightcmd110::clear_override(const std::uint8_t* bytes,
                                              int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
 
@@ -89,6 +99,8 @@ bool Dashcontrolsrightcmd110::clear_override(const std::uint8_t* bytes,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Dashcontrolsrightcmd110::clear_faults(const std::uint8_t* bytes,
                                            int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
 
@@ -108,6 +120,8 @@ bool Dashcontrolsrightcmd110::clear_faults(const std::uint8_t* bytes,
 Dash_controls_right_cmd_110::Dash_controls_buttonType
 Dashcontrolsrightcmd110::dash_controls_button(const std::uint8_t* bytes,
                                               int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 

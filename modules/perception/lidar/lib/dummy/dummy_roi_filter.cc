@@ -18,13 +18,19 @@
 #include <numeric>
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace perception {
 namespace lidar {
 
-bool DummyROIFilter::Init(const ROIFilterInitOptions& options) { return true; }
+bool DummyROIFilter::Init(const ROIFilterInitOptions& options) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return true; }
 
 bool DummyROIFilter::Filter(const ROIFilterOptions& options,
                             LidarFrame* frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!frame) {
     return false;
   }

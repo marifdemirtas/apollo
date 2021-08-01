@@ -22,6 +22,8 @@ namespace camera {
 
 bool CosineSimilar::Calc(CameraFrame *frame1, CameraFrame *frame2,
                          base::Blob<float> *sim) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto n = frame1->detected_objects.size();
   auto m = frame2->detected_objects.size();
   if ((n && m) == 0) {

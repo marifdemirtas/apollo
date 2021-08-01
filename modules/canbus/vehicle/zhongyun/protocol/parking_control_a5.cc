@@ -27,20 +27,28 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Parkingcontrola5::ID = 0xA5;
 
 // public
-Parkingcontrola5::Parkingcontrola5() { Reset(); }
+Parkingcontrola5::Parkingcontrola5() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Parkingcontrola5::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(ChaoM) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Parkingcontrola5::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_parking_target(data, parking_target_);
   set_p_parking_enable_control(data, parking_enable_control_);
 }
 
 void Parkingcontrola5::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(ChaoM) :  you should check this manually
   parking_target_ = Parking_control_a5::PARKING_TARGET_RELEASE;
   parking_enable_control_ =
@@ -49,6 +57,8 @@ void Parkingcontrola5::Reset() {
 
 Parkingcontrola5* Parkingcontrola5::set_parking_target(
     Parking_control_a5::Parking_targetType parking_target) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   parking_target_ = parking_target;
   return this;
 }
@@ -60,6 +70,8 @@ Parkingcontrola5* Parkingcontrola5::set_parking_target(
 // 'physical_unit': ''}
 void Parkingcontrola5::set_p_parking_target(
     uint8_t* data, Parking_control_a5::Parking_targetType parking_target) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = parking_target;
 
   Byte to_set(data + 1);
@@ -68,6 +80,8 @@ void Parkingcontrola5::set_p_parking_target(
 
 Parkingcontrola5* Parkingcontrola5::set_parking_enable_control(
     Parking_control_a5::Parking_enable_controlType parking_enable_control) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   parking_enable_control_ = parking_enable_control;
   return this;
 }
@@ -80,6 +94,8 @@ Parkingcontrola5* Parkingcontrola5::set_parking_enable_control(
 void Parkingcontrola5::set_p_parking_enable_control(
     uint8_t* data,
     Parking_control_a5::Parking_enable_controlType parking_enable_control) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = parking_enable_control;
 
   Byte to_set(data + 0);

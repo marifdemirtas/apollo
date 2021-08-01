@@ -25,11 +25,15 @@ namespace ch {
 
 using ::apollo::drivers::canbus::Byte;
 
-Steerstatus512::Steerstatus512() {}
+Steerstatus512::Steerstatus512() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Steerstatus512::ID = 0x512;
 
 void Steerstatus512::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_ch()->mutable_steer_status__512()->set_steer_angle_en_sts(
       steer_angle_en_sts(bytes, length));
   chassis->mutable_ch()->mutable_steer_status__512()->set_steer_angle_sts(
@@ -50,6 +54,8 @@ void Steerstatus512::Parse(const std::uint8_t* bytes, int32_t length,
 // 'physical_unit': ''}
 Steer_status__512::Steer_angle_en_stsType Steerstatus512::steer_angle_en_sts(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -64,6 +70,8 @@ Steer_status__512::Steer_angle_en_stsType Steerstatus512::steer_angle_en_sts(
 // 'double', 'order': 'intel', 'physical_unit': 'radian'}
 double Steerstatus512::steer_angle_sts(const std::uint8_t* bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -85,6 +93,8 @@ double Steerstatus512::steer_angle_sts(const std::uint8_t* bytes,
 // 'order': 'intel', 'physical_unit': ''}
 Steer_status__512::Steer_errType Steerstatus512::steer_err(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 
@@ -99,6 +109,8 @@ Steer_status__512::Steer_errType Steerstatus512::steer_err(
 // 'order': 'intel', 'physical_unit': ''}
 Steer_status__512::Sensor_errType Steerstatus512::sensor_err(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 

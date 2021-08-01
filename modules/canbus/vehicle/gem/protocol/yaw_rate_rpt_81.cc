@@ -27,11 +27,15 @@ namespace gem {
 
 using ::apollo::drivers::canbus::Byte;
 
-Yawraterpt81::Yawraterpt81() {}
+Yawraterpt81::Yawraterpt81() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Yawraterpt81::ID = 0x81;
 
 void Yawraterpt81::Parse(const std::uint8_t* bytes, int32_t length,
                          ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_gem()->mutable_yaw_rate_rpt_81()->set_yaw_rate(
       yaw_rate(bytes, length));
 }
@@ -40,6 +44,8 @@ void Yawraterpt81::Parse(const std::uint8_t* bytes, int32_t length,
 // 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 7,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad/s'}
 double Yawraterpt81::yaw_rate(const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 

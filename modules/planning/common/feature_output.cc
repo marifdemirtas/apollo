@@ -26,14 +26,20 @@ namespace planning {
 LearningData FeatureOutput::learning_data_;
 int FeatureOutput::learning_data_file_index_ = 0;
 
-void FeatureOutput::Close() { Clear(); }
+void FeatureOutput::Close() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Clear(); }
 
 void FeatureOutput::Clear() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   learning_data_.Clear();
   learning_data_file_index_ = 0;
 }
 
 bool FeatureOutput::Ready() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Clear();
   return true;
 }
@@ -41,6 +47,8 @@ bool FeatureOutput::Ready() {
 void FeatureOutput::InsertLearningDataFrame(
     const std::string& record_file,
     const LearningDataFrame& learning_data_frame) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   learning_data_.add_learning_data_frame()->CopyFrom(learning_data_frame);
 
   // write frames into a file
@@ -51,14 +59,20 @@ void FeatureOutput::InsertLearningDataFrame(
 }
 
 LearningDataFrame* FeatureOutput::GetLatestLearningDataFrame() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const int size = learning_data_.learning_data_frame_size();
   return size > 0 ? learning_data_.mutable_learning_data_frame(size - 1)
                   : nullptr;
 }
 
-void FeatureOutput::InsertPlanningResult() {}
+void FeatureOutput::InsertPlanningResult() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void FeatureOutput::WriteLearningData(const std::string& record_file) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::string src_file_name =
       record_file.substr(record_file.find_last_of("/") + 1);
   src_file_name = src_file_name.empty() ? "00000" : src_file_name;
@@ -73,6 +87,8 @@ void FeatureOutput::WriteLearningData(const std::string& record_file) {
 
 void FeatureOutput::WriteRemainderiLearningData(
     const std::string& record_file) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (learning_data_.learning_data_frame_size() > 0) {
     WriteLearningData(record_file);
   }

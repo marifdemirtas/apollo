@@ -29,14 +29,20 @@ namespace msf {
 const unsigned int ZlibStrategy::zlib_chunk = 16384;
 
 int ZlibStrategy::Encode(BufferStr* buf, BufferStr* buf_compressed) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return ZlibCompress(buf, buf_compressed);
 }
 
 int ZlibStrategy::Decode(BufferStr* buf, BufferStr* buf_uncompressed) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return ZlibUncompress(buf, buf_uncompressed);
 }
 
 int ZlibStrategy::ZlibCompress(BufferStr* src, BufferStr* dst) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   dst->resize(zlib_chunk * 2);
   int ret, flush;
   unsigned have;
@@ -94,6 +100,8 @@ int ZlibStrategy::ZlibCompress(BufferStr* src, BufferStr* dst) {
 }
 
 int ZlibStrategy::ZlibUncompress(BufferStr* src, BufferStr* dst) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   dst->resize(zlib_chunk * 2);
   int ret;
   unsigned have;

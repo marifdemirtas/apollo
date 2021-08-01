@@ -21,13 +21,21 @@ namespace apollo {
 namespace perception {
 namespace lidar {
 const int TrackData::kMaxHistorySize = 40;
-TrackData::TrackData() { Reset(); }
+TrackData::TrackData() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
-TrackData::TrackData(TrackedObjectPtr obj, int track_id) {}
+TrackData::TrackData(TrackedObjectPtr obj, int track_id) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
-TrackData::~TrackData() {}
+TrackData::~TrackData() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 std::pair<double, TrackedObjectPtr> TrackData::GetHistoryObject(int idx) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (history_objects_.empty()) {
     AWARN << "no object in track";
     return std::pair<double, TrackedObjectPtr>(0.0, TrackedObjectPtr(nullptr));
@@ -55,6 +63,8 @@ std::pair<double, TrackedObjectPtr> TrackData::GetHistoryObject(int idx) {
 
 std::pair<double, TrackedObjectConstPtr> TrackData::GetHistoryObject(
     int idx) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (history_objects_.empty()) {
     AINFO << "no object in track";
     return std::pair<double, TrackedObjectPtr>(0.0, TrackedObjectPtr(nullptr));
@@ -81,6 +91,8 @@ std::pair<double, TrackedObjectConstPtr> TrackData::GetHistoryObject(
 }
 
 void TrackData::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   track_id_ = -1;
   age_ = 0;
   consecutive_invisible_count_ = 0;
@@ -97,12 +109,16 @@ void TrackData::Reset() {
 }
 
 void TrackData::Reset(TrackedObjectPtr obj, double time, int track_id) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Reset();
   track_id_ = track_id;
   PushTrackedObjectToTrack(obj, time);
 }
 
 void TrackData::PushTrackedObjectToTrack(TrackedObjectPtr obj, double time) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (history_objects_.find(time) == history_objects_.end()) {
     history_objects_.insert(std::make_pair(time, obj));
     age_++;

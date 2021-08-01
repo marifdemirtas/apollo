@@ -38,6 +38,8 @@ using Matrix = Eigen::MatrixXd;
 double MracController::Control(const double command, const Matrix state,
                                const double input_limit,
                                const double input_rate_limit) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // check if the current sampling time is valid and the reference/adaption
   // model well set up during the initialization
   if (ts_ <= 0.0 || !reference_model_enabled_ || !adaption_model_enabled_) {
@@ -108,6 +110,8 @@ double MracController::Control(const double command, const Matrix state,
 }
 
 void MracController::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // reset the overall states
   ResetStates();
   // reset the adaptive gains
@@ -119,6 +123,8 @@ void MracController::Reset() {
 }
 
 void MracController::ResetStates() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // reset the inputs and outputs of the closed-loop MRAC controller
   control_previous_ = 0.0;
   input_desired_.setZero(1, 2);
@@ -131,6 +137,8 @@ void MracController::ResetStates() {
 }
 
 void MracController::ResetGains() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   gain_state_adaption_.setZero(model_order_, 2);
   gain_input_adaption_ = Matrix::Ones(1, 2);
   gain_nonlinear_adaption_.setZero(1, 2);
@@ -140,6 +148,8 @@ void MracController::ResetGains() {
 
 void MracController::Init(const MracConf &mrac_conf,
                           const LatencyParam &latency_param, const double dt) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   control_previous_ = 0.0;
   saturation_status_control_ = 0;
   saturation_status_reference_ = 0;
@@ -184,6 +194,8 @@ void MracController::Init(const MracConf &mrac_conf,
 }
 
 Status MracController::SetReferenceModel(const MracConf &mrac_conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const double Epsilon = 0.000001;
   if (((mrac_conf.reference_time_constant() < Epsilon && model_order_ == 1)) ||
       ((mrac_conf.reference_natural_frequency() < Epsilon &&
@@ -208,6 +220,8 @@ Status MracController::SetReferenceModel(const MracConf &mrac_conf) {
 }
 
 Status MracController::SetAdaptionModel(const MracConf &mrac_conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const int p_size = mrac_conf.adaption_matrix_p_size();
   const int x_size = mrac_conf.adaption_state_gain_size();
   const int aw_size = mrac_conf.anti_windup_compensation_gain_size();
@@ -240,6 +254,8 @@ Status MracController::SetAdaptionModel(const MracConf &mrac_conf) {
 }
 
 Status MracController::BuildReferenceModel() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (model_order_ > 2) {
     const auto error_msg =
         absl::StrCat("mrac controller error: reference model order ",
@@ -260,6 +276,8 @@ Status MracController::BuildReferenceModel() {
 }
 
 Status MracController::BuildAdaptionModel() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (model_order_ > 2) {
     const auto error_msg =
         absl::StrCat("mrac controller error: adaption model order ",
@@ -284,6 +302,8 @@ Status MracController::BuildAdaptionModel() {
 
 bool MracController::CheckLyapunovPD(const Matrix matrix_a,
                                      const Matrix matrix_p) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Matrix matrix_q = -matrix_p * matrix_a - matrix_a.transpose() * matrix_p;
   Eigen::LLT<Matrix> llt_matrix_q(matrix_q);
   // if matrix Q is not symmetric or the Cholesky decomposition (LLT) failed
@@ -293,6 +313,8 @@ bool MracController::CheckLyapunovPD(const Matrix matrix_a,
 }
 
 void MracController::EstimateInitialGains(const LatencyParam &latency_param) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const double rise_time_estimate =
       latency_param.dead_time() + latency_param.rise_time();
   const double settling_time_estimate =
@@ -348,6 +370,8 @@ void MracController::EstimateInitialGains(const LatencyParam &latency_param) {
 }
 
 void MracController::UpdateReference() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Matrix matrix_i = Matrix::Identity(model_order_, model_order_);
   state_reference_.col(0) =
       (matrix_i - ts_ * 0.5 * matrix_a_reference_).inverse() *
@@ -358,6 +382,8 @@ void MracController::UpdateReference() {
 
 void MracController::UpdateAdaption(Matrix *law_adp, const Matrix state_adp,
                                     const Matrix gain_adp) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Matrix state_error = state_action_ - state_reference_;
   law_adp->col(0) =
       law_adp->col(1) -
@@ -371,6 +397,8 @@ void MracController::UpdateAdaption(Matrix *law_adp, const Matrix state_adp,
 
 void MracController::AntiWindupCompensation(const double control_command,
                                             const double previous_command) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Matrix offset_windup = Matrix::Zero(model_order_, 1);
   offset_windup(0, 0) =
       ((control_command > bound_command_) ? bound_command_ - control_command
@@ -392,6 +420,8 @@ void MracController::AntiWindupCompensation(const double control_command,
 
 int MracController::BoundOutput(const double output_unbounded,
                                 const double previous_output, double *output) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int status = 0;
   if (output_unbounded > bound_command_ ||
       output_unbounded > previous_output + bound_command_rate_ * ts_) {
@@ -422,6 +452,8 @@ int MracController::BoundOutput(const double output_unbounded,
 
 void MracController::SetInitialReferenceState(
     const Matrix &state_reference_init) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (state_reference_init.rows() != model_order_ ||
       state_reference_init.cols() != 1) {
     AWARN << "failed to set the initial reference states, due to the given "
@@ -434,6 +466,8 @@ void MracController::SetInitialReferenceState(
 }
 
 void MracController::SetInitialActionState(const Matrix &state_action_init) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (state_action_init.rows() != model_order_ ||
       state_action_init.cols() != 1) {
     AWARN << "failed to set the initial action states, due to the given "
@@ -446,11 +480,15 @@ void MracController::SetInitialActionState(const Matrix &state_action_init) {
 }
 
 void MracController::SetInitialCommand(const double command_init) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   input_desired_(0, 1) = command_init;
 }
 
 void MracController::SetInitialStateAdaptionGain(
     const Matrix &gain_state_adaption_init) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (gain_state_adaption_init.rows() != model_order_ ||
       gain_state_adaption_init.cols() != 1) {
     AWARN << "failed to set the initial state adaption gains, due to the given "
@@ -465,15 +503,21 @@ void MracController::SetInitialStateAdaptionGain(
 
 void MracController::SetInitialInputAdaptionGain(
     const double gain_input_adaption_init) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   gain_input_adaption_(0, 1) = gain_input_adaption_init;
 }
 
 void MracController::SetInitialNonlinearAdaptionGain(
     const double gain_nonlinear_adaption_init) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   gain_nonlinear_adaption_(0, 1) = gain_nonlinear_adaption_init;
 }
 
 void MracController::SetStateAdaptionRate(const double ratio_state) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (ratio_state < 0.0) {
     AWARN << "failed to set the state adaption rate, due to new ratio < 0; the "
              "current ratio is still: "
@@ -484,6 +528,8 @@ void MracController::SetStateAdaptionRate(const double ratio_state) {
 }
 
 void MracController::SetInputAdaptionRate(const double ratio_input) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (ratio_input < 0.0) {
     AWARN << "failed to set the input adaption rate, due to new ratio < 0; the "
              "current ratio is still: "
@@ -494,6 +540,8 @@ void MracController::SetInputAdaptionRate(const double ratio_input) {
 }
 
 void MracController::SetNonlinearAdaptionRate(const double ratio_nonlinear) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (ratio_nonlinear < 0.0) {
     AWARN << "failed to set the nonlinear adaption rate, due to new ratio < 0; "
              "the current ratio is still: "
@@ -503,35 +551,53 @@ void MracController::SetNonlinearAdaptionRate(const double ratio_nonlinear) {
   }
 }
 
-double MracController::StateAdaptionRate() const { return gamma_ratio_state_; }
+double MracController::StateAdaptionRate() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return gamma_ratio_state_; }
 
-double MracController::InputAdaptionRate() const { return gamma_ratio_input_; }
+double MracController::InputAdaptionRate() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return gamma_ratio_input_; }
 
 double MracController::NonlinearAdaptionRate() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return gamma_ratio_nonlinear_;
 }
 
 int MracController::ReferenceSaturationStatus() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return saturation_status_reference_;
 }
 
 int MracController::ControlSaturationStatus() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return saturation_status_control_;
 }
 
 Matrix MracController::CurrentReferenceState() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return state_reference_;
 }
 
 Matrix MracController::CurrentStateAdaptionGain() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return gain_state_adaption_;
 }
 
 Matrix MracController::CurrentInputAdaptionGain() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return gain_input_adaption_;
 }
 
 Matrix MracController::CurrentNonlinearAdaptionGain() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return gain_nonlinear_adaption_;
 }
 

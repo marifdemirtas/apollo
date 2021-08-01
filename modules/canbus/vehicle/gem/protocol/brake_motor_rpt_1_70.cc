@@ -27,11 +27,15 @@ namespace gem {
 
 using ::apollo::drivers::canbus::Byte;
 
-Brakemotorrpt170::Brakemotorrpt170() {}
+Brakemotorrpt170::Brakemotorrpt170() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Brakemotorrpt170::ID = 0x70;
 
 void Brakemotorrpt170::Parse(const std::uint8_t* bytes, int32_t length,
                              ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_gem()->mutable_brake_motor_rpt_1_70()->set_motor_current(
       motor_current(bytes, length));
   chassis->mutable_gem()->mutable_brake_motor_rpt_1_70()->set_shaft_position(
@@ -43,6 +47,8 @@ void Brakemotorrpt170::Parse(const std::uint8_t* bytes, int32_t length,
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'amps'}
 double Brakemotorrpt170::motor_current(const std::uint8_t* bytes,
                                        int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -71,6 +77,8 @@ double Brakemotorrpt170::motor_current(const std::uint8_t* bytes,
 // 'motorola', 'physical_unit': 'radians'}
 double Brakemotorrpt170::shaft_position(const std::uint8_t* bytes,
                                         int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 

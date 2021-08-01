@@ -18,10 +18,20 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
 namespace perception {
 namespace inference {
 
 std::shared_ptr<float> load_binary_data(const std::string &filename) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::ifstream ifs(filename, std::ifstream::binary);
   if (!ifs) {
     return nullptr;
@@ -39,6 +49,8 @@ std::shared_ptr<float> load_binary_data(const std::string &filename) {
 
 bool write_result(const std::string &out_path,
                   const std::vector<float> &results) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   std::ofstream outf(out_path, std::ios::binary | std::ios::out);
   if (!outf.is_open()) {
     AINFO << "Cannot open output file: " << out_path;

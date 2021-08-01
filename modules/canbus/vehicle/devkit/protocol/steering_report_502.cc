@@ -26,11 +26,15 @@ namespace devkit {
 
 using ::apollo::drivers::canbus::Byte;
 
-Steeringreport502::Steeringreport502() {}
+Steeringreport502::Steeringreport502() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 const int32_t Steeringreport502::ID = 0x502;
 
 void Steeringreport502::Parse(const std::uint8_t* bytes, int32_t length,
                               ChassisDetail* chassis) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   chassis->mutable_devkit()
       ->mutable_steering_report_502()
       ->set_steer_angle_spd_actual(steer_angle_spd_actual(bytes, length));
@@ -53,6 +57,8 @@ void Steeringreport502::Parse(const std::uint8_t* bytes, int32_t length,
 // 'type': 'int'}
 int Steeringreport502::steer_angle_spd_actual(const std::uint8_t* bytes,
                                               int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
 
@@ -68,6 +74,8 @@ int Steeringreport502::steer_angle_spd_actual(const std::uint8_t* bytes,
 // 'enum'}
 Steering_report_502::Steer_flt2Type Steeringreport502::steer_flt2(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -83,6 +91,8 @@ Steering_report_502::Steer_flt2Type Steeringreport502::steer_flt2(
 // '[0|255]', 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 Steering_report_502::Steer_flt1Type Steeringreport502::steer_flt1(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -98,6 +108,8 @@ Steering_report_502::Steer_flt1Type Steeringreport502::steer_flt1(
 // '[0|2]', 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 Steering_report_502::Steer_en_stateType Steeringreport502::steer_en_state(
     const std::uint8_t* bytes, int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 2);
 
@@ -112,6 +124,8 @@ Steering_report_502::Steer_en_stateType Steeringreport502::steer_en_state(
 // 'type': 'int'}
 int Steeringreport502::steer_angle_actual(const std::uint8_t* bytes,
                                           int32_t length) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 

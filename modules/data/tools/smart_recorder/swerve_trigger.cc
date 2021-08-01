@@ -30,9 +30,13 @@ using apollo::canbus::Chassis;
 constexpr float MAX_STEER_PER = 100.0;
 constexpr float MIN_STEER_PER = -100.0;
 
-SwerveTrigger::SwerveTrigger() { trigger_name_ = "SwerveTrigger"; }
+SwerveTrigger::SwerveTrigger() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ trigger_name_ = "SwerveTrigger"; }
 
 void SwerveTrigger::Pull(const cyber::record::RecordMessage& msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!trigger_obj_->enabled()) {
     return;
   }
@@ -57,6 +61,8 @@ void SwerveTrigger::Pull(const cyber::record::RecordMessage& msg) {
 }
 
 bool SwerveTrigger::IsNoisy(const float steer) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (steer > MAX_STEER_PER || steer < MIN_STEER_PER) {
     return true;
   }
@@ -66,6 +72,8 @@ bool SwerveTrigger::IsNoisy(const float steer) const {
 }
 
 bool SwerveTrigger::IsSwerve() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (current_steer_queue_.size() < queue_size_ ||
       history_steer_queue_.size() < queue_size_) {
     return false;
@@ -77,6 +85,8 @@ bool SwerveTrigger::IsSwerve() const {
 
 // TODO(Leisheng Mu): reuse the code with hard_brake_trigger in next iteration
 void SwerveTrigger::EnqueueMessage(const float steer) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   current_steer_queue_.emplace_back(steer);
   current_total_ += steer;
   if (current_steer_queue_.size() > queue_size_) {

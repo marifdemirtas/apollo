@@ -27,10 +27,16 @@ using apollo::drivers::canbus::Byte;
 
 const uint32_t MotionInputSpeed300::ID = 0x300;
 
-MotionInputSpeed300::MotionInputSpeed300() {}
-MotionInputSpeed300::~MotionInputSpeed300() {}
+MotionInputSpeed300::MotionInputSpeed300() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
+MotionInputSpeed300::~MotionInputSpeed300() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 uint32_t MotionInputSpeed300::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
@@ -40,6 +46,8 @@ uint32_t MotionInputSpeed300::GetPeriod() const {
  * @param data a pointer to the data to be updated
  */
 void MotionInputSpeed300::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (std::isnan(speed_)) {
     AWARN << "speed is nan";
     return;
@@ -65,9 +73,13 @@ void MotionInputSpeed300::UpdateData(uint8_t* data) {
 /**
  * @brief reset the private variables
  */
-void MotionInputSpeed300::Reset() { speed_ = NAN; }
+void MotionInputSpeed300::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ speed_ = NAN; }
 
-void MotionInputSpeed300::SetSpeed(const float& speed) { speed_ = speed; }
+void MotionInputSpeed300::SetSpeed(const float& speed) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ speed_ = speed; }
 
 }  // namespace conti_radar
 }  // namespace drivers

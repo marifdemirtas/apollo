@@ -145,6 +145,8 @@ class PadTerminal {
 }  // namespace
 
 int main(int argc, char **argv) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   apollo::cyber::Init("pad_terminal");
   FLAGS_alsologtostderr = true;
   FLAGS_v = 3;

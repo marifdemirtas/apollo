@@ -26,6 +26,8 @@ namespace common {
 namespace monitor {
 
 MonitorLogger::MonitorLogger() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const std::string node_name =
       absl::StrCat("monitor_logger", Time::Now().ToNanosecond());
   node_ = cyber::CreateNode(node_name);
@@ -37,6 +39,8 @@ MonitorLogger::MonitorLogger() {
 
 void MonitorLogger::Publish(const MonitorMessageItem::MessageSource &source,
                             const std::vector<MessageItem> &messages) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // compose a monitor message
   if (messages.empty()) {
     return;
@@ -55,6 +59,8 @@ void MonitorLogger::Publish(const MonitorMessageItem::MessageSource &source,
 }
 
 void MonitorLogger::DoPublish(MonitorMessage *message) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   RETURN_IF_NULL(monitor_msg_writer_);
   common::util::FillHeader("monitor", message);
   monitor_msg_writer_->Write(*message);

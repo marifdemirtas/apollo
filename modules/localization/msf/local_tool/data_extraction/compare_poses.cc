@@ -34,6 +34,8 @@ using ::apollo::common::EigenVector3dVec;
 
 static bool LoadGnssAntennaExtrinsic(const std::string &file_path,
                                      Eigen::Vector3d *imu_ant_offset) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   CHECK_NOTNULL(imu_ant_offset);
 
   YAML::Node config = YAML::LoadFile(file_path);
@@ -57,6 +59,8 @@ static void PoseAndStdInterpolationByTime(
     const std::vector<double> &ref_timestamps,
     std::map<unsigned int, Eigen::Affine3d> *out_poses,
     std::map<unsigned int, Eigen::Vector3d> *out_stds) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int index = 0;
   for (size_t i = 0; i < ref_timestamps.size(); ++i) {
     double ref_timestamp = ref_timestamps[i];
@@ -107,6 +111,8 @@ static void PoseAndStdInterpolationByTime(
 }
 
 int main(int argc, char **argv) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   boost::program_options::options_description boost_desc("Allowed options");
   boost_desc.add_options()("help", "produce help message")(
       "in_folder", boost::program_options::value<std::string>(),

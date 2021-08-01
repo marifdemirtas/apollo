@@ -28,6 +28,8 @@ namespace drivers {
 namespace velodyne {
 
 bool VelodyneDriverComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "Velodyne driver component init";
   Config velodyne_config;
   if (!GetProtoConfig(&velodyne_config)) {
@@ -40,6 +42,8 @@ bool VelodyneDriverComponent::Init() {
   VelodyneDriver *driver =
       VelodyneDriverFactory::CreateDriver(node, velodyne_config);
   if (driver == nullptr) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
     return false;
   }
   dvr_.reset(driver);

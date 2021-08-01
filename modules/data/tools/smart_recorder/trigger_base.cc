@@ -23,6 +23,8 @@ namespace apollo {
 namespace data {
 
 bool TriggerBase::Init(const SmartRecordTrigger& trigger_conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   LockTrigger(trigger_conf);
   if (trigger_obj_ == nullptr) {
     AERROR << "failed to lock trigger " << GetTriggerName();
@@ -32,11 +34,15 @@ bool TriggerBase::Init(const SmartRecordTrigger& trigger_conf) {
 }
 
 uint64_t TriggerBase::SecondsToNanoSeconds(const double seconds) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   static constexpr uint64_t kSecondsToNanoSecondsFactor = 1000000000UL;
   return static_cast<uint64_t>(kSecondsToNanoSecondsFactor * seconds);
 }
 
 void TriggerBase::LockTrigger(const SmartRecordTrigger& trigger_conf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (const auto& trigger : trigger_conf.triggers()) {
     if (trigger.trigger_name() == trigger_name_) {
       trigger_obj_.reset(new Trigger(trigger));
@@ -48,6 +54,8 @@ void TriggerBase::LockTrigger(const SmartRecordTrigger& trigger_conf) {
 uint64_t TriggerBase::GetValidValueInRange(const double desired_value,
                                            const double min_limit,
                                            const double max_limit) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return SecondsToNanoSeconds(desired_value < min_limit
                                   ? min_limit
                                   : desired_value > max_limit ? max_limit
@@ -55,6 +63,8 @@ uint64_t TriggerBase::GetValidValueInRange(const double desired_value,
 }
 
 void TriggerBase::TriggerIt(const uint64_t msg_time) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   static constexpr float kMaxBackwardTime = 30.0;
   static constexpr float kMaxForwardTime = 15.0;
   static constexpr uint64_t kZero = 0.0;

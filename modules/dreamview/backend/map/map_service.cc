@@ -64,6 +64,8 @@ void ExtractIds(const std::vector<MapElementInfoConstPtr> &items,
 void ExtractRoadAndLaneIds(const std::vector<LaneInfoConstPtr> &lanes,
                            RepeatedPtrField<std::string> *lane_ids,
                            RepeatedPtrField<std::string> *road_ids) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   lane_ids->Reserve(static_cast<unsigned int>(lanes.size()));
   road_ids->Reserve(static_cast<unsigned int>(lanes.size()));
 
@@ -84,10 +86,14 @@ void ExtractRoadAndLaneIds(const std::vector<LaneInfoConstPtr> &lanes,
 const char MapService::kMetaFileName[] = "/metaInfo.json";
 
 MapService::MapService(bool use_sim_map) : use_sim_map_(use_sim_map) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ReloadMap(false);
 }
 
 bool MapService::ReloadMap(bool force_reload) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   boost::unique_lock<boost::shared_mutex> writer_lock(mutex_);
   bool ret = true;
   if (force_reload) {
@@ -100,6 +106,8 @@ bool MapService::ReloadMap(bool force_reload) {
 }
 
 void MapService::UpdateOffsets() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   x_offset_ = 0.0;
   y_offset_ = 0.0;
   std::ifstream ifs(FLAGS_map_dir + kMetaFileName);
@@ -146,17 +154,25 @@ void MapService::UpdateOffsets() {
 }
 
 const hdmap::HDMap *MapService::HDMap() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return HDMapUtil::BaseMapPtr();
 }
 
 const hdmap::HDMap *MapService::SimMap() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return use_sim_map_ ? HDMapUtil::SimMapPtr() : HDMapUtil::BaseMapPtr();
 }
 
-bool MapService::MapReady() const { return HDMap() && SimMap(); }
+bool MapService::MapReady() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ return HDMap() && SimMap(); }
 
 void MapService::CollectMapElementIds(const PointENU &point, double radius,
                                       MapElementIds *ids) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!MapReady()) {
     return;
   }
@@ -225,6 +241,8 @@ void MapService::CollectMapElementIds(const PointENU &point, double radius,
 }
 
 Map MapService::RetrieveMapElements(const MapElementIds &ids) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   boost::shared_lock<boost::shared_mutex> reader_lock(mutex_);
 
   Map result;
@@ -332,6 +350,8 @@ Map MapService::RetrieveMapElements(const MapElementIds &ids) const {
 bool MapService::GetNearestLane(const double x, const double y,
                                 LaneInfoConstPtr *nearest_lane,
                                 double *nearest_s, double *nearest_l) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   boost::shared_lock<boost::shared_mutex> reader_lock(mutex_);
 
   PointENU point;
@@ -349,6 +369,8 @@ bool MapService::GetNearestLaneWithHeading(const double x, const double y,
                                            LaneInfoConstPtr *nearest_lane,
                                            double *nearest_s, double *nearest_l,
                                            const double heading) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   boost::shared_lock<boost::shared_mutex> reader_lock(mutex_);
 
   PointENU point;
@@ -367,6 +389,8 @@ bool MapService::GetNearestLaneWithHeading(const double x, const double y,
 
 bool MapService::GetPathsFromRouting(const RoutingResponse &routing,
                                      std::vector<Path> *paths) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!CreatePathsFromRouting(routing, paths)) {
     AERROR << "Unable to get paths from routing!";
     return false;
@@ -376,6 +400,8 @@ bool MapService::GetPathsFromRouting(const RoutingResponse &routing,
 
 bool MapService::GetPoseWithRegardToLane(const double x, const double y,
                                          double *theta, double *s) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double l;
   LaneInfoConstPtr nearest_lane;
   if (!GetNearestLane(x, y, &nearest_lane, s, &l)) {
@@ -388,6 +414,8 @@ bool MapService::GetPoseWithRegardToLane(const double x, const double y,
 
 bool MapService::ConstructLaneWayPoint(
     const double x, const double y, routing::LaneWaypoint *laneWayPoint) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double s, l;
   LaneInfoConstPtr lane;
   if (!GetNearestLane(x, y, &lane, &s, &l)) {
@@ -410,6 +438,8 @@ bool MapService::ConstructLaneWayPoint(
 bool MapService::ConstructLaneWayPointWithHeading(
     const double x, const double y, const double heading,
     routing::LaneWaypoint *laneWayPoint) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double s, l;
   LaneInfoConstPtr lane;
   if (!GetNearestLaneWithHeading(x, y, &lane, &s, &l, heading)) {
@@ -430,6 +460,8 @@ bool MapService::ConstructLaneWayPointWithHeading(
 }
 
 bool MapService::CheckRoutingPoint(const double x, const double y) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double s, l;
   LaneInfoConstPtr lane;
   if (!GetNearestLane(x, y, &lane, &s, &l)) {
@@ -442,6 +474,8 @@ bool MapService::CheckRoutingPoint(const double x, const double y) const {
 }
 
 bool MapService::CheckRoutingPointLaneType(LaneInfoConstPtr lane) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (lane->lane().type() != Lane::CITY_DRIVING) {
     AERROR
         << "Failed to construct LaneWayPoint for RoutingRequest: Expected lane "
@@ -453,6 +487,8 @@ bool MapService::CheckRoutingPointLaneType(LaneInfoConstPtr lane) const {
 }
 
 bool MapService::GetStartPoint(apollo::common::PointENU *start_point) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Start from origin to find a lane from the map.
   double s, l;
   LaneInfoConstPtr lane;
@@ -466,6 +502,8 @@ bool MapService::GetStartPoint(apollo::common::PointENU *start_point) const {
 
 bool MapService::CreatePathsFromRouting(const RoutingResponse &routing,
                                         std::vector<Path> *paths) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (routing.road().empty()) {
     return false;
   }
@@ -483,6 +521,8 @@ bool MapService::CreatePathsFromRouting(const RoutingResponse &routing,
 
 bool MapService::AddPathFromPassageRegion(
     const routing::Passage &passage_region, std::vector<Path> *paths) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!MapReady()) {
     return false;
   }
@@ -512,6 +552,8 @@ bool MapService::AddPathFromPassageRegion(
 }
 
 size_t MapService::CalculateMapHash(const MapElementIds &ids) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   static std::hash<std::string> hash_function;
   return hash_function(ids.DebugString());
 }

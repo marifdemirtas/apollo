@@ -27,15 +27,21 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Steeringcommand102::ID = 0x102;
 
 // public
-Steeringcommand102::Steeringcommand102() { Reset(); }
+Steeringcommand102::Steeringcommand102() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(); }
 
 uint32_t Steeringcommand102::GetPeriod() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Steeringcommand102::UpdateData(uint8_t* data) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   set_p_steer_en_ctrl(data, steer_en_ctrl_);
   set_p_steer_angle_target(data, steer_angle_target_);
   set_p_steer_angle_spd(data, steer_angle_spd_);
@@ -45,6 +51,8 @@ void Steeringcommand102::UpdateData(uint8_t* data) {
 }
 
 void Steeringcommand102::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // TODO(All) :  you should check this manually
   steer_en_ctrl_ = Steering_command_102::STEER_EN_CTRL_DISABLE;
   steer_angle_target_ = 0;
@@ -54,6 +62,8 @@ void Steeringcommand102::Reset() {
 
 Steeringcommand102* Steeringcommand102::set_steer_en_ctrl(
     Steering_command_102::Steer_en_ctrlType steer_en_ctrl) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   steer_en_ctrl_ = steer_en_ctrl;
   return this;
 }
@@ -64,6 +74,8 @@ Steeringcommand102* Steeringcommand102::set_steer_en_ctrl(
 // '[0|1]', 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 void Steeringcommand102::set_p_steer_en_ctrl(
     uint8_t* data, Steering_command_102::Steer_en_ctrlType steer_en_ctrl) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int x = steer_en_ctrl;
 
   Byte to_set(data + 0);
@@ -72,6 +84,8 @@ void Steeringcommand102::set_p_steer_en_ctrl(
 
 Steeringcommand102* Steeringcommand102::set_steer_angle_target(
     int steer_angle_target) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   steer_angle_target_ = steer_angle_target;
   return this;
 }
@@ -82,6 +96,8 @@ Steeringcommand102* Steeringcommand102::set_steer_angle_target(
 // 'type': 'int'}
 void Steeringcommand102::set_p_steer_angle_target(uint8_t* data,
                                                   int steer_angle_target) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   steer_angle_target =
       ProtocolData::BoundedValue(-500, 500, steer_angle_target);
   int x = (steer_angle_target - -500.000000);
@@ -99,6 +115,8 @@ void Steeringcommand102::set_p_steer_angle_target(uint8_t* data,
 
 Steeringcommand102* Steeringcommand102::set_steer_angle_spd(
     int steer_angle_spd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   steer_angle_spd_ = steer_angle_spd;
   return this;
 }
@@ -108,6 +126,8 @@ Steeringcommand102* Steeringcommand102::set_steer_angle_spd(
 // '[0|250]', 'physical_unit': 'deg/s', 'precision': 1.0, 'type': 'int'}
 void Steeringcommand102::set_p_steer_angle_spd(uint8_t* data,
                                                int steer_angle_spd) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   steer_angle_spd = ProtocolData::BoundedValue(0, 250, steer_angle_spd);
   int x = steer_angle_spd;
 
@@ -116,6 +136,8 @@ void Steeringcommand102::set_p_steer_angle_spd(uint8_t* data,
 }
 
 Steeringcommand102* Steeringcommand102::set_checksum_102(int checksum_102) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   checksum_102_ = checksum_102;
   return this;
 }
@@ -124,6 +146,8 @@ Steeringcommand102* Steeringcommand102::set_checksum_102(int checksum_102) {
 // 'CheckSum_102', 'offset': 0.0, 'order': 'motorola', 'physical_range':
 // '[0|255]', 'physical_unit': '', 'precision': 1.0, 'type': 'int'}
 void Steeringcommand102::set_p_checksum_102(uint8_t* data, int checksum_102) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   checksum_102 = ProtocolData::BoundedValue(0, 255, checksum_102);
   int x = checksum_102;
 

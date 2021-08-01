@@ -32,9 +32,13 @@ namespace apollo {
 namespace drivers {
 namespace canbus {
 
-CanClientFactory::CanClientFactory() {}
+CanClientFactory::CanClientFactory() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 void CanClientFactory::RegisterCanClients() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   AINFO << "CanClientFactory::RegisterCanClients";
   Register(CANCardParameter::FAKE_CAN,
            []() -> CanClient* { return new can::FakeCanClient(); });
@@ -52,6 +56,8 @@ void CanClientFactory::RegisterCanClients() {
 
 std::unique_ptr<CanClient> CanClientFactory::CreateCANClient(
     const CANCardParameter& parameter) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   auto factory = CreateObject(parameter.brand());
   if (!factory) {
     AERROR << "Failed to create CAN client with parameter: "

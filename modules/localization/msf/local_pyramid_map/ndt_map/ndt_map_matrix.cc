@@ -24,6 +24,8 @@ namespace msf {
 namespace pyramid_map {
 
 NdtMapSingleCell::NdtMapSingleCell() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   intensity_ = 0.0;
   intensity_var_ = 0.0;
   road_pt_count_ = 0;
@@ -35,6 +37,8 @@ NdtMapSingleCell::NdtMapSingleCell() {
 }
 
 void NdtMapSingleCell::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   intensity_ = 0.0;
   intensity_var_ = 0.0;
   road_pt_count_ = 0;
@@ -46,6 +50,8 @@ void NdtMapSingleCell::Reset() {
 }
 
 size_t NdtMapSingleCell::LoadBinary(const unsigned char* buf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const float* f_buf = reinterpret_cast<const float*>(buf);
   intensity_ = *f_buf;
   ++f_buf;
@@ -89,6 +95,8 @@ size_t NdtMapSingleCell::LoadBinary(const unsigned char* buf) {
 
 size_t NdtMapSingleCell::CreateBinary(unsigned char* buf,
                                       size_t buf_size) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t target_size = GetBinarySize();
   if (buf_size >= target_size) {
     float* p = reinterpret_cast<float*>(buf);
@@ -131,6 +139,8 @@ size_t NdtMapSingleCell::CreateBinary(unsigned char* buf,
 }
 
 size_t NdtMapSingleCell::GetBinarySize() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t sz = sizeof(float) * 2 + sizeof(unsigned int) * 2 + sizeof(float) * 3 +
               sizeof(float) * 9;
   if (count_ >= minimum_points_threshold_) {
@@ -140,6 +150,8 @@ size_t NdtMapSingleCell::GetBinarySize() const {
 }
 
 NdtMapSingleCell& NdtMapSingleCell::operator=(const NdtMapSingleCell& ref) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   count_ = ref.count_;
   intensity_ = ref.intensity_;
   intensity_var_ = ref.intensity_var_;
@@ -153,12 +165,16 @@ NdtMapSingleCell& NdtMapSingleCell::operator=(const NdtMapSingleCell& ref) {
 
 void NdtMapSingleCell::Reduce(NdtMapSingleCell* cell,
                               const NdtMapSingleCell& cell_new) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   cell->MergeCell(cell_new);
 }
 
 void NdtMapSingleCell::AddSample(const float intensity, const float altitude,
                                  const Eigen::Vector3f& centroid,
                                  bool is_road) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ++count_;
   float v1 = intensity - intensity_;
   intensity_ += v1 / static_cast<float>(count_);
@@ -183,6 +199,8 @@ void NdtMapSingleCell::MergeCell(const float intensity,
                                  const unsigned int count,
                                  const Eigen::Vector3f& centroid,
                                  const Eigen::Matrix3f& centroid_cov) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int new_count = count_ + count;
   float p0 = static_cast<float>(count_) / static_cast<float>(new_count);
   float p1 = static_cast<float>(count) / static_cast<float>(new_count);
@@ -201,6 +219,8 @@ void NdtMapSingleCell::MergeCell(const float intensity,
 }
 
 void NdtMapSingleCell::MergeCell(const NdtMapSingleCell& cell_new) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   MergeCell(cell_new.intensity_, cell_new.intensity_var_,
             cell_new.road_pt_count_, cell_new.count_, cell_new.centroid_,
             cell_new.centroid_average_cov_);
@@ -208,6 +228,8 @@ void NdtMapSingleCell::MergeCell(const NdtMapSingleCell& cell_new) {
 
 void NdtMapSingleCell::CentroidEigenSolver(
     const Eigen::Matrix3f& centroid_cov) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Contain more than five points, we calculate the eigen vector/value of cov.
   // [Magnusson 2009]
   if (count_ >= minimum_points_threshold_) {
@@ -243,11 +265,15 @@ void NdtMapSingleCell::CentroidEigenSolver(
 }
 
 NdtMapCells::NdtMapCells() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   max_altitude_index_ = static_cast<int>(-1e10);
   min_altitude_index_ = static_cast<int>(1e10);
 }
 
 void NdtMapCells::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   max_altitude_index_ = static_cast<int>(-1e10);
   min_altitude_index_ = static_cast<int>(1e10);
   cells_.clear();
@@ -257,6 +283,8 @@ void NdtMapCells::Reset() {
 int NdtMapCells::AddSample(const float intensity, const float altitude,
                            const float resolution,
                            const Eigen::Vector3f& centroid, bool is_road) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int altitude_index = CalAltitudeIndex(resolution, altitude);
   NdtMapSingleCell& cell = cells_[altitude_index];
   cell.AddSample(intensity, altitude, centroid, is_road);
@@ -278,6 +306,8 @@ int NdtMapCells::AddSample(const float intensity, const float altitude,
 }
 
 size_t NdtMapCells::LoadBinary(const unsigned char* buf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const unsigned int* p = reinterpret_cast<const unsigned int*>(buf);
   unsigned int size = *p;
   ++p;
@@ -314,6 +344,8 @@ size_t NdtMapCells::LoadBinary(const unsigned char* buf) {
 }
 
 size_t NdtMapCells::CreateBinary(unsigned char* buf, size_t buf_size) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t target_size = GetBinarySize();
   if (buf_size >= target_size) {
     unsigned int* p = reinterpret_cast<unsigned int*>(buf);
@@ -354,6 +386,8 @@ size_t NdtMapCells::CreateBinary(unsigned char* buf, size_t buf_size) const {
 }
 
 size_t NdtMapCells::GetBinarySize() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t target_size = sizeof(unsigned int);
   for (auto it = cells_.begin(); it != cells_.end(); ++it) {
     target_size += sizeof(int);
@@ -368,16 +402,22 @@ size_t NdtMapCells::GetBinarySize() const {
 
 int NdtMapCells::CalAltitudeIndex(const float resolution,
                                   const float altitude) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return static_cast<int>(altitude / resolution);
 }
 
 float NdtMapCells::CalAltitude(const float resolution,
                                const int altitude_index) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return static_cast<float>(resolution *
                             (static_cast<float>(altitude_index) + 0.5));
 }
 
 void NdtMapCells::Reduce(NdtMapCells* cell, const NdtMapCells& cell_new) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // Reduce cells
   for (auto it = cell_new.cells_.begin(); it != cell_new.cells_.end(); ++it) {
     int altitude_index = it->first;
@@ -410,14 +450,20 @@ void NdtMapCells::Reduce(NdtMapCells* cell, const NdtMapCells& cell_new) {
 }
 
 NdtMapMatrix::NdtMapMatrix() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   rows_ = 0;
   cols_ = 0;
   map3d_cells_ = nullptr;
 }
 
-NdtMapMatrix::~NdtMapMatrix() {}
+NdtMapMatrix::~NdtMapMatrix() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 NdtMapMatrix::NdtMapMatrix(const NdtMapMatrix& cells) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Init(cells.rows_, cells.cols_);
   for (unsigned int y = 0; y < rows_; ++y) {
     for (unsigned int x = 0; x < cols_; ++x) {
@@ -429,18 +475,26 @@ NdtMapMatrix::NdtMapMatrix(const NdtMapMatrix& cells) {
 }
 
 void NdtMapMatrix::Init(const BaseMapConfig& config) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   Init(config.map_node_size_y_, config.map_node_size_x_);
 }
 
-void NdtMapMatrix::Reset() { Reset(rows_, cols_); }
+void NdtMapMatrix::Reset() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+ Reset(rows_, cols_); }
 
 void NdtMapMatrix::Init(unsigned int rows, unsigned int cols) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   map3d_cells_.reset(new NdtMapCells[rows * cols]);
   rows_ = rows;
   cols_ = cols;
 }
 
 void NdtMapMatrix::Reset(unsigned int rows, unsigned int cols) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   unsigned int length = rows * cols;
   for (unsigned int i = 0; i < length; ++i) {
     map3d_cells_[i].Reset();
@@ -448,6 +502,8 @@ void NdtMapMatrix::Reset(unsigned int rows, unsigned int cols) {
 }
 
 size_t NdtMapMatrix::LoadBinary(const unsigned char* buf) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   const unsigned int* p = reinterpret_cast<const unsigned int*>(buf);
   rows_ = *p;
   ++p;
@@ -466,6 +522,8 @@ size_t NdtMapMatrix::LoadBinary(const unsigned char* buf) {
 }
 
 size_t NdtMapMatrix::CreateBinary(unsigned char* buf, size_t buf_size) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t target_size = GetBinarySize();
   if (buf_size >= target_size) {
     unsigned int* p = reinterpret_cast<unsigned int*>(buf);
@@ -489,6 +547,8 @@ size_t NdtMapMatrix::CreateBinary(unsigned char* buf, size_t buf_size) const {
 }
 
 size_t NdtMapMatrix::GetBinarySize() const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   size_t target_size = sizeof(unsigned int) * 2;
   for (unsigned int y = 0; y < rows_; ++y) {
     for (unsigned int x = 0; x < cols_; ++x) {
@@ -500,6 +560,8 @@ size_t NdtMapMatrix::GetBinarySize() const {
 }
 
 void NdtMapMatrix::Reduce(NdtMapMatrix* cells, const NdtMapMatrix& cells_new) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   for (unsigned int y = 0; y < cells->GetRows(); ++y) {
     for (unsigned int x = 0; x < cells->GetCols(); ++x) {
       NdtMapCells& cell = cells->GetMapCell(y, x);
@@ -510,6 +572,8 @@ void NdtMapMatrix::Reduce(NdtMapMatrix* cells, const NdtMapMatrix& cells_new) {
 }
 
 bool NdtMapMatrix::GetIntensityImg(cv::Mat* intensity_img) const {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   *intensity_img = cv::Mat(cv::Size(cols_, rows_), CV_8UC1);
   for (unsigned int y = 0; y < rows_; ++y) {
     for (unsigned int x = 0; x < cols_; ++x) {

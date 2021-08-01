@@ -24,14 +24,20 @@ using apollo::drivers::CompressedImage;
 using apollo::drivers::video::config::CameraH265Config;
 
 CameraDriver::CameraDriver(const CameraH265Config *h265_cfg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   config_ = *h265_cfg;
 }
 
 bool CameraDriver::Poll(std::shared_ptr<CompressedImage> h265) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   return PollByFrame(h265);
 }
 
 bool CameraDriver::PollByFrame(std::shared_ptr<CompressedImage> h265Pb) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int ret = input_->GetFramePacket(h265Pb);
   if (ret < 0) {
     return false;
@@ -49,6 +55,8 @@ bool CameraDriver::PollByFrame(std::shared_ptr<CompressedImage> h265Pb) {
 }
 
 void CameraDriver::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   input_.reset(new SocketInput());
   input_->Init(config_.udp_port());
 }

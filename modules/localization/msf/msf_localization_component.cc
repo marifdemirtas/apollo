@@ -27,9 +27,13 @@ namespace localization {
 
 using apollo::cyber::Clock;
 
-MSFLocalizationComponent::MSFLocalizationComponent() {}
+MSFLocalizationComponent::MSFLocalizationComponent() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool MSFLocalizationComponent::Init() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   publisher_.reset(new LocalizationMsgPublisher(this->node_));
 
   if (!InitConfig()) {
@@ -46,6 +50,8 @@ bool MSFLocalizationComponent::Init() {
 }
 
 bool MSFLocalizationComponent::InitConfig() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   lidar_topic_ = FLAGS_lidar_topic;
   bestgnsspos_topic_ = FLAGS_gnss_best_pose_topic;
   gnss_heading_topic_ = FLAGS_heading_topic;
@@ -64,6 +70,8 @@ bool MSFLocalizationComponent::InitConfig() {
 }
 
 bool MSFLocalizationComponent::InitIO() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   cyber::ReaderConfig reader_config;
   reader_config.channel_name = lidar_topic_;
   reader_config.pending_queue_size = 1;
@@ -102,15 +110,21 @@ bool MSFLocalizationComponent::InitIO() {
 
 bool MSFLocalizationComponent::Proc(
     const std::shared_ptr<drivers::gnss::Imu>& imu_msg) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   localization_.OnRawImuCache(imu_msg);
   return true;
 }
 
 LocalizationMsgPublisher::LocalizationMsgPublisher(
     const std::shared_ptr<cyber::Node>& node)
-    : node_(node), tf2_broadcaster_(node) {}
+    : node_(node), tf2_broadcaster_(node) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+}
 
 bool LocalizationMsgPublisher::InitConfig() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   localization_topic_ = FLAGS_localization_topic;
   broadcast_tf_frame_id_ = FLAGS_broadcast_tf_frame_id;
   broadcast_tf_child_frame_id_ = FLAGS_broadcast_tf_child_frame_id;
@@ -122,6 +136,8 @@ bool LocalizationMsgPublisher::InitConfig() {
 }
 
 bool LocalizationMsgPublisher::InitIO() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   localization_talker_ =
       node_->CreateWriter<LocalizationEstimate>(localization_topic_);
 
@@ -138,6 +154,8 @@ bool LocalizationMsgPublisher::InitIO() {
 
 void LocalizationMsgPublisher::PublishPoseBroadcastTF(
     const LocalizationEstimate& localization) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // broadcast tf message
   apollo::transform::TransformStamped tf2_msg;
 
@@ -162,6 +180,8 @@ void LocalizationMsgPublisher::PublishPoseBroadcastTF(
 
 void LocalizationMsgPublisher::PublishPoseBroadcastTopic(
     const LocalizationEstimate& localization) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   double cur_system_time = localization.header().timestamp_sec();
   if (pre_system_time_ > 0.0 && cur_system_time - pre_system_time_ > 0.02) {
     AERROR << std::setprecision(16)
@@ -184,16 +204,22 @@ void LocalizationMsgPublisher::PublishPoseBroadcastTopic(
 
 void LocalizationMsgPublisher::PublishLocalizationMsfGnss(
     const LocalizationEstimate& localization) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   gnss_local_talker_->Write(localization);
 }
 
 void LocalizationMsgPublisher::PublishLocalizationMsfLidar(
     const LocalizationEstimate& localization) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   lidar_local_talker_->Write(localization);
 }
 
 void LocalizationMsgPublisher::PublishLocalizationStatus(
     const LocalizationStatus& localization_status) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   localization_status_talker_->Write(localization_status);
 }
 

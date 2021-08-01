@@ -36,6 +36,8 @@ namespace hdmap {
 
 ChannelChecker::ChannelChecker(const std::string& stop_flag_file)
     : stop_flag_file_(stop_flag_file) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   YAML::Node node = YAML::LoadFile(FLAGS_client_conf_yaml);
   std::string server_addr =
       node["grpc_host_port"]["grpc_host"].as<std::string>() + ":" +
@@ -46,6 +48,8 @@ ChannelChecker::ChannelChecker(const std::string& stop_flag_file)
 }
 
 int ChannelChecker::SyncStart(const std::string& record_path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   if (!boost::filesystem::exists(record_path)) {
     AERROR << "record_path [" << record_path << "]does not exist";
     return -1;
@@ -59,6 +63,8 @@ int ChannelChecker::SyncStart(const std::string& record_path) {
 }
 
 int ChannelChecker::SyncStop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   // stop client
   std::ofstream ofs(stop_flag_file_);
   if (!ofs) {
@@ -71,6 +77,8 @@ int ChannelChecker::SyncStop() {
 }
 
 int ChannelChecker::PeriodicCheck() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   int ret = 0;
   while (!boost::filesystem::exists(stop_flag_file_)) {
     ret = Check();
@@ -90,6 +98,8 @@ int ChannelChecker::PeriodicCheck() {
 
 int ChannelChecker::GrpcStub(ChannelVerifyRequest* request,
                              ChannelVerifyResponse* response) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   grpc::ClientContext context;
   grpc::Status status;
   status = service_stub_->ServiceChannelVerify(&context, *request, response);
@@ -106,6 +116,8 @@ int ChannelChecker::GrpcStub(ChannelVerifyRequest* request,
 }
 
 int ChannelChecker::Start(const std::string& record_path) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ChannelVerifyRequest request;
   request.set_path(record_path);
   request.set_cmd(CmdType::START);
@@ -117,6 +129,8 @@ int ChannelChecker::Start(const std::string& record_path) {
 }
 
 int ChannelChecker::Check() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ChannelVerifyRequest request;
   request.set_cmd(CmdType::CHECK);
   AINFO << "channel check request: "
@@ -130,6 +144,8 @@ int ChannelChecker::Check() {
 }
 
 int ChannelChecker::Stop() {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ChannelVerifyRequest request;
   request.set_cmd(CmdType::STOP);
   AINFO << "channel check request: "
@@ -139,6 +155,8 @@ int ChannelChecker::Stop() {
 }
 
 int ChannelChecker::ProcessAbnormal(ChannelVerifyResponse* response) {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+
   ErrorCode code = response->code();
   if (code == ErrorCode::ERROR_CHANNEL_VERIFY_RATES_ABNORMAL) {
     if (response->has_result()) {
