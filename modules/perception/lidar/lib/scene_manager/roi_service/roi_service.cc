@@ -21,7 +21,6 @@
 #include "modules/perception/lidar/lib/scene_manager/roi_service/proto/roi_service.pb.h"
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 

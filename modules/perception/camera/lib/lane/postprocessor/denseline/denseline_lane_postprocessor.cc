@@ -25,7 +25,6 @@
 #include "modules/perception/camera/lib/lane/common/proto/denseline.pb.h"
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 

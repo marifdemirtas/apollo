@@ -18,7 +18,6 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace radar {

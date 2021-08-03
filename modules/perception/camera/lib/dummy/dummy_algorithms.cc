@@ -17,7 +17,6 @@
 #include "modules/perception/camera/lib/dummy/dummy_algorithms.h"
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 

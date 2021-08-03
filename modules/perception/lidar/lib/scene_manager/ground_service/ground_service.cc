@@ -24,7 +24,6 @@
 #include "modules/perception/lidar/lib/scene_manager/ground_service/proto/ground_service_config.pb.h"
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace lidar {

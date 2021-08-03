@@ -28,7 +28,6 @@
 #include "modules/perception/common/sensor_manager/sensor_manager.h"
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {

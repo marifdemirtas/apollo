@@ -20,10 +20,8 @@
 #include "modules/common/math/sin_table.h"
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace common {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace math {
 

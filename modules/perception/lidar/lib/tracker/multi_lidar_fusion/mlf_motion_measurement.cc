@@ -23,7 +23,6 @@
 #include "modules/perception/lidar/lib/tracker/multi_lidar_fusion/mlf_motion_measurement.h"
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace lidar {

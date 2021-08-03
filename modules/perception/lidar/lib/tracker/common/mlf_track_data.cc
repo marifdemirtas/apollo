@@ -20,7 +20,6 @@
 #include "modules/perception/lidar/lib/tracker/common/track_pool_types.h"
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace lidar {

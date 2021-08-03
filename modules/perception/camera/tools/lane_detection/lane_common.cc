@@ -35,7 +35,6 @@ DEFINE_string(camera_intrinsics_yaml, "params/front_6mm_intrinsics.yaml",
               "camera intrinsics_yaml");
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {

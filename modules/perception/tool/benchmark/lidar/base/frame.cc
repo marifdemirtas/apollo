@@ -28,7 +28,6 @@
 #include "modules/perception/tool/benchmark/lidar/util/visibility.h"
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace benchmark {

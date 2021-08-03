@@ -21,7 +21,6 @@
 #include "modules/perception/lidar/lib/scene_manager/scene_manager.h"
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace lidar {

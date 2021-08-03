@@ -26,7 +26,6 @@
 #include "modules/perception/inference/utils/gemm.h"
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {

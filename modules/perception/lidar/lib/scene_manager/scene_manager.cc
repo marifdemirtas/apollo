@@ -23,7 +23,6 @@
 #include "modules/perception/proto/perception_config_schema.pb.h"
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 

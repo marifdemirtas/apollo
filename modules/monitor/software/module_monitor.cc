@@ -32,7 +32,6 @@ ABSL_FLAG(double, module_monitor_interval, 1.5,
           "Process status checking interval in seconds.");
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace monitor {
 

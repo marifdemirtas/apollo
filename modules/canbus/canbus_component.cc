@@ -31,7 +31,6 @@ using apollo::drivers::canbus::CanClientFactory;
 using apollo::guardian::GuardianCommand;
 
 namespace apollo {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
