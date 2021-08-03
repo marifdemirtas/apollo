@@ -1,3 +1,4 @@
+#include "cyber/common/log.h"
   /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
