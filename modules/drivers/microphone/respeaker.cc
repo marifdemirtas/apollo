@@ -25,7 +25,7 @@ PaError err;
 
 // Helper functions
 void report_error(PaError err, const std::string &func_name) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AERROR << "an error occured while calling " << func_name;
   AERROR << "error number: " << err;
@@ -34,7 +34,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // Stream
 Stream::~Stream() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Pa_CloseStream(pastream_ptr_);
   free(input_parameters_ptr_);
@@ -42,7 +42,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void Stream::init_stream(int rate, int channels, int chunk,
                          int input_device_index, PaSampleFormat format) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Init parameters of input device
   input_parameters_ptr_ = new PaStreamParameters;
@@ -67,7 +67,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Stream::read_stream(int n_frames, char *buffer) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   err =
       Pa_ReadStream(pastream_ptr_, reinterpret_cast<void *>(buffer), n_frames);
@@ -79,11 +79,11 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // Respeaker
 Respeaker::~Respeaker() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Pa_Terminate(); }
 void Respeaker::init(
     const std::shared_ptr<const MicrophoneConfig> &microphone_config) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (microphone_config->microphone_model() != MicrophoneConfig::RESPEAKER) {
     AERROR << "Microphone driver only supports respeaker model in config file";
@@ -104,7 +104,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 const PaSampleFormat Respeaker::get_format_from_width(int width,
                                                       bool is_unsigned) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (width) {
     case 1:
@@ -123,7 +123,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const PaDeviceIndex Respeaker::get_respeaker_index() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // return index of respeaker
   const PaHostApiInfo *host_api_info = get_host_api_info(0);
@@ -142,7 +142,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 const PaDeviceInfo *Respeaker::get_device_info(
     const PaDeviceIndex index) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const PaDeviceInfo *device_info =
       reinterpret_cast<const PaDeviceInfo *>(Pa_GetDeviceInfo(index));
@@ -155,7 +155,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 const PaDeviceIndex Respeaker::host_api_device_index_to_device_index(
     const PaHostApiIndex host_api, const int host_api_device_index) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Get standard device index from host-API-specific device index
   PaDeviceIndex device_index =
@@ -168,7 +168,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 const PaHostApiInfo *Respeaker::get_host_api_info(
     const PaHostApiIndex index) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Get host api info by it's index
   const PaHostApiInfo *pa_host_api_info =
@@ -180,7 +180,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Respeaker::read_stream(int n_frames, char *buffer) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   stream_ptr_->read_stream(n_frames, buffer);
 }

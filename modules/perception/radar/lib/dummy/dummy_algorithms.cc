@@ -17,9 +17,9 @@
 #include "modules/perception/radar/lib/dummy/dummy_algorithms.h"
 
 namespace apollo {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace radar {
@@ -27,7 +27,7 @@ namespace radar {
 void DummyDetector::ContiObs2Frame(
     const drivers::ContiRadar& corrected_obstacles,
     base::FramePtr radar_frame) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto& radar_obs : corrected_obstacles.contiobs()) {
     base::ObjectPtr radar_object(new base::Object);
@@ -81,12 +81,12 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool DummyPreprocessor::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return true; }
 bool DummyPreprocessor::Preprocess(const drivers::ContiRadar& raw_obstacles,
                                    const PreprocessorOptions& options,
                                    drivers::ContiRadar* corrected_obstacles) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (corrected_obstacles == nullptr) {
     AERROR << "corrected_obstacles is not available";
@@ -96,35 +96,35 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return true;
 }
 std::string DummyPreprocessor::Name() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return "DummyPreprocessor"; }
 
 bool DummyDetector::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return true; }
 bool DummyDetector::Detect(const drivers::ContiRadar& corrected_obstacles,
                            const DetectorOptions& options,
                            base::FramePtr detected_frame) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ContiObs2Frame(corrected_obstacles, detected_frame);
   return true;
 }
 std::string DummyDetector::Name() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return "DummyDetector"; }
 
 bool DummyRoiFilter::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return true; }
 bool DummyRoiFilter::RoiFilter(const RoiFilterOptions& options,
                                base::FramePtr radar_frame) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return true;
 }
 std::string DummyRoiFilter::Name() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return "DummyRoiFilter"; }
 
 PERCEPTION_REGISTER_PREPROCESSOR(DummyPreprocessor);

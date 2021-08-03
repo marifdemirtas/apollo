@@ -37,7 +37,7 @@ namespace canbus {
 namespace wey {
 
 WeyMessageManager::WeyMessageManager() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Control Messages
   AddSendProtocolData<Ads1111, true>();
@@ -59,7 +59,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 WeyMessageManager::~WeyMessageManager() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 }  // namespace wey

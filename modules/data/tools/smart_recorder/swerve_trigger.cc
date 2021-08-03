@@ -32,11 +32,11 @@ constexpr float MAX_STEER_PER = 100.0;
 constexpr float MIN_STEER_PER = -100.0;
 
 SwerveTrigger::SwerveTrigger() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  trigger_name_ = "SwerveTrigger"; }
 
 void SwerveTrigger::Pull(const cyber::record::RecordMessage& msg) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!trigger_obj_->enabled()) {
     return;
@@ -62,7 +62,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SwerveTrigger::IsNoisy(const float steer) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (steer > MAX_STEER_PER || steer < MIN_STEER_PER) {
     return true;
@@ -73,7 +73,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SwerveTrigger::IsSwerve() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (current_steer_queue_.size() < queue_size_ ||
       history_steer_queue_.size() < queue_size_) {
@@ -86,7 +86,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // TODO(Leisheng Mu): reuse the code with hard_brake_trigger in next iteration
 void SwerveTrigger::EnqueueMessage(const float steer) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   current_steer_queue_.emplace_back(steer);
   current_total_ += steer;

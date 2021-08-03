@@ -26,7 +26,7 @@ namespace perception {
 namespace benchmark {
 
 Object::Object() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   direction = Eigen::Vector3d(1, 0, 0);
   center = Eigen::Vector3d::Zero();
@@ -39,7 +39,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Object::Object(const Object& rhs) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   id = rhs.id;
   cloud = rhs.cloud;
@@ -74,7 +74,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Object& Object::operator=(const Object& rhs) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   id = rhs.id;
   cloud = rhs.cloud;
@@ -110,7 +110,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Object::clone(const Object& rhs) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   id = rhs.id;
   pcl::copyPointCloud<Point, Point>(*(rhs.cloud), *cloud);
@@ -159,7 +159,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string Object::to_string() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::ostringstream oss;
   oss << "Object[id: " << id << ", track_id: " << track_id
@@ -180,7 +180,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string get_object_name(ObjectType obj_type) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string obj_name;
   switch (obj_type) {
@@ -210,7 +210,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string get_sensor_name(SensorType sensor_type) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string sensor_name;
   switch (sensor_type) {
@@ -234,7 +234,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string SensorObjects::to_string() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::ostringstream oss;
   oss << "SensorObjects[sensor_type: " << get_sensor_name(type)
@@ -249,7 +249,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ObjectType translate_string_to_type(const std::string& str) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (str == "bigMot" || str == "smallMot" || str == "vehicle" ||
       str == "midMot" || str == "5") {
@@ -265,7 +265,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int translate_type_to_index(const ObjectType& type) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (type <= UNKNOWN) {
     return 0;
@@ -277,7 +277,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string translate_type_index_to_string(unsigned int index) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (index) {
     case 0:
@@ -294,7 +294,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 SensorType translate_string_to_sensor_type(const std::string& str) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (str == "velodyne_64") {
     return VELODYNE_64;
@@ -310,7 +310,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string translate_type_to_string(ObjectType type) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (type) {
     case UNKNOWN:
@@ -330,7 +330,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string translate_sensor_type_to_string(const SensorType& type) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (type) {
     case VELODYNE_64:

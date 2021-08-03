@@ -24,7 +24,7 @@ namespace perception {
 namespace lidar {
 
 void SppClusterList::Init(size_t size, const std::string& sensor_name) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   sensor_name_ = sensor_name;
   clusters_.clear();
@@ -32,7 +32,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppClusterList::resize(size_t size) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (clusters_.size() < size) {
     SppClusterPool::Instance(sensor_name_)
@@ -45,7 +45,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void SppClusterList::AddPointSample(size_t cluster_id,
                                     const base::PointF& point, float height,
                                     uint32_t point_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (clusters_.size() <= cluster_id) {
     resize(cluster_id + 1);
@@ -54,7 +54,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppClusterList::Merge(SppClusterList* rhs) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   clusters_.reserve(clusters_.size() + rhs->clusters_.size());
   for (size_t i = 0; i < rhs->size(); ++i) {
@@ -63,7 +63,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t SppClusterList::HeightCut(float max_gap, size_t start_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t size = clusters_.size();
   size_t count = 0;
@@ -79,7 +79,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SppClusterList::ComputeHeightAndSplitCluster(size_t id, float max_gap) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (id >= clusters_.size()) {
     return false;
@@ -124,7 +124,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppClusterList::RemoveEmptyClusters() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t current = 0;
   for (size_t i = 0; i < clusters_.size(); ++i) {
@@ -139,7 +139,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppClusterList::EraseCluster(size_t id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (clusters_.size() <= id) {
     return;

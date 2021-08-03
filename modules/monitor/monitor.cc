@@ -39,7 +39,7 @@ namespace apollo {
 namespace monitor {
 
 bool Monitor::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MonitorManager::Instance()->Init(node_);
 
@@ -78,7 +78,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Monitor::Proc() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double current_time = apollo::cyber::Clock::NowInSeconds();
   if (!MonitorManager::Instance()->StartFrame(current_time)) {

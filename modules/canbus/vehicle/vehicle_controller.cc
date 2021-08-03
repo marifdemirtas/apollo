@@ -26,7 +26,7 @@ using common::ErrorCode;
 using control::ControlCommand;
 
 Chassis::DrivingMode VehicleController::driving_mode() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mode_mutex_);
   return driving_mode_;
@@ -34,7 +34,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void VehicleController::set_driving_mode(
     const Chassis::DrivingMode &driving_mode) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mode_mutex_);
   driving_mode_ = driving_mode;
@@ -42,7 +42,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 ErrorCode VehicleController::SetDrivingMode(
     const Chassis::DrivingMode &driving_mode) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (driving_mode == Chassis::EMERGENCY_MODE) {
     AINFO << "Can't set vehicle to EMERGENCY_MODE driving mode.";
@@ -99,7 +99,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ErrorCode VehicleController::Update(const ControlCommand &control_command) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!is_initialized_) {
     AERROR << "Controller is not initialized.";

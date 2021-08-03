@@ -25,7 +25,7 @@ void GetYawVelocityInfo(const float &time_diff, const double cam_coord_cur[3],
                         const double cam_coord_pre[3],
                         const double cam_coord_pre_pre[3], float *yaw_rate,
                         float *velocity) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assert(yaw_rate != nullptr);
   assert(velocity != nullptr);
@@ -49,7 +49,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CalibratorParams::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // General
   min_nr_pts_laneline = 20;
@@ -96,7 +96,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LaneBasedCalibrator::Init(const LocalCalibratorInitOptions &options,
                                const CalibratorParams *params) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ClearUp();
   image_width_ = options.image_width;
@@ -117,7 +117,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LaneBasedCalibrator::ClearUp() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   vp_buffer_.clear();
   pitch_histogram_.Clear();
@@ -133,7 +133,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool LaneBasedCalibrator::Process(const EgoLane &lane, const float &velocity,
                                   const float &yaw_rate,
                                   const float &time_diff) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float distance_traveled_in_meter = velocity * time_diff;
   float vehicle_yaw_changed = yaw_rate * time_diff;
@@ -199,7 +199,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LaneBasedCalibrator::PushVanishingPoint(const VanishingPoint &v_point) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int nr_vps = static_cast<int>(vp_buffer_.size());
   if (nr_vps < kMaxNrHistoryFrames) {
@@ -211,7 +211,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool LaneBasedCalibrator::PopVanishingPoint(VanishingPoint *v_point) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float accumulated_distance = 0.0f;
   for (const auto &vp : vp_buffer_) {
@@ -227,14 +227,14 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool LaneBasedCalibrator::AddPitchToHistogram(float pitch) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return pitch_histogram_.Push(pitch);
 }
 
 bool LaneBasedCalibrator::GetPitchFromVanishingPoint(const VanishingPoint &vp,
                                                      float *pitch) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assert(pitch != nullptr);
   const float cx = k_mat_[2];
@@ -251,7 +251,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LaneBasedCalibrator::GetVanishingPoint(const EgoLane &lane,
                                             VanishingPoint *v_point) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assert(v_point != nullptr);
   float line_seg_l[4] = {0};
@@ -278,7 +278,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int LaneBasedCalibrator::GetCenterIndex(const Eigen::Vector2f *points,
                                         int nr_pts) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assert(points != nullptr);
   if (nr_pts <= 0) {
@@ -309,7 +309,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LaneBasedCalibrator::SelectTwoPointsFromLineForVanishingPoint(
     const LaneLine &line, float line_seg[4]) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int nr_pts = static_cast<int>(line.lane_point.size());
   if (nr_pts < params_.min_nr_pts_laneline) {
@@ -346,7 +346,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool LaneBasedCalibrator::GetIntersectionFromTwoLineSegments(
     const float line_seg_l[4], const float line_seg_r[4],
     VanishingPoint *v_point) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assert(v_point != nullptr);
   // ref: https://stackoverflow.com/questions/563198/...

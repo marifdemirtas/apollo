@@ -25,7 +25,7 @@ namespace planning {
 // this sanity check will move to the very beginning of planning
 bool DecisionData::IsValidTrajectoryPoint(
     const common::TrajectoryPoint& point) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return !((!point.has_path_point()) || std::isnan(point.path_point().x()) ||
            std::isnan(point.path_point().y()) ||
@@ -38,7 +38,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool DecisionData::IsValidTrajectory(const prediction::Trajectory& trajectory) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto& point : trajectory.trajectory_point()) {
     if (!IsValidTrajectoryPoint(point)) {
@@ -54,7 +54,7 @@ DecisionData::DecisionData(
     const prediction::PredictionObstacles& prediction_obstacles,
     const ReferenceLine& reference_line)
     : reference_line_(reference_line) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto& prediction_obstacle :
        prediction_obstacles.prediction_obstacle()) {
@@ -89,7 +89,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Obstacle* DecisionData::GetObstacleById(const std::string& id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
   return common::util::FindPtrOrNull(obstacle_map_, id);
@@ -97,7 +97,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::vector<Obstacle*> DecisionData::GetObstacleByType(
     const VirtualObjectType& type) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(transaction_mutex_);
 
@@ -118,38 +118,38 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::unordered_set<std::string> DecisionData::GetObstacleIdByType(
     const VirtualObjectType& type) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
   return common::util::FindWithDefault(virtual_obstacle_id_map_, type, {});
 }
 
 const std::vector<Obstacle*>& DecisionData::GetStaticObstacle() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return static_obstacle_;
 }
 
 const std::vector<Obstacle*>& DecisionData::GetDynamicObstacle() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return dynamic_obstacle_;
 }
 
 const std::vector<Obstacle*>& DecisionData::GetVirtualObstacle() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return virtual_obstacle_;
 }
 
 const std::vector<Obstacle*>& DecisionData::GetPracticalObstacle() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return practical_obstacle_;
 }
 
 const std::vector<Obstacle*>& DecisionData::GetAllObstacle() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return all_obstacle_;
 }
@@ -157,7 +157,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool DecisionData::CreateVirtualObstacle(const ReferencePoint& point,
                                          const VirtualObjectType& type,
                                          std::string* const id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // should build different box by type;
   common::SLPoint sl_point;
@@ -179,7 +179,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool DecisionData::CreateVirtualObstacle(const double point_s,
                                          const VirtualObjectType& type,
                                          std::string* const id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // should build different box by type;
   const double box_center_s = point_s + FLAGS_virtual_stop_wall_length / 2.0;
@@ -196,7 +196,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool DecisionData::CreateVirtualObstacle(
     const common::math::Box2d& obstacle_box, const VirtualObjectType& type,
     std::string* const id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> transaction_lock(transaction_mutex_);
   std::lock_guard<std::mutex> lock(mutex_);

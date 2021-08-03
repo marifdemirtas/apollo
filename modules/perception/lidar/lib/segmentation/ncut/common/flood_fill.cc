@@ -30,7 +30,7 @@ const int kNonEmptyGridLabel = -2;
 }  // namespace
 
 int FloodFill::Pos(float x, float y) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const int irow = static_cast<int>((y + _offset_y) / _cell_size);
   if (!IsValidRowIndex(irow)) {
@@ -44,7 +44,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool FloodFill::Pos2d(float x, float y, int* irow, int* jcol) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   *irow = static_cast<int>((y + _offset_y) / _cell_size);
   if (!IsValidRowIndex(*irow)) {
@@ -58,7 +58,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void FloodFill::BuildGrid(base::PointFCloudConstPtr cloud) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_GT(_grid_radius, 0.0);
   CHECK_GT(_cell_size, 0.0);
@@ -105,7 +105,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int FloodFill::GetConnectedComponents() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int num_components = 0;
   for (int idx = 0; idx < _grid_size; ++idx) {
@@ -120,7 +120,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void FloodFill::DfsColoring(int i, int j, int curr_component) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // recursively label the neighbors
   for (int direction = 0; direction < kNumDirections; ++direction) {
@@ -139,7 +139,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void FloodFill::GetSegments(base::PointFCloudConstPtr cloud,
                             std::vector<std::vector<int>>* segments_indices,
                             std::vector<int>* num_cells_per_segment) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(segments_indices);
   CHECK_NOTNULL(num_cells_per_segment);

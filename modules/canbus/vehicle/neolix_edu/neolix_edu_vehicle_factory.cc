@@ -27,7 +27,7 @@ namespace canbus {
 
 std::unique_ptr<VehicleController>
 Neolix_eduVehicleFactory::CreateVehicleController() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return std::unique_ptr<VehicleController>(
       new neolix_edu::Neolix_eduController());
@@ -35,7 +35,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>
 Neolix_eduVehicleFactory::CreateMessageManager() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>(
       new neolix_edu::Neolix_eduMessageManager());

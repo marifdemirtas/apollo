@@ -32,7 +32,7 @@ namespace math {
 namespace {
 
 bool IsWithin(double val, double bound1, double bound2) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (bound1 > bound2) {
     std::swap(bound1, bound2);
@@ -43,12 +43,12 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }  // namespace
 
 LineSegment2d::LineSegment2d() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  unit_direction_ = Vec2d(1, 0); }
 
 LineSegment2d::LineSegment2d(const Vec2d &start, const Vec2d &end)
     : start_(start), end_(end) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double dx = end_.x() - start_.x();
   const double dy = end_.y() - start_.y();
@@ -60,7 +60,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Vec2d LineSegment2d::rotate(const double angle) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Vec2d diff_vec = end_ - start_;
   diff_vec.SelfRotate(angle);
@@ -68,15 +68,15 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double LineSegment2d::length() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return length_; }
 
 double LineSegment2d::length_sqr() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return length_ * length_; }
 
 double LineSegment2d::DistanceTo(const Vec2d &point) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (length_ <= kMathEpsilon) {
     return point.DistanceTo(start_);
@@ -95,7 +95,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double LineSegment2d::DistanceTo(const Vec2d &point,
                                  Vec2d *const nearest_pt) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(nearest_pt);
   if (length_ <= kMathEpsilon) {
@@ -118,7 +118,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double LineSegment2d::DistanceSquareTo(const Vec2d &point) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (length_ <= kMathEpsilon) {
     return point.DistanceSquareTo(start_);
@@ -137,7 +137,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double LineSegment2d::DistanceSquareTo(const Vec2d &point,
                                        Vec2d *const nearest_pt) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(nearest_pt);
   if (length_ <= kMathEpsilon) {
@@ -160,7 +160,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool LineSegment2d::IsPointIn(const Vec2d &point) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (length_ <= kMathEpsilon) {
     return std::abs(point.x() - start_.x()) <= kMathEpsilon &&
@@ -175,19 +175,19 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double LineSegment2d::ProjectOntoUnit(const Vec2d &point) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return unit_direction_.InnerProd(point - start_);
 }
 
 double LineSegment2d::ProductOntoUnit(const Vec2d &point) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return unit_direction_.CrossProd(point - start_);
 }
 
 bool LineSegment2d::HasIntersect(const LineSegment2d &other_segment) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Vec2d point;
   return GetIntersect(other_segment, &point);
@@ -195,7 +195,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LineSegment2d::GetIntersect(const LineSegment2d &other_segment,
                                  Vec2d *const point) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(point);
   if (IsPointIn(other_segment.start())) {
@@ -238,7 +238,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // return distance with perpendicular foot point.
 double LineSegment2d::GetPerpendicularFoot(const Vec2d &point,
                                            Vec2d *const foot_point) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(foot_point);
   if (length_ <= kMathEpsilon) {
@@ -253,7 +253,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string LineSegment2d::DebugString() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return absl::StrCat("segment2d ( start = ", start_.DebugString(),
                       "  end = ", end_.DebugString(), " )");

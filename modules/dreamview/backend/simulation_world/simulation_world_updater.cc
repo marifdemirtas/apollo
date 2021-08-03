@@ -57,13 +57,13 @@ SimulationWorldUpdater::SimulationWorldUpdater(
       camera_ws_(camera_ws),
       sim_control_(sim_control),
       perception_camera_updater_(perception_camera_updater) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   RegisterMessageHandlers();
 }
 
 void SimulationWorldUpdater::RegisterMessageHandlers() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Send current sim_control status to the new client.
   websocket_->RegisterConnectionReadyHandler(
@@ -397,7 +397,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Json SimulationWorldUpdater::CheckRoutingPoint(const Json &json) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Json result;
   if (!ContainsKey(json, "point")) {
@@ -421,7 +421,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool SimulationWorldUpdater::ConstructRoutingRequest(
     const Json &json, RoutingRequest *routing_request) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   routing_request->clear_waypoint();
   // set start point
@@ -507,7 +507,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SimulationWorldUpdater::ValidateCoordinate(const nlohmann::json &json) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!ContainsKey(json, "x") || !ContainsKey(json, "y")) {
     AERROR << "Failed to find x or y coordinate.";
@@ -521,7 +521,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SimulationWorldUpdater::Start() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   timer_.reset(new cyber::Timer(
       kSimWorldTimeIntervalMs, [this]() { this->OnTimer(); }, false));
@@ -529,7 +529,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SimulationWorldUpdater::OnTimer() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   sim_world_service_.Update();
 
@@ -546,7 +546,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SimulationWorldUpdater::LoadPOI() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (GetProtoFromASCIIFile(EndWayPointFile(), &poi_)) {
     return true;
@@ -557,7 +557,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SimulationWorldUpdater::LoadDefaultRoutings() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (GetProtoFromASCIIFile(DefaultRoutingFile(), &default_routings_)) {
     return true;
@@ -569,7 +569,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SimulationWorldUpdater::AddDefaultRouting(const Json &json) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!ContainsKey(json, "name")) {
     AERROR << "Failed to save a default routing: routing name not found.";

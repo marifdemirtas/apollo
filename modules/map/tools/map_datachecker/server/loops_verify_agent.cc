@@ -26,7 +26,7 @@ namespace hdmap {
 LoopsVerifyAgent::LoopsVerifyAgent(
     std::shared_ptr<JsonConf> sp_conf,
     std::shared_ptr<PoseCollectionAgent> sp_pose_collection_agent) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   sp_conf_ = sp_conf;
   sp_pose_collection_agent_ = sp_pose_collection_agent;
@@ -35,7 +35,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 grpc::Status LoopsVerifyAgent::ProcessGrpcRequest(
     grpc::ServerContext *context, LoopsVerifyRequest *request,
     LoopsVerifyResponse *response) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "LoopsVerifyAgent request is: " << request->DebugString();
   switch (request->cmd()) {
@@ -59,7 +59,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LoopsVerifyAgent::StartVerify(LoopsVerifyRequest *request,
                                    LoopsVerifyResponse *response) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Call StartVerify";
   if (GetState() == LoopsVerifyAgentState::RUNNING) {
@@ -81,7 +81,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LoopsVerifyAgent::CheckVerify(LoopsVerifyRequest *request,
                                    LoopsVerifyResponse *response) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Call CheckVerify";
   if (GetState() == LoopsVerifyAgentState::IDLE) {
@@ -134,7 +134,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LoopsVerifyAgent::StopVerify(LoopsVerifyRequest *request,
                                   LoopsVerifyResponse *response) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "call StopVerify";
   response->set_code(ErrorCode::SUCCESS);
@@ -170,7 +170,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::shared_ptr<std::vector<std::pair<double, double>>>
 LoopsVerifyAgent::get_verify_range(LoopsVerifyRequest *request) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<std::vector<std::pair<double, double>>> sp_range(
       new std::vector<std::pair<double, double>>());
@@ -181,7 +181,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t LoopsVerifyAgent::GetLoopsToCheck(LoopsVerifyRequest *request) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t loops_to_check = 0;
   DataType data_type = request->type();
@@ -198,7 +198,7 @@ double LoopsVerifyAgent::GetRangeIndex(
     std::shared_ptr<std::vector<std::pair<double, double>>> sp_range,
     std::vector<bool> *sp_range_index,
     std::shared_ptr<std::vector<FramePose>> sp_vec_poses) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sp_range == nullptr) {
     AINFO << "error, sp_range is null";
@@ -253,7 +253,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int LoopsVerifyAgent::GetPosesToCheck(
     std::shared_ptr<std::vector<std::pair<double, double>>> sp_range,
     std::vector<FramePose> *sp_poses) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sp_pose_collection_agent_ == nullptr) {
     AINFO << "error, sp_pose_collection_agent is null";
@@ -293,7 +293,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int LoopsVerifyAgent::DoStartVerify(
     std::shared_ptr<std::vector<std::pair<double, double>>> sp_range,
     double loops_to_check) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   clock_t start = clock();
   std::vector<FramePose> all_poses;
@@ -309,10 +309,10 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LoopsVerifyAgent::SetState(LoopsVerifyAgentState state) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  state_ = state; }
 LoopsVerifyAgentState LoopsVerifyAgent::GetState() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return state_; }
 
 }  // namespace hdmap

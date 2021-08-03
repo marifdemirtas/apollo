@@ -21,9 +21,9 @@
 #include "modules/perception/lidar/lib/scene_manager/roi_service/proto/roi_service.pb.h"
 
 namespace apollo {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace lidar {
@@ -31,7 +31,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 void ROIServiceContent::GetCopy(SceneServiceContent* content) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ROIServiceContent* roi_content = dynamic_cast<ROIServiceContent*>(content);
   if (roi_content == nullptr) {
@@ -47,7 +47,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ROIServiceContent::SetContent(const SceneServiceContent& content) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const ROIServiceContent* roi_content =
       dynamic_cast<const ROIServiceContent*>(&content);
@@ -67,13 +67,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 inline bool ROIServiceContent::CheckBit(const size_t loc,
                                         const uint64_t block) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return block & (static_cast<uint64_t>(1) << loc);
 }
 
 bool ROIServiceContent::Check(const Eigen::Vector3d& world_point) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!service_ready_) {
     return false;
@@ -95,7 +95,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool ROIService::Init(const SceneServiceInitOptions& options) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   self_content_.reset(new ROIServiceContent);
   roi_content_ref_ = dynamic_cast<ROIServiceContent*>(self_content_.get());
@@ -116,7 +116,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool ROIService::QueryIsPointInROI(const Eigen::Vector3d& world_point) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
   bool status = QueryIsPointInROI(world_point, *roi_content_ref_);
@@ -125,7 +125,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ROIService::QueryIsPointInROI(const Eigen::Vector3d& world_point,
                                    const ROIServiceContent& content) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return content.Check(world_point);
 }

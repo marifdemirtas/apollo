@@ -48,7 +48,7 @@ using apollo::cyber::Clock;
 namespace {
 
 std::string GetLogFileName() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   time_t raw_time;
   char name_buffer[80];
@@ -61,7 +61,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void WriteHeaders(std::ofstream &file_stream) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   file_stream << "current_lateral_error,"
               << "current_ref_heading,"
@@ -83,7 +83,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }  // namespace
 
 LatController::LatController() : name_("LQR-based Lateral Controller") {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (FLAGS_enable_csv_debug) {
     steer_log_file_.open(GetLogFileName());
@@ -95,11 +95,11 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LatController::~LatController() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  CloseLogFile(); }
 
 bool LatController::LoadControlConf(const ControlConf *control_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!control_conf) {
     AERROR << "[LatController] control_conf == nullptr";
@@ -159,7 +159,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LatController::ProcessLogs(const SimpleLateralDebug *debug,
                                 const canbus::Chassis *chassis) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::string log_str = absl::StrCat(
       debug->lateral_error(), ",", debug->ref_heading(), ",", debug->heading(),
@@ -179,7 +179,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LatController::LogInitParameters() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << name_ << " begin.";
   AINFO << "[LatController parameters]"
@@ -190,7 +190,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LatController::InitializeFilters(const ControlConf *control_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Low pass filter
   std::vector<double> den(3, 0.0);
@@ -206,7 +206,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LatController::Init(std::shared_ptr<DependencyInjector> injector,
                            const ControlConf *control_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   control_conf_ = control_conf;
   injector_ = injector;
@@ -298,7 +298,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LatController::CloseLogFile() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (FLAGS_enable_csv_debug && steer_log_file_.is_open()) {
     steer_log_file_.close();
@@ -307,7 +307,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LatController::LoadLatGainScheduler(
     const LatControllerConf &lat_controller_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto &lat_err_gain_scheduler =
       lat_controller_conf.lat_err_gain_scheduler();
@@ -332,11 +332,11 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LatController::Stop() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  CloseLogFile(); }
 
 std::string LatController::Name() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return name_; }
 
 Status LatController::ComputeControlCommand(
@@ -344,7 +344,7 @@ Status LatController::ComputeControlCommand(
     const canbus::Chassis *chassis,
     const planning::ADCTrajectory *planning_published_trajectory,
     ControlCommand *cmd) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto vehicle_state = injector_->vehicle_state();
 
@@ -674,7 +674,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status LatController::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   matrix_state_.setZero();
   if (enable_mrac_) {
@@ -684,7 +684,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LatController::UpdateState(SimpleLateralDebug *debug) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto vehicle_state = injector_->vehicle_state();
   if (FLAGS_use_navigation_mode) {
@@ -740,7 +740,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LatController::UpdateMatrix() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double v;
   // At reverse driving, replace the lateral translational motion dynamics with
@@ -764,7 +764,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LatController::UpdateMatrixCompound() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Initialize preview matrix
   matrix_adc_.block(0, 0, basic_state_size_, basic_state_size_) = matrix_ad_;
@@ -779,7 +779,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double LatController::ComputeFeedForward(double ref_curvature) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double kv =
       lr_ * mass_ / 2 / cf_ / wheelbase_ - lf_ * mass_ / 2 / cr_ / wheelbase_;
@@ -808,7 +808,7 @@ void LatController::ComputeLateralErrors(
     const double x, const double y, const double theta, const double linear_v,
     const double angular_v, const double linear_a,
     const TrajectoryAnalyzer &trajectory_analyzer, SimpleLateralDebug *debug) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   TrajectoryPoint target_point;
 
@@ -947,7 +947,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LatController::UpdateDrivingOrientation() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto vehicle_state = injector_->vehicle_state();
   driving_orientation_ = vehicle_state->heading();

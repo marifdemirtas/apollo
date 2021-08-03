@@ -54,7 +54,7 @@ using apollo::common::LatencyStat;
 using apollo::common::LatencyTrack;
 
 LatencyStat GenerateStat(const std::vector<uint64_t>& numbers) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LatencyStat stat;
   uint64_t min_number = (1UL << 63), max_number = 0, sum = 0;
@@ -73,7 +73,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SetStat(const LatencyStat& src, LatencyStat* dst) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   dst->set_min_duration(src.min_duration());
   dst->set_max_duration(src.max_duration());
@@ -84,7 +84,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void SetLatency(const std::string& latency_name,
                 const std::vector<uint64_t>& latency_values,
                 LatencyTrack* track) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto* latency_track = track->add_latency_track();
   latency_track->set_latency_name(latency_name);
@@ -96,11 +96,11 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 LatencyMonitor::LatencyMonitor()
     : RecurrentRunner(FLAGS_latency_monitor_name,
                       FLAGS_latency_monitor_interval) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LatencyMonitor::RunOnce(const double current_time) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static auto reader =
       MonitorManager::Instance()->CreateReader<LatencyRecordMap>(
@@ -133,7 +133,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LatencyMonitor::UpdateStat(
     const std::shared_ptr<LatencyRecordMap>& records) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto module_name = records->module_name();
   for (const auto& record : records->latency_records()) {
@@ -153,7 +153,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LatencyMonitor::PublishLatencyReport() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static auto writer = MonitorManager::Instance()->CreateWriter<LatencyReport>(
       FLAGS_latency_reporting_topic);
@@ -167,7 +167,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LatencyMonitor::AggregateLatency() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static const std::string kE2EStartPoint = FLAGS_pointcloud_topic;
   std::unordered_map<std::string, std::vector<uint64_t>> modules_track;
@@ -232,7 +232,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LatencyMonitor::GetFrequency(const std::string& channel_name,
                                   double* freq) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (freq_map_.find(channel_name) == freq_map_.end()) {
     return false;

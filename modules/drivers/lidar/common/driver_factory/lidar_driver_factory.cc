@@ -26,14 +26,14 @@ namespace drivers {
 namespace lidar {
 
 LidarDriverFactory::LidarDriverFactory() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 LidarDriverFactory::LidarDriverFactory(
     const apollo::drivers::lidar::config& config) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 void LidarDriverFactory::RegisterLidarClients() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Register(LidarParameter::HESAI,
            [](const std::shared_ptr<::apollo::cyber::Node>& node,
@@ -56,7 +56,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 std::unique_ptr<LidarDriver> LidarDriverFactory::CreateLidarDriver(
     const std::shared_ptr<::apollo::cyber::Node>& node,
     const apollo::drivers::lidar::config& parameter) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto factory = CreateObject(parameter.brand(), node, parameter);
   if (!factory) {

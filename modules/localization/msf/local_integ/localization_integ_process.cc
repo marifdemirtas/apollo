@@ -37,7 +37,7 @@ LocalizationIntegProcess::LocalizationIntegProcess()
       integ_state_(IntegState::NOT_INIT),
       ins_pva_(),
       pva_covariance_{
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 0.0},
       corrected_imu_(),
       earth_param_(),
@@ -46,7 +46,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
       delay_output_counter_(0) {}
 
 LocalizationIntegProcess::~LocalizationIntegProcess() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   StopThreadLoop();
 
@@ -55,7 +55,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status LocalizationIntegProcess::Init(const LocalizationIntegParam &param) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // sins init
   sins_->Init(param.is_ins_can_self_align);
@@ -88,7 +88,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationIntegProcess::RawImuProcess(const ImuData &imu_msg) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   integ_state_ = IntegState::NOT_INIT;
   double cur_imu_time = imu_msg.measurement_time;
@@ -160,7 +160,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationIntegProcess::GetValidFromOK() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (integ_state_ != IntegState::OK) {
     return;
@@ -175,7 +175,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationIntegProcess::GetState(IntegState *state) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(state);
 
@@ -184,7 +184,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationIntegProcess::GetResult(IntegState *state,
                                          LocalizationEstimate *localization) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(state);
   CHECK_NOTNULL(localization);
@@ -264,7 +264,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationIntegProcess::GetResult(IntegState *state, InsPva *sins_pva,
                                          double pva_covariance[9][9]) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(state);
   CHECK_NOTNULL(sins_pva);
@@ -276,7 +276,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationIntegProcess::GetCorrectedImu(ImuData *imu_data) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(imu_data);
 
@@ -285,7 +285,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationIntegProcess::GetEarthParameter(
     InertialParameter *earth_param) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(earth_param);
 
@@ -294,7 +294,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationIntegProcess::MeasureDataProcess(
     const MeasureData &measure_msg) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   measure_data_queue_mutex_.lock();
   measure_data_queue_.push(measure_msg);
@@ -302,7 +302,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationIntegProcess::StartThreadLoop() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   keep_running_ = true;
   measure_data_queue_size_ = 150;
@@ -310,7 +310,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationIntegProcess::StopThreadLoop() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (keep_running_.load()) {
     keep_running_ = false;
@@ -318,7 +318,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationIntegProcess::MeasureDataThreadLoop() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Started measure data process thread";
   while (keep_running_.load()) {
@@ -356,7 +356,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationIntegProcess::MeasureDataProcessImpl(
     const MeasureData &measure_msg) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   common::util::Timer timer;
   timer.Start();
@@ -372,7 +372,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LocalizationIntegProcess::CheckIntegMeasureData(
     const MeasureData &measure_data) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (measure_data.measure_type == MeasureType::ODOMETER_VEL_ONLY) {
     AERROR << "receive a new odometry measurement!!!\n";
@@ -397,7 +397,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LocalizationIntegProcess::LoadGnssAntennaExtrinsic(
     const std::string &file_path, TransformD *extrinsic) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(extrinsic);
 

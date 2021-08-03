@@ -25,14 +25,14 @@ namespace canbus {
 
 std::unique_ptr<VehicleController>
 Ge3VehicleFactory::CreateVehicleController() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return std::unique_ptr<VehicleController>(new ge3::Ge3Controller());
 }
 
 std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>
 Ge3VehicleFactory::CreateMessageManager() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>(
       new ge3::Ge3MessageManager());

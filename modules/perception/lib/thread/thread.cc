@@ -25,7 +25,7 @@ namespace perception {
 namespace lib {
 
 void Thread::Start() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pthread_attr_t attr;
   CHECK_EQ(pthread_attr_init(&attr), 0);
@@ -45,7 +45,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Thread::Join() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ACHECK(joinable_) << "Thread is not joinable";
   int result = pthread_join(tid_, nullptr);
@@ -55,7 +55,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Thread::IsAlive() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (tid_ == 0) {
     return false;

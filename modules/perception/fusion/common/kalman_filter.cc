@@ -22,12 +22,12 @@ namespace perception {
 namespace fusion {
 
 KalmanFilter::KalmanFilter() : BaseFilter("KalmanFilter") {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool KalmanFilter::Init(const Eigen::VectorXd &initial_belief_states,
                         const Eigen::MatrixXd &initial_uncertainty) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (initial_uncertainty.rows() != initial_uncertainty.cols()) {
     AERROR << "the cols and rows of uncertainty martix should be equal";
@@ -66,7 +66,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool KalmanFilter::Predict(const Eigen::MatrixXd &transform_matrix,
                            const Eigen::MatrixXd &env_uncertainty_matrix) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!init_) {
     AERROR << "Predict: Kalman Filter initialize not successfully";
@@ -99,7 +99,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool KalmanFilter::Correct(const Eigen::VectorXd &cur_observation,
                            const Eigen::MatrixXd &cur_observation_uncertainty) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!init_) {
     AERROR << "Correct: Kalman Filter initialize not successfully";
@@ -138,7 +138,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool KalmanFilter::SetControlMatrix(const Eigen::MatrixXd &control_matrix) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!init_) {
     AERROR << "SetControlMatrix: Kalman Filter initialize not successfully";
@@ -154,18 +154,18 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Eigen::VectorXd KalmanFilter::GetStates() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return global_states_; }
 
 Eigen::MatrixXd KalmanFilter::GetUncertainty() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return global_uncertainty_;
 }
 
 bool KalmanFilter::SetGainBreakdownThresh(const std::vector<bool> &break_down,
                                           const float threshold) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (static_cast<int>(break_down.size()) != states_num_) {
     return false;
@@ -181,7 +181,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool KalmanFilter::SetValueBreakdownThresh(const std::vector<bool> &break_down,
                                            const float threshold) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (static_cast<int>(break_down.size()) != states_num_) {
     return false;
@@ -195,7 +195,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return true;
 }
 void KalmanFilter::CorrectionBreakdown() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::VectorXd states_gain = global_states_ - prior_global_states_;
   Eigen::VectorXd breakdown_diff = states_gain.cwiseProduct(gain_break_down_);
@@ -216,7 +216,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool KalmanFilter::DeCorrelation(int x, int y, int x_len, int y_len) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (x >= states_num_ || y >= states_num_ || x + x_len >= states_num_ ||
       y + y_len >= states_num_) {

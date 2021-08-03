@@ -29,11 +29,11 @@ const int32_t Llcdiagbrakecontrol721::ID = 0x721;
 
 // public
 Llcdiagbrakecontrol721::Llcdiagbrakecontrol721() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Llcdiagbrakecontrol721::GetPeriod() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 10 * 1000;
@@ -41,7 +41,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Llcdiagbrakecontrol721::UpdateData(uint8_t* data) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_llc_dbg_brakepidcontribution_p(data, llc_dbg_brakepidcontribution_p_);
   set_p_llc_dbg_brakepidcontribution_i(data, llc_dbg_brakepidcontribution_i_);
@@ -52,7 +52,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Llcdiagbrakecontrol721::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  you should check this manually
   llc_dbg_brakepidcontribution_p_ = 0.0;
@@ -66,7 +66,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Llcdiagbrakecontrol721*
 Llcdiagbrakecontrol721::set_llc_dbg_brakepidcontribution_p(
     double llc_dbg_brakepidcontribution_p) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_brakepidcontribution_p_ = llc_dbg_brakepidcontribution_p;
   return this;
@@ -78,7 +78,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'double', 'order': 'intel', 'physical_unit': 'mrev'}
 void Llcdiagbrakecontrol721::set_p_llc_dbg_brakepidcontribution_p(
     uint8_t* data, double llc_dbg_brakepidcontribution_p) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_brakepidcontribution_p =
       ProtocolData::BoundedValue(-51.2, 51.1, llc_dbg_brakepidcontribution_p);
@@ -98,7 +98,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Llcdiagbrakecontrol721*
 Llcdiagbrakecontrol721::set_llc_dbg_brakepidcontribution_i(
     double llc_dbg_brakepidcontribution_i) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_brakepidcontribution_i_ = llc_dbg_brakepidcontribution_i;
   return this;
@@ -110,7 +110,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'double', 'order': 'intel', 'physical_unit': 'mrev'}
 void Llcdiagbrakecontrol721::set_p_llc_dbg_brakepidcontribution_i(
     uint8_t* data, double llc_dbg_brakepidcontribution_i) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_brakepidcontribution_i =
       ProtocolData::BoundedValue(-51.2, 51.1, llc_dbg_brakepidcontribution_i);
@@ -130,7 +130,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Llcdiagbrakecontrol721*
 Llcdiagbrakecontrol721::set_llc_dbg_brakepidcontribution_d(
     double llc_dbg_brakepidcontribution_d) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_brakepidcontribution_d_ = llc_dbg_brakepidcontribution_d;
   return this;
@@ -142,7 +142,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'double', 'order': 'intel', 'physical_unit': 'mrev'}
 void Llcdiagbrakecontrol721::set_p_llc_dbg_brakepidcontribution_d(
     uint8_t* data, double llc_dbg_brakepidcontribution_d) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_brakepidcontribution_d =
       ProtocolData::BoundedValue(-51.2, 51.1, llc_dbg_brakepidcontribution_d);
@@ -161,7 +161,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Llcdiagbrakecontrol721* Llcdiagbrakecontrol721::set_llc_dbg_brakepid_output(
     double llc_dbg_brakepid_output) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_brakepid_output_ = llc_dbg_brakepid_output;
   return this;
@@ -173,7 +173,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'double', 'order': 'intel', 'physical_unit': 'mrev'}
 void Llcdiagbrakecontrol721::set_p_llc_dbg_brakepid_output(
     uint8_t* data, double llc_dbg_brakepid_output) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_brakepid_output =
       ProtocolData::BoundedValue(-51.2, 51.1, llc_dbg_brakepid_output);
@@ -192,7 +192,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Llcdiagbrakecontrol721* Llcdiagbrakecontrol721::set_llc_dbg_brakepid_error(
     int llc_dbg_brakepid_error) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_brakepid_error_ = llc_dbg_brakepid_error;
   return this;
@@ -204,7 +204,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'int', 'order': 'intel', 'physical_unit': 'psi'}
 void Llcdiagbrakecontrol721::set_p_llc_dbg_brakepid_error(
     uint8_t* data, int llc_dbg_brakepid_error) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_brakepid_error =
       ProtocolData::BoundedValue(-2048, 2047, llc_dbg_brakepid_error);
@@ -223,7 +223,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Llcdiagbrakecontrol721* Llcdiagbrakecontrol721::set_llc_dbg_brakefeedforward(
     double llc_dbg_brakefeedforward) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_brakefeedforward_ = llc_dbg_brakefeedforward;
   return this;
@@ -236,7 +236,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': 'mrev'}
 void Llcdiagbrakecontrol721::set_p_llc_dbg_brakefeedforward(
     uint8_t* data, double llc_dbg_brakefeedforward) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_brakefeedforward =
       ProtocolData::BoundedValue(-1024.0, 1023.5, llc_dbg_brakefeedforward);

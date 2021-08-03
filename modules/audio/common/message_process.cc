@@ -30,7 +30,7 @@ void MessageProcess::OnMicrophone(
     MovingDetection* moving_detection,
     SirenDetection* siren_detection,
     AudioDetection* audio_detection) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   audio_info->Insert(audio_data);
   auto direction_result =

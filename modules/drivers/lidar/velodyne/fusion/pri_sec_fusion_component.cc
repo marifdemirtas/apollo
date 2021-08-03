@@ -27,7 +27,7 @@ namespace velodyne {
 using apollo::cyber::Time;
 
 bool PriSecFusionComponent::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!GetProtoConfig(&conf_)) {
     AWARN << "Load config failed, config file" << ConfigFilePath();
@@ -46,7 +46,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool PriSecFusionComponent::Proc(
     const std::shared_ptr<PointCloud>& point_cloud) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto target = std::make_shared<PointCloud>(*point_cloud);
   auto fusion_readers = readers_;
@@ -79,7 +79,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool PriSecFusionComponent::IsExpired(
     const std::shared_ptr<PointCloud>& target,
     const std::shared_ptr<PointCloud>& source) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto diff = target->measurement_time() - source->measurement_time();
   return diff * 1000 > conf_.max_interval_ms();
@@ -88,7 +88,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool PriSecFusionComponent::QueryPoseAffine(const std::string& target_frame_id,
                                             const std::string& source_frame_id,
                                             Eigen::Affine3d* pose) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string err_string;
   if (!buffer_ptr_->canTransform(target_frame_id, source_frame_id,
@@ -120,7 +120,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void PriSecFusionComponent::AppendPointCloud(
     std::shared_ptr<PointCloud> point_cloud,
     std::shared_ptr<PointCloud> point_cloud_add, const Eigen::Affine3d& pose) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (std::isnan(pose(0, 0))) {
     for (auto& point : point_cloud_add->point()) {
@@ -164,7 +164,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool PriSecFusionComponent::Fusion(std::shared_ptr<PointCloud> target,
                                    std::shared_ptr<PointCloud> source) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Affine3d pose;
   if (QueryPoseAffine(target->header().frame_id(), source->header().frame_id(),

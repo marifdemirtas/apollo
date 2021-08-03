@@ -24,7 +24,7 @@ namespace msf {
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::BandObservation& in,
                                BandObservationMsg* out) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(out);
   if (in.has_band_id()) {
@@ -56,7 +56,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void GnssMagTransfer::Transfer(
     const apollo::drivers::gnss::SatelliteObservation& in,
     SatelliteObservationMsg* out) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(out);
   if (in.has_sat_prn()) {
@@ -78,7 +78,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void GnssMagTransfer::Transfer(
     const apollo::drivers::gnss::EpochObservation& in,
     EpochObservationMsg* out) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(out);
   if (in.has_receiver_id()) {
@@ -117,7 +117,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::KepplerOrbit& in,
                                KepplerOrbitMsg* out) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {
@@ -238,7 +238,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::GlonassOrbit& in,
                                GlonassOrbitMsg* out) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {
@@ -326,7 +326,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::GnssEphemeris& in,
                                GnssEphemerisMsg* out) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {

@@ -20,15 +20,15 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {
 
 bool ObjectMaintainer::Add(int idx, base::ObjectPtr obj) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto obj_it = assigned_index_.find(idx);
   if (obj_it == assigned_index_.end()) {

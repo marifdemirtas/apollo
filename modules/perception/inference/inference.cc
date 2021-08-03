@@ -22,13 +22,13 @@ namespace perception {
 namespace inference {
 
 void Inference::set_max_batch_size(const int &batch_size) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   max_batch_size_ = batch_size;
 }
 
 void Inference::set_gpu_id(const int &gpu_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  gpu_id_ = gpu_id; }
 
 }  // namespace inference

@@ -29,9 +29,9 @@ limitations under the License.
 DEFINE_string(output_dir, "/tmp", "output map directory");
 
 int main(int argc, char *argv[]) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::InitGoogleLogging(argv[0]);
   FLAGS_alsologtostderr = true;

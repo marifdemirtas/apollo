@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Brakemotorrpt3403::Brakemotorrpt3403() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Brakemotorrpt3403::ID = 0x403;
 
 void Brakemotorrpt3403::Parse(const std::uint8_t* bytes, int32_t length,
                               ChassisDetail* chassis) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_lexus()->mutable_brake_motor_rpt_3_403()->set_torque_output(
       torque_output(bytes, length));
@@ -49,7 +49,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': 'N-m'}
 double Brakemotorrpt3403::torque_output(const std::uint8_t* bytes,
                                         int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -82,7 +82,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': 'N-m'}
 double Brakemotorrpt3403::torque_input(const std::uint8_t* bytes,
                                        int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);

@@ -31,11 +31,11 @@ const int32_t Brakecmd104::ID = 0x104;
 
 // public
 Brakecmd104::Brakecmd104() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Brakecmd104::GetPeriod() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -43,7 +43,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Brakecmd104::UpdateData(uint8_t* data) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_ignore_overrides(data, ignore_overrides_);
   set_p_enable(data, enable_);
@@ -53,7 +53,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Brakecmd104::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(QiL) you should check this manually
   ignore_overrides_ = false;
@@ -64,7 +64,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Brakecmd104* Brakecmd104::set_ignore_overrides(bool ignore_overrides) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ignore_overrides_ = ignore_overrides;
   return this;
@@ -74,7 +74,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 1,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Brakecmd104::set_p_ignore_overrides(uint8_t* data, bool ignore_overrides) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = ignore_overrides;
 
@@ -83,7 +83,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Brakecmd104* Brakecmd104::set_enable(bool enable) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   enable_ = enable;
   return this;
@@ -93,7 +93,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Brakecmd104::set_p_enable(uint8_t* data, bool enable) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = enable;
 
@@ -102,7 +102,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Brakecmd104* Brakecmd104::set_clear_override(bool clear_override) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   clear_override_ = clear_override;
   return this;
@@ -112,7 +112,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 2,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Brakecmd104::set_p_clear_override(uint8_t* data, bool clear_override) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = clear_override;
 
@@ -121,7 +121,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Brakecmd104* Brakecmd104::set_clear_faults(bool clear_faults) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   clear_faults_ = clear_faults;
   return this;
@@ -131,7 +131,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 3,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Brakecmd104::set_p_clear_faults(uint8_t* data, bool clear_faults) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = clear_faults;
 
@@ -140,7 +140,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Brakecmd104* Brakecmd104::set_brake_cmd(double brake_cmd) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   brake_cmd_ = brake_cmd;
   return this;
@@ -150,7 +150,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 15,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 void Brakecmd104::set_p_brake_cmd(uint8_t* data, double brake_cmd) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double scaling_bias = 0.0;   // estimated from the garage test data
   const double scaling_gain = 0.80;  // estimated from the garage test data

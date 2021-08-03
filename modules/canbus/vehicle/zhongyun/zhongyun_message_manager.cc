@@ -32,7 +32,7 @@ namespace canbus {
 namespace zhongyun {
 
 ZhongyunMessageManager::ZhongyunMessageManager() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Control Messages
   AddSendProtocolData<Brakecontrola4, true>();
@@ -49,7 +49,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ZhongyunMessageManager::~ZhongyunMessageManager() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 }  // namespace zhongyun

@@ -19,10 +19,10 @@ limitations under the License.
 
 namespace {
 double ToMPS(double speed) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return speed * 1000.0 / 3600.0; }
 bool IsReferenceLane(int lane_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return lane_id == 0; }
 };  // namespace
 
@@ -33,7 +33,7 @@ namespace adapter {
 Status LanesXmlParser::Parse(const tinyxml2::XMLElement& xml_node,
                              const std::string& road_id,
                              std::vector<RoadSectionInternal>* sections) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(sections);
   const auto lanes_node = xml_node.FirstChildElement("lanes");
@@ -64,7 +64,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ParseSectionBoundary(
     const tinyxml2::XMLElement& xml_node, PbBoundaryPolygon* boundary) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(boundary);
 
@@ -97,7 +97,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ToPbBoundaryType(const std::string& type,
                                         PbBoundaryEdgeType* boundary_type) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(boundary_type);
 
@@ -116,7 +116,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ParseLaneSection(const tinyxml2::XMLElement& xml_node,
                                         std::vector<LaneInternal>* lanes) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(lanes);
 
@@ -176,7 +176,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ParseLane(const tinyxml2::XMLElement& xml_node,
                                  LaneInternal* lane_internal) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(lane_internal);
 
@@ -314,7 +314,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ParseDirection(const tinyxml2::XMLElement& xml_node,
                                       PbLane* lane) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(lane);
   std::string direction;
@@ -337,7 +337,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ParseCenterCurve(const tinyxml2::XMLElement& xml_node,
                                         PbLane* lane) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(lane);
   auto sub_node = xml_node.FirstChildElement("centerLine");
@@ -360,7 +360,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ParseSpeed(const tinyxml2::XMLElement& xml_node,
                                   PbLane* lane) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double max_speed = 0.0;
   auto sub_node = xml_node.FirstChildElement("speed");
@@ -378,7 +378,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ParseSampleAssociates(
     const tinyxml2::XMLElement& xml_node, PbLane* lane) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(lane);
   auto sub_node = xml_node.FirstChildElement("sampleAssociates");
@@ -420,7 +420,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ParseSingleSideRoadSampleAssociates(
     const tinyxml2::XMLElement& xml_node, bool bleft, PbLane* lane) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(lane);
 
@@ -457,7 +457,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ParseLeftRoadSampleAssociates(
     const tinyxml2::XMLElement& xml_node, PbLane* lane) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(lane);
 
@@ -466,7 +466,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ParseRightRoadSampleAssociates(
     const tinyxml2::XMLElement& xml_node, PbLane* lane) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(lane);
 
@@ -475,7 +475,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ParseRoadSampleAssociates(
     const tinyxml2::XMLElement& xml_node, PbLane* lane) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(lane);
 
@@ -520,7 +520,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status LanesXmlParser::ParseObjectOverlapGroup(
     const tinyxml2::XMLElement& xml_node,
     std::vector<OverlapWithLane>* object_overlaps) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(object_overlaps);
 
@@ -571,7 +571,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status LanesXmlParser::ParseSignalOverlapGroup(
     const tinyxml2::XMLElement& xml_node,
     std::vector<OverlapWithLane>* signal_overlaps) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(signal_overlaps);
 
@@ -614,7 +614,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status LanesXmlParser::ParseJunctionOverlapGroup(
     const tinyxml2::XMLElement& xml_node,
     std::vector<OverlapWithLane>* junction_overlaps) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(junction_overlaps);
 
@@ -657,7 +657,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status LanesXmlParser::ParseLaneOverlapGroup(
     const tinyxml2::XMLElement& xml_node,
     std::vector<OverlapWithLane>* lane_overlaps) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(lane_overlaps);
 
@@ -700,7 +700,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ToPbLaneType(const std::string& type,
                                     PbLaneType* lane_type) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(lane_type);
 
@@ -728,7 +728,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ToPbTurnType(const std::string& type,
                                     PbTurnType* pb_turn_type) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(pb_turn_type);
 
@@ -752,7 +752,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LanesXmlParser::ToPbDirection(const std::string& type,
                                      PbLaneDirection* pb_direction) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(pb_direction);
 
@@ -774,7 +774,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LanesXmlParser::ParseLaneLink(const tinyxml2::XMLElement& xml_node,
                                    PbLane* lane) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(lane);
 
@@ -846,7 +846,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status LanesXmlParser::ParseLaneBorderMark(
     const tinyxml2::XMLElement& xml_node,
     PbLaneBoundaryTypeType* boundary_type) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(boundary_type);
 
@@ -872,7 +872,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status LanesXmlParser::ToPbLaneMarkType(const std::string& type,
                                         const std::string& color,
                                         PbLaneBoundaryTypeType* boundary_type) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(boundary_type);
 
@@ -918,7 +918,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status LanesXmlParser::ParseRegionOverlap(
     const tinyxml2::XMLElement& xml_node,
     std::vector<PbRegionOverlap>* region_overlaps) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(region_overlaps);
 

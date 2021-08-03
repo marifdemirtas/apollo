@@ -23,13 +23,13 @@ namespace apollo {
 namespace hdmap {
 
 EightRoute::EightRoute(std::shared_ptr<JsonConf> sp_conf) : Alignment(sp_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Reset();
 }
 
 void EightRoute::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   progress_ = 0.0;
   last_progress_ = 0;
@@ -37,7 +37,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool EightRoute::IsEightRoutePose(const std::vector<FramePose>& poses,
                                   int pose_index) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (poses.empty() || pose_index <= 0 ||
       pose_index >= static_cast<int>(poses.size())) {
@@ -72,7 +72,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double EightRoute::GetGoodPoseDuring() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sp_good_pose_info_ == nullptr || sp_good_pose_info_->start_time < 0 ||
       sp_good_pose_info_->end_time < 0) {
@@ -82,7 +82,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double EightRoute::GetEightRouteProgress(const std::vector<FramePose>& poses) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int size = static_cast<int>(poses.size());
   int start_index = TimeToIndex(poses, start_time_);
@@ -145,7 +145,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ErrorCode EightRoute::Process(const std::vector<FramePose>& poses) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "[EightRoute::process] begin";
   size_t size = poses.size();
@@ -170,7 +170,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double EightRoute::GetProgress() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return progress_; }
 
 }  // namespace hdmap

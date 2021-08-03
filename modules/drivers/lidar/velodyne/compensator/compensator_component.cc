@@ -31,7 +31,7 @@ namespace drivers {
 namespace velodyne {
 
 bool CompensatorComponent::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CompensatorConfig config;
   if (!GetProtoConfig(&config)) {
@@ -56,7 +56,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool CompensatorComponent::Proc(
     const std::shared_ptr<PointCloud>& point_cloud) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto start_time = Time::Now();
   std::shared_ptr<PointCloud> point_cloud_compensated =

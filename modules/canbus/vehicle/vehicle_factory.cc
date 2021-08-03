@@ -32,7 +32,7 @@ namespace apollo {
 namespace canbus {
 
 void VehicleFactory::RegisterVehicleFactory() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Register(apollo::common::LINCOLN_MKZ, []() -> AbstractVehicleFactory * {
     return new LincolnVehicleFactory();
@@ -68,7 +68,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::unique_ptr<AbstractVehicleFactory> VehicleFactory::CreateVehicle(
     const VehicleParameter &vehicle_parameter) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto abstract_factory = CreateObject(vehicle_parameter.brand());
   if (!abstract_factory) {

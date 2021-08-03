@@ -28,11 +28,11 @@ double Track::s_max_radar_invisible_period_ = 0.50;   // in second
 double Track::s_max_camera_invisible_period_ = 0.75;  // in second
 
 Track::Track() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  fused_object_.reset(new FusedObject()); }
 
 bool Track::Initialize(SensorObjectPtr obj, bool is_background) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Reset();
   int track_id = static_cast<int>(GenerateNewTrackId());
@@ -46,7 +46,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Track::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   fused_object_->GetBaseObject()->track_id = 0;
   lidar_objects_.clear();
@@ -61,7 +61,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 SensorObjectConstPtr Track::GetSensorObject(
     const std::string& sensor_id) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto lidar_it = lidar_objects_.find(sensor_id);
   if (lidar_it != lidar_objects_.end()) {
@@ -82,26 +82,26 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 SensorObjectConstPtr Track::GetLatestLidarObject() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return GetLatestSensorObject(lidar_objects_);
 }
 
 SensorObjectConstPtr Track::GetLatestRadarObject() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return GetLatestSensorObject(radar_objects_);
 }
 
 SensorObjectConstPtr Track::GetLatestCameraObject() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return GetLatestSensorObject(camera_objects_);
 }
 
 SensorObjectConstPtr Track::GetLatestSensorObject(
     const SensorId2ObjectMap& objects) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   SensorObjectConstPtr obj = nullptr;
   for (auto it = objects.begin(); it != objects.end(); ++it) {
@@ -113,7 +113,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t Track::GenerateNewTrackId() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int ret_track_id = static_cast<int>(s_track_idx_);
   if (s_track_idx_ == std::numeric_limits<unsigned int>::max()) {
@@ -126,7 +126,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void Track::UpdateSensorObject(SensorId2ObjectMap* objects,
                                const SensorObjectPtr& obj) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string sensor_id = obj->GetSensorId();
   auto it = objects->find(sensor_id);
@@ -138,7 +138,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Track::UpdateWithSensorObject(const SensorObjectPtr& obj) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string sensor_id = obj->GetSensorId();
   SensorId2ObjectMap* objects = nullptr;
@@ -177,7 +177,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void Track::UpdateWithoutSensorObject(const std::string& sensor_id,
                                       double measurement_timestamp) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   UpdateSensorObjectWithoutMeasurement(&lidar_objects_, sensor_id,
                                        measurement_timestamp,
@@ -198,7 +198,7 @@ void Track::UpdateSensorObjectWithoutMeasurement(SensorId2ObjectMap* objects,
                                                  const std::string& sensor_id,
                                                  double measurement_timestamp,
                                                  double max_invisible_period) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto it = objects->begin(); it != objects->end();) {
     double period = measurement_timestamp - it->second->GetTimestamp();
@@ -221,7 +221,7 @@ void Track::UpdateSensorObjectWithMeasurement(SensorId2ObjectMap* objects,
                                               const std::string& sensor_id,
                                               double measurement_timestamp,
                                               double max_invisible_period) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto it = objects->begin(); it != objects->end();) {
     if (it->first != sensor_id) {
@@ -239,7 +239,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Track::UpdateSupplementState(const SensorObjectPtr& src_object) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<base::Object> dst_obj = fused_object_->GetBaseObject();
   if (src_object != nullptr) {
@@ -265,7 +265,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Track::UpdateUnfusedState(const SensorObjectPtr& src_object) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<base::Object> dst_obj = fused_object_->GetBaseObject();
   std::shared_ptr<const base::Object> src_obj = src_object->GetBaseObject();
@@ -280,14 +280,14 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Track::IsVisible(const std::string& sensor_id) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   SensorObjectConstPtr sensor_obj = GetSensorObject(sensor_id);
   return (sensor_obj != nullptr && sensor_obj->GetInvisiblePeriod() < 1.0e-6);
 }
 
 bool Track::IsLidarVisible() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto it = lidar_objects_.begin(); it != lidar_objects_.end(); ++it) {
     if (it->second->GetInvisiblePeriod() < 1.0e-6) {
@@ -298,7 +298,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Track::IsRadarVisible() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto it = radar_objects_.begin(); it != radar_objects_.end(); ++it) {
     if (it->second->GetInvisiblePeriod() < 1.0e-6) {
@@ -309,7 +309,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Track::IsCameraVisible() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto it = camera_objects_.begin(); it != camera_objects_.end(); ++it) {
     if (it->second->GetInvisiblePeriod() < 1.0e-6) {
@@ -320,7 +320,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Track::UpdateWithSensorObjectForBackground(const SensorObjectPtr& obj) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<base::Object> fused_base_object =
       fused_object_->GetBaseObject();
@@ -333,11 +333,11 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void Track::UpdateWithoutSensorObjectForBackground(
     const std::string& sensor_id, double measurement_timestamp) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string Track::DebugString() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::ostringstream oss;
   oss << "fusion_track[id: " << this->GetTrackId() << ", fused_object("

@@ -27,7 +27,7 @@ namespace apollo {
 namespace drivers {
 namespace velodyne {
 Velodyne64Driver::~Velodyne64Driver() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (poll_thread_.joinable()) {
     poll_thread_.join();
@@ -35,7 +35,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Velodyne64Driver::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double frequency = config_.rpm() / 60.0;  // expected Hz rate
 
@@ -61,7 +61,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  *  @returns true unless end of file reached
  */
 bool Velodyne64Driver::Poll(const std::shared_ptr<VelodyneScan>& scan) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Allocate a new shared pointer for zero-copy sharing with other nodelets.
   int poll_result =
@@ -88,7 +88,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Velodyne64Driver::CheckAngle(const VelodynePacket& packet) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // check the angle in every packet
   // for each model of velodyne 64 the data struct is same , so we don't need to
@@ -109,7 +109,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Velodyne64Driver::PollStandardSync(std::shared_ptr<VelodyneScan> scan) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Since the velodyne delivers data at a very high rate, keep
   // reading and publishing scans as fast as possible.
@@ -142,7 +142,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Velodyne64Driver::DevicePoll() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   while (!apollo::cyber::IsShutdown()) {
     // poll device until end of file

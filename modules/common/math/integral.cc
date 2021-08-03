@@ -27,7 +27,7 @@ namespace math {
 
 double IntegrateBySimpson(const std::vector<double>& func, const double dx,
                           const std::size_t nsteps) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_EQ(1U, nsteps & 1);
   double sum1 = 0.0;
@@ -44,7 +44,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double IntegrateByTrapezoidal(const std::vector<double>& func, const double dx,
                               const std::size_t nsteps) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double sum = 0;
   for (std::size_t i = 1; i + 1 < nsteps; ++i) {

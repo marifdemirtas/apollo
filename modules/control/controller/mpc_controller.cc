@@ -45,7 +45,7 @@ using apollo::common::VehicleConfigHelper;
 namespace {
 
 std::string GetLogFileName() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   time_t raw_time;
   char name_buffer[80];
@@ -59,12 +59,12 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void WriteHeaders(std::ofstream &file_stream) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 }  // namespace
 
 MPCController::MPCController() : name_("MPC Controller") {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (FLAGS_enable_csv_debug) {
     mpc_log_file_.open(GetLogFileName());
@@ -76,11 +76,11 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 MPCController::~MPCController() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  CloseLogFile(); }
 
 bool MPCController::LoadControlConf(const ControlConf *control_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!control_conf) {
     AERROR << "[MPCController] control_conf = nullptr";
@@ -154,13 +154,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MPCController::ProcessLogs(const SimpleMPCDebug *debug,
                                 const canbus::Chassis *chassis) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(QiL): Add debug information
 }
 
 void MPCController::LogInitParameters() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ADEBUG << name_ << " begin.";
   ADEBUG << "[MPCController parameters]"
@@ -171,7 +171,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MPCController::InitializeFilters(const ControlConf *control_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Low pass filter
   std::vector<double> den(3, 0.0);
@@ -187,7 +187,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status MPCController::Init(std::shared_ptr<DependencyInjector> injector,
                            const ControlConf *control_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!LoadControlConf(control_conf)) {
     AERROR << "failed to load control conf";
@@ -261,7 +261,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MPCController::CloseLogFile() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (FLAGS_enable_csv_debug && mpc_log_file_.is_open()) {
     mpc_log_file_.close();
@@ -269,22 +269,22 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double MPCController::Wheel2SteerPct(const double wheel_angle) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return wheel_angle / wheel_single_direction_max_degree_ * 100;
 }
 
 void MPCController::Stop() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  CloseLogFile(); }
 
 std::string MPCController::Name() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return name_; }
 
 void MPCController::LoadMPCGainScheduler(
     const MPCControllerConf &mpc_controller_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto &lat_err_gain_scheduler =
       mpc_controller_conf.lat_err_gain_scheduler();
@@ -331,7 +331,7 @@ Status MPCController::ComputeControlCommand(
     const canbus::Chassis *chassis,
     const planning::ADCTrajectory *planning_published_trajectory,
     ControlCommand *cmd) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   trajectory_analyzer_ =
       std::move(TrajectoryAnalyzer(planning_published_trajectory));
@@ -557,7 +557,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status MPCController::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   previous_heading_error_ = 0.0;
   previous_lateral_error_ = 0.0;
@@ -566,7 +566,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MPCController::LoadControlCalibrationTable(
     const MPCControllerConf &mpc_controller_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto &control_table = mpc_controller_conf.calibration_table();
   ADEBUG << "Control calibration table loaded";
@@ -584,7 +584,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MPCController::UpdateState(SimpleMPCDebug *debug) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto &com = injector_->vehicle_state()->ComputeCOMPosition(lr_);
   ComputeLateralErrors(com.x(), com.y(), injector_->vehicle_state()->heading(),
@@ -603,7 +603,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MPCController::UpdateMatrix(SimpleMPCDebug *debug) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double v = std::max(injector_->vehicle_state()->linear_velocity(),
                             minimum_speed_protection_);
@@ -622,7 +622,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MPCController::FeedforwardUpdate(SimpleMPCDebug *debug) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double v = injector_->vehicle_state()->linear_velocity();
   const double kv =
@@ -635,7 +635,7 @@ void MPCController::ComputeLateralErrors(
     const double x, const double y, const double theta, const double linear_v,
     const double angular_v, const double linear_a,
     const TrajectoryAnalyzer &trajectory_analyzer, SimpleMPCDebug *debug) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto matched_point =
       trajectory_analyzer.QueryNearestPointByPosition(x, y);
@@ -704,7 +704,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MPCController::ComputeLongitudinalErrors(
     const TrajectoryAnalyzer *trajectory_analyzer, SimpleMPCDebug *debug) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // the decomposed vehicle motion onto Frenet frame
   // s: longitudinal accumulated distance along reference trajectory

@@ -21,7 +21,7 @@ namespace drivers {
 namespace hesai {
 
 bool HesaiComponent::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!GetProtoConfig(&hesai_conf_)) {
     AERROR << "load config error, file:" << config_file_path_;

@@ -27,13 +27,13 @@ namespace ge3 {
 using ::apollo::drivers::canbus::Byte;
 
 Scuepb310::Scuepb310() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Scuepb310::ID = 0x310;
 
 void Scuepb310::Parse(const std::uint8_t* bytes, int32_t length,
                       ChassisDetail* chassis) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_ge3()->mutable_scu_epb_310()->set_epb_intidx(
       epb_intidx(bytes, length));
@@ -52,7 +52,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': ''}
 Scu_epb_310::Epb_intidxType Scuepb310::epb_intidx(const std::uint8_t* bytes,
                                                   int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 3);
@@ -68,7 +68,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Scu_epb_310::Epb_drvmodeType Scuepb310::epb_drvmode(const std::uint8_t* bytes,
                                                     int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 2);
@@ -86,7 +86,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': ''}
 Scu_epb_310::Epb_sysstType Scuepb310::epb_sysst(const std::uint8_t* bytes,
                                                 int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 3);
@@ -102,7 +102,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 Scu_epb_310::Epb_faultstType Scuepb310::epb_faultst(const std::uint8_t* bytes,
                                                     int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(7, 1);

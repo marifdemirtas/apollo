@@ -34,7 +34,7 @@ using apollo::data::RecordProcessor;
 using apollo::data::SmartRecordTrigger;
 
 int main(int argc, char** argv) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   if (FLAGS_restored_output_dir.empty()) {

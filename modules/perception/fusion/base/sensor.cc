@@ -26,7 +26,7 @@ size_t Sensor::kMaxCachedFrameNum = 10;
 
 void Sensor::QueryLatestFrames(double timestamp,
                                std::vector<SensorFramePtr>* frames) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frames == nullptr) {
     AERROR << "frames are not available";
@@ -44,7 +44,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 SensorFramePtr Sensor::QueryLatestFrame(double timestamp) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   SensorFramePtr latest_frame = nullptr;
   for (size_t i = 0; i < frames_.size(); ++i) {
@@ -58,7 +58,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Sensor::GetPose(double timestamp, Eigen::Affine3d* pose) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (pose == nullptr) {
     AERROR << "pose is not available";
@@ -76,7 +76,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Sensor::AddFrame(const base::FrameConstPtr& frame_ptr) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   SensorFramePtr frame(new SensorFrame(frame_ptr));
   if (frames_.size() == kMaxCachedFrameNum) {

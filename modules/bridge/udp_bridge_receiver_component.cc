@@ -30,12 +30,12 @@ namespace bridge {
 template <typename T>
 UDPBridgeReceiverComponent<T>::UDPBridgeReceiverComponent()
     : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 template <typename T>
 UDPBridgeReceiverComponent<T>::~UDPBridgeReceiverComponent() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto proto : proto_list_) {
     FREE_POINTER(proto);
@@ -44,7 +44,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "UDP bridge receiver init, startin...";
   apollo::bridge::UDPBridgeReceiverRemoteInfo udp_bridge_remote;
@@ -70,7 +70,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::InitSession(uint16_t port) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return listener_->Initialize(this, &UDPBridgeReceiverComponent<T>::MsgHandle,
                                port);
@@ -78,7 +78,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <typename T>
 void UDPBridgeReceiverComponent<T>::MsgDispatcher() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ADEBUG << "msg dispatcher start successful.";
   listener_->Listen();
@@ -88,7 +88,7 @@ template <typename T>
 BridgeProtoDiserializedBuf<T>
     *UDPBridgeReceiverComponent<T>::CreateBridgeProtoBuf(
         const BridgeHeader &header) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (IsTimeout(header.GetTimeStamp())) {
     typename std::vector<BridgeProtoDiserializedBuf<T> *>::iterator itor =
@@ -121,7 +121,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::IsProtoExist(const BridgeHeader &header) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto proto : proto_list_) {
     if (proto->IsTheProto(header)) {
@@ -133,7 +133,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::IsTimeout(double time_stamp) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (enable_timeout_ == false) {
     return false;
@@ -150,7 +150,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::MsgHandle(int fd) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   struct sockaddr_in client_addr;
   socklen_t sock_len = static_cast<socklen_t>(sizeof(client_addr));
@@ -218,7 +218,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::RemoveInvalidBuf(uint32_t msg_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (msg_id == 0) {
     return false;

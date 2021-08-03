@@ -27,7 +27,7 @@ namespace perception {
 namespace camera {
 
 bool DataProvider::Init(const DataProvider::InitOptions &options) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   src_height_ = options.image_height;
   src_width_ = options.image_width;
@@ -118,7 +118,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool DataProvider::FillImageData(int rows, int cols, const uint8_t *data,
                                  const std::string &encoding) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (cudaSetDevice(device_id_) != cudaSuccess) {
     AERROR << "Failed to set device to: " << device_id_;
@@ -200,7 +200,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 #if 0
 bool DataProvider::GetImageBlob(const DataProvider::ImageOptions &options,
                                 base::Blob<float> *blob) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   bool ret = GetImageBlob(options, &temp_uint8_);
   if (!ret) {
@@ -226,7 +226,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool DataProvider::GetImageBlob(const DataProvider::ImageOptions &options,
                                 base::Blob<uint8_t> *blob) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   base::Image8U image;
   if (!GetImage(options, &image)) {
@@ -252,7 +252,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool DataProvider::GetImage(const DataProvider::ImageOptions &options,
                             base::Image8U *image) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "GetImage ...";
   if (image == nullptr) {
@@ -289,7 +289,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool DataProvider::to_gray_image() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!gray_ready_) {
     NppiSize roi;
@@ -316,7 +316,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool DataProvider::to_rgb_image() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!rgb_ready_) {
     NppiSize roi;
@@ -342,7 +342,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool DataProvider::to_bgr_image() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!bgr_ready_) {
     NppiSize roi;

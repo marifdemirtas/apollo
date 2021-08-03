@@ -28,11 +28,11 @@ LosslessMapSingleCell::LosslessMapSingleCell()
       altitude(0.0),
       altitude_var(0.0),
       count(0) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LosslessMapSingleCell::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   intensity = 0.0;
   intensity_var = 0.0;
@@ -42,7 +42,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 LosslessMapSingleCell& LosslessMapSingleCell::operator=(
     const LosslessMapSingleCell& ref) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   intensity = ref.intensity;
   intensity_var = ref.intensity_var;
@@ -53,7 +53,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LosslessMapSingleCell::AddSample(const float new_altitude,
                                       const float new_intensity) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ++count;
   float fcount = static_cast<float>(count);
@@ -71,7 +71,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int LosslessMapSingleCell::LoadBinary(unsigned char* buf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float* p = reinterpret_cast<float*>(buf);
   intensity = *p;
@@ -90,7 +90,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int LosslessMapSingleCell::CreateBinary(unsigned char* buf,
                                                  unsigned int buf_size) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int target_size = GetBinarySize();
   if (buf_size >= target_size) {
@@ -111,18 +111,18 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int LosslessMapSingleCell::GetBinarySize() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return static_cast<unsigned int>(sizeof(float) * 4 + sizeof(unsigned int));
 }
 
 // ======================LosslessMapCell===========================
 LosslessMapCell::LosslessMapCell() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  layer_num = 1; }
 
 void LosslessMapCell::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (unsigned int i = 0; i < IDL_CAR_NUM_RESERVED_MAP_LAYER; ++i) {
     map_cells[i].Reset();
@@ -132,7 +132,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LosslessMapCell::SetValueLayer(double altitude, unsigned char intensity,
                                     double altitude_thres) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   DCHECK_LE(layer_num, IDL_CAR_NUM_RESERVED_MAP_LAYER);
 
@@ -175,7 +175,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LosslessMapCell::SetValue(double altitude, unsigned char intensity) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   DCHECK_LE(layer_num, IDL_CAR_NUM_RESERVED_MAP_LAYER);
   LosslessMapSingleCell& cell = map_cells[0];
@@ -183,7 +183,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int LosslessMapCell::LoadBinary(unsigned char* buf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int* p = reinterpret_cast<unsigned int*>(buf);
   unsigned int size = *p;
@@ -200,7 +200,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int LosslessMapCell::CreateBinary(unsigned char* buf,
                                            unsigned int buf_size) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int target_size = GetBinarySize();
   if (buf_size >= target_size) {
@@ -221,7 +221,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int LosslessMapCell::GetBinarySize() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int target_size = sizeof(
       unsigned int);  // The size of the variable for the number of layers.
@@ -233,7 +233,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int LosslessMapCell::GetLayerId(double altitude) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int best_layer_id = 0;
   double best_layer_alt_dif = 1e10;
@@ -249,7 +249,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LosslessMapCell::GetValue(std::vector<unsigned char>* values) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   values->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
@@ -259,7 +259,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LosslessMapCell::GetVar(std::vector<float>* vars) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   vars->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
@@ -269,7 +269,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LosslessMapCell::GetAlt(std::vector<float>* alts) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   alts->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
@@ -279,7 +279,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LosslessMapCell::GetAltVar(std::vector<float>* alt_vars) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   alt_vars->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
@@ -289,7 +289,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LosslessMapCell::GetCount(std::vector<unsigned int>* counts) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   counts->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
@@ -300,7 +300,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // ======================LosslessMapMatrix===========================
 LosslessMapMatrix::LosslessMapMatrix() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   rows_ = 0;
   cols_ = 0;
@@ -308,7 +308,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LosslessMapMatrix::~LosslessMapMatrix() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (map_cells_) {
     delete[] map_cells_;
@@ -319,7 +319,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 LosslessMapMatrix::LosslessMapMatrix(const LosslessMapMatrix& matrix)
     : BaseMapMatrix(matrix) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Init(matrix.rows_, matrix.cols_);
   for (unsigned int y = 0; y < rows_; ++y) {
@@ -330,7 +330,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LosslessMapMatrix::Init(const BaseMapConfig* config) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int rows = config->map_node_size_y_;
   unsigned int cols = config->map_node_size_x_;
@@ -341,13 +341,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LosslessMapMatrix::Reset(const BaseMapConfig* config) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Reset(config->map_node_size_y_, config->map_node_size_x_);
 }
 
 void LosslessMapMatrix::Init(unsigned int rows, unsigned int cols) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (map_cells_) {
     delete[] map_cells_;
@@ -359,7 +359,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LosslessMapMatrix::Reset(unsigned int rows, unsigned int cols) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int length = rows * cols;
   for (unsigned int i = 0; i < length; ++i) {
@@ -368,7 +368,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int LosslessMapMatrix::LoadBinary(unsigned char* buf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int* p = reinterpret_cast<unsigned int*>(buf);
   rows_ = *p;
@@ -390,7 +390,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int LosslessMapMatrix::CreateBinary(unsigned char* buf,
                                              unsigned int buf_size) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int target_size = GetBinarySize();
   if (buf_size >= target_size) {
@@ -415,7 +415,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int LosslessMapMatrix::GetBinarySize() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // default binary size
   unsigned int target_size =
@@ -430,7 +430,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LosslessMapMatrix::GetIntensityImg(cv::Mat* intensity_img) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   *intensity_img = cv::Mat(cv::Size(cols_, rows_), CV_8UC1);
 

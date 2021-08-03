@@ -28,7 +28,7 @@ bool DetectionEvaluation::init(const std::string& clouds,
                                unsigned int eval_thread_num,
                                unsigned int eval_parrallel_num,
                                const std::string& reserve) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<std::string> strs;
   strs.push_back(clouds);
@@ -65,7 +65,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DetectionEvaluation::run_evaluation() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // sequential loading and accumulate
   while (true) {

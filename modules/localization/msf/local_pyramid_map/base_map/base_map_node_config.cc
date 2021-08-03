@@ -25,15 +25,15 @@ namespace msf {
 namespace pyramid_map {
 
 BaseMapNodeConfig::BaseMapNodeConfig() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapNodeConfig::~BaseMapNodeConfig() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::shared_ptr<BaseMapNodeConfig> BaseMapNodeConfig::Clone() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<BaseMapNodeConfig> map_node_config(new BaseMapNodeConfig());
   map_node_config->node_index_ = node_index_;
@@ -47,7 +47,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int BaseMapNodeConfig::LoadBinary(const unsigned char *buf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t binary_size = 0;
 
@@ -96,7 +96,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int BaseMapNodeConfig::CreateBinary(unsigned char *buf,
                                              size_t buf_size) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int target_size = GetBinarySize();
 
@@ -144,7 +144,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int BaseMapNodeConfig::GetBinarySize() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t binary_size = 0;
 

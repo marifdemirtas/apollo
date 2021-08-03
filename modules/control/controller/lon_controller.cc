@@ -40,7 +40,7 @@ constexpr double GRA_ACC = 9.8;
 
 LonController::LonController()
     : name_(ControlConf_ControllerType_Name(ControlConf::LON_CONTROLLER)) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (FLAGS_enable_csv_debug) {
     time_t rawtime;
@@ -83,7 +83,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LonController::CloseLogFile() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (FLAGS_enable_csv_debug) {
     if (speed_log_file_ != nullptr) {
@@ -93,16 +93,16 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   }
 }
 void LonController::Stop() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  CloseLogFile(); }
 
 LonController::~LonController() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  CloseLogFile(); }
 
 Status LonController::Init(std::shared_ptr<DependencyInjector> injector,
                            const ControlConf *control_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   control_conf_ = control_conf;
   if (control_conf_ == nullptr) {
@@ -141,7 +141,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LonController::SetDigitalFilterPitchAngle(
     const LonControllerConf &lon_controller_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double cutoff_freq =
       lon_controller_conf.pitch_angle_filter_conf().cutoff_freq();
@@ -151,7 +151,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LonController::LoadControlCalibrationTable(
     const LonControllerConf &lon_controller_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto &control_table = lon_controller_conf.calibration_table();
   AINFO << "Control calibration table loaded";
@@ -173,7 +173,7 @@ Status LonController::ComputeControlCommand(
     const canbus::Chassis *chassis,
     const planning::ADCTrajectory *planning_published_trajectory,
     control::ControlCommand *cmd) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_ = localization;
   chassis_ = chassis;
@@ -386,7 +386,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status LonController::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   speed_pid_controller_.Reset();
   station_pid_controller_.Reset();
@@ -394,13 +394,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string LonController::Name() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return name_; }
 
 void LonController::ComputeLongitudinalErrors(
     const TrajectoryAnalyzer *trajectory_analyzer, const double preview_time,
     const double ts, SimpleLongitudinalDebug *debug) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // the decomposed vehicle motion onto Frenet frame
   // s: longitudinal accumulated distance along reference trajectory
@@ -485,7 +485,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LonController::SetDigitalFilter(double ts, double cutoff_freq,
                                      common::DigitalFilter *digital_filter) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<double> denominators;
   std::vector<double> numerators;
@@ -495,7 +495,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // TODO(all): Refactor and simplify
 void LonController::GetPathRemain(SimpleLongitudinalDebug *debug) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int stop_index = 0;
   static constexpr double kSpeedThreshold = 1e-3;

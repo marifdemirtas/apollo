@@ -27,13 +27,13 @@ namespace ch {
 using ::apollo::drivers::canbus::Byte;
 
 Gearstatus514::Gearstatus514() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Gearstatus514::ID = 0x514;
 
 void Gearstatus514::Parse(const std::uint8_t* bytes, int32_t length,
                           ChassisDetail* chassis) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_ch()->mutable_gear_status_514()->set_gear_sts(
       gear_sts(bytes, length));
@@ -46,7 +46,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'enum', 'order': 'intel', 'physical_unit': ''}
 Gear_status_514::Gear_stsType Gearstatus514::gear_sts(const std::uint8_t* bytes,
                                                       int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);

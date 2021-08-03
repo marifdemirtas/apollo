@@ -32,7 +32,7 @@ namespace perception {
 namespace camera {
 
 bool MotionService::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "start to init MotionService.";
   // node_.reset(new cyber::Node("MotionService"));
@@ -85,7 +85,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // On receiving image input, just need to record its timestamp
 void MotionService::OnReceiveImage(const ImageMsgType &message,
                                    const std::string &camera_name) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
   const double curr_timestamp = message->measurement_time() + timestamp_offset_;
@@ -97,7 +97,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // On reveiving localization input, register it to camera timestamp,
 // compute motion between camera time stamps
 void MotionService::OnLocalization(const LocalizationMsgType &message) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
   ADEBUG << "localization received: localization ts: "
@@ -168,7 +168,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // pubulish vehicle status buffer to output channel
 // which is at camera timestamp
 void MotionService::PublishEvent(const double timestamp) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // protobuf msg
   std::shared_ptr<apollo::perception::Motion_Service> motion_service_msg(
@@ -192,7 +192,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // convert vehicle status buffer to output message
 void MotionService::ConvertVehicleMotionToMsgOut(
     base::VehicleStatus vs, apollo::perception::VehicleStatus *v_status_msg) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   v_status_msg->set_roll_rate(vs.roll_rate);
   v_status_msg->set_pitch_rate(vs.pitch_rate);
@@ -224,14 +224,14 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // load vehicle status buffer from vehicle_planemotion_
 base::MotionBuffer MotionService::GetMotionBuffer() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(motion_mutex_);
   return vehicle_planemotion_->get_buffer();
 }
 
 double MotionService::GetLatestTimestamp() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // std::lock_guard<std::mutex> lock(image_mutex_);
   return pre_camera_timestamp_;
@@ -240,7 +240,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // retrieve vehiclestattus at the closeset cameratimestamp
 bool MotionService::GetMotionInformation(double timestamp,
                                          base::VehicleStatus *vs) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_planemotion_->find_motion_with_timestamp(timestamp, vs);
 }

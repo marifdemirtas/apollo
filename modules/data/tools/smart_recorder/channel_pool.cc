@@ -25,7 +25,7 @@ namespace apollo {
 namespace data {
 
 ChannelPool::ChannelPool() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   small_channels_ = {FLAGS_chassis_topic,
                      FLAGS_chassis_detail_topic,

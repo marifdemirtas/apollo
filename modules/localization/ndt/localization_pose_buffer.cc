@@ -30,7 +30,7 @@ namespace ndt {
 const unsigned int LocalizationPoseBuffer::s_buffer_size_ = 20;
 
 LocalizationPoseBuffer::LocalizationPoseBuffer() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   lidar_poses_.resize(s_buffer_size_);
   used_buffer_size_ = 0;
@@ -39,13 +39,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LocalizationPoseBuffer::~LocalizationPoseBuffer() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationPoseBuffer::UpdateLidarPose(
     double timestamp, const Eigen::Affine3d& locator_pose,
     const Eigen::Affine3d& novatel_pose) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!has_initialized_) {
     lidar_poses_[head_index_].locator_pose = locator_pose;
@@ -72,7 +72,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Eigen::Affine3d LocalizationPoseBuffer::UpdateOdometryPose(
     double timestamp, const Eigen::Affine3d& novatel_pose) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Affine3d pose = novatel_pose;
   if (used_buffer_size_ > 0) {

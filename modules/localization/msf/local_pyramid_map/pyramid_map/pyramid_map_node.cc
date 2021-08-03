@@ -28,15 +28,15 @@ namespace msf {
 namespace pyramid_map {
 
 PyramidMapNode::PyramidMapNode() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PyramidMapNode::~PyramidMapNode() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PyramidMapNode::Init(const BaseMapConfig* map_config) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_config_ = map_config;
 
@@ -75,7 +75,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void PyramidMapNode::Init(const BaseMapConfig* map_config,
                           const MapNodeIndex& index, bool create_map_cells) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_config_ = map_config;
 
@@ -109,7 +109,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PyramidMapNode::BottomUpBase() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<PyramidMapMatrix> map_matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(map_matrix_);
@@ -117,7 +117,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PyramidMapNode::BottomUpSafe() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<PyramidMapMatrix> map_matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(map_matrix_);
@@ -127,7 +127,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool PyramidMapNode::AddValueIfInBound(const Eigen::Vector3d& coordinate,
                                        unsigned char intensity,
                                        unsigned int level) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   //    Eigen::Map<Eigen::Vector2d>(coordinate.data(), 2);
@@ -148,7 +148,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void PyramidMapNode::AddValueIfInBound(
     const std::vector<Eigen::Vector3d>& coordinates,
     const std::vector<unsigned char>& intensity, unsigned int level) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (coordinates.size() != intensity.size()) {
     return;
@@ -162,7 +162,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool PyramidMapNode::GetCoordinate(const Eigen::Vector2d& coordinate,
                                    unsigned int level, unsigned int* x,
                                    unsigned int* y) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<PyramidMapMatrix> map_matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(map_matrix_);
@@ -185,7 +185,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Eigen::Vector2d PyramidMapNode::GetCoordinate(unsigned int level,
                                               unsigned int x,
                                               unsigned int y) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const PyramidMapConfig* map_config =
       dynamic_cast<const PyramidMapConfig*>(map_config_);
@@ -202,27 +202,27 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool PyramidMapNode::GetCoordinate(const Eigen::Vector2d& coordinate,
                                    unsigned int* x, unsigned int* y) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return BaseMapNode::GetCoordinate(coordinate, x, y);
 }
 bool PyramidMapNode::GetCoordinate(const Eigen::Vector3d& coordinate,
                                    unsigned int* x, unsigned int* y) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return BaseMapNode::GetCoordinate(coordinate, x, y);
 }
 
 Eigen::Vector2d PyramidMapNode::GetCoordinate(unsigned int x,
                                               unsigned int y) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return BaseMapNode::GetCoordinate(x, y);
 }
 
 float PyramidMapNode::GetIntensitySafe(const Eigen::Vector3d& coordinate,
                                        unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -245,7 +245,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float PyramidMapNode::GetIntensityVarSafe(const Eigen::Vector3d& coordinate,
                                           unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -269,7 +269,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float PyramidMapNode::GetAltitudeSafe(const Eigen::Vector3d& coordinate,
                                       unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -292,7 +292,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float PyramidMapNode::GetAltitudeVarSafe(const Eigen::Vector3d& coordinate,
                                          unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -315,7 +315,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float PyramidMapNode::GetGroundAltitudeSafe(const Eigen::Vector3d& coordinate,
                                             unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -339,7 +339,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int PyramidMapNode::GetCountSafe(const Eigen::Vector3d& coordinate,
                                           unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -362,7 +362,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int PyramidMapNode::GetGroundCountSafe(
     const Eigen::Vector3d& coordinate, unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -386,7 +386,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float PyramidMapNode::GetIntensity(const Eigen::Vector3d& coordinate,
                                    unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -409,7 +409,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float PyramidMapNode::GetIntensityVar(const Eigen::Vector3d& coordinate,
                                       unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -432,7 +432,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float PyramidMapNode::GetAltitude(const Eigen::Vector3d& coordinate,
                                   unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -455,7 +455,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float PyramidMapNode::GetAltitudeVar(const Eigen::Vector3d& coordinate,
                                      unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -478,7 +478,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float PyramidMapNode::GetGroundAltitude(const Eigen::Vector3d& coordinate,
                                         unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -502,7 +502,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int PyramidMapNode::GetCount(const Eigen::Vector3d& coordinate,
                                       unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -525,7 +525,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int PyramidMapNode::GetGroundCount(const Eigen::Vector3d& coordinate,
                                             unsigned int level) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -548,7 +548,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double PyramidMapNode::ComputeMeanIntensity(unsigned int level) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<PyramidMapMatrix> map_matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(map_matrix_);

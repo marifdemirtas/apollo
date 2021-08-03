@@ -37,11 +37,11 @@ namespace monitor {
 ProcessMonitor::ProcessMonitor()
     : RecurrentRunner(FLAGS_process_monitor_name,
                       FLAGS_process_monitor_interval) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ProcessMonitor::RunOnce(const double current_time) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Get running processes.
   std::vector<std::string> running_processes;
@@ -93,7 +93,7 @@ void ProcessMonitor::UpdateStatus(
     const std::vector<std::string>& running_processes,
     const apollo::dreamview::ProcessMonitorConfig& config,
     ComponentStatus* status) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   status->clear_status();
   for (const std::string& command : running_processes) {

@@ -19,15 +19,15 @@
 #include "modules/perception/common/i_lib/core/i_basic.h"
 
 namespace apollo {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {
 
 void HistogramEstimatorParams::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   // set default value
   nr_bins_in_histogram = 64;
   data_sp = 0;
@@ -51,7 +51,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HistogramEstimator::Init(const HistogramEstimatorParams *params) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (params != nullptr) {
     params_ = *params;
@@ -65,7 +65,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool HistogramEstimator::Process() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // smooth histogram - >
   // get peak & check mass ->
@@ -102,7 +102,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void HistogramEstimator::Smooth(const uint32_t *hist_input, int nr_bins,
                                 uint32_t *hist_output) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assert(nr_bins == params_.nr_bins_in_histogram);
 
@@ -161,7 +161,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HistogramEstimator::GenerateHat(float *hist_hat, int nr_bins) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assert(nr_bins == params_.nr_bins_in_histogram);
   // Equation: e^(-(x^2 / (2 * a^2)) + b
@@ -179,7 +179,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool HistogramEstimator::IsGoodShape(const uint32_t *hist, int nr_bins,
                                      int max_index) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assert(nr_bins == params_.nr_bins_in_histogram);
   assert(max_index < params_.nr_bins_in_histogram);
@@ -203,7 +203,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void HistogramEstimator::GetPeakIndexAndMass(const uint32_t *hist, int nr_bins,
                                              int *index, uint32_t *mass) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assert(nr_bins == params_.nr_bins_in_histogram);
   assert(hist != nullptr);

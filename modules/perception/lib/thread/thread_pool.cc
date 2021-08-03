@@ -30,7 +30,7 @@ ThreadPool::ThreadPool(int num_workers)
       num_available_workers_(num_workers),
       task_queue_(num_workers),
       started_(false) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   workers_.reserve(num_workers_);
   for (int idx = 0; idx < num_workers_; ++idx) {
@@ -40,7 +40,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ThreadPool::~ThreadPool() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!started_) {
     return;
@@ -57,7 +57,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ThreadPool::Start() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (int idx = 0; idx < num_workers_; ++idx) {
     workers_[idx]->Start();
@@ -66,11 +66,11 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ThreadPool::Add(Closure *closure) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  task_queue_.Push(closure); }
 
 void ThreadPool::Add(const vector<Closure *> &closures) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (size_t idx = 0; idx < closures.size(); ++idx) {
     Add(closures[idx]);
@@ -78,7 +78,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ThreadPoolWorker::Run() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   while (true) {
     Closure *closure = nullptr;

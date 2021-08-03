@@ -28,7 +28,7 @@ namespace math {
 
 double slerp(const double a0, const double t0, const double a1, const double t1,
              const double t) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (std::abs(t1 - t0) <= kMathEpsilon) {
     ADEBUG << "input time difference is too small";
@@ -50,7 +50,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 SLPoint InterpolateUsingLinearApproximation(const SLPoint &p0,
                                             const SLPoint &p1, const double w) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_GE(w, 0.0);
 
@@ -63,7 +63,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 PathPoint InterpolateUsingLinearApproximation(const PathPoint &p0,
                                               const PathPoint &p1,
                                               const double s) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double s0 = p0.s();
   double s1 = p1.s();
@@ -89,7 +89,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 TrajectoryPoint InterpolateUsingLinearApproximation(const TrajectoryPoint &tp0,
                                                     const TrajectoryPoint &tp1,
                                                     const double t) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!tp0.has_path_point() || !tp1.has_path_point()) {
     TrajectoryPoint p;

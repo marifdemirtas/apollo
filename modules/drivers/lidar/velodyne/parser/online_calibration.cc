@@ -25,7 +25,7 @@ using apollo::drivers::velodyne::VelodynePacket;
 using apollo::drivers::velodyne::VelodyneScan;
 
 int OnlineCalibration::decode(const std::shared_ptr<VelodyneScan>& scan_msgs) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (inited_) {
     return 0;
@@ -123,7 +123,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void OnlineCalibration::get_unit_index() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int size = static_cast<int>(status_values_.size());
   // simple check only for value, maybe need more check fro status type
@@ -143,7 +143,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void OnlineCalibration::dump(const std::string& file_path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!inited_) {
     AERROR << "Please decode calibraion info first";

@@ -28,7 +28,7 @@ namespace perception {
 namespace radar {
 
 bool RadarObstaclePerception::Init(const std::string& pipeline_name) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string model_name = pipeline_name;
   const ModelConfig* model_config = nullptr;
@@ -72,7 +72,7 @@ bool RadarObstaclePerception::Perceive(
     const drivers::ContiRadar& corrected_obstacles,
     const RadarPerceptionOptions& options,
     std::vector<base::ObjectPtr>* objects) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   PERF_FUNCTION();
   const std::string& sensor_name = options.sensor_name;
@@ -110,7 +110,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string RadarObstaclePerception::Name() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return "RadarObstaclePerception";
 }

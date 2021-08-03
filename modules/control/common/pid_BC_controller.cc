@@ -27,7 +27,7 @@ namespace apollo {
 namespace control {
 
 double PIDBCController::Control(const double error, const double dt) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (dt <= 0) {
     AWARN << "dt <= 0, will use the last output";
@@ -69,7 +69,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int PIDBCController::OutputSaturationStatus() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return output_saturation_status_;
 }

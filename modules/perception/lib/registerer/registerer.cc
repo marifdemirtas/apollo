@@ -22,7 +22,7 @@ namespace perception {
 namespace lib {
 
 BaseClassMap &GlobalFactoryMap() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static BaseClassMap factory_map;
   return factory_map;
@@ -31,7 +31,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool GetRegisteredClasses(
     const std::string &base_class_name,
     std::vector<std::string> *registered_derived_classes_names) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (registered_derived_classes_names == nullptr) {
     AERROR << "registered_derived_classes_names is not available";

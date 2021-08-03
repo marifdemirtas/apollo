@@ -26,7 +26,7 @@ namespace perception {
 namespace camera {
 
 KalmanFilterConstVelocity::KalmanFilterConstVelocity() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // other value should be changed in predict
   state_transition_matrix_.setIdentity();
@@ -38,14 +38,14 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void KalmanFilterConstVelocity::Init(Eigen::VectorXd x) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   state_ << x(0), x(1), 0, 0;
   inited_ = true;
 }
 
 void KalmanFilterConstVelocity::Predict(float delta_t) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (inited_) {
     state_transition_matrix_(0, 2) = delta_t;
@@ -58,13 +58,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   }
 }
 void KalmanFilterConstVelocity::MagicVelocity(const Eigen::VectorXd &vel) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   state_(2) = vel(0);
   state_(3) = vel(1);
 }
 void KalmanFilterConstVelocity::Correct(const Eigen::VectorXd &z) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (inited_) {
     Eigen::Vector2d measure;
@@ -89,17 +89,17 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Eigen::Vector4d KalmanFilterConstVelocity::get_state() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return state_; }
 void KalmanFilterConstVelocity::MagicPosition(const Eigen::VectorXd &pos) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   state_(0) = pos(0);
   state_(1) = pos(1);
 }
 
 void ExtendedKalmanFilter::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // other value should be changed in predict
   state_transition_matrix_.setIdentity();
@@ -111,7 +111,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ExtendedKalmanFilter::Init(Eigen::VectorXd x) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Init();
   state_ << x(0), x(1), 0, x(2);
@@ -119,7 +119,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ExtendedKalmanFilter::Predict(float delta_t) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (inited_) {
     float sin_theta = static_cast<float>(std::sin(state_(3)));
@@ -140,7 +140,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ExtendedKalmanFilter::Correct(const Eigen::VectorXd &z) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (inited_) {
     Eigen::Vector3d measure;
@@ -159,18 +159,18 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Eigen::Vector4d ExtendedKalmanFilter::get_state() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return state_; }
 
 void MeanFilter::SetWindow(int window) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   window_ = window;
   index_ = 0;
 }
 
 void MeanFilter::AddMeasure(const Eigen::VectorXd &z) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (measures_.size() < static_cast<unsigned int>(window_)) {
     measures_.push_back(z);
@@ -199,22 +199,22 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const Eigen::VectorXd &MeanFilter::get_state() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return state_; }
 
 const Eigen::MatrixXd &MeanFilter::get_variance() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return variance_; }
 
 void FirstOrderRCLowPassFilter::SetAlpha(float alpha) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   alpha_ = alpha;
   inited_ = false;
 }
 
 void FirstOrderRCLowPassFilter::AddMeasure(const Eigen::VectorXd &z) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (inited_) {
     state_ = z + alpha_ * (state_ - z);
@@ -225,7 +225,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Eigen::VectorXd FirstOrderRCLowPassFilter::get_state() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return state_; }
 
 struct {
@@ -235,14 +235,14 @@ struct {
 } customLess;
 
 void MaxNMeanFilter::SetWindow(int window) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   window_ = window;
   index_ = 0;
 }
 
 void MaxNMeanFilter::AddMeasure(const Eigen::VectorXd &z) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   measures_.push_back(z);
   std::sort(measures_.begin(), measures_.end(), customLess);
@@ -252,7 +252,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Eigen::VectorXd MaxNMeanFilter::get_state() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::VectorXd x = measures_[0];
   for (size_t i = 1; i < measures_.size(); ++i) {
@@ -262,7 +262,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return x;
 }
 void MaxNMeanFilter::Clear() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  measures_.clear(); }
 }  // namespace camera
 }  // namespace perception

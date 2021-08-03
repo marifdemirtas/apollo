@@ -29,13 +29,13 @@ namespace neolix_edu {
 using ::apollo::drivers::canbus::Byte;
 
 Aebfrontwheelspeed353::Aebfrontwheelspeed353() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Aebfrontwheelspeed353::ID = 0x353;
 
 void Aebfrontwheelspeed353::Parse(const std::uint8_t* bytes, int32_t length,
                                   ChassisDetail* chassis) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_neolix_edu()
       ->mutable_aeb_frontwheelspeed_353()
@@ -78,7 +78,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': 'bit'}
 bool Aebfrontwheelspeed353::vehiclespeedvalid(const std::uint8_t* bytes,
                                               int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(7, 1);
@@ -92,7 +92,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 4, 'type': 'double', 'order': 'motorola', 'physical_unit': 'Km/h'}
 double Aebfrontwheelspeed353::vehiclespeed(const std::uint8_t* bytes,
                                            int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 5);
@@ -112,7 +112,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'double', 'order': 'motorola', 'physical_unit': 'bit'}
 double Aebfrontwheelspeed353::vehiclerealdirect(const std::uint8_t* bytes,
                                                 int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 2);
@@ -127,7 +127,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': 'bit'}
 bool Aebfrontwheelspeed353::wheelspeed_fl_valid(const std::uint8_t* bytes,
                                                 int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(7, 1);
@@ -141,7 +141,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 22, 'type': 'double', 'order': 'motorola', 'physical_unit': 'km/h'}
 double Aebfrontwheelspeed353::wheelspeed_fl(const std::uint8_t* bytes,
                                             int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 7);
@@ -161,7 +161,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': 'bit'}
 bool Aebfrontwheelspeed353::wheelspeed_fr_valid(const std::uint8_t* bytes,
                                                 int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(7, 1);
@@ -175,7 +175,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 38, 'type': 'double', 'order': 'motorola', 'physical_unit': 'km/h'}
 double Aebfrontwheelspeed353::wheelspeed_fr(const std::uint8_t* bytes,
                                             int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 7);
@@ -195,7 +195,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'double', 'order': 'motorola', 'physical_unit': 'bit'}
 double Aebfrontwheelspeed353::wheelspeed_fl_direct(const std::uint8_t* bytes,
                                                    int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(4, 2);
@@ -210,7 +210,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'double', 'order': 'motorola', 'physical_unit': 'bit'}
 double Aebfrontwheelspeed353::wheelspeed_fr_direct(const std::uint8_t* bytes,
                                                    int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(6, 2);
@@ -225,7 +225,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 double Aebfrontwheelspeed353::alivecounter_front(const std::uint8_t* bytes,
                                                  int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 4);
@@ -239,7 +239,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Aebfrontwheelspeed353::checksum_front(const std::uint8_t* bytes,
                                              int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);

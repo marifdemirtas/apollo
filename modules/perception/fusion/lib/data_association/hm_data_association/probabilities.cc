@@ -27,7 +27,7 @@ namespace fusion {
 // @return bounded & scaled prob
 // @NOTE: original method name is bound_scale_probability
 double BoundedScalePositiveProbability(double p, double max_p, double min_p) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   p = std::max(p, min_p);
   p = (p - min_p) * (max_p - min_p) / (1 - min_p) + min_p;
@@ -37,7 +37,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // @return scaled prob
 // @NOTE: original method name is scale_positive_probability
 double ScalePositiveProbability(double p, double max_p, double th_p) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (p <= th_p) {
     return p;
@@ -49,7 +49,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // @return Welsh Loss of input dist
 // @NOTE: original method name is welsh_var_loss_fun
 double WelshVarLossFun(double dist, double th, double scale) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double p = 1e-6;
   if (dist < th) {
@@ -67,7 +67,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // @return fused prob of input prob pair
 // @NOTE: original method name is fused_tow_probabilities
 double FuseTwoProbabilities(double prob1, double prob2) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double prob = (prob1 * prob2) / (2 * prob1 * prob2 + 1 - prob1 - prob2);
   return prob;
@@ -76,7 +76,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // @return fsued probability of input multiple probabilities
 // @NOTE: original method name is fused_multiple_probabilities
 double FuseMultipleProbabilities(const std::vector<double>& probs) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<double> log_odd_probs = probs;
   auto prob_to_log_odd = [](double p) {

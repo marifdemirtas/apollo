@@ -18,9 +18,9 @@
 #include "modules/perception/radar/lib/tracker/filter/adaptive_kalman_filter.h"
 
 namespace apollo {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace radar {
@@ -33,7 +33,7 @@ std::string RadarTrack::s_chosen_filter_ =  // NOLINT
     "AdaptiveKalmanFilter";
 
 RadarTrack::RadarTrack(const base::ObjectPtr& obs, const double timestamp) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   s_current_idx_ %= MAX_RADAR_IDX;
   obs_id_ = s_current_idx_++;
@@ -53,7 +53,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void RadarTrack::UpdataObsRadar(const base::ObjectPtr& obs_radar,
                                 const double timestamp) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   *obs_radar_ = *obs_radar;
   *obs_ = *obs_radar;
@@ -77,30 +77,30 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RadarTrack::SetObsRadarNullptr() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   obs_radar_ = nullptr;
   obs_ = nullptr;
 }
 
 base::ObjectPtr RadarTrack::GetObsRadar() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return obs_radar_; }
 
 base::ObjectPtr RadarTrack::GetObs() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return obs_; }
 
 int RadarTrack::GetObsId() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return obs_id_; }
 
 double RadarTrack::GetTimestamp() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return timestamp_; }
 
 double RadarTrack::GetTrackingTime() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return tracking_time_; }
 }  // namespace radar
 }  // namespace perception

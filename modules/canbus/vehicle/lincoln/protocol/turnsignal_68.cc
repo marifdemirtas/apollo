@@ -28,42 +28,42 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Turnsignal68::ID = 0x68;
 
 uint32_t Turnsignal68::GetPeriod() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static const uint32_t PERIOD = 50 * 1000;
   return PERIOD;
 }
 
 int32_t Turnsignal68::turn_cmd() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return turn_cmd_; }
 
 void Turnsignal68::UpdateData(uint8_t *data) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_turn_cmd_p(data, turn_cmd_);
 }
 
 void Turnsignal68::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  turn_cmd_ = 0; }
 
 Turnsignal68 *Turnsignal68::set_turn_none() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   turn_cmd_ = 0x00;
   return this;
 }
 
 Turnsignal68 *Turnsignal68::set_turn_left() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   turn_cmd_ = 0x01;
   return this;
 }
 
 Turnsignal68 *Turnsignal68::set_turn_right() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   turn_cmd_ = 0x02;
   return this;
@@ -72,7 +72,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // private
 void Turnsignal68::set_turn_cmd_p(uint8_t *data, int32_t turn_cmd) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   turn_cmd = ProtocolData::BoundedValue(0, 3, turn_cmd);
   Byte frame(data + 0);

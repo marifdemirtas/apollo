@@ -28,7 +28,7 @@ namespace drivers {
 namespace velodyne {
 
 bool VelodyneConvertComponent::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Config velodyne_config;
   if (!GetProtoConfig(&velodyne_config)) {
@@ -56,7 +56,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool VelodyneConvertComponent::Proc(
     const std::shared_ptr<VelodyneScan>& scan_msg) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<PointCloud> point_cloud_out = point_cloud_pool_->GetObject();
   if (point_cloud_out == nullptr) {

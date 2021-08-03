@@ -27,7 +27,7 @@ namespace common {
 namespace monitor {
 
 MonitorLogger::MonitorLogger() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::string node_name =
       absl::StrCat("monitor_logger", Time::Now().ToNanosecond());
@@ -40,7 +40,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MonitorLogger::Publish(const MonitorMessageItem::MessageSource &source,
                             const std::vector<MessageItem> &messages) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // compose a monitor message
   if (messages.empty()) {
@@ -60,7 +60,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MonitorLogger::DoPublish(MonitorMessage *message) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   RETURN_IF_NULL(monitor_msg_writer_);
   common::util::FillHeader("monitor", message);

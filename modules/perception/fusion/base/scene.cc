@@ -21,21 +21,21 @@ namespace perception {
 namespace fusion {
 
 Scene::Scene() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Scene::~Scene() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Scene::AddForegroundTrack(TrackPtr track) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   foreground_tracks_.push_back(track);
 }
 
 void Scene::AddBackgroundTrack(TrackPtr track) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   background_tracks_.push_back(track);
 }

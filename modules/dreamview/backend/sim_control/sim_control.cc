@@ -49,7 +49,7 @@ namespace {
 
 void TransformToVRF(const Point3D& point_mrf, const Quaternion& orientation,
                     Point3D* point_vrf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector3d v_mrf(point_mrf.x(), point_mrf.y(), point_mrf.z());
   auto v_vrf = InverseQuaternionRotate(orientation, v_mrf);
@@ -59,7 +59,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool IsSameHeader(const Header& lhs, const Header& rhs) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return lhs.sequence_num() == rhs.sequence_num() &&
          lhs.timestamp_sec() == rhs.timestamp_sec();
@@ -71,13 +71,13 @@ SimControl::SimControl(const MapService* map_service)
     : map_service_(map_service),
       node_(cyber::CreateNode("sim_control")),
       current_trajectory_(std::make_shared<ADCTrajectory>()) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   InitTimerAndIO();
 }
 
 void SimControl::InitTimerAndIO() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_reader_ =
       node_->CreateReader<LocalizationEstimate>(FLAGS_localization_topic);
@@ -118,7 +118,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SimControl::Init(double start_velocity,
                       double start_acceleration) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!FLAGS_use_navigation_mode) {
     InitStartPoint(start_velocity, start_acceleration);
@@ -127,7 +127,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SimControl::InitStartPoint(double start_velocity,
                                 double start_acceleration) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   TrajectoryPoint point;
   // Use the latest localization position as start point,
@@ -177,7 +177,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SimControl::SetStartPoint(const TrajectoryPoint& start_point) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   next_point_ = start_point;
   prev_point_index_ = next_point_index_ = 0;
@@ -185,14 +185,14 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SimControl::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
   InternalReset();
 }
 
 void SimControl::InternalReset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   current_routing_header_.Clear();
   re_routing_triggered_ = false;
@@ -201,7 +201,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SimControl::ClearPlanning() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   current_trajectory_->Clear();
   received_planning_ = false;
@@ -209,7 +209,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SimControl::OnReceiveNavigationInfo(
     const std::shared_ptr<NavigationInfo>& navigation_info) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -223,7 +223,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SimControl::OnRoutingResponse(
     const std::shared_ptr<RoutingResponse>& routing) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
   if (!enabled_) {
@@ -259,7 +259,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SimControl::OnPredictionObstacles(
     const std::shared_ptr<PredictionObstacles>& obstacles) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -271,7 +271,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SimControl::Start() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -292,7 +292,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SimControl::Stop() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -304,7 +304,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SimControl::OnPlanning(const std::shared_ptr<ADCTrajectory>& trajectory) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -326,7 +326,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SimControl::Freeze() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   next_point_.set_v(0.0);
   next_point_.set_a(0.0);
@@ -334,7 +334,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SimControl::RunOnce() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -351,7 +351,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool SimControl::PerfectControlModel(TrajectoryPoint* point,
                                      Chassis::GearPosition* gear_position) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Result of the interpolation.
   auto current_time = Clock::NowInSeconds();
@@ -404,7 +404,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SimControl::PublishChassis(double cur_speed,
                                 Chassis::GearPosition gear_position) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto chassis = std::make_shared<Chassis>();
   FillHeader("SimControl", chassis.get());
@@ -425,7 +425,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SimControl::PublishLocalization(const TrajectoryPoint& point) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto localization = std::make_shared<LocalizationEstimate>();
   FillHeader("SimControl", localization.get());
@@ -495,7 +495,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SimControl::PublishDummyPrediction() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto prediction = std::make_shared<PredictionObstacles>();
   {

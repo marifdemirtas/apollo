@@ -42,7 +42,7 @@ using base::Object;
 using base::PointF;
 
 bool CNNSegmentation::Init(const SegmentationInitOptions& options) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // get configs
   std::string param_file;
@@ -150,7 +150,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool CNNSegmentation::InitClusterAndBackgroundSegmentation() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // init ground detector
   ground_detector_ = BaseGroundDetectorRegisterer::GetInstanceByName(
@@ -245,7 +245,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void CNNSegmentation::MapPointToGrid(
     const std::shared_ptr<AttributePointCloud<PointF>>& pc_ptr) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float inv_res_x = 0.5f * static_cast<float>(width_) / range_;
   // float inv_res_y = 0.5 * static_cast<float>(height_) / range_;
@@ -272,7 +272,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool CNNSegmentation::Segment(const SegmentationOptions& options,
                               LidarFrame* frame) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // check input
   if (frame == nullptr) {
@@ -337,7 +337,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void CNNSegmentation::GetObjectsFromSppEngine(
     std::vector<std::shared_ptr<Object>>* objects) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Timer timer;
   spp_engine_.GetSppData().grid_indices = point2grid_.data();
@@ -480,7 +480,7 @@ bool CNNSegmentation::GetConfigs(std::string* param_file,
                                  std::string* proto_file,
                                  std::string* weight_file,
                                  std::string* engine_file) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;

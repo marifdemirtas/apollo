@@ -29,11 +29,11 @@ namespace localization {
 using apollo::cyber::Clock;
 
 MSFLocalizationComponent::MSFLocalizationComponent() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool MSFLocalizationComponent::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   publisher_.reset(new LocalizationMsgPublisher(this->node_));
 
@@ -51,7 +51,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool MSFLocalizationComponent::InitConfig() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   lidar_topic_ = FLAGS_lidar_topic;
   bestgnsspos_topic_ = FLAGS_gnss_best_pose_topic;
@@ -71,7 +71,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool MSFLocalizationComponent::InitIO() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cyber::ReaderConfig reader_config;
   reader_config.channel_name = lidar_topic_;
@@ -111,7 +111,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool MSFLocalizationComponent::Proc(
     const std::shared_ptr<drivers::gnss::Imu>& imu_msg) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_.OnRawImuCache(imu_msg);
   return true;
@@ -120,11 +120,11 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 LocalizationMsgPublisher::LocalizationMsgPublisher(
     const std::shared_ptr<cyber::Node>& node)
     : node_(node), tf2_broadcaster_(node) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool LocalizationMsgPublisher::InitConfig() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_topic_ = FLAGS_localization_topic;
   broadcast_tf_frame_id_ = FLAGS_broadcast_tf_frame_id;
@@ -137,7 +137,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool LocalizationMsgPublisher::InitIO() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_talker_ =
       node_->CreateWriter<LocalizationEstimate>(localization_topic_);
@@ -155,7 +155,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationMsgPublisher::PublishPoseBroadcastTF(
     const LocalizationEstimate& localization) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // broadcast tf message
   apollo::transform::TransformStamped tf2_msg;
@@ -181,7 +181,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationMsgPublisher::PublishPoseBroadcastTopic(
     const LocalizationEstimate& localization) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double cur_system_time = localization.header().timestamp_sec();
   if (pre_system_time_ > 0.0 && cur_system_time - pre_system_time_ > 0.02) {
@@ -205,21 +205,21 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationMsgPublisher::PublishLocalizationMsfGnss(
     const LocalizationEstimate& localization) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gnss_local_talker_->Write(localization);
 }
 
 void LocalizationMsgPublisher::PublishLocalizationMsfLidar(
     const LocalizationEstimate& localization) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   lidar_local_talker_->Write(localization);
 }
 
 void LocalizationMsgPublisher::PublishLocalizationStatus(
     const LocalizationStatus& localization_status) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_status_talker_->Write(localization_status);
 }

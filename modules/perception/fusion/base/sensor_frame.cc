@@ -21,17 +21,17 @@ namespace perception {
 namespace fusion {
 
 SensorFrame::SensorFrame() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  header_.reset(new SensorFrameHeader()); }
 
 SensorFrame::SensorFrame(const base::FrameConstPtr& base_frame_ptr) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Initialize(base_frame_ptr);
 }
 
 void SensorFrame::Initialize(const base::FrameConstPtr& base_frame_ptr) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   header_.reset(new SensorFrameHeader(base_frame_ptr->sensor_info,
                                       base_frame_ptr->timestamp,
@@ -56,13 +56,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SensorFrame::Initialize(const base::FrameConstPtr& base_frame_ptr,
                              const SensorPtr& sensor) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Initialize(base_frame_ptr);
 }
 
 std::string SensorFrame::GetSensorId() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (header_ == nullptr) {
     return std::string("");
@@ -72,7 +72,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 base::SensorType SensorFrame::GetSensorType() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (header_ == nullptr) {
     return base::SensorType::UNKNOWN_SENSOR_TYPE;

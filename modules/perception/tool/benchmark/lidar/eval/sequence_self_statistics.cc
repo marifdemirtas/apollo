@@ -24,14 +24,14 @@ namespace benchmark {
 
 template <typename KeyType>
 SequenceSelfStatistics<KeyType>::SequenceSelfStatistics() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   reset();
 }
 
 template <typename KeyType>
 void SequenceSelfStatistics<KeyType>::reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _type_change_counts.resize(
       MetaStatistics::get_type_dim(),
@@ -41,7 +41,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 template <typename KeyType>
 bool SequenceSelfStatistics<KeyType>::add_objects(
     const std::vector<ObjectPtr>& objects, KeyType key) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!_sequences.add_data(objects, key)) {
     return false;
@@ -60,7 +60,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 template <typename KeyType>
 void SequenceSelfStatistics<KeyType>::add_statistics(
     SequenceType<KeyType>* sequence) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sequence->size() <= 1) {
     return;
@@ -76,7 +76,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 template <typename KeyType>
 void SequenceSelfStatistics<KeyType>::get_classification_type_change_rates(
     std::vector<std::vector<double>>* rate_per_class, double* rate) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   rate_per_class->clear();
   rate_per_class->resize(

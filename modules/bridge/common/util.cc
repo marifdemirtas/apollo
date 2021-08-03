@@ -20,7 +20,7 @@ namespace apollo {
 namespace bridge {
 
 int GetProtoSize(const char *buf, size_t size) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (size != sizeof(size_t)) {
     return 0;

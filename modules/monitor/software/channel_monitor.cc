@@ -71,7 +71,7 @@ ReaderAndMessagePair CreateReaderAndLatestsMessage(const std::string& channel) {
 // We have to specify exact type of each channel. This function is a wrapper for
 // those only need a ReaderBase.
 ReaderAndMessagePair GetReaderAndLatestMessage(const std::string& channel) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static const auto channel_function_map =
       std::unordered_map<std::string, std::function<ReaderAndMessagePair(
@@ -119,7 +119,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool ValidateFields(const google::protobuf::Message& message,
                     const std::vector<std::string>& fields,
                     const size_t field_step) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (field_step >= fields.size()) {
     return true;
@@ -154,11 +154,11 @@ ChannelMonitor::ChannelMonitor(
     : RecurrentRunner(FLAGS_channel_monitor_name,
                       FLAGS_channel_monitor_interval),
       latency_monitor_(latency_monitor) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ChannelMonitor::RunOnce(const double current_time) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto manager = MonitorManager::Instance();
   const auto& mode = manager->GetHMIMode();
@@ -180,7 +180,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void ChannelMonitor::UpdateStatus(
     const apollo::dreamview::ChannelMonitorConfig& config,
     ComponentStatus* status, const bool update_freq, const double freq) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   status->clear_status();
 

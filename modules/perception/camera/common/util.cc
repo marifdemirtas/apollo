@@ -24,18 +24,18 @@ namespace perception {
 namespace camera {
 
 bool Equal(double x, double target, double eps) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return std::abs(x - target) < eps;
 }
 bool Equal(float x, float target, float eps) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return std::abs(x - target) < eps;
 }
 
 bool LoadAnchors(const std::string &path, std::vector<float> *anchors) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int num_anchors = 0;
   std::ifstream ifs(path, std::ifstream::in);
@@ -58,7 +58,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LoadTypes(const std::string &path,
                std::vector<base::ObjectSubType> *types) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::ifstream ifs(path, std::ifstream::in);
   if (!ifs.good()) {
@@ -80,7 +80,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return true;
 }
 bool LoadExpand(const std::string &path, std::vector<float> *expands) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::ifstream ifs(path, std::ifstream::in);
   if (!ifs.good()) {
@@ -99,7 +99,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool ResizeCPU(const base::Blob<uint8_t> &src_blob,
                std::shared_ptr<base::Blob<float>> dst_blob, int stepwidth,
                int start_axis) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int width = dst_blob->shape(2);
   int height = dst_blob->shape(1);
@@ -169,7 +169,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string GetCyberWorkRoot() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string work_root = cyber::common::GetEnv("MODULE_PATH");
   if (work_root.empty()) {
@@ -179,7 +179,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void FillObjectPolygonFromBBox3D(base::Object *object_ptr) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!object_ptr) {
     return;

@@ -24,11 +24,11 @@ namespace msf {
 LosslessMapNodePool::LosslessMapNodePool(unsigned int pool_size,
                                          unsigned int thread_size)
     : BaseMapNodePool(pool_size, thread_size) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapNode* LosslessMapNodePool::AllocNewMapNode() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return new LosslessMapNode();
 }

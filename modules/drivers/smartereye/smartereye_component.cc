@@ -26,7 +26,7 @@ namespace drivers {
 namespace smartereye {
 
 SmartereyeComponent::~SmartereyeComponent() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (running_.load()) {
     running_.exchange(false);
@@ -35,7 +35,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SmartereyeComponent::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   camera_config_ = std::make_shared<Config>();
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
@@ -66,7 +66,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SmartereyeComponent::run() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   running_.exchange(true);
   while (!cyber::IsShutdown()) {
@@ -76,7 +76,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SmartereyeComponent::SetCallback() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CallbackFunc fun =
       std::bind(&SmartereyeComponent::Callback, this, std::placeholders::_1);
@@ -86,7 +86,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SmartereyeComponent::Callback(RawImageFrame *rawFrame) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (rawFrame->frameId == FrameId::Compound ||
       rawFrame->frameId == FrameId::LaneExt) {
@@ -107,7 +107,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SmartereyeComponent::processFrame(int frameId, char *image, char *extended,
                                        int64_t time, int width, int height) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (frameId) {
     case FrameId::Compound: {
@@ -272,7 +272,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void SmartereyeComponent::processFrame(int frameId, char *image,
                                        uint32_t dataSize, int width, int height,
                                        int frameFormat) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (frameId) {
     case FrameId::Lane: {

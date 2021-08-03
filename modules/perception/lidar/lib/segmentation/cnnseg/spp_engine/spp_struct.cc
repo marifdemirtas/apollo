@@ -21,7 +21,7 @@ namespace perception {
 namespace lidar {
 
 void SppData::MakeReference(size_t width, size_t height, float range) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   obs_prob_data = category_pt_blob->mutable_cpu_data();
   offset_data = instance_pt_blob->mutable_cpu_data();
@@ -50,7 +50,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 SppData::~SppData() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (obs_prob_data_ref) {
     delete[] obs_prob_data_ref;

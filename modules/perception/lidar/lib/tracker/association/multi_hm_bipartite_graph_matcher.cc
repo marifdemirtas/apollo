@@ -21,19 +21,19 @@
 #include "modules/perception/common/graph/gated_hungarian_bigraph_matcher.h"
 
 namespace apollo {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace lidar {
 
 MultiHmBipartiteGraphMatcher::MultiHmBipartiteGraphMatcher() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cost_matrix_ = optimizer_.mutable_global_costs();
 }
 
 MultiHmBipartiteGraphMatcher::~MultiHmBipartiteGraphMatcher() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cost_matrix_ = nullptr;
 }
@@ -43,7 +43,7 @@ void MultiHmBipartiteGraphMatcher::Match(
     std::vector<NodeNodePair> *assignments,
     std::vector<size_t> *unassigned_rows,
     std::vector<size_t> *unassigned_cols) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   common::GatedHungarianMatcher<float>::OptimizeFlag opt_flag =
       common::GatedHungarianMatcher<float>::OptimizeFlag::OPTMIN;

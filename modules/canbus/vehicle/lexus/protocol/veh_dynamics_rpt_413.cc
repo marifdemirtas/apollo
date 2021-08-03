@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Vehdynamicsrpt413::Vehdynamicsrpt413() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Vehdynamicsrpt413::ID = 0x413;
 
 void Vehdynamicsrpt413::Parse(const std::uint8_t* bytes, int32_t length,
                               ChassisDetail* chassis) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_lexus()->mutable_veh_dynamics_rpt_413()->set_veh_g_forces(
       veh_g_forces(bytes, length));
@@ -46,7 +46,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Vehdynamicsrpt413::veh_g_forces(const std::uint8_t* bytes,
                                        int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);

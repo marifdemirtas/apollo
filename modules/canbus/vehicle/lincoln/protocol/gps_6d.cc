@@ -29,7 +29,7 @@ const int32_t Gps6d::ID = 0x6D;
 
 void Gps6d::Parse(const std::uint8_t *bytes, int32_t length,
                   ChassisDetail *chassis_detail) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis_detail->mutable_basic()->set_latitude(latitude(bytes, length));
   chassis_detail->mutable_basic()->set_longitude(longitude(bytes, length));
@@ -37,7 +37,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Gps6d::latitude(const std::uint8_t *bytes, int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame_0(bytes + 3);
   int32_t value = frame_0.get_byte(0, 7);
@@ -65,7 +65,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Gps6d::longitude(const std::uint8_t *bytes, int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame_0(bytes + 7);
   int32_t value = frame_0.get_byte(0, 7);
@@ -93,7 +93,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Gps6d::is_valid(const std::uint8_t *bytes, int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(bytes + 7);
   return frame.is_bit_1(7);

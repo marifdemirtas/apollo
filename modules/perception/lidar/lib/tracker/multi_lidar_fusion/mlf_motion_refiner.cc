@@ -32,7 +32,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool MlfMotionRefiner::Init(const MlfMotionRefinerInitOptions& options) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -53,7 +53,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool MlfMotionRefiner::Refine(const MlfTrackDataConstPtr& track_data,
                               TrackedObjectPtr new_object) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto latest_object_pair = track_data->GetLatestObject();
   const TrackedObjectConstPtr& latest_object = latest_object_pair.second;
@@ -101,7 +101,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool MlfMotionRefiner::CheckStaticHypothesisByState(
     const TrackedObjectConstPtr& latest_object,
     const TrackedObjectConstPtr& new_object) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Check whether track is static or not
   // evaluate speed noise level, the less the level is the
@@ -155,7 +155,7 @@ bool MlfMotionRefiner::CheckStaticHypothesisByVelocityAngleChange(
     const TrackedObjectConstPtr& latest_object,
     const TrackedObjectConstPtr& new_object,
     double reasonable_angle_change_maximum) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // note reasonable_angle_change_maximum should be within [0, M_PI]
   // believe angle change is obvious if one of estimation pair is

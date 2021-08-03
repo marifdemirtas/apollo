@@ -29,11 +29,11 @@ const int32_t Turncmd63::ID = 0x63;
 
 // public
 Turncmd63::Turncmd63() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Turncmd63::GetPeriod() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,13 +41,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Turncmd63::UpdateData(uint8_t* data) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_turn_signal_cmd(data, turn_signal_cmd_);
 }
 
 void Turncmd63::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(QiL) :you should check this manually
   turn_signal_cmd_ = Turn_cmd_63::TURN_SIGNAL_CMD_NONE;
@@ -55,7 +55,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Turncmd63* Turncmd63::set_turn_signal_cmd(
     Turn_cmd_63::Turn_signal_cmdType turn_signal_cmd) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   turn_signal_cmd_ = turn_signal_cmd;
   return this;
@@ -68,7 +68,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit': 7, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Turncmd63::set_p_turn_signal_cmd(
     uint8_t* data, Turn_cmd_63::Turn_signal_cmdType turn_signal_cmd) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = turn_signal_cmd;
 

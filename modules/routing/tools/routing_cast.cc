@@ -27,7 +27,7 @@ DEFINE_string(routing_dump_file, "/tmp/routing.pb.txt",
 using apollo::cyber::Rate;
 
 int main(int argc, char *argv[]) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   apollo::cyber::Init(argv[0]);

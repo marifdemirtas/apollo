@@ -22,12 +22,12 @@ namespace fusion {
 
 InformationFilter::InformationFilter()
     : BaseFilter("InformationFilter"), last_observation_init_(false) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool InformationFilter::Init(const Eigen::VectorXd &global_states,
                              const Eigen::MatrixXd &global_uncertainty) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (global_uncertainty.rows() != global_uncertainty.cols()) {
     return false;
@@ -68,7 +68,7 @@ bool InformationFilter::SetLastObservation(
     const Eigen::MatrixXd &last_observation_uncertainty,
     const Eigen::MatrixXd &last_to_cur_transform_matrix,
     const Eigen::MatrixXd &last_to_cur_env_uncertainty) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!init_) {
     return false;
@@ -105,7 +105,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool InformationFilter::Predict(const Eigen::MatrixXd &transform_matrix,
                                 const Eigen::MatrixXd &env_uncertainty) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!init_) {
     return false;
@@ -134,7 +134,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool InformationFilter::Correct(
     const Eigen::VectorXd &cur_observation,
     const Eigen::MatrixXd &cur_observation_uncertainty) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!init_) {
     return false;
@@ -188,7 +188,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 bool InformationFilter::SetControlMatrix(
     const Eigen::MatrixXd &control_matrix) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!init_) {
     return false;

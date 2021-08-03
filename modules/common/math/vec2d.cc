@@ -28,25 +28,25 @@ namespace common {
 namespace math {
 
 Vec2d Vec2d::CreateUnitVec2d(const double angle) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return Vec2d(std::cos(angle), std::sin(angle));
 }
 
 double Vec2d::Length() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return std::hypot(x_, y_); }
 
 double Vec2d::LengthSquare() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return x_ * x_ + y_ * y_; }
 
 double Vec2d::Angle() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return std::atan2(y_, x_); }
 
 void Vec2d::Normalize() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double l = Length();
   if (l > kMathEpsilon) {
@@ -56,13 +56,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Vec2d::DistanceTo(const Vec2d &other) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return std::hypot(x_ - other.x_, y_ - other.y_);
 }
 
 double Vec2d::DistanceSquareTo(const Vec2d &other) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double dx = x_ - other.x_;
   const double dy = y_ - other.y_;
@@ -70,26 +70,26 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Vec2d::CrossProd(const Vec2d &other) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return x_ * other.y() - y_ * other.x();
 }
 
 double Vec2d::InnerProd(const Vec2d &other) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return x_ * other.x() + y_ * other.y();
 }
 
 Vec2d Vec2d::rotate(const double angle) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return Vec2d(x_ * cos(angle) - y_ * sin(angle),
                x_ * sin(angle) + y_ * cos(angle));
 }
 
 void Vec2d::SelfRotate(const double angle) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double tmp_x = x_;
   x_ = x_ * cos(angle) - y_ * sin(angle);
@@ -97,32 +97,32 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Vec2d Vec2d::operator+(const Vec2d &other) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return Vec2d(x_ + other.x(), y_ + other.y());
 }
 
 Vec2d Vec2d::operator-(const Vec2d &other) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return Vec2d(x_ - other.x(), y_ - other.y());
 }
 
 Vec2d Vec2d::operator*(const double ratio) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return Vec2d(x_ * ratio, y_ * ratio);
 }
 
 Vec2d Vec2d::operator/(const double ratio) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_GT(std::abs(ratio), kMathEpsilon);
   return Vec2d(x_ / ratio, y_ / ratio);
 }
 
 Vec2d &Vec2d::operator+=(const Vec2d &other) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   x_ += other.x();
   y_ += other.y();
@@ -130,7 +130,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Vec2d &Vec2d::operator-=(const Vec2d &other) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   x_ -= other.x();
   y_ -= other.y();
@@ -138,7 +138,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Vec2d &Vec2d::operator*=(const double ratio) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   x_ *= ratio;
   y_ *= ratio;
@@ -146,7 +146,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Vec2d &Vec2d::operator/=(const double ratio) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_GT(std::abs(ratio), kMathEpsilon);
   x_ /= ratio;
@@ -155,7 +155,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Vec2d::operator==(const Vec2d &other) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return (std::abs(x_ - other.x()) < kMathEpsilon &&
           std::abs(y_ - other.y()) < kMathEpsilon);
@@ -164,7 +164,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Vec2d operator*(const double ratio, const Vec2d &vec) { return vec * ratio; }
 
 std::string Vec2d::DebugString() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return absl::StrCat("vec2d ( x = ", x_, "  y = ", y_, " )");
 }

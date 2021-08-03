@@ -24,12 +24,12 @@ bool PbfShapeFusion::s_use_camera_3d_ = true;
 float PbfShapeFusion::s_camera_radar_time_diff_th_ = 0.3f;
 
 bool PbfShapeFusion::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return true; }
 
 void PbfShapeFusion::UpdateWithMeasurement(const SensorObjectPtr measurement,
                                            double target_timestamp) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // base::SensorType sensor_type = measurement->GetSensorType();
   SensorObjectConstPtr latest_lidar = track_ref_->GetLatestLidarObject();
@@ -67,22 +67,22 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void PbfShapeFusion::UpdateWithoutMeasurement(const std::string& sensor_id,
                                               double measurement_timestamp,
                                               double target_timestamp) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string PbfShapeFusion::Name() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return "PbfShapeFusion"; }
 
 void PbfShapeFusion::UpdateState(const SensorObjectConstPtr& measurement) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   UpdateShape(measurement);
   UpdateCenter(measurement);
 }
 
 void PbfShapeFusion::UpdateShape(const SensorObjectConstPtr& measurement) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   base::ObjectPtr dst_obj = track_ref_->GetFusedObject()->GetBaseObject();
   base::ObjectConstPtr src_obj = measurement->GetBaseObject();
@@ -94,7 +94,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PbfShapeFusion::UpdateCenter(const SensorObjectConstPtr& measurement) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   base::ObjectPtr dst_obj = track_ref_->GetFusedObject()->GetBaseObject();
   base::ObjectConstPtr src_obj = measurement->GetBaseObject();

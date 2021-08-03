@@ -29,13 +29,13 @@ namespace conti_radar {
 using apollo::drivers::canbus::Byte;
 
 ObjectExtendedInfo60D::ObjectExtendedInfo60D() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const uint32_t ObjectExtendedInfo60D::ID = 0x60D;
 
 void ObjectExtendedInfo60D::Parse(const std::uint8_t* bytes, int32_t length,
                                   ContiRadar* conti_radar) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int obj_id = object_id(bytes, length);
   for (int i = 0; i < conti_radar->contiobs_size(); ++i) {
@@ -55,7 +55,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectExtendedInfo60D::object_id(const std::uint8_t* bytes,
                                      int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes);
   int32_t x = t0.get_byte(0, 8);
@@ -66,7 +66,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double ObjectExtendedInfo60D::longitude_accel(const std::uint8_t* bytes,
                                               int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -83,7 +83,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double ObjectExtendedInfo60D::lateral_accel(const std::uint8_t* bytes,
                                             int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 5);
@@ -100,7 +100,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectExtendedInfo60D::obstacle_class(const std::uint8_t* bytes,
                                           int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 3);
@@ -111,7 +111,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double ObjectExtendedInfo60D::oritation_angle(const std::uint8_t* bytes,
                                               int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -128,7 +128,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double ObjectExtendedInfo60D::object_length(const std::uint8_t* bytes,
                                             int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
@@ -139,7 +139,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double ObjectExtendedInfo60D::object_width(const std::uint8_t* bytes,
                                            int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);

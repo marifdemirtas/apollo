@@ -34,7 +34,7 @@ namespace apollo {
 namespace hdmap {
 
 Client::Client() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   YAML::Node node = YAML::LoadFile(FLAGS_client_conf_yaml);
   std::string bin_path = boost::filesystem::current_path().string();
@@ -50,7 +50,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::Run() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string stage = FLAGS_stage;
   AINFO << "stage [" << stage << "]";
@@ -72,7 +72,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::RecordCheckStage() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string cmd = FLAGS_cmd;
   ChannelChecker channel_checker(channel_checker_stop_flag_file_);
@@ -103,7 +103,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::StaticAlignStage() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string cmd = FLAGS_cmd;
   AINFO << "cmd [" << cmd << "]";
@@ -132,7 +132,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::EightRouteStage() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string cmd = FLAGS_cmd;
   AINFO << "cmd [" << cmd << "]";
@@ -161,7 +161,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::DataCollectStage() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string cmd = FLAGS_cmd;
   AINFO << "cmd [" << cmd << "]";
@@ -230,7 +230,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::LoopsCheckStage() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LoopsChecker loops_checker(data_collect_time_flag_file_);
   bool reached = false;
@@ -253,7 +253,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::CleanStage() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (boost::filesystem::exists(data_collect_time_flag_file_)) {
     boost::filesystem::remove(data_collect_time_flag_file_);

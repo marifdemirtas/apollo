@@ -31,13 +31,13 @@ namespace racobit_radar {
 using apollo::drivers::canbus::Byte;
 
 ClusterGeneralInfo701::ClusterGeneralInfo701() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const uint32_t ClusterGeneralInfo701::ID = 0x701;
 
 void ClusterGeneralInfo701::Parse(const std::uint8_t* bytes, int32_t length,
                                   RacobitRadar* racobit_radar) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto obs = racobit_radar->add_contiobs();
   obs->set_clusterortrack(true);
@@ -56,7 +56,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ClusterGeneralInfo701::obstacle_id(const std::uint8_t* bytes,
                                        int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes);
   uint32_t x = t0.get_byte(0, 8);
@@ -67,7 +67,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double ClusterGeneralInfo701::longitude_dist(const std::uint8_t* bytes,
                                              int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   uint32_t x = t0.get_byte(0, 8);
@@ -82,7 +82,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double ClusterGeneralInfo701::lateral_dist(const std::uint8_t* bytes,
                                            int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   uint32_t x = t0.get_byte(0, 2);
@@ -97,7 +97,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double ClusterGeneralInfo701::longitude_vel(const std::uint8_t* bytes,
                                             int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   uint32_t x = t0.get_byte(0, 8);
@@ -112,7 +112,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double ClusterGeneralInfo701::lateral_vel(const std::uint8_t* bytes,
                                           int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 5);
   uint32_t x = t0.get_byte(0, 6);
@@ -127,7 +127,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double ClusterGeneralInfo701::rcs(const std::uint8_t* bytes,
                                   int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 7);
   uint32_t x = t0.get_byte(0, 8);
@@ -137,7 +137,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ClusterGeneralInfo701::dynprop(const std::uint8_t* bytes,
                                    int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 6);
   uint32_t x = t0.get_byte(0, 3);

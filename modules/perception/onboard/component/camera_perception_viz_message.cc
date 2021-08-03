@@ -32,7 +32,7 @@ CameraPerceptionVizMessage::CameraPerceptionVizMessage(
       pose_camera_to_world_(pose_camera_to_world),
       image_blob_(image_blob),
       error_code_(error_code) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   camera_objects_.clear();
   for (const auto& obj : camera_objects) {

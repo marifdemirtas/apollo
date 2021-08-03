@@ -35,7 +35,7 @@ DEFINE_string(camera_intrinsics_yaml, "params/front_6mm_intrinsics.yaml",
               "camera intrinsics_yaml");
 
 namespace apollo {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {
@@ -44,7 +44,7 @@ void show_detect_point_set(
     const cv::Mat& image,
     const std::vector<std::vector<LanePointInfo>>& detect_laneline_point_set,
     const std::string& save_path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Scalar color = cv::Scalar(0, 255, 0);
   int draw_size = 2;
@@ -74,7 +74,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void show_all_infer_point_set(const cv::Mat& image,
                               const std::vector<LanePointInfo>& infer_point_set,
                               const std::string& save_path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Scalar color = cv::Scalar(0, 255, 0);
   int draw_size = 2;
@@ -91,7 +91,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void show_lane_lines(const cv::Mat& image,
                      const std::vector<base::LaneLine>& lane_marks,
                      const std::string& save_path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const float range_x = 70.0f;
   const float range_y = 30.0f;
@@ -171,7 +171,7 @@ void show_lane_ccs(const std::vector<unsigned char>& lane_map,
                    const std::vector<ConnectedComponent>& lane_ccs,
                    const std::vector<ConnectedComponent>& select_lane_ccs,
                    const std::string& save_path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Mat lane_map_draw =
       cv::Mat::zeros(lane_map_height, lane_map_width, CV_8UC1);
@@ -219,7 +219,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void output_laneline_to_json(const std::vector<base::LaneLine>& lane_objects,
                              const std::string& save_path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   FILE* file_save = fopen(save_path.c_str(), "wt");
   if (!file_save) {
@@ -297,7 +297,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void output_laneline_to_txt(const std::vector<base::LaneLine>& lane_objects,
                             const std::string& save_path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   FILE* file_save = fopen(save_path.c_str(), "wt");
   if (!file_save) {
@@ -345,7 +345,7 @@ void show_detect_point_set(
     const cv::Mat& image,
     const std::vector<base::Point2DF>& img_laneline_point_set,
     const std::string& save_path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Scalar color = cv::Scalar(0, 255, 0);
   int draw_size = 2;
@@ -364,7 +364,7 @@ void show_neighbor_point_set(
     const cv::Mat& image,
     const std::vector<base::Point2DF>& img_laneline_point_set,
     const std::vector<int>& neighbor_point_info, const std::string& save_path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Scalar color = cv::Scalar(0, 255, 0);
   int draw_size = 2;
@@ -399,7 +399,7 @@ void show_detect_point_set(
     const cv::Mat& image,
     const std::vector<base::Point2DF>& img_laneline_point_set,
     const std::vector<float>& point_score_vec, const std::string& save_path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Scalar color = cv::Scalar(0, 255, 0);
   int draw_size = 2;

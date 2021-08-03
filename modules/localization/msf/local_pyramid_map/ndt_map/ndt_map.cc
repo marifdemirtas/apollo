@@ -23,11 +23,11 @@ namespace msf {
 namespace pyramid_map {
 
 NdtMap::NdtMap(NdtMapConfig* config) : BaseMap(config) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 NdtMap::~NdtMap() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 }  // namespace pyramid_map

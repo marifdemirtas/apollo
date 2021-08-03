@@ -27,11 +27,11 @@ namespace data {
 using apollo::common::DriveEvent;
 
 DriveEventTrigger::DriveEventTrigger() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  trigger_name_ = "DriveEventTrigger"; }
 
 void DriveEventTrigger::Pull(const cyber::record::RecordMessage& msg) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!trigger_obj_->enabled()) {
     return;

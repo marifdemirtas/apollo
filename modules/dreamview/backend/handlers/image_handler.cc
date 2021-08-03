@@ -70,7 +70,7 @@ void ImageHandler::OnImage(
 }
 
 void ImageHandler::OnImageFront(const std::shared_ptr<Image> &image) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (FLAGS_use_navigation_mode) {
     // Navigation mode
@@ -79,7 +79,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ImageHandler::OnImageShort(const std::shared_ptr<CompressedImage> &image) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!FLAGS_use_navigation_mode) {
     // Regular mode
@@ -89,7 +89,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 ImageHandler::ImageHandler()
     : requests_(0), node_(cyber::CreateNode("image_handler")) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   node_->CreateReader<Image>(
       FLAGS_image_front_topic,
@@ -103,7 +103,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool ImageHandler::handleGet(CivetServer *server, struct mg_connection *conn) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   requests_++;
 

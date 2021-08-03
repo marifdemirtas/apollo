@@ -28,7 +28,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool MlfTracker::Init(const MlfTrackerInitOptions options) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -57,7 +57,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MlfTracker::InitializeTrack(MlfTrackDataPtr new_track_data,
                                  TrackedObjectPtr new_object) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   new_track_data->Reset(new_object, GetNextTrackId());
   new_track_data->is_current_state_predicted_ = false;
@@ -65,7 +65,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MlfTracker::UpdateTrackDataWithObject(MlfTrackDataPtr track_data,
                                            TrackedObjectPtr new_object) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // 1. state filter and store belief in new_object
   for (auto& filter : filters_) {
@@ -78,7 +78,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MlfTracker::UpdateTrackDataWithoutObject(double timestamp,
                                               MlfTrackDataPtr track_data) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto& filter : filters_) {
     filter->UpdateWithoutObject(filter_options_, timestamp, track_data);

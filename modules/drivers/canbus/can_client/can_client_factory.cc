@@ -34,11 +34,11 @@ namespace drivers {
 namespace canbus {
 
 CanClientFactory::CanClientFactory() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CanClientFactory::RegisterCanClients() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "CanClientFactory::RegisterCanClients";
   Register(CANCardParameter::FAKE_CAN,
@@ -57,7 +57,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::unique_ptr<CanClient> CanClientFactory::CreateCANClient(
     const CANCardParameter& parameter) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto factory = CreateObject(parameter.brand());
   if (!factory) {

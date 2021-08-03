@@ -28,11 +28,11 @@ const int32_t Pcepb203::ID = 0x203;
 
 // public
 Pcepb203::Pcepb203() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Pcepb203::GetPeriod() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,14 +40,14 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Pcepb203::UpdateData(uint8_t* data) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_pc_epbreq(data, pc_epbreq_);
   set_p_pc_epbenable(data, pc_epbenable_);
 }
 
 void Pcepb203::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // you should check this manually
   pc_epbreq_ = Pc_epb_203::PC_EPBREQ_INVALID;
@@ -55,7 +55,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Pcepb203* Pcepb203::set_pc_epbreq(Pc_epb_203::Pc_epbreqType pc_epbreq) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pc_epbreq_ = pc_epbreq;
   return this;
@@ -68,7 +68,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': ''}
 void Pcepb203::set_p_pc_epbreq(uint8_t* data,
                                Pc_epb_203::Pc_epbreqType pc_epbreq) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = pc_epbreq;
 
@@ -78,7 +78,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Pcepb203* Pcepb203::set_pc_epbenable(
     Pc_epb_203::Pc_epbenableType pc_epbenable) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pc_epbenable_ = pc_epbenable;
   return this;
@@ -91,7 +91,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Pcepb203::set_p_pc_epbenable(uint8_t* data,
                                   Pc_epb_203::Pc_epbenableType pc_epbenable) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = pc_epbenable;
 

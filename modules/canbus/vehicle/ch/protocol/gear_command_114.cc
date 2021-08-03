@@ -28,11 +28,11 @@ const int32_t Gearcommand114::ID = 0x114;
 
 // public
 Gearcommand114::Gearcommand114() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Gearcommand114::GetPeriod() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,13 +40,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Gearcommand114::UpdateData(uint8_t* data) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_gear_cmd(data, gear_cmd_);
 }
 
 void Gearcommand114::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // you should check this manually
   gear_cmd_ = Gear_command_114::GEAR_CMD_NEUTRAL;
@@ -54,7 +54,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Gearcommand114* Gearcommand114::set_gear_cmd(
     Gear_command_114::Gear_cmdType gear_cmd) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gear_cmd_ = gear_cmd;
   return this;
@@ -67,7 +67,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'enum', 'order': 'intel', 'physical_unit': ''}
 void Gearcommand114::set_p_gear_cmd(uint8_t* data,
                                     Gear_command_114::Gear_cmdType gear_cmd) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = gear_cmd;
 

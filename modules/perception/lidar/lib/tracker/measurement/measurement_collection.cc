@@ -26,7 +26,7 @@ namespace lidar {
 void MeasureAnchorPointVelocity(TrackedObjectPtr new_object,
                                 const TrackedObjectConstPtr& old_object,
                                 const double& time_diff) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Compute 2D anchor point velocity measurement
   Eigen::Vector3d measured_anchor_point_velocity =
@@ -39,7 +39,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void MeasureBboxCenterVelocity(TrackedObjectPtr new_object,
                                const TrackedObjectConstPtr& old_object,
                                const double& time_diff) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Compute 2D bbox center velocity measurement
   Eigen::Vector3f old_dir_tmp = old_object->output_direction.cast<float>();
@@ -71,7 +71,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void MeasureBboxCornerVelocity(TrackedObjectPtr new_object,
                                const TrackedObjectConstPtr& old_object,
                                const double& time_diff) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Compute 2D bbxo corner velocity measurement
   Eigen::Vector3f old_dir_tmp = old_object->output_direction.cast<float>();

@@ -31,11 +31,11 @@ namespace localization {
 namespace msf {
 OfflineLocalVisualizer::OfflineLocalVisualizer()
     : map_config_(), resolution_id_(0), zone_id_(0), visual_engine_() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 OfflineLocalVisualizer::~OfflineLocalVisualizer() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool OfflineLocalVisualizer::Init(
@@ -43,7 +43,7 @@ bool OfflineLocalVisualizer::Init(
     const std::string &pcd_folder, const std::string &pcd_timestamp_file,
     const std::string &gnss_loc_file, const std::string &lidar_loc_file,
     const std::string &fusion_loc_file, const std::string &extrinsic_file) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_folder_ = map_folder;
   map_visual_folder_ = map_visual_folder;
@@ -133,7 +133,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void OfflineLocalVisualizer::Visualize() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (unsigned int idx = 0; idx < pcd_timestamps_.size(); ++idx) {
     LocalizatonInfo lidar_loc_info;
@@ -189,7 +189,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool OfflineLocalVisualizer::PCDTimestampFileHandler() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pcd_timestamps_.clear();
 
@@ -211,7 +211,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool OfflineLocalVisualizer::LidarLocFileHandler(
     const std::vector<double> &pcd_timestamps) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ::apollo::common::EigenAffine3dVec poses;
   ::apollo::common::EigenVector3dVec stds;
@@ -226,7 +226,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool OfflineLocalVisualizer::GnssLocFileHandler(
     const std::vector<double> &pcd_timestamps) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ::apollo::common::EigenAffine3dVec poses;
   ::apollo::common::EigenVector3dVec stds;
@@ -241,7 +241,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool OfflineLocalVisualizer::FusionLocFileHandler(
     const std::vector<double> &pcd_timestamps) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ::apollo::common::EigenAffine3dVec poses;
   ::apollo::common::EigenVector3dVec stds;
@@ -260,7 +260,7 @@ void OfflineLocalVisualizer::PoseAndStdInterpolationByTime(
     const std::vector<double> &ref_timestamps,
     std::map<unsigned int, Eigen::Affine3d> *out_poses,
     std::map<unsigned int, Eigen::Vector3d> *out_stds) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int index = 0;
   for (size_t i = 0; i < ref_timestamps.size(); ++i) {
@@ -313,7 +313,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool OfflineLocalVisualizer::GetZoneIdFromMapFolder(
     const std::string &map_folder, const unsigned int resolution_id,
     int *zone_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   char buf[256];
   snprintf(buf, sizeof(buf), "/%03u", resolution_id);

@@ -36,7 +36,7 @@ namespace ndt {
 
 LidarLocatorNdt::LidarLocatorNdt()
     : config_("map_ndt_v01"), map_(&config_), map_preload_node_pool_(30, 12) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Translation3d trans(0, 0, 0);
   Eigen::Quaterniond quat(1, 0, 0, 0);
@@ -49,12 +49,12 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LidarLocatorNdt::~LidarLocatorNdt() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LidarLocatorNdt::Init(const Eigen::Affine3d& init_location,
                            unsigned int resolution_id, int zone_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   location_ = init_location;
   resolution_id_ = resolution_id;
@@ -98,7 +98,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LidarLocatorNdt::LoadMap(const Eigen::Affine3d& init_location,
                               unsigned int resolution_id, int zone_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_preload_node_pool_.Initial(&(map_.GetMapConfig()));
   map_.InitMapNodeCaches(12, 24);
@@ -110,7 +110,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LidarLocatorNdt::SetMapFolderPath(const std::string folder_path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!map_.SetMapFolderPath(folder_path)) {
     AERROR << "Map folder is invalid!";
@@ -118,20 +118,20 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LidarLocatorNdt::SetVelodyneExtrinsic(const Eigen::Affine3d& extrinsic) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   velodyne_extrinsic_ = extrinsic;
 }
 
 void LidarLocatorNdt::SetLidarHeight(double height) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   lidar_height_ = height;
   AINFO << "Set height: " << lidar_height_;
 }
 
 void LidarLocatorNdt::SetOnlineCloudResolution(const float& online_resolution) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   proj_reslution_ = online_resolution;
   AINFO << "Proj resolution: " << proj_reslution_;
@@ -139,7 +139,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int LidarLocatorNdt::Update(unsigned int frame_idx, const Eigen::Affine3d& pose,
                             const LidarFrame& lidar_frame) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Increasement from INSPVA
   Eigen::Vector3d trans_diff =
@@ -266,17 +266,17 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Eigen::Affine3d LidarLocatorNdt::GetPose() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return location_; }
 
 Eigen::Vector3d LidarLocatorNdt::GetPredictLocation() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return predict_location_.translation();
 }
 
 Eigen::Matrix3d LidarLocatorNdt::GetLocationCovariance() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return location_covariance_;
 }
@@ -285,7 +285,7 @@ void LidarLocatorNdt::ComposeMapCells(
     const Eigen::Vector2d& left_top_coord2d, int zone_id,
     unsigned int resolution_id, float map_pixel_resolution,
     const Eigen::Affine3d& inverse_transform) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   apollo::common::util::Timer timer;
   timer.Start();

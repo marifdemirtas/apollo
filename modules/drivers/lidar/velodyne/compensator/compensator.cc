@@ -27,7 +27,7 @@ namespace velodyne {
 
 bool Compensator::QueryPoseAffineFromTF2(const uint64_t& timestamp, void* pose,
                                          const std::string& child_frame_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cyber::Time query_time(timestamp);
   std::string err_string;
@@ -64,7 +64,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool Compensator::MotionCompensation(
     const std::shared_ptr<const PointCloud>& msg,
     std::shared_ptr<PointCloud> msg_compensated) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (msg->height() == 0 || msg->width() == 0) {
     AERROR << "PointCloud width & height should not be 0";
@@ -113,7 +113,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 inline void Compensator::GetTimestampInterval(
     const std::shared_ptr<const PointCloud>& msg, uint64_t* timestamp_min,
     uint64_t* timestamp_max) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   *timestamp_max = 0;
   *timestamp_min = std::numeric_limits<uint64_t>::max();
@@ -135,7 +135,7 @@ void Compensator::MotionCompensation(
     std::shared_ptr<PointCloud> msg_compensated, const uint64_t timestamp_min,
     const uint64_t timestamp_max, const Eigen::Affine3d& pose_min_time,
     const Eigen::Affine3d& pose_max_time) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   using std::abs;
   using std::acos;

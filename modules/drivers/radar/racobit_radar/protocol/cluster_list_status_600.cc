@@ -30,13 +30,13 @@ using apollo::drivers::RacobitRadarObs;
 using apollo::drivers::canbus::Byte;
 
 ClusterListStatus600::ClusterListStatus600() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const uint32_t ClusterListStatus600::ID = 0x600;
 
 void ClusterListStatus600::Parse(const std::uint8_t* bytes, int32_t length,
                                  RacobitRadar* racobit_radar) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto status = racobit_radar->mutable_cluster_list_status();
   status->set_near(near(bytes, length));
@@ -66,7 +66,7 @@ int ClusterListStatus600::far(const std::uint8_t* bytes, int32_t length) const {
 
 int ClusterListStatus600::meas_counter(const std::uint8_t* bytes,
                                        int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -82,7 +82,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ClusterListStatus600::interface_version(const std::uint8_t* bytes,
                                             int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(4, 4);

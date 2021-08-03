@@ -27,7 +27,7 @@ using apollo::drivers::PointXYZIT;
 Hesai40Parser::Hesai40Parser(const std::shared_ptr<Node> &node,
                              const Config &conf)
     : Parser(node, conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // init the block time offset, us
   block_offset_[9] = 55.56 * 0.0 + 28.58;
@@ -91,12 +91,12 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Hesai40Parser::~Hesai40Parser() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Hesai40Parser::ParseRawPacket(const uint8_t *buf, const int len,
                                    bool *is_end) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // PrintMem(buf, len);
   if (len != PACKET_SIZE && len != PACKET_SIZE_WITH_UDPSEQ) {
@@ -184,7 +184,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Hesai40Parser::CalcPointXYZIT(Hesai40Packet *pkt, int blockid) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Hesai40PBlock *block = &pkt->blocks[blockid];
   double unix_second = static_cast<double>(mktime(&pkt->t) + tz_second_);

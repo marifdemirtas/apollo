@@ -29,15 +29,15 @@ namespace drivers {
 namespace smartereye {
 
 SmartereyeDevice::SmartereyeDevice() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 SmartereyeDevice::~SmartereyeDevice() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  uninit(); }
 
 bool SmartereyeDevice::init(const std::shared_ptr<Config>& camera_config) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pcamera_ = StereoCamera::connect("192.168.1.251");
   pcameraHandler_ = new SmartereyeHandler("camera A");
@@ -48,7 +48,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SmartereyeDevice::SetCallback(CallbackFunc ptr) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pcameraHandler_->SetCallback(ptr);
 
@@ -56,7 +56,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int SmartereyeDevice::poll() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pcamera_->requestFrame(pcameraHandler_, FrameId::Compound);
   is_capturing_ = true;
@@ -65,7 +65,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int SmartereyeDevice::uninit() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!inited_) {
     return 1;
@@ -79,11 +79,11 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SmartereyeDevice::is_capturing() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return is_capturing_; }
 
 bool SmartereyeDevice::wait_for_device() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (is_capturing_) {
     ADEBUG << "is capturing";

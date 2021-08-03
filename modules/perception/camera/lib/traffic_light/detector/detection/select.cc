@@ -19,13 +19,13 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {
 
 bool Select::Init(int rows, int cols) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (rows < 0 || cols < 0) {
     return false;
@@ -38,7 +38,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double Select::Calc2dGaussianScore(base::Point2DI p1, base::Point2DI p2,
                                    float sigma1, float sigma2) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return std::exp(-0.5 * (static_cast<float>((p1.x - p2.x) * (p1.x - p2.x)) /
                               (sigma1 * sigma1) +
@@ -49,7 +49,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Select::SelectTrafficLights(
     const std::vector<base::TrafficLightPtr> &refined_bboxes,
     std::vector<base::TrafficLightPtr> *hdmap_bboxes) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<std::pair<size_t, size_t>> assignments;
   munkres_.costs()->Resize(hdmap_bboxes->size(), refined_bboxes.size());

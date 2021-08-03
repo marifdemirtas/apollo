@@ -43,7 +43,7 @@ DEFINE_int32(mean_g, 99, "image g");
 DEFINE_int32(mean_r, 96, "image r");
 
 int main(int argc, char **argv) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
 

@@ -19,7 +19,7 @@
 #include <algorithm>
 
 namespace apollo {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {
@@ -27,7 +27,7 @@ namespace camera {
 /** DisjointSet **/
 // add a new element, which is a subset by itself;
 int DisjointSet::Add() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int cur_size = static_cast<int>(disjoint_array_.size());
   disjoint_array_.push_back(cur_size);
@@ -36,7 +36,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int DisjointSet::Find(int x) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (disjoint_array_[x] == x) {
     return x;
@@ -59,7 +59,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // point the x and y to smaller root of the two
 void DisjointSet::Unite(int x, int y) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (x == y) {
     return;
@@ -78,7 +78,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 /** ConnectedComponent **/
 void ConnectedComponent::AddPixel(int x, int y) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   base::Point2DI point;
   point.x = x;
@@ -93,7 +93,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool FindCC(const std::vector<unsigned char>& src, int width, int height,
             const base::RectI& roi, std::vector<ConnectedComponent>* cc) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (src.empty()) {
     AERROR << "input image is empty";
@@ -217,7 +217,7 @@ bool ImagePoint2Camera(const base::Point2DF& img_point, float pitch_angle,
                        float camera_ground_height,
                        const Eigen::Matrix3f& intrinsic_params_inverse,
                        Eigen::Vector3d* camera_point) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::MatrixXf pt_m(3, 1);
   pt_m << img_point.x, img_point.y, 1;
@@ -241,7 +241,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool CameraPoint2Image(const Eigen::Vector3d& camera_point,
                        const Eigen::Matrix3f& intrinsic_params,
                        base::Point2DF* img_point) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector3f camera_point3f;
   camera_point3f(0, 0) = static_cast<float>(camera_point(0, 0));
@@ -257,13 +257,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 bool ComparePoint2DY(const base::Point2DF& point1,
                      const base::Point2DF& point2) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return point1.y < point2.y;
 }
 
 bool FindKSmallValue(const float* distance, int dim, int k, int* index) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (dim < k) {
     AWARN << "dim is smaller than k";
@@ -311,7 +311,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool FindKLargeValue(const float* distance, int dim, int k, int* index) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (dim < k) {
     AWARN << "dim is smaller than k";

@@ -76,7 +76,7 @@ SyncedMemory::SyncedMemory(bool use_cuda)
       cpu_malloc_use_cuda_(use_cuda),
       own_gpu_data_(false),
       device_(-1) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 #if USE_GPU == 1
 #ifdef PERCEPTION_DEBUG
@@ -94,7 +94,7 @@ SyncedMemory::SyncedMemory(size_t size, bool use_cuda)
       cpu_malloc_use_cuda_(use_cuda),
       own_gpu_data_(false),
       device_(-1) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 #if USE_GPU == 1
 #ifdef PERCEPTION_DEBUG
@@ -104,7 +104,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 SyncedMemory::~SyncedMemory() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   check_device();
   if (cpu_ptr_ && own_cpu_data_) {
@@ -119,7 +119,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 inline void SyncedMemory::to_cpu() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   check_device();
   switch (head_) {
@@ -152,7 +152,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 inline void SyncedMemory::to_gpu() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   check_device();
 #if USE_GPU == 1
@@ -181,7 +181,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const void* SyncedMemory::cpu_data() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   check_device();
   to_cpu();
@@ -189,7 +189,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SyncedMemory::set_cpu_data(void* data) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   check_device();
   ACHECK(data);
@@ -202,7 +202,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const void* SyncedMemory::gpu_data() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   check_device();
 #if USE_GPU == 1
@@ -215,7 +215,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SyncedMemory::set_gpu_data(void* data) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   check_device();
 #if USE_GPU == 1
@@ -232,7 +232,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void* SyncedMemory::mutable_cpu_data() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   check_device();
   to_cpu();
@@ -241,7 +241,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void* SyncedMemory::mutable_gpu_data() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   check_device();
 #if USE_GPU == 1
@@ -256,7 +256,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 #if USE_GPU == 1
 void SyncedMemory::async_gpu_push(const cudaStream_t& stream) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   check_device();
   CHECK_EQ(head_, HEAD_AT_CPU);
@@ -272,7 +272,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 #endif
 
 void SyncedMemory::check_device() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 #if USE_GPU == 1
 #ifdef PERCEPTION_DEBUG

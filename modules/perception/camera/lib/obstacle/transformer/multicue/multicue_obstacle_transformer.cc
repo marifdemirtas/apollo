@@ -26,7 +26,7 @@ namespace camera {
 
 bool MultiCueObstacleTransformer::Init(
     const ObstacleTransformerInitOptions &options) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string transformer_config =
       cyber::common::GetAbsolutePath(options.root_dir, options.conf_file);
@@ -48,7 +48,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void MultiCueObstacleTransformer::SetObjMapperOptions(
     base::ObjectPtr obj, Eigen::Matrix3f camera_k_matrix, int width_image,
     int height_image, ObjMapperOptions *obj_mapper_options, float *theta_ray) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // prepare bbox2d
   float bbox2d[4] = {
@@ -102,7 +102,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int MultiCueObstacleTransformer::MatchTemplates(base::ObjectSubType sub_type,
                                                 float *dimension_hwl) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const TemplateMap &kMinTemplateHWL =
       object_template_manager_->MinTemplateHWL();
@@ -176,7 +176,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void MultiCueObstacleTransformer::FillResults(
     float object_center[3], float dimension_hwl[3], float rotation_y,
     Eigen::Affine3d camera2world_pose, float theta_ray, base::ObjectPtr obj) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (obj == nullptr) {
     return;
@@ -223,7 +223,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool MultiCueObstacleTransformer::Transform(
     const ObstacleTransformerOptions &options, CameraFrame *frame) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frame->detected_objects.empty()) {
     ADEBUG << "No object input to transformer.";
@@ -279,7 +279,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string MultiCueObstacleTransformer::Name() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return "MultiCueObstacleTransformer";
 }

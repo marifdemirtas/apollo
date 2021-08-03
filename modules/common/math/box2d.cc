@@ -35,7 +35,7 @@ namespace {
 double PtSegDistance(double query_x, double query_y, double start_x,
                      double start_y, double end_x, double end_y,
                      double length) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double x0 = query_x - start_x;
   const double y0 = query_y - start_y;
@@ -63,7 +63,7 @@ Box2d::Box2d(const Vec2d &center, const double heading, const double length,
       heading_(heading),
       cos_heading_(cos(heading)),
       sin_heading_(sin(heading)) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_GT(length_, -kMathEpsilon);
   CHECK_GT(width_, -kMathEpsilon);
@@ -79,7 +79,7 @@ Box2d::Box2d(const LineSegment2d &axis, const double width)
       heading_(axis.heading()),
       cos_heading_(axis.cos_heading()),
       sin_heading_(axis.sin_heading()) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_GT(length_, -kMathEpsilon);
   CHECK_GT(width_, -kMathEpsilon);
@@ -87,7 +87,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Box2d::InitCorners() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double dx1 = cos_heading_ * half_length_;
   const double dy1 = sin_heading_ * half_length_;
@@ -116,7 +116,7 @@ Box2d::Box2d(const AABox2d &aabox)
       heading_(0.0),
       cos_heading_(1.0),
       sin_heading_(0.0) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_GT(length_, -kMathEpsilon);
   CHECK_GT(width_, -kMathEpsilon);
@@ -124,7 +124,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Box2d Box2d::CreateAABox(const Vec2d &one_corner,
                          const Vec2d &opposite_corner) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double x1 = std::min(one_corner.x(), opposite_corner.x());
   const double x2 = std::max(one_corner.x(), opposite_corner.x());
@@ -134,7 +134,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Box2d::GetAllCorners(std::vector<Vec2d> *const corners) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (corners == nullptr) {
     return;
@@ -143,11 +143,11 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::vector<Vec2d> Box2d::GetAllCorners() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return corners_; }
 
 bool Box2d::IsPointIn(const Vec2d &point) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double x0 = point.x() - center_.x();
   const double y0 = point.y() - center_.y();
@@ -157,7 +157,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Box2d::IsPointOnBoundary(const Vec2d &point) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double x0 = point.x() - center_.x();
   const double y0 = point.y() - center_.y();
@@ -170,7 +170,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Box2d::DistanceTo(const Vec2d &point) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double x0 = point.x() - center_.x();
   const double y0 = point.y() - center_.y();
@@ -188,7 +188,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Box2d::HasOverlap(const LineSegment2d &line_segment) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (line_segment.length() <= kMathEpsilon) {
     return IsPointIn(line_segment.start());
@@ -203,7 +203,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Box2d::DistanceTo(const LineSegment2d &line_segment) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (line_segment.length() <= kMathEpsilon) {
     return DistanceTo(line_segment.start());
@@ -299,13 +299,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Box2d::DistanceTo(const Box2d &box) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return Polygon2d(box).DistanceTo(*this);
 }
 
 bool Box2d::HasOverlap(const Box2d &box) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (box.max_x() < min_x() || box.min_x() > max_x() || box.max_y() < min_y() ||
       box.min_y() > max_y()) {
@@ -343,7 +343,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 AABox2d Box2d::GetAABox() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double dx1 = std::abs(cos_heading_ * half_length_);
   const double dy1 = std::abs(sin_heading_ * half_length_);
@@ -353,7 +353,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Box2d::RotateFromCenter(const double rotate_angle) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   heading_ = NormalizeAngle(heading_ + rotate_angle);
   cos_heading_ = std::cos(heading_);
@@ -362,14 +362,14 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Box2d::Shift(const Vec2d &shift_vec) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   center_ += shift_vec;
   InitCorners();
 }
 
 void Box2d::LongitudinalExtend(const double extension_length) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   length_ += extension_length;
   half_length_ += extension_length / 2.0;
@@ -377,7 +377,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Box2d::LateralExtend(const double extension_length) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   width_ += extension_length;
   half_width_ += extension_length / 2.0;
@@ -385,7 +385,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string Box2d::DebugString() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return absl::StrCat("box2d ( center = ", center_.DebugString(),
                       "  heading = ", heading_, "  length = ", length_,

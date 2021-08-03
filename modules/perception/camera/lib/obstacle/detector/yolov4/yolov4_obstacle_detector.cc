@@ -33,7 +33,7 @@ using cyber::common::GetAbsolutePath;
 
 void Yolov4ObstacleDetector::LoadInputShape(
     const yolo::ModelParam &model_param) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float offset_ratio = model_param.offset_ratio();
   float cropped_ratio = model_param.cropped_ratio();
@@ -61,7 +61,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Yolov4ObstacleDetector::LoadParam(const yolo::YoloParam &yolo_param) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto &model_param = yolo_param.model_param();
   confidence_threshold_ = model_param.confidence_threshold();
@@ -86,7 +86,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool Yolov4ObstacleDetector::InitNet(const yolo::YoloParam &yolo_param,
                                      const std::string &model_root) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto &model_param = yolo_param.model_param();
 
@@ -153,7 +153,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Yolov4ObstacleDetector::InitYoloBlob(const yolo::NetworkParam &net_param) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto obj_blob_scale1 = inference_->get_blob(net_param.det1_obj_blob());
   auto obj_blob_scale2 = inference_->get_blob(net_param.det2_obj_blob());
@@ -259,7 +259,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Yolov4ObstacleDetector::Init(const ObstacleDetectorInitOptions &options) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gpu_id_ = options.gpu_id;
   BASE_CUDA_CHECK(cudaSetDevice(gpu_id_));
@@ -307,7 +307,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Yolov4ObstacleDetector::InitFeatureExtractor(const std::string &root_dir) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   FeatureExtractorInitOptions feat_options;
   feat_options.conf_file = yolo_param_.model_param().feature_file();
@@ -327,7 +327,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool Yolov4ObstacleDetector::Detect(const ObstacleDetectorOptions &options,
                                     CameraFrame *frame) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frame == nullptr) {
     return false;

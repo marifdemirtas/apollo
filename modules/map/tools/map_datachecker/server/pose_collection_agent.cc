@@ -25,7 +25,7 @@ namespace apollo {
 namespace hdmap {
 
 PoseCollectionAgent::PoseCollectionAgent(std::shared_ptr<JsonConf> sp_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   sp_pj_transformer_ = std::make_shared<PJTransformer>(50);
   sp_conf_ = sp_conf;
@@ -33,7 +33,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PoseCollectionAgent::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   sp_pose_collection_ = std::make_shared<PoseCollection>(sp_conf_);
 }
@@ -41,7 +41,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void PoseCollectionAgent::OnBestgnssposCallback(
     const std::shared_ptr<const apollo::drivers::gnss::GnssBestPose>
         &bestgnsspos) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sp_pose_collection_ == nullptr) {
     sp_pose_collection_ = std::make_shared<PoseCollection>(sp_conf_);
@@ -85,7 +85,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::shared_ptr<std::vector<FramePose>> PoseCollectionAgent::GetPoses() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sp_pose_collection_ == nullptr) {
     return nullptr;

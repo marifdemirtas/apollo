@@ -30,11 +30,11 @@ using cyber::common::EnsureDirectory;
 
 BaseMapNode::BaseMapNode(BaseMapMatrix* matrix, CompressionStrategy* strategy)
     : map_matrix_(matrix), compression_strategy_(strategy) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapNode::~BaseMapNode() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (map_matrix_ != nullptr) {
     delete map_matrix_;
@@ -46,7 +46,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void BaseMapNode::Init(const BaseMapConfig* map_config,
                        const MapNodeIndex& index, bool create_map_cells) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_config_ = map_config;
   index_ = index;
@@ -60,14 +60,14 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMapNode::InitMapMatrix(const BaseMapConfig* map_config) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_config_ = map_config;
   map_matrix_->Init(map_config);
 }
 
 void BaseMapNode::Finalize() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (is_changed_) {
     Save();
@@ -76,7 +76,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMapNode::ResetMapNode() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   is_changed_ = false;
   data_is_ready_ = false;
@@ -91,7 +91,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // }
 
 bool BaseMapNode::Save() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   SaveIntensityImage();
   char buf[1024];
@@ -144,7 +144,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BaseMapNode::Load() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   char buf[1024];
   std::string path = map_config_->map_folder_path_;
@@ -185,7 +185,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BaseMapNode::Load(const char* filename) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   data_is_ready_ = false;
   // char buf[1024];
@@ -204,7 +204,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int BaseMapNode::LoadBinary(FILE* file) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Load the header
   unsigned int header_size = GetHeaderBinarySize();
@@ -223,7 +223,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int BaseMapNode::CreateBinary(FILE* file) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int buf_size = GetBinarySize();
   std::vector<unsigned char> buffer;
@@ -251,14 +251,14 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int BaseMapNode::GetBinarySize() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // It is uncompressed binary size.
   return GetBodyBinarySize() + GetHeaderBinarySize();
 }
 
 unsigned int BaseMapNode::LoadHeaderBinary(unsigned char* buf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int target_size = GetHeaderBinarySize();
   unsigned int* p = reinterpret_cast<unsigned int*>(buf);
@@ -280,7 +280,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int BaseMapNode::CreateHeaderBinary(unsigned char* buf,
                                              unsigned int buf_size) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int target_size = GetHeaderBinarySize();
   if (buf_size >= target_size) {
@@ -301,7 +301,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int BaseMapNode::GetHeaderBinarySize() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return static_cast<int>(sizeof(unsigned int)      // index_.resolution_id_
                           + sizeof(int)             // index_.zone_id_
@@ -323,7 +323,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // }
 
 unsigned int BaseMapNode::LoadBodyBinary(std::vector<unsigned char>* buf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (compression_strategy_ == nullptr) {
     return map_matrix_->LoadBinary(&((*buf)[0]));
@@ -342,7 +342,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int BaseMapNode::CreateBodyBinary(
     std::vector<unsigned char>* buf) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (compression_strategy_ == nullptr) {
     unsigned int body_size = GetBodyBinarySize();
@@ -362,7 +362,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int BaseMapNode::GetBodyBinarySize() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return map_matrix_->GetBinarySize();
 }
@@ -370,7 +370,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // bool BaseMapNode::GetCoordinate(const idl::car::core::numerical::Vector2D&
 // coordinate,
 //         unsigned int& x, unsigned int& y) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 //     const idl::car::core::numerical::Vector2D& left_top_corner =
 //     GetLeftTopCorner(); int off_x = static_cast<int>((coordinate[0] -
@@ -390,7 +390,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool BaseMapNode::GetCoordinate(const Eigen::Vector2d& coordinate,
                                 unsigned int* x, unsigned int* y) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const Eigen::Vector2d& left_top_corner = GetLeftTopCorner();
   int off_x = static_cast<int>((coordinate[0] - left_top_corner[0]) /
@@ -412,7 +412,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // bool BaseMapNode::GetCoordinate(const idl::car::core::numerical::Vector3D&
 // coordinate,
 //         unsigned int& x, unsigned int& y) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 //     idl::car::core::numerical::Vector2D coord2d;
 //     coord2d.init(coordinate.get_data());
@@ -445,7 +445,7 @@ Eigen::Vector2d BaseMapNode::GetCoordinate(unsigned int x,
 
 // idl::car::core::numerical::Vector2D BaseMapNode::GetLeftTopCorner(
 //     const BaseMapConfig& config, const MapNodeIndex& index) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 //     idl::car::core::numerical::Vector2D coord;
 //     coord[0] = config.map_range_.get_min_x() +
@@ -474,7 +474,7 @@ Eigen::Vector2d BaseMapNode::GetLeftTopCorner(const BaseMapConfig& config,
 }
 
 bool BaseMapNode::SaveIntensityImage() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   char buf[1024];
   std::string path = map_config_->map_folder_path_;
@@ -515,7 +515,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BaseMapNode::SaveIntensityImage(const std::string& path) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Mat image;
   map_matrix_->GetIntensityImg(&image);

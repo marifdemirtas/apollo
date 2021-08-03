@@ -26,11 +26,11 @@ namespace perception {
 namespace fusion {
 
 SensorDataManager::SensorDataManager() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  CHECK_EQ(this->Init(), true); }
 
 bool SensorDataManager::Init() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (inited_) {
     return true;
@@ -41,7 +41,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SensorDataManager::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   inited_ = false;
   sensor_manager_ = nullptr;
@@ -50,7 +50,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SensorDataManager::AddSensorMeasurements(
     const base::FrameConstPtr& frame_ptr) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const base::SensorInfo& sensor_info = frame_ptr->sensor_info;
   std::string sensor_id = sensor_info.name;
@@ -71,21 +71,21 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SensorDataManager::IsLidar(const base::FrameConstPtr& frame_ptr) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   base::SensorType type = frame_ptr->sensor_info.type;
   return sensor_manager_->IsLidar(type);
 }
 
 bool SensorDataManager::IsRadar(const base::FrameConstPtr& frame_ptr) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   base::SensorType type = frame_ptr->sensor_info.type;
   return sensor_manager_->IsRadar(type);
 }
 
 bool SensorDataManager::IsCamera(const base::FrameConstPtr& frame_ptr) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   base::SensorType type = frame_ptr->sensor_info.type;
   return sensor_manager_->IsCamera(type);
@@ -94,7 +94,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void SensorDataManager::GetLatestSensorFrames(
     double timestamp, const std::string& sensor_id,
     std::vector<SensorFramePtr>* frames) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frames == nullptr) {
     AERROR << "Nullptr error.";
@@ -109,7 +109,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SensorDataManager::GetLatestFrames(
     double timestamp, std::vector<SensorFramePtr>* frames) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frames == nullptr) {
     AERROR << "Nullptr error.";
@@ -136,7 +136,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool SensorDataManager::GetPose(const std::string& sensor_id, double timestamp,
                                 Eigen::Affine3d* pose) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (pose == nullptr) {
     AERROR << "Nullptr error.";
@@ -154,7 +154,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 base::BaseCameraModelPtr SensorDataManager::GetCameraIntrinsic(
     const std::string& sensor_id) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return sensor_manager_->GetUndistortCameraModel(sensor_id);
 }

@@ -19,14 +19,14 @@
 #include "modules/perception/radar/lib/roi_filter/hdmap_radar_roi_filter/hdmap_radar_roi_filter.h"
 
 namespace apollo {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace radar {
 
 bool HdmapRadarRoiFilter::RoiFilter(const RoiFilterOptions& options,
                                     base::FramePtr radar_frame) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<base::ObjectPtr> origin_objects = radar_frame->objects;
   return common::ObjectInRoiCheck(options.roi, origin_objects,
@@ -34,7 +34,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string HdmapRadarRoiFilter::Name() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return "HdmapRadarRoiFilter"; }
 
 PERCEPTION_REGISTER_ROI_FILTER(HdmapRadarRoiFilter);

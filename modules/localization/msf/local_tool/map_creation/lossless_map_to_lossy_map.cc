@@ -35,7 +35,7 @@ namespace localization {
 namespace msf {
 
 MapNodeIndex GetMapIndexFromMapFolder(const std::string& map_folder) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MapNodeIndex index;
   char buf[100];
@@ -52,7 +52,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool GetAllMapIndex(const std::string& src_map_folder,
                     const std::string& dst_map_folder,
                     std::list<MapNodeIndex>* buf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string src_map_path = src_map_folder + "/map";
   std::string dst_map_path = dst_map_folder + "/map";
@@ -95,7 +95,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }  // namespace apollo
 
 int main(int argc, char** argv) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   boost::program_options::options_description boost_desc("Allowed options");
   boost_desc.add_options()("help", "produce help message")(

@@ -40,7 +40,7 @@ DEFINE_bool(obs_enable_local_pose_extrapolation, true,
             "use local pose extrapolation");
 
 void TransformCache::AddTransform(const StampedTransform& transform) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (transforms_.empty()) {
     transforms_.push_back(transform);
@@ -95,7 +95,7 @@ Eigen::Quaterniond Slerp(const Eigen::Quaterniond& source, const double& t,
 bool TransformCache::QueryTransform(double timestamp,
                                     StampedTransform* transform,
                                     double max_duration) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (transforms_.empty() || transform == nullptr) {
     return false;
@@ -144,9 +144,9 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void TransformWrapper::Init(
     const std::string& sensor2novatel_tf2_child_frame_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   sensor2novatel_tf2_frame_id_ = FLAGS_obs_sensor2novatel_tf2_frame_id;
   sensor2novatel_tf2_child_frame_id_ = sensor2novatel_tf2_child_frame_id;
@@ -162,7 +162,7 @@ void TransformWrapper::Init(
     const std::string& sensor2novatel_tf2_child_frame_id,
     const std::string& novatel2world_tf2_frame_id,
     const std::string& novatel2world_tf2_child_frame_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   sensor2novatel_tf2_frame_id_ = sensor2novatel_tf2_frame_id;
   sensor2novatel_tf2_child_frame_id_ = sensor2novatel_tf2_child_frame_id;
@@ -175,7 +175,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool TransformWrapper::GetSensor2worldTrans(
     double timestamp, Eigen::Affine3d* sensor2world_trans,
     Eigen::Affine3d* novatel2world_trans) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!inited_) {
     AERROR << "TransformWrapper not Initialized,"
@@ -227,7 +227,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TransformWrapper::GetExtrinsics(Eigen::Affine3d* trans) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!inited_ || trans == nullptr || sensor2novatel_extrinsics_ == nullptr) {
     AERROR << "TransformWrapper get extrinsics failed";
@@ -240,7 +240,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool TransformWrapper::GetTrans(double timestamp, Eigen::Affine3d* trans,
                                 const std::string& frame_id,
                                 const std::string& child_frame_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   StampedTransform transform;
   if (!QueryTrans(timestamp, &transform, frame_id, child_frame_id)) {
@@ -263,7 +263,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool TransformWrapper::QueryTrans(double timestamp, StampedTransform* trans,
                                   const std::string& frame_id,
                                   const std::string& child_frame_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cyber::Time query_time(timestamp);
   std::string err_string;
@@ -306,7 +306,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool TransformWrapper::GetExtrinsicsBySensorId(
     const std::string& from_sensor_id, const std::string& to_sensor_id,
     Eigen::Affine3d* trans) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (trans == nullptr) {
     AERROR << "TransformWrapper get extrinsics failed";

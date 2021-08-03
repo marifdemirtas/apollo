@@ -57,14 +57,14 @@ class UdpStream : public Stream {
 
 Stream* Stream::create_udp(const char* address, uint16_t port,
                            uint32_t timeout_usec) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return new UdpStream(address, port, timeout_usec);
 }
 
 UdpStream::UdpStream(const char* address, uint16_t port, uint32_t timeout_usec)
     : sockfd_(-1), errno_(0) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   peer_addr_ = inet_addr(address);
   peer_port_ = htons(port);
@@ -73,11 +73,11 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 UdpStream::~UdpStream() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  this->close(); }
 
 void UdpStream::open() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
   if (fd < 0) {
@@ -142,7 +142,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void UdpStream::close() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sockfd_ > 0) {
     ::close(sockfd_);
@@ -152,7 +152,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool UdpStream::Connect() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sockfd_ < 0) {
     this->open();
@@ -172,7 +172,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool UdpStream::Disconnect() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sockfd_ < 0) {
     // not open
@@ -184,7 +184,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t UdpStream::read(uint8_t* buffer, size_t max_length) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ssize_t ret = 0;
   struct sockaddr_in peer_sockaddr;
@@ -214,7 +214,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t UdpStream::write(const uint8_t* data, size_t length) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t total_nsent = 0;
   struct sockaddr_in peer_sockaddr;

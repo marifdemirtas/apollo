@@ -24,7 +24,7 @@
 #include "modules/perception/lidar/lib/scene_manager/ground_service/proto/ground_service_config.pb.h"
 
 namespace apollo {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace lidar {
@@ -32,7 +32,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 void GroundServiceContent::GetCopy(SceneServiceContent* content) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   GroundServiceContent* ground_content =
       dynamic_cast<GroundServiceContent*>(content);
@@ -53,7 +53,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void GroundServiceContent::SetContent(const SceneServiceContent& content) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const GroundServiceContent* ground_content =
       dynamic_cast<const GroundServiceContent*>(&content);
@@ -80,7 +80,7 @@ uint32_t inline GetIndex(uint32_t r, uint32_t c, uint32_t cols) {
 
 bool GroundServiceContent::PointToGrid(const Eigen::Vector3d& world_point,
                                        uint32_t* grid_index) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double x = world_point(0) - grid_center_(0);
   double y = world_point(1) - grid_center_(1);
@@ -99,7 +99,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float GroundServiceContent::PointToPlaneDistance(
     const Eigen::Vector3d& world_point) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint32_t grid_index = 0;
   if (!PointToGrid(world_point, &grid_index)) {
@@ -127,7 +127,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool GroundServiceContent::Init(double roi_x, double roi_y, uint32_t rows,
                                 uint32_t cols) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   bound_x_min_ = -roi_x;
   bound_y_min_ = -roi_y;
@@ -145,7 +145,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool GroundService::Init(const SceneServiceInitOptions& options) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   self_content_.reset(new GroundServiceContent);
   ground_content_ref_ =
@@ -182,7 +182,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float GroundService::QueryPointToGroundDistance(
     const Eigen::Vector3d& world_point) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
   float distance =
@@ -192,7 +192,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float GroundService::QueryPointToGroundDistance(
     const Eigen::Vector3d& world_point, const GroundServiceContent& content) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return content.PointToPlaneDistance(world_point);
 }

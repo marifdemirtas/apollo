@@ -25,7 +25,7 @@ namespace apollo {
 namespace control {
 
 double PIDController::Control(const double error, const double dt) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (dt <= 0) {
     AWARN << "dt <= 0, will use the last output, dt: " << dt;
@@ -62,7 +62,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PIDController::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   previous_error_ = 0.0;
   previous_output_ = 0.0;
@@ -73,7 +73,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PIDController::Init(const PidConf &pid_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   previous_error_ = 0.0;
   previous_output_ = 0.0;
@@ -93,7 +93,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PIDController::SetPID(const PidConf &pid_conf) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   kp_ = pid_conf.kp();
   ki_ = pid_conf.ki();
@@ -102,17 +102,17 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int PIDController::IntegratorSaturationStatus() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return integrator_saturation_status_;
 }
 
 bool PIDController::IntegratorHold() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return integrator_hold_; }
 
 void PIDController::SetIntegratorHold(bool hold) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  integrator_hold_ = hold; }
 
 }  // namespace control

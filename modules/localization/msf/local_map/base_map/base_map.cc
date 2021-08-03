@@ -32,11 +32,11 @@ BaseMap::BaseMap(BaseMapConfig* map_config)
       map_node_cache_lvl1_(nullptr),
       map_node_cache_lvl2_(nullptr),
       map_node_pool_(nullptr) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMap::~BaseMap() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (map_node_cache_lvl1_) {
     delete map_node_cache_lvl1_;
@@ -49,7 +49,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMap::InitMapNodeCaches(int cacheL1_size, int cacheL2_size) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   destroy_func_lvl1_ =
       std::bind(MapNodeCache<MapNodeIndex, BaseMapNode>::CacheL1Destroy,
@@ -66,7 +66,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapNode* BaseMap::GetMapNode(const MapNodeIndex& index) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   BaseMapNode* node = nullptr;
   map_node_cache_lvl1_->Get(index, &node);
@@ -74,7 +74,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapNode* BaseMap::GetMapNodeSafe(const MapNodeIndex& index) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   BaseMapNode* node = nullptr;
   // try get from cacheL1
@@ -106,13 +106,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 /**@brief Check if the map node in the cache. */
 bool BaseMap::IsMapNodeExist(const MapNodeIndex& index) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return map_node_cache_lvl1_->IsExist(index);
 }
 
 bool BaseMap::SetMapFolderPath(const std::string folder_path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_config_->map_folder_path_ = folder_path;
 
@@ -127,7 +127,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMap::AddDataset(const std::string dataset_path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_config_->map_datasets_.push_back(dataset_path);
   std::string config_path = map_config_->map_folder_path_ + "/config.xml";
@@ -135,7 +135,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMap::LoadMapNodes(std::set<MapNodeIndex>* map_ids) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_LE(map_ids->size(), map_node_cache_lvl1_->Capacity());
   // check in cacheL1
@@ -204,7 +204,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMap::PreloadMapNodes(std::set<MapNodeIndex>* map_ids) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   DCHECK_LE(map_ids->size(), map_node_cache_lvl2_->Capacity());
   // check in cacheL2
@@ -251,13 +251,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMap::AttachMapNodePool(BaseMapNodePool* map_node_pool) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_node_pool_ = map_node_pool;
 }
 
 void BaseMap::LoadMapNodeThreadSafety(MapNodeIndex index, bool is_reserved) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   BaseMapNode* map_node = nullptr;
   while (map_node == nullptr) {
@@ -293,7 +293,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void BaseMap::PreloadMapArea(const Eigen::Vector3d& location,
                              const Eigen::Vector3d& trans_diff,
                              unsigned int resolution_id, unsigned int zone_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(map_node_pool_);
 
@@ -434,7 +434,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool BaseMap::LoadMapArea(const Eigen::Vector3d& seed_pt3d,
                           unsigned int resolution_id, unsigned int zone_id,
                           int filter_size_x, int filter_size_y) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(map_node_pool_);
   std::set<MapNodeIndex> map_ids;

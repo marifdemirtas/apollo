@@ -22,7 +22,7 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace inference {
@@ -32,11 +32,11 @@ using apollo::perception::base::Blob;
 TorchNet::TorchNet(const std::string &net_file, const std::string &model_file,
                    const std::vector<std::string> &outputs)
     : net_file_(net_file), model_file_(model_file), output_names_(outputs) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TorchNet::Init(const std::map<std::string, std::vector<int>> &shapes) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (gpu_id_ >= 0) {
     device_type_ = torch::kCUDA;
@@ -72,11 +72,11 @@ TorchNet::TorchNet(const std::string &net_file, const std::string &model_file,
       model_file_(model_file),
       output_names_(outputs),
       input_names_(inputs) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::shared_ptr<Blob<float>> TorchNet::get_blob(const std::string &name) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto iter = blobs_.find(name);
   if (iter == blobs_.end()) {
@@ -86,13 +86,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TorchNet::reshape() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return true;
 }
 
 void TorchNet::Infer() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   torch::Device device(device_type_, device_id_);
   auto blob = blobs_[input_names_[0]];

@@ -29,11 +29,11 @@ const int32_t Torquecontrola3::ID = 0xA3;
 
 // public
 Torquecontrola3::Torquecontrola3() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Torquecontrola3::GetPeriod() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(ChaoM) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,14 +41,14 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Torquecontrola3::UpdateData(uint8_t* data) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_driven_torque(data, driven_torque_);
   set_p_driven_enable_control(data, driven_enable_control_);
 }
 
 void Torquecontrola3::Reset() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(ChaoM) :  you should check this manually
   driven_torque_ = 0.0;
@@ -57,7 +57,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Torquecontrola3* Torquecontrola3::set_driven_torque(double driven_torque) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   driven_torque_ = driven_torque;
   return this;
@@ -67,7 +67,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|100]', 'bit': 8,
 // 'type': 'double', 'order': 'intel', 'physical_unit': '%'}
 void Torquecontrola3::set_p_driven_torque(uint8_t* data, double driven_torque) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   driven_torque = ProtocolData::BoundedValue(0.0, 100.0, driven_torque);
   int x = static_cast<int>(driven_torque / 0.050000);
@@ -85,7 +85,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Torquecontrola3* Torquecontrola3::set_driven_enable_control(
     Torque_control_a3::Driven_enable_controlType driven_enable_control) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   driven_enable_control_ = driven_enable_control;
   return this;
@@ -99,7 +99,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Torquecontrola3::set_p_driven_enable_control(
     uint8_t* data,
     Torque_control_a3::Driven_enable_controlType driven_enable_control) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = driven_enable_control;
 

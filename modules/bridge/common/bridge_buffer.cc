@@ -26,21 +26,21 @@ namespace bridge {
 
 template <typename T>
 BridgeBuffer<T>::BridgeBuffer() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 template <typename T>
 BridgeBuffer<T>::BridgeBuffer(size_t size) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   reset(size);
 }
 
 template <typename T>
 BridgeBuffer<T>::~BridgeBuffer() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lg(mutex_);
   if (buf_) {
@@ -53,14 +53,14 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <typename T>
 BridgeBuffer<T>::operator T *() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return buf_;
 }
 
 template <typename T>
 void BridgeBuffer<T>::reset(size_t size) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lg(mutex_);
   if (capacity_ < size) {
@@ -76,7 +76,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <typename T>
 void BridgeBuffer<T>::write(size_t index, const T *data, size_t size) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lg(mutex_);
   reset(size + index);

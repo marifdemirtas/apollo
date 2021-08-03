@@ -29,13 +29,13 @@ namespace transit {
 using ::apollo::drivers::canbus::Byte;
 
 Llcvehiclelimits24::Llcvehiclelimits24() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Llcvehiclelimits24::ID = 0x24;
 
 void Llcvehiclelimits24::Parse(const std::uint8_t* bytes, int32_t length,
                                ChassisDetail* chassis) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_transit()
       ->mutable_llc_vehiclelimits_24()
@@ -51,7 +51,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'int', 'order': 'intel', 'physical_unit': 'deg'}
 int Llcvehiclelimits24::llc_fbk_maxsteeringangle(const std::uint8_t* bytes,
                                                  int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -71,7 +71,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'double', 'order': 'intel', 'physical_unit': '%'}
 double Llcvehiclelimits24::llc_fbk_maxbrakepercent(const std::uint8_t* bytes,
                                                    int32_t length) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 4);

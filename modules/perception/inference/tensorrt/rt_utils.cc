@@ -29,7 +29,7 @@ namespace inference {
 
 bool ReadProtoFromTextFile(const std::string &filename,
                            google::protobuf::Message *proto) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int fd = open(filename.c_str(), O_RDONLY);
   if (fd < 0) {
@@ -46,7 +46,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ReadProtoFromBinaryFile(const std::string &filename,
                              google::protobuf::Message *proto) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int fd = open(filename.c_str(), O_RDONLY);
   if (fd < 0) {
@@ -63,12 +63,12 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return success;
 }
 bool loadNetParams(const std::string &param_file, NetParameter *param) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return ReadProtoFromTextFile(param_file, param);
 }
 std::string locateFile(const std::string &network, const std::string &input) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return network + "/" + input;
 }

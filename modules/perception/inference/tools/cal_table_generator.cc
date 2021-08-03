@@ -50,7 +50,7 @@ DEFINE_int32(mean_r, 0, "image r");
 DEFINE_bool(hwc_input, true, "input blob is hwc order.");
 
 int evaluate_image_list() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_EQ(FLAGS_image_channel_num, 3);
   const int height = FLAGS_height;
@@ -164,7 +164,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int main(int argc, char **argv) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
 

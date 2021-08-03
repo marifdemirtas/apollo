@@ -29,7 +29,7 @@ DEFINE_string(value, "", "The value to query.");
 using apollo::common::KVDB;
 
 int main(int32_t argc, char **argv) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::InitGoogleLogging(argv[0]);
   google::ParseCommandLineFlags(&argc, &argv, true);

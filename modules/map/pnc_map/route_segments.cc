@@ -34,34 +34,34 @@ constexpr double kSegmentationEpsilon = 0.2;
 }  // namespace
 
 const std::string &RouteSegments::Id() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return id_; }
 
 void RouteSegments::SetId(const std::string &id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  id_ = id; }
 
 void RouteSegments::SetCanExit(bool can_exit) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  can_exit_ = can_exit; }
 
 bool RouteSegments::CanExit() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return can_exit_; }
 
 bool RouteSegments::StopForDestination() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return stop_for_destination_; }
 
 void RouteSegments::SetStopForDestination(bool stop_for_destination) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   stop_for_destination_ = stop_for_destination;
 }
 
 bool RouteSegments::WithinLaneSegment(const LaneSegment &lane_segment,
                                       const LaneWaypoint &waypoint) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return waypoint.lane &&
          lane_segment.lane->id().id() == waypoint.lane->id().id() &&
@@ -71,7 +71,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool RouteSegments::WithinLaneSegment(const LaneSegment &lane_segment,
                                       const routing::LaneWaypoint &waypoint) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return lane_segment.lane && lane_segment.lane->id().id() == waypoint.id() &&
          lane_segment.start_s - kSegmentationEpsilon <= waypoint.s() &&
@@ -80,7 +80,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool RouteSegments::WithinLaneSegment(const routing::LaneSegment &lane_segment,
                                       const LaneWaypoint &waypoint) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return waypoint.lane && lane_segment.id() == waypoint.lane->id().id() &&
          lane_segment.start_s() - kSegmentationEpsilon <= waypoint.s &&
@@ -89,7 +89,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool RouteSegments::WithinLaneSegment(const routing::LaneSegment &lane_segment,
                                       const routing::LaneWaypoint &waypoint) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return lane_segment.id() == waypoint.id() &&
          lane_segment.start_s() - kSegmentationEpsilon <= waypoint.s() &&
@@ -97,7 +97,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RouteSegments::Stitch(const RouteSegments &other) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto first_waypoint = FirstWaypoint();
   bool has_overlap = IsWaypointOnSegment(other.FirstWaypoint());
@@ -126,51 +126,51 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const LaneWaypoint &RouteSegments::RouteEndWaypoint() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return route_end_waypoint_;
 }
 
 bool RouteSegments::IsOnSegment() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return is_on_segment_; }
 
 void RouteSegments::SetIsOnSegment(bool on_segment) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   is_on_segment_ = on_segment;
 }
 
 bool RouteSegments::IsNeighborSegment() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return is_neighbor_; }
 
 void RouteSegments::SetIsNeighborSegment(bool is_neighbor) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   is_neighbor_ = is_neighbor;
 }
 
 void RouteSegments::SetRouteEndWaypoint(const LaneWaypoint &waypoint) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   route_end_waypoint_ = waypoint;
 }
 
 LaneWaypoint RouteSegments::FirstWaypoint() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return LaneWaypoint(front().lane, front().start_s, 0.0);
 }
 
 LaneWaypoint RouteSegments::LastWaypoint() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return LaneWaypoint(back().lane, back().end_s, 0.0);
 }
 
 void RouteSegments::SetProperties(const RouteSegments &other) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   route_end_waypoint_ = other.RouteEndWaypoint();
   can_exit_ = other.CanExit();
@@ -182,7 +182,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double RouteSegments::Length(const RouteSegments &segments) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double s = 0.0;
   for (const auto &seg : segments) {
@@ -194,13 +194,13 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool RouteSegments::GetProjection(const common::PointENU &point_enu,
                                   common::SLPoint *sl_point,
                                   LaneWaypoint *waypoint) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return GetProjection({point_enu.x(), point_enu.y()}, sl_point, waypoint);
 }
 
 bool RouteSegments::IsConnectedSegment(const RouteSegments &other) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (empty() || other.empty()) {
     return false;
@@ -223,7 +223,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool RouteSegments::Shrink(const common::math::Vec2d &point,
                            const double look_backward,
                            const double look_forward) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   common::SLPoint sl_point;
   LaneWaypoint waypoint;
@@ -236,7 +236,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool RouteSegments::Shrink(const double s, const double look_backward,
                            const double look_forward) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LaneWaypoint waypoint;
   if (!GetWaypoint(s, &waypoint)) {
@@ -248,7 +248,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool RouteSegments::Shrink(const double s, const LaneWaypoint &waypoint,
                            const double look_backward,
                            const double look_forward) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double acc_s = 0.0;
   auto iter = begin();
@@ -295,7 +295,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RouteSegments::GetWaypoint(const double s, LaneWaypoint *waypoint) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double accumulated_s = 0.0;
   bool has_projection = false;
@@ -321,7 +321,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool RouteSegments::GetProjection(const common::math::Vec2d &point,
                                   common::SLPoint *sl_point,
                                   LaneWaypoint *waypoint) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double min_l = std::numeric_limits<double>::infinity();
   double accumulated_s = 0.0;
@@ -354,31 +354,31 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RouteSegments::SetPreviousAction(routing::ChangeLaneType action) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   previous_action_ = action;
 }
 
 routing::ChangeLaneType RouteSegments::PreviousAction() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return previous_action_;
 }
 
 void RouteSegments::SetNextAction(routing::ChangeLaneType action) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   next_action_ = action;
 }
 
 routing::ChangeLaneType RouteSegments::NextAction() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return next_action_;
 }
 
 bool RouteSegments::IsWaypointOnSegment(const LaneWaypoint &waypoint) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto iter = begin(); iter != end(); ++iter) {
     if (WithinLaneSegment(*iter, waypoint)) {
@@ -389,7 +389,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RouteSegments::CanDriveFrom(const LaneWaypoint &waypoint) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto point = waypoint.lane->GetSmoothPoint(waypoint.s);
 

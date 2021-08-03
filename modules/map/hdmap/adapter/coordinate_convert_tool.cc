@@ -23,11 +23,11 @@ namespace adapter {
 
 CoordinateConvertTool::CoordinateConvertTool()
     : pj_from_(nullptr), pj_to_(nullptr) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 CoordinateConvertTool::~CoordinateConvertTool() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (pj_from_) {
     pj_free(pj_from_);
@@ -41,7 +41,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 CoordinateConvertTool* CoordinateConvertTool::GetInstance() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static CoordinateConvertTool instance;
   return &instance;
@@ -49,7 +49,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status CoordinateConvertTool::SetConvertParam(const std::string& source_param,
                                               const std::string& dst_param) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   source_convert_param_ = source_param;
   dst_convert_param_ = dst_param;
@@ -83,7 +83,7 @@ Status CoordinateConvertTool::CoordiateConvert(const double longitude,
                                                const double height_ellipsoid,
                                                double* utm_x, double* utm_y,
                                                double* utm_z) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(utm_x);
   CHECK_NOTNULL(utm_y);

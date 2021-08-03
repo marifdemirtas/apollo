@@ -46,7 +46,7 @@ namespace monitor {
 namespace {
 
 bool GetPIDByCmdLine(const std::string& process_dag_path, int* pid) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::string system_proc_path = "/proc";
   const std::string proc_cmdline_path = "/cmdline";
@@ -69,7 +69,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::vector<std::string> GetStatsLines(const std::string& stat_file,
                                        const int line_count) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<std::string> stats_lines;
   std::ifstream buffer(stat_file);
@@ -85,7 +85,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 float GetMemoryUsage(const int pid, const std::string& process_name) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::string memory_stat_file = absl::StrCat("/proc/", pid, "/statm");
   const uint32_t page_size_kb = (sysconf(_SC_PAGE_SIZE) >> 10);
@@ -109,7 +109,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float GetCPUUsage(const int pid, const std::string& process_name,
                   std::unordered_map<std::string, uint64_t>* prev_jiffies_map) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::string cpu_stat_file = absl::StrCat("/proc/", pid, "/stat");
   const int hertz = sysconf(_SC_CLK_TCK);
@@ -140,7 +140,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 uint64_t GetSystemMemoryValueFromLine(std::string stat_line) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   constexpr static int kMemoryValueIdx = 1;
   const std::vector<std::string> stats =
@@ -153,7 +153,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 float GetSystemMemoryUsage() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::string system_mem_stat_file = "/proc/meminfo";
   const int mem_total = 0, mem_free = 1, buffers = 3, cached = 4,
@@ -177,7 +177,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 float GetSystemCPUUsage() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::string system_cpu_stat_file = "/proc/stat";
   const int users = 1, system = 3, total = 7;
@@ -215,7 +215,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 float GetSystemDiskload(const std::string& device_name) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::string disks_stat_file = "/proc/diskstats";
   const int device = 2, in_out_ms = 12;
@@ -248,11 +248,11 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 ResourceMonitor::ResourceMonitor()
     : RecurrentRunner(FLAGS_resource_monitor_name,
                       FLAGS_resource_monitor_interval) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ResourceMonitor::RunOnce(const double current_time) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto manager = MonitorManager::Instance();
   const auto& mode = manager->GetHMIMode();
@@ -271,7 +271,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void ResourceMonitor::UpdateStatus(
     const apollo::dreamview::ResourceMonitorConfig& config,
     ComponentStatus* status) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   status->clear_status();
   CheckDiskSpace(config, status);
@@ -284,7 +284,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void ResourceMonitor::CheckDiskSpace(
     const apollo::dreamview::ResourceMonitorConfig& config,
     ComponentStatus* status) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Monitor available disk space.
   for (const auto& disk_space : config.disk_spaces()) {
@@ -309,7 +309,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void ResourceMonitor::CheckCPUUsage(
     const apollo::dreamview::ResourceMonitorConfig& config,
     ComponentStatus* status) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto& cpu_usage : config.cpu_usages()) {
     const auto process_dag_path = cpu_usage.process_dag_path();
@@ -345,7 +345,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void ResourceMonitor::CheckMemoryUsage(
     const apollo::dreamview::ResourceMonitorConfig& config,
     ComponentStatus* status) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto& memory_usage : config.memory_usages()) {
     const auto process_dag_path = memory_usage.process_dag_path();
@@ -377,7 +377,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void ResourceMonitor::CheckDiskLoads(
     const apollo::dreamview::ResourceMonitorConfig& config,
     ComponentStatus* status) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto& disk_load : config.disk_load_usages()) {
     const auto disk_load_value = GetSystemDiskload(disk_load.device_name());

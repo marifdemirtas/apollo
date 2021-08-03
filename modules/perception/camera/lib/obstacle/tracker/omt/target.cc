@@ -25,29 +25,29 @@
 #include "modules/perception/common/geometry/basic.h"
 
 namespace apollo {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {
 
 int Target::global_track_id = 0;
 int Target::Size() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return static_cast<int>(tracked_objects.size()); }
 
 void Target::Clear() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  tracked_objects.clear(); }
 
 TrackObjectPtr Target::operator[](int index) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return get_object(index); }
 TrackObjectPtr Target::get_object(int index) const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_GT(static_cast<int>(tracked_objects.size()), 0);
   CHECK_LT(index, static_cast<int>(tracked_objects.size()));
@@ -56,7 +56,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
                          tracked_objects.size()];
 }
 void Target::Add(TrackObjectPtr object) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (tracked_objects.empty()) {
     start_ts = object->timestamp;
@@ -71,7 +71,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   tracked_objects.push_back(object);
 }
 void Target::RemoveOld(int frame_id) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t index = 0;
   while (index < tracked_objects.size() &&
@@ -82,7 +82,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
                         tracked_objects.begin() + index);
 }
 void Target::Init(const omt::TargetParam &param) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   target_param_ = param;
   id = -1;
@@ -122,11 +122,11 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   object_template_manager_ = ObjectTemplateManager::Instance();
 }
 Target::Target(const omt::TargetParam &param) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Init(param); }
 
 void Target::Predict(CameraFrame *frame) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto delta_t =
       static_cast<float>(frame->timestamp - latest_object->timestamp);
@@ -153,7 +153,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Target::Update2D(CameraFrame *frame) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // measurements
   auto obj = latest_object->object;
@@ -186,7 +186,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Target::Update3D(CameraFrame *frame) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto object = latest_object->object;
   if (!isLost()) {
@@ -335,7 +335,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Target::UpdateType(CameraFrame *frame) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto object = latest_object->object;
   if (!isLost()) {
@@ -377,7 +377,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Target::ClappingTrackVelocity(const base::ObjectPtr &obj) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // check angle between velocity and heading(orientation)
   if (obj->type == base::ObjectType::VEHICLE) {
@@ -419,7 +419,7 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  * 3. check velocity theta's variance
  */
 bool Target::CheckStatic() {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (static_cast<int>(history_world_states_.size()) <
       target_param_.min_cached_world_state_history_size()) {
@@ -521,12 +521,12 @@ cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Target::isTracked() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return Size() >= target_param_.tracked_life();
 }
 bool Target::isLost() const {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return lost_age > 0; }
 
 }  // namespace camera

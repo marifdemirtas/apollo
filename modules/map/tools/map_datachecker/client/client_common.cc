@@ -28,7 +28,7 @@ namespace apollo {
 namespace hdmap {
 
 std::vector<std::string> GetFileLines(const std::string& path) {
-cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::ifstream file_handler(path);
   std::string line;
