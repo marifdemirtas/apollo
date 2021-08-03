@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -34,21 +34,21 @@ using apollo::cyber::Clock;
 
 LatLonControllerSubmodule::LatLonControllerSubmodule()
     : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LatLonControllerSubmodule::~LatLonControllerSubmodule() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string LatLonControllerSubmodule::Name() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return FLAGS_lat_lon_controller_submodule_name;
 }
 
 bool LatLonControllerSubmodule::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   injector_ = std::make_shared<DependencyInjector>();
   // lateral controller initialization
@@ -85,7 +85,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LatLonControllerSubmodule::Proc(
     const std::shared_ptr<Preprocessor>& preprocessor_status) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto start_time = Clock::Now();
   ControlCommand control_core_command;
@@ -137,7 +137,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status LatLonControllerSubmodule::ProduceControlCoreCommand(
     const LocalView& local_view, ControlCommand* control_core_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
   if (local_view.chassis().driving_mode() == Chassis::COMPLETE_MANUAL) {

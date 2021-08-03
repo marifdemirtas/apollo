@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,7 @@ namespace apollo {
 namespace data {
 
 ChannelPool::ChannelPool() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   small_channels_ = {FLAGS_chassis_topic,
                      FLAGS_chassis_detail_topic,

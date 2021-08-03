@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@
 #include "modules/perception/lib/config_manager/config_manager.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace fusion {
@@ -31,15 +31,15 @@ namespace fusion {
 using cyber::common::GetAbsolutePath;
 
 PbfGatekeeper::PbfGatekeeper() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PbfGatekeeper::~PbfGatekeeper() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool PbfGatekeeper::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   BaseInitOptions options;
   if (!GetFusionInitOptions("PbfGatekeeper", &options)) {
@@ -73,11 +73,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string PbfGatekeeper::Name() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return "PbfGatekeeper"; }
 
 bool PbfGatekeeper::AbleToPublish(const TrackPtr &track) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   bool invisible_in_lidar = !(track->IsLidarVisible());
   bool invisible_in_radar = !(track->IsRadarVisible());
@@ -111,7 +111,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool PbfGatekeeper::LidarAbleToPublish(const TrackPtr &track) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   bool visible_in_lidar = track->IsLidarVisible();
   if (params_.publish_if_has_lidar && visible_in_lidar) {
@@ -121,7 +121,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool PbfGatekeeper::RadarAbleToPublish(const TrackPtr &track, bool is_night) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   bool visible_in_radar = track->IsRadarVisible();
   SensorObjectConstPtr radar_object = track->GetLatestRadarObject();
@@ -190,7 +190,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool PbfGatekeeper::CameraAbleToPublish(const TrackPtr &track, bool is_night) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   bool visible_in_camera = track->IsCameraVisible();
   SensorId2ObjectMap &camera_objects = track->GetCameraObjects();

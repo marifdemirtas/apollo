@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -41,7 +41,7 @@ using cyber::record::RecordViewer;
 using cyber::record::RecordWriter;
 
 bool PostRecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!DirectoryExists(source_record_dir_)) {
     AERROR << "source record dir does not exist: " << source_record_dir_;
@@ -61,7 +61,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool PostRecordProcessor::Process() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // First scan, get intervals
   for (const std::string& record : source_record_files_) {
@@ -102,7 +102,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string PostRecordProcessor::GetDefaultOutputFile() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string src_file_name = source_record_files_.front();
   const std::string record_flag(".record");
@@ -112,7 +112,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PostRecordProcessor::LoadSourceRecords() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   DIR* dirp = opendir(source_record_dir_.c_str());
   if (dirp == nullptr) {

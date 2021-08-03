@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,14 +29,14 @@ namespace transit {
 using ::apollo::drivers::canbus::Byte;
 
 Llcmotioncommandfeedback122::Llcmotioncommandfeedback122() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Llcmotioncommandfeedback122::ID = 0x22;
 
 void Llcmotioncommandfeedback122::Parse(const std::uint8_t* bytes,
                                         int32_t length,
                                         ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_transit()
       ->mutable_llc_motioncommandfeedback1_22()
@@ -66,7 +66,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': 'deg'}
 double Llcmotioncommandfeedback122::llc_fbk_steeringanglesetpoint(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 5);
@@ -95,7 +95,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '%'}
 double Llcmotioncommandfeedback122::llc_fbk_throttlesetpoint(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 5);
@@ -116,7 +116,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': '%'}
 double Llcmotioncommandfeedback122::llc_fbk_brakepercentsetpoint(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 3);
@@ -136,7 +136,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|3]', 'bit': 54, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
 int Llcmotioncommandfeedback122::llc_motioncommandfeedback1_count(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(6, 2);
@@ -151,7 +151,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|255]', 'bit': 56, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
 int Llcmotioncommandfeedback122::llc_motioncommandfeedback1_check(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);

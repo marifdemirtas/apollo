@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@ limitations under the License.
 
 namespace {
 int GetLongZone(double longitude) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double longZone = 0.0;
   if (longitude < 0.0) {
@@ -43,7 +43,7 @@ namespace adapter {
 
 Status HeaderXmlParser::Parse(const tinyxml2::XMLElement& xml_node,
                               PbHeader* header) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto header_node = xml_node.FirstChildElement("header");
   if (!header_node) {

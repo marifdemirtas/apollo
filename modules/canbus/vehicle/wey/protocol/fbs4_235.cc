@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace wey {
 using ::apollo::drivers::canbus::Byte;
 
 Fbs4235::Fbs4235() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Fbs4235::ID = 0x235;
 
 void Fbs4235::Parse(const std::uint8_t* bytes, int32_t length,
                     ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_wey()->mutable_fbs4_235()->set_steerwheelangle(
       steerwheelangle(bytes, length));
@@ -49,7 +49,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'double', 'order': 'motorola', 'physical_unit': '\xa1\xe3'}
 double Fbs4235::steerwheelangle(const std::uint8_t* bytes,
                                 int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -68,7 +68,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'is_signed_var': False, 'physical_range': '[0|1016]', 'bit': 39,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': '\xa1\xe3/s'}
 double Fbs4235::steerwheelspd(const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);

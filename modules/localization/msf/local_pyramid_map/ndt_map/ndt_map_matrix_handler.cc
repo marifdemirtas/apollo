@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,29 +24,29 @@ namespace msf {
 namespace pyramid_map {
 // =================PyramidMapMatrixHandlerSelector=================
 NdtMapMatrixHandlerSelector::NdtMapMatrixHandlerSelector() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 NdtMapMatrixHandlerSelector::~NdtMapMatrixHandlerSelector() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapMatrixHandler* NdtMapMatrixHandlerSelector::AllocNdtMapMatrixHandler() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return new NdtMapMatrixHandler();
 }
 
 NdtMapMatrixHandler::NdtMapMatrixHandler() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 NdtMapMatrixHandler::~NdtMapMatrixHandler() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t NdtMapMatrixHandler::LoadBinary(const unsigned char* buf,
                                        std::shared_ptr<BaseMapMatrix> matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!matrix) {
     return 0;
@@ -63,7 +63,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 size_t NdtMapMatrixHandler::CreateBinary(
     const std::shared_ptr<BaseMapMatrix> matrix, unsigned char* buf,
     size_t buf_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!matrix) {
     return 0;
@@ -75,7 +75,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 /**@brief Get the binary size of the object. */
 size_t NdtMapMatrixHandler::GetBinarySize(
     const std::shared_ptr<BaseMapMatrix> matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::shared_ptr<NdtMapMatrix> ndt_matrix =
       std::dynamic_pointer_cast<NdtMapMatrix>(matrix);

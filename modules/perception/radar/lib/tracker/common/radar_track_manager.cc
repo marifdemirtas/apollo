@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,7 +21,7 @@ namespace perception {
 namespace radar {
 
 int RadarTrackManager::RemoveLostTracks() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t track_count = 0;
   for (size_t i = 0; i < tracks_.size(); ++i) {
@@ -39,7 +39,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RadarTrackManager::ClearTracks() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  tracks_.clear(); }
 
 }  // namespace radar

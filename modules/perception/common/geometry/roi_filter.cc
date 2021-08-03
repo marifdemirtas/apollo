@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,7 +36,7 @@ using ObjectPtr = std::shared_ptr<apollo::perception::base::Object>;
 using apollo::perception::base::ObjectType;
 
 bool IsPtInRoi(const HdmapStructConstPtr roi, const PointD pt) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (std::size_t j = 0; j < roi->road_polygons.size(); j++) {
     if (IsPointXYInPolygon2DXY(pt, roi->road_polygons[j])) {
@@ -52,7 +52,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool IsObjectInRoi(const HdmapStructConstPtr roi, const ObjectConstPtr obj) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   PointD ct;
   ct.x = obj->center[0];
@@ -63,7 +63,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool IsObjectBboxInRoi(const HdmapStructConstPtr roi,
                        const ObjectConstPtr obj) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector3d bbox_center = obj->center;
   PointD ct;
@@ -104,7 +104,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool ObjectInRoiCheck(const HdmapStructConstPtr roi,
                       const std::vector<ObjectPtr>& objects,
                       std::vector<ObjectPtr>* valid_objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (roi == nullptr ||
       (roi->road_polygons.empty() && roi->junction_polygons.empty())) {

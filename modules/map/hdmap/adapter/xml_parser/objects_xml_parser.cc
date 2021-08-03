@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,7 @@ namespace adapter {
 
 Status ObjectsXmlParser::ParseCrosswalks(const tinyxml2::XMLElement& xml_node,
                                          std::vector<PbCrosswalk>* crosswalks) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(crosswalks);
   const tinyxml2::XMLElement* sub_node = xml_node.FirstChildElement("object");
@@ -62,7 +62,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status ObjectsXmlParser::ParseClearAreas(
     const tinyxml2::XMLElement& xml_node,
     std::vector<PbClearArea>* clear_areas) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(clear_areas);
   const tinyxml2::XMLElement* sub_node = xml_node.FirstChildElement("object");
@@ -101,7 +101,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status ObjectsXmlParser::ParseSpeedBumps(
     const tinyxml2::XMLElement& xml_node,
     std::vector<PbSpeedBump>* speed_bumps) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(speed_bumps);
   const tinyxml2::XMLElement* object_node =
@@ -143,7 +143,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status ObjectsXmlParser::ParseStopLines(
     const tinyxml2::XMLElement& xml_node,
     std::vector<StopLineInternal>* stop_lines) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(stop_lines);
   const tinyxml2::XMLElement* object_node =
@@ -181,7 +181,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status ObjectsXmlParser::ParseParkingSpaces(
     const tinyxml2::XMLElement& xml_node,
     std::vector<PbParkingSpace>* parking_spaces) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(parking_spaces);
   const tinyxml2::XMLElement* sub_node = xml_node.FirstChildElement("object");
@@ -225,7 +225,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status ObjectsXmlParser::ParsePNCJunctions(
     const tinyxml2::XMLElement& xml_node,
     std::vector<PbPNCJunction>* pnc_junctions) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(pnc_junctions);
 
@@ -266,7 +266,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status ObjectsXmlParser::ParsePassageGroup(const tinyxml2::XMLElement& xml_node,
                                            PbPNCJunction* pnc_junction) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(pnc_junction);
 
@@ -293,7 +293,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status ObjectsXmlParser::ParsePassage(const tinyxml2::XMLElement& xml_node,
                                       PbPassageGroup* passage_group) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(passage_group);
 
@@ -343,7 +343,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status ObjectsXmlParser::ParsePassageIds(
     const tinyxml2::XMLElement& xml_node, const std::string& child_node_name,
     std::vector<std::string>* passage_node_ids) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(passage_node_ids);
 
@@ -367,7 +367,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status ObjectsXmlParser::ToPassageType(const std::string& type,
                                        PbPassageType* passage_type) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(passage_type);
 
@@ -386,7 +386,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status ObjectsXmlParser::ParseRSUs(
     const tinyxml2::XMLElement& xml_node,
     std::vector<RSUInternal>* rsus) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(rsus);
 
@@ -427,7 +427,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status ObjectsXmlParser::ParseObjects(const tinyxml2::XMLElement& xml_node,
                                       ObjectInternal* objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(objects);
 

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,7 +29,7 @@ namespace lidar {
 
 void SppLabelImage::Init(size_t width, size_t height,
                          const std::string& sensor_name) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // simply release the last memory and allocate new one
   if (labels_) {
@@ -45,7 +45,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppLabelImage::InitRangeMask(float range, float boundary_distance) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (range_mask_) {
     common::IFree2(&range_mask_);
@@ -70,7 +70,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppLabelImage::CollectClusterFromSppLabelImage() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t size = width_ * height_;
   // find max label
@@ -90,7 +90,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppLabelImage::ProjectClusterToSppLabelImage() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   memset(labels_[0], 0, sizeof(uint16_t) * width_ * height_);
   for (size_t n = 0; n < clusters_.size(); ++n) {
@@ -103,7 +103,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SppLabelImage::FilterClusters(const float* confidence_map,
                                    float threshold) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto& cluster : clusters_) {
     float sum = 0.f;
@@ -138,7 +138,7 @@ void SppLabelImage::FilterClusters(const float* confidence_map,
                                    const float* category_map,
                                    float confidence_threshold,
                                    float category_threshold) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<bool> is_valid;
   is_valid.reserve(clusters_.size());
@@ -194,7 +194,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SppLabelImage::CalculateClusterClass(const float* class_map,
                                           size_t class_num) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto& cluster : clusters_) {
     cluster->class_prob.assign(class_num, 0.f);
@@ -223,7 +223,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppLabelImage::CalculateClusterHeading(const float* heading_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const float* heading_map_x_ptr = heading_map;
   const float* heading_map_y_ptr = heading_map + width_ * height_;
@@ -239,7 +239,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppLabelImage::CalculateClusterTopZ(const float* top_z_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto& cluster : clusters_) {
     float sum = 0.f;
@@ -254,7 +254,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppLabelImage::AddPixelSample(size_t id, uint32_t pixel) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (clusters_.size() <= id) {
     SppClusterPool::Instance(sensor_name_)
@@ -264,7 +264,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppLabelImage::ResizeClusters(size_t size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (size > clusters_.size()) {
     SppClusterPool::Instance(sensor_name_)
@@ -275,7 +275,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppLabelImage::ResetClusters(size_t size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t reset_pos = std::min(clusters_.size(), size);
   ResizeClusters(size);

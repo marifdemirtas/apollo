@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@
 #include "modules/perception/lidar/lib/tracker/multi_lidar_fusion/proto/multi_lidar_fusion_config.pb.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace lidar {
@@ -41,7 +41,7 @@ const std::vector<float> MlfTrackObjectDistance::kBackgroundDefaultWeight = {
 
 bool MlfTrackObjectDistance::Init(
     const MlfTrackObjectDistanceInitOptions& options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -92,7 +92,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 float MlfTrackObjectDistance::ComputeDistance(
     const TrackedObjectConstPtr& object,
     const MlfTrackDataConstPtr& track) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   bool is_background = object->is_background;
   const TrackedObjectConstPtr latest_object = track->GetLatestObject().second;

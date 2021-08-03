@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -146,7 +146,7 @@ class PadTerminal {
 }  // namespace
 
 int main(int argc, char **argv) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   apollo::cyber::Init("pad_terminal");
   FLAGS_alsologtostderr = true;

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace perception {
 namespace base {
 
 Eigen::Vector2f PinholeCameraModel::Project(const Eigen::Vector3f& point3d) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector2f pt2d;
 
@@ -35,7 +35,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Eigen::Vector3f PinholeCameraModel::UnProject(const Eigen::Vector2f& point2d) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector3f pt3d;
   pt3d(0) = (point2d(0) - intrinsic_params_(0, 2)) / intrinsic_params_(0, 0);

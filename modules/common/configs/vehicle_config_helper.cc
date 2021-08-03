@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,15 +30,15 @@ VehicleConfig VehicleConfigHelper::vehicle_config_;
 bool VehicleConfigHelper::is_init_ = false;
 
 VehicleConfigHelper::VehicleConfigHelper() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VehicleConfigHelper::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Init(FLAGS_vehicle_config_path); }
 
 void VehicleConfigHelper::Init(const std::string &config_file) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   VehicleConfig params;
   ACHECK(cyber::common::GetProtoFromFile(config_file, &params))
@@ -47,14 +47,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VehicleConfigHelper::Init(const VehicleConfig &vehicle_params) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   vehicle_config_ = vehicle_params;
   is_init_ = true;
 }
 
 const VehicleConfig &VehicleConfigHelper::GetConfig() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!is_init_) {
     Init();
@@ -63,7 +63,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double VehicleConfigHelper::MinSafeTurnRadius() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto &param = vehicle_config_.vehicle_param();
   double lat_edge_to_center =
@@ -77,7 +77,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 common::math::Box2d VehicleConfigHelper::GetBoundingBox(
     const common::PathPoint &path_point) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto &vehicle_param = vehicle_config_.vehicle_param();
   double diff_truecenter_and_pointX = (vehicle_param.front_edge_to_center() -

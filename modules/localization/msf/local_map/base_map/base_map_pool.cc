@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -29,16 +29,16 @@ namespace msf {
 BaseMapNodePool::BaseMapNodePool(unsigned int pool_size,
                                  unsigned int thread_size)
     : pool_size_(pool_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapNodePool::~BaseMapNodePool() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Release(); }
 
 void BaseMapNodePool::Initial(const BaseMapConfig* map_config,
                               bool is_fixed_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   is_fixed_size_ = is_fixed_size;
   map_config_ = map_config;
@@ -50,7 +50,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMapNodePool::Release() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (node_reset_workers_.valid()) {
     node_reset_workers_.get();
@@ -69,7 +69,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapNode* BaseMapNodePool::AllocMapNode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (free_list_.empty()) {
     if (node_reset_workers_.valid()) {
@@ -95,14 +95,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMapNodePool::FreeMapNode(BaseMapNode* map_node) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   node_reset_workers_ =
       cyber::Async(&BaseMapNodePool::FreeMapNodeTask, this, map_node);
 }
 
 void BaseMapNodePool::FreeMapNodeTask(BaseMapNode* map_node) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   FinalizeMapNode(map_node);
   ResetMapNode(map_node);
@@ -116,21 +116,21 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMapNodePool::InitNewMapNode(BaseMapNode* node) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   node->InitMapMatrix(map_config_);
 }
 
 void BaseMapNodePool::FinalizeMapNode(BaseMapNode* node) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  node->Finalize(); }
 
 void BaseMapNodePool::DellocMapNode(BaseMapNode* node) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  delete node; }
 
 void BaseMapNodePool::ResetMapNode(BaseMapNode* node) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  node->ResetMapNode(); }
 
 }  // namespace msf

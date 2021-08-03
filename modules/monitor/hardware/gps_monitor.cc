@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -36,11 +36,11 @@ using apollo::drivers::gnss::SolutionType;
 
 GpsMonitor::GpsMonitor()
     : RecurrentRunner(FLAGS_gps_monitor_name, FLAGS_gps_monitor_interval) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void GpsMonitor::RunOnce(const double current_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto manager = MonitorManager::Instance();
   Component* component = apollo::common::util::FindOrNull(

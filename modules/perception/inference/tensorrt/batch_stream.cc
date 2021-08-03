@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,7 +29,7 @@ namespace inference {
 
 BatchStream::BatchStream(int batchSize, int maxBatches, std::string dataPath)
     : mBatchSize(batchSize), mMaxBatches(maxBatches), mPath(dataPath) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   FILE *file = fopen((mPath + "Batch0").c_str(), "rb");
   if (file != nullptr) {
@@ -46,11 +46,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BatchStream::BatchStream() : mPath("") {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BatchStream::reset(int firstBatch) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (mPath != "") {
     mBatchCount = 0;
@@ -61,7 +61,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BatchStream::next() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (mBatchCount == mMaxBatches) {
     return false;
@@ -87,7 +87,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BatchStream::skip(int skipCount) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (mBatchSize >= mDims.n() && mBatchSize % mDims.n() == 0 &&
       mFileBatchPos == mDims.n()) {
@@ -103,7 +103,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BatchStream::update() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string inputFileName = absl::StrCat(mPath, "Batch", mFileCount++);
   FILE *file = fopen(inputFileName.c_str(), "rb");

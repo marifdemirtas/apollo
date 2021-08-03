@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Llcdiagsteeringcontrol722::ID = 0x722;
 
 // public
 Llcdiagsteeringcontrol722::Llcdiagsteeringcontrol722() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Llcdiagsteeringcontrol722::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 10 * 1000;
@@ -41,7 +41,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Llcdiagsteeringcontrol722::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_llc_dbg_steeringsensorposition(data, llc_dbg_steeringsensorposition_);
   set_p_llc_dbg_steeringrackinputtorque(data, llc_dbg_steeringrackinputtorque_);
@@ -49,7 +49,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Llcdiagsteeringcontrol722::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  you should check this manually
   llc_dbg_steeringsensorposition_ = 0.0;
@@ -60,7 +60,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Llcdiagsteeringcontrol722*
 Llcdiagsteeringcontrol722::set_llc_dbg_steeringsensorposition(
     double llc_dbg_steeringsensorposition) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_steeringsensorposition_ = llc_dbg_steeringsensorposition;
   return this;
@@ -73,7 +73,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': 'rev'}
 void Llcdiagsteeringcontrol722::set_p_llc_dbg_steeringsensorposition(
     uint8_t* data, double llc_dbg_steeringsensorposition) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_steeringsensorposition = ProtocolData::BoundedValue(
       -6.5536, 6.5534, llc_dbg_steeringsensorposition);
@@ -93,7 +93,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Llcdiagsteeringcontrol722*
 Llcdiagsteeringcontrol722::set_llc_dbg_steeringrackinputtorque(
     int llc_dbg_steeringrackinputtorque) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_steeringrackinputtorque_ = llc_dbg_steeringrackinputtorque;
   return this;
@@ -106,7 +106,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': 'counts'}
 void Llcdiagsteeringcontrol722::set_p_llc_dbg_steeringrackinputtorque(
     uint8_t* data, int llc_dbg_steeringrackinputtorque) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_steeringrackinputtorque = ProtocolData::BoundedValue(
       -32768, 32767, llc_dbg_steeringrackinputtorque);
@@ -126,7 +126,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Llcdiagsteeringcontrol722*
 Llcdiagsteeringcontrol722::set_llc_dbg_steeringmotorposition(
     double llc_dbg_steeringmotorposition) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_steeringmotorposition_ = llc_dbg_steeringmotorposition;
   return this;
@@ -139,7 +139,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': 'rev'}
 void Llcdiagsteeringcontrol722::set_p_llc_dbg_steeringmotorposition(
     uint8_t* data, double llc_dbg_steeringmotorposition) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   llc_dbg_steeringmotorposition = ProtocolData::BoundedValue(
       -83.88608, 83.88607, llc_dbg_steeringmotorposition);

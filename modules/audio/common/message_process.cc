@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ void MessageProcess::OnMicrophone(
     MovingDetection* moving_detection,
     SirenDetection* siren_detection,
     AudioDetection* audio_detection) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   audio_info->Insert(audio_data);
   auto direction_result =

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -32,7 +32,7 @@ namespace video {
 FrameProcessor::FrameProcessor(const std::string& input_video_file,
                                const std::string& output_jpg_dir)
     : output_jpg_dir_(output_jpg_dir) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::ifstream video_file(input_video_file, std::ios::binary);
   std::istreambuf_iterator<char> buf_begin(video_file), buf_end;
@@ -42,7 +42,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool FrameProcessor::ProcessStream() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (input_video_buffer_.empty()) {
     AERROR << "error: failed to read from input video file";
@@ -104,7 +104,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string FrameProcessor::GetOutputFile(const int frame_num) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static constexpr int kSuffixLen = 5;
   std::stringstream jpg_suffix;
@@ -117,7 +117,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void FrameProcessor::WriteOutputJpgFile(
     const std::vector<uint8_t>& jpeg_buffer,
     const std::string& output_jpg_file) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::ofstream out(output_jpg_file, std::ios::binary);
   for (const uint8_t current : jpeg_buffer) {

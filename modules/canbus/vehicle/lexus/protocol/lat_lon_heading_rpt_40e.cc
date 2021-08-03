@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Latlonheadingrpt40e::Latlonheadingrpt40e() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Latlonheadingrpt40e::ID = 0x40E;
 
 void Latlonheadingrpt40e::Parse(const std::uint8_t* bytes, int32_t length,
                                 ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_lexus()->mutable_lat_lon_heading_rpt_40e()->set_heading(
       heading(bytes, length));
@@ -64,7 +64,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'deg'}
 double Latlonheadingrpt40e::heading(const std::uint8_t* bytes,
                                     int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
@@ -86,7 +86,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'int', 'order': 'motorola', 'physical_unit': 'sec'}
 int Latlonheadingrpt40e::longitude_seconds(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);
@@ -103,7 +103,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'int', 'order': 'motorola', 'physical_unit': 'min'}
 int Latlonheadingrpt40e::longitude_minutes(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -120,7 +120,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'int', 'order': 'motorola', 'physical_unit': 'deg'}
 int Latlonheadingrpt40e::longitude_degrees(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -137,7 +137,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'int', 'order': 'motorola', 'physical_unit': 'sec'}
 int Latlonheadingrpt40e::latitude_seconds(const std::uint8_t* bytes,
                                           int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -154,7 +154,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'int', 'order': 'motorola', 'physical_unit': 'min'}
 int Latlonheadingrpt40e::latitude_minutes(const std::uint8_t* bytes,
                                           int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -171,7 +171,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'int', 'order': 'motorola', 'physical_unit': 'deg'}
 int Latlonheadingrpt40e::latitude_degrees(const std::uint8_t* bytes,
                                           int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);

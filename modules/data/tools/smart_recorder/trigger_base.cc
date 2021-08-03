@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace apollo {
 namespace data {
 
 bool TriggerBase::Init(const SmartRecordTrigger& trigger_conf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LockTrigger(trigger_conf);
   if (trigger_obj_ == nullptr) {
@@ -35,14 +35,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 uint64_t TriggerBase::SecondsToNanoSeconds(const double seconds) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static constexpr uint64_t kSecondsToNanoSecondsFactor = 1000000000UL;
   return static_cast<uint64_t>(kSecondsToNanoSecondsFactor * seconds);
 }
 
 void TriggerBase::LockTrigger(const SmartRecordTrigger& trigger_conf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto& trigger : trigger_conf.triggers()) {
     if (trigger.trigger_name() == trigger_name_) {
@@ -55,7 +55,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 uint64_t TriggerBase::GetValidValueInRange(const double desired_value,
                                            const double min_limit,
                                            const double max_limit) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return SecondsToNanoSeconds(desired_value < min_limit
                                   ? min_limit
@@ -64,7 +64,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TriggerBase::TriggerIt(const uint64_t msg_time) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static constexpr float kMaxBackwardTime = 30.0;
   static constexpr float kMaxForwardTime = 15.0;

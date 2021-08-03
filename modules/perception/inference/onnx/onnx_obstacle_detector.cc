@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ using apollo::perception::base::Blob;
   { GPUAssert((ans), __FILE__, __LINE__); }
 inline void GPUAssert(cudaError_t code, const char* file, int line,
                       bool abort = true) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (code != cudaSuccess) {
     fprintf(stderr, "GPUassert: %s %s %d\n", cudaGetErrorString(code), file,
@@ -48,7 +48,7 @@ OnnxObstacleDetector::OnnxObstacleDetector(
     score_threshold_(score_threshold),
     output_names_(outputs),
     input_names_(inputs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 OnnxObstacleDetector::OnnxObstacleDetector(
@@ -56,17 +56,17 @@ OnnxObstacleDetector::OnnxObstacleDetector(
   const std::vector<std::string> &outputs,
   const std::vector<std::string> &inputs)
   : model_file_(model_file), output_names_(outputs), input_names_(inputs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 OnnxObstacleDetector::~OnnxObstacleDetector() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void OnnxObstacleDetector::OnnxToTRTModel(
     const std::string& model_file,  // name of the onnx model
     nvinfer1::ICudaEngine** engine_ptr) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int verbosity = static_cast<int>(nvinfer1::ILogger::Severity::kWARNING);
   kBatchSize = 1;
@@ -102,14 +102,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void OnnxObstacleDetector::inference() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Do Inference";
 }
 
 bool OnnxObstacleDetector::Init(const std::map<std::string,
                                 std::vector<int>> &shapes) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // create a TensorRT model from the onnx model and load it into an engine
   OnnxToTRTModel(model_file_, &engine_);
@@ -141,13 +141,13 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void OnnxObstacleDetector::Infer() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::cout << "Infer" << std::endl;
 }
 
 BlobPtr OnnxObstacleDetector::get_blob(const std::string &name) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto iter = blobs_.find(name);
   if (iter == blobs_.end()) {

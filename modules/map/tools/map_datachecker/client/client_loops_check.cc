@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace hdmap {
 
 LoopsChecker::LoopsChecker(const std::string& time_flag_file)
     : time_flag_file_(time_flag_file) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   YAML::Node node = YAML::LoadFile(FLAGS_client_conf_yaml);
   std::string server_addr =
@@ -40,7 +40,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LoopsChecker::SyncStart(bool* reached) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<std::pair<double, double>> time_ranges = GetTimeRanges();
   size_t pair_count = time_ranges.size();
@@ -58,7 +58,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LoopsChecker::PeriodicCheck(bool* reached) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int ret = 0;
   while (true) {
@@ -87,7 +87,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::vector<std::pair<double, double>> LoopsChecker::GetTimeRanges() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<std::pair<double, double>> result;
   std::vector<std::pair<double, double>> empty;
@@ -128,7 +128,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int LoopsChecker::GrpcStub(LoopsVerifyRequest* request,
                            LoopsVerifyResponse* response) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   grpc::ClientContext context;
   grpc::Status status;
@@ -147,7 +147,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int LoopsChecker::Start(
     const std::vector<std::pair<double, double>>& time_ranges) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LoopsVerifyRequest request;
   request.set_cmd(CmdType::START);
@@ -162,7 +162,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return GrpcStub(&request, &response);
 }
 int LoopsChecker::Check(double* progress, bool* reached) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LoopsVerifyRequest request;
   request.set_cmd(CmdType::CHECK);
@@ -178,7 +178,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LoopsChecker::Stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LoopsVerifyRequest request;
   request.set_cmd(CmdType::STOP);

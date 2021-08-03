@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -37,14 +37,14 @@ using PointFCloud = apollo::perception::base::PointCloud<PointF>;
 using PolygonDType = apollo::perception::base::PointCloud<PointD>;
 
 bool ObjectBuilder::Init(const ObjectBuilderInitOptions& options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return true;
 }
 
 bool ObjectBuilder::Build(const ObjectBuilderOptions& options,
                           LidarFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frame == nullptr) {
     return false;
@@ -62,7 +62,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ObjectBuilder::ComputePolygon2D(ObjectPtr object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector3f min_pt;
   Eigen::Vector3f max_pt;
@@ -78,7 +78,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ObjectBuilder::ComputeOtherObjectInformation(ObjectPtr object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   object->anchor_point = object->center;
   double timestamp = 0.0;
@@ -93,7 +93,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ObjectBuilder::ComputePolygonSizeCenter(ObjectPtr object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (object->lidar_supplement.cloud.size() < 4u) {
     return;
@@ -124,7 +124,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void ObjectBuilder::SetDefaultValue(const Eigen::Vector3f& min_pt_in,
                                     const Eigen::Vector3f& max_pt_in,
                                     ObjectPtr object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector3f min_pt = min_pt_in;
   Eigen::Vector3f max_pt = max_pt_in;
@@ -173,7 +173,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool ObjectBuilder::LinePerturbation(PointFCloud* cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (cloud->size() >= 3) {
     int start_point = 0;
@@ -198,7 +198,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void ObjectBuilder::GetMinMax3D(const PointFCloud& cloud,
                                 Eigen::Vector3f* min_pt,
                                 Eigen::Vector3f* max_pt) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   (*min_pt)[0] = (*min_pt)[1] = (*min_pt)[2] =
       std::numeric_limits<float>::max();

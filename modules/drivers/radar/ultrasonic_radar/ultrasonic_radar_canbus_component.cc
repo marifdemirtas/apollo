@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,13 +23,13 @@ namespace drivers {
 namespace ultrasonic_radar {
 
 UltrasonicRadarCanbusComponent::UltrasonicRadarCanbusComponent() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   writer_ = node_->CreateWriter<Ultrasonic>(FLAGS_ultrasonic_radar_topic);
 }
 
 bool UltrasonicRadarCanbusComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return utralsonic_radar_canbus_.Init(ConfigFilePath(), writer_).ok() &&
          utralsonic_radar_canbus_.Start().ok();

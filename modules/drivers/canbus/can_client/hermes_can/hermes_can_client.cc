@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ namespace can {
 using apollo::common::ErrorCode;
 
 HermesCanClient::~HermesCanClient() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (dev_handler_) {
     Stop();
@@ -38,7 +38,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool HermesCanClient::Init(const CANCardParameter &parameter) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!parameter.has_channel_id()) {
     AERROR << "Init CAN failed: parameter does not have channel id. The "
@@ -58,7 +58,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ErrorCode HermesCanClient::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (is_init_) {
     return ErrorCode::OK;
@@ -95,7 +95,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HermesCanClient::Stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (is_init_) {
     is_init_ = false;
@@ -109,7 +109,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // Synchronous transmission of CAN messages
 apollo::common::ErrorCode HermesCanClient::Send(
     const std::vector<CanFrame> &frames, int32_t *const frame_num) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   /*
   typedef struct bcan_msg {
@@ -156,7 +156,7 @@ const int RX_TIMEOUT = -7;
 
 apollo::common::ErrorCode HermesCanClient::Receive(
     std::vector<CanFrame> *const frames, int32_t *const frame_num) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!is_init_) {
     AERROR << "Hermes can client is not init! Please init first!";
@@ -197,11 +197,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string HermesCanClient::GetErrorString(int32_t ntstatus) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return ""; }
 
 void HermesCanClient::SetInited(bool init) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  is_init_ = init; }
 
 }  // namespace can

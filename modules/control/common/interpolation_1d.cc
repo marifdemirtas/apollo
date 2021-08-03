@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace control {
 const double kDoubleEpsilon = 1e-6;
 
 bool Interpolation1D::Init(const DataType& xy) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (xy.empty()) {
     AERROR << "empty input.";
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Interpolation1D::Interpolate(double x) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (x < x_min_) {
     return y_start_;
@@ -69,7 +69,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Interpolation1D::ScaledValue(double x) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (std::fabs(x_max_ - x_min_) < kDoubleEpsilon) {
     return x_min_;
@@ -79,7 +79,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Eigen::RowVectorXd Interpolation1D::ScaledValues(
     Eigen::VectorXd const& x_vec) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return x_vec.unaryExpr([this](double x) { return ScaledValue(x); })
       .transpose();

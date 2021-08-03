@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ namespace onboard {
 std::atomic<uint32_t> DetectionComponent::seq_num_{0};
 
 bool DetectionComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LidarDetectionComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
@@ -58,7 +58,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool DetectionComponent::Proc(
     const std::shared_ptr<drivers::PointCloud>& message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << std::setprecision(16)
         << "Enter detection component, message timestamp: "
@@ -76,7 +76,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool DetectionComponent::InitAlgorithmPlugin() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ACHECK(common::SensorManager::Instance()->GetSensorInfo(sensor_name_,
                                                           &sensor_info_));
@@ -104,7 +104,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool DetectionComponent::InternalProc(
     const std::shared_ptr<const drivers::PointCloud>& in_message,
     const std::shared_ptr<LidarFrameMessage>& out_message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint32_t seq_num = seq_num_.fetch_add(1);
   const double timestamp = in_message->measurement_time();

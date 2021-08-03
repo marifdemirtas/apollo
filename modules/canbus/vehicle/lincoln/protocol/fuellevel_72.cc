@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -29,14 +29,14 @@ const int32_t Fuellevel72::ID = 0x72;
 
 void Fuellevel72::Parse(const std::uint8_t *bytes, int32_t length,
                         ChassisDetail *chassis_detail) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis_detail->mutable_battery()->set_fuel_level(fuel_level(bytes, length));
 }
 
 double Fuellevel72::fuel_level(const std::uint8_t *bytes,
                                int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte high_frame(bytes + 1);
   int32_t high = high_frame.get_byte(0, 8);

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,24 +27,24 @@ namespace msf {
 using cyber::record::RecordReader;
 
 CyberRecordReader::CyberRecordReader() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 CyberRecordReader::~CyberRecordReader() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CyberRecordReader::Subscribe(
     const std::string &topic,
     const std::function<void(const std::string &)> call_back) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   call_back_map_[topic] = call_back;
   topics_.push_back(topic);
 }
 
 void CyberRecordReader::Read(const std::string &file_name) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   RecordReader reader(file_name);
   cyber::record::RecordMessage message;
@@ -57,7 +57,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CyberRecordReader::Read(const std::vector<std::string> &file_names) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const std::string &file_name : file_names) {
     Read(file_name);

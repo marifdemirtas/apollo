@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Steeringcontrola2::ID = 0xA2;
 
 // public
 Steeringcontrola2::Steeringcontrola2() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Steeringcontrola2::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(ChaoM) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,14 +41,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steeringcontrola2::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_steering_target(data, steering_target_);
   set_p_steering_enable_control(data, steering_enable_control_);
 }
 
 void Steeringcontrola2::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(ChaoM) :  you should check this manually
   steering_target_ = 0.0;
@@ -58,7 +58,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Steeringcontrola2* Steeringcontrola2::set_steering_target(
     double steering_target) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   steering_target_ = steering_target;
   return this;
@@ -69,7 +69,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 8, 'type': 'double', 'order': 'intel', 'physical_unit': 'deg'}
 void Steeringcontrola2::set_p_steering_target(uint8_t* data,
                                               double steering_target) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   steering_target = ProtocolData::BoundedValue(-32.0, 32.0, steering_target);
   int x = static_cast<int>((steering_target - -1638.350000) / 0.050000);
@@ -87,7 +87,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Steeringcontrola2* Steeringcontrola2::set_steering_enable_control(
     Steering_control_a2::Steering_enable_controlType steering_enable_control) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   steering_enable_control_ = steering_enable_control;
   return this;
@@ -101,7 +101,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Steeringcontrola2::set_p_steering_enable_control(
     uint8_t* data,
     Steering_control_a2::Steering_enable_controlType steering_enable_control) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = steering_enable_control;
 

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -42,7 +42,7 @@ using Json = nlohmann::json;
 PreprocessMonitor::PreprocessMonitor()
     : FuelMonitor(FLAGS_preprocess_monitor_name),
       node_(cyber::CreateNode("progress_monitor")) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   InitReaders();
   LoadConfiguration();
@@ -52,18 +52,18 @@ PreprocessMonitor::PreprocessMonitor(const std::string& task_name)
     : FuelMonitor(FLAGS_preprocess_monitor_name),
       task_name_(task_name),
       node_(cyber::CreateNode(task_name + "_progress_monitor")) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   InitReaders();
   LoadConfiguration();
 }
 
 PreprocessMonitor::~PreprocessMonitor() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Stop(); }
 
 void PreprocessMonitor::InitReaders() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   node_->CreateReader<Progress>(
       FLAGS_progress_topic, [this](const std::shared_ptr<Progress>& progress) {
@@ -72,7 +72,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PreprocessMonitor::LoadConfiguration() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!task_name_.empty()) {
     const std::string& vehicle_dir =
@@ -102,7 +102,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PreprocessMonitor::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!enabled_) {
     current_status_json_.clear();
@@ -112,11 +112,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PreprocessMonitor::Stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  enabled_ = false; }
 
 void PreprocessMonitor::OnProgress(const std::shared_ptr<Progress>& progress) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!enabled_) {
     return;
@@ -131,7 +131,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 nlohmann::json PreprocessMonitor::GetProgressAsJson() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   boost::unique_lock<boost::shared_mutex> reader_lock(mutex_);
   return current_status_json_;

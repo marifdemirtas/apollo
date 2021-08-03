@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace neolix_edu {
 using ::apollo::drivers::canbus::Byte;
 
 Aebwheelimpulse355::Aebwheelimpulse355() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Aebwheelimpulse355::ID = 0x355;
 
 void Aebwheelimpulse355::Parse(const std::uint8_t* bytes, int32_t length,
                                ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_neolix_edu()->mutable_aeb_wheelimpulse_355()->set_flimpulse(
       flimpulse(bytes, length));
@@ -70,7 +70,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': 'bit'}
 double Aebwheelimpulse355::flimpulse(const std::uint8_t* bytes,
                                      int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -90,7 +90,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': 'bit'}
 bool Aebwheelimpulse355::flimpulsevalid(const std::uint8_t* bytes,
                                         int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(5, 1);
@@ -104,7 +104,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'km/h'}
 double Aebwheelimpulse355::frimpulse(const std::uint8_t* bytes,
                                      int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 5);
@@ -123,7 +123,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': 'km/h'}
 bool Aebwheelimpulse355::frimpulsevalid(const std::uint8_t* bytes,
                                         int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(2, 1);
@@ -138,7 +138,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': 'bit'}
 double Aebwheelimpulse355::rlimpulse(const std::uint8_t* bytes,
                                      int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 2);
@@ -158,7 +158,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': 'bit'}
 bool Aebwheelimpulse355::rlimpulsevalid(const std::uint8_t* bytes,
                                         int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(7, 1);
@@ -172,7 +172,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'km/h'}
 double Aebwheelimpulse355::rrimpulse(const std::uint8_t* bytes,
                                      int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 7);
@@ -191,7 +191,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': 'km/h'}
 bool Aebwheelimpulse355::rrimpulsevalid(const std::uint8_t* bytes,
                                         int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(4, 1);
@@ -205,7 +205,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Aebwheelimpulse355::alivecounter(const std::uint8_t* bytes,
                                         int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 4);
@@ -219,7 +219,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Aebwheelimpulse355::checksum(const std::uint8_t* bytes,
                                     int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);

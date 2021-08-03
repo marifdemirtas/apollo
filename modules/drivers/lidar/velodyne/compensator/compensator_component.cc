@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,7 +31,7 @@ namespace drivers {
 namespace velodyne {
 
 bool CompensatorComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CompensatorConfig config;
   if (!GetProtoConfig(&config)) {
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool CompensatorComponent::Proc(
     const std::shared_ptr<PointCloud>& point_cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto start_time = Time::Now();
   std::shared_ptr<PointCloud> point_cloud_compensated =

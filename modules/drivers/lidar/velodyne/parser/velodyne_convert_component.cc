@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace drivers {
 namespace velodyne {
 
 bool VelodyneConvertComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Config velodyne_config;
   if (!GetProtoConfig(&velodyne_config)) {
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool VelodyneConvertComponent::Proc(
     const std::shared_ptr<VelodyneScan>& scan_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<PointCloud> point_cloud_out = point_cloud_pool_->GetObject();
   if (point_cloud_out == nullptr) {

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,13 +26,13 @@ namespace benchmark {
 std::string PointCloudFrame::_s_cloud_type = "xyzit";  // NOLINT
 
 void PointCloudFrame::set_cloud_type(const std::string& type) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _s_cloud_type = type;
 }
 
 bool PointCloudFrame::load(const std::vector<std::string>& filenames) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (filenames.empty()) {
     std::cerr << "Filenames is empty" << std::endl;

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,19 +26,19 @@ namespace perception {
 namespace inference {
 
 inline std::string get_dtype(const base::Blob<double> &blob) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return "float64";
 }
 
 inline std::string get_dtype(const base::Blob<float> &blob) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return "float32";
 }
 
 size_t BinaryReadString(FILE *fp, char *name) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t len = 0;
   size_t nmemb = fread(&len, sizeof(len), 1, fp);
@@ -53,7 +53,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t BinaryWriteString(FILE *fp, const std::string &str) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t len = str.length();
   fwrite(&len, sizeof(len), 1, fp);
@@ -63,7 +63,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <typename Dtype>
 std::shared_ptr<base::Blob<Dtype>> BinaryReadBlob(FILE *fp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int ndim;
   std::shared_ptr<base::Blob<Dtype>> blob(new base::Blob<Dtype>());
@@ -99,7 +99,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <typename Dtype>
 void BinaryWriteBlob(FILE *fp, const base::Blob<Dtype> &blob) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int ndim, dim;
   // write dtype
@@ -127,9 +127,9 @@ template void BinaryWriteBlob(FILE *fp, const base::Blob<double> &blob);
 template <typename Dtype>
 std::map<std::string, std::shared_ptr<base::Blob<Dtype>>> BinaryReadFile(
     const char *file_path) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   char name[kMaxStrLen];
   std::map<std::string, std::shared_ptr<base::Blob<Dtype>>> data_dict;
@@ -153,11 +153,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 template <typename Btype>
 bool BinaryWriteFile(const char *file_path,
                      const std::map<std::string, Btype> &data_dict) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   FILE *fp = fopen(file_path, "wb");
   if (NULL == fp) {

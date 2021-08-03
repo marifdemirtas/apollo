@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace lidar {
 
 void SppEngine::Init(size_t width, size_t height, float range,
                      const SppParams& param, const std::string& sensor_name) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // initialize connect component detector
   detector_2d_cc_.Init(static_cast<int>(height), static_cast<int>(width));
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 size_t SppEngine::ProcessConnectedComponentCluster(
     const base::PointFCloudConstPtr point_cloud, const CloudMask& mask) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Timer timer;
   data_.category_pt_blob->cpu_data();
@@ -128,7 +128,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 size_t SppEngine::ProcessForegroundSegmentation(
     const base::PointFCloudConstPtr point_cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   mask_.clear();
   ProcessConnectedComponentCluster(point_cloud, mask_);
@@ -140,7 +140,7 @@ size_t SppEngine::RemoveGroundPointsInForegroundCluster(
     const base::PointFCloudConstPtr full_point_cloud,
     const base::PointIndices& roi_indices,
     const base::PointIndices& roi_non_ground_indices) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   mask_.Set(full_point_cloud->size(), 0);
   mask_.AddIndices(roi_indices);

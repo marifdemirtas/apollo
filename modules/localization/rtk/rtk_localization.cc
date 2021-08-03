@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,13 +32,13 @@ using ::Eigen::Vector3d;
 
 RTKLocalization::RTKLocalization()
     : map_offset_{
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 0.0, 0.0, 0.0},
       monitor_logger_(
           apollo::common::monitor::MonitorMessageItem::LOCALIZATION) {}
 
 void RTKLocalization::InitConfig(const rtk_config::Config &config) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   imu_list_max_size_ = config.imu_list_max_size();
   gps_imu_time_diff_threshold_ = config.gps_imu_time_diff_threshold();
@@ -49,7 +49,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void RTKLocalization::GpsCallback(
     const std::shared_ptr<localization::Gps> &gps_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double time_delay = last_received_timestamp_sec_
                           ? Clock::NowInSeconds() - last_received_timestamp_sec_
@@ -100,7 +100,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void RTKLocalization::GpsStatusCallback(
     const std::shared_ptr<drivers::gnss::InsStat> &status_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::unique_lock<std::mutex> lock(gps_status_list_mutex_);
   if (gps_status_list_.size() < gps_status_list_max_size_) {
@@ -113,7 +113,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void RTKLocalization::ImuCallback(
     const std::shared_ptr<localization::CorrectedImu> &imu_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::unique_lock<std::mutex> lock(imu_list_mutex_);
   if (imu_list_.size() < imu_list_max_size_) {
@@ -125,24 +125,24 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RTKLocalization::IsServiceStarted() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return service_started_; }
 
 void RTKLocalization::GetLocalization(LocalizationEstimate *localization) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   *localization = last_localization_result_;
 }
 
 void RTKLocalization::GetLocalizationStatus(
     LocalizationStatus *localization_status) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   *localization_status = last_localization_status_result_;
 }
 
 void RTKLocalization::RunWatchDog(double gps_timestamp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!enable_watch_dog_) {
     return;
@@ -193,7 +193,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void RTKLocalization::PrepareLocalizationMsg(
     const localization::Gps &gps_msg, LocalizationEstimate *localization,
     LocalizationStatus *localization_status) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // find the matching gps and imu message
   double gps_time_stamp = gps_msg.header().timestamp_sec();
@@ -208,7 +208,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void RTKLocalization::FillLocalizationMsgHeader(
     LocalizationEstimate *localization) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto *header = localization->mutable_header();
   double timestamp = apollo::cyber::Clock::NowInSeconds();
@@ -220,7 +220,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void RTKLocalization::FillLocalizationStatusMsg(
     const drivers::gnss::InsStat &status,
     LocalizationStatus *localization_status) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   apollo::common::Header *header = localization_status->mutable_header();
   double timestamp = apollo::cyber::Clock::NowInSeconds();
@@ -256,7 +256,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void RTKLocalization::ComposeLocalizationMsg(
     const localization::Gps &gps_msg, const localization::CorrectedImu &imu_msg,
     LocalizationEstimate *localization) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization->Clear();
 
@@ -349,7 +349,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool RTKLocalization::FindMatchingIMU(const double gps_timestamp_sec,
                                       CorrectedImu *imu_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (imu_msg == nullptr) {
     AERROR << "imu_msg should NOT be nullptr.";
@@ -427,7 +427,7 @@ bool RTKLocalization::InterpolateIMU(const CorrectedImu &imu1,
                                      const CorrectedImu &imu2,
                                      const double timestamp_sec,
                                      CorrectedImu *imu_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!(imu1.header().has_timestamp_sec() &&
         imu2.header().has_timestamp_sec())) {
@@ -498,7 +498,7 @@ T RTKLocalization::InterpolateXYZ(const T &p1, const T &p2,
 
 bool RTKLocalization::FindNearestGpsStatus(const double gps_timestamp_sec,
                                            drivers::gnss::InsStat *status) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(status);
 

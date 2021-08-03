@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
   /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace perception {
 namespace camera {
 
 bool SmokeObjectMaintainer::Add(int idx, base::ObjectPtr obj) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto obj_it = assigned_index_.find(idx);
   if (obj_it == assigned_index_.end()) {

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,17 +21,17 @@ namespace perception {
 namespace fusion {
 
 SensorFrame::SensorFrame() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  header_.reset(new SensorFrameHeader()); }
 
 SensorFrame::SensorFrame(const base::FrameConstPtr& base_frame_ptr) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Initialize(base_frame_ptr);
 }
 
 void SensorFrame::Initialize(const base::FrameConstPtr& base_frame_ptr) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   header_.reset(new SensorFrameHeader(base_frame_ptr->sensor_info,
                                       base_frame_ptr->timestamp,
@@ -56,13 +56,13 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SensorFrame::Initialize(const base::FrameConstPtr& base_frame_ptr,
                              const SensorPtr& sensor) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Initialize(base_frame_ptr);
 }
 
 std::string SensorFrame::GetSensorId() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (header_ == nullptr) {
     return std::string("");
@@ -72,7 +72,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 base::SensorType SensorFrame::GetSensorType() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (header_ == nullptr) {
     return base::SensorType::UNKNOWN_SENSOR_TYPE;

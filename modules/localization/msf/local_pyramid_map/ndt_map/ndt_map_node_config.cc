@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,15 +24,15 @@ namespace msf {
 namespace pyramid_map {
 
 NdtMapNodeConfig::NdtMapNodeConfig() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 NdtMapNodeConfig::~NdtMapNodeConfig() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::shared_ptr<BaseMapNodeConfig> NdtMapNodeConfig::Clone() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<NdtMapNodeConfig> map_node_config(new NdtMapNodeConfig());
   map_node_config->node_index_ = node_index_;

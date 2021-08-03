@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace perception {
 namespace benchmark {
 
 bool OptionParser::parse_from_string(const std::string& input) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _options.clear();
   std::vector<std::string> option_pairs = absl::StrSplit(input, '|');

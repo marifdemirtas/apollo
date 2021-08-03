@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace fusion {
 
 bool ObstacleMultiSensorFusion::Init(
     const ObstacleMultiSensorFusionParam& param) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (fusion_ != nullptr) {
     AINFO << "Already inited";
@@ -41,7 +41,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ObstacleMultiSensorFusion::Process(const base::FrameConstPtr& frame,
                                         std::vector<base::ObjectPtr>* objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   FusionOptions options;
   return fusion_->Fuse(options, frame, objects);

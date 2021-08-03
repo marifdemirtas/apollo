@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,7 +32,7 @@ void CartesianFrenetConverter::cartesian_to_frenet(
     const double v, const double a, const double theta, const double kappa,
     std::array<double, 3>* const ptr_s_condition,
     std::array<double, 3>* const ptr_d_condition) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double dx = x - rx;
   const double dy = y - ry;
@@ -75,7 +75,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void CartesianFrenetConverter::cartesian_to_frenet(
     const double rs, const double rx, const double ry, const double rtheta,
     const double x, const double y, double* ptr_s, double* ptr_d) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double dx = x - rx;
   const double dy = y - ry;
@@ -95,7 +95,7 @@ void CartesianFrenetConverter::frenet_to_cartesian(
     const std::array<double, 3>& d_condition, double* const ptr_x,
     double* const ptr_y, double* const ptr_theta, double* const ptr_kappa,
     double* const ptr_v, double* const ptr_a) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ACHECK(std::abs(rs - s_condition[0]) < 1.0e-6)
       << "The reference point s and s_condition[0] don't match";
@@ -139,7 +139,7 @@ double CartesianFrenetConverter::CalculateTheta(const double rtheta,
                                                 const double rkappa,
                                                 const double l,
                                                 const double dl) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return NormalizeAngle(rtheta + std::atan2(dl, 1 - l * rkappa));
 }
@@ -148,7 +148,7 @@ double CartesianFrenetConverter::CalculateKappa(const double rkappa,
                                                 const double rdkappa,
                                                 const double l, const double dl,
                                                 const double ddl) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double denominator = (dl * dl + (1 - l * rkappa) * (1 - l * rkappa));
   if (std::fabs(denominator) < 1e-8) {
@@ -164,7 +164,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Vec2d CartesianFrenetConverter::CalculateCartesianPoint(const double rtheta,
                                                         const Vec2d& rpoint,
                                                         const double l) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double x = rpoint.x() - l * std::sin(rtheta);
   const double y = rpoint.y() + l * std::cos(rtheta);
@@ -174,7 +174,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 double CartesianFrenetConverter::CalculateLateralDerivative(
     const double rtheta, const double theta, const double l,
     const double rkappa) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return (1 - rkappa * l) * std::tan(theta - rtheta);
 }
@@ -182,7 +182,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 double CartesianFrenetConverter::CalculateSecondOrderLateralDerivative(
     const double rtheta, const double theta, const double rkappa,
     const double kappa, const double rdkappa, const double l) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double dl = CalculateLateralDerivative(rtheta, theta, l, rkappa);
   const double theta_diff = theta - rtheta;

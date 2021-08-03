@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ DEFINE_string(input_video, "", "The input video file");
 DEFINE_string(output_dir, "", "The directory to output decoded pictures.");
 
 int main(int argc, char** argv) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   AINFO << "input video: " << FLAGS_input_video

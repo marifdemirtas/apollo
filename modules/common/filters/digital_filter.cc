@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,20 +32,20 @@ namespace common {
 
 DigitalFilter::DigitalFilter(const std::vector<double> &denominators,
                              const std::vector<double> &numerators) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_coefficients(denominators, numerators);
 }
 
 void DigitalFilter::set_denominators(const std::vector<double> &denominators) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   denominators_ = denominators;
   y_values_.resize(denominators_.size(), 0.0);
 }
 
 void DigitalFilter::set_numerators(const std::vector<double> &numerators) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   numerators_ = numerators;
   x_values_.resize(numerators_.size(), 0.0);
@@ -53,21 +53,21 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void DigitalFilter::set_coefficients(const std::vector<double> &denominators,
                                      const std::vector<double> &numerators) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_denominators(denominators);
   set_numerators(numerators);
 }
 
 void DigitalFilter::set_dead_zone(const double deadzone) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   dead_zone_ = std::fabs(deadzone);
   AINFO << "Setting digital filter dead zone = " << dead_zone_;
 }
 
 double DigitalFilter::Filter(const double x_insert) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (denominators_.empty() || numerators_.empty()) {
     AERROR << "Empty denominators or numerators";
@@ -93,14 +93,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DigitalFilter::reset_values() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::fill(x_values_.begin(), x_values_.end(), 0.0);
   std::fill(y_values_.begin(), y_values_.end(), 0.0);
 }
 
 double DigitalFilter::UpdateLast(const double input) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double diff = std::fabs(input - last_);
   if (diff < dead_zone_) {
@@ -114,7 +114,7 @@ double DigitalFilter::Compute(const std::deque<double> &values,
                               const std::vector<double> &coefficients,
                               const std::size_t coeff_start,
                               const std::size_t coeff_end) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ACHECK(coeff_start <= coeff_end && coeff_end < coefficients.size());
   ACHECK((coeff_end - coeff_start + 1) == values.size());
@@ -129,29 +129,29 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const std::vector<double> &DigitalFilter::denominators() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return denominators_;
 }
 
 const std::vector<double> &DigitalFilter::numerators() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return numerators_;
 }
 
 double DigitalFilter::dead_zone() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return dead_zone_; }
 
 const std::deque<double> &DigitalFilter::inputs_queue() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return x_values_;
 }
 
 const std::deque<double> &DigitalFilter::outputs_queue() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return y_values_;
 }

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,7 +32,7 @@ namespace perception {
 namespace camera {
 
 bool UndistortionHandler::set_device(int device) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   device_ = device;
   auto code = cudaSetDevice(device_);
@@ -49,7 +49,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  * Note: returns OK if already been inited.
  */
 bool UndistortionHandler::Init(const std::string &sensor_name, int device) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (inited_) {
     return true;
@@ -91,7 +91,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool UndistortionHandler::Handle(const base::Image8U &src_img,
                                  base::Image8U *dst_img) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!inited_) {
     return false;
@@ -138,7 +138,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool UndistortionHandler::Release(void) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   inited_ = false;
   return true;
@@ -149,7 +149,7 @@ void UndistortionHandler::InitUndistortRectifyMap(
     const Eigen::Matrix<float, 5, 1> distortion, const Eigen::Matrix3f &R,
     const Eigen::Matrix3f &new_camera_model, int width, int height,
     base::Blob<float> *d_mapx, base::Blob<float> *d_mapy) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float fx = camera_model(0, 0);
   float fy = camera_model(1, 1);

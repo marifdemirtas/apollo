@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,14 +29,14 @@ using apollo::drivers::canbus::Byte;
 const uint32_t MotionInputYawRate301::ID = 0x301;
 
 MotionInputYawRate301::MotionInputYawRate301() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 MotionInputYawRate301::~MotionInputYawRate301() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 uint32_t MotionInputYawRate301::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
@@ -47,7 +47,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  * @param data a pointer to the data to be updated
  */
 void MotionInputYawRate301::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (std::isnan(yaw_rate_)) {
     AWARN << "yaw_rate is nan";
@@ -67,11 +67,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  * @brief reset the private variables
  */
 void MotionInputYawRate301::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  yaw_rate_ = NAN; }
 
 void MotionInputYawRate301::SetYawRate(const float& yaw_rate) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   yaw_rate_ = yaw_rate;
 }

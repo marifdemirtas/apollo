@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /**
  * Copyright (c) 2019 LG Electronics, Inc.
  *
@@ -21,15 +21,15 @@
 using apollo::cyber::message::PyMessageWrap;
 
 Node::Node() : node(apollo::cyber::CreateNode("bridge")) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Node::~Node() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Node::remove(std::shared_ptr<Client> client) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto it = writers.begin(); it != writers.end(); /* empty */) {
     if (it->second.clients.find(client) != it->second.clients.end()) {
@@ -66,7 +66,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void Node::add_reader(const std::string& channel, const std::string& type,
                       std::shared_ptr<Client> client) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto rit = readers.find(channel);
   if (rit != readers.end()) {
@@ -101,7 +101,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void Node::add_writer(const std::string& channel, const std::string& type,
                       std::shared_ptr<Client> client) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto wit = writers.find(channel);
   if (wit != writers.end()) {
@@ -133,7 +133,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Node::publish(const std::string& channel, const std::string& data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto writer = writers.find(channel);
   if (writer == writers.end()) {

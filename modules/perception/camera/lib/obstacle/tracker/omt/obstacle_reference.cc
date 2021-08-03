@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace camera {
 
 void ObstacleReference::Init(const omt::ReferenceParam &ref_param, float width,
                              float height) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ref_param_ = ref_param;
   img_width_ = width;
@@ -57,7 +57,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ObstacleReference::UpdateReference(const CameraFrame *frame,
                                         const EigenVector<Target> &targets) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string sensor = frame->data_provider->sensor_name();
   SyncGroundEstimator(sensor, frame->camera_k_matrix,
@@ -146,7 +146,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   }
 }
 void ObstacleReference::CorrectSize(CameraFrame *frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const TemplateMap &kMinTemplateHWL =
       object_template_manager_->MinTemplateHWL();

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace canbus {
 
 void AbstractVehicleFactory::SetVehicleParameter(
     const VehicleParameter &vehicle_parameter) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   vehicle_parameter_ = vehicle_parameter;
 }

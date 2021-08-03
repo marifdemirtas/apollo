@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -45,17 +45,17 @@ PointCloudUpdater::PointCloudUpdater(WebSocketHandler *websocket,
       point_cloud_str_(""),
       future_ready_(true),
       simworld_updater_(simworld_updater) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   RegisterMessageHandlers();
 }
 
 PointCloudUpdater::~PointCloudUpdater() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Stop(); }
 
 void PointCloudUpdater::LoadLidarHeight(const std::string &file_path) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!cyber::common::PathExists(file_path)) {
     AWARN << "No such file: " << FLAGS_lidar_height_yaml
@@ -81,7 +81,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PointCloudUpdater::RegisterMessageHandlers() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Send current point_cloud status to the new client.
   websocket_->RegisterConnectionReadyHandler(
@@ -129,7 +129,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PointCloudUpdater::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_reader_ = node_->CreateReader<LocalizationEstimate>(
       FLAGS_localization_topic,
@@ -146,7 +146,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PointCloudUpdater::Stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (enabled_) {
     async_future_.wait();
@@ -155,7 +155,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr PointCloudUpdater::ConvertPCLPointCloud(
     const std::shared_ptr<drivers::PointCloud> &point_cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_ptr(
       new pcl::PointCloud<pcl::PointXYZ>);
@@ -181,7 +181,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void PointCloudUpdater::UpdatePointCloud(
     const std::shared_ptr<drivers::PointCloud> &point_cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!enabled_) {
     return;
@@ -204,7 +204,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
       async_future_ = std::move(f);
     }
   } else {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
     pcl_ptr = ConvertPCLPointCloud(point_cloud);
     this->FilterPointCloud(pcl_ptr);
@@ -255,7 +255,7 @@ void PointCloudUpdater::FilterPointCloud(
 
 void PointCloudUpdater::UpdateLocalizationTime(
     const std::shared_ptr<LocalizationEstimate> &localization) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   last_localization_time_ = localization->header().timestamp_sec();
 }

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ using Json = nlohmann::json;
 using google::protobuf::util::MessageToJsonString;
 
 google::protobuf::util::JsonOptions JsonOption() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::protobuf::util::JsonOptions json_option;
   json_option.always_print_primitive_fields = true;
@@ -39,7 +39,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 nlohmann::json JsonUtil::ProtoToTypedJson(
     const std::string &json_type, const google::protobuf::Message &proto) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static const auto kJsonOption = JsonOption();
   std::string json_string;
@@ -54,7 +54,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool JsonUtil::GetString(const Json &json, const std::string &key,
                          std::string *value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto iter = json.find(key);
   if (iter == json.end()) {
@@ -71,7 +71,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool JsonUtil::GetStringVector(const Json &json, const std::string &key,
                                std::vector<std::string> *value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto iter = json.find(key);
   if (iter == json.end()) {
@@ -101,7 +101,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool JsonUtil::GetBoolean(const nlohmann::json &json, const std::string &key,
                           bool *value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto iter = json.find(key);
   if (iter == json.end()) {

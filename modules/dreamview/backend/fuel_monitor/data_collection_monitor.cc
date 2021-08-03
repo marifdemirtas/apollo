@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -48,7 +48,7 @@ bool GetProtobufFloatByFieldName(const google::protobuf::Message& message,
                                  const google::protobuf::Descriptor* descriptor,
                                  const google::protobuf::Reflection* reflection,
                                  const std::string& field_name, float* value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!descriptor) {
     AERROR << "Protobuf descriptor not found";
@@ -77,7 +77,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool IsCompliedWithCriterion(float actual_value,
                              const ComparisonOperator& comparison_operator,
                              float target_value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (comparison_operator) {
     case ComparisonOperator::EQUAL:
@@ -104,18 +104,18 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 DataCollectionMonitor::DataCollectionMonitor()
     : FuelMonitor(FLAGS_data_collection_monitor_name),
       node_(cyber::CreateNode("data_collection_monitor")) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   InitReaders();
   LoadConfiguration();
 }
 
 DataCollectionMonitor::~DataCollectionMonitor() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Stop(); }
 
 void DataCollectionMonitor::InitReaders() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   node_->CreateReader<Chassis>(FLAGS_chassis_topic,
                                [this](const std::shared_ptr<Chassis>& chassis) {
@@ -124,7 +124,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataCollectionMonitor::LoadConfiguration() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::string& vehicle_dir =
       VehicleManager::Instance()->GetVehicleDataPath();
@@ -147,7 +147,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataCollectionMonitor::ConstructCategories() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   scenario_to_categories_.clear();
 
@@ -163,7 +163,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void DataCollectionMonitor::ConstructCategoriesHelper(
     const std::string& scenario_name, const Scenario& scenario, int feature_idx,
     std::string current_category_name, const Category& current_category) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (feature_idx == scenario.feature_size()) {
     scenario_to_categories_[scenario_name].insert(
@@ -197,7 +197,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataCollectionMonitor::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!enabled_) {
     category_consecutive_frame_count_.clear();
@@ -209,14 +209,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataCollectionMonitor::Stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   enabled_ = false;
   AINFO << "DataCollectionMonitor stopped";
 }
 
 void DataCollectionMonitor::OnChassis(const std::shared_ptr<Chassis>& chassis) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!enabled_) {
     return;
@@ -269,7 +269,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool DataCollectionMonitor::IsCompliedWithCriteria(
     const std::shared_ptr<Chassis>& chassis, const Category& category) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto& vehicle_param = VehicleConfigHelper::GetConfig().vehicle_param();
   const auto* vehicle_param_descriptor = vehicle_param.GetDescriptor();
@@ -308,7 +308,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 nlohmann::json DataCollectionMonitor::GetProgressAsJson() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   boost::unique_lock<boost::shared_mutex> reader_lock(mutex_);
   return current_progress_json_;

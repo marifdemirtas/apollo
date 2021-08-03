@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace perception {
 namespace camera {
 
 void TransformerParams::set_default() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   max_nr_iter = 10;
   learning_rate = 0.7f;
@@ -37,7 +37,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool SingleStageObstacleTransformer::Init(
     const ObstacleTransformerInitOptions &options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string transformer_config =
       cyber::common::GetAbsolutePath(options.root_dir, options.conf_file);
@@ -59,7 +59,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int SingleStageObstacleTransformer::MatchTemplates(
     base::ObjectSubType sub_type, float *dimension_hwl) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const TemplateMap &kMinTemplateHWL =
       object_template_manager_->MinTemplateHWL();
@@ -133,7 +133,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void SingleStageObstacleTransformer::FillResults(
     float object_center[3], float dimension_hwl[3], float rotation_y,
     Eigen::Affine3d camera2world_pose, float theta_ray, base::ObjectPtr obj) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (obj == nullptr) {
     return;
@@ -179,7 +179,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool SingleStageObstacleTransformer::Transform(
     const ObstacleTransformerOptions &options, CameraFrame *frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frame->detected_objects.empty()) {
     ADEBUG << "No object input to transformer.";
@@ -254,7 +254,7 @@ float SingleStageObstacleTransformer::CenterPointFromBbox(const float *bbox,
                                                           const float* k_mat,
                                                           int height,
                                                           int width) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float height_bbox = bbox[3] - bbox[1];
   float width_bbox = bbox[2] - bbox[0];
@@ -298,7 +298,7 @@ void SingleStageObstacleTransformer::ConstraintCenterPoint(const float *bbox,
                                                            float *x,
                                                            int height,
                                                            int width) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float center_2d_target[2] =
                 {(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2};
@@ -394,7 +394,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string SingleStageObstacleTransformer::Name() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return "SingleStageObstacleTransformer";
 }

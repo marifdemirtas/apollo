@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -34,7 +34,7 @@ using apollo::data::RecordProcessor;
 using apollo::data::SmartRecordTrigger;
 
 int main(int argc, char** argv) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   if (FLAGS_restored_output_dir.empty()) {

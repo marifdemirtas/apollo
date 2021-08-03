@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,7 +31,7 @@ const int32_t Wheelspeed6a::ID = 0x6A;
 
 void Wheelspeed6a::Parse(const std::uint8_t *bytes, int32_t length,
                          ChassisDetail *chassis_detail) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // how to set direction
   // what is "valid"
@@ -61,7 +61,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Wheelspeed6a::Parse(const std::uint8_t *bytes, int32_t length,
                          const struct timeval &timestamp,
                          ChassisDetail *chassis_detail) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis_detail->mutable_vehicle_spd()->set_timestamp_sec(
       static_cast<double>(timestamp.tv_sec) +
@@ -71,7 +71,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double Wheelspeed6a::front_left_wheel_speed(const std::uint8_t *bytes,
                                             int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   DCHECK_GE(length, 2);
   return parse_two_frames(bytes[0], bytes[1]);
@@ -79,7 +79,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double Wheelspeed6a::front_right_wheel_speed(const std::uint8_t *bytes,
                                              int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   DCHECK_GE(length, 4);
   return parse_two_frames(bytes[2], bytes[3]);
@@ -87,7 +87,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double Wheelspeed6a::rear_left_wheel_speed(const std::uint8_t *bytes,
                                            int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   DCHECK_GE(length, 6);
   return parse_two_frames(bytes[4], bytes[5]);
@@ -95,7 +95,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double Wheelspeed6a::rear_right_wheel_speed(const std::uint8_t *bytes,
                                             int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   DCHECK_GE(length, 8);
   return parse_two_frames(bytes[6], bytes[7]);
@@ -103,7 +103,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double Wheelspeed6a::parse_two_frames(const std::uint8_t low_byte,
                                       const std::uint8_t high_byte) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte high_frame(&high_byte);
   int32_t high = high_frame.get_byte(0, 8);

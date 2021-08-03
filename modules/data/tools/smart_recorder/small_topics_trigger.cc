@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,14 +28,14 @@ namespace apollo {
 namespace data {
 
 SmallTopicsTrigger::SmallTopicsTrigger() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   trigger_name_ = "SmallTopicsTrigger";
 }
 
 bool SmallTopicsTrigger::ShouldRestore(
     const cyber::record::RecordMessage& msg) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::set<std::string>& small_channels =
       ChannelPool::Instance()->GetSmallChannels();

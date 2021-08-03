@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,11 +25,11 @@ using apollo::cyber::proto::RoleAttributes;
 GnssDriverComponent::GnssDriverComponent()
     : monitor_logger_buffer_(
           apollo::common::monitor::MonitorMessageItem::GNSS) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool GnssDriverComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   config::Config gnss_config;
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,

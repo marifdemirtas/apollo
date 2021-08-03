@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -23,13 +23,13 @@ namespace apollo {
 namespace data {
 
 RegularIntervalTrigger::RegularIntervalTrigger() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   trigger_name_ = "RegularIntervalTrigger";
 }
 
 void RegularIntervalTrigger::Pull(const cyber::record::RecordMessage& msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!trigger_obj_->enabled()) {
     return;

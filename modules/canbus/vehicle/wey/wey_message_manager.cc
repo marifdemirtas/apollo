@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /* Copyright 2019 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,7 +37,7 @@ namespace canbus {
 namespace wey {
 
 WeyMessageManager::WeyMessageManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Control Messages
   AddSendProtocolData<Ads1111, true>();
@@ -59,7 +59,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 WeyMessageManager::~WeyMessageManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 }  // namespace wey

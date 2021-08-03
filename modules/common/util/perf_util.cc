@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -20,7 +20,7 @@
 
 namespace {
 std::string func_name_simplified(const std::string& str) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   constexpr char kLeftBracket = '(';
   constexpr char kSpace = ' ';
@@ -46,7 +46,7 @@ namespace util {
 
 std::string function_signature(const std::string& func_name,
                                const std::string& indicator) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto simplified_name = func_name_simplified(func_name);
   if (indicator.empty()) {
@@ -56,11 +56,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Timer::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  start_time_ = Time::Now(); }
 
 int64_t Timer::End(const std::string& msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   end_time_ = Time::Now();
   int64_t elapsed_time = (end_time_ - start_time_).ToNanosecond() / 1e6;

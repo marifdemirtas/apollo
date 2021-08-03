@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ using ::apollo::cyber::Node;
 
 Parser* ParserFactory::CreateParser(const std::shared_ptr<Node>& node,
                                     const Config& conf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (conf.model() == HESAI40P) {
     return new Hesai40Parser(node, conf);

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace velodyne {
 
 Velodyne64Parser::Velodyne64Parser(const Config& config)
     : VelodyneParser(config) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (int i = 0; i < 4; i++) {
     gps_base_usec_[i] = 0;
@@ -47,7 +47,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Velodyne64Parser::setup() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   VelodyneParser::setup();
   if (!config_.calibration_online() && config_.organized()) {
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Velodyne64Parser::SetBaseTimeFromPackets(const VelodynePacket& pkt) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // const RawPacket* raw = (const RawPacket*)&pkt.data[0];
   const RawPacket* raw = (const RawPacket*)pkt.data().c_str();
@@ -124,7 +124,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Velodyne64Parser::CheckGpsStatus(const VelodynePacket& pkt) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // const RawPacket* raw = (const RawPacket*)&pkt.data[0];
   const RawPacket* raw = (const RawPacket*)pkt.data().c_str();
@@ -142,7 +142,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Velodyne64Parser::InitOffsets() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int width = 64;
   // pre compute col offsets
@@ -160,7 +160,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Velodyne64Parser::GeneratePointcloud(
     const std::shared_ptr<VelodyneScan>& scan_msg,
     std::shared_ptr<PointCloud> pointcloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (config_.calibration_online() && !calibration_.initialized_) {
     if (online_calibration_.decode(scan_msg) == -1) {
@@ -212,7 +212,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 uint64_t Velodyne64Parser::GetTimestamp(double base_time, float time_offset,
                                         uint16_t block_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double t = base_time - time_offset;
   double timestamp = 0.0;
@@ -237,7 +237,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int Velodyne64Parser::IntensityCompensate(const LaserCorrection& corrections,
                                           const uint16_t raw_distance,
                                           int intensity) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float tmp = 1.0f - static_cast<float>(raw_distance) / 65535.0f;
   intensity +=
@@ -256,7 +256,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void Velodyne64Parser::Unpack(const VelodynePacket& pkt,
                               std::shared_ptr<PointCloud> pc) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ADEBUG << "Received packet, time: " << pkt.stamp();
 
@@ -324,7 +324,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Velodyne64Parser::Order(std::shared_ptr<PointCloud> cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int height = 64;
   cloud->set_height(height);

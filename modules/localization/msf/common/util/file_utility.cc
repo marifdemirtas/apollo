@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -38,7 +38,7 @@ const size_t kBufferSize = 20480000;
 
 void FileUtility::ComputeFileMd5(const std::string &file_path,
                                  unsigned char res[kUcharMd5Length]) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<unsigned char> buf(kBufferSize);
   unsigned char *buf_pt = &buf[0];
@@ -69,7 +69,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void FileUtility::ComputeFileMd5(const std::string &file_path,
                                  char res[kCharMd5Lenth]) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<unsigned char> buf(kBufferSize);
   unsigned char *buf_pt = &buf[0];
@@ -100,7 +100,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void FileUtility::ComputeBinaryMd5(const unsigned char *binary, size_t size,
                                    unsigned char res[kUcharMd5Length]) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MD5 md5;
   md5.init();
@@ -113,7 +113,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void FileUtility::ComputeBinaryMd5(const unsigned char *binary, size_t size,
                                    char res[kCharMd5Lenth]) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned char md[kUcharMd5Length] = {"\0"};
   char buf[kCharMd5Lenth] = {'\0'};

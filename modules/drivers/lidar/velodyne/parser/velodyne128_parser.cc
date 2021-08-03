@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace velodyne {
 
 Velodyne128Parser::Velodyne128Parser(const Config& config)
     : VelodyneParser(config), previous_packet_stamp_(0), gps_base_usec_(0) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   inner_time_ = &velodyne::INNER_TIME_128;
   need_two_pt_correction_ = false;
@@ -32,7 +32,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Velodyne128Parser::GeneratePointcloud(
     const std::shared_ptr<VelodyneScan>& scan_msg,
     std::shared_ptr<PointCloud> out_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // allocate a point cloud with same time and frame ID as raw data
   out_msg->mutable_header()->set_frame_id(scan_msg->header().frame_id());
@@ -63,7 +63,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 uint64_t Velodyne128Parser::GetTimestamp(double base_time, float time_offset,
                                          uint16_t block_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   (void)block_id;
   double t = base_time + time_offset;
@@ -72,14 +72,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Velodyne128Parser::Order(std::shared_ptr<PointCloud> cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   (void)cloud;
 }
 
 void Velodyne128Parser::Unpack(const VelodynePacket& pkt,
                                std::shared_ptr<PointCloud> pc) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float azimuth_diff, azimuth_corrected_f;
   float last_azimuth_diff = 0.0f;
@@ -167,7 +167,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int Velodyne128Parser::IntensityCompensate(const LaserCorrection& corrections,
                                            const uint16_t raw_distance,
                                            int intensity) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float focal_offset = 256 * (1 - corrections.focal_distance / 13100) *
                        (1 - corrections.focal_distance / 13100);

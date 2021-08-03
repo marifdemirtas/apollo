@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace apollo {
 namespace hdmap {
 
 std::shared_ptr<JsonConf> ParseJson(std::string conf_path) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "parsing json config";
   boost::filesystem::path path(conf_path);

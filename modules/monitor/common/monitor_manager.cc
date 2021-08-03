@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -37,11 +37,11 @@ using apollo::dreamview::HMIWorker;
 MonitorManager::MonitorManager()
     : hmi_config_(HMIWorker::LoadConfig()),
       log_buffer_(apollo::common::monitor::MonitorMessageItem::MONITOR) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MonitorManager::Init(const std::shared_ptr<apollo::cyber::Node>& node) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   node_ = node;
   if (FLAGS_use_sim_time) {
@@ -50,7 +50,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool MonitorManager::StartFrame(const double current_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Get latest HMIStatus.
   static auto hmi_status_reader =
@@ -90,14 +90,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MonitorManager::EndFrame() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Print and publish all monitor logs.
   log_buffer_.Publish();
 }
 
 bool MonitorManager::CheckAutonomousDriving(const double current_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // It's in offline mode if use_sim_time is set.
   if (FLAGS_use_sim_time) {

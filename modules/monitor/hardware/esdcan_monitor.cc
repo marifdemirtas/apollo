@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -41,7 +41,7 @@ namespace {
 
 #if USE_ESD_CAN
 std::string StatusString(const NTCAN_RESULT ntstatus) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (ntstatus) {
     case NTCAN_SUCCESS:
@@ -151,7 +151,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 NTCAN_RESULT EsdCanTest(const int can_id, NTCAN_HANDLE* handle) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   NTCAN_RESULT ret = canOpen(can_id, 0, 1, 1, 0, 0, handle);
   if (ret == NTCAN_SUCCESS) {
@@ -197,7 +197,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void EsdCanTest(const int can_id, ComponentStatus* status) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   NTCAN_HANDLE handle;
   const NTCAN_RESULT ret = EsdCanTest(can_id, &handle);
@@ -210,7 +210,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 #else
 // USE_ESD_CAN is not set, do dummy check.
 void EsdCanTest(const int can_id, ComponentStatus* status) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   SummaryMonitor::EscalateStatus(ComponentStatus::ERROR,
                                  "USE_ESD_CAN is not defined during compiling",
@@ -223,11 +223,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 EsdCanMonitor::EsdCanMonitor()
     : RecurrentRunner(FLAGS_esdcan_monitor_name,
                       FLAGS_esdcan_monitor_interval) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void EsdCanMonitor::RunOnce(const double current_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Component* component = apollo::common::util::FindOrNull(
       *MonitorManager::Instance()->GetStatus()->mutable_components(),

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
@@ -26,17 +26,17 @@ namespace msf {
 namespace pyramid_map {
 // =================PyramidMapMatrixHandlerSelector=================
 PyramidMapMatrixHandlerSelector::PyramidMapMatrixHandlerSelector() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PyramidMapMatrixHandlerSelector::~PyramidMapMatrixHandlerSelector() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapMatrixHandler*
 PyramidMapMatrixHandlerSelector::AllocPyramidMapMatrixHandler(
     MapVersion version) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (version) {
     case MapVersion::LOSSY_FULL_ALT_MAP:
@@ -56,15 +56,15 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // =================LossyMapMatrixHandler=================
 LossyMapMatrixHandler::LossyMapMatrixHandler() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LossyMapMatrixHandler::~LossyMapMatrixHandler() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned char LossyMapMatrixHandler::EncodeIntensity(float intensity) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned char encoded_intensity = 0;
   if (intensity > 255) {
@@ -79,13 +79,13 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LossyMapMatrixHandler::DecodeIntensity(unsigned char data,
                                             float* intensity) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   *intensity = static_cast<float>(data);
 }
 
 uint16_t LossyMapMatrixHandler::EncodeIntensityVar(float var) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   var = std::sqrt(var);
   unsigned int encoded_var =
@@ -102,7 +102,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LossyMapMatrixHandler::DecodeIntensityVar(uint16_t data,
                                                float* var) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   *var = static_cast<float>(data);
   *var = (static_cast<float>(var_range_) / (*var) - 1.0f) /
@@ -113,7 +113,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 uint16_t LossyMapMatrixHandler::EncodeAltitude(float altitude,
                                                float min_altitude,
                                                float altitude_interval) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float delta_alt = altitude - min_altitude;
   delta_alt /= altitude_interval;
@@ -130,14 +130,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void LossyMapMatrixHandler::DecodeAltitude(uint16_t data, float min_altitude,
                                            float altitude_interval,
                                            float* altitude) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   *altitude = min_altitude + data * altitude_interval;
 }
 
 unsigned char LossyMapMatrixHandler::EncodeCount(
     unsigned int count, unsigned int count_range) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int encoded_count = 0;
   while (count > 0) {
@@ -152,7 +152,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LossyMapMatrixHandler::DecodeCount(unsigned char data,
                                         unsigned int* count) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (data == 0) {
     *count = data;
@@ -163,16 +163,16 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // =================LossyMapFullAltMatrixHandler=================
 LossyMapFullAltMatrixHandler::LossyMapFullAltMatrixHandler() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LossyMapFullAltMatrixHandler::~LossyMapFullAltMatrixHandler() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t LossyMapFullAltMatrixHandler::LoadBinary(
     const unsigned char* buf, std::shared_ptr<BaseMapMatrix> base_matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -289,7 +289,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 size_t LossyMapFullAltMatrixHandler::CreateBinary(
     const std::shared_ptr<BaseMapMatrix> base_matrix, unsigned char* buf,
     size_t buf_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -448,7 +448,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 size_t LossyMapFullAltMatrixHandler::GetBinarySize(
     const std::shared_ptr<BaseMapMatrix> base_matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -470,16 +470,16 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // =================LosslessMapMatrixHandler====================
 LosslessMapMatrixHandler::LosslessMapMatrixHandler() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LosslessMapMatrixHandler::~LosslessMapMatrixHandler() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t LosslessMapMatrixHandler::LoadBinary(
     const unsigned char* buf, std::shared_ptr<BaseMapMatrix> base_matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -556,7 +556,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 size_t LosslessMapMatrixHandler::CreateBinary(
     const std::shared_ptr<BaseMapMatrix> base_matrix, unsigned char* buf,
     size_t buf_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -644,7 +644,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 size_t LosslessMapMatrixHandler::GetBinarySize(
     const std::shared_ptr<BaseMapMatrix> base_matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -673,16 +673,16 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // =================PyramidLossyMapMatrixHandler====================
 PyramidLossyMapMatrixHandler::PyramidLossyMapMatrixHandler() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PyramidLossyMapMatrixHandler::~PyramidLossyMapMatrixHandler() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t PyramidLossyMapMatrixHandler::LoadBinary(
     const unsigned char* buf, std::shared_ptr<BaseMapMatrix> base_matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -842,7 +842,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 size_t PyramidLossyMapMatrixHandler::CreateBinary(
     const std::shared_ptr<BaseMapMatrix> base_matrix, unsigned char* buf,
     size_t buf_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -1049,7 +1049,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 size_t PyramidLossyMapMatrixHandler::GetBinarySize(
     const std::shared_ptr<BaseMapMatrix> base_matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -1097,16 +1097,16 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // =================PyramidLosslessMapMatrixHandler====================
 PyramidLosslessMapMatrixHandler::PyramidLosslessMapMatrixHandler() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PyramidLosslessMapMatrixHandler::~PyramidLosslessMapMatrixHandler() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t PyramidLosslessMapMatrixHandler::LoadBinary(
     const unsigned char* buf, std::shared_ptr<BaseMapMatrix> base_matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -1210,7 +1210,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 size_t PyramidLosslessMapMatrixHandler::CreateBinary(
     const std::shared_ptr<BaseMapMatrix> base_matrix, unsigned char* buf,
     size_t buf_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -1337,7 +1337,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 size_t PyramidLosslessMapMatrixHandler::GetBinarySize(
     const std::shared_ptr<BaseMapMatrix> base_matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);

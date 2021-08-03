@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace fusion {
 
 // class DummyFusionSystem implementation
 bool DummyFusionSystem::Init(const FusionInitOptions& options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   main_sensors_ = options.main_sensors;
   return true;
@@ -31,7 +31,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool DummyFusionSystem::Fuse(const FusionOptions& options,
                              const base::FrameConstPtr& sensor_frame,
                              std::vector<base::ObjectPtr>* fused_objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (fused_objects == nullptr) {
     return false;
@@ -52,21 +52,21 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // class DummyDataAssociation implementation
 bool DummyDataAssociation::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return true; }
 
 bool DummyDataAssociation::Associate(const AssociationOptions& options,
                                      SensorFramePtr sensor_measurements,
                                      ScenePtr scene,
                                      AssociationResult* association_result) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return true;
 }
 
 // class DummyTracker implementation
 bool DummyTracker::Init(TrackPtr track, SensorObjectPtr measurement) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return true;
 }
@@ -74,14 +74,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void DummyTracker::UpdateWithMeasurement(const TrackerOptions& options,
                                          const SensorObjectPtr measurement,
                                          double target_timestamp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DummyTracker::UpdateWithoutMeasurement(const TrackerOptions& options,
                                             const std::string& sensor_id,
                                             double measurement_timestamp,
                                             double target_timestamp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 FUSION_REGISTER_FUSIONSYSTEM(DummyFusionSystem);

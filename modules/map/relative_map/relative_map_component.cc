@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ using apollo::localization::LocalizationEstimate;
 using apollo::perception::PerceptionObstacles;
 
 bool RelativeMapComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   vehicle_state_provider_ = std::make_shared<common::VehicleStateProvider>();
   InitReaders();
@@ -36,7 +36,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RelativeMapComponent::Proc() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto map_msg = std::make_shared<MapMsg>();
   if (!relative_map_.Process(map_msg.get())) {
@@ -48,7 +48,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RelativeMapComponent::InitReaders() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   perception_reader_ = node_->CreateReader<PerceptionObstacles>(
       FLAGS_perception_obstacle_topic,

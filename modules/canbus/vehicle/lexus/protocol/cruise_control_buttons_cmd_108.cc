@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Cruisecontrolbuttonscmd108::ID = 0x108;
 
 // public
 Cruisecontrolbuttonscmd108::Cruisecontrolbuttonscmd108() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Cruisecontrolbuttonscmd108::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Cruisecontrolbuttonscmd108::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_cruise_control_button(data, cruise_control_button_);
   set_p_ignore_overrides(data, ignore_overrides_);
@@ -51,7 +51,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Cruisecontrolbuttonscmd108::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(QiL) you should check this manually
   cruise_control_button_ =
@@ -66,7 +66,7 @@ Cruisecontrolbuttonscmd108*
 Cruisecontrolbuttonscmd108::set_cruise_control_button(
     Cruise_control_buttons_cmd_108::Cruise_control_buttonType
         cruise_control_button) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cruise_control_button_ = cruise_control_button;
   return this;
@@ -85,7 +85,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Cruisecontrolbuttonscmd108::set_p_cruise_control_button(
     uint8_t* data, Cruise_control_buttons_cmd_108::Cruise_control_buttonType
                        cruise_control_button) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = cruise_control_button;
 
@@ -95,7 +95,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Cruisecontrolbuttonscmd108* Cruisecontrolbuttonscmd108::set_ignore_overrides(
     bool ignore_overrides) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ignore_overrides_ = ignore_overrides;
   return this;
@@ -106,7 +106,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Cruisecontrolbuttonscmd108::set_p_ignore_overrides(uint8_t* data,
                                                         bool ignore_overrides) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = ignore_overrides;
 
@@ -116,7 +116,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Cruisecontrolbuttonscmd108* Cruisecontrolbuttonscmd108::set_clear_override(
     bool clear_override) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   clear_override_ = clear_override;
   return this;
@@ -127,7 +127,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Cruisecontrolbuttonscmd108::set_p_clear_override(uint8_t* data,
                                                       bool clear_override) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = clear_override;
 
@@ -137,7 +137,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Cruisecontrolbuttonscmd108* Cruisecontrolbuttonscmd108::set_enable(
     bool enable) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   enable_ = enable;
   return this;
@@ -147,7 +147,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Cruisecontrolbuttonscmd108::set_p_enable(uint8_t* data, bool enable) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = enable;
 
@@ -157,7 +157,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Cruisecontrolbuttonscmd108* Cruisecontrolbuttonscmd108::set_clear_faults(
     bool clear_faults) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   clear_faults_ = clear_faults;
   return this;
@@ -168,7 +168,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Cruisecontrolbuttonscmd108::set_p_clear_faults(uint8_t* data,
                                                     bool clear_faults) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = clear_faults;
 

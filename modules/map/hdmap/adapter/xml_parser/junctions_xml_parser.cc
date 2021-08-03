@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@ namespace adapter {
 
 Status JunctionsXmlParser::Parse(const tinyxml2::XMLElement& xml_node,
                                  std::vector<JunctionInternal>* junctions) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const tinyxml2::XMLElement* junction_node =
       xml_node.FirstChildElement("junction");

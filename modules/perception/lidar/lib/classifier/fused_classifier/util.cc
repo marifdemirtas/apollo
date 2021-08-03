@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -18,7 +18,7 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace lidar {
@@ -28,7 +28,7 @@ using apollo::common::EigenMap;
 using apollo::perception::base::ObjectType;
 
 void FromStdToVector(const std::vector<float>& src_prob, Vectord* dst_prob) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   (*dst_prob)(0) = src_prob[0];
   for (size_t i = 3; i < static_cast<size_t>(ObjectType::MAX_OBJECT_TYPE);
@@ -38,7 +38,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void FromEigenToVector(const Vectord& src_prob, std::vector<float>* dst_prob) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   dst_prob->assign(static_cast<int>(ObjectType::MAX_OBJECT_TYPE), 0);
   dst_prob->at(0) = static_cast<float>(src_prob(0));
@@ -49,7 +49,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ToLog(Vectord* prob) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (size_t i = 0; i < VALID_OBJECT_TYPE; ++i) {
     (*prob)(i) = log((*prob)(i));
@@ -57,7 +57,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ToExp(Vectord* prob) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (size_t i = 0; i < VALID_OBJECT_TYPE; ++i) {
     (*prob)(i) = exp((*prob)(i));
@@ -65,7 +65,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ToExpStable(Vectord* prob) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double min_value = prob->minCoeff();
   for (size_t i = 0; i < VALID_OBJECT_TYPE; ++i) {
@@ -74,7 +74,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Normalize(Vectord* prob) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double sum = prob->sum();
   sum = sum < 1e-9 ? 1e-9 : sum;
@@ -82,7 +82,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void NormalizeRow(Matrixd* prob) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double sum = 0.0;
   for (size_t row = 0; row < VALID_OBJECT_TYPE; ++row) {
@@ -98,7 +98,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool LoadSingleMatrix(std::ifstream& fin, Matrixd* matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (size_t row = 0; row < VALID_OBJECT_TYPE; ++row) {
     for (size_t col = 0; col < VALID_OBJECT_TYPE; ++col) {
@@ -109,7 +109,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool LoadSingleMatrixFile(const std::string& filename, Matrixd* matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (matrix == nullptr) {
     return false;
@@ -126,7 +126,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LoadMultipleMatricesFile(const std::string& filename,
                               EigenMap<std::string, Matrixd>* matrices) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (matrices == nullptr) {
     return false;

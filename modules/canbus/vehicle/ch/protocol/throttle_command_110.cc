@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,11 +28,11 @@ const int32_t Throttlecommand110::ID = 0x110;
 
 // public
 Throttlecommand110::Throttlecommand110() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Throttlecommand110::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,14 +40,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Throttlecommand110::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_throttle_pedal_en_ctrl(data, throttle_pedal_en_ctrl_);
   set_p_throttle_pedal_cmd(data, throttle_pedal_cmd_);
 }
 
 void Throttlecommand110::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // you should check this manually
   throttle_pedal_en_ctrl_ =
@@ -57,7 +57,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Throttlecommand110* Throttlecommand110::set_throttle_pedal_en_ctrl(
     Throttle_command_110::Throttle_pedal_en_ctrlType throttle_pedal_en_ctrl) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   throttle_pedal_en_ctrl_ = throttle_pedal_en_ctrl;
   return this;
@@ -71,7 +71,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Throttlecommand110::set_p_throttle_pedal_en_ctrl(
     uint8_t* data,
     Throttle_command_110::Throttle_pedal_en_ctrlType throttle_pedal_en_ctrl) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = throttle_pedal_en_ctrl;
 
@@ -81,7 +81,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Throttlecommand110* Throttlecommand110::set_throttle_pedal_cmd(
     int throttle_pedal_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   throttle_pedal_cmd_ = throttle_pedal_cmd;
   return this;
@@ -93,7 +93,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'intel', 'physical_unit': '%'}
 void Throttlecommand110::set_p_throttle_pedal_cmd(uint8_t* data,
                                                   int throttle_pedal_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   throttle_pedal_cmd = ProtocolData::BoundedValue(0, 100, throttle_pedal_cmd);
   int x = throttle_pedal_cmd;

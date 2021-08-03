@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Ads338e::ID = 0x38E;
 
 // public
 Ads338e::Ads338e() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Ads338e::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(ChaoMa) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Ads338e::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_ads_bcm_worksts(data, ads_bcm_worksts_);
   set_p_ads_bcmworkstsvalid(data, ads_bcmworkstsvalid_);
@@ -59,7 +59,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Ads338e::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(ChaoMa) you should check this manually
   ads_bcm_worksts_ = Ads3_38e::ADS_BCM_WORKSTS_DISABLE;
@@ -79,7 +79,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Ads338e* Ads338e::set_ads_bcm_worksts(
     Ads3_38e::Ads_bcm_workstsType ads_bcm_worksts) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ads_bcm_worksts_ = ads_bcm_worksts;
   return this;
@@ -94,7 +94,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Ads338e::set_p_ads_bcm_worksts(
     uint8_t* data, Ads3_38e::Ads_bcm_workstsType ads_bcm_worksts) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = ads_bcm_worksts;
 
@@ -104,7 +104,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Ads338e* Ads338e::set_ads_bcmworkstsvalid(
     Ads3_38e::Ads_bcmworkstsvalidType ads_bcmworkstsvalid) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ads_bcmworkstsvalid_ = ads_bcmworkstsvalid;
   return this;
@@ -117,7 +117,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 7, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Ads338e::set_p_ads_bcmworkstsvalid(
     uint8_t* data, Ads3_38e::Ads_bcmworkstsvalidType ads_bcmworkstsvalid) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = ads_bcmworkstsvalid;
 
@@ -127,7 +127,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Ads338e* Ads338e::set_ads_reqcontrolbcm(
     Ads3_38e::Ads_reqcontrolbcmType ads_reqcontrolbcm) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ads_reqcontrolbcm_ = ads_reqcontrolbcm;
   return this;
@@ -140,7 +140,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 8, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Ads338e::set_p_ads_reqcontrolbcm(
     uint8_t* data, Ads3_38e::Ads_reqcontrolbcmType ads_reqcontrolbcm) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = ads_reqcontrolbcm;
 
@@ -149,7 +149,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Ads338e* Ads338e::set_highbeamton(Ads3_38e::HighbeamtonType highbeamton) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   highbeamton_ = highbeamton;
   return this;
@@ -162,7 +162,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Ads338e::set_p_highbeamton(uint8_t* data,
                                 Ads3_38e::HighbeamtonType highbeamton) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = highbeamton;
 
@@ -171,7 +171,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Ads338e* Ads338e::set_dippedbeamon(Ads3_38e::DippedbeamonType dippedbeamon) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   dippedbeamon_ = dippedbeamon;
   return this;
@@ -184,7 +184,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Ads338e::set_p_dippedbeamon(uint8_t* data,
                                  Ads3_38e::DippedbeamonType dippedbeamon) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = dippedbeamon;
 
@@ -193,7 +193,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Ads338e* Ads338e::set_turnllighton(Ads3_38e::TurnllightonType turnllighton) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   turnllighton_ = turnllighton;
   return this;
@@ -207,7 +207,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Ads338e::set_p_turnllighton(uint8_t* data,
                                  Ads3_38e::TurnllightonType turnllighton) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = turnllighton;
 
@@ -217,7 +217,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Ads338e* Ads338e::set_emergencylighton(
     Ads3_38e::EmergencylightonType emergencylighton) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   emergencylighton_ = emergencylighton;
   return this;
@@ -230,7 +230,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Ads338e::set_p_emergencylighton(
     uint8_t* data, Ads3_38e::EmergencylightonType emergencylighton) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = emergencylighton;
 
@@ -239,7 +239,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Ads338e* Ads338e::set_ffoglampon(Ads3_38e::FfoglamponType ffoglampon) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ffoglampon_ = ffoglampon;
   return this;
@@ -252,7 +252,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Ads338e::set_p_ffoglampon(uint8_t* data,
                                Ads3_38e::FfoglamponType ffoglampon) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = ffoglampon;
 
@@ -261,7 +261,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Ads338e* Ads338e::set_rfoglampon(Ads3_38e::RfoglamponType rfoglampon) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   rfoglampon_ = rfoglampon;
   return this;
@@ -274,7 +274,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Ads338e::set_p_rfoglampon(uint8_t* data,
                                Ads3_38e::RfoglamponType rfoglampon) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = rfoglampon;
 
@@ -283,7 +283,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Ads338e* Ads338e::set_brakelight(Ads3_38e::BrakelightType brakelight) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   brakelight_ = brakelight;
   return this;
@@ -296,7 +296,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Ads338e::set_p_brakelight(uint8_t* data,
                                Ads3_38e::BrakelightType brakelight) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = brakelight;
 
@@ -305,7 +305,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Ads338e* Ads338e::set_hornon(Ads3_38e::HornonType hornon) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   hornon_ = hornon;
   return this;
@@ -316,7 +316,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'HornON', 'is_signed_var': False, 'offset': 0.0, 'physical_range': '[0|1]',
 // 'bit': 49, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Ads338e::set_p_hornon(uint8_t* data, Ads3_38e::HornonType hornon) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = hornon;
 
@@ -326,7 +326,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Ads338e* Ads338e::set_fwindshieldwiper(
     Ads3_38e::FwindshieldwiperType fwindshieldwiper) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   fwindshieldwiper_ = fwindshieldwiper;
   return this;
@@ -339,7 +339,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Ads338e::set_p_fwindshieldwiper(
     uint8_t* data, Ads3_38e::FwindshieldwiperType fwindshieldwiper) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = fwindshieldwiper;
 
@@ -349,7 +349,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Ads338e* Ads338e::set_rwindshieldwiper(
     Ads3_38e::RwindshieldwiperType rwindshieldwiper) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   rwindshieldwiper_ = rwindshieldwiper;
   return this;
@@ -362,7 +362,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Ads338e::set_p_rwindshieldwiper(
     uint8_t* data, Ads3_38e::RwindshieldwiperType rwindshieldwiper) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = rwindshieldwiper;
 

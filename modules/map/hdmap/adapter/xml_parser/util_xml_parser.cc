@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,7 @@ namespace adapter {
 
 Status UtilXmlParser::ParseCurve(const tinyxml2::XMLElement& xml_node,
                                  PbCurve* curve) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(curve);
 
@@ -42,7 +42,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status UtilXmlParser::ParseGeometry(const tinyxml2::XMLElement& xml_node,
                                     PbCurveSegment* curve_segment) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(curve_segment);
 
@@ -87,7 +87,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status UtilXmlParser::ParsePointSet(const tinyxml2::XMLElement& xml_node,
                                     PbLineSegment* line_segment) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const tinyxml2::XMLElement* sub_node = xml_node.FirstChildElement("point");
   while (sub_node) {
@@ -119,7 +119,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status UtilXmlParser::ParseOutline(const tinyxml2::XMLElement& xml_node,
                                    PbPolygon* polygon) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const tinyxml2::XMLElement* sub_node =
       xml_node.FirstChildElement("cornerGlobal");
@@ -154,7 +154,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status UtilXmlParser::ParsePoint(const tinyxml2::XMLElement& xml_node,
                                  PbPoint3D* pt) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(pt);
 
@@ -185,7 +185,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string UtilXmlParser::ToUpper(const std::string& s) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string value = s;
   std::transform(value.begin(), value.end(), value.begin(),
@@ -197,14 +197,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void UtilXmlParser::WGS84ToUTM(const double x, const double y, const double z,
                                double* output_x, double* output_y,
                                double* output_z) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CoordinateConvertTool::GetInstance()->CoordiateConvert(x, y, z, output_x,
                                                          output_y, output_z);
 }
 
 double UtilXmlParser::CurveLength(const PbCurve& curve) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double length = 0.0;
   for (int i = 0; i < curve.segment_size(); ++i) {
@@ -217,7 +217,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 tinyxml2::XMLError UtilXmlParser::QueryStringAttribute(
     const tinyxml2::XMLElement& xml_node, const std::string& name,
     std::string* value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(value);
   const char* val = xml_node.Attribute(name.c_str());

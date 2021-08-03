@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -41,7 +41,7 @@ namespace racobit_radar {
 RacobitRadarMessageManager::RacobitRadarMessageManager(
     std::shared_ptr<cyber::Writer<RacobitRadar>> writer)
     : writer_(std::move(writer)) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AddRecvProtocolData<RadarState201, true>();
   AddRecvProtocolData<ClusterListStatus600, true>();
@@ -54,14 +54,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RacobitRadarMessageManager::set_radar_conf(RadarConf radar_conf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   radar_config_.set_radar_conf(radar_conf);
 }
 
 void RacobitRadarMessageManager::set_can_client(
     std::shared_ptr<CanClient> can_client) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   can_client_ = can_client;
 }
@@ -69,7 +69,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 ProtocolData<RacobitRadar>
     *RacobitRadarMessageManager::GetMutableProtocolDataById(
         const uint32_t message_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint32_t converted_message_id = message_id;
   if (protocol_data_map_.find(converted_message_id) ==
@@ -83,7 +83,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void RacobitRadarMessageManager::Parse(const uint32_t message_id,
                                        const uint8_t *data, int32_t length) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ProtocolData<RacobitRadar> *sensor_protocol_data =
       GetMutableProtocolDataById(message_id);

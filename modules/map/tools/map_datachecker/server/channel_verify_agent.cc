@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace apollo {
 namespace hdmap {
 
 ChannelVerifyAgent::ChannelVerifyAgent(std::shared_ptr<JsonConf> sp_conf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   sp_conf_ = sp_conf;
   sp_channel_checker_ = nullptr;
@@ -35,7 +35,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ChannelVerifyAgent::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> guard(stop_mutex_);
   need_stop_ = false;
@@ -48,7 +48,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 grpc::Status ChannelVerifyAgent::ProcessGrpcRequest(
     grpc::ServerContext *context, ChannelVerifyRequest *request,
     ChannelVerifyResponse *response) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "ChannelVerifyAgent Request: " << request->DebugString();
   switch (request->cmd()) {
@@ -74,7 +74,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ChannelVerifyAgent::StartCheck(ChannelVerifyRequest *request,
                                     ChannelVerifyResponse *response) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (GetState() == ChannelVerifyAgentState::RUNNING) {
     AINFO << "ChannelVerify is RUNNING, do not need start again";
@@ -88,7 +88,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ChannelVerifyAgent::AsyncCheck(const std::string &records_path) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   SetState(ChannelVerifyAgentState::RUNNING);
   std::thread doctor_strange([=]() {
@@ -115,7 +115,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ChannelVerifyAgent::DoCheck(const std::string &records_path) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sp_channel_checker_ == nullptr) {
     sp_channel_checker_ = std::make_shared<ChannelVerify>(sp_conf_);
@@ -128,7 +128,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int ChannelVerifyAgent::AddTopicLack(
     VerifyResult *result, const std::string &record_path,
     std::vector<std::string> const &lack_channels) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   TopicResult *topics = result->mutable_topics();
   for (const std::string &channel : lack_channels) {
@@ -140,7 +140,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 FrameRate *ChannelVerifyAgent::FindRates(VerifyResult *result,
                                          const std::string &channel) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (FrameRate &rate : *result->mutable_rates()) {
     if (rate.topic() == channel) {
@@ -153,7 +153,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int ChannelVerifyAgent::AddInadequateRate(
     VerifyResult *result, std::string const &record_path,
     std::map<std::string, std::pair<double, double>> const &inadequate_rate) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto it = inadequate_rate.begin(); it != inadequate_rate.end(); ++it) {
     const std::string &channel = it->first;
@@ -176,7 +176,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ChannelVerifyAgent::CheckResult(ChannelVerifyRequest *request,
                                      ChannelVerifyResponse *response) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (GetState() == ChannelVerifyAgentState::IDLE) {
     AINFO << "ChannelVerify is not RUNNING, it should start first";
@@ -215,7 +215,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ChannelVerifyAgent::StopCheck(ChannelVerifyRequest *request,
                                    ChannelVerifyResponse *response) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> guard(stop_mutex_);
   need_stop_ = true;
@@ -242,13 +242,13 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ChannelVerifyAgent::SetState(ChannelVerifyAgentState state) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   state_ = state;
 }
 
 ChannelVerifyAgentState ChannelVerifyAgent::GetState() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return state_; }
 
 }  // namespace hdmap

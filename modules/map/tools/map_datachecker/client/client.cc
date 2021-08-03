@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -34,7 +34,7 @@ namespace apollo {
 namespace hdmap {
 
 Client::Client() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   YAML::Node node = YAML::LoadFile(FLAGS_client_conf_yaml);
   std::string bin_path = boost::filesystem::current_path().string();
@@ -50,7 +50,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::Run() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string stage = FLAGS_stage;
   AINFO << "stage [" << stage << "]";
@@ -72,7 +72,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::RecordCheckStage() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string cmd = FLAGS_cmd;
   ChannelChecker channel_checker(channel_checker_stop_flag_file_);
@@ -103,7 +103,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::StaticAlignStage() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string cmd = FLAGS_cmd;
   AINFO << "cmd [" << cmd << "]";
@@ -132,7 +132,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::EightRouteStage() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string cmd = FLAGS_cmd;
   AINFO << "cmd [" << cmd << "]";
@@ -161,7 +161,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::DataCollectStage() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string cmd = FLAGS_cmd;
   AINFO << "cmd [" << cmd << "]";
@@ -230,7 +230,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::LoopsCheckStage() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LoopsChecker loops_checker(data_collect_time_flag_file_);
   bool reached = false;
@@ -253,7 +253,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Client::CleanStage() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (boost::filesystem::exists(data_collect_time_flag_file_)) {
     boost::filesystem::remove(data_collect_time_flag_file_);

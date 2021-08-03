@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,7 +32,7 @@ namespace apollo {
 namespace canbus {
 
 void VehicleFactory::RegisterVehicleFactory() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Register(apollo::common::LINCOLN_MKZ, []() -> AbstractVehicleFactory * {
     return new LincolnVehicleFactory();
@@ -68,7 +68,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::unique_ptr<AbstractVehicleFactory> VehicleFactory::CreateVehicle(
     const VehicleParameter &vehicle_parameter) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto abstract_factory = CreateObject(vehicle_parameter.brand());
   if (!abstract_factory) {

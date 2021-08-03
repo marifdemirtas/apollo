@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,17 +25,17 @@ namespace msf {
 namespace pyramid_map {
 
 PyramidMap::PyramidMap(PyramidMapConfig* config) : BaseMap(config) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PyramidMap::~PyramidMap() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 float PyramidMap::GetIntensitySafe(const Eigen::Vector3d& coordinate,
                                    int zone_id, unsigned int resolution_id,
                                    unsigned int level) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
@@ -46,7 +46,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 float PyramidMap::GetIntensityVarSafe(const Eigen::Vector3d& coordinate,
                                       int zone_id, unsigned int resolution_id,
                                       unsigned int level) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
@@ -57,7 +57,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 float PyramidMap::GetAltitudeSafe(const Eigen::Vector3d& coordinate,
                                   int zone_id, unsigned int resolution_id,
                                   unsigned int level) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
@@ -68,7 +68,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 float PyramidMap::GetAltitudeVarSafe(const Eigen::Vector3d& coordinate,
                                      int zone_id, unsigned int resolution_id,
                                      unsigned int level) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
@@ -79,7 +79,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 float PyramidMap::GetGroundAltitudeSafe(const Eigen::Vector3d& coordinate,
                                         int zone_id, unsigned int resolution_id,
                                         unsigned int level) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
@@ -90,7 +90,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 unsigned int PyramidMap::GetCountSafe(const Eigen::Vector3d& coordinate,
                                       int zone_id, unsigned int resolution_id,
                                       unsigned int level) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
@@ -102,7 +102,7 @@ unsigned int PyramidMap::GetGroundCountSafe(const Eigen::Vector3d& coordinate,
                                             int zone_id,
                                             unsigned int resolution_id,
                                             unsigned int level) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);

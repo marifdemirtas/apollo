@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -38,7 +38,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool ROIBoundaryFilter::Init(const ObjectFilterInitOptions& options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -60,7 +60,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ROIBoundaryFilter::Filter(const ObjectFilterOptions& options,
                                LidarFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!frame) {
     AINFO << "Lidar frame is nullptr.";
@@ -111,7 +111,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ROIBoundaryFilter::BuildWorldPolygons(const ObjectFilterOptions& options,
                                            const LidarFrame& frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const Eigen::Affine3d& pose = frame.lidar2world_pose;
   const std::vector<base::ObjectPtr>& objects = frame.segmented_objects;
@@ -138,7 +138,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ROIBoundaryFilter::FillObjectRoiFlag(const ObjectFilterOptions& options,
                                           LidarFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto& objects = frame->segmented_objects;
   objects_cross_roi_.assign(objects.size(), false);
@@ -163,7 +163,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void ROIBoundaryFilter::FilterObjectsOutsideBoundary(
     const ObjectFilterOptions& options, LidarFrame* frame,
     std::vector<bool>* objects_valid_flag) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const EigenVector<base::RoadBoundary>& road_boundary =
       frame->hdmap_struct->road_boundary;
@@ -207,7 +207,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void ROIBoundaryFilter::FilterObjectsInsideBoundary(
     const ObjectFilterOptions& options, LidarFrame* frame,
     std::vector<bool>* objects_valid_flag) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const EigenVector<base::RoadBoundary>& road_boundary =
       frame->hdmap_struct->road_boundary;
@@ -252,7 +252,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void ROIBoundaryFilter::FilterObjectsByConfidence(
     const ObjectFilterOptions& options, LidarFrame* frame,
     std::vector<bool>* objects_valid_flag) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto& objects = frame->segmented_objects;
   for (size_t i = 0; i < objects.size(); ++i) {

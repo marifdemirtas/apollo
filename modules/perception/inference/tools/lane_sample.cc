@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -34,7 +34,7 @@ DEFINE_string(image_ext, ".jpg", "path of image ext");
 DEFINE_string(res_dir, "./result.dat", "path of result");
 
 int main(int argc, char **argv) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   std::vector<cv::Scalar> color_table;

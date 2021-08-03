@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -47,14 +47,14 @@ using apollo::cyber::common::GetProtoFromFile;
 using Eigen::MatrixXf;
 
 NCut::NCut() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 NCut::~NCut() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  ADEBUG << "NCut destructor done"; }
 
 bool NCut::Init(const NCutParam &param) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!Configure(param)) {
     AERROR << "failed to load ncut config.";
@@ -70,7 +70,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NCut::Configure(const NCutParam &ncut_param_) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _grid_radius = ncut_param_.grid_radius();
   _connect_radius = ncut_param_.connect_radius();
@@ -93,7 +93,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void NCut::Segment(base::PointFCloudConstPtr cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 #ifdef DEBUG_NCUT
   double start_t = omp_get_wtime();
@@ -163,7 +163,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void NCut::SuperPixelsFloodFill(base::PointFCloudConstPtr cloud, float radius,
                                 float cell_size,
                                 std::vector<std::vector<int>> *super_pixels) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   FloodFill ff_grid(radius, cell_size);
   std::vector<int> num_cells_per_components;
@@ -171,7 +171,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void NCut::PrecomputeAllSkeletonAndBbox() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const int num_clusters = static_cast<int>(_cluster_points.size());
   _cluster_skeleton_points.resize(num_clusters);
@@ -204,7 +204,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void NCut::BuildAverageHeightMap(
     base::PointFCloudConstPtr cloud, const FloodFill &ff_map,
     cv::Mat *cv_height_map_in, std::vector<gridIndex> *point_pixel_indices_in) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Mat &cv_height_map = *cv_height_map_in;
   std::vector<gridIndex> &point_pixel_indices = *point_pixel_indices_in;
@@ -247,7 +247,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void NCut::SampleByGrid(const std::vector<int> &point_gids,
                         MatrixXf *skeleton_coords_in,
                         MatrixXf *skeleton_feature_in) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MatrixXf &skeleton_coords = *skeleton_coords_in;
   MatrixXf &skeleton_feature = *skeleton_feature_in;
@@ -282,7 +282,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void NCut::GetPatchFeature(const MatrixXf &points, MatrixXf *features_in) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MatrixXf &features = *features_in;
   const int num_points = static_cast<int>(points.rows());
@@ -315,7 +315,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 NCut::NcutBoundingBox NCut::ComputeClusterBoundingBox(
     const std::vector<int> &point_gids) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // ! Note: do not perform rotation, so just some intuitive guess
   float x_max = -std::numeric_limits<float>::max();
@@ -344,7 +344,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string NCut::GetPcLabel(const base::PointFCloudPtr &cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (cloud->size() < OBSTACLE_MINIMUM_NUM_POINTS) {
     return "unknown";
@@ -365,7 +365,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void NCut::NormalizedCut(float ncuts_threshold, bool use_classifier,
                          std::vector<std::vector<int>> *segment_clusters_in,
                          std::vector<std::string> *segment_labels_in) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<std::vector<int>> &segment_clusters = *segment_clusters_in;
   std::vector<std::string> &segment_labels = *segment_labels_in;
@@ -498,7 +498,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void NCut::ComputeSkeletonWeights(Eigen::MatrixXf *weights_in) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::MatrixXf &weights = *weights_in;
   const int num_clusters = static_cast<int>(_cluster_points.size());
@@ -530,7 +530,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 float NCut::GetMinNcuts(const Eigen::MatrixXf &in_weights,
                         const std::vector<int> *in_clusters,
                         std::vector<int> *seg1, std::vector<int> *seg2) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // .0 initialization
   const int num_clusters = static_cast<int>(in_weights.rows());
@@ -611,7 +611,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void NCut::LaplacianDecomposition(const Eigen::MatrixXf &weights,
                                   Eigen::MatrixXf *eigenvectors_in) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 #ifdef DEBUG_NCUT
 // std::cout << "laplacian 0:\n " << weights << std::endl << std::endl;
@@ -686,7 +686,7 @@ bool NCut::ComputeSquaredSkeletonDistance(const Eigen::MatrixXf &in1_points,
                                           const Eigen::MatrixXf &in2_features,
                                           float *dist_point,
                                           float *dist_feature) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!((in1_points.rows() == in1_features.rows()) &&
         (in2_points.rows() == in2_features.rows()))) {
@@ -726,7 +726,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool NCut::IsMovableObstacle(const std::vector<int> &cluster_ids,
                              std::string *label) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   NcutBoundingBox box;
   GetComponentBoundingBox(cluster_ids, &box);
@@ -746,7 +746,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string NCut::GetClustersLabel(const std::vector<int> &cluster_ids) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<int> point_ids;
   GetClustersPids(cluster_ids, &point_ids);
@@ -757,7 +757,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void NCut::GetClustersPids(const std::vector<int> &cids,
                            std::vector<int> *pids_in) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<int> &pids = *pids_in;
   int num_points = 0;
@@ -776,7 +776,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int NCut::GetComponentBoundingBox(const std::vector<int> &cluster_ids,
                                   NcutBoundingBox *box_in) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   NcutBoundingBox &box = *box_in;
   if (cluster_ids.empty()) {
@@ -811,7 +811,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::string NCut::GetPcRoughLabel(const base::PointFCloudPtr &cloud,
                                   bool only_check_pedestrian) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (cloud->size() < OBSTACLE_MINIMUM_NUM_POINTS) {
     return "unknown";
@@ -853,7 +853,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void NCut::GetSegmentRoughSize(const base::PointFCloudPtr &cloud, float *length,
                                float *width, float *height) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float x_max = -std::numeric_limits<float>::max();
   float y_max = -std::numeric_limits<float>::max();

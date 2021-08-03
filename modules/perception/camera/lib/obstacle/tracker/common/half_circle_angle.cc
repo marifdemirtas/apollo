@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace apollo {
 namespace perception {
 namespace camera {
 void HalfCircleAngle::SetDirection(float theta) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (theta_ > M_PI) {
     theta_ = theta;
@@ -37,39 +37,39 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 HalfCircleAngle &HalfCircleAngle::operator=(const float &theta) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   theta_ = theta;
   return *this;
 }
 float HalfCircleAngle::operator+(const float &theta) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return theta_ + theta;
 }
 float HalfCircleAngle::operator*(const float &scale) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return theta_ * scale;
 }
 HalfCircleAngle &HalfCircleAngle::operator=(const HalfCircleAngle &theta) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   this->theta_ = theta.value();
   return *this;
 }
 bool HalfCircleAngle::operator==(const HalfCircleAngle &theta) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return Equal(theta_, theta.value(), 0.01f);
 }
 bool HalfCircleAngle::operator==(const float &theta) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return Equal(theta_, theta, 0.01f);
 }
 float HalfCircleAngle::value() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return theta_; }
 }  // namespace camera
 }  // namespace perception

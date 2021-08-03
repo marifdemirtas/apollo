@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,7 @@ using apollo::drivers::velodyne::VelodynePacket;
 using apollo::drivers::velodyne::VelodyneScan;
 
 int OnlineCalibration::decode(const std::shared_ptr<VelodyneScan>& scan_msgs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (inited_) {
     return 0;
@@ -123,7 +123,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void OnlineCalibration::get_unit_index() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int size = static_cast<int>(status_values_.size());
   // simple check only for value, maybe need more check fro status type
@@ -143,7 +143,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void OnlineCalibration::dump(const std::string& file_path) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!inited_) {
     AERROR << "Please decode calibraion info first";

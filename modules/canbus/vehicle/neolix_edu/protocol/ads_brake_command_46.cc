@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Adsbrakecommand46::ID = 0x46;
 
 // public
 Adsbrakecommand46::Adsbrakecommand46() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Adsbrakecommand46::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Adsbrakecommand46::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_drive_enable(data, drive_enable_);
   set_p_auto_brake_command(data, auto_brake_command_);
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Adsbrakecommand46::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  you should check this manually
   drive_enable_ = false;
@@ -68,7 +68,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Adsbrakecommand46* Adsbrakecommand46::set_drive_enable(bool drive_enable) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   drive_enable_ = drive_enable;
   return this;
@@ -79,7 +79,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_range': '[0|0]', 'bit': 0, 'type': 'bool', 'order': 'motorola',
 // 'physical_unit': ''}
 void Adsbrakecommand46::set_p_drive_enable(uint8_t* data, bool drive_enable) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = drive_enable;
 
@@ -89,7 +89,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adsbrakecommand46* Adsbrakecommand46::set_auto_brake_command(
     int auto_brake_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto_brake_command_ = auto_brake_command;
   return this;
@@ -100,7 +100,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|0]', 'bit': 23, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_auto_brake_command(uint8_t* data,
                                                  int auto_brake_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto_brake_command = ProtocolData::BoundedValue(0, 100, auto_brake_command);
   int x = auto_brake_command;
@@ -111,7 +111,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adsbrakecommand46* Adsbrakecommand46::set_auto_parking_command(
     bool auto_parking_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto_parking_command_ = auto_parking_command;
   return this;
@@ -123,7 +123,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_auto_parking_command(uint8_t* data,
                                                    bool auto_parking_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = auto_parking_command;
 
@@ -133,7 +133,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adsbrakecommand46* Adsbrakecommand46::set_epb_rampauxiliarycommand(
     bool epb_rampauxiliarycommand) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   epb_rampauxiliarycommand_ = epb_rampauxiliarycommand;
   return this;
@@ -145,7 +145,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_epb_rampauxiliarycommand(
     uint8_t* data, bool epb_rampauxiliarycommand) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = epb_rampauxiliarycommand;
 
@@ -155,7 +155,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adsbrakecommand46* Adsbrakecommand46::set_auto_drivercmd_alivecounter(
     int auto_drivercmd_alivecounter) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto_drivercmd_alivecounter_ = auto_drivercmd_alivecounter;
   return this;
@@ -166,7 +166,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|0]', 'bit': 51, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_auto_drivercmd_alivecounter(
     uint8_t* data, int auto_drivercmd_alivecounter) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto_drivercmd_alivecounter =
       ProtocolData::BoundedValue(0, 15, auto_drivercmd_alivecounter);
@@ -178,7 +178,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adsbrakecommand46* Adsbrakecommand46::set_auto_drivercmd_checksum(
     int auto_drivercmd_checksum) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto_drivercmd_checksum_ = auto_drivercmd_checksum;
   return this;
@@ -189,7 +189,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|0]', 'bit': 63, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_auto_drivercmd_checksum(
     uint8_t* data, int auto_drivercmd_checksum) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto_drivercmd_checksum =
       ProtocolData::BoundedValue(0, 255, auto_drivercmd_checksum);

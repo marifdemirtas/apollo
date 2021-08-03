@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace common {
 namespace monitor {
 
 MonitorLogger::MonitorLogger() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::string node_name =
       absl::StrCat("monitor_logger", Time::Now().ToNanosecond());
@@ -40,7 +40,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MonitorLogger::Publish(const MonitorMessageItem::MessageSource &source,
                             const std::vector<MessageItem> &messages) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // compose a monitor message
   if (messages.empty()) {
@@ -60,7 +60,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MonitorLogger::DoPublish(MonitorMessage *message) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   RETURN_IF_NULL(monitor_msg_writer_);
   common::util::FillHeader("monitor", message);

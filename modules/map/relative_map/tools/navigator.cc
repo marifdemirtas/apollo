@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -46,9 +46,9 @@ bool GetNavigationPathFromFile(const std::string& filename,
 void CheckConfig(const apollo::relative_map::NavigatorConfig& navigator_config);
 
 int main(int argc, char** argv) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   // Init the cyber framework
@@ -86,9 +86,9 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
     auto* navigation_path = navigation_info.add_navigation_path();
     if (!GetNavigationPathFromFile(filename, navigator_config,
                                    navigation_path)) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
       AWARN << "Failed to load file: " << filename;
       continue;
@@ -212,9 +212,9 @@ bool GetNavigationPathFromFile(const std::string& filename,
 
 void CheckConfig(
     const apollo::relative_map::NavigatorConfig& navigator_config) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ACHECK(navigator_config.has_sample_param());
   const auto& sample_param = navigator_config.sample_param();

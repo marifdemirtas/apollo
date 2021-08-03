@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -38,7 +38,7 @@ using apollo::prediction::SemanticMap;
 using IdObstacleListMap = std::unordered_map<int, std::list<Obstacle*>>;
 
 bool IsTrainable(const Feature& feature) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (feature.id() == FLAGS_ego_vehicle_id) {
     return false;
@@ -51,7 +51,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void EvaluatorManager::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   semantic_map_.reset(new SemanticMap());
   semantic_map_->Init();
@@ -60,7 +60,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void EvaluatorManager::Run(ObstaclesContainer* obstacles_container) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   BuildObstacleIdHistoryMap(obstacles_container);
   semantic_map_->RunCurrFrame(obstacle_id_history_map_);
@@ -82,7 +82,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void EvaluatorManager::EvaluateObstacle(Obstacle* obstacle,
                                         ObstaclesContainer* obstacles_container,
                                         std::vector<Obstacle*> dynamic_env) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Select different evaluators depending on the obstacle's type.
   switch (obstacle->type()) {
@@ -97,7 +97,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void EvaluatorManager::EvaluateObstacle(
     Obstacle* obstacle, ObstaclesContainer* obstacles_container) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<Obstacle*> dummy_dynamic_env;
   EvaluateObstacle(obstacle, obstacles_container, dummy_dynamic_env);
@@ -105,7 +105,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void EvaluatorManager::BuildObstacleIdHistoryMap(
     ObstaclesContainer* obstacles_container) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   obstacle_id_history_map_.clear();
   std::vector<int> obstacle_ids =

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,13 +22,13 @@ namespace perception {
 namespace inference {
 
 void Inference::set_max_batch_size(const int &batch_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   max_batch_size_ = batch_size;
 }
 
 void Inference::set_gpu_id(const int &gpu_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  gpu_id_ = gpu_id; }
 
 }  // namespace inference

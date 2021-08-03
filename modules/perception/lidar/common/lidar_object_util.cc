@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ using base::PointF;
 
 void GetBoundingBox2d(const std::shared_ptr<Object>& object,
                       PointCloud<PointD>* box, double expand) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   box->clear();
   box->resize(4);
@@ -63,7 +63,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ComputeObjectShapeFromPolygon(std::shared_ptr<Object> object,
                                    bool use_world_cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const PointCloud<PointD>& polygon = object->polygon;
   const PointCloud<PointF>& cloud = object->lidar_supplement.cloud;

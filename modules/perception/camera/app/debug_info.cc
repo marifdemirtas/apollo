@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -43,7 +43,7 @@ std::vector<std::string> sub_type_string = {"UNKNOWN",
 
 void WriteCamera2World(std::ofstream &fout, int frame_num,
                        const Eigen::Affine3d &pose) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!fout.is_open()) {
     AERROR << "Cannot write Camera2World!";
@@ -69,7 +69,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void WriteTracking(std::ofstream &fout, int frame_num,
                    const std::vector<base::ObjectPtr> &tracked_object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!fout.is_open()) {
     AERROR << "Cannot write tracking!";
@@ -97,7 +97,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int WriteDetections(const bool enabled, const std::string &out_path,
                     const std::vector<base::ObjectPtr> &objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!enabled) {
     return -1;
@@ -183,7 +183,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int WriteDetections(const bool enabled, const std::string &out_path,
                     CameraFrame *frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!enabled) {
     return -1;
@@ -220,7 +220,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int WriteLanelines(const bool enabled, const std::string &save_path,
                    const std::vector<base::LaneLine> &lane_objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!enabled) {
     return -1;
@@ -300,7 +300,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int WriteCalibrationOutput(bool enabled, const std::string &out_path,
                            const CameraFrame *frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!enabled) {
     return -1;
@@ -327,7 +327,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void WriteFusionTracking(std::ofstream &fout, int frame_num,
                          const std::string &camera_name,
                          const std::vector<base::ObjectPtr> &tracked_object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!fout.is_open()) {
     AERROR << "Failed to write tracking!";

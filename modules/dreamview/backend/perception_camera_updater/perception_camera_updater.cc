@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -37,7 +37,7 @@ using apollo::transform::TransformStamped;
 namespace {
 void ConvertMatrixToArray(const Eigen::Matrix4d &matrix,
                           std::vector<double> *array) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double *pointer = matrix.data();
   for (int i = 0; i < matrix.size(); ++i) {
@@ -66,17 +66,17 @@ void ConstructTransformationMatrix(const Quaternion &quaternion,
 PerceptionCameraUpdater::PerceptionCameraUpdater(WebSocketHandler *websocket)
     : websocket_(websocket),
       node_(cyber::CreateNode("perception_camera_updater")) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   InitReaders();
 }
 
 void PerceptionCameraUpdater::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  enabled_ = true; }
 
 void PerceptionCameraUpdater::Stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (enabled_) {
     localization_queue_.clear();
@@ -89,7 +89,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void PerceptionCameraUpdater::GetImageLocalization(
     std::vector<double> *localization) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (localization_queue_.empty()) {
     AERROR << "Localization queue is empty, cannot get localization for image,"
@@ -129,7 +129,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool PerceptionCameraUpdater::QueryStaticTF(const std::string &frame_id,
                                             const std::string &child_frame_id,
                                             Eigen::Matrix4d *matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   TransformStamped transform;
   if (tf_buffer_->GetLatestStaticTF(frame_id, child_frame_id, &transform)) {
@@ -142,7 +142,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void PerceptionCameraUpdater::GetLocalization2CameraTF(
     std::vector<double> *localization2camera_tf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Matrix4d localization2camera_mat = Eigen::Matrix4d::Identity();
 
@@ -170,7 +170,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void PerceptionCameraUpdater::OnImage(
     const std::shared_ptr<CompressedImage> &compressed_image) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!enabled_ ||
       compressed_image->format() == "h265" /* skip video format */) {
@@ -212,7 +212,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void PerceptionCameraUpdater::OnLocalization(
     const std::shared_ptr<LocalizationEstimate> &localization) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!enabled_) {
     return;
@@ -223,7 +223,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PerceptionCameraUpdater::InitReaders() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   node_->CreateReader<CompressedImage>(
       FLAGS_image_short_topic,
@@ -239,7 +239,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PerceptionCameraUpdater::GetUpdate(std::string *camera_update) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   {
     std::lock(image_mutex_, localization_mutex_);

@@ -1,4 +1,4 @@
-#include "cyber/common/log.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@
 #include "modules/perception/camera/common/timer.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {
@@ -79,7 +79,7 @@ T GetPolyValue(T a, T b, T c, T d, T x) {
 
 bool DarkSCNNLanePostprocessor::Init(
     const LanePostprocessorInitOptions& options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Read detector config parameter
   darkSCNN::DarkSCNNParam darkscnn_param;
@@ -123,7 +123,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool DarkSCNNLanePostprocessor::Process2D(
     const LanePostprocessorOptions& options, CameraFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ADEBUG << "Begin to Process2D.";
   frame->lane_objects.clear();
@@ -413,7 +413,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // Produce laneline output in camera coordinates (optional)
 bool DarkSCNNLanePostprocessor::Process3D(
     const LanePostprocessorOptions& options, CameraFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ConvertImagePoint2Camera(frame);
   PolyFitCameraLaneline(frame);
@@ -421,7 +421,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DarkSCNNLanePostprocessor::ConvertImagePoint2Camera(CameraFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float pitch_angle = frame->calibration_service->QueryPitchAngle();
   float camera_ground_height =
@@ -451,7 +451,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // @brief: Fit camera lane line using polynomial
 void DarkSCNNLanePostprocessor::PolyFitCameraLaneline(CameraFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<base::LaneLine>& lane_objects = frame->lane_objects;
   int laneline_num = static_cast<int>(lane_objects.size());
@@ -489,7 +489,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string DarkSCNNLanePostprocessor::Name() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return "DarkSCNNLanePostprocessor";
 }
