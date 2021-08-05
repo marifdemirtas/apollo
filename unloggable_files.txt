@@ -1,0 +1,38 @@
+7112  functions in total
+Cannot find: ByteTo<T>
+Cannot find: ImageHandler::OnImage<>
+Cannot find: ImageHandler::OnImage<>
+Cannot find: SetGlobalFlag<FlagType, ValueType>
+Cannot find: ExtractIds<MapElementInfoConstPtr>
+Cannot find: ConstructTransformationMatrix<Point>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: SimulationWorldService::UpdateSimulationWorld<>
+Cannot find: s_zero<T>
+Cannot find: s_zero<T>
+Cannot find: s_zero<T>
+Cannot find: RTKLocalization::InterpolateXYZ<T>
+Cannot find: HDMapImpl::BuildSegmentKDTree<Table, BoxTable, KDTree>
+Cannot find: HDMapImpl::BuildPolygonKDTree<Table, BoxTable, KDTree>
+Cannot find: HDMapImpl::SearchObjects<KDTree>
+Cannot find: CreateReaderAndLatestsMessage<T>
+Cannot find: GetPolyValue<T>
+Cannot find: extract_vector<T>
+Cannot find: vector2string<Type>
+Cannot find: BinaryWriteBlob<Dtype>
+Cannot find: BinaryReadFile<Dtype>
+Cannot find: BinaryWriteFile<Btype>
+Cannot find: vec_add1<T>
+Cannot find: vec_add2<T>
+Cannot find: vec_add3<T>
