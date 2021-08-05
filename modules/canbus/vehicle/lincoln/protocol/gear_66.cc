@@ -29,7 +29,7 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Gear66::ID = 0x66;
 
 uint32_t Gear66::GetPeriod() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // on event, so value nonsense
   static const uint32_t PERIOD = 10 * 1000;
@@ -37,53 +37,53 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Gear66::UpdateData(uint8_t *data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_gear_p(data, gear_);
   set_clear_driver_override_flag_p(data);
 }
 
 void Gear66::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  gear_ = 0; }
 
 Gear66 *Gear66::set_gear_none() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gear_ = 0x00;
   return this;
 }
 
 Gear66 *Gear66::set_gear_park() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gear_ = 0x01;
   return this;
 }
 
 Gear66 *Gear66::set_gear_reverse() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gear_ = 0x02;
   return this;
 }
 
 Gear66 *Gear66::set_gear_neutral() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gear_ = 0x03;
   return this;
 }
 
 Gear66 *Gear66::set_gear_drive() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gear_ = 0x04;
   return this;
 }
 
 Gear66 *Gear66::set_gear_low() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gear_ = 0x05;
   return this;
@@ -91,7 +91,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // private
 void Gear66::set_gear_p(uint8_t *data, int32_t gear) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gear = ProtocolData::BoundedValue(0, 5, gear);
   Byte frame(data);
@@ -99,7 +99,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Gear66::set_clear_driver_override_flag_p(uint8_t *bytes) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(bytes);
   frame.set_bit_0(7);

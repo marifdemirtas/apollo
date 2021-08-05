@@ -29,14 +29,14 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Brake60::ID = 0x60;
 
 uint32_t Brake60::GetPeriod() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static const uint32_t PERIOD = 10 * 1000;
   return PERIOD;
 }
 
 void Brake60::UpdateData(uint8_t *data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_pedal_p(data, pedal_cmd_);
   set_boo_cmd_p(data, boo_cmd_);
@@ -46,7 +46,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Brake60::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pedal_cmd_ = 0.0;
   boo_cmd_ = false;
@@ -57,7 +57,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Brake60 *Brake60::set_pedal(double pedal) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pedal_cmd_ = pedal;
   if (pedal_cmd_ < 1e-3) {
@@ -69,35 +69,35 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Brake60 *Brake60::enable_boo_cmd() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   boo_cmd_ = true;
   return this;
 }
 
 Brake60 *Brake60::disable_boo_cmd() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   boo_cmd_ = false;
   return this;
 }
 
 Brake60 *Brake60::set_enable() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pedal_enable_ = true;
   return this;
 }
 
 Brake60 *Brake60::set_disable() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pedal_enable_ = false;
   return this;
 }
 
 void Brake60::set_pedal_p(uint8_t *data, double pedal) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // change from [0-100] to [0.00-1.00]
   // and a rough mapping
@@ -117,7 +117,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Brake60::set_boo_cmd_p(uint8_t *bytes, bool boo_cmd) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(bytes + 2);
   if (boo_cmd) {
@@ -128,7 +128,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Brake60::set_enable_p(uint8_t *bytes, bool enable) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(bytes + 3);
   if (enable) {
@@ -139,7 +139,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Brake60::set_clear_driver_override_flag_p(uint8_t *bytes, bool clear) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(bytes + 3);
   if (clear) {
@@ -150,7 +150,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Brake60::set_watchdog_counter_p(uint8_t *data, int32_t count) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   count = ProtocolData::BoundedValue(0, 255, count);
   Byte frame(data + 7);

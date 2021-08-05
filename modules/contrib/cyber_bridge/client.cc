@@ -28,7 +28,7 @@ enum {
 
 Client::Client(Node* node, Clients* clients, boost::asio::ip::tcp::socket s)
     : node(*node), clients(*clients), socket(std::move(s)) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto endpoint = socket.remote_endpoint();
   AINFO << "Client [" << endpoint.address() << ":" << endpoint.port()
@@ -36,11 +36,11 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Client::~Client() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Client::start() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   socket.async_read_some(
       boost::asio::buffer(temp, sizeof(temp)),
@@ -50,12 +50,12 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Client::stop() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  socket.close(); }
 
 void Client::handle_read(const boost::system::error_code& ec,
                          std::size_t size) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!ec) {
     ADEBUG << "Received " << size << " bytes";
@@ -105,7 +105,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Client::handle_write(const boost::system::error_code& ec) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (ec) {
     if (ec != boost::asio::error::operation_aborted) {
@@ -129,7 +129,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // [1] [count] [string] ... [string]
 void Client::handle_register_desc() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sizeof(uint8_t) + sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_register_desc too short";
@@ -176,7 +176,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // [2] [channel] [type]
 void Client::handle_add_reader() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_add_reader too short header";
@@ -216,7 +216,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // [3] [channel] [type]
 void Client::handle_add_writer() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_new_writer too short header";
@@ -256,7 +256,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // [4] [channel] [message]
 void Client::handle_publish() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     return;
@@ -291,7 +291,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void fill_data(std::vector<uint8_t>* data, const std::string& channel,
                const std::string& msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   data->reserve(data->size() + sizeof(uint8_t) + sizeof(uint32_t) +
                 channel.size() + sizeof(uint32_t) + msg.size());
@@ -315,7 +315,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Client::publish(const std::string& channel, const std::string& msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(publish_mutex);
   if (writing.empty()) {
@@ -333,7 +333,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 uint32_t Client::get32le(size_t offset) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return buffer[offset + 0] | (buffer[offset + 1] << 8) |
          (buffer[offset + 2] << 16) | (buffer[offset + 3] << 24);

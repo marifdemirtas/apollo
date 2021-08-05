@@ -21,12 +21,13 @@
 #include "modules/perception/lidar/lib/scene_manager/scene_manager.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace lidar {
 
 bool ROIServiceFilter::Init(const ROIFilterInitOptions& options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   roi_service_ = std::dynamic_pointer_cast<ROIService>(
       SceneManager::Instance().Service("ROIService"));
@@ -39,7 +40,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ROIServiceFilter::Filter(const ROIFilterOptions& options,
                               LidarFrame* frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frame == nullptr || frame->world_cloud == nullptr) {
     AERROR << "Frame is nullptr.";

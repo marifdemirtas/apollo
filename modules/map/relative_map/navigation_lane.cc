@@ -61,7 +61,7 @@ bool CreateSingleLaneMap(
     const perception::PerceptionObstacles &perception_obstacles,
     hdmap::Map *const hdmap,
     google::protobuf::Map<std::string, NavigationPath> *const navigation_path) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(hdmap);
   CHECK_NOTNULL(navigation_path);
@@ -141,25 +141,25 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 NavigationLane::NavigationLane(const NavigationLaneConfig &config)
     : config_(config) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void NavigationLane::SetConfig(const NavigationLaneConfig &config) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   config_ = config;
 }
 
 void NavigationLane::SetVehicleStateProvider(
     common::VehicleStateProvider *vehicle_state_provider) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   vehicle_state_provider_ = vehicle_state_provider;
 }
 
 void NavigationLane::UpdateNavigationInfo(
     const NavigationInfo &navigation_path) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   navigation_info_ = navigation_path;
   last_project_index_map_.clear();
@@ -171,7 +171,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NavigationLane::GeneratePath() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   navigation_path_list_.clear();
   current_navi_path_tuple_ = std::make_tuple(-1, -1.0, -1.0, nullptr);
@@ -361,14 +361,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 double NavigationLane::EvaluateCubicPolynomial(const double c0, const double c1,
                                                const double c2, const double c3,
                                                const double x) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return ((c3 * x + c2) * x + c1) * x + c0;
 }
 
 void NavigationLane::MergeNavigationLineAndLaneMarker(
     const int line_index, common::Path *const path) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(path);
 
@@ -424,7 +424,7 @@ common::PathPoint NavigationLane::GetPathPointByS(const common::Path &path,
                                                   const int start_index,
                                                   const double s,
                                                   int *const matched_index) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(matched_index);
   const int size = path.path_point_size();
@@ -460,7 +460,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool NavigationLane::ConvertNavigationLineToPath(const int line_index,
                                                  common::Path *const path) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(path);
   if (!navigation_info_.navigation_path(line_index).has_path() ||
@@ -584,7 +584,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // project adc_state_ onto path
 ProjIndexPair NavigationLane::UpdateProjectionIndex(const common::Path &path,
                                                     const int line_index) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (path.path_point_size() < 2) {
     return std::make_pair(-1, std::numeric_limits<double>::max());
@@ -678,7 +678,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double NavigationLane::GetKappa(const double c1, const double c2,
                                 const double c3, const double x) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double dy = 3 * c3 * x * x + 2 * c2 * x + c1;
   const double d2y = 6 * c3 * x + 2 * c2;
@@ -687,7 +687,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void NavigationLane::ConvertLaneMarkerToPath(
     const perception::LaneMarkers &lane_marker, common::Path *const path) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(path);
 
@@ -758,7 +758,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool NavigationLane::CreateMap(const MapGenerationParam &map_config,
                                MapMsg *const map_msg) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto *navigation_path = map_msg->mutable_navigation_path();
   auto *hdmap = map_msg->mutable_hdmap();
@@ -848,7 +848,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void NavigationLane::UpdateStitchIndexInfo() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   stitch_index_map_.clear();
 

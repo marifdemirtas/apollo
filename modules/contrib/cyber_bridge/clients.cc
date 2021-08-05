@@ -14,25 +14,25 @@
 Clients::Clients() {}
 
 Clients::~Clients() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Clients::start(std::shared_ptr<Client> client) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   clients.insert(client);
   client->start();
 }
 
 void Clients::stop(std::shared_ptr<Client> client) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   clients.erase(client);
   client->stop();
 }
 
 void Clients::stop_all() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto& client : clients) {
     client->stop();

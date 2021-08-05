@@ -24,7 +24,7 @@ DEFINE_string(vehicle_data_path, "modules/calibration/data/mkz_example",
               "Vehicle data path.");
 
 int main(int argc, char **argv) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   FLAGS_logtostderr = true;
   google::InitGoogleLogging(argv[0]);

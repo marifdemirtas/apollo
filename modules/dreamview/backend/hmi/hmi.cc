@@ -45,7 +45,7 @@ HMI::HMI(WebSocketHandler* websocket, MapService* map_service)
       monitor_log_buffer_(apollo::common::monitor::MonitorMessageItem::HMI),
       websocket_(websocket),
       map_service_(map_service) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (websocket_) {
     RegisterMessageHandlers();
@@ -53,15 +53,15 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HMI::Start() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  hmi_worker_->Start(); }
 
 void HMI::Stop() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  hmi_worker_->Stop(); }
 
 void HMI::RegisterMessageHandlers() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Broadcast HMIStatus to clients when status changed.
   hmi_worker_->RegisterStatusUpdateHandler(
@@ -222,7 +222,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HMI::SendVehicleParam(WebSocketHandler::Connection* conn) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (websocket_ == nullptr) {
     return;
@@ -240,7 +240,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HMI::SendStatus(WebSocketHandler::Connection* conn) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto status_json =
       JsonUtil::ProtoToTypedJson("HMIStatus", hmi_worker_->GetStatus());

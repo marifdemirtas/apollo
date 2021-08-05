@@ -28,7 +28,7 @@ namespace msf {
 namespace pyramid_map {
 
 BaseMapConfig::BaseMapConfig(const std::string &map_version) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_version_ = map_version;
   coordinate_type_ = "UTM";
@@ -42,11 +42,11 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapConfig::~BaseMapConfig() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BaseMapConfig::Save(const std::string &file_path) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   boost::property_tree::ptree config;
   bool success = CreateXml(&config);
@@ -59,7 +59,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BaseMapConfig::Load(const std::string &file_path) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   boost::property_tree::ptree config;
   boost::property_tree::read_xml(file_path, config);
@@ -73,7 +73,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BaseMapConfig::CreateXml(boost::property_tree::ptree *config) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   config->put("map.map_config.version", map_version_);
   config->put("map.map_config.coordnate_type", coordinate_type_);
@@ -107,7 +107,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BaseMapConfig::LoadXml(const boost::property_tree::ptree &config) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_resolutions_.clear();
   map_datasets_.clear();
@@ -204,13 +204,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMapConfig::SetMapVersion(const std::string &map_version) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_version_ = map_version;
 }
 
 void BaseMapConfig::ResizeMapRange() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double min_x = 0;
   double min_y = 0;
@@ -243,14 +243,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMapConfig::SetSingleResolutions(float resolution) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_resolutions_.clear();
   map_resolutions_.push_back(resolution);
 }
 
 void BaseMapConfig::SetMultiResolutions() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_resolutions_.clear();
   map_resolutions_.push_back(0.03125);
@@ -267,39 +267,39 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void BaseMapConfig::SetNodeMd5Map(
     const std::map<std::string, std::string> &node_md5_map) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   node_md5_map_ = node_md5_map;
 }
 
 void BaseMapConfig::AddNodeMd5(const std::string &node_path,
                                const std::string &md5) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   node_md5_map_[node_path] = md5;
 }
 
 void BaseMapConfig::SetMapNodeSize(unsigned int size_x, unsigned int size_y) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_node_size_x_ = size_x;
   map_node_size_y_ = size_y;
 }
 
 void BaseMapConfig::SetGroundHeightOffset(float map_ground_height_offset) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_ground_height_offset_ = map_ground_height_offset;
 }
 
 void BaseMapConfig::SetIsCompression(bool map_is_compression) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_is_compression_ = map_is_compression;
 }
 
 MapVersion BaseMapConfig::GetMapVersion() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (map_version_ == "lossy_full_alt" || map_version_ == "lossy_map") {
     return MapVersion::LOSSY_FULL_ALT_MAP;

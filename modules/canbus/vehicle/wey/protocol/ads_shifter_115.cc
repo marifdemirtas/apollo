@@ -29,11 +29,11 @@ const int32_t Adsshifter115::ID = 0x115;
 
 // public
 Adsshifter115::Adsshifter115() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Adsshifter115::GetPeriod() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(ChaoMa) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,14 +41,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Adsshifter115::UpdateData(uint8_t* data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_ads_shiftmode(data, ads_shiftmode_);
   set_p_ads_targetgear(data, ads_targetgear_);
 }
 
 void Adsshifter115::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(ChaoMa) :you should check this manually
   ads_shiftmode_ = Ads_shifter_115::ADS_SHIFTMODE_INVALID;
@@ -57,7 +57,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adsshifter115* Adsshifter115::set_ads_shiftmode(
     Ads_shifter_115::Ads_shiftmodeType ads_shiftmode) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ads_shiftmode_ = ads_shiftmode;
   return this;
@@ -70,7 +70,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Adsshifter115::set_p_ads_shiftmode(
     uint8_t* data, Ads_shifter_115::Ads_shiftmodeType ads_shiftmode) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = ads_shiftmode;
 
@@ -80,7 +80,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adsshifter115* Adsshifter115::set_ads_targetgear(
     Ads_shifter_115::Ads_targetgearType ads_targetgear) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ads_targetgear_ = ads_targetgear;
   return this;
@@ -93,7 +93,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Adsshifter115::set_p_ads_targetgear(
     uint8_t* data, Ads_shifter_115::Ads_targetgearType ads_targetgear) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = ads_targetgear;
 

@@ -35,11 +35,11 @@ using apollo::perception::base::SensorOrientation;
 using apollo::perception::base::SensorType;
 
 SensorManager::SensorManager() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  CHECK_EQ(this->Init(), true); }
 
 bool SensorManager::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
   if (inited_) {
@@ -104,14 +104,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SensorManager::IsSensorExist(const std::string& name) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return sensor_info_map_.find(name) != sensor_info_map_.end();
 }
 
 bool SensorManager::GetSensorInfo(const std::string& name,
                                   SensorInfo* sensor_info) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sensor_info == nullptr) {
     AERROR << "Nullptr error.";
@@ -129,7 +129,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::shared_ptr<BaseCameraDistortionModel> SensorManager::GetDistortCameraModel(
     const std::string& name) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto& itr = distort_model_map_.find(name);
 
@@ -138,7 +138,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::shared_ptr<BaseCameraModel> SensorManager::GetUndistortCameraModel(
     const std::string& name) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto& itr = undistort_model_map_.find(name);
 
@@ -146,7 +146,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SensorManager::IsHdLidar(const std::string& name) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto& itr = sensor_info_map_.find(name);
   if (itr == sensor_info_map_.end()) {
@@ -158,14 +158,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SensorManager::IsHdLidar(const SensorType& type) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return type == SensorType::VELODYNE_128 || type == SensorType::VELODYNE_64 ||
          type == SensorType::VELODYNE_32 || type == SensorType::VELODYNE_16;
 }
 
 bool SensorManager::IsLdLidar(const std::string& name) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto& itr = sensor_info_map_.find(name);
   if (itr == sensor_info_map_.end()) {
@@ -177,13 +177,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SensorManager::IsLdLidar(const SensorType& type) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return type == SensorType::LDLIDAR_4 || type == SensorType::LDLIDAR_1;
 }
 
 bool SensorManager::IsLidar(const std::string& name) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto& itr = sensor_info_map_.find(name);
   if (itr == sensor_info_map_.end()) {
@@ -195,13 +195,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SensorManager::IsLidar(const SensorType& type) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return this->IsHdLidar(type) || this->IsLdLidar(type);
 }
 
 bool SensorManager::IsRadar(const std::string& name) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto& itr = sensor_info_map_.find(name);
   if (itr == sensor_info_map_.end()) {
@@ -213,14 +213,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SensorManager::IsRadar(const SensorType& type) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return type == SensorType::SHORT_RANGE_RADAR ||
          type == SensorType::LONG_RANGE_RADAR;
 }
 
 bool SensorManager::IsCamera(const std::string& name) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto& itr = sensor_info_map_.find(name);
   if (itr == sensor_info_map_.end()) {
@@ -232,14 +232,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SensorManager::IsCamera(const SensorType& type) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return type == SensorType::MONOCULAR_CAMERA ||
          type == SensorType::STEREO_CAMERA;
 }
 
 bool SensorManager::IsUltrasonic(const std::string& name) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto& itr = sensor_info_map_.find(name);
   if (itr == sensor_info_map_.end()) {
@@ -251,13 +251,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SensorManager::IsUltrasonic(const SensorType& type) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return type == SensorType::ULTRASONIC;
 }
 
 std::string SensorManager::GetFrameId(const std::string& name) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto& itr = sensor_info_map_.find(name);
   return itr == sensor_info_map_.end() ? std::string("") : itr->second.frame_id;

@@ -29,11 +29,11 @@ const int32_t Hazardlightscmd114::ID = 0x114;
 
 // public
 Hazardlightscmd114::Hazardlightscmd114() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Hazardlightscmd114::GetPeriod() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Hazardlightscmd114::UpdateData(uint8_t* data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_hazard_lights_cmd(data, hazard_lights_cmd_);
   set_p_ignore_overrides(data, ignore_overrides_);
@@ -51,7 +51,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Hazardlightscmd114::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(QiL) you should check this manually
   hazard_lights_cmd_ = false;
@@ -63,7 +63,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Hazardlightscmd114* Hazardlightscmd114::set_hazard_lights_cmd(
     bool hazard_lights_cmd) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   hazard_lights_cmd_ = hazard_lights_cmd;
   return this;
@@ -74,7 +74,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Hazardlightscmd114::set_p_hazard_lights_cmd(uint8_t* data,
                                                  bool hazard_lights_cmd) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = hazard_lights_cmd;
 
@@ -84,7 +84,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Hazardlightscmd114* Hazardlightscmd114::set_ignore_overrides(
     bool ignore_overrides) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ignore_overrides_ = ignore_overrides;
   return this;
@@ -95,7 +95,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Hazardlightscmd114::set_p_ignore_overrides(uint8_t* data,
                                                 bool ignore_overrides) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = ignore_overrides;
 
@@ -105,7 +105,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Hazardlightscmd114* Hazardlightscmd114::set_clear_override(
     bool clear_override) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   clear_override_ = clear_override;
   return this;
@@ -116,7 +116,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Hazardlightscmd114::set_p_clear_override(uint8_t* data,
                                               bool clear_override) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = clear_override;
 
@@ -125,7 +125,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Hazardlightscmd114* Hazardlightscmd114::set_enable(bool enable) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   enable_ = enable;
   return this;
@@ -135,7 +135,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Hazardlightscmd114::set_p_enable(uint8_t* data, bool enable) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = enable;
 
@@ -144,7 +144,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Hazardlightscmd114* Hazardlightscmd114::set_clear_faults(bool clear_faults) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   clear_faults_ = clear_faults;
   return this;
@@ -154,7 +154,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 3,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Hazardlightscmd114::set_p_clear_faults(uint8_t* data, bool clear_faults) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = clear_faults;
 

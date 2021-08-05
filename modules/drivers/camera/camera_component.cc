@@ -22,7 +22,7 @@ namespace drivers {
 namespace camera {
 
 bool CameraComponent::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   camera_config_ = std::make_shared<Config>();
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
@@ -85,7 +85,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CameraComponent::run() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   running_.exchange(true);
   while (!cyber::IsShutdown()) {
@@ -116,7 +116,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 CameraComponent::~CameraComponent() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (running_.load()) {
     running_.exchange(false);

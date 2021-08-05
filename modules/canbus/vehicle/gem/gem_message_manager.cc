@@ -53,7 +53,7 @@ namespace canbus {
 namespace gem {
 
 GemMessageManager::GemMessageManager() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Control Messages
   AddSendProtocolData<Accelcmd67, true>();
@@ -91,7 +91,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 GemMessageManager::~GemMessageManager() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 }  // namespace gem

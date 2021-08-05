@@ -22,7 +22,7 @@ namespace perception {
 namespace camera {
 
 bool CarPose::Init(double ts, const Eigen::Matrix4d &pose) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   timestamp_ = ts;
   pose_ = pose;
@@ -30,11 +30,11 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const Eigen::Matrix4d CarPose::getCarPose() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return pose_; }
 
 const Eigen::Vector3d CarPose::getCarPosition() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector3d p;
   p[0] = pose_(0, 3);
@@ -46,14 +46,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void CarPose::SetCameraPose(const std::string &camera_name,
                             const Eigen::Matrix4d &c2w_pose) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   c2w_poses_[camera_name] = c2w_pose;
 }
 
 bool CarPose::GetCameraPose(const std::string &camera_name,
                             Eigen::Matrix4d *c2w_pose) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (c2w_pose == nullptr) {
     AERROR << "c2w_pose is not available";
@@ -72,7 +72,7 @@ std::ostream &operator<<(std::ostream &os, const CarPose &pose) {
   return os;
 }
 void CarPose::ClearCameraPose(const std::string &camera_name) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto it = c2w_poses_.find(camera_name);
   if (it != c2w_poses_.end()) {

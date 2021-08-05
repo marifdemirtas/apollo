@@ -28,7 +28,7 @@ DEFINE_string(input_video, "", "The input video file");
 DEFINE_string(output_dir, "", "The directory to output decoded pictures.");
 
 int main(int argc, char** argv) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   AINFO << "input video: " << FLAGS_input_video

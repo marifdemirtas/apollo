@@ -33,7 +33,7 @@ using apollo::cyber::common::GetAbsolutePath;
 using apollo::cyber::common::GetProtoFromFile;
 
 bool DarkSCNNLaneDetector::Init(const LaneDetectorInitOptions &options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string proto_path = GetAbsolutePath(options.root_dir, options.conf_file);
   if (!GetProtoFromFile(proto_path, &darkscnn_param_)) {
@@ -170,7 +170,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool DarkSCNNLaneDetector::Detect(const LaneDetectorOptions &options,
                                   CameraFrame *frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frame == nullptr) {
     AINFO << "camera frame is empty.";
@@ -301,7 +301,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string DarkSCNNLaneDetector::Name() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return "DarkSCNNLaneDetector";
 }

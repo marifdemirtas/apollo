@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Steeringmotorrpt1404::Steeringmotorrpt1404() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Steeringmotorrpt1404::ID = 0x404;
 
 void Steeringmotorrpt1404::Parse(const std::uint8_t* bytes, int32_t length,
                                  ChassisDetail* chassis) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_lexus()
       ->mutable_steering_motor_rpt_1_404()
@@ -50,7 +50,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'amps'}
 double Steeringmotorrpt1404::motor_current(const std::uint8_t* bytes,
                                            int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -80,7 +80,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': 'amps'}
 double Steeringmotorrpt1404::shaft_position(const std::uint8_t* bytes,
                                             int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);

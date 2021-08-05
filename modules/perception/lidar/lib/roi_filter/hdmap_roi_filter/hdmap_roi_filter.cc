@@ -39,7 +39,7 @@ template <typename T>
 using Polygon = typename PolygonScanCvter<T>::Polygon;
 
 bool HdmapROIFilter::Init(const ROIFilterInitOptions& options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // load model config
   auto config_manager = lib::ConfigManager::Instance();
@@ -81,7 +81,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool HdmapROIFilter::Filter(const ROIFilterOptions& options,
                             LidarFrame* frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frame->hdmap_struct == nullptr || frame->cloud == nullptr) {
     AERROR << " Input frame data error !";
@@ -152,7 +152,7 @@ bool HdmapROIFilter::FilterWithPolygonMask(
     const base::PointFCloudPtr& cloud,
     const EigenVector<PolygonDType>& map_polygons,
     base::PointIndices* roi_indices) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<Polygon<double>> raw_polygons;
   // convert and obtain the major direction
@@ -196,7 +196,7 @@ void HdmapROIFilter::TransformFrame(
     const EigenVector<PolygonDType*>& polygons_world,
     EigenVector<PolygonDType>* polygons_local,
     base::PointFCloudPtr* cloud_local) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector3d vel_location = vel_pose.translation();
   Eigen::Matrix3d vel_rot = vel_pose.linear();
@@ -231,7 +231,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool HdmapROIFilter::Bitmap2dFilter(const base::PointFCloudPtr& in_cloud,
                                     const Bitmap2D& bitmap,
                                     base::PointIndices* roi_indices) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!bitmap.Check(Eigen::Vector2d(0.0, 0.0))) {
     AWARN << " Car is not in roi!!.";

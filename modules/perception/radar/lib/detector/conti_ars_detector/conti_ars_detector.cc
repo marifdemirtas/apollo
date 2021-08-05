@@ -23,13 +23,13 @@ namespace perception {
 namespace radar {
 
 bool ContiArsDetector::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return true; }
 
 bool ContiArsDetector::Detect(const drivers::ContiRadar& corrected_obstacles,
                               const DetectorOptions& options,
                               base::FramePtr radar_frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   RawObs2Frame(corrected_obstacles, options, radar_frame);
   radar_frame->timestamp = corrected_obstacles.header().timestamp_sec();
@@ -38,13 +38,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string ContiArsDetector::Name() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return "ContiArsDetector"; }
 
 void ContiArsDetector::RawObs2Frame(
     const drivers::ContiRadar& corrected_obstacles,
     const DetectorOptions& options, base::FramePtr radar_frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const Eigen::Matrix4d& radar2world = *(options.radar2world_pose);
   const Eigen::Matrix4d& radar2novatel = *(options.radar2novatel_trans);

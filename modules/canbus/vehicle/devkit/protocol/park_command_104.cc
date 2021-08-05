@@ -29,11 +29,11 @@ const int32_t Parkcommand104::ID = 0x104;
 
 // public
 Parkcommand104::Parkcommand104() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Parkcommand104::GetPeriod() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Parkcommand104::UpdateData(uint8_t* data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_park_target(data, park_target_);
   set_p_park_en_ctrl(data, park_en_ctrl_);
@@ -51,7 +51,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Parkcommand104::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  you should check this manually
   checksum_104_ = 0;
@@ -60,7 +60,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Parkcommand104* Parkcommand104::set_checksum_104(int checksum_104) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   checksum_104_ = checksum_104;
   return this;
@@ -70,7 +70,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 63,
 // 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Parkcommand104::set_p_checksum_104(uint8_t* data, int checksum_104) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   checksum_104 = ProtocolData::BoundedValue(0, 255, checksum_104);
   int x = checksum_104;
@@ -81,7 +81,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Parkcommand104* Parkcommand104::set_park_target(
     Park_command_104::Park_targetType park_target) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   park_target_ = park_target;
   return this;
@@ -93,7 +93,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': ''}
 void Parkcommand104::set_p_park_target(
     uint8_t* data, Park_command_104::Park_targetType park_target) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = park_target;
 
@@ -103,7 +103,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Parkcommand104* Parkcommand104::set_park_en_ctrl(
     Park_command_104::Park_en_ctrlType park_en_ctrl) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   park_en_ctrl_ = park_en_ctrl;
   return this;
@@ -115,7 +115,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': ''}
 void Parkcommand104::set_p_park_en_ctrl(
     uint8_t* data, Park_command_104::Park_en_ctrlType park_en_ctrl) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = park_en_ctrl;
 

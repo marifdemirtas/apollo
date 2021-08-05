@@ -31,7 +31,7 @@ namespace hdmap {
 LapsChecker::LapsChecker(const std::vector<FramePose> &poses, int laps_to_check,
                          std::shared_ptr<JsonConf> sp_conf)
     : poses_(poses), sp_conf_(sp_conf) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   laps_to_check_ = laps_to_check;
   maxx_ = 0.0;
@@ -47,22 +47,22 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LapsChecker::SetProgress(double p) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   progress_ = p;
   return 0;
 }
 
 double LapsChecker::GetProgress() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return progress_; }
 
 size_t LapsChecker::GetLap() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return lap_; }
 
 double LapsChecker::GetConfidence() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double res = 0.0;
   lap_ = laps_to_check_;
@@ -96,7 +96,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ErrorCode LapsChecker::Check() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (poses_.empty()) {
     return_state_ = ErrorCode::ERROR_VERIFY_NO_GNSSPOS;
@@ -108,7 +108,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LapsChecker::DoCheck() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "do_check";
   SetProgress(0.0);
@@ -140,7 +140,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LapsChecker::CheckParams() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int n_pose = static_cast<int>(poses_.size());
   if (n_pose < sp_conf_->laps_frames_thresh) {
@@ -150,7 +150,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LapsChecker::SetupGridsMap() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "setup_grids_map->get_min_max";
   GetMinMax();
@@ -165,7 +165,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LapsChecker::CheckLaps() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int height = static_cast<int>(grids_map_.size());
   if (height <= 2 || height > 1000000) {
@@ -225,7 +225,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int LapsChecker::GatherTimestamps(std::vector<double> *sp_stamps, double alpha,
                                   int center_x, int center_y) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int search_d = sp_conf_->laps_search_diameter;
   if ((search_d & 1) == 0) {
@@ -265,7 +265,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LapsChecker::GetMinMax() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   minx_ = std::numeric_limits<double>::max();
   miny_ = std::numeric_limits<double>::max();
@@ -292,7 +292,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LapsChecker::DoSetupGridsMap() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t width = size_t(maxx_ - minx_ + 1);
   size_t height = size_t(maxy_ - miny_ + 1);
@@ -321,7 +321,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double LapsChecker::CalcAlpha(int pose_index) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double vecx = poses_[pose_index].tx - poses_[pose_index - 1].tx;
   double vecy = poses_[pose_index].ty - poses_[pose_index - 1].ty;
@@ -333,7 +333,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LapsChecker::PutPoseToGrid(int pose_index, int grid_y, int grid_x) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (pose_index <= 0) {
     return 0;
@@ -362,7 +362,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LapsChecker::PutPoseToNeighborGrid(int pose_index) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (pose_index <= 0) {
     return 0;
@@ -377,7 +377,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int LapsChecker::GetPassedGrid(int pose_index, std::vector<int> *sp_grid_x,
                                std::vector<int> *sp_grid_y) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (pose_index <= 0) {
     return 0;
@@ -431,7 +431,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double LapsChecker::Slope(double x1, double y1, double x2, double y2) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (std::abs(x1 - x2) < 1e-6) {
     return std::numeric_limits<double>::max();
@@ -443,7 +443,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ErrorCode LapsChecker::GetReturnState() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return return_state_; }
 
 }  // namespace hdmap

@@ -21,27 +21,27 @@ namespace perception {
 namespace base {
 
 Polynomial::Polynomial() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  coeff_[0] = 0.0; }
 Polynomial::~Polynomial() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const std::map<uint32_t, double>& Polynomial::getCoeff() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return coeff_;
 }
 
 double& Polynomial::operator[](const uint32_t& order) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   initialized_ = false;
   return coeff_[order];
 }
 
 double Polynomial::operator()(const double& x) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!initialized_) {
     index_gap_.resize(coeff_.size() - 1, 0);

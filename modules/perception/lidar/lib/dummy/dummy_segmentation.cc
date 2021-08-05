@@ -18,19 +18,20 @@
 #include "modules/perception/lidar/lib/dummy/dummy_segmentation.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace lidar {
 
 bool DummySegmentation::Init(const SegmentationInitOptions& options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return true;
 }
 
 bool DummySegmentation::Segment(const SegmentationOptions& options,
                                 LidarFrame* frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return true;
 }

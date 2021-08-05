@@ -30,13 +30,13 @@ using apollo::drivers::RacobitRadarObs;
 using apollo::drivers::canbus::Byte;
 
 ObjectListStatus60A::ObjectListStatus60A() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const uint32_t ObjectListStatus60A::ID = 0x60A;
 
 void ObjectListStatus60A::Parse(const std::uint8_t* bytes, int32_t length,
                                 RacobitRadar* racobit_radar) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto status = racobit_radar->mutable_object_list_status();
   auto num_of_obj = num_of_objects(bytes, length);
@@ -48,7 +48,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectListStatus60A::num_of_objects(const std::uint8_t* bytes,
                                         int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes);
   int32_t x = t0.get_byte(0, 8);
@@ -59,7 +59,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectListStatus60A::meas_counter(const std::uint8_t* bytes,
                                       int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   uint32_t x = t0.get_byte(0, 8);
@@ -75,7 +75,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectListStatus60A::interface_version(const std::uint8_t* bytes,
                                            int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(4, 4);

@@ -29,7 +29,7 @@ namespace lidar {
 
 bool LidarObstacleSegmentation::Init(
     const LidarObstacleSegmentationInitOptions& options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto& sensor_name = options.sensor_name;
   auto config_manager = lib::ConfigManager::Instance();
@@ -88,7 +88,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 LidarProcessResult LidarObstacleSegmentation::Process(
     const LidarObstacleSegmentationOptions& options, LidarFrame* frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   PointCloudPreprocessorOptions preprocessor_options;
   preprocessor_options.sensor2novatel_extrinsics =
@@ -104,7 +104,7 @@ LidarProcessResult LidarObstacleSegmentation::Process(
     const LidarObstacleSegmentationOptions& options,
     const std::shared_ptr<apollo::drivers::PointCloud const>& message,
     LidarFrame* frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto& sensor_name = options.sensor_name;
 
@@ -124,7 +124,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 LidarProcessResult LidarObstacleSegmentation::ProcessCommon(
     const LidarObstacleSegmentationOptions& options, LidarFrame* frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto& sensor_name = options.sensor_name;
 

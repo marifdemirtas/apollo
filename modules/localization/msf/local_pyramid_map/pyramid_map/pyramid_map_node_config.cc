@@ -24,15 +24,15 @@ namespace msf {
 namespace pyramid_map {
 
 PyramidMapNodeConfig::PyramidMapNodeConfig() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PyramidMapNodeConfig::~PyramidMapNodeConfig() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::shared_ptr<BaseMapNodeConfig> PyramidMapNodeConfig::Clone() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<PyramidMapNodeConfig> map_node_config(
       new PyramidMapNodeConfig());

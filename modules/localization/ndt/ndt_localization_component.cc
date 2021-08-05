@@ -30,11 +30,11 @@ using apollo::cyber::Clock;
 
 NDTLocalizationComponent::NDTLocalizationComponent()
     : localization_(new NDTLocalization()) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NDTLocalizationComponent::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   tf2_broadcaster_.reset(new apollo::transform::TransformBroadcaster(node_));
   if (!InitConfig()) {
@@ -51,7 +51,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NDTLocalizationComponent::InitConfig() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_topic_ = FLAGS_localization_topic;
   lidar_topic_ = FLAGS_lidar_topic;
@@ -67,7 +67,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NDTLocalizationComponent::InitIO() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cyber::ReaderConfig reader_config;
   reader_config.channel_name = lidar_topic_;
@@ -102,7 +102,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool NDTLocalizationComponent::Proc(
     const std::shared_ptr<localization::Gps>& gps_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_->OdometryCallback(gps_msg);
 
@@ -125,7 +125,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void NDTLocalizationComponent::LidarCallback(
     const std::shared_ptr<drivers::PointCloud>& lidar_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_->LidarCallback(lidar_msg);
   // for test to output lidar pose
@@ -139,14 +139,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void NDTLocalizationComponent::OdometryStatusCallback(
     const std::shared_ptr<drivers::gnss::InsStat>& status_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_->OdometryStatusCallback(status_msg);
 }
 
 void NDTLocalizationComponent::PublishPoseBroadcastTF(
     const LocalizationEstimate& localization) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // broadcast tf message
   apollo::transform::TransformStamped tf2_msg;
@@ -172,21 +172,21 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void NDTLocalizationComponent::PublishPoseBroadcastTopic(
     const LocalizationEstimate& localization) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_talker_->Write(localization);
 }
 
 void NDTLocalizationComponent::PublishLidarPoseBroadcastTopic(
     const LocalizationEstimate& localization) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   lidar_pose_talker_->Write(localization);
 }
 
 void NDTLocalizationComponent::PublishLocalizationStatusTopic(
     const LocalizationStatus& localization_status) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_status_talker_->Write(localization_status);
 }

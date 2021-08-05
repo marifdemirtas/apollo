@@ -41,7 +41,7 @@ namespace drivers {
 namespace hesai {
 
 int TcpCmdClient::BuildCmdHeader(const Command& cmd, unsigned char* buffer) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int index = 0;
   buffer[index++] = 0x47;
@@ -56,7 +56,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TcpCmdClient::GetCalibration(std::string* content) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lck(mutex_);
   if (!Open()) {
@@ -86,7 +86,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void TcpCmdClient::ParseHeader(const unsigned char* buffer, const int len,
                                CommandHeader* header) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int index = 0;
   header->cmd = buffer[index++];
@@ -97,7 +97,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TcpCmdClient::WriteCmd(const Command& cmd) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned char buffer[128];
   int size = BuildCmdHeader(cmd, buffer);
@@ -121,7 +121,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TcpCmdClient::ReadCmd(Command* feedback) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (feedback == nullptr) {
     return false;
@@ -165,7 +165,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int TcpCmdClient::Read(unsigned char* buffer, int n) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int nleft = -1, nread = -1;
   unsigned char* ptr = buffer;
@@ -188,7 +188,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TcpCmdClient::Close() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (socket_fd_ >= 0) {
     close(socket_fd_);
@@ -197,7 +197,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TcpCmdClient::Open() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int sockfd = -1;
   struct sockaddr_in servaddr;

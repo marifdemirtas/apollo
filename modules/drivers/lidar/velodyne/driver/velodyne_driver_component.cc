@@ -29,7 +29,7 @@ namespace drivers {
 namespace velodyne {
 
 bool VelodyneDriverComponent::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Velodyne driver component init";
   Config velodyne_config;
@@ -43,7 +43,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   VelodyneDriver *driver =
       VelodyneDriverFactory::CreateDriver(node, velodyne_config);
   if (driver == nullptr) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
     return false;
   }

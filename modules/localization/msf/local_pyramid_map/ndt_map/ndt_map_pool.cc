@@ -28,11 +28,11 @@ namespace pyramid_map {
  */
 NdtMapNodePool::NdtMapNodePool(unsigned int pool_size, unsigned int thread_size)
     : BaseMapNodePool(pool_size, thread_size) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapNode* NdtMapNodePool::AllocNewMapNode() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return new NdtMapNode(); }
 
 }  // namespace pyramid_map

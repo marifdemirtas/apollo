@@ -20,11 +20,12 @@
 #include <cstring>
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace bridge {
 
 bool BridgeHeader::Serialize(char *buf, size_t size) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!buf || size == 0) {
     return false;
@@ -45,7 +46,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BridgeHeader::Diserialize(const char *buf, size_t buf_size) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const char *cursor = buf;
 
@@ -72,7 +73,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BridgeHeader::IsAvailable(const char *buf) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!buf) {
     return false;
@@ -84,7 +85,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 char *BridgeHeader::SerializeHeaderFlag(char *buf, size_t size) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!buf || size == 0) {
     return nullptr;
@@ -94,7 +95,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 char *BridgeHeader::SerializeHeaderSize(char *buf, size_t size) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   hsize header_size = GetHeaderSize();
   return SerializeBasicType<hsize, sizeof(hsize)>(&header_size, buf, size);

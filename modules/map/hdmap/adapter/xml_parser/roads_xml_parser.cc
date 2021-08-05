@@ -23,7 +23,7 @@ limitations under the License.
 
 namespace {
 bool IsRoadBelongToJunction(const std::string& road_id) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ACHECK(!road_id.empty());
   return road_id != "-1";
@@ -36,7 +36,7 @@ namespace adapter {
 
 Status RoadsXmlParser::Parse(const tinyxml2::XMLElement& xml_node,
                              std::vector<RoadInternal>* roads) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(roads);
 
@@ -88,7 +88,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void RoadsXmlParser::Parse_road_objects(const tinyxml2::XMLElement& xml_node,
                                         RoadInternal* road_info) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(road_info);
 
@@ -112,7 +112,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void RoadsXmlParser::Parse_road_signals(const tinyxml2::XMLElement& xml_node,
                                         RoadInternal* road_info) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(road_info);
 
@@ -130,7 +130,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status RoadsXmlParser::to_pb_road_type(const std::string& type,
                                        PbRoadType* pb_road_type) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(pb_road_type);
 

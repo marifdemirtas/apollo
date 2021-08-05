@@ -32,7 +32,7 @@ DEFINE_string(navigation_dummy_file,
               "Used for sending navigation result to relative_map node.");
 
 int main(int argc, char** argv) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   // Init the cyber framework

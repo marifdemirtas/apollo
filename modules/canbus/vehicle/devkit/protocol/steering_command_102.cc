@@ -29,11 +29,11 @@ const int32_t Steeringcommand102::ID = 0x102;
 
 // public
 Steeringcommand102::Steeringcommand102() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Steeringcommand102::GetPeriod() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steeringcommand102::UpdateData(uint8_t* data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_steer_en_ctrl(data, steer_en_ctrl_);
   set_p_steer_angle_target(data, steer_angle_target_);
@@ -52,7 +52,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steeringcommand102::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  you should check this manually
   steer_en_ctrl_ = Steering_command_102::STEER_EN_CTRL_DISABLE;
@@ -63,7 +63,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Steeringcommand102* Steeringcommand102::set_steer_en_ctrl(
     Steering_command_102::Steer_en_ctrlType steer_en_ctrl) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   steer_en_ctrl_ = steer_en_ctrl;
   return this;
@@ -75,7 +75,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 void Steeringcommand102::set_p_steer_en_ctrl(
     uint8_t* data, Steering_command_102::Steer_en_ctrlType steer_en_ctrl) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = steer_en_ctrl;
 
@@ -85,7 +85,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Steeringcommand102* Steeringcommand102::set_steer_angle_target(
     int steer_angle_target) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   steer_angle_target_ = steer_angle_target;
   return this;
@@ -97,7 +97,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'int'}
 void Steeringcommand102::set_p_steer_angle_target(uint8_t* data,
                                                   int steer_angle_target) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   steer_angle_target =
       ProtocolData::BoundedValue(-500, 500, steer_angle_target);
@@ -116,7 +116,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Steeringcommand102* Steeringcommand102::set_steer_angle_spd(
     int steer_angle_spd) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   steer_angle_spd_ = steer_angle_spd;
   return this;
@@ -127,7 +127,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|250]', 'physical_unit': 'deg/s', 'precision': 1.0, 'type': 'int'}
 void Steeringcommand102::set_p_steer_angle_spd(uint8_t* data,
                                                int steer_angle_spd) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   steer_angle_spd = ProtocolData::BoundedValue(0, 250, steer_angle_spd);
   int x = steer_angle_spd;
@@ -137,7 +137,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Steeringcommand102* Steeringcommand102::set_checksum_102(int checksum_102) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   checksum_102_ = checksum_102;
   return this;
@@ -147,7 +147,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'CheckSum_102', 'offset': 0.0, 'order': 'motorola', 'physical_range':
 // '[0|255]', 'physical_unit': '', 'precision': 1.0, 'type': 'int'}
 void Steeringcommand102::set_p_checksum_102(uint8_t* data, int checksum_102) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   checksum_102 = ProtocolData::BoundedValue(0, 255, checksum_102);
   int x = checksum_102;

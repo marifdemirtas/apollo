@@ -41,11 +41,11 @@ using apollo::localization::MeasureState;
 LocalizationMonitor::LocalizationMonitor()
     : RecurrentRunner(FLAGS_localization_monitor_name,
                       FLAGS_localization_monitor_interval) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationMonitor::RunOnce(const double current_time) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto manager = MonitorManager::Instance();
   auto* component = apollo::common::util::FindOrNull(

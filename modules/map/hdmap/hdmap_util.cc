@@ -31,7 +31,7 @@ namespace {
 
 // Find the first existing file from a list of candidates: "file_a|file_b|...".
 std::string FindFirstExist(const std::string& dir, const std::string& files) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::vector<std::string> candidates = absl::StrSplit(files, '|');
   for (const auto& filename : candidates) {
@@ -49,7 +49,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }  // namespace
 
 std::string BaseMapFile() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (FLAGS_use_navigation_mode) {
     AWARN << "base_map file is not used when FLAGS_use_navigation_mode is true";
@@ -60,7 +60,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string SimMapFile() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (FLAGS_use_navigation_mode) {
     AWARN << "sim_map file is not used when FLAGS_use_navigation_mode is true";
@@ -69,7 +69,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string RoutingMapFile() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (FLAGS_use_navigation_mode) {
     AWARN << "routing_map file is not used when FLAGS_use_navigation_mode is "
@@ -79,7 +79,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::unique_ptr<HDMap> CreateMap(const std::string& map_file_path) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::unique_ptr<HDMap> hdmap(new HDMap());
   if (hdmap->LoadMapFromFile(map_file_path) != 0) {
@@ -91,7 +91,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::unique_ptr<HDMap> CreateMap(const MapMsg& map_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::unique_ptr<HDMap> hdmap(new HDMap());
   if (hdmap->LoadMapFromProto(map_msg.hdmap()) != 0) {
@@ -110,7 +110,7 @@ std::unique_ptr<HDMap> HDMapUtil::sim_map_ = nullptr;
 std::mutex HDMapUtil::sim_map_mutex_;
 
 const HDMap* HDMapUtil::BaseMapPtr(const MapMsg& map_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(base_map_mutex_);
   if (base_map_ != nullptr &&
@@ -125,7 +125,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const HDMap* HDMapUtil::BaseMapPtr() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(all) Those logics should be removed to planning
   /*if (FLAGS_use_navigation_mode) {
@@ -159,11 +159,11 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const HDMap& HDMapUtil::BaseMap() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return *CHECK_NOTNULL(BaseMapPtr()); }
 
 const HDMap* HDMapUtil::SimMapPtr() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (FLAGS_use_navigation_mode) {
     return BaseMapPtr();
@@ -177,11 +177,11 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const HDMap& HDMapUtil::SimMap() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return *CHECK_NOTNULL(SimMapPtr()); }
 
 bool HDMapUtil::ReloadMaps() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   {
     std::lock_guard<std::mutex> lock(base_map_mutex_);

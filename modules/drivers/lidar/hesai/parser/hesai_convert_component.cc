@@ -24,7 +24,7 @@ namespace hesai {
 using apollo::cyber::Component;
 
 bool HesaiConvertComponent::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!GetProtoConfig(&conf_)) {
     AERROR << "load config error, file:" << config_file_path_;
@@ -47,7 +47,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool HesaiConvertComponent::Proc(const std::shared_ptr<HesaiScan>& scan) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return parser_->Parse(scan);
 }

@@ -22,7 +22,7 @@ namespace perception {
 namespace onboard {
 
 bool LidarOutputComponent::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   writer_ =
       node_->CreateWriter<PerceptionObstacles>("/apollo/perception/obstacles");
@@ -31,7 +31,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LidarOutputComponent::Proc(
     const std::shared_ptr<SensorFrameMessage>& message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<PerceptionObstacles> out_message(new PerceptionObstacles);
 

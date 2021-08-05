@@ -42,7 +42,7 @@ namespace canbus {
 namespace devkit {
 
 DevkitMessageManager::DevkitMessageManager() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Control Messages
   AddSendProtocolData<Brakecommand101, true>();
@@ -68,7 +68,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 DevkitMessageManager::~DevkitMessageManager() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 }  // namespace devkit

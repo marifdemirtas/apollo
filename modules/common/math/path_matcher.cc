@@ -35,7 +35,7 @@ namespace math {
 
 PathPoint PathMatcher::MatchToPath(const std::vector<PathPoint>& reference_line,
                                    const double x, const double y) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_GT(reference_line.size(), 0U);
 
@@ -72,7 +72,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 std::pair<double, double> PathMatcher::GetPathFrenetCoordinate(
     const std::vector<PathPoint>& reference_line, const double x,
     const double y) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto matched_path_point = MatchToPath(reference_line, x, y);
   double rtheta = matched_path_point.theta();
@@ -90,7 +90,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 PathPoint PathMatcher::MatchToPath(const std::vector<PathPoint>& reference_line,
                                    const double s) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto comp = [](const PathPoint& point, const double s) {
     return point.s() < s;
@@ -112,7 +112,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 PathPoint PathMatcher::FindProjectionPoint(const PathPoint& p0,
                                            const PathPoint& p1, const double x,
                                            const double y) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double v0x = x - p0.x();
   double v0y = y - p0.y();

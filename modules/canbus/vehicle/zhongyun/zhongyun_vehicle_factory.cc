@@ -27,14 +27,14 @@ namespace canbus {
 
 std::unique_ptr<VehicleController>
 ZhongyunVehicleFactory::CreateVehicleController() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return std::unique_ptr<VehicleController>(new zhongyun::ZhongyunController());
 }
 
 std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>
 ZhongyunVehicleFactory::CreateMessageManager() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>(
       new zhongyun::ZhongyunMessageManager());

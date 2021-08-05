@@ -24,11 +24,11 @@ namespace msf {
 LossyMapNodePool2D::LossyMapNodePool2D(unsigned int pool_size,
                                        unsigned int thread_size)
     : BaseMapNodePool(pool_size, thread_size) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapNode* LossyMapNodePool2D::AllocNewMapNode() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return new LossyMapNode2D();
 }

@@ -22,13 +22,14 @@
 #include "modules/perception/lidar/lib/segmentation/cnnseg/util.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace lidar {
 
 bool FeatureGenerator::Init(const FeatureParam& feature_param,
                             base::Blob<float>* out_blob) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // set output feature blob
   out_blob_ = out_blob;
@@ -118,7 +119,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void FeatureGenerator::GenerateCPU(const base::PointFCloudPtr& pc_ptr,
                                    const std::vector<int>& point2grid) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // DO NOT remove this line!!!
   // Otherwise, the gpu_data will not be updated for the later frames.

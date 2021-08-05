@@ -91,7 +91,7 @@ class SqliteWraper {
 }  // namespace
 
 bool KVDB::Put(std::string_view key, std::string_view value) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   SqliteWraper sqlite;
   return sqlite.SQL(
@@ -100,7 +100,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool KVDB::Delete(std::string_view key) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   SqliteWraper sqlite;
   return sqlite.SQL(
@@ -108,7 +108,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::optional<std::string> KVDB::Get(std::string_view key) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   SqliteWraper sqlite;
   std::string value;

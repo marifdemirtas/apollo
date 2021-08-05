@@ -28,19 +28,19 @@ namespace lidar {
 
 MatchCost::MatchCost(size_t ridx, size_t cidx, double cost)
     : row_idx_(ridx), col_idx_(cidx), cost_(cost) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t MatchCost::RowIdx() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return row_idx_; }
 
 size_t MatchCost::ColIdx() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return col_idx_; }
 
 double MatchCost::Cost() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return cost_; }
 
 bool operator<(const MatchCost& m1, const MatchCost& m2) {
@@ -54,7 +54,7 @@ std::ostream& operator<<(std::ostream& os, const MatchCost& m) {
 }
 
 GnnBipartiteGraphMatcher::GnnBipartiteGraphMatcher(size_t max_size) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   row_tag_.reserve(max_size);
   col_tag_.reserve(max_size);
@@ -62,7 +62,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 GnnBipartiteGraphMatcher::~GnnBipartiteGraphMatcher() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (cost_matrix_ != nullptr) {
     delete cost_matrix_;
@@ -74,7 +74,7 @@ void GnnBipartiteGraphMatcher::Match(
     std::vector<NodeNodePair>* assignments,
     std::vector<size_t>* unassigned_rows,
     std::vector<size_t>* unassigned_cols) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assignments->clear();
   unassigned_rows->clear();

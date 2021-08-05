@@ -24,7 +24,7 @@ namespace fusion {
 
 // @brief call pool instance once to initialize memory
 __attribute__((constructor)) void FusionPoolInitialize() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   TrackPool::Instance();
   AINFO << "Initialize FusionPool";

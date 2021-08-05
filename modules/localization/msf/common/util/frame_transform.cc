@@ -27,7 +27,7 @@ namespace msf {
 
 bool FrameTransform::LatlonToUtmXY(double lon_rad, double lat_rad,
                                    UTMCoor *utm_xy) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   projPJ pj_latlon;
   projPJ pj_utm;
@@ -54,7 +54,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 bool FrameTransform::UtmXYToLatlon(double x, double y, int zone, bool southhemi,
                                    WGS84Corr *latlon) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   projPJ pj_latlon;
   projPJ pj_utm;
@@ -77,7 +77,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool FrameTransform::XYZToBlh(const Vector3d &xyz, Vector3d *blh) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   projPJ pj_xyz;
   projPJ pj_blh;
@@ -101,7 +101,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return true;
 }
 bool FrameTransform::BlhToXYZ(const Vector3d &blh, Vector3d *xyz) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   projPJ pj_xyz;
   projPJ pj_blh;

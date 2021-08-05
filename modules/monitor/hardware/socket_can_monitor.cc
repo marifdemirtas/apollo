@@ -45,7 +45,7 @@ namespace {
 
 // Test Socket CAN on an open handler.
 bool SocketCanHandlerTest(const int dev_handler, std::string* message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // init config and state
   // 1. set receive message_id filter, ie white list
@@ -93,7 +93,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // Open a Socket CAN handler and test.
 bool SocketCanTest(std::string* message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const int dev_handler = socket(PF_CAN, SOCK_RAW, CAN_RAW);
   if (dev_handler < 0) {
@@ -110,11 +110,11 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 SocketCanMonitor::SocketCanMonitor()
     : RecurrentRunner(FLAGS_socket_can_monitor_name,
                       FLAGS_socket_can_monitor_interval) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SocketCanMonitor::RunOnce(const double current_time) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto manager = MonitorManager::Instance();
   Component* component = apollo::common::util::FindOrNull(

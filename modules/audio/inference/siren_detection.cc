@@ -29,13 +29,13 @@ namespace apollo {
 namespace audio {
 
 SirenDetection::SirenDetection() : device_(torch::kCPU) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LoadModel();
 }
 
 bool SirenDetection::Evaluate(const std::vector<std::vector<double>>& signals) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Sanity checks.
   omp_set_num_threads(1);
@@ -88,7 +88,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SirenDetection::LoadModel() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (torch::cuda::is_available()) {
     AINFO << "CUDA is available";

@@ -19,13 +19,14 @@
 #include "cyber/common/file.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {
 
 bool TrackingFeatureExtractor::Init(
     const FeatureExtractorInitOptions &init_options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   //  setup bottom and top
   int feat_height = init_options.feat_blob->shape(2);
@@ -68,7 +69,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void TrackingFeatureExtractor::init_roipooling(
     const FeatureExtractorInitOptions &options,
     const tracking_feature::ROIPoolingParam &param) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int feat_channel = options.feat_blob->shape(1);
   feat_height_ = options.feat_blob->shape(2);
@@ -91,7 +92,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool TrackingFeatureExtractor::Extract(const FeatureExtractorOptions &options,
                                        CameraFrame *frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frame == nullptr) {
     return false;

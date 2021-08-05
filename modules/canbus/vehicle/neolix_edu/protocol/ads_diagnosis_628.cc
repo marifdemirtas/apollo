@@ -29,11 +29,11 @@ const int32_t Adsdiagnosis628::ID = 0x628;
 
 // public
 Adsdiagnosis628::Adsdiagnosis628() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Adsdiagnosis628::GetPeriod() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Adsdiagnosis628::UpdateData(uint8_t* data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_faultrank(data, faultrank_);
   set_p_adas_fault_code(data, adas_fault_code_);
@@ -50,7 +50,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Adsdiagnosis628::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  you should check this manually
   faultrank_ = 0;
@@ -60,7 +60,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Adsdiagnosis628* Adsdiagnosis628::set_faultrank(int faultrank) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   faultrank_ = faultrank;
   return this;
@@ -72,7 +72,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_range': '[0|5]', 'bit': 7, 'type': 'int', 'order': 'motorola',
 // 'physical_unit': 'bit'}
 void Adsdiagnosis628::set_p_faultrank(uint8_t* data, int faultrank) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   faultrank = ProtocolData::BoundedValue(0, 5, faultrank);
   int x = faultrank;
@@ -82,7 +82,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Adsdiagnosis628* Adsdiagnosis628::set_adas_fault_code(int adas_fault_code) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   adas_fault_code_ = adas_fault_code;
   return this;
@@ -93,7 +93,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsdiagnosis628::set_p_adas_fault_code(uint8_t* data,
                                             int adas_fault_code) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   adas_fault_code = ProtocolData::BoundedValue(0, 65535, adas_fault_code);
   int x = adas_fault_code;
@@ -121,7 +121,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adsdiagnosis628* Adsdiagnosis628::set_adas_softwareversion(
     int adas_softwareversion) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   adas_softwareversion_ = adas_softwareversion;
   return this;
@@ -133,7 +133,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit'}
 void Adsdiagnosis628::set_p_adas_softwareversion(uint8_t* data,
                                                  int adas_softwareversion) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   adas_softwareversion =
       ProtocolData::BoundedValue(0, 255, adas_softwareversion);
@@ -145,7 +145,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adsdiagnosis628* Adsdiagnosis628::set_adas_hardwareversion(
     int adas_hardwareversion) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   adas_hardwareversion_ = adas_hardwareversion;
   return this;
@@ -157,7 +157,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit'}
 void Adsdiagnosis628::set_p_adas_hardwareversion(uint8_t* data,
                                                  int adas_hardwareversion) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   adas_hardwareversion =
       ProtocolData::BoundedValue(0, 255, adas_hardwareversion);

@@ -34,7 +34,7 @@ uint32_t SegmentationComponent::s_seq_num_ = 0;
 std::mutex SegmentationComponent::s_mutex_;
 
 bool SegmentationComponent::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LidarSegmentationComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
@@ -59,7 +59,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool SegmentationComponent::Proc(
     const std::shared_ptr<drivers::PointCloud>& message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << std::setprecision(16)
         << "Enter segmentation component, message timestamp: "
@@ -78,7 +78,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SegmentationComponent::InitAlgorithmPlugin() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ACHECK(common::SensorManager::Instance()->GetSensorInfo(sensor_name_,
                                                           &sensor_info_));
@@ -106,7 +106,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool SegmentationComponent::InternalProc(
     const std::shared_ptr<const drivers::PointCloud>& in_message,
     const std::shared_ptr<LidarFrameMessage>& out_message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   PERF_FUNCTION_WITH_INDICATOR(sensor_name_);
   {

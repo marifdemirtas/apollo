@@ -22,38 +22,38 @@ namespace benchmark {
 
 /**LidarSupplement implementation*/
 LidarSupplement::LidarSupplement() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LidarSupplement::~LidarSupplement() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LidarSupplement::LidarSupplement(const LidarSupplement& rhs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LidarSupplement& LidarSupplement::operator=(const LidarSupplement& rhs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return (*this);
 }
 
 void LidarSupplement::clone(const LidarSupplement& rhs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 /**RadarSupplement implementation*/
 RadarSupplement::RadarSupplement() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 RadarSupplement::~RadarSupplement() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 RadarSupplement::RadarSupplement(const RadarSupplement& rhs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   range = rhs.range;
   angle = rhs.angle;
@@ -62,7 +62,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 RadarSupplement& RadarSupplement::operator=(const RadarSupplement& rhs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   range = rhs.range;
   angle = rhs.angle;
@@ -72,7 +72,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RadarSupplement::clone(const RadarSupplement& rhs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   range = rhs.range;
   angle = rhs.angle;
@@ -82,22 +82,22 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 /**CameraSupplement implementation*/
 CameraSupplement::CameraSupplement() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 CameraSupplement::~CameraSupplement() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 CameraSupplement::CameraSupplement(const CameraSupplement& rhs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;
 }
 
 CameraSupplement& CameraSupplement::operator=(const CameraSupplement& rhs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;
@@ -105,7 +105,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CameraSupplement::clone(const CameraSupplement& rhs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;

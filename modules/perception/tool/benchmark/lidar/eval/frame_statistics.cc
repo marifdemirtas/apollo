@@ -28,7 +28,7 @@ bool FrameStatistics::_s_roi_is_main_lanes = false;
 
 double cal_point_based_jaccard_index(unsigned int n1, unsigned int n2,
                                      unsigned int overlap) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (n1 + n2 <= overlap) {
     return 0;
@@ -37,25 +37,25 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void FrameStatistics::set_jaccard_index_threshold(double threshold) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _s_jaccard_index_threshold = threshold;
 }
 
 void FrameStatistics::set_jaccard_index_percentile(double percentile) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _s_jaccard_index_percentile = percentile;
 }
 
 void FrameStatistics::set_roi_is_main_lanes(bool value) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _s_roi_is_main_lanes = value;
 }
 
 double FrameStatistics::jaccard_index_percentile() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (_jaccard_indices.empty()) {
     return 0.0;
@@ -71,7 +71,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool FrameStatistics::find_association() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::size_t objects_num = objects.size();
   std::size_t gt_objects_num = gt_objects.size();
@@ -228,7 +228,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return true;
 }
 bool FrameStatistics::cal_meta_statistics() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _meta_stat.reset();
   std::vector<unsigned int> gt_object_range_indices(_gt_object_position.size(),

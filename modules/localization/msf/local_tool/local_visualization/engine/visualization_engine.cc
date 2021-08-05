@@ -42,7 +42,7 @@ const char car_img_path[3][1024] = {
 
 // =================VisualizationEngine=================
 bool MapImageKey::operator<(const MapImageKey &key) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Compare elements by priority.
   return std::forward_as_tuple(level, zone_id, node_north_id, node_east_id) <
@@ -52,7 +52,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // =================MapImageCache=================
 bool MapImageCache::Get(const MapImageKey &key, cv::Mat *image) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto found_iter = _map.find(key);
   if (found_iter == _map.end()) {
@@ -65,7 +65,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MapImageCache::Set(const MapImageKey &key, const cv::Mat &image) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto found_iter = _map.find(key);
   if (found_iter != _map.end()) {
@@ -91,7 +91,7 @@ VisualizationEngine::VisualizationEngine()
       image_window_(1024, 1024, CV_8UC3, cv::Scalar(0, 0, 0)),
       big_window_(3072, 3072, CV_8UC3),
       tips_window_(48, 1024, CV_8UC3, cv::Scalar(0, 0, 0)) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool VisualizationEngine::Init(const std::string &map_folder,
@@ -101,7 +101,7 @@ bool VisualizationEngine::Init(const std::string &map_folder,
                                const int zone_id,
                                const Eigen::Affine3d &extrinsic,
                                const unsigned int loc_info_num) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_folder_ = map_folder;
   map_visual_folder_ = map_visual_folder;
@@ -155,7 +155,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void VisualizationEngine::Visualize(
     ::apollo::common::EigenVector<LocalizatonInfo> &&loc_infos,
     const ::apollo::common::EigenVector3dVec &cloud) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!is_init_) {
     AERROR << "Visualziation should be init first.";
@@ -187,14 +187,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VisualizationEngine::SetAutoPlay(bool auto_play) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto_play_ = auto_play;
 }
 
 void VisualizationEngine::Preprocess(const std::string &map_folder,
                                      const std::string &map_visual_folder) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string image_path = map_folder_ + "/image";
   std::string image_visual_path = map_visual_folder;
@@ -251,7 +251,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VisualizationEngine::Draw() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   UpdateLevel();
 
@@ -319,7 +319,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VisualizationEngine::DrawTrajectory(const cv::Point &bias) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Draw trajectory.";
   if (cur_level_ == 0 && is_draw_trajectory_) {
@@ -373,7 +373,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VisualizationEngine::DrawLoc(const cv::Point &bias) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Draw loc.";
   if (cur_level_ == 0) {
@@ -440,7 +440,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VisualizationEngine::DrawStd(const cv::Point &bias) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Draw std.";
   if (cur_level_ == 0 && is_draw_std_) {
@@ -476,7 +476,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VisualizationEngine::DrawCloud(const cv::Point &bias) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!cur_loc_infos_[car_loc_id_].is_has_attitude) {
     return;
@@ -500,7 +500,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VisualizationEngine::DrawLegend() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Draw legend.";
   int fontFace = cv::FONT_HERSHEY_SIMPLEX;
@@ -532,7 +532,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VisualizationEngine::DrawInfo() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Draw info.";
   LocalizatonInfo &loc_info = cur_loc_infos_[car_loc_id_];
@@ -564,7 +564,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VisualizationEngine::DrawTips() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Draw tips.";
 
@@ -602,7 +602,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VisualizationEngine::UpdateLevel() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (cur_scale_ > max_stride_ * 1.5) {
     SetScale(max_stride_ * 1.5);
@@ -624,7 +624,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void VisualizationEngine::GenerateMutiResolutionImages(
     const std::vector<std::string> &src_files, const int base_path_length,
     const std::string &dst_folder) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x_min = std::numeric_limits<int>::max();
   int x_max = -1;
@@ -716,7 +716,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool VisualizationEngine::InitOtherParams(const std::string &params_file) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x_min = 0;
   int y_min = 0;
@@ -747,7 +747,7 @@ void VisualizationEngine::InitOtherParams(const int x_min, const int y_min,
                                           const int x_max, const int y_max,
                                           const int level,
                                           const std::string &path) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   lt_node_index_.x = x_min;
   lt_node_index_.y = y_min;
@@ -777,7 +777,7 @@ void VisualizationEngine::CloudToMat(
     const Eigen::Affine3d &cur_pose, const Eigen::Affine3d &velodyne_extrinsic,
     const ::apollo::common::EigenVector3dVec &cloud, cv::Mat *cloud_img,
     cv::Mat *cloud_img_mask) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int img_width = map_param_.map_node_size_x;
   unsigned int img_height = map_param_.map_node_size_y;
@@ -814,7 +814,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void VisualizationEngine::CoordToImageKey(const Eigen::Vector2d &coord,
                                           MapImageKey *key) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   key->level = cur_level_;
 
@@ -857,7 +857,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 cv::Point VisualizationEngine::CoordToMapGridIndex(
     const Eigen::Vector2d &coord, const unsigned int resolution_id,
     const int stride) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Point p;
   p.x = static_cast<int>((coord[0] - map_param_.map_min_x) /
@@ -875,7 +875,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 cv::Point VisualizationEngine::MapGridIndexToNodeGridIndex(const cv::Point &p) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Point pi;
   pi.x = p.x % map_param_.map_node_size_x;
@@ -887,7 +887,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool VisualizationEngine::LoadImageToCache(const MapImageKey &key) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Mat img;
 
@@ -910,7 +910,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void VisualizationEngine::RotateImg(const cv::Mat &in_img, cv::Mat *out_img,
                                     double angle) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int width = (in_img.cols > in_img.rows) ? in_img.cols : in_img.rows;
   width += 4;
@@ -927,7 +927,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void VisualizationEngine::SetViewCenter(const double center_x,
                                         const double center_y) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _view_center[0] = center_x;
   _view_center[1] = center_y;
@@ -935,24 +935,24 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void VisualizationEngine::UpdateViewCenter(const double move_x,
                                            const double move_y) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _view_center[0] += move_x;
   _view_center[1] += move_y;
 }
 
 void VisualizationEngine::SetScale(const double scale) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  cur_scale_ = scale; }
 
 void VisualizationEngine::UpdateScale(const double factor) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cur_scale_ *= factor;
 }
 
 bool VisualizationEngine::UpdateCarLocId() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (unsigned int i = 0; i < loc_info_num_ - 1; i++) {
     unsigned int tem_car_loc_id = (car_loc_id_ + i + 1) % loc_info_num_;
@@ -966,7 +966,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool VisualizationEngine::UpdateCarLocId(const unsigned int car_loc_id) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (car_loc_id >= loc_info_num_) {
     return false;
@@ -982,7 +982,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool VisualizationEngine::UpdateTrajectoryGroups() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (unsigned int i = 0; i < loc_info_num_; i++) {
     if (cur_loc_infos_[i].is_valid) {
@@ -999,7 +999,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VisualizationEngine::ProcessKey(int key) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const int move = 20;
   char c_key = static_cast<char>(key);

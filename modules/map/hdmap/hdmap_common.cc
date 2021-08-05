@@ -41,7 +41,7 @@ constexpr double kDuplicatedPointsEpsilon = 1e-7;
 constexpr double kEpsilon = 0.1;
 
 void RemoveDuplicates(std::vector<Vec2d> *points) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   RETURN_IF_NULL(points);
 
@@ -56,7 +56,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PointsFromCurve(const Curve &input_curve, std::vector<Vec2d> *points) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   RETURN_IF_NULL(points);
   points->clear();
@@ -74,7 +74,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 apollo::common::math::Polygon2d ConvertToPolygon2d(const Polygon &polygon) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<Vec2d> points;
   points.reserve(polygon.point_size());
@@ -92,7 +92,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void SegmentsFromCurve(
     const Curve &curve,
     std::vector<apollo::common::math::LineSegment2d> *segments) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   RETURN_IF_NULL(segments);
 
@@ -104,7 +104,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PointENU PointFromVec2d(const Vec2d &point) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   PointENU pt;
   pt.set_x(point.x());
@@ -115,11 +115,11 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }  // namespace
 
 LaneInfo::LaneInfo(const Lane &lane) : lane_(lane) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Init(); }
 
 void LaneInfo::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   PointsFromCurve(lane_.central_curve(), &points_);
   CHECK_GE(points_.size(), 2U);
@@ -198,7 +198,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LaneInfo::GetWidth(const double s, double *left_width,
                         double *right_width) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (left_width != nullptr) {
     *left_width = GetWidthFromSample(sampled_left_width_, s);
@@ -209,7 +209,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double LaneInfo::Heading(const double s) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double kEpsilon = 0.001;
   if (s + kEpsilon < accumulated_s_.front()) {
@@ -231,7 +231,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double LaneInfo::Curvature(const double s) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (points_.size() < 2U) {
     AERROR << "Not enough points to compute curvature.";
@@ -262,7 +262,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double LaneInfo::GetWidth(const double s) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double left_width = 0.0;
   double right_width = 0.0;
@@ -271,7 +271,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double LaneInfo::GetEffectiveWidth(const double s) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double left_width = 0.0;
   double right_width = 0.0;
@@ -281,7 +281,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LaneInfo::GetRoadWidth(const double s, double *left_width,
                             double *right_width) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (left_width != nullptr) {
     *left_width = GetWidthFromSample(sampled_left_road_width_, s);
@@ -292,7 +292,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double LaneInfo::GetRoadWidth(const double s) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double left_width = 0.0;
   double right_width = 0.0;
@@ -302,7 +302,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double LaneInfo::GetWidthFromSample(
     const std::vector<LaneInfo::SampledWidth> &samples, const double s) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (samples.empty()) {
     return 0.0;
@@ -330,7 +330,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool LaneInfo::IsOnLane(const Vec2d &point) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double accumulate_s = 0.0;
   double lateral = 0.0;
@@ -353,7 +353,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool LaneInfo::IsOnLane(const apollo::common::math::Box2d &box) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<Vec2d> corners;
   box.GetAllCorners(&corners);
@@ -366,7 +366,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PointENU LaneInfo::GetSmoothPoint(double s) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   PointENU point;
   RETURN_VAL_IF(points_.size() < 2, point);
@@ -393,7 +393,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double LaneInfo::DistanceTo(const Vec2d &point) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto segment_box = lane_segment_kdtree_->GetNearestObject(point);
   RETURN_VAL_IF_NULL(segment_box, 0.0);
@@ -402,7 +402,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double LaneInfo::DistanceTo(const Vec2d &point, Vec2d *map_point,
                             double *s_offset, int *s_offset_index) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   RETURN_VAL_IF_NULL(map_point, 0.0);
   RETURN_VAL_IF_NULL(s_offset, 0.0);
@@ -419,7 +419,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PointENU LaneInfo::GetNearestPoint(const Vec2d &point, double *distance) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   PointENU empty_point;
   RETURN_VAL_IF_NULL(distance, empty_point);
@@ -435,7 +435,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LaneInfo::GetProjection(const Vec2d &point, double *accumulate_s,
                              double *lateral) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   RETURN_VAL_IF_NULL(accumulate_s, false);
   RETURN_VAL_IF_NULL(lateral, false);
@@ -480,13 +480,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LaneInfo::PostProcess(const HDMapImpl &map_instance) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   UpdateOverlaps(map_instance);
 }
 
 void LaneInfo::UpdateOverlaps(const HDMapImpl &map_instance) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto &overlap_id : overlap_ids_) {
     const auto &overlap_ptr =
@@ -536,7 +536,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LaneInfo::CreateKDTree() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   apollo::common::math::AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
@@ -553,13 +553,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 JunctionInfo::JunctionInfo(const Junction &junction) : junction_(junction) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Init();
 }
 
 void JunctionInfo::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   polygon_ = ConvertToPolygon2d(junction_.polygon());
   CHECK_GT(polygon_.num_points(), 2);
@@ -570,13 +570,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void JunctionInfo::PostProcess(const HDMapImpl &map_instance) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   UpdateOverlaps(map_instance);
 }
 
 void JunctionInfo::UpdateOverlaps(const HDMapImpl &map_instance) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto &overlap_id : overlap_ids_) {
     const auto &overlap_ptr = map_instance.GetOverlapById(overlap_id);
@@ -598,11 +598,11 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 SignalInfo::SignalInfo(const Signal &signal) : signal_(signal) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Init(); }
 
 void SignalInfo::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto &stop_line : signal_.stop_line()) {
     SegmentsFromCurve(stop_line, &segments_);
@@ -618,26 +618,26 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 CrosswalkInfo::CrosswalkInfo(const Crosswalk &crosswalk)
     : crosswalk_(crosswalk) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Init();
 }
 
 void CrosswalkInfo::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   polygon_ = ConvertToPolygon2d(crosswalk_.polygon());
   CHECK_GT(polygon_.num_points(), 2);
 }
 
 StopSignInfo::StopSignInfo(const StopSign &stop_sign) : stop_sign_(stop_sign) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   init();
 }
 
 void StopSignInfo::init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto &stop_line : stop_sign_.stop_line()) {
     SegmentsFromCurve(stop_line, &segments_);
@@ -650,13 +650,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void StopSignInfo::PostProcess(const HDMapImpl &map_instance) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   UpdateOverlaps(map_instance);
 }
 
 void StopSignInfo::UpdateOverlaps(const HDMapImpl &map_instance) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto &overlap_id : overlap_ids_) {
     const auto &overlap_ptr = map_instance.GetOverlapById(overlap_id);
@@ -684,13 +684,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 YieldSignInfo::YieldSignInfo(const YieldSign &yield_sign)
     : yield_sign_(yield_sign) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Init();
 }
 
 void YieldSignInfo::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto &stop_line : yield_sign_.stop_line()) {
     SegmentsFromCurve(stop_line, &segments_);
@@ -701,13 +701,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 ClearAreaInfo::ClearAreaInfo(const ClearArea &clear_area)
     : clear_area_(clear_area) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Init();
 }
 
 void ClearAreaInfo::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   polygon_ = ConvertToPolygon2d(clear_area_.polygon());
   CHECK_GT(polygon_.num_points(), 2);
@@ -715,13 +715,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 SpeedBumpInfo::SpeedBumpInfo(const SpeedBump &speed_bump)
     : speed_bump_(speed_bump) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Init();
 }
 
 void SpeedBumpInfo::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto &stop_line : speed_bump_.position()) {
     SegmentsFromCurve(stop_line, &segments_);
@@ -730,11 +730,11 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 OverlapInfo::OverlapInfo(const Overlap &overlap) : overlap_(overlap) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const ObjectOverlapInfo *OverlapInfo::GetObjectOverlapInfo(const Id &id) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto &object : overlap_.object()) {
     if (object.id().id() == id.id()) {
@@ -745,7 +745,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 RoadInfo::RoadInfo(const Road &road) : road_(road) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const auto &section : road_.section()) {
     sections_.push_back(section);
@@ -754,20 +754,20 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const std::vector<RoadBoundary> &RoadInfo::GetBoundaries() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return road_boundaries_;
 }
 
 ParkingSpaceInfo::ParkingSpaceInfo(const ParkingSpace &parking_space)
     : parking_space_(parking_space) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Init();
 }
 
 void ParkingSpaceInfo::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   polygon_ = ConvertToPolygon2d(parking_space_.polygon());
   CHECK_GT(polygon_.num_points(), 2);
@@ -775,13 +775,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 PNCJunctionInfo::PNCJunctionInfo(const PNCJunction &pnc_junction)
     : junction_(pnc_junction) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Init();
 }
 
 void PNCJunctionInfo::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   polygon_ = ConvertToPolygon2d(junction_.polygon());
   CHECK_GT(polygon_.num_points(), 2);
@@ -792,7 +792,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 RSUInfo::RSUInfo(const RSU &rsu) : _rsu(rsu) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 }  // namespace hdmap

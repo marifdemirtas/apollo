@@ -25,14 +25,14 @@ namespace apollo {
 namespace localization {
 namespace msf {
 PosesInterpolation::PosesInterpolation() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool PosesInterpolation::Init(const std::string &input_poses_path,
                               const std::string &ref_timestamps_path,
                               const std::string &out_poses_path,
                               const std::string &extrinsic_path) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   this->input_poses_path_ = input_poses_path;
   this->ref_timestamps_path_ = ref_timestamps_path;
@@ -49,7 +49,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PosesInterpolation::DoInterpolation() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Load input poses
   ::apollo::common::EigenVector3dVec input_stds;
@@ -69,7 +69,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PosesInterpolation::LoadPCDTimestamp() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   FILE *file = fopen(ref_timestamps_path_.c_str(), "r");
   if (file) {
@@ -87,7 +87,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PosesInterpolation::WritePCDPoses() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::ofstream fout;
   fout.open(out_poses_path_.c_str(), std::ofstream::out);
@@ -124,7 +124,7 @@ void PosesInterpolation::PoseInterpolationByTime(
     const std::vector<unsigned int> &ref_indexes,
     std::vector<unsigned int> *out_indexes, std::vector<double> *out_timestamps,
     ::apollo::common::EigenAffine3dVec *out_poses) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   out_indexes->clear();
   out_timestamps->clear();

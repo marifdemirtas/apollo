@@ -26,7 +26,7 @@ namespace fusion {
 
 bool GetFusionInitOptions(const std::string& module_name,
                           BaseInitOptions* options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(options);
   const lib::ModelConfig* model_config = nullptr;

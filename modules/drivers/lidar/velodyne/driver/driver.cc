@@ -33,7 +33,7 @@ namespace velodyne {
 uint64_t VelodyneDriver::sync_counter = 0;
 
 VelodyneDriver::~VelodyneDriver() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (poll_thread_.joinable()) {
     poll_thread_.join();
@@ -44,7 +44,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool VelodyneDriver::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double frequency = (config_.rpm() / 60.0);  // expected Hz rate
 
@@ -70,7 +70,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void VelodyneDriver::SetBaseTimeFromNmeaTime(NMEATimePtr nmea_time,
                                              uint64_t* basetime) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   struct tm time;
   std::memset(&time, 0, sizeof(tm));
@@ -91,7 +91,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool VelodyneDriver::SetBaseTime() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   NMEATimePtr nmea_time(new NMEATime);
   while (true) {
@@ -114,7 +114,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  *  @returns true unless end of file reached
  */
 bool VelodyneDriver::Poll(const std::shared_ptr<VelodyneScan>& scan) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Allocate a new shared pointer for zero-copy sharing with other nodelets.
   if (basetime_ == 0) {
@@ -153,7 +153,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int VelodyneDriver::PollStandard(std::shared_ptr<VelodyneScan> scan) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Since the velodyne delivers data at a very high rate, keep reading and
   // publishing scans as fast as possible.
@@ -186,7 +186,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VelodyneDriver::PollPositioningPacket(void) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   while (!cyber::IsShutdown()) {
     NMEATimePtr nmea_time(new NMEATime);
@@ -226,7 +226,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VelodyneDriver::UpdateGpsTopHour(uint32_t current_time) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (last_gps_time_ == 0) {
     last_gps_time_ = current_time;
@@ -304,7 +304,7 @@ VelodyneDriver* VelodyneDriverFactory::CreateDriver(
 }
 
 void VelodyneDriver::DevicePoll() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   while (!apollo::cyber::IsShutdown()) {
     // poll device until end of file

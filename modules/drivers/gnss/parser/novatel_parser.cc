@@ -67,7 +67,7 @@ constexpr bool is_zero(T value) {
 
 // CRC algorithm from the NovAtel document.
 inline uint32_t crc32_word(uint32_t word) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (int j = 0; j < 8; ++j) {
     if (word & 1) {
@@ -80,7 +80,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 inline uint32_t crc32_block(const uint8_t* buffer, size_t length) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint32_t word = 0;
   while (length--) {
@@ -94,7 +94,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // Converts NovAtel's azimuth (north = 0, east = 90) to FLU yaw (east = 0, north
 // = pi/2).
 constexpr double azimuth_deg_to_yaw_rad(double azimuth) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return (90.0 - azimuth) * DEG_TO_RAD;
 }
@@ -103,7 +103,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // measurements.
 inline void rfu_to_flu(double r, double f, double u,
                        ::apollo::common::Point3D* flu) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   flu->set_x(f);
   flu->set_y(-r);
@@ -202,13 +202,13 @@ class NovatelParser : public Parser {
 };
 
 Parser* Parser::CreateNovatel(const config::Config& config) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return new NovatelParser(config);
 }
 
 NovatelParser::NovatelParser() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   buffer_.reserve(BUFFER_SIZE);
   ins_.mutable_position_covariance()->Resize(9, FLOAT_NAN);
@@ -221,7 +221,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 NovatelParser::NovatelParser(const config::Config& config) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   buffer_.reserve(BUFFER_SIZE);
   ins_.mutable_position_covariance()->Resize(9, FLOAT_NAN);
@@ -238,7 +238,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Parser::MessageType NovatelParser::GetMessage(MessagePtr* message_ptr) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (data_ == nullptr) {
     return MessageType::NONE;
@@ -305,7 +305,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NovatelParser::check_crc() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t l = buffer_.size() - novatel::CRC_LENGTH;
   return crc32_block(buffer_.data(), l) ==
@@ -313,7 +313,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!check_crc()) {
     AERROR << "CRC check failed.";
@@ -521,7 +521,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool NovatelParser::HandleGnssBestpos(const novatel::BestPos* pos,
                                       uint16_t gps_week,
                                       uint32_t gps_millisecs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   bestpos_.set_sol_status(
       static_cast<apollo::drivers::gnss::SolutionStatus>(pos->solution_status));
@@ -555,7 +555,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool NovatelParser::HandleBestPos(const novatel::BestPos* pos,
                                   uint16_t gps_week, uint32_t gps_millisecs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gnss_.mutable_position()->set_lon(pos->longitude);
   gnss_.mutable_position()->set_lat(pos->latitude);
@@ -638,7 +638,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool NovatelParser::HandleBestVel(const novatel::BestVel* vel,
                                   uint16_t gps_week, uint32_t gps_millisecs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (velocity_type_ != vel->velocity_type) {
     velocity_type_ = vel->velocity_type;
@@ -663,7 +663,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NovatelParser::HandleCorrImuData(const novatel::CorrImuData* imu) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   rfu_to_flu(imu->x_velocity_change * imu_measurement_hz_,
              imu->y_velocity_change * imu_measurement_hz_,
@@ -685,7 +685,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NovatelParser::HandleInsCov(const novatel::InsCov* cov) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (int i = 0; i < 9; ++i) {
     ins_.set_position_covariance(
@@ -700,7 +700,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NovatelParser::HandleInsPva(const novatel::InsPva* pva) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (ins_status_ != pva->status) {
     ins_status_ = pva->status;
@@ -742,7 +742,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool NovatelParser::HandleInsPvax(const novatel::InsPvaX* pvax,
                                   uint16_t gps_week, uint32_t gps_millisecs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double seconds = gps_week * SECONDS_PER_WEEK + gps_millisecs * 1e-3;
   double unix_sec = apollo::drivers::util::gps2unix(seconds);
@@ -753,7 +753,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NovatelParser::HandleRawImuX(const novatel::RawImuX* imu) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (imu->imu_error != 0) {
     AWARN << "IMU error. Status: " << std::hex << std::showbase
@@ -817,7 +817,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NovatelParser::HandleRawImu(const novatel::RawImu* imu) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double gyro_scale = 0.0;
   double accel_scale = 0.0;
@@ -880,7 +880,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NovatelParser::HandleGpsEph(const novatel::GPS_Ephemeris* gps_emph) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gnss_ephemeris_.set_gnss_type(apollo::drivers::gnss::GnssType::GPS_SYS);
 
@@ -921,7 +921,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NovatelParser::HandleBdsEph(const novatel::BDS_Ephemeris* bds_emph) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gnss_ephemeris_.set_gnss_type(apollo::drivers::gnss::GnssType::BDS_SYS);
 
@@ -962,7 +962,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NovatelParser::HandleGloEph(const novatel::GLO_Ephemeris* glo_emph) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gnss_ephemeris_.set_gnss_type(apollo::drivers::gnss::GnssType::GLO_SYS);
 
@@ -1004,7 +1004,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool NovatelParser::HandleHeading(const novatel::Heading* heading,
                                   uint16_t gps_week, uint32_t gps_millisecs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   heading_.set_solution_status(static_cast<uint32_t>(heading->solution_status));
   heading_.set_position_type(static_cast<uint32_t>(heading->position_type));
@@ -1029,7 +1029,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void NovatelParser::SetObservationTime() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int week = 0;
   double second = time2gpst(raw_.time, &week);
@@ -1040,7 +1040,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool NovatelParser::DecodeGnssObservation(const uint8_t* obs_data,
                                           const uint8_t* obs_data_end) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   while (obs_data < obs_data_end) {
     const int status = input_oem4(&raw_, *obs_data++);

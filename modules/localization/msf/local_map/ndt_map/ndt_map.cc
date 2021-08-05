@@ -22,17 +22,17 @@ namespace localization {
 namespace msf {
 
 NdtMap::NdtMap(NdtMapConfig* config) : BaseMap(config) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 NdtMap::~NdtMap() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void NdtMap::PreloadMapArea(const Eigen::Vector3d& location,
                             const Eigen::Vector3d& trans_diff,
                             unsigned int resolution_id, unsigned int zone_id) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   BaseMap::PreloadMapArea(location, trans_diff, resolution_id, zone_id);
 }
@@ -40,7 +40,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool NdtMap::LoadMapArea(const Eigen::Vector3d& seed_pt3d,
                          unsigned int resolution_id, unsigned int zone_id,
                          int filter_size_x, int filter_size_y) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   BaseMap::LoadMapArea(seed_pt3d, resolution_id, zone_id, filter_size_x,
                        filter_size_y);

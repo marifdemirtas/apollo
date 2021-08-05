@@ -20,8 +20,10 @@
 #include "modules/common/math/sin_table.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace common {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace math {
 
@@ -48,25 +50,25 @@ float cos(Angle16 a) {
 }
 
 float tan(Angle16 a) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return sin(a) / cos(a); }
 
 float sin(Angle8 a) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Angle16 b(static_cast<int16_t>(a.raw() << 8));
   return sin(b);
 }
 
 float cos(Angle8 a) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Angle16 b(static_cast<int16_t>(a.raw() << 8));
   return cos(b);
 }
 
 float tan(Angle8 a) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Angle16 b(static_cast<int16_t>(a.raw() << 8));
   return tan(b);

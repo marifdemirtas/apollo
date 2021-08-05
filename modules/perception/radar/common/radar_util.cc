@@ -17,12 +17,13 @@
 #include "modules/perception/radar/common/radar_util.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace radar {
 
 void MockRadarPolygon(base::ObjectPtr object) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double theta = object->theta;
   const auto& center = object->center;

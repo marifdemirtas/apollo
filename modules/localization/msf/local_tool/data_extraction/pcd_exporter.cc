@@ -27,7 +27,7 @@ namespace localization {
 namespace msf {
 
 PCDExporter::PCDExporter(const std::string &pcd_folder) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pcd_folder_ = pcd_folder;
   std::string stamp_file = pcd_folder_ + "/pcd_timestamp.txt";
@@ -38,7 +38,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PCDExporter::~PCDExporter() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (stamp_file_handle_ != nullptr) {
     fclose(stamp_file_handle_);
@@ -46,7 +46,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PCDExporter::CompensatedPcdCallback(const std::string &msg_string) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Compensated pcd callback.";
   drivers::PointCloud msg;
@@ -67,7 +67,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void PCDExporter::WritePcdFile(const std::string &filename,
                                const drivers::PointCloud &msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pcl::PointCloud<velodyne::PointXYZIT> cloud;
   cloud.width = msg.width();

@@ -42,21 +42,21 @@ using apollo::planning::ADCTrajectory;
 
 PreprocessorSubmodule::PreprocessorSubmodule()
     : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PreprocessorSubmodule::~PreprocessorSubmodule() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string PreprocessorSubmodule::Name() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return FLAGS_preprocessor_submodule_name;
 }
 
 bool PreprocessorSubmodule::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   injector_ = std::make_shared<DependencyInjector>();
   ACHECK(cyber::common::GetProtoFromFile(FLAGS_control_common_conf_file,
@@ -73,7 +73,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool PreprocessorSubmodule::Proc(const std::shared_ptr<LocalView> &local_view) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ADEBUG << "Preprocessor started ....";
   const auto start_time = Clock::Now();
@@ -131,7 +131,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status PreprocessorSubmodule::ProducePreprocessorStatus(
     Preprocessor *control_preprocessor) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(SJiang): rename this function since local view got changed in this
   // function.
@@ -221,7 +221,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status PreprocessorSubmodule::CheckInput(LocalView *local_view) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ADEBUG << "Received localization:"
          << local_view->localization().ShortDebugString();
@@ -254,7 +254,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status PreprocessorSubmodule::CheckTimestamp(const LocalView &local_view) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!control_common_conf_.enable_input_timestamp_check() ||
       control_common_conf_.is_control_test_mode()) {

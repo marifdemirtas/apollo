@@ -35,7 +35,7 @@ PointENU operator+(const PointENU enu, const math::Vec2d& xy) {
 PathPoint GetWeightedAverageOfTwoPathPoints(const PathPoint& p1,
                                             const PathPoint& p2,
                                             const double w1, const double w2) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   PathPoint p;
   p.set_x(p1.x() * w1 + p2.x() * w2);

@@ -27,13 +27,13 @@ namespace ge3 {
 using ::apollo::drivers::canbus::Byte;
 
 Scubcm304::Scubcm304() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Scubcm304::ID = 0x304;
 
 void Scubcm304::Parse(const std::uint8_t* bytes, int32_t length,
                       ChassisDetail* chassis) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_ge3()->mutable_scu_bcm_304()->set_bcm_vehreversest(
       bcm_vehreversest(bytes, length));
@@ -68,7 +68,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': '-'}
 Scu_bcm_304::Bcm_vehreversestType Scubcm304::bcm_vehreversest(
     const std::uint8_t* bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(3, 1);
@@ -85,7 +85,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': '-'}
 Scu_bcm_304::Bcm_rightturnlampstType Scubcm304::bcm_rightturnlampst(
     const std::uint8_t* bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 1);
@@ -102,7 +102,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': '-'}
 Scu_bcm_304::Bcm_rearfoglampstType Scubcm304::bcm_rearfoglampst(
     const std::uint8_t* bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
@@ -119,7 +119,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': ''}
 Scu_bcm_304::Bcm_parkinglampstType Scubcm304::bcm_parkinglampst(
     const std::uint8_t* bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(4, 1);
@@ -136,7 +136,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': '-'}
 Scu_bcm_304::Bcm_lowbeamstType Scubcm304::bcm_lowbeamst(
     const std::uint8_t* bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
@@ -153,7 +153,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': '-'}
 Scu_bcm_304::Bcm_leftturnlampstType Scubcm304::bcm_leftturnlampst(
     const std::uint8_t* bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
@@ -170,7 +170,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': '-'}
 Scu_bcm_304::Bcm_keystType Scubcm304::bcm_keyst(const std::uint8_t* bytes,
                                                 int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(6, 2);
@@ -186,7 +186,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': '-'}
 Scu_bcm_304::Bcm_hornstType Scubcm304::bcm_hornst(const std::uint8_t* bytes,
                                                   int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(7, 1);
@@ -202,7 +202,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': '-'}
 Scu_bcm_304::Bcm_highbeamstType Scubcm304::bcm_highbeamst(
     const std::uint8_t* bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
@@ -219,7 +219,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 Scu_bcm_304::Bcm_hazardlampstType Scubcm304::bcm_hazardlampst(
     const std::uint8_t* bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(5, 1);
@@ -236,7 +236,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': '-'}
 Scu_bcm_304::Bcm_frontfoglampstType Scubcm304::bcm_frontfoglampst(
     const std::uint8_t* bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
@@ -253,7 +253,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': '-'}
 Scu_bcm_304::Bcm_brakelightswitchstType Scubcm304::bcm_brakelightswitchst(
     const std::uint8_t* bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(6, 1);

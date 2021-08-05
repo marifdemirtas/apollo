@@ -26,6 +26,7 @@
 #include "modules/perception/lidar/lib/pointcloud_preprocessor/proto/pointcloud_preprocessor_config.pb.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace lidar {
@@ -36,7 +37,7 @@ const float PointCloudPreprocessor::kPointInfThreshold = 1e3;
 
 bool PointCloudPreprocessor::Init(
     const PointCloudPreprocessorInitOptions& options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -71,7 +72,7 @@ bool PointCloudPreprocessor::Preprocess(
     const PointCloudPreprocessorOptions& options,
     const std::shared_ptr<apollo::drivers::PointCloud const>& message,
     LidarFrame* frame) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frame == nullptr) {
     return false;
@@ -124,7 +125,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool PointCloudPreprocessor::Preprocess(
     const PointCloudPreprocessorOptions& options, LidarFrame* frame) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frame == nullptr || frame->cloud == nullptr) {
     return false;
@@ -175,7 +176,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool PointCloudPreprocessor::TransformCloud(
     const base::PointFCloudPtr& local_cloud, const Eigen::Affine3d& pose,
     base::PointDCloudPtr world_cloud) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (local_cloud == nullptr) {
     return false;

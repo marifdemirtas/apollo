@@ -29,7 +29,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool MlfShapeFilter::Init(const MlfFilterInitOptions& options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -51,7 +51,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void MlfShapeFilter::UpdateWithObject(const MlfFilterOptions& options,
                                       const MlfTrackDataConstPtr& track_data,
                                       TrackedObjectPtr new_object) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // compute tight object polygon
   auto& obj = new_object->object_ptr;
@@ -95,7 +95,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void MlfShapeFilter::UpdateWithoutObject(const MlfFilterOptions& options,
                                          double timestamp,
                                          MlfTrackDataPtr track_data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(.)
 }

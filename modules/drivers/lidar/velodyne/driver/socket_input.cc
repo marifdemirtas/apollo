@@ -50,16 +50,16 @@ namespace velodyne {
  *  @param udp_port UDP port number to connect
  */
 SocketInput::SocketInput() : sockfd_(-1), port_(0) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 /** @brief destructor */
 SocketInput::~SocketInput(void) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  (void)close(sockfd_); }
 
 void SocketInput::init(const int &port) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sockfd_ != -1) {
     (void)close(sockfd_);
@@ -98,7 +98,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 /** @brief Get one velodyne packet. */
 int SocketInput::get_firing_data_packet(VelodynePacket *pkt) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // double time1 = ros::Time::now().toSec();
   double time1 = apollo::cyber::Time().Now().ToSecond();
@@ -135,7 +135,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int SocketInput::get_positioning_data_packet(NMEATimePtr nmea_time) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   while (true) {
     if (!input_available(POLL_TIMEOUT)) {
@@ -172,7 +172,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SocketInput::input_available(int timeout) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   struct pollfd fds[1];
   fds[0].fd = sockfd_;

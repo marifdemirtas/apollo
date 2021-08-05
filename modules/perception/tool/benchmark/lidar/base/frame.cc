@@ -28,6 +28,7 @@
 #include "modules/perception/tool/benchmark/lidar/util/visibility.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace benchmark {
@@ -39,31 +40,31 @@ float Frame::_s_visible_threshold = 0.85f;
 float Frame::_s_min_confidence = 0.0f;
 
 void Frame::set_black_list(const std::set<std::string>& black_list) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _s_black_list = black_list;
 }
 
 void Frame::set_is_for_visualization(bool for_visualization) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _s_is_for_visualization = for_visualization;
 }
 
 void Frame::set_visible_threshold(float threshold) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _s_visible_threshold = threshold;
 }
 
 void Frame::set_min_confidence(float confidence) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _s_min_confidence = confidence;
 }
 
 bool Frame::load(const std::vector<std::string>& filenames) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (filenames.size() < 3 || filenames.size() > 4) {
     std::cerr << "file list is not complete" << std::endl;
@@ -207,7 +208,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Frame::build_indices() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   bool objects_has_indices = true;
   bool gt_objects_has_indices = true;
@@ -233,7 +234,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Frame::build_points() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   bool objects_has_points = true;
   bool gt_objects_has_points = true;
@@ -259,7 +260,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Frame::build_objects_indices(
     const pcl::KdTreeFLANN<Point>& point_cloud_kdtree,
     std::vector<ObjectPtr>* objects_out) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<int> k_indices;
   std::vector<float> k_sqrt_dist;
@@ -283,7 +284,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Frame::build_objects_points(std::vector<ObjectPtr>* objects_out) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int objects_num = static_cast<int>(objects_out->size());
   for (int i = 0; i < objects_num; ++i) {

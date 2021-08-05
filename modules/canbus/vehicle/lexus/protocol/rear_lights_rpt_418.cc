@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Rearlightsrpt418::Rearlightsrpt418() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Rearlightsrpt418::ID = 0x418;
 
 void Rearlightsrpt418::Parse(const std::uint8_t* bytes, int32_t length,
                              ChassisDetail* chassis) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_lexus()
       ->mutable_rear_lights_rpt_418()
@@ -56,7 +56,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 9, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Rearlightsrpt418::reverse_lights_on_is_valid(const std::uint8_t* bytes,
                                                   int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(1, 1);
@@ -70,7 +70,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 8, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Rearlightsrpt418::brake_lights_on_is_valid(const std::uint8_t* bytes,
                                                 int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 1);
@@ -84,7 +84,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Rearlightsrpt418::reverse_lights_on(const std::uint8_t* bytes,
                                          int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
@@ -98,7 +98,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Rearlightsrpt418::brake_lights_on(const std::uint8_t* bytes,
                                        int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);

@@ -27,7 +27,7 @@ namespace benchmark {
 
 bool get_bbox_vertices(const ObjectConstPtr object,
                        std::vector<Eigen::Vector3d>* vertices) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (object == nullptr) {
     return false;
@@ -61,7 +61,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool fill_objects_with_point_cloud(std::vector<ObjectPtr>* objects,
                                    const PointCloudConstPtr cloud) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (objects == nullptr || cloud == nullptr) {
     return false;
@@ -139,7 +139,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool fill_axis_align_box(ObjectPtr object) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (object->cloud == nullptr || object->cloud->size() == 0) {
     return false;

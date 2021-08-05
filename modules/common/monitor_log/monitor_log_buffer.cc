@@ -26,11 +26,11 @@ namespace monitor {
 MonitorLogBuffer::MonitorLogBuffer(
     const MonitorMessageItem::MessageSource &source)
     : source_(source) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MonitorLogBuffer::Publish() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!monitor_msg_items_.empty()) {
     logger_->Publish(source_, monitor_msg_items_);
@@ -40,12 +40,12 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 MonitorLogBuffer::~MonitorLogBuffer() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Publish(); }
 
 void MonitorLogBuffer::AddMonitorMsgItem(
     const MonitorMessageItem::LogLevel log_level, const std::string &msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   level_ = log_level;
   monitor_msg_items_.push_back(std::make_pair(log_level, msg));

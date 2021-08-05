@@ -22,7 +22,7 @@ namespace drivers {
 namespace hesai {
 
 bool HesaiDriver::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (node_ == nullptr) {
     AERROR << "node is nullptr";
@@ -76,7 +76,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HesaiDriver::PollThread() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Poll thread start";
   while (running_) {
@@ -102,7 +102,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HesaiDriver::ProcessGps(const HesaiPacket& pkt) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (pkt.size != GPS_PACKET_SIZE) {
     return;
@@ -156,7 +156,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HesaiDriver::ProcessThread() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<HesaiPacket> pkt = nullptr;
   bool is_end = false;

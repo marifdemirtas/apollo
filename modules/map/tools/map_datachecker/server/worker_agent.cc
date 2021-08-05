@@ -24,7 +24,7 @@ namespace apollo {
 namespace hdmap {
 
 MapDataCheckerAgent::MapDataCheckerAgent() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   sp_conf_ = ParseJson(FLAGS_conf_json);
   assert(sp_conf_ != nullptr);
@@ -42,7 +42,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::shared_ptr<PoseCollectionAgent>
 MapDataCheckerAgent::GetSpPoseCollectionAgent() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return sp_pose_collection_agent_;
 }
@@ -50,7 +50,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 grpc::Status MapDataCheckerAgent::ServiceChannelVerify(
     grpc::ServerContext *context, ChannelVerifyRequest *request,
     ChannelVerifyResponse *response) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return sp_channel_checker_agent_->ProcessGrpcRequest(context, request,
                                                        response);
@@ -59,7 +59,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 grpc::Status MapDataCheckerAgent::ServiceStaticAlign(
     grpc::ServerContext *context, StaticAlignRequest *request,
     StaticAlignResponse *response) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return sp_static_align_agent_->ProcessGrpcRequest(context, request, response);
 }
@@ -67,7 +67,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 grpc::Status MapDataCheckerAgent::ServiceEightRoute(
     grpc::ServerContext *context, EightRouteRequest *request,
     EightRouteResponse *response) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return sp_eight_route_agent_->ProcessGrpcRequest(context, request, response);
 }
@@ -75,7 +75,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 grpc::Status MapDataCheckerAgent::ServiceLoopsVerify(
     grpc::ServerContext *context, LoopsVerifyRequest *request,
     LoopsVerifyResponse *response) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return sp_loops_verify_agent_->ProcessGrpcRequest(context, request, response);
 }

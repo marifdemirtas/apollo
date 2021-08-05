@@ -22,7 +22,7 @@ namespace fusion {
 
 bool ObstacleMultiSensorFusion::Init(
     const ObstacleMultiSensorFusionParam& param) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (fusion_ != nullptr) {
     AINFO << "Already inited";
@@ -41,7 +41,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ObstacleMultiSensorFusion::Process(const base::FrameConstPtr& frame,
                                         std::vector<base::ObjectPtr>* objects) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   FusionOptions options;
   return fusion_->Fuse(options, frame, objects);

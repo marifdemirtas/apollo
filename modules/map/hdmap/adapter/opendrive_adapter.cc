@@ -27,7 +27,7 @@ namespace adapter {
 
 bool OpendriveAdapter::LoadData(const std::string& filename,
                                 apollo::hdmap::Map* pb_map) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(pb_map);
 

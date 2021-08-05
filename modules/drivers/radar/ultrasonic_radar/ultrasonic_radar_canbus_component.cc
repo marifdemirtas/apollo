@@ -23,13 +23,13 @@ namespace drivers {
 namespace ultrasonic_radar {
 
 UltrasonicRadarCanbusComponent::UltrasonicRadarCanbusComponent() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   writer_ = node_->CreateWriter<Ultrasonic>(FLAGS_ultrasonic_radar_topic);
 }
 
 bool UltrasonicRadarCanbusComponent::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return utralsonic_radar_canbus_.Init(ConfigFilePath(), writer_).ok() &&
          utralsonic_radar_canbus_.Start().ok();

@@ -27,7 +27,7 @@ namespace image_decompress {
 using apollo::drivers::Image;
 
 bool ImageDecompressComponent::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!GetProtoConfig(&config_)) {
     AERROR << "Parse config file failed: " << ConfigFilePath();
@@ -40,7 +40,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ImageDecompressComponent::Proc(
     const std::shared_ptr<apollo::drivers::CompressedImage>& compressed_image) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto image = std::make_shared<Image>();
   image->mutable_header()->CopyFrom(compressed_image->header());

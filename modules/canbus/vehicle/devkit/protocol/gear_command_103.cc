@@ -29,11 +29,11 @@ const int32_t Gearcommand103::ID = 0x103;
 
 // public
 Gearcommand103::Gearcommand103() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Gearcommand103::GetPeriod() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Gearcommand103::UpdateData(uint8_t* data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_gear_target(data, gear_target_);
   set_p_gear_en_ctrl(data, gear_en_ctrl_);
@@ -51,7 +51,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Gearcommand103::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(All) :  you should check this manually
   gear_target_ = Gear_command_103::GEAR_TARGET_NEUTRAL;
@@ -61,7 +61,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Gearcommand103* Gearcommand103::set_gear_target(
     Gear_command_103::Gear_targetType gear_target) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gear_target_ = gear_target;
   return this;
@@ -74,7 +74,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': ''}
 void Gearcommand103::set_p_gear_target(
     uint8_t* data, Gear_command_103::Gear_targetType gear_target) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = gear_target;
 
@@ -84,7 +84,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Gearcommand103* Gearcommand103::set_gear_en_ctrl(
     Gear_command_103::Gear_en_ctrlType gear_en_ctrl) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gear_en_ctrl_ = gear_en_ctrl;
   return this;
@@ -96,7 +96,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': ''}
 void Gearcommand103::set_p_gear_en_ctrl(
     uint8_t* data, Gear_command_103::Gear_en_ctrlType gear_en_ctrl) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = gear_en_ctrl;
 
@@ -105,7 +105,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Gearcommand103* Gearcommand103::set_checksum_103(int checksum_103) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   checksum_103_ = checksum_103;
   return this;
@@ -115,7 +115,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 63,
 // 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Gearcommand103::set_p_checksum_103(uint8_t* data, int checksum_103) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   checksum_103 = ProtocolData::BoundedValue(0, 255, checksum_103);
   int x = checksum_103;

@@ -23,7 +23,7 @@ namespace common {
 
 Universe::Universe(const int elements_num)
     : elts_(elements_num), sets_num_(elements_num) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (int i = 0; i < elements_num; ++i) {
     elts_[i].rank = 0;
@@ -33,7 +33,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Universe::Reset(const int elements_num) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   sets_num_ = elements_num;
   elts_.resize(elements_num);
@@ -45,7 +45,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int Universe::Find(const int x) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int y = x;
   while (y != elts_[y].p) {
@@ -64,7 +64,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Universe::Join(const int x, const int y) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (elts_[x].rank > elts_[y].rank) {
     elts_[y].p = x;

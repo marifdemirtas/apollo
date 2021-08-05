@@ -29,13 +29,13 @@ namespace gem {
 using ::apollo::drivers::canbus::Byte;
 
 Parkingbrakestatusrpt80::Parkingbrakestatusrpt80() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Parkingbrakestatusrpt80::ID = 0x80;
 
 void Parkingbrakestatusrpt80::Parse(const std::uint8_t* bytes, int32_t length,
                                     ChassisDetail* chassis) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_gem()
       ->mutable_parking_brake_status_rpt_80()
@@ -50,7 +50,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Parking_brake_status_rpt_80::Parking_brake_enabledType
 Parkingbrakestatusrpt80::parking_brake_enabled(const std::uint8_t* bytes,
                                                int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);

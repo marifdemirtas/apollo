@@ -28,7 +28,7 @@ using ObjectPtr = std::shared_ptr<apollo::perception::base::Object>;
 
 bool ObjectSequence::AddTrackedFrameObjects(
     const std::vector<ObjectPtr>& objects, TimeStampKey timestamp) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
   for (const auto& obj : objects) {
@@ -52,7 +52,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool ObjectSequence::GetTrackInTemporalWindow(TrackIdKey track_id,
                                               TrackedObjects* track,
                                               TimeStampKey window_time) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (track == nullptr) {
     return false;
@@ -73,7 +73,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ObjectSequence::RemoveStaleTracks(TimeStampKey current_stamp) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (auto outer_iter = sequence_.begin(); outer_iter != sequence_.end();) {
     if (outer_iter->second.empty()) {

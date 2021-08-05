@@ -25,14 +25,14 @@ namespace canbus {
 
 std::unique_ptr<VehicleController>
 WeyVehicleFactory::CreateVehicleController() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return std::unique_ptr<VehicleController>(new wey::WeyController());
 }
 
 std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>
 WeyVehicleFactory::CreateMessageManager() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>(
       new wey::WeyMessageManager());

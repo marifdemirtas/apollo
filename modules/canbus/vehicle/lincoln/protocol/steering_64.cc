@@ -28,7 +28,7 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Steering64::ID = 0x64;
 
 uint32_t Steering64::GetPeriod() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // receive rate??
   // receive timeout would trigger fault, letting en=0 and etc.
@@ -37,7 +37,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steering64::UpdateData(uint8_t *data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_steering_angle_p(data, steering_angle_);
   set_enable_p(data, steering_enable_);
@@ -49,7 +49,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steering64::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   steering_angle_ = 0.0;
   steering_enable_ = false;
@@ -61,28 +61,28 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Steering64 *Steering64::set_steering_angle(double angle) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   steering_angle_ = angle;
   return this;
 }
 
 Steering64 *Steering64::set_enable() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   steering_enable_ = true;
   return this;
 }
 
 Steering64 *Steering64::set_disable() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   steering_enable_ = false;
   return this;
 }
 
 Steering64 *Steering64::set_steering_angle_speed(double angle_speed) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   steering_angle_speed_ = angle_speed;
   return this;
@@ -92,7 +92,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // positive for left, negative for right
 void Steering64::set_steering_angle_p(uint8_t *data, double angle) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   angle = ProtocolData::BoundedValue(-470.0, 470.0, angle);
   int32_t x = static_cast<int32_t>(angle / 0.100000);
@@ -114,7 +114,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steering64::set_enable_p(uint8_t *bytes, bool enable) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(bytes + 2);
   if (enable) {
@@ -125,7 +125,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steering64::set_clear_driver_override_flag_p(uint8_t *bytes, bool clear) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(bytes + 2);
   if (clear) {
@@ -136,7 +136,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steering64::set_ignore_driver_override_p(uint8_t *bytes, bool ignore) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(bytes + 2);
   if (ignore) {
@@ -147,7 +147,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steering64::set_steering_angle_speed_p(uint8_t *data, double angle_speed) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   angle_speed = ProtocolData::BoundedValue(0.0, 500.0, angle_speed);
   int32_t x = static_cast<int32_t>(angle_speed / 2.000000);
@@ -157,7 +157,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steering64::set_watchdog_counter_p(uint8_t *data, int32_t count) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   count = ProtocolData::BoundedValue(0, 255, count);
   Byte frame(data + 7);
@@ -165,7 +165,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steering64::set_disable_audible_warning_p(uint8_t *data, bool disable) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(data + 2);
   if (disable) {

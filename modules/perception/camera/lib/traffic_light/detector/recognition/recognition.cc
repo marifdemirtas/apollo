@@ -24,7 +24,7 @@ namespace camera {
 
 bool TrafficLightRecognition::Init(
     const TrafficLightDetectorInitOptions& options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string proto_path =
       cyber::common::GetAbsolutePath(options.root_dir, options.conf_file);
@@ -51,7 +51,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool TrafficLightRecognition::Detect(const TrafficLightDetectorOptions& options,
                                      CameraFrame* frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<base::TrafficLightPtr> candidate(1);
 
@@ -83,7 +83,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string TrafficLightRecognition::Name() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return "TrafficLightRecognition";
 }

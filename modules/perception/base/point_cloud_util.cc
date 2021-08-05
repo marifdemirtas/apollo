@@ -28,7 +28,7 @@ namespace base {
 bool DownSamplePointCloudBeams(base::PointFCloudPtr cloud_ptr,
                                base::PointFCloudPtr out_cloud_ptr,
                                int downsample_factor) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (downsample_factor <= 0) {
     return false;
@@ -47,7 +47,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void GetPointCloudCentroid(const PointFCloud& cloud, PointF* centroid) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (size_t i = 0; i < cloud.size(); ++i) {
     centroid->x += cloud[i].x;
@@ -60,7 +60,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CloudDemean(PointFCloud* pc) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Demean by using centroid.
   PointF centroid;
@@ -73,7 +73,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double OrientCloud(const PointFCloud& pc, PointFCloud* pc_out, bool demean) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Approach#1:
   // Find car dominant direction on XY plane.
@@ -92,7 +92,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   transform.rotate(Eigen::AngleAxisf(-theta, Eigen::Vector3f(0, 0, 1)));
   pc.TransformPointCloud(transform, pc_out, true);
   if (demean) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
     CloudDemean(pc_out);
   }

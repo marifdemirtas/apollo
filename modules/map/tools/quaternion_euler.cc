@@ -27,7 +27,7 @@ DEFINE_double(qz, 0, "quaternion z");
 DEFINE_double(qw, 0, "quaternion w");
 
 int main(int32_t argc, char** argv) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   google::InitGoogleLogging(argv[0]);
   FLAGS_alsologtostderr = true;

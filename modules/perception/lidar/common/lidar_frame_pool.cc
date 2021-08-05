@@ -24,7 +24,7 @@ namespace lidar {
 
 // @brief call pool instance once to initialize memory
 __attribute__((constructor)) void LidarFramePoolInitialize() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LidarFramePool::Instance();
   AINFO << "Initialize lidar frame pool.";

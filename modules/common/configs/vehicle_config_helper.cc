@@ -30,15 +30,15 @@ VehicleConfig VehicleConfigHelper::vehicle_config_;
 bool VehicleConfigHelper::is_init_ = false;
 
 VehicleConfigHelper::VehicleConfigHelper() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VehicleConfigHelper::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Init(FLAGS_vehicle_config_path); }
 
 void VehicleConfigHelper::Init(const std::string &config_file) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   VehicleConfig params;
   ACHECK(cyber::common::GetProtoFromFile(config_file, &params))
@@ -47,14 +47,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VehicleConfigHelper::Init(const VehicleConfig &vehicle_params) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   vehicle_config_ = vehicle_params;
   is_init_ = true;
 }
 
 const VehicleConfig &VehicleConfigHelper::GetConfig() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!is_init_) {
     Init();
@@ -63,7 +63,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double VehicleConfigHelper::MinSafeTurnRadius() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto &param = vehicle_config_.vehicle_param();
   double lat_edge_to_center =
@@ -77,7 +77,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 common::math::Box2d VehicleConfigHelper::GetBoundingBox(
     const common::PathPoint &path_point) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto &vehicle_param = vehicle_config_.vehicle_param();
   double diff_truecenter_and_pointX = (vehicle_param.front_edge_to_center() -

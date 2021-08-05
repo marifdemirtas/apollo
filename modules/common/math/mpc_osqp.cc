@@ -44,7 +44,7 @@ MpcOsqp::MpcOsqp(const Eigen::MatrixXd &matrix_a,
       max_iteration_(max_iter),
       horizon_(horizon),
       eps_abs_(eps_abs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   state_dim_ = matrix_b.rows();
   control_dim_ = matrix_b.cols();
@@ -56,7 +56,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void MpcOsqp::CalculateKernel(std::vector<c_float> *P_data,
                               std::vector<c_int> *P_indices,
                               std::vector<c_int> *P_indptr) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // col1:(row,val),...; col2:(row,val),....; ...
   std::vector<std::vector<std::pair<c_int, c_float>>> columns;
@@ -98,7 +98,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // reference is always zero
 void MpcOsqp::CalculateGradient() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // populate the gradient vector
   gradient_ = Eigen::VectorXd::Zero(
@@ -115,7 +115,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void MpcOsqp::CalculateEqualityConstraint(std::vector<c_float> *A_data,
                                           std::vector<c_int> *A_indices,
                                           std::vector<c_int> *A_indptr) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static constexpr double kEpsilon = 1e-6;
   // block matrix
@@ -187,7 +187,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MpcOsqp::CalculateConstraintVectors() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // evaluate the lower and the upper inequality vectors
   Eigen::VectorXd lowerInequality = Eigen::MatrixXd::Zero(
@@ -228,7 +228,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 OSQPSettings *MpcOsqp::Settings() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // default setting
   OSQPSettings *settings =
@@ -247,7 +247,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 OSQPData *MpcOsqp::Data() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   OSQPData *data = reinterpret_cast<OSQPData *>(c_malloc(sizeof(OSQPData)));
   size_t kernel_dim = state_dim_ * (horizon_ + 1) + control_dim_ * horizon_;
@@ -288,7 +288,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MpcOsqp::FreeData(OSQPData *data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   c_free(data->A);
   c_free(data->P);
@@ -296,7 +296,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool MpcOsqp::Solve(std::vector<double> *control_cmd) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ADEBUG << "Before Calc Gradient";
   CalculateGradient();

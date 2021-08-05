@@ -28,7 +28,7 @@ namespace lidar {
 using apollo::cyber::common::GetAbsolutePath;
 
 bool ObjectFilterBank::Init(const ObjectFilterInitOptions& options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -63,7 +63,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ObjectFilterBank::Filter(const ObjectFilterOptions& options,
                               LidarFrame* frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   size_t object_number = frame->segmented_objects.size();
   for (auto& filter : filter_bank_) {

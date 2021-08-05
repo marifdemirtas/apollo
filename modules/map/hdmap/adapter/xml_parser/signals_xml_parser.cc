@@ -24,7 +24,7 @@ namespace adapter {
 Status SignalsXmlParser::ParseTrafficLights(
     const tinyxml2::XMLElement& xml_node,
     std::vector<TrafficLightInternal>* traffic_lights) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(traffic_lights);
   auto signal_node = xml_node.FirstChildElement("signal");
@@ -136,7 +136,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status SignalsXmlParser::ToPbSignalType(const std::string& xml_type,
                                         PbSignalType* signal_type) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(signal_type);
 
@@ -164,7 +164,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status SignalsXmlParser::ToPbSubSignalType(const std::string& xml_type,
                                            PbSubSignalType* sub_signal_type) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(sub_signal_type);
 
@@ -195,7 +195,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status SignalsXmlParser::to_pb_sign_info_type(const std::string& xml_type,
                                               PbSignInfoType* sign_info_type) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(sign_info_type);
 
@@ -212,7 +212,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status SignalsXmlParser::ToPbStopSignType(const std::string& xml_type,
                                           PbStopSignType* stop_type) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(stop_type);
 
@@ -240,7 +240,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status SignalsXmlParser::ParseStopSigns(
     const tinyxml2::XMLElement& xml_node,
     std::vector<StopSignInternal>* stop_signs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(stop_signs);
 
@@ -304,7 +304,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Status SignalsXmlParser::ParseYieldSigns(
     const tinyxml2::XMLElement& xml_node,
     std::vector<YieldSignInternal>* yield_signs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(yield_signs);
 

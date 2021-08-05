@@ -34,7 +34,7 @@ namespace can {
 using apollo::common::ErrorCode;
 
 bool EsdCanClient::Init(const CANCardParameter &parameter) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!parameter.has_channel_id()) {
     AERROR << "Init CAN failed: parameter does not have channel id. The "
@@ -56,7 +56,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 EsdCanClient::~EsdCanClient() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (dev_handler_) {
     Stop();
@@ -64,7 +64,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ErrorCode EsdCanClient::Start() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (is_started_) {
     return ErrorCode::OK;
@@ -128,7 +128,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void EsdCanClient::Stop() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (is_started_) {
     is_started_ = false;
@@ -144,7 +144,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // Synchronous transmission of CAN messages
 ErrorCode EsdCanClient::Send(const std::vector<CanFrame> &frames,
                              int32_t *const frame_num) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(frame_num);
   CHECK_EQ(frames.size(), static_cast<size_t>(*frame_num));
@@ -172,7 +172,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // buf size must be 8 bytes, every time, we receive only one frame
 ErrorCode EsdCanClient::Receive(std::vector<CanFrame> *const frames,
                                 int32_t *const frame_num) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!is_started_) {
     AERROR << "Esd can client is not init! Please init first!";
@@ -216,7 +216,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 /************************************************************************/
 const int32_t ERROR_BUF_SIZE = 200;
 std::string EsdCanClient::GetErrorString(const NTCAN_RESULT ntstatus) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   struct ERR2STR {
     NTCAN_RESULT ntstatus;

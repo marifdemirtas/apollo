@@ -22,7 +22,7 @@ namespace apollo {
 namespace perception {
 namespace camera {
 void HalfCircleAngle::SetDirection(float theta) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (theta_ > M_PI) {
     theta_ = theta;
@@ -37,39 +37,39 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 HalfCircleAngle &HalfCircleAngle::operator=(const float &theta) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   theta_ = theta;
   return *this;
 }
 float HalfCircleAngle::operator+(const float &theta) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return theta_ + theta;
 }
 float HalfCircleAngle::operator*(const float &scale) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return theta_ * scale;
 }
 HalfCircleAngle &HalfCircleAngle::operator=(const HalfCircleAngle &theta) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   this->theta_ = theta.value();
   return *this;
 }
 bool HalfCircleAngle::operator==(const HalfCircleAngle &theta) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return Equal(theta_, theta.value(), 0.01f);
 }
 bool HalfCircleAngle::operator==(const float &theta) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return Equal(theta_, theta, 0.01f);
 }
 float HalfCircleAngle::value() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return theta_; }
 }  // namespace camera
 }  // namespace perception

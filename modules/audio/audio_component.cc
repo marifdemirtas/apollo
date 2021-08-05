@@ -28,18 +28,18 @@ using apollo::common::util::FillHeader;
 using apollo::drivers::microphone::config::AudioData;
 
 AudioComponent::~AudioComponent() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string AudioComponent::Name() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(all) implement
   return "";
 }
 
 bool AudioComponent::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AudioConf audio_conf;
   if (!ComponentBase::GetProtoConfig(&audio_conf)) {
@@ -57,7 +57,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool AudioComponent::Proc(const std::shared_ptr<AudioData>& audio_data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(all) remove GetSignals() multiple calls
   AudioDetection audio_detection;

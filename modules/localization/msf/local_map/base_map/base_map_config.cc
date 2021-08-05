@@ -25,7 +25,7 @@ namespace localization {
 namespace msf {
 
 BaseMapConfig::BaseMapConfig(std::string map_version) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_resolutions_.push_back(0.125);  // Resolution: 0.125m in level 2
   map_node_size_x_ = 1024;            // in pixels
@@ -37,7 +37,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BaseMapConfig::Save(const std::string file_path) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   boost::property_tree::ptree config;
   CreateXml(&config);
@@ -47,7 +47,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BaseMapConfig::Load(const std::string file_path) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   boost::property_tree::ptree config;
   boost::property_tree::read_xml(file_path, config);
@@ -65,7 +65,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMapConfig::CreateXml(boost::property_tree::ptree* config) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   config->put("map.map_config.version", map_version_);
   config->put("map.map_config.node_size.x", map_node_size_x_);
@@ -87,7 +87,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMapConfig::LoadXml(const boost::property_tree::ptree& config) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_resolutions_.clear();
   map_datasets_.clear();
@@ -117,7 +117,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMapConfig::ResizeMapRange() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double min_x = 0;
   double min_y = 0;
@@ -167,14 +167,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMapConfig::SetSingleResolutions(float resolution) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_resolutions_.clear();
   map_resolutions_.push_back(resolution);
 }
 
 void BaseMapConfig::SetMultiResolutions() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_resolutions_.clear();
   map_resolutions_.push_back(0.03125);

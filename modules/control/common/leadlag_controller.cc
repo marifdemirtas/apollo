@@ -25,7 +25,7 @@ namespace apollo {
 namespace control {
 
 double LeadlagController::Control(const double error, const double dt) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // check if the c2d transform passed during the initilization
   if (!transfromc2d_enabled_) {
@@ -63,7 +63,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LeadlagController::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   previous_output_ = 0.0;
   previous_innerstate_ = 0.0;
@@ -72,7 +72,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LeadlagController::Init(const LeadlagConf &leadlag_conf, const double dt) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   previous_output_ = 0.0;
   previous_innerstate_ = 0.0;
@@ -87,7 +87,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LeadlagController::SetLeadlag(const LeadlagConf &leadlag_conf) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   alpha_ = leadlag_conf.alpha();
   beta_ = leadlag_conf.beta();
@@ -95,7 +95,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LeadlagController::TransformC2d(const double dt) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (dt <= 0.0) {
     AWARN << "dt <= 0, continuous-discrete transformation failed, dt: " << dt;
@@ -121,7 +121,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LeadlagController::InnerstateSaturationStatus() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return innerstate_saturation_status_;
 }

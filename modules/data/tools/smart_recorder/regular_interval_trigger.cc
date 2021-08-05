@@ -23,13 +23,13 @@ namespace apollo {
 namespace data {
 
 RegularIntervalTrigger::RegularIntervalTrigger() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   trigger_name_ = "RegularIntervalTrigger";
 }
 
 void RegularIntervalTrigger::Pull(const cyber::record::RecordMessage& msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!trigger_obj_->enabled()) {
     return;

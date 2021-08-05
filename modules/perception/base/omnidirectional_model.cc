@@ -29,7 +29,7 @@ namespace base {
 
 Eigen::Vector2f OmnidirectionalCameraDistortionModel::Project(
     const Eigen::Vector3f& point3d) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (std::isgreater(point3d[2], 0.f)) {
     AERROR << "The input point (" << point3d
@@ -62,7 +62,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::shared_ptr<BaseCameraModel>
 OmnidirectionalCameraDistortionModel::get_camera_model() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::shared_ptr<PinholeCameraModel> camera_model(new PinholeCameraModel());
   camera_model->set_width(width_);
@@ -74,7 +74,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool OmnidirectionalCameraDistortionModel::set_params(
     size_t width, size_t height, const Eigen::VectorXf& params) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (params.size() < 9) {
     AINFO << "Missing cam2world and world2cam model.";

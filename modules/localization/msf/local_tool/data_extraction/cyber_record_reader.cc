@@ -27,24 +27,24 @@ namespace msf {
 using cyber::record::RecordReader;
 
 CyberRecordReader::CyberRecordReader() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 CyberRecordReader::~CyberRecordReader() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CyberRecordReader::Subscribe(
     const std::string &topic,
     const std::function<void(const std::string &)> call_back) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   call_back_map_[topic] = call_back;
   topics_.push_back(topic);
 }
 
 void CyberRecordReader::Read(const std::string &file_name) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   RecordReader reader(file_name);
   cyber::record::RecordMessage message;
@@ -57,7 +57,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CyberRecordReader::Read(const std::vector<std::string> &file_names) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (const std::string &file_name : file_names) {
     Read(file_name);

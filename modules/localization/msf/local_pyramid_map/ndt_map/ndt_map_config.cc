@@ -27,21 +27,21 @@ namespace pyramid_map {
 
 NdtMapConfig::NdtMapConfig(std::string map_version)
     : BaseMapConfig(map_version) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_is_compression_ = true;
   map_resolutions_z_.push_back(1.0f);
 }
 
 void NdtMapConfig::SetSingleResolutionZ(float resolution) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_resolutions_z_.clear();
   map_resolutions_z_.push_back(resolution);
 }
 
 void NdtMapConfig::SetMultiResolutionsZ() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   map_resolutions_z_.clear();
   map_resolutions_z_.push_back(0.03125);
@@ -57,7 +57,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NdtMapConfig::CreateXml(boost::property_tree::ptree* config) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   BaseMapConfig::CreateXml(config);
   config->put("map.map_config.compression", map_is_compression_);
@@ -69,7 +69,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NdtMapConfig::LoadXml(boost::property_tree::ptree* config) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   BaseMapConfig::LoadXml(*config);
   map_is_compression_ = config->get<bool>("map.map_config.compression");

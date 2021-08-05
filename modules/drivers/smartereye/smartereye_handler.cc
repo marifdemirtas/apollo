@@ -32,19 +32,19 @@ namespace smartereye {
 
 SmartereyeHandler::SmartereyeHandler(std::string name)
     : mName(name) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pCallbackFunc = nullptr;
 }
 
 SmartereyeHandler::~SmartereyeHandler() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pCallbackFunc = nullptr;
 }
 
 bool SmartereyeHandler::SetCallback(CallbackFunc ptr) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pCallbackFunc = ptr;
 
@@ -52,7 +52,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SmartereyeHandler::handleRawFrame(const RawImageFrame *rawFrame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pCallbackFunc(const_cast<RawImageFrame *>(rawFrame));
 }

@@ -23,7 +23,7 @@ namespace velodyne {
 
 bool Input::exract_nmea_time_from_packet(NMEATimePtr nmea_time,
                                          const uint8_t* bytes) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int gprmc_index = 206;
 

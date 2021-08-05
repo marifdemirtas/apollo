@@ -30,7 +30,7 @@ void ConvertGround3ToGround4(const float &baseline,
                              const std::vector<float> &k_mat,
                              const std::vector<float> &ground3,
                              std::vector<float> *ground4) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_GT(baseline, 0.0f);
   CHECK_EQ(k_mat.size(), 9U);
@@ -53,7 +53,7 @@ bool ConvertGround4ToGround3(const float &baseline,
                              const std::vector<float> &k_mat,
                              const std::vector<float> &ground4,
                              std::vector<float> *ground3) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_GT(baseline, 0.0f);
   CHECK_EQ(k_mat.size(), 9U);
@@ -84,7 +84,7 @@ void GetGroundPlanePitchHeight(const float &baseline,
                                const std::vector<float> &k_mat,
                                const std::vector<float> &ground3, float *pitch,
                                float *cam_height) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_GT(baseline, 0.0f);
   CHECK_EQ(k_mat.size(), 9U);
@@ -106,7 +106,7 @@ void GetGround3FromPitchHeight(const std::vector<float> &k_mat,
                                const float &baseline, const float &pitch,
                                const float &cam_height,
                                std::vector<float> *ground3) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_EQ(k_mat.size(), 9U);
   CHECK_GT(baseline, 0.0f);
@@ -120,7 +120,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 GroundPlaneTracker::GroundPlaneTracker(int track_length) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (track_length <= 0) {
     AERROR << "track_length, " << track_length << ", should be positive";
@@ -144,7 +144,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void GroundPlaneTracker::Push(const std::vector<float> &ph,
                               const float &inlier_ratio) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_EQ(ph.size(), 2U);
   int i = 0;
@@ -167,7 +167,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void GroundPlaneTracker::GetGround(float *pitch, float *cam_height) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(pitch);
   CHECK_NOTNULL(cam_height);
@@ -206,7 +206,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void GroundPlaneTracker::Restart() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int track_length =
       static_cast<unsigned int>(pitch_height_inlier_tracks_.size() / 3);
@@ -221,7 +221,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CameraGroundPlaneParams::SetDefault() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   min_nr_samples = 6;   // 40
   nr_frames_track = 3;  // 2
@@ -237,7 +237,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool CameraGroundPlaneDetector::DetetGround(float pitch, float camera_height,
                                             float *vd, int count_vd,
                                             const std::vector<float> &plane) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ground_is_valid_ = false;
 
@@ -259,7 +259,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
     std::vector<float> ph(2, 0);
     if (CameraGroundPlaneDetector::DetectGroundFromSamples(vd, count_vd,
                                                            &inlier_ratio)) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
       ADEBUG << "l: " << l_[0] << ", " << l_[1] << ", " << l_[2];
       ground3.assign(l_, l_ + 3);

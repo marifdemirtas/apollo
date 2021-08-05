@@ -36,43 +36,43 @@ QpSolver::QpSolver(const Eigen::MatrixXd& kernel_matrix,
       affine_inequality_boundary_(affine_inequality_boundary),
       affine_equality_matrix_(affine_equality_matrix),
       affine_equality_boundary_(affine_equality_boundary) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const Eigen::MatrixXd& QpSolver::params() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return params_; }
 
 const Eigen::MatrixXd& QpSolver::kernel_matrix() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return kernel_matrix_;
 }
 
 const Eigen::MatrixXd& QpSolver::offset() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return offset_; }
 
 const Eigen::MatrixXd& QpSolver::affine_equality_matrix() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return affine_equality_matrix_;
 }
 
 const Eigen::MatrixXd& QpSolver::affine_equality_boundary() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return affine_equality_boundary_;
 }
 
 const Eigen::MatrixXd& QpSolver::affine_inequality_matrix() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return affine_inequality_matrix_;
 }
 
 const Eigen::MatrixXd& QpSolver::affine_inequality_boundary() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return affine_inequality_boundary_;
 }

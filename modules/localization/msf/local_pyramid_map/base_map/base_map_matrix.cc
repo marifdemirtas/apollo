@@ -23,25 +23,25 @@ namespace msf {
 namespace pyramid_map {
 
 BaseMapMatrix::BaseMapMatrix() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapMatrix::~BaseMapMatrix() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapMatrix::BaseMapMatrix(const BaseMapMatrix& map_matrix) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BaseMapMatrix::GetIntensityImg(cv::Mat* intensity_img) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return false;
 }
 /**@brief get altitude image of node. */
 bool BaseMapMatrix::GetAltitudeImg(cv::Mat* altitude_img) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return false;
 }

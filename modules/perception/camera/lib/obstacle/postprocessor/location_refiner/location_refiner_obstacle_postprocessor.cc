@@ -24,13 +24,14 @@
 // TODO(Xun): code completion
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {
 
 bool LocationRefinerObstaclePostprocessor::Init(
     const ObstaclePostprocessorInitOptions &options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string postprocessor_config =
       cyber::common::GetAbsolutePath(options.root_dir, options.conf_file);
@@ -51,7 +52,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LocationRefinerObstaclePostprocessor::Process(
     const ObstaclePostprocessorOptions &options, CameraFrame *frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frame->detected_objects.empty() ||
       frame->calibration_service == nullptr ||
@@ -167,7 +168,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string LocationRefinerObstaclePostprocessor::Name() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return "LocationRefinerObstaclePostprocessor";
 }

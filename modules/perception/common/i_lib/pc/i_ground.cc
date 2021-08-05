@@ -23,7 +23,7 @@ namespace apollo {
 namespace perception {
 namespace common {
 void PlaneFitGroundDetectorParam::SetDefault() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   nr_points_max = 320000;  // assume max 320000 points
   nr_grids_fine = 256;     // must be 2 and above
@@ -50,7 +50,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool PlaneFitGroundDetectorParam::Validate() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (nr_grids_coarse < 2 || nr_grids_fine < 2 ||
       nr_grids_coarse > nr_grids_fine || nr_points_max == 0 ||
@@ -67,7 +67,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int PlaneFitPointCandIndices::Prune(unsigned int min_nr_samples,
                                     unsigned int max_nr_samples) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assert(min_nr_samples < max_nr_samples);
   unsigned int size = static_cast<unsigned int>(indices.size());
@@ -101,19 +101,19 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 PlaneFitGroundDetector::PlaneFitGroundDetector(
     const PlaneFitGroundDetectorParam &param)
     : BaseGroundDetector(param) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assert(Init());
 }
 
 PlaneFitGroundDetector::~PlaneFitGroundDetector() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  CleanUp(); }
 
 // Init the order lookup table
 void PlaneFitGroundDetector::InitOrderTable(const VoxelGridXY<float> *vg,
                                             std::pair<int, int> *order) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::vector<std::pair<float, int>> map_dist;
   float cx = 0.f;
@@ -143,7 +143,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool PlaneFitGroundDetector::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int r = 0;
   unsigned int c = 0;
@@ -277,7 +277,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PlaneFitGroundDetector::CleanUp() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (vg_fine_) {
     delete vg_fine_;
@@ -305,7 +305,7 @@ int PlaneFitGroundDetector::CompareZ(const float *point_cloud,
                                      unsigned int nr_points,
                                      unsigned int nr_point_element,
                                      unsigned int nr_compares) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int pos = 0;
   int nr_candis = 0;
@@ -354,7 +354,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PlaneFitGroundDetector::ComputeAdaptiveThreshold() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int r = 0;
   unsigned int c = 0;
@@ -408,7 +408,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void PlaneFitGroundDetector::ComputeSignedGroundHeight(
     const float *point_cloud, float *height_above_ground,
     unsigned int nr_points, unsigned int nr_point_elements) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int r = 0;
   unsigned int nm1 = param_.nr_grids_coarse - 1;
@@ -435,7 +435,7 @@ void PlaneFitGroundDetector::ComputeSignedGroundHeightLine(
     const GroundPlaneLiDAR *cn, const GroundPlaneLiDAR *dn,
     float *height_above_ground, unsigned int r, unsigned int nr_points,
     unsigned int nr_point_elements) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int i = 0;
   unsigned int c = 0;
@@ -569,7 +569,7 @@ int PlaneFitGroundDetector::FilterGrid(const Voxel<float> &vx,
                                        PlaneFitPointCandIndices *candi,
                                        unsigned int nr_points,
                                        unsigned int nr_point_element) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int pos = 0;
   int rseed = I_DEFAULT_SEED;
@@ -605,7 +605,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int PlaneFitGroundDetector::FilterLine(unsigned int r) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int nr_candis = 0;
   unsigned int c = 0;
@@ -624,7 +624,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int PlaneFitGroundDetector::Filter() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int nr_candis = 0;
   unsigned int i = 0;
@@ -648,7 +648,7 @@ int PlaneFitGroundDetector::FitGrid(const float *point_cloud,
                                     unsigned int nr_points,
                                     unsigned int nr_point_element,
                                     float dist_thre) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // initialize the best plane
   groundplane->ForceInvalid();
@@ -765,7 +765,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int PlaneFitGroundDetector::FitLine(unsigned int r) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int nr_grids = 0;
   unsigned int c = 0;
@@ -788,7 +788,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int PlaneFitGroundDetector::Fit() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int nr_grids = 0;
   for (unsigned int r = 0; r < param_.nr_grids_coarse; ++r) {
@@ -802,7 +802,7 @@ int PlaneFitGroundDetector::FilterCandidates(
     int r, int c, const float *point_cloud, PlaneFitPointCandIndices *candi,
     std::vector<std::pair<int, int>> *neighbors,
     unsigned int nr_point_element) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float avg_z = 0.f;
   int count = 0;
@@ -842,7 +842,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 inline float calculate_two_angles(const GroundPlaneLiDAR &p1,
                                   const GroundPlaneLiDAR &p2) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float numerator = IDot3(p1.params, p2.params);
   float denominator = IL2Norm(p1.params, 3) * IL2Norm(p2.params, 3);
@@ -852,7 +852,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int PlaneFitGroundDetector::FitGridWithNeighbors(
     int r, int c, const float *point_cloud, GroundPlaneLiDAR *groundplane,
     unsigned int nr_points, unsigned int nr_point_element, float dist_thre) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // initialize the best plane
   groundplane->ForceInvalid();
@@ -1033,7 +1033,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 float PlaneFitGroundDetector::CalculateAngleDist(
     const GroundPlaneLiDAR &plane,
     const std::vector<std::pair<int, int>> &neighbors) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float angle_dist = 0.0f;
   int count = 0;
@@ -1055,7 +1055,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int PlaneFitGroundDetector::FitInOrder() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int nr_grids = 0;
   unsigned int i = 0;
@@ -1080,7 +1080,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
       ground_planes_[r][c] = gp;
       nr_grids++;
     } else {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
       ground_planes_sphe_[r][c].ForceInvalid();
       ground_planes_[r][c].ForceInvalid();
@@ -1092,7 +1092,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void PlaneFitGroundDetector::GetNeighbors(
     int r, int c, int rows, int cols,
     std::vector<std::pair<int, int>> *neighbors) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int left = IMax(0, c - 1);
   int right = IMin(cols - 1, c + 1);
@@ -1113,7 +1113,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int PlaneFitGroundDetector::SmoothLine(unsigned int up, unsigned int r,
                                        unsigned int dn) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int nr_grids = 0;
   unsigned int c = 0;
@@ -1137,7 +1137,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
     IPlaneSpherToEucli(plane, &ground_planes_[r][0]);
   }
   for (c = 1; c < nm1; ++c) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
     if (/*!(*_vg_coarse)(r, c).empty()*/ true) {
       if (!ground_planes_sphe_[r][c].IsValid()) {
@@ -1175,7 +1175,7 @@ int PlaneFitGroundDetector::CompleteGrid(const GroundPlaneSpherical &lt,
                                          const GroundPlaneSpherical &up,
                                          const GroundPlaneSpherical &dn,
                                          GroundPlaneSpherical *gp) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int supports[] = {0, 0, 0, 0};
   float weights[] = {0.f, 0.f, 0.f, 0.f};
@@ -1216,7 +1216,7 @@ int PlaneFitGroundDetector::SmoothGrid(const GroundPlaneSpherical &g,
                                        const GroundPlaneSpherical &up,
                                        const GroundPlaneSpherical &dn,
                                        GroundPlaneSpherical *gp) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int supports[] = {0, 0, 0, 0, 0};
   float weights[] = {0.f, 0.f, 0.f, 0.f, 0.f};
@@ -1273,7 +1273,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int PlaneFitGroundDetector::Smooth() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int nr_grids = 0;
   unsigned int r = 0;
@@ -1297,7 +1297,7 @@ bool PlaneFitGroundDetector::Detect(const float *point_cloud,
                                     float *height_above_ground,
                                     unsigned int nr_points,
                                     unsigned int nr_point_elements) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assert(point_cloud != nullptr);
   assert(height_above_ground != nullptr);
@@ -1347,18 +1347,18 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const char *PlaneFitGroundDetector::GetLabel() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return labels_; }
 
 const VoxelGridXY<float> *PlaneFitGroundDetector::GetGrid() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vg_coarse_;
 }
 
 const GroundPlaneLiDAR *PlaneFitGroundDetector::GetGroundPlane(int r,
                                                                int c) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   assert(r >= 0 && r < static_cast<int>(param_.nr_grids_coarse));
   assert(c >= 0 && c < static_cast<int>(param_.nr_grids_coarse));
@@ -1366,25 +1366,25 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int PlaneFitGroundDetector::GetGridDimX() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vg_coarse_->NrVoxelX();
 }
 
 unsigned int PlaneFitGroundDetector::GetGridDimY() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vg_coarse_->NrVoxelY();
 }
 
 float PlaneFitGroundDetector::GetUnknownHeight() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return std::numeric_limits<float>::max();
 }
 
 PlaneFitPointCandIndices **PlaneFitGroundDetector::GetCandis() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return local_candis_;
 }

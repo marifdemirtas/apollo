@@ -28,7 +28,7 @@ namespace camera {
 
 bool OnlineCalibrationService::Init(
     const CalibrationServiceInitOptions &options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   master_sensor_name_ = options.calibrator_working_sensor_name;
   sensor_name_ = options.calibrator_working_sensor_name;
@@ -69,7 +69,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool OnlineCalibrationService::BuildIndex() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   is_service_ready_ = HasSetIntrinsics() && HasSetGroundPlane();
   return is_service_ready_;
@@ -77,7 +77,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool OnlineCalibrationService::QueryDepthOnGroundPlane(int x, int y,
                                                        double *depth) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!is_service_ready_) {
     return false;
@@ -101,7 +101,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool OnlineCalibrationService::QueryPoint3dOnGroundPlane(
     int x, int y, Eigen::Vector3d *point3d) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!is_service_ready_) {
     return false;
@@ -126,7 +126,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool OnlineCalibrationService::QueryGroundPlaneInCameraFrame(
     Eigen::Vector4d *plane_param) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (plane_param == nullptr) {
     AERROR << "plane_param is nullptr";
@@ -147,7 +147,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool OnlineCalibrationService::QueryCameraToGroundHeightAndPitchAngle(
     float *height, float *pitch) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (height == nullptr) {
     AERROR << "height is nullptr";
@@ -168,7 +168,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void OnlineCalibrationService::Update(CameraFrame *frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frame == nullptr) {
     AERROR << "frame is nullptr";
@@ -212,7 +212,7 @@ void OnlineCalibrationService::SetCameraHeightAndPitch(
     const std::map<std::string, float> &name_camera_ground_height_map,
     const std::map<std::string, float> &name_camera_pitch_angle_diff_map,
     const float &pitch_angle_master_sensor) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   name_camera_status_map_[master_sensor_name_].pitch_angle =
       pitch_angle_master_sensor;
@@ -241,7 +241,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string OnlineCalibrationService::Name() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return "OnlineCalibrationService";
 }

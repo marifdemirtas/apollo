@@ -34,7 +34,7 @@ using ::apollo::common::EigenAffine3dVec;
 using ::apollo::common::EigenVector3dVec;
 
 int main(int argc, char** argv) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   boost::program_options::options_description boost_desc("Allowed options");
   boost_desc.add_options()("help", "produce help message")(

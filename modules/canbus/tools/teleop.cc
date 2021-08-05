@@ -459,7 +459,7 @@ class Teleop {
 }  // namespace
 
 int main(int32_t argc, char **argv) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   apollo::cyber::Init(argv[0]);
   FLAGS_alsologtostderr = true;

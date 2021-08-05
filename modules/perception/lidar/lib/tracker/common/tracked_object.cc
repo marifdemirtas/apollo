@@ -31,7 +31,7 @@ using PointFCloud = apollo::perception::base::AttributePointCloud<base::PointF>;
 
 TrackedObject::TrackedObject(base::ObjectPtr obj_ptr,
                              const Eigen::Affine3d& pose) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AttachObject(obj_ptr, pose);
 }
@@ -40,7 +40,7 @@ void TrackedObject::AttachObject(base::ObjectPtr obj_ptr,
                                  const Eigen::Affine3d& pose,
                                  const Eigen::Vector3d& global_to_local_offset,
                                  const base::SensorInfo& sensor) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (obj_ptr) {
     // all state of input obj_ptr will not change except cloud world
@@ -96,7 +96,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TrackedObject::TransformObjectCloudToWorld() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const base::PointFCloud& cloud = (object_ptr->lidar_supplement).cloud;
   base::PointDCloud& cloud_world = (object_ptr->lidar_supplement).cloud_world;
@@ -115,7 +115,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TrackedObject::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   object_ptr.reset();
   sensor_to_local_pose = Eigen::Affine3d::Identity();
@@ -179,14 +179,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void TrackedObject::Reset(base::ObjectPtr obj_ptr, const Eigen::Affine3d& pose,
                           const Eigen::Vector3d& global_to_local_offset,
                           const base::SensorInfo& sensor) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Reset();
   AttachObject(obj_ptr, pose, global_to_local_offset, sensor);
 }
 
 void TrackedObject::CopyFrom(TrackedObjectPtr rhs, bool is_deep) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   *this = *rhs;
   if (is_deep) {
@@ -198,7 +198,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 float TrackedObject::GetVelThreshold(base::ObjectPtr obj) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (obj->type == base::ObjectType::VEHICLE) {
     return 0.99f;
@@ -207,7 +207,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TrackedObject::ToObject(base::ObjectPtr obj) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   *obj = *object_ptr;
   // obj id keep default
@@ -247,7 +247,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string TrackedObject::ToString() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // std::string txt;
   // return txt;
@@ -261,7 +261,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TrackedObject::ComputeShapeFeatures() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Compute object's shape feature
   // 1. check whether shape feature is ready

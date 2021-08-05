@@ -23,7 +23,7 @@ namespace perception {
 namespace camera {
 
 bool LaneLineCalibrator::Init(const CalibratorInitOptions &options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LocalCalibratorInitOptions local_options;
   local_options.cx = options.cx;
@@ -38,7 +38,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LaneLineCalibrator::Calibrate(const CalibratorOptions &options,
                                    float *pitch_angle) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (pitch_angle == nullptr) {
     AERROR << "pitch_angle is not available";
@@ -104,7 +104,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LaneLineCalibrator::LoadEgoLaneline(
     const std::vector<base::LaneLine> &lane_objects, EgoLane *ego_lane) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (ego_lane == nullptr) {
     AERROR << "ego_lane is not available";

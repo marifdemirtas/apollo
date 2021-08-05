@@ -31,7 +31,7 @@ namespace apollo {
 namespace control {
 
 bool Interpolation2D::Init(const DataType &xyz) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (xyz.empty()) {
     AERROR << "empty input.";
@@ -44,7 +44,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Interpolation2D::Interpolate(const KeyType &xy) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   double max_x = xyz_.rbegin()->first;
   double min_x = xyz_.begin()->first;
@@ -74,7 +74,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double Interpolation2D::InterpolateYz(const std::map<double, double> &yz_table,
                                       double y) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (yz_table.empty()) {
     AERROR << "Unable to interpolateYz because yz_table is empty.";
@@ -111,7 +111,7 @@ double Interpolation2D::InterpolateValue(const double value_before,
                                          const double dist_before,
                                          const double value_after,
                                          const double dist_after) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (dist_before < kDoubleEpsilon) {
     return value_before;

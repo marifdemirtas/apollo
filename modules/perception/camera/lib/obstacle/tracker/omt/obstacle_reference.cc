@@ -28,7 +28,7 @@ namespace camera {
 
 void ObstacleReference::Init(const omt::ReferenceParam &ref_param, float width,
                              float height) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ref_param_ = ref_param;
   img_width_ = width;
@@ -57,7 +57,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ObstacleReference::UpdateReference(const CameraFrame *frame,
                                         const EigenVector<Target> &targets) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string sensor = frame->data_provider->sensor_name();
   SyncGroundEstimator(sensor, frame->camera_k_matrix,
@@ -146,7 +146,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   }
 }
 void ObstacleReference::CorrectSize(CameraFrame *frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const TemplateMap &kMinTemplateHWL =
       object_template_manager_->MinTemplateHWL();

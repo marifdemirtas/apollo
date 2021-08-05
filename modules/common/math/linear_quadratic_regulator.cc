@@ -32,7 +32,7 @@ using Matrix = Eigen::MatrixXd;
 void SolveLQRProblem(const Matrix &A, const Matrix &B, const Matrix &Q,
                      const Matrix &R, const Matrix &M, const double tolerance,
                      const uint max_num_iteration, Matrix *ptr_K) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (A.rows() != A.cols() || B.rows() != A.rows() || Q.rows() != Q.cols() ||
       Q.rows() != A.rows() || R.rows() != R.cols() || R.rows() != B.cols() ||
@@ -73,7 +73,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void SolveLQRProblem(const Matrix &A, const Matrix &B, const Matrix &Q,
                      const Matrix &R, const double tolerance,
                      const uint max_num_iteration, Matrix *ptr_K) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // create M as zero matrix of the right size:
   // M.rows() == Q.rows() && M.cols() == R.cols()

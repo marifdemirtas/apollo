@@ -28,7 +28,7 @@ bool OrientationSimilarityMetric::penalize_pi = false;
 
 void OrientationSimilarityMetric::cal_orientation_similarity(
     const ObjectPtr& object, const ObjectPtr& gt_object) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (object.get() == nullptr || gt_object.get() == nullptr) {
     return;
@@ -51,7 +51,7 @@ std::unique_ptr<BaseRangeInterface> MetaStatistics::_s_range_interface(
 unsigned int MetaStatistics::_s_recall_dim = 41;
 
 void MetaStatistics::set_range_type(RangeType type) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (type) {
     case VIEW:
@@ -72,51 +72,51 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MetaStatistics::set_recall_dim(unsigned int recall_dim) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _s_recall_dim = recall_dim;
 }
 
 unsigned int MetaStatistics::get_type_index(const ObjectType& type) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned index = translate_type_to_index(type);
   return index;
 }
 
 unsigned int MetaStatistics::get_range_index(const PositionMetric& position) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return _s_range_interface->get_index(position);
 }
 
 unsigned int MetaStatistics::get_confidence_index(double confidence) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   unsigned int index = static_cast<unsigned int>(confidence / 0.0001);
   return index;
 }
 
 unsigned int MetaStatistics::get_type_dim() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return 4;  // should be sync with get_type_index and object.h!
 }
 
 unsigned int MetaStatistics::get_range_dim() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return _s_range_interface->get_dim();
 }
 
 unsigned int MetaStatistics::get_confidence_dim() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return 10001;  // should be sync with get_confidence_index!
 }
 
 std::string MetaStatistics::get_type(unsigned int index) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (index >= get_type_dim()) {
     return "";
@@ -126,13 +126,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string MetaStatistics::get_range(unsigned int index) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return _s_range_interface->get_element(index);
 }
 
 double MetaStatistics::get_confidence(unsigned int index) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (index >= get_confidence_dim()) {
     return -1.0;
@@ -142,15 +142,15 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int MetaStatistics::get_recall_dim() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return _s_recall_dim; }
 
 MetaStatistics::MetaStatistics() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MetaStatistics::reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   _total_detection_num.assign(get_range_dim(), 0);
   _total_groundtruth_num.assign(get_range_dim(), 0);
@@ -217,7 +217,7 @@ void compute_ap_aos(
     std::vector<SPRCTuple>* tuples,
     const std::vector<double>& cumulated_orientation_similarity_per_conf,
     double* aos) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (ap == nullptr || tuples == nullptr || aos == nullptr) {
     return;
@@ -308,7 +308,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 MetaStatistics& MetaStatistics::operator+=(const MetaStatistics& rhs) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   vec_add1(&_total_detection_num, rhs._total_detection_num);
   vec_add1(&_total_groundtruth_num, rhs._total_groundtruth_num);
@@ -337,7 +337,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MetaStatistics::get_2017_detection_precision_and_recall(
     std::vector<double>* precisions, std::vector<double>* recalls) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (precisions == nullptr || recalls == nullptr) {
     return;
@@ -375,7 +375,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MetaStatistics::get_2017_detection_visible_recall(
     std::vector<double>* recalls) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (recalls == nullptr) {
     return;
@@ -400,7 +400,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MetaStatistics::get_2017_aad(std::vector<double>* aad) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (aad == nullptr) {
     return;
@@ -428,7 +428,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MetaStatistics::get_2016_detection_precision_and_recall(
     std::vector<double>* precisions, std::vector<double>* recalls) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   precisions->resize(get_range_dim(), 0.0);
   recalls->resize(get_range_dim(), 0.0);
@@ -446,7 +446,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MetaStatistics::get_2017_detection_ap_per_type(
     std::vector<double>* ap, std::vector<std::vector<SPRCTuple>>* tuples) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (ap == nullptr || tuples == nullptr) {
     return;
@@ -474,7 +474,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MetaStatistics::get_2017_detection_ap_aos(
     double* ap, double* aos, std::vector<SPRCTuple>* tuples) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (ap == nullptr || aos == nullptr || tuples == nullptr) {
     return;
@@ -500,7 +500,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MetaStatistics::get_2017_classification_accuracy(
     std::vector<std::vector<double>>* accuracys) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (accuracys == nullptr) {
     return;
@@ -538,7 +538,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MetaStatistics::get_2016_classification_accuracy(
     std::vector<std::vector<double>>* accuracys) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (accuracys == nullptr) {
     return;
@@ -563,7 +563,7 @@ void MetaStatistics::get_classification_confusion_matrix(
     std::vector<std::vector<double>>* matrix_gt_major,
     std::vector<std::vector<double>>* matrix_det_major,
     std::vector<std::vector<double>>* matrix_det_major_with_fp) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (matrix_gt_major == nullptr || matrix_det_major == nullptr) {
     return;

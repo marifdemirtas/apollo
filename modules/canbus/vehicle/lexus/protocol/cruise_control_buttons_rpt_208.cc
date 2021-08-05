@@ -29,14 +29,14 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Cruisecontrolbuttonsrpt208::Cruisecontrolbuttonsrpt208() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const int32_t Cruisecontrolbuttonsrpt208::ID = 0x208;
 
 void Cruisecontrolbuttonsrpt208::Parse(const std::uint8_t* bytes,
                                        int32_t length,
                                        ChassisDetail* chassis) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis->mutable_lexus()
       ->mutable_cruise_control_buttons_rpt_208()
@@ -82,7 +82,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Cruise_control_buttons_rpt_208::Output_valueType
 Cruisecontrolbuttonsrpt208::output_value(const std::uint8_t* bytes,
                                          int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -104,7 +104,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Cruise_control_buttons_rpt_208::Manual_inputType
 Cruisecontrolbuttonsrpt208::manual_input(const std::uint8_t* bytes,
                                          int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -127,7 +127,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Cruise_control_buttons_rpt_208::Commanded_valueType
 Cruisecontrolbuttonsrpt208::commanded_value(const std::uint8_t* bytes,
                                             int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -142,7 +142,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Cruisecontrolbuttonsrpt208::vehicle_fault(const std::uint8_t* bytes,
                                                int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(6, 1);
@@ -156,7 +156,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Cruisecontrolbuttonsrpt208::pacmod_fault(const std::uint8_t* bytes,
                                               int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
@@ -170,7 +170,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Cruisecontrolbuttonsrpt208::override_active(const std::uint8_t* bytes,
                                                  int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
@@ -184,7 +184,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 4, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Cruisecontrolbuttonsrpt208::output_reported_fault(
     const std::uint8_t* bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 1);
@@ -198,7 +198,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 3, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Cruisecontrolbuttonsrpt208::input_output_fault(const std::uint8_t* bytes,
                                                     int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
@@ -212,7 +212,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': ''}
 bool Cruisecontrolbuttonsrpt208::enabled(const std::uint8_t* bytes,
                                          int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
@@ -226,7 +226,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 2, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Cruisecontrolbuttonsrpt208::command_output_fault(const std::uint8_t* bytes,
                                                       int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);

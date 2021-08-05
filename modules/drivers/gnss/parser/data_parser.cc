@@ -54,7 +54,7 @@ static const boost::array<double, 36> POSE_COVAR = {
     0, 0, 0, 0.01, 0, 0, 0, 0, 0, 0, 0.01, 0, 0, 0, 0, 0, 0, 0.01};
 
 Parser *CreateParser(config::Config config, bool is_base_station = false) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (config.data().format()) {
     case config::Stream::NOVATEL_BINARY:
@@ -70,7 +70,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 DataParser::DataParser(const config::Config &config,
                        const std::shared_ptr<apollo::cyber::Node> &node)
     : config_(config), tf_broadcaster_(node), node_(node) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string utm_target_param;
 
@@ -84,7 +84,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool DataParser::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ins_status_.mutable_header()->set_timestamp_sec(
       cyber::Time::Now().ToSecond());
@@ -122,7 +122,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataParser::ParseRawData(const std::string &msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!init_flag_) {
     AERROR << "Data parser not init.";
@@ -143,7 +143,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataParser::CheckInsStatus(::apollo::drivers::gnss::Ins *ins) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static double last_notify = cyber::Time().Now().ToSecond();
   double now = cyber::Time().Now().ToSecond();
@@ -172,7 +172,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataParser::CheckGnssStatus(::apollo::drivers::gnss::Gnss *gnss) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gnss_status_.set_solution_status(
       static_cast<uint32_t>(gnss->solution_status()));
@@ -189,7 +189,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataParser::DispatchMessage(Parser::MessageType type, MessagePtr message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (type) {
     case Parser::MessageType::GNSS:
@@ -234,7 +234,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataParser::PublishInsStat(const MessagePtr message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto ins_stat = std::make_shared<InsStat>(*As<InsStat>(message));
   common::util::FillHeader("gnss", ins_stat.get());
@@ -242,7 +242,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataParser::PublishBestpos(const MessagePtr message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto bestpos = std::make_shared<GnssBestPose>(*As<GnssBestPose>(message));
   common::util::FillHeader("gnss", bestpos.get());
@@ -250,7 +250,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataParser::PublishImu(const MessagePtr message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto raw_imu = std::make_shared<Imu>(*As<Imu>(message));
   Imu *imu = As<Imu>(message);
@@ -269,7 +269,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataParser::PublishOdometry(const MessagePtr message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Ins *ins = As<Ins>(message);
   auto gps = std::make_shared<Gps>();
@@ -315,7 +315,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataParser::PublishCorrimu(const MessagePtr message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Ins *ins = As<Ins>(message);
   auto imu = std::make_shared<CorrectedImu>();
@@ -341,14 +341,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataParser::PublishEphemeris(const MessagePtr message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto eph = std::make_shared<GnssEphemeris>(*As<GnssEphemeris>(message));
   gnssephemeris_writer_->Write(eph);
 }
 
 void DataParser::PublishObservation(const MessagePtr message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto observation =
       std::make_shared<EpochObservation>(*As<EpochObservation>(message));
@@ -356,7 +356,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DataParser::PublishHeading(const MessagePtr message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto heading = std::make_shared<Heading>(*As<Heading>(message));
   heading_writer_->Write(heading);
@@ -364,7 +364,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void DataParser::GpsToTransformStamped(const std::shared_ptr<Gps> &gps,
                                        TransformStamped *transform) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   transform->mutable_header()->set_timestamp_sec(gps->header().timestamp_sec());
   transform->mutable_header()->set_frame_id(config_.tf().frame_id());

@@ -61,7 +61,7 @@ Eigen::Matrix3d Camera2CarHomograph(Eigen::Matrix3d intrinsic,
                                     Eigen::Matrix4d extrinsic_camera2lidar,
                                     Eigen::Matrix4d extrinsic_lidar2imu,
                                     double pitch_adj) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "intrinsic parameter of camera: " << intrinsic;
   AINFO << "extrinsic parameter of camera to lidar: " << extrinsic_camera2lidar;
@@ -91,7 +91,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool Visualizer::Init(const std::vector<std::string> &camera_names,
                       TransformServer *tf_server) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   tf_server_ = tf_server;
   if (tf_server_ == nullptr) {
@@ -121,7 +121,7 @@ bool Visualizer::Init_all_info_single_camera(
     const Eigen::Matrix4d &ex_lidar2imu, const double pitch_adj_degree,
     const double yaw_adj_degree, const double roll_adj_degree,
     const int image_height, const int image_width) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   image_height_ = image_height;
   image_width_ = image_width;
@@ -242,7 +242,7 @@ bool Visualizer::adjust_angles(const std::string &camera_name,
                                const double pitch_adj_degree,
                                const double yaw_adj_degree,
                                const double roll_adj_degree) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Convert degree angles to radian angles
   double pitch_adj_radian = pitch_adj_degree * degree_to_radian_factor_;
@@ -311,7 +311,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Visualizer::SetDirectory(const std::string &path) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!cyber::common::EnsureDirectory(path)) {
     return false;
@@ -323,7 +323,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string Visualizer::type_to_string(const base::ObjectType type) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (type) {
     case base::ObjectType::UNKNOWN:
@@ -345,7 +345,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string Visualizer::sub_type_to_string(const base::ObjectSubType type) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   switch (type) {
     case base::ObjectSubType::UNKNOWN:
@@ -379,7 +379,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Visualizer::reset_key() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   use_class_color_ = true;
   capture_screen_ = false;
@@ -408,7 +408,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Visualizer::regularize_angle(const double radian_angle) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (radian_angle <= -M_PI) {
     return radian_angle + M_PI * 2.0;
@@ -423,7 +423,7 @@ bool Visualizer::euler_to_quaternion(Eigen::Vector4d *quaternion,
                                      const double pitch_radian,
                                      const double yaw_radian,
                                      const double roll_radian) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // // Option 1. ZYX Euler to quortonian
   // double cy = cos(yaw_radian * 0.5);
@@ -484,7 +484,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Visualizer::copy_backup_file(const std::string &filename) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   static int index = 0;
   // int last_index = 0;
@@ -515,7 +515,7 @@ bool Visualizer::save_extrinsic_in_yaml(const std::string &camera_name,
                                         const double pitch_radian,
                                         const double yaw_radian,
                                         const double roll_radian) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::string yaml_file =
       FLAGS_obs_sensor_intrinsic_path + "/" + camera_name + "_extrinsics.yaml";
@@ -589,7 +589,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool Visualizer::save_manual_calibration_parameter(
     const std::string &camera_name, const double pitch_adj_degree,
     const double yaw_adj_degree, const double roll_adj_degree) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Convert degree angles to radian angles
   double pitch_adj_radian = pitch_adj_degree * degree_to_radian_factor_;
@@ -637,7 +637,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Visualizer::key_handler(const std::string &camera_name, const int key) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Pressed Key: " << key;
   if (key <= 0) {
@@ -887,7 +887,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // Draw trajectory of each object
 bool Visualizer::DrawTrajectories(const base::ObjectPtr &object,
                                   const base::MotionBufferPtr motion_buffer) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (object->drop_num == 0 || motion_buffer == nullptr ||
       motion_buffer->size() == 0) {
@@ -915,7 +915,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Visualizer::Draw2Dand3D(const cv::Mat &img, const CameraFrame &frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Mat image = img.clone();
   Eigen::Affine3d pose;
@@ -999,7 +999,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Visualizer::ShowResult(const cv::Mat &img, const CameraFrame &frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Mat image = img.clone();
   std::string camera_name = frame.data_provider->sensor_name();
@@ -1045,7 +1045,7 @@ void Visualizer::Draw2Dand3D_all_info_single_camera(
     const CameraFrame &frame, const Eigen::Matrix3d &intrinsic,
     const Eigen::Matrix4d &extrinsic, const Eigen::Affine3d &world2camera,
     const base::MotionBufferPtr motion_buffer) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Mat image_2D = img.clone();  // All clone should be replaced with global
 
@@ -1403,7 +1403,7 @@ void Visualizer::ShowResult_all_info_single_camera(
     const cv::Mat &img, const CameraFrame &frame,
     const base::MotionBufferPtr motion_buffer,
     const Eigen::Affine3d &world2camera) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (frame.timestamp - last_timestamp_ < 0.02) return;
 
@@ -1522,7 +1522,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Visualizer::draw_range_circle() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::circle(world_image_, cv::Point(wide_pixel_ / 2, world_h_), 1 * m2pixel_,
              deep_sky_blue_color, 1);
@@ -1539,14 +1539,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void Visualizer::draw_selected_image_boundary(const int width, int const height,
                                               cv::Mat *image) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Rect image_boundary(0, 0, width, height);
   cv::rectangle(*image, image_boundary, light_green_color, 4);
 }
 
 cv::Point Visualizer::world_point_to_bigimg(const Eigen::Vector2d &p) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Point point;
   point.x = static_cast<int>(-p(1) * m2pixel_ + wide_pixel_ * 0.5);
@@ -1554,7 +1554,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return point;
 }
 cv::Point Visualizer::world_point_to_bigimg(const Eigen::Vector4f &p) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   cv::Point point;
   point.x = (wide_pixel_ >> 1) -
@@ -1565,7 +1565,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Eigen::Vector2d Visualizer::image2ground(const std::string &camera_name,
                                          cv::Point p_img) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector3d p_homo;
 
@@ -1582,7 +1582,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 cv::Point Visualizer::ground2image(const std::string &camera_name,
                                    Eigen::Vector2d p_ground) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector3d p_homo;
 

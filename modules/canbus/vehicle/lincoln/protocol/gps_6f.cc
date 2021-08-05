@@ -29,7 +29,7 @@ const int32_t Gps6f::ID = 0x6F;
 
 void Gps6f::Parse(const std::uint8_t *bytes, int32_t length,
                   ChassisDetail *chassis_detail) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   chassis_detail->mutable_basic()->set_altitude(altitude(bytes, length));
   chassis_detail->mutable_basic()->set_heading(heading(bytes, length));
@@ -57,7 +57,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Gps6f::altitude(const std::uint8_t *bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte high_frame(bytes + 1);
   int32_t high = high_frame.get_byte(0, 8);
@@ -71,7 +71,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Gps6f::heading(const std::uint8_t *bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte high_frame(bytes + 3);
   int32_t high = high_frame.get_byte(0, 8);
@@ -82,7 +82,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int32_t Gps6f::speed(const std::uint8_t *bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(bytes + 4);
   int32_t x = frame.get_byte(0, 8);
@@ -90,7 +90,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Gps6f::hdop(const std::uint8_t *bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(bytes + 5);
   int32_t x = frame.get_byte(0, 5);
@@ -98,7 +98,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Gps6f::vdop(const std::uint8_t *bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(bytes + 6);
   int32_t x = frame.get_byte(0, 5);
@@ -106,7 +106,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int32_t Gps6f::fix_quality(const std::uint8_t *bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(bytes + 7);
   int32_t x = frame.get_byte(0, 3);
@@ -114,7 +114,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int32_t Gps6f::num_satellites(const std::uint8_t *bytes, int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte frame(bytes + 7);
   int32_t x = frame.get_byte(3, 5);

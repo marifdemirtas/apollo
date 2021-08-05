@@ -43,7 +43,7 @@ namespace video {
  *  @param udpport UDP port number to connect
  */
 SocketInput::SocketInput() : sockfd_(-1), port_(0) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pkg_num_ = 0;
   bytes_num_ = 0;
@@ -52,7 +52,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 /** @brief destructor */
 SocketInput::~SocketInput() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (buf_) {
     delete[] buf_;
@@ -64,7 +64,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SocketInput::Init(uint32_t port) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (sockfd_ != -1) {
     (void)close(sockfd_);
@@ -117,7 +117,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 /** @brief Get one camera packet. */
 int SocketInput::GetFramePacket(std::shared_ptr<CompressedImage> h265Pb) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t *frame_data = &buf_[0];
   uint8_t *pdu_data = &pdu_[0];
@@ -212,7 +212,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SocketInput::InputAvailable(int timeout) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   (void)timeout;
   struct pollfd fds[1];

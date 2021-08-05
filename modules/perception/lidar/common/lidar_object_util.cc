@@ -33,7 +33,7 @@ using base::PointF;
 
 void GetBoundingBox2d(const std::shared_ptr<Object>& object,
                       PointCloud<PointD>* box, double expand) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   box->clear();
   box->resize(4);
@@ -63,7 +63,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ComputeObjectShapeFromPolygon(std::shared_ptr<Object> object,
                                    bool use_world_cloud) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const PointCloud<PointD>& polygon = object->polygon;
   const PointCloud<PointF>& cloud = object->lidar_supplement.cloud;

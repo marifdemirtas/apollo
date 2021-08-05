@@ -37,11 +37,11 @@ LocalizationIntegImpl::LocalizationIntegImpl()
       imu_altitude_from_lidar_localization_available_(false),
       enable_lidar_localization_(true),
       gnss_antenna_extrinsic_(Eigen::Affine3d::Identity()) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LocalizationIntegImpl::~LocalizationIntegImpl() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   delete republish_process_;
   delete lidar_process_;
@@ -50,7 +50,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status LocalizationIntegImpl::Init(const LocalizationIntegParam& params) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   enable_lidar_localization_ = params.enable_lidar_localization;
   if (params.enable_lidar_localization) {
@@ -101,13 +101,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationIntegImpl::PcdProcess(const LidarFrame& lidar_frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   PcdProcessImpl(lidar_frame);
 }
 
 void LocalizationIntegImpl::PcdProcessImpl(const LidarFrame& pcd_data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // lidar -> republish -> integ
   lidar_process_->PcdProcess(pcd_data);
@@ -134,13 +134,13 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationIntegImpl::RawImuProcessRfu(const ImuData& imu_data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ImuProcessImpl(imu_data);
 }
 
 void LocalizationIntegImpl::ImuProcessImpl(const ImuData& imu_data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // imu -> lidar
   // imu -> integ -> republish -> lidar -> publish
@@ -247,7 +247,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationIntegImpl::RawObservationProcess(
     const drivers::gnss::EpochObservation& raw_obs_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (is_use_gnss_bestpose_) {
     return;
@@ -258,7 +258,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationIntegImpl::RawEphemerisProcess(
     const drivers::gnss::GnssEphemeris& gnss_orbit_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (is_use_gnss_bestpose_) {
     return;
@@ -269,7 +269,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationIntegImpl::GnssBestPoseProcess(
     const drivers::gnss::GnssBestPose& bestgnsspos_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!is_use_gnss_bestpose_) {
     return;
@@ -280,7 +280,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationIntegImpl::RawObservationProcessImpl(
     const drivers::gnss::EpochObservation& raw_obs_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gnss_process_->RawObservationProcess(raw_obs_msg);
 
@@ -302,14 +302,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationIntegImpl::RawEphemerisProcessImpl(
     const drivers::gnss::GnssEphemeris& gnss_orbit_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   gnss_process_->RawEphemerisProcess(gnss_orbit_msg);
 }
 
 void LocalizationIntegImpl::GnssBestPoseProcessImpl(
     const drivers::gnss::GnssBestPose& bestgnsspos_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MeasureData measure;
   if (republish_process_->NovatelBestgnssposProcess(bestgnsspos_msg,
@@ -328,14 +328,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationIntegImpl::GnssHeadingProcess(
     const drivers::gnss::Heading& gnssheading_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   GnssHeadingProcessImpl(gnssheading_msg);
 }
 
 void LocalizationIntegImpl::GnssHeadingProcessImpl(
     const drivers::gnss::Heading& gnssheading_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   MeasureData measure;
   int heading_status = 0;
@@ -347,7 +347,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationIntegImpl::TransferGnssMeasureToLocalization(
     const MeasureData& measure, LocalizationEstimate* localization) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(localization);
 
@@ -397,21 +397,21 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 const LocalizationResult& LocalizationIntegImpl::GetLastestLidarLocalization()
     const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return lastest_lidar_localization_;
 }
 
 const LocalizationResult& LocalizationIntegImpl::GetLastestIntegLocalization()
     const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return lastest_integ_localization_;
 }
 
 const LocalizationResult& LocalizationIntegImpl::GetLastestGnssLocalization()
     const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return lastest_gnss_localization_;
 }

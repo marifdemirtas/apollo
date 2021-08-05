@@ -24,7 +24,7 @@ namespace apollo {
 namespace hdmap {
 
 int ExceptionHandler::ExceptionHandlerFun(ErrorCode error_code) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int ret = 0;
   switch (error_code) {

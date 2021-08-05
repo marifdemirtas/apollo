@@ -32,7 +32,7 @@ Inference *CreateInferenceByName(const std::string &name,
                                  const std::vector<std::string> &outputs,
                                  const std::vector<std::string> &inputs,
                                  const std::string &model_root) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (name == "RTNet") {
     return new RTNet(proto_file, weight_file, outputs, inputs);

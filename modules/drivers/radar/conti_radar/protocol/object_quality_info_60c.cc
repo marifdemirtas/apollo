@@ -30,13 +30,13 @@ namespace conti_radar {
 using apollo::drivers::canbus::Byte;
 
 ObjectQualityInfo60C::ObjectQualityInfo60C() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 const uint32_t ObjectQualityInfo60C::ID = 0x60C;
 
 void ObjectQualityInfo60C::Parse(const std::uint8_t* bytes, int32_t length,
                                  ContiRadar* conti_radar) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int obj_id = object_id(bytes, length);
 
@@ -62,7 +62,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectQualityInfo60C::object_id(const std::uint8_t* bytes,
                                     int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes);
   int32_t x = t0.get_byte(0, 8);
@@ -73,7 +73,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectQualityInfo60C::longitude_dist_rms(const std::uint8_t* bytes,
                                              int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(3, 5);
@@ -84,7 +84,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectQualityInfo60C::lateral_dist_rms(const std::uint8_t* bytes,
                                            int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 3);
@@ -101,7 +101,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectQualityInfo60C::longitude_vel_rms(const std::uint8_t* bytes,
                                             int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(1, 5);
@@ -112,7 +112,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectQualityInfo60C::lateral_vel_rms(const std::uint8_t* bytes,
                                           int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 1);
@@ -129,7 +129,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectQualityInfo60C::longitude_accel_rms(const std::uint8_t* bytes,
                                               int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 4);
@@ -146,7 +146,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectQualityInfo60C::lateral_accel_rms(const std::uint8_t* bytes,
                                             int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(2, 5);
@@ -157,7 +157,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectQualityInfo60C::oritation_angle_rms(const std::uint8_t* bytes,
                                               int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 2);
@@ -174,7 +174,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectQualityInfo60C::probexist(const std::uint8_t* bytes,
                                     int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(5, 3);
@@ -185,7 +185,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ObjectQualityInfo60C::meas_state(const std::uint8_t* bytes,
                                      int32_t length) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(2, 3);

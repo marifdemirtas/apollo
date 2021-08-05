@@ -21,6 +21,7 @@
 #include "modules/perception/camera/common/util.h"
 
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {
@@ -28,7 +29,7 @@ namespace camera {
 void CropBox::getCropBox(const int width, const int height,
                          const base::TrafficLightPtr &light,
                          base::RectI *crop_box) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int rows = height;
   int cols = width;
@@ -82,20 +83,20 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   crop_box->height = yb - yt + 1;
 }
 void CropBox::Init(float crop_scale, int min_crop_size) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   crop_scale_ = crop_scale;
   min_crop_size_ = min_crop_size;
 }
 CropBox::CropBox(float crop_scale, int min_crop_size) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Init(crop_scale, min_crop_size);
 }
 void CropBoxWholeImage::getCropBox(const int width, const int height,
                                    const base::TrafficLightPtr &light,
                                    base::RectI *crop_box) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!OutOfValidRegion(light->region.projection_roi, width, height) &&
       light->region.projection_roi.Area() > 0) {

@@ -32,7 +32,7 @@ using cyber::common::GetAbsolutePath;
 void ClassifyBySimple::Init(
     const traffic_light::recognition::ClassifyParam& model_config,
     const int gpu_id, const std::string work_root) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   AINFO << "Enter Classify init";
   net_inputs_.clear();
@@ -111,7 +111,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ClassifyBySimple::Perform(const CameraFrame* frame,
                                std::vector<base::TrafficLightPtr>* lights) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (cudaSetDevice(gpu_id_) != cudaSuccess) {
     AERROR << "Failed to set device to " << gpu_id_;
@@ -152,7 +152,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ClassifyBySimple::Prob2Color(const float* out_put_data, float threshold,
                                   base::TrafficLightPtr light) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int max_color_id = 0;
   std::vector<base::TLColor> status_map = {

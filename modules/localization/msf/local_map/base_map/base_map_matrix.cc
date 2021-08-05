@@ -22,30 +22,30 @@ namespace localization {
 namespace msf {
 
 BaseMapMatrix::BaseMapMatrix() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapMatrix::~BaseMapMatrix() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 BaseMapMatrix::BaseMapMatrix(const BaseMapMatrix& cells) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int BaseMapMatrix::LoadBinary(unsigned char* buf) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return 0; }
 
 unsigned int BaseMapMatrix::CreateBinary(unsigned char* buf,
                                          unsigned int buf_size) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return 0;
 }
 
 unsigned int BaseMapMatrix::GetBinarySize() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  return 0; }
 
 }  // namespace msf

@@ -31,24 +31,24 @@ using common::util::TimeUtil;
 
 LocalizationInteg::LocalizationInteg()
     : localization_integ_impl_(new LocalizationIntegImpl()) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LocalizationInteg::~LocalizationInteg() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   delete localization_integ_impl_;
   localization_integ_impl_ = nullptr;
 }
 
 Status LocalizationInteg::Init(const LocalizationIntegParam &params) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return localization_integ_impl_->Init(params);
 }
 
 void LocalizationInteg::PcdProcess(const drivers::PointCloud &message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   LidarFrame lidar_frame;
   LidarMsgTransfer transfer;
@@ -57,7 +57,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationInteg::RawImuProcessFlu(const drivers::gnss::Imu &imu_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ImuData imu;
   TransferImuFlu(imu_msg, &imu);
@@ -65,7 +65,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationInteg::RawImuProcessRfu(const drivers::gnss::Imu &imu_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ImuData imu;
   TransferImuRfu(imu_msg, &imu);
@@ -74,56 +74,56 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationInteg::RawObservationProcess(
     const drivers::gnss::EpochObservation &raw_obs_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_integ_impl_->RawObservationProcess(raw_obs_msg);
 }
 
 void LocalizationInteg::RawEphemerisProcess(
     const drivers::gnss::GnssEphemeris &gnss_orbit_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_integ_impl_->RawEphemerisProcess(gnss_orbit_msg);
 }
 
 void LocalizationInteg::GnssBestPoseProcess(
     const drivers::gnss::GnssBestPose &bestgnsspos_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_integ_impl_->GnssBestPoseProcess(bestgnsspos_msg);
 }
 
 void LocalizationInteg::GnssHeadingProcess(
     const drivers::gnss::Heading &gnssheading_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   localization_integ_impl_->GnssHeadingProcess(gnssheading_msg);
 }
 
 const LocalizationResult &LocalizationInteg::GetLastestLidarLocalization()
     const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return localization_integ_impl_->GetLastestLidarLocalization();
 }
 
 const LocalizationResult &LocalizationInteg::GetLastestIntegLocalization()
     const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return localization_integ_impl_->GetLastestIntegLocalization();
 }
 
 const LocalizationResult &LocalizationInteg::GetLastestGnssLocalization()
     const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return localization_integ_impl_->GetLastestGnssLocalization();
 }
 
 void LocalizationInteg::TransferImuRfu(const drivers::gnss::Imu &imu_msg,
                                        ImuData *imu_rfu) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(imu_rfu);
 
@@ -140,7 +140,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationInteg::TransferImuFlu(const drivers::gnss::Imu &imu_msg,
                                        ImuData *imu_flu) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   CHECK_NOTNULL(imu_flu);
 

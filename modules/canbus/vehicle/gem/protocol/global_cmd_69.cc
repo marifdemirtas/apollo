@@ -29,11 +29,11 @@ const int32_t Globalcmd69::ID = 0x69;
 
 // public
 Globalcmd69::Globalcmd69() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Globalcmd69::GetPeriod() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Globalcmd69::UpdateData(uint8_t* data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_pacmod_enable(data, pacmod_enable_);
   set_p_clear_override(data, clear_override_);
@@ -49,7 +49,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Globalcmd69::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(QiL) :you should check this manually
   pacmod_enable_ = Global_cmd_69::PACMOD_ENABLE_CONTROL_DISABLED;
@@ -59,7 +59,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Globalcmd69* Globalcmd69::set_pacmod_enable(
     Global_cmd_69::Pacmod_enableType pacmod_enable) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   pacmod_enable_ = pacmod_enable;
   return this;
@@ -72,7 +72,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Globalcmd69::set_p_pacmod_enable(
     uint8_t* data, Global_cmd_69::Pacmod_enableType pacmod_enable) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = pacmod_enable;
 
@@ -82,7 +82,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Globalcmd69* Globalcmd69::set_clear_override(
     Global_cmd_69::Clear_overrideType clear_override) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   clear_override_ = clear_override;
   return this;
@@ -95,7 +95,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Globalcmd69::set_p_clear_override(
     uint8_t* data, Global_cmd_69::Clear_overrideType clear_override) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = clear_override;
 
@@ -105,7 +105,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Globalcmd69* Globalcmd69::set_ignore_override(
     Global_cmd_69::Ignore_overrideType ignore_override) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   ignore_override_ = ignore_override;
   return this;
@@ -118,7 +118,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Globalcmd69::set_p_ignore_override(
     uint8_t* data, Global_cmd_69::Ignore_overrideType ignore_override) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   uint8_t x = ignore_override;
 

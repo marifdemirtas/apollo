@@ -27,7 +27,7 @@ using apollo::drivers::PointXYZIT;
 Hesai64Parser::Hesai64Parser(const std::shared_ptr<Node> &node,
                              const Config &conf)
     : Parser(node, conf) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // init the block time offset, us
   block_offset_[5] = 55.56 * 0.0 + 42.58;
@@ -113,12 +113,12 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Hesai64Parser::~Hesai64Parser() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Hesai64Parser::ParseRawPacket(const uint8_t *buf, const int len,
                                    bool *is_end) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (len != PACKET_SIZE_L64 && len != PACKET_SIZE_L64_WITH_UDPSEQ) {
     AWARN << "packet size:" << len
@@ -204,7 +204,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void Hesai64Parser::CalcPointXYZIT(Hesai64Packet *pkt, int blockid,
                                    uint8_t chLaserNumber) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Hesai64Block *block = &pkt->blocks[blockid];
   struct tm tTm;

@@ -33,7 +33,7 @@ namespace common {
 Status VehicleStateProvider::Update(
     const localization::LocalizationEstimate &localization,
     const canbus::Chassis &chassis) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   original_localization_ = localization;
   if (!ConstructExceptLinearVelocity(localization)) {
@@ -85,7 +85,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool VehicleStateProvider::ConstructExceptLinearVelocity(
     const localization::LocalizationEstimate &localization) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!localization.has_pose()) {
     AERROR << "Invalid localization input.";
@@ -163,115 +163,115 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double VehicleStateProvider::x() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.x();
 }
 
 double VehicleStateProvider::y() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.y();
 }
 
 double VehicleStateProvider::z() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.z();
 }
 
 double VehicleStateProvider::roll() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.roll();
 }
 
 double VehicleStateProvider::pitch() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.pitch();
 }
 
 double VehicleStateProvider::yaw() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.yaw();
 }
 
 double VehicleStateProvider::heading() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.heading();
 }
 
 double VehicleStateProvider::kappa() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.kappa();
 }
 
 double VehicleStateProvider::linear_velocity() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.linear_velocity();
 }
 
 double VehicleStateProvider::angular_velocity() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.angular_velocity();
 }
 
 double VehicleStateProvider::linear_acceleration() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.linear_acceleration();
 }
 
 double VehicleStateProvider::gear() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.gear();
 }
 
 double VehicleStateProvider::steering_percentage() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.steering_percentage();
 }
 
 double VehicleStateProvider::timestamp() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.timestamp();
 }
 
 const localization::Pose &VehicleStateProvider::pose() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_.pose();
 }
 
 const localization::Pose &VehicleStateProvider::original_pose() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return original_localization_.pose();
 }
 
 void VehicleStateProvider::set_linear_velocity(const double linear_velocity) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   vehicle_state_.set_linear_velocity(linear_velocity);
 }
 
 const VehicleState &VehicleStateProvider::vehicle_state() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return vehicle_state_;
 }
 
 math::Vec2d VehicleStateProvider::EstimateFuturePosition(const double t) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Eigen::Vector3d vec_distance(0.0, 0.0, 0.0);
   double v = vehicle_state_.linear_velocity();
@@ -306,7 +306,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 math::Vec2d VehicleStateProvider::ComputeCOMPosition(
     const double rear_to_com_distance) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // set length as distance between rear wheel and center of mass.
   Eigen::Vector3d v;

@@ -23,19 +23,19 @@ namespace perception {
 namespace lidar {
 const int TrackData::kMaxHistorySize = 40;
 TrackData::TrackData() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 TrackData::TrackData(TrackedObjectPtr obj, int track_id) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 TrackData::~TrackData() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::pair<double, TrackedObjectPtr> TrackData::GetHistoryObject(int idx) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (history_objects_.empty()) {
     AWARN << "no object in track";
@@ -64,7 +64,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::pair<double, TrackedObjectConstPtr> TrackData::GetHistoryObject(
     int idx) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (history_objects_.empty()) {
     AINFO << "no object in track";
@@ -92,7 +92,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TrackData::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   track_id_ = -1;
   age_ = 0;
@@ -110,7 +110,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TrackData::Reset(TrackedObjectPtr obj, double time, int track_id) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   Reset();
   track_id_ = track_id;
@@ -118,7 +118,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TrackData::PushTrackedObjectToTrack(TrackedObjectPtr obj, double time) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (history_objects_.find(time) == history_objects_.end()) {
     history_objects_.insert(std::make_pair(time, obj));

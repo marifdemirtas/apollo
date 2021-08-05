@@ -20,16 +20,17 @@
 
 // TODO(Xun & Yucheng): code completion
 namespace apollo {
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 namespace perception {
 namespace camera {
 
 void ObjPostProcessorParams::set_default() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   max_nr_iter = 5;
   sampling_ratio_low = 0.1f;
@@ -44,7 +45,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool ObjPostProcessor::PostProcessObjWithGround(
     const ObjPostProcessorOptions &options, float center[3], float hwl[3],
     float *ry) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   memcpy(hwl, options.hwl, sizeof(float) * 3);
   float bbox[4] = {0};
@@ -69,7 +70,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool ObjPostProcessor::PostProcessObjWithDispmap(
     const ObjPostProcessorOptions &options, float center[3], float hwl[3],
     float *ry) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   return true;
 }
@@ -78,7 +79,7 @@ bool ObjPostProcessor::AdjustCenterWithGround(const float *bbox,
                                               const float *hwl, float ry,
                                               const float *plane,
                                               float *center) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   float iou_ini = GetProjectionScore(ry, bbox, hwl, center);
   if (iou_ini < params_.iou_good) {  // ini pos is not good enough
@@ -140,7 +141,7 @@ bool ObjPostProcessor::PostRefineCenterWithGroundBoundary(
     const float *bbox, const float *hwl, float ry, const float *plane,
     const std::vector<LineSegment2D<float>> &line_seg_limits, float *center,
     bool check_lowerbound) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   bool truncated_on_bottom =
       bbox[3] >= static_cast<float>(height_) -
@@ -183,7 +184,7 @@ int ObjPostProcessor::GetDepthXPair(const float *bbox, const float *hwl,
                                     const float *center, float ry,
                                     float *depth_pts, int *x_pts,
                                     float *pts_c) const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int y_min = height_;
   float w_half = hwl[1] / 2;

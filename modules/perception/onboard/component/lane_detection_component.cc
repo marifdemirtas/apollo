@@ -185,11 +185,11 @@ static bool GetProjectMatrix(
 }
 
 LaneDetectionComponent::~LaneDetectionComponent() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool LaneDetectionComponent::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (InitConfig() != cyber::SUCC) {
     AERROR << "InitConfig() failed.";
@@ -239,7 +239,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // On receiving motion service input, convert it to motion_buff_
 void LaneDetectionComponent::OnMotionService(
     const MotionServiceMsgType &message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // Comment: use the circular buff to do it smartly, only push the latest
   // circular_buff only saves only the incremental motion between frames.
@@ -282,7 +282,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void LaneDetectionComponent::OnReceiveImage(
     const std::shared_ptr<apollo::drivers::Image> &message,
     const std::string &camera_name) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   std::lock_guard<std::mutex> lock(mutex_);
   const double msg_timestamp = message->measurement_time() + timestamp_offset_;
@@ -335,7 +335,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LaneDetectionComponent::InitConfig() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // the macro READ_CONF would return cyber::FAIL if config not exists
   apollo::perception::onboard::LaneDetection lane_detection_param;
@@ -410,7 +410,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LaneDetectionComponent::InitSensorInfo() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (camera_names_.size() != 2) {
     AERROR << "invalid camera_names_.size(): " << camera_names_.size();
@@ -462,7 +462,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LaneDetectionComponent::InitAlgorithmPlugin() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   camera_lane_pipeline_.reset(new camera::LaneCameraPerception);
   if (!camera_lane_pipeline_->Init(camera_perception_init_options_)) {
@@ -474,7 +474,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LaneDetectionComponent::InitCameraFrames() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (camera_names_.size() != 2) {
     AERROR << "invalid camera_names_.size(): " << camera_names_.size();
@@ -543,7 +543,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LaneDetectionComponent::InitProjectMatrix() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!GetProjectMatrix(camera_names_, extrinsic_map_, intrinsic_map_,
                         &project_matrix_, &pitch_diff_)) {
@@ -560,7 +560,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LaneDetectionComponent::InitMotionService() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const std::string &channel_name_local = "/apollo/perception/motion_service";
   std::function<void(const MotionServiceMsgType &)> motion_service_callback =
@@ -578,7 +578,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int LaneDetectionComponent::InitCameraListeners() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   for (size_t i = 0; i < camera_names_.size(); ++i) {
     const std::string &camera_name = camera_names_[i];
@@ -596,7 +596,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LaneDetectionComponent::SetCameraHeightAndPitch() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   camera_lane_pipeline_->SetCameraHeightAndPitch(
       camera_height_map_, name_camera_pitch_angle_diff_map_,
@@ -608,7 +608,7 @@ int LaneDetectionComponent::InternalProc(
     const std::string &camera_name, apollo::common::ErrorCode *error_code,
     SensorFrameMessage *prefused_message,
     apollo::perception::PerceptionLanes *out_message) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const double msg_timestamp =
       in_message->measurement_time() + timestamp_offset_;
@@ -725,7 +725,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int LaneDetectionComponent::ConvertLaneToCameraLaneline(
     const base::LaneLine &lane_line,
     apollo::perception::camera::CameraLaneLine *camera_laneline) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (camera_laneline == nullptr) {
     AERROR << "camera_laneline is not available";
@@ -805,7 +805,7 @@ int LaneDetectionComponent::MakeProtobufMsg(
     double msg_timestamp, const std::string &camera_name,
     const camera::CameraFrame &camera_frame,
     apollo::perception::PerceptionLanes *lanes_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (lanes_msg == nullptr) {
     AERROR << "lanes_msg is not available";

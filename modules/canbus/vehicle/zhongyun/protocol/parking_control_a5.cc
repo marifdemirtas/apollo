@@ -29,11 +29,11 @@ const int32_t Parkingcontrola5::ID = 0xA5;
 
 // public
 Parkingcontrola5::Parkingcontrola5() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  Reset(); }
 
 uint32_t Parkingcontrola5::GetPeriod() const {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(ChaoM) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,14 +41,14 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Parkingcontrola5::UpdateData(uint8_t* data) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   set_p_parking_target(data, parking_target_);
   set_p_parking_enable_control(data, parking_enable_control_);
 }
 
 void Parkingcontrola5::Reset() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   // TODO(ChaoM) :  you should check this manually
   parking_target_ = Parking_control_a5::PARKING_TARGET_RELEASE;
@@ -58,7 +58,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Parkingcontrola5* Parkingcontrola5::set_parking_target(
     Parking_control_a5::Parking_targetType parking_target) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   parking_target_ = parking_target;
   return this;
@@ -71,7 +71,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Parkingcontrola5::set_p_parking_target(
     uint8_t* data, Parking_control_a5::Parking_targetType parking_target) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = parking_target;
 
@@ -81,7 +81,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Parkingcontrola5* Parkingcontrola5::set_parking_enable_control(
     Parking_control_a5::Parking_enable_controlType parking_enable_control) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   parking_enable_control_ = parking_enable_control;
   return this;
@@ -95,7 +95,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Parkingcontrola5::set_p_parking_enable_control(
     uint8_t* data,
     Parking_control_a5::Parking_enable_controlType parking_enable_control) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   int x = parking_enable_control;
 

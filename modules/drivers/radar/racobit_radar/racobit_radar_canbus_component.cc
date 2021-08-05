@@ -37,11 +37,11 @@ namespace racobit_radar {
 RacobitRadarCanbusComponent::RacobitRadarCanbusComponent()
     : monitor_logger_buffer_(
           common::monitor::MonitorMessageItem::RACOBIT_RADAR) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RacobitRadarCanbusComponent::Init() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (!GetProtoConfig(&racobit_radar_conf_)) {
     return OnError("Unable to load canbus conf file: " + ConfigFilePath()).ok();
@@ -105,7 +105,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 apollo::common::ErrorCode RacobitRadarCanbusComponent::ConfigureRadar() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   RadarConfig200 radar_config;
   radar_config.set_radar_conf(racobit_radar_conf_.radar_conf());
@@ -115,7 +115,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 RacobitRadarCanbusComponent::~RacobitRadarCanbusComponent() {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   if (start_success_) {
     can_receiver_.Stop();
@@ -124,7 +124,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status RacobitRadarCanbusComponent::OnError(const std::string &error_msg) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   monitor_logger_buffer_.ERROR(error_msg);
   return Status(ErrorCode::CANBUS_ERROR, error_msg);

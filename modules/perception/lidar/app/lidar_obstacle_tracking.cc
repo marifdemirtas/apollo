@@ -28,7 +28,7 @@ namespace lidar {
 
 bool LidarObstacleTracking::Init(
     const LidarObstacleTrackingInitOptions& options) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   auto& sensor_name = options.sensor_name;
   auto config_manager = lib::ConfigManager::Instance();
@@ -65,7 +65,7 @@ std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 LidarProcessResult LidarObstacleTracking::Process(
     const LidarObstacleTrackingOptions& options, LidarFrame* frame) {
-std::cout << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
   const auto& sensor_name = options.sensor_name;
 
