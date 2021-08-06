@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -45,7 +45,7 @@ namespace {
 
 // Test Socket CAN on an open handler.
 bool SocketCanHandlerTest(const int dev_handler, std::string* message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // init config and state
   // 1. set receive message_id filter, ie white list
@@ -93,7 +93,7 @@ COVERAGE_LOG_TOKEN
 
 // Open a Socket CAN handler and test.
 bool SocketCanTest(std::string* message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const int dev_handler = socket(PF_CAN, SOCK_RAW, CAN_RAW);
   if (dev_handler < 0) {
@@ -110,11 +110,11 @@ COVERAGE_LOG_TOKEN
 SocketCanMonitor::SocketCanMonitor()
     : RecurrentRunner(FLAGS_socket_can_monitor_name,
                       FLAGS_socket_can_monitor_interval) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SocketCanMonitor::RunOnce(const double current_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto manager = MonitorManager::Instance();
   Component* component = apollo::common::util::FindOrNull(

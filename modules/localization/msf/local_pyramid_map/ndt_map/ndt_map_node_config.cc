@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,15 +24,15 @@ namespace msf {
 namespace pyramid_map {
 
 NdtMapNodeConfig::NdtMapNodeConfig() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 NdtMapNodeConfig::~NdtMapNodeConfig() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::shared_ptr<BaseMapNodeConfig> NdtMapNodeConfig::Clone() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<NdtMapNodeConfig> map_node_config(new NdtMapNodeConfig());
   map_node_config->node_index_ = node_index_;

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,29 +25,24 @@
 #include "modules/perception/common/geometry/basic.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
 
 int Target::global_track_id = 0;
 int Target::Size() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return static_cast<int>(tracked_objects.size()); }
 
 void Target::Clear() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  tracked_objects.clear(); }
 
 TrackObjectPtr Target::operator[](int index) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return get_object(index); }
 TrackObjectPtr Target::get_object(int index) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GT(static_cast<int>(tracked_objects.size()), 0);
   CHECK_LT(index, static_cast<int>(tracked_objects.size()));
@@ -56,7 +51,7 @@ COVERAGE_LOG_TOKEN
                          tracked_objects.size()];
 }
 void Target::Add(TrackObjectPtr object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (tracked_objects.empty()) {
     start_ts = object->timestamp;
@@ -71,7 +66,7 @@ COVERAGE_LOG_TOKEN
   tracked_objects.push_back(object);
 }
 void Target::RemoveOld(int frame_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t index = 0;
   while (index < tracked_objects.size() &&
@@ -82,7 +77,7 @@ COVERAGE_LOG_TOKEN
                         tracked_objects.begin() + index);
 }
 void Target::Init(const omt::TargetParam &param) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   target_param_ = param;
   id = -1;
@@ -122,11 +117,11 @@ COVERAGE_LOG_TOKEN
   object_template_manager_ = ObjectTemplateManager::Instance();
 }
 Target::Target(const omt::TargetParam &param) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Init(param); }
 
 void Target::Predict(CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto delta_t =
       static_cast<float>(frame->timestamp - latest_object->timestamp);
@@ -153,7 +148,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Target::Update2D(CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // measurements
   auto obj = latest_object->object;
@@ -186,7 +181,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Target::Update3D(CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto object = latest_object->object;
   if (!isLost()) {
@@ -335,7 +330,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Target::UpdateType(CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto object = latest_object->object;
   if (!isLost()) {
@@ -377,7 +372,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Target::ClappingTrackVelocity(const base::ObjectPtr &obj) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // check angle between velocity and heading(orientation)
   if (obj->type == base::ObjectType::VEHICLE) {
@@ -419,7 +414,7 @@ COVERAGE_LOG_TOKEN
  * 3. check velocity theta's variance
  */
 bool Target::CheckStatic() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (static_cast<int>(history_world_states_.size()) <
       target_param_.min_cached_world_state_history_size()) {
@@ -521,12 +516,12 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Target::isTracked() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return Size() >= target_param_.tracked_life();
 }
 bool Target::isLost() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return lost_age > 0; }
 
 }  // namespace camera

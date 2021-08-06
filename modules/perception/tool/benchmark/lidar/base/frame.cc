@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,6 @@
 #include "modules/perception/tool/benchmark/lidar/util/visibility.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace benchmark {
@@ -40,31 +39,31 @@ float Frame::_s_visible_threshold = 0.85f;
 float Frame::_s_min_confidence = 0.0f;
 
 void Frame::set_black_list(const std::set<std::string>& black_list) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   _s_black_list = black_list;
 }
 
 void Frame::set_is_for_visualization(bool for_visualization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   _s_is_for_visualization = for_visualization;
 }
 
 void Frame::set_visible_threshold(float threshold) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   _s_visible_threshold = threshold;
 }
 
 void Frame::set_min_confidence(float confidence) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   _s_min_confidence = confidence;
 }
 
 bool Frame::load(const std::vector<std::string>& filenames) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (filenames.size() < 3 || filenames.size() > 4) {
     std::cerr << "file list is not complete" << std::endl;
@@ -208,7 +207,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Frame::build_indices() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool objects_has_indices = true;
   bool gt_objects_has_indices = true;
@@ -234,7 +233,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Frame::build_points() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool objects_has_points = true;
   bool gt_objects_has_points = true;
@@ -260,7 +259,7 @@ COVERAGE_LOG_TOKEN
 void Frame::build_objects_indices(
     const pcl::KdTreeFLANN<Point>& point_cloud_kdtree,
     std::vector<ObjectPtr>* objects_out) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<int> k_indices;
   std::vector<float> k_sqrt_dist;
@@ -284,7 +283,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Frame::build_objects_points(std::vector<ObjectPtr>* objects_out) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int objects_num = static_cast<int>(objects_out->size());
   for (int i = 0; i < objects_num; ++i) {

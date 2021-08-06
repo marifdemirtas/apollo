@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,11 +28,11 @@ namespace pyramid_map {
  */
 NdtMapNodePool::NdtMapNodePool(unsigned int pool_size, unsigned int thread_size)
     : BaseMapNodePool(pool_size, thread_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 BaseMapNode* NdtMapNodePool::AllocNewMapNode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return new NdtMapNode(); }
 
 }  // namespace pyramid_map

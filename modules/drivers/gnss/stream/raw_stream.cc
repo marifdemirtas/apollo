@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -38,7 +38,7 @@ using apollo::canbus::Chassis;
 
 void switch_stream_status(const apollo::drivers::gnss::Stream::Status &status,
                           StreamStatus_Type *report_status_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (status) {
     case apollo::drivers::gnss::Stream::Status::CONNECTED:
@@ -56,7 +56,7 @@ COVERAGE_LOG_TOKEN
   }
 }
 std::string getLocalTimeFileStr(const std::string &gpsbin_folder) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   time_t it = std::time(0);
   char local_time_char[64];
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Stream *create_stream(const config::Stream &sd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (sd.type_case()) {
     case config::Stream::kSerial:
@@ -147,14 +147,14 @@ COVERAGE_LOG_TOKEN
 RawStream::RawStream(const config::Config &config,
                      const std::shared_ptr<apollo::cyber::Node> &node)
     : config_(config), node_(node) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   data_parser_ptr_.reset(new DataParser(config_, node_));
   rtcm_parser_ptr_.reset(new RtcmParser(config_, node_));
 }
 
 RawStream::~RawStream() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   this->Logout();
   this->Disconnect();
@@ -170,7 +170,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool RawStream::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(data_parser_ptr_);
   CHECK_NOTNULL(rtcm_parser_ptr_);
@@ -315,7 +315,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void RawStream::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   data_thread_ptr_.reset(new std::thread(&RawStream::DataSpin, this));
   rtk_thread_ptr_.reset(new std::thread(&RawStream::RtkSpin, this));
@@ -327,7 +327,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void RawStream::OnWheelVelocityTimer() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (chassis_ptr_ == nullptr) {
     AINFO << "No chassis message received";
@@ -344,7 +344,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool RawStream::Connect() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (data_stream_) {
     if (data_stream_->get_status() != Stream::Status::CONNECTED) {
@@ -396,7 +396,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool RawStream::Disconnect() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (data_stream_) {
     if (data_stream_->get_status() == Stream::Status::CONNECTED) {
@@ -436,7 +436,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool RawStream::Login() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<std::string> login_data;
   for (const auto &login_command : config_.login_commands()) {
@@ -457,7 +457,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool RawStream::Logout() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (const auto &logout_command : config_.logout_commands()) {
     data_stream_->write(logout_command);
@@ -467,7 +467,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void RawStream::StreamStatusCheck() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool status_report = false;
   StreamStatus_Type report_stream_status;
@@ -503,7 +503,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void RawStream::DataSpin() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   common::util::FillHeader("gnss", &stream_status_);
   stream_writer_->Write(stream_status_);
@@ -527,7 +527,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void RawStream::RtkSpin() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (in_rtk_stream_ == nullptr) {
     return;
@@ -553,7 +553,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void RawStream::PublishRtkData(const size_t length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<RawData> rtk_msg = std::make_shared<RawData>();
   CHECK_NOTNULL(rtk_msg);
@@ -563,7 +563,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void RawStream::PushGpgga(const size_t length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!in_rtk_stream_) {
     return;
@@ -584,7 +584,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void RawStream::GpsbinCallback(const std::shared_ptr<RawData const> &raw_data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (gpsbin_stream_ == nullptr) {
     return;

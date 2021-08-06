@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Torquecontrola3::ID = 0xA3;
 
 // public
 Torquecontrola3::Torquecontrola3() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Torquecontrola3::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(ChaoM) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,14 +41,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void Torquecontrola3::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_driven_torque(data, driven_torque_);
   set_p_driven_enable_control(data, driven_enable_control_);
 }
 
 void Torquecontrola3::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(ChaoM) :  you should check this manually
   driven_torque_ = 0.0;
@@ -57,7 +57,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Torquecontrola3* Torquecontrola3::set_driven_torque(double driven_torque) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   driven_torque_ = driven_torque;
   return this;
@@ -67,7 +67,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|100]', 'bit': 8,
 // 'type': 'double', 'order': 'intel', 'physical_unit': '%'}
 void Torquecontrola3::set_p_driven_torque(uint8_t* data, double driven_torque) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   driven_torque = ProtocolData::BoundedValue(0.0, 100.0, driven_torque);
   int x = static_cast<int>(driven_torque / 0.050000);
@@ -85,7 +85,7 @@ COVERAGE_LOG_TOKEN
 
 Torquecontrola3* Torquecontrola3::set_driven_enable_control(
     Torque_control_a3::Driven_enable_controlType driven_enable_control) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   driven_enable_control_ = driven_enable_control;
   return this;
@@ -99,7 +99,7 @@ COVERAGE_LOG_TOKEN
 void Torquecontrola3::set_p_driven_enable_control(
     uint8_t* data,
     Torque_control_a3::Driven_enable_controlType driven_enable_control) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = driven_enable_control;
 

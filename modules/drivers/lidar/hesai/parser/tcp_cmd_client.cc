@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -41,7 +41,7 @@ namespace drivers {
 namespace hesai {
 
 int TcpCmdClient::BuildCmdHeader(const Command& cmd, unsigned char* buffer) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int index = 0;
   buffer[index++] = 0x47;
@@ -56,7 +56,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool TcpCmdClient::GetCalibration(std::string* content) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lck(mutex_);
   if (!Open()) {
@@ -86,7 +86,7 @@ COVERAGE_LOG_TOKEN
 
 void TcpCmdClient::ParseHeader(const unsigned char* buffer, const int len,
                                CommandHeader* header) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int index = 0;
   header->cmd = buffer[index++];
@@ -97,7 +97,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool TcpCmdClient::WriteCmd(const Command& cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned char buffer[128];
   int size = BuildCmdHeader(cmd, buffer);
@@ -121,7 +121,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool TcpCmdClient::ReadCmd(Command* feedback) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (feedback == nullptr) {
     return false;
@@ -165,7 +165,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int TcpCmdClient::Read(unsigned char* buffer, int n) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int nleft = -1, nread = -1;
   unsigned char* ptr = buffer;
@@ -188,7 +188,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TcpCmdClient::Close() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (socket_fd_ >= 0) {
     close(socket_fd_);
@@ -197,7 +197,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool TcpCmdClient::Open() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int sockfd = -1;
   struct sockaddr_in servaddr;

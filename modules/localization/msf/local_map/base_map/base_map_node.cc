@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,11 +30,11 @@ using cyber::common::EnsureDirectory;
 
 BaseMapNode::BaseMapNode(BaseMapMatrix* matrix, CompressionStrategy* strategy)
     : map_matrix_(matrix), compression_strategy_(strategy) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 BaseMapNode::~BaseMapNode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (map_matrix_ != nullptr) {
     delete map_matrix_;
@@ -46,7 +46,7 @@ COVERAGE_LOG_TOKEN
 
 void BaseMapNode::Init(const BaseMapConfig* map_config,
                        const MapNodeIndex& index, bool create_map_cells) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_config_ = map_config;
   index_ = index;
@@ -60,14 +60,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMapNode::InitMapMatrix(const BaseMapConfig* map_config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_config_ = map_config;
   map_matrix_->Init(map_config);
 }
 
 void BaseMapNode::Finalize() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (is_changed_) {
     Save();
@@ -76,7 +76,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMapNode::ResetMapNode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   is_changed_ = false;
   data_is_ready_ = false;
@@ -91,7 +91,7 @@ COVERAGE_LOG_TOKEN
 // }
 
 bool BaseMapNode::Save() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SaveIntensityImage();
   char buf[1024];
@@ -144,7 +144,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool BaseMapNode::Load() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   char buf[1024];
   std::string path = map_config_->map_folder_path_;
@@ -185,7 +185,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool BaseMapNode::Load(const char* filename) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   data_is_ready_ = false;
   // char buf[1024];
@@ -204,7 +204,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int BaseMapNode::LoadBinary(FILE* file) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Load the header
   unsigned int header_size = GetHeaderBinarySize();
@@ -223,7 +223,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int BaseMapNode::CreateBinary(FILE* file) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int buf_size = GetBinarySize();
   std::vector<unsigned char> buffer;
@@ -251,14 +251,14 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int BaseMapNode::GetBinarySize() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // It is uncompressed binary size.
   return GetBodyBinarySize() + GetHeaderBinarySize();
 }
 
 unsigned int BaseMapNode::LoadHeaderBinary(unsigned char* buf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size = GetHeaderBinarySize();
   unsigned int* p = reinterpret_cast<unsigned int*>(buf);
@@ -280,7 +280,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int BaseMapNode::CreateHeaderBinary(unsigned char* buf,
                                              unsigned int buf_size) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size = GetHeaderBinarySize();
   if (buf_size >= target_size) {
@@ -301,7 +301,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int BaseMapNode::GetHeaderBinarySize() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return static_cast<int>(sizeof(unsigned int)      // index_.resolution_id_
                           + sizeof(int)             // index_.zone_id_
@@ -323,7 +323,7 @@ COVERAGE_LOG_TOKEN
 // }
 
 unsigned int BaseMapNode::LoadBodyBinary(std::vector<unsigned char>* buf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (compression_strategy_ == nullptr) {
     return map_matrix_->LoadBinary(&((*buf)[0]));
@@ -342,7 +342,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int BaseMapNode::CreateBodyBinary(
     std::vector<unsigned char>* buf) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (compression_strategy_ == nullptr) {
     unsigned int body_size = GetBodyBinarySize();
@@ -362,7 +362,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int BaseMapNode::GetBodyBinarySize() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return map_matrix_->GetBinarySize();
 }
@@ -370,7 +370,6 @@ COVERAGE_LOG_TOKEN
 // bool BaseMapNode::GetCoordinate(const idl::car::core::numerical::Vector2D&
 // coordinate,
 //         unsigned int& x, unsigned int& y) const {
-COVERAGE_LOG_TOKEN
 
 //     const idl::car::core::numerical::Vector2D& left_top_corner =
 //     GetLeftTopCorner(); int off_x = static_cast<int>((coordinate[0] -
@@ -390,7 +389,7 @@ COVERAGE_LOG_TOKEN
 
 bool BaseMapNode::GetCoordinate(const Eigen::Vector2d& coordinate,
                                 unsigned int* x, unsigned int* y) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const Eigen::Vector2d& left_top_corner = GetLeftTopCorner();
   int off_x = static_cast<int>((coordinate[0] - left_top_corner[0]) /
@@ -412,7 +411,6 @@ COVERAGE_LOG_TOKEN
 // bool BaseMapNode::GetCoordinate(const idl::car::core::numerical::Vector3D&
 // coordinate,
 //         unsigned int& x, unsigned int& y) const {
-COVERAGE_LOG_TOKEN
 
 //     idl::car::core::numerical::Vector2D coord2d;
 //     coord2d.init(coordinate.get_data());
@@ -445,7 +443,6 @@ Eigen::Vector2d BaseMapNode::GetCoordinate(unsigned int x,
 
 // idl::car::core::numerical::Vector2D BaseMapNode::GetLeftTopCorner(
 //     const BaseMapConfig& config, const MapNodeIndex& index) {
-COVERAGE_LOG_TOKEN
 
 //     idl::car::core::numerical::Vector2D coord;
 //     coord[0] = config.map_range_.get_min_x() +
@@ -474,7 +471,7 @@ Eigen::Vector2d BaseMapNode::GetLeftTopCorner(const BaseMapConfig& config,
 }
 
 bool BaseMapNode::SaveIntensityImage() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   char buf[1024];
   std::string path = map_config_->map_folder_path_;
@@ -515,7 +512,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool BaseMapNode::SaveIntensityImage(const std::string& path) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   cv::Mat image;
   map_matrix_->GetIntensityImg(&image);

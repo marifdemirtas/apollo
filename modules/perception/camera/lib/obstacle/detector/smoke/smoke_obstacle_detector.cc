@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ using cyber::common::GetAbsolutePath;
 
 void SmokeObstacleDetector::LoadInputShape(
                             const smoke::ModelParam &model_param) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float offset_ratio = model_param.offset_ratio();
   float cropped_ratio = model_param.cropped_ratio();
@@ -61,7 +61,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SmokeObstacleDetector::LoadParam(const smoke::SmokeParam &smoke_param) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto &model_param = smoke_param.model_param();
   confidence_threshold_ = model_param.confidence_threshold();
@@ -86,7 +86,7 @@ COVERAGE_LOG_TOKEN
 
 bool SmokeObstacleDetector::InitNet(const smoke::SmokeParam &smoke_param,
                                    const std::string &model_root) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto &model_param = smoke_param.model_param();
 
@@ -140,7 +140,7 @@ COVERAGE_LOG_TOKEN
 
 void SmokeObstacleDetector::InitSmokeBlob(
                             const smoke::NetworkParam &net_param) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto obj_blob_scale1 = inference_->get_blob(net_param.det1_obj_blob());
   overlapped_.reset(
@@ -155,7 +155,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SmokeObstacleDetector::Init(const ObstacleDetectorInitOptions &options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gpu_id_ = options.gpu_id;
   BASE_CUDA_CHECK(cudaSetDevice(gpu_id_));
@@ -203,7 +203,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SmokeObstacleDetector::InitFeatureExtractor(const std::string &root_dir) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   FeatureExtractorInitOptions feature_options;
   feature_options.conf_file = smoke_param_.model_param().feature_file();
@@ -223,7 +223,7 @@ COVERAGE_LOG_TOKEN
 
 bool SmokeObstacleDetector::Detect(const ObstacleDetectorOptions &options,
                                   CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (frame == nullptr) {
     return false;

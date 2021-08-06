@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -20,7 +20,7 @@
 
 namespace {
 std::string func_name_simplified(const std::string& str) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   constexpr char kLeftBracket = '(';
   constexpr char kSpace = ' ';
@@ -46,7 +46,7 @@ namespace util {
 
 std::string function_signature(const std::string& func_name,
                                const std::string& indicator) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto simplified_name = func_name_simplified(func_name);
   if (indicator.empty()) {
@@ -56,11 +56,11 @@ COVERAGE_LOG_TOKEN
 }
 
 void Timer::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  start_time_ = Time::Now(); }
 
 int64_t Timer::End(const std::string& msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   end_time_ = Time::Now();
   int64_t elapsed_time = (end_time_ - start_time_).ToNanosecond() / 1e6;

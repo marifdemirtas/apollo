@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /* Copyright 2019 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,7 +41,7 @@ const int32_t CHECK_RESPONSE_SPEED_UNIT_FLAG = 2;
 ErrorCode Ge3Controller::Init(
     const VehicleParameter& params, CanSender<ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (is_initialized_) {
     AINFO << "Ge3Controller has already been initiated.";
@@ -118,11 +118,11 @@ COVERAGE_LOG_TOKEN
 }
 
 Ge3Controller::~Ge3Controller() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Ge3Controller::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_initialized_) {
     AERROR << "Ge3Controller has NOT been initialized.";
@@ -135,7 +135,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Ge3Controller::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_initialized_) {
     AERROR << "Ge3Controller stops or starts improperly!";
@@ -150,7 +150,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Chassis Ge3Controller::chassis() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis_.Clear();
 
@@ -402,7 +402,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Ge3Controller::Emergency() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
@@ -412,7 +412,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode Ge3Controller::EnableAutoMode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
     AINFO << "already in COMPLETE_AUTO_DRIVE mode";
@@ -441,7 +441,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode Ge3Controller::DisableAutoMode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ResetProtocol();
   can_sender_->Update();
@@ -452,7 +452,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode Ge3Controller::EnableSteeringOnlyMode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_STEER_ONLY) {
@@ -481,7 +481,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode Ge3Controller::EnableSpeedOnlyMode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_SPEED_ONLY) {
@@ -511,7 +511,7 @@ COVERAGE_LOG_TOKEN
 
 // NEUTRAL, REVERSE, DRIVE
 void Ge3Controller::Gear(Chassis::GearPosition gear_position) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -561,7 +561,7 @@ COVERAGE_LOG_TOKEN
 // acceleration_spd:60 ~ 100, suggest: 90
 // -> pedal
 void Ge3Controller::Brake(double pedal) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Update brake value based on mode
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
@@ -575,7 +575,7 @@ COVERAGE_LOG_TOKEN
 // drive with old acceleration
 // gas:0.00~99.99 unit:
 void Ge3Controller::Throttle(double pedal) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -590,7 +590,7 @@ COVERAGE_LOG_TOKEN
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 void Ge3Controller::Steer(double angle) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_STEER_ONLY)) {
@@ -605,7 +605,7 @@ COVERAGE_LOG_TOKEN
 // drive with acceleration/deceleration
 // acc:-7.0 ~ 5.0, unit:m/s^2
 void Ge3Controller::Acceleration(double acc) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -619,7 +619,7 @@ COVERAGE_LOG_TOKEN
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void Ge3Controller::Steer(double angle, double angle_spd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
@@ -639,7 +639,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Ge3Controller::SetEpbBreak(const ControlCommand& command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (command.parking_brake()) {
     pc_epb_203_->set_pc_epbreq(Pc_epb_203::PC_EPBREQ_APPLY);
@@ -649,7 +649,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Ge3Controller::SetBeam(const ControlCommand& command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (command.signal().high_beam()) {
     pc_bcm_201_->set_pc_lowbeamreq(Pc_bcm_201::PC_LOWBEAMREQ_NOREQ);
@@ -664,7 +664,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Ge3Controller::SetHorn(const ControlCommand& command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (command.signal().horn()) {
     pc_bcm_201_->set_pc_hornreq(Pc_bcm_201::PC_HORNREQ_REQ);
@@ -674,7 +674,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Ge3Controller::SetTurningSignal(const ControlCommand& command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Set Turn Signal
   auto signal = command.signal().turn_signal();
@@ -691,11 +691,11 @@ COVERAGE_LOG_TOKEN
 }
 
 void Ge3Controller::ResetProtocol() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  message_manager_->ResetSendMessages(); }
 
 bool Ge3Controller::CheckChassisError() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ChassisDetail chassis_detail;
   message_manager_->GetSensorData(&chassis_detail);
@@ -750,7 +750,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Ge3Controller::SecurityDogThreadFunc() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
@@ -818,7 +818,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Ge3Controller::CheckResponse(const int32_t flags, bool need_wait) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int32_t retry_num = 20;
   ChassisDetail chassis_detail;
@@ -866,21 +866,21 @@ COVERAGE_LOG_TOKEN
 }
 
 void Ge3Controller::set_chassis_error_mask(const int32_t mask) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t Ge3Controller::chassis_error_mask() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode Ge3Controller::chassis_error_code() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
@@ -888,7 +888,7 @@ COVERAGE_LOG_TOKEN
 
 void Ge3Controller::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
@@ -896,7 +896,7 @@ COVERAGE_LOG_TOKEN
 
 bool Ge3Controller::CheckSafetyError(
     const ::apollo::canbus::ChassisDetail& chassis_detail) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return false;
 }

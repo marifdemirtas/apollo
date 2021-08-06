@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@ limitations under the License.
 namespace {
 
 std::string CreateOverlapId() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static int count = 0;
   ++count;
@@ -43,7 +43,7 @@ namespace adapter {
 using apollo::common::util::PairHash;
 
 void ProtoOrganizer::GetRoadElements(std::vector<RoadInternal>* roads) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& road_internal : *roads) {
     // lanes
@@ -115,7 +115,7 @@ COVERAGE_LOG_TOKEN
 
 void ProtoOrganizer::GetJunctionElements(
     const std::vector<JunctionInternal>& junctions) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& junction_internal : junctions) {
     std::string junction_id = junction_internal.junction.id().id();
@@ -126,7 +126,7 @@ COVERAGE_LOG_TOKEN
 void ProtoOrganizer::GetLaneObjectOverlapElements(
     const std::string& lane_id,
     const std::vector<OverlapWithLane>& overlap_with_lanes) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& overlap_object : overlap_with_lanes) {
     std::string object_id = overlap_object.object_id;
@@ -192,7 +192,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ProtoOrganizer::GetObjectElements(const ObjectInternal& objects) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (const auto& rsu_internal : objects.rsus) {
     const std::string& rsu_id = rsu_internal.rsu.id().id();
@@ -203,7 +203,7 @@ COVERAGE_LOG_TOKEN
 void ProtoOrganizer::GetLaneSignalOverlapElements(
     const std::string& lane_id,
     const std::vector<OverlapWithLane>& overlap_with_lanes) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& overlap_signal : overlap_with_lanes) {
     std::string object_id = overlap_signal.object_id;
@@ -251,7 +251,7 @@ COVERAGE_LOG_TOKEN
 void ProtoOrganizer::GetLaneJunctionOverlapElements(
     const std::string& lane_id,
     const std::vector<OverlapWithLane>& overlap_with_lanes) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& overlap_junction : overlap_with_lanes) {
     std::string object_id = overlap_junction.object_id;
@@ -286,7 +286,7 @@ COVERAGE_LOG_TOKEN
 void ProtoOrganizer::GetLaneLaneOverlapElements(
     const std::unordered_map<std::pair<std::string, std::string>,
                              OverlapWithLane, PairHash>& lane_lane_overlaps) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::unordered_set<std::string> close_set;
   for (auto& overlap_lane_pair : lane_lane_overlaps) {
@@ -339,7 +339,7 @@ COVERAGE_LOG_TOKEN
 
 void ProtoOrganizer::GetJunctionObjectOverlapElements(
     const std::vector<JunctionInternal>& junctions) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& junction_internal : junctions) {
     const auto& junction_id = junction_internal.junction.id().id();
@@ -385,7 +385,7 @@ COVERAGE_LOG_TOKEN
 void ProtoOrganizer::GetOverlapElements(
     const std::vector<RoadInternal>& roads,
     const std::vector<JunctionInternal>& junctions) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::unordered_map<std::pair<std::string, std::string>, OverlapWithLane,
                      PairHash>
@@ -412,7 +412,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ProtoOrganizer::OutputData(apollo::hdmap::Map* pb_map) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& road_pair : proto_data_.pb_roads) {
     *(pb_map->add_road()) = road_pair.second;

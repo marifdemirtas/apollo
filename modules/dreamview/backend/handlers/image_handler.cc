@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -70,7 +70,7 @@ void ImageHandler::OnImage(
 }
 
 void ImageHandler::OnImageFront(const std::shared_ptr<Image> &image) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (FLAGS_use_navigation_mode) {
     // Navigation mode
@@ -79,7 +79,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ImageHandler::OnImageShort(const std::shared_ptr<CompressedImage> &image) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!FLAGS_use_navigation_mode) {
     // Regular mode
@@ -89,7 +89,7 @@ COVERAGE_LOG_TOKEN
 
 ImageHandler::ImageHandler()
     : requests_(0), node_(cyber::CreateNode("image_handler")) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   node_->CreateReader<Image>(
       FLAGS_image_front_topic,
@@ -103,7 +103,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool ImageHandler::handleGet(CivetServer *server, struct mg_connection *conn) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   requests_++;
 

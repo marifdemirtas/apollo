@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /**
  * Copyright (c) 2019 LG Electronics, Inc.
  *
@@ -14,25 +14,25 @@
 Clients::Clients() {}
 
 Clients::~Clients() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Clients::start(std::shared_ptr<Client> client) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   clients.insert(client);
   client->start();
 }
 
 void Clients::stop(std::shared_ptr<Client> client) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   clients.erase(client);
   client->stop();
 }
 
 void Clients::stop_all() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& client : clients) {
     client->stop();

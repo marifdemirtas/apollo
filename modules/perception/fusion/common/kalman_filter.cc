@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,12 +22,12 @@ namespace perception {
 namespace fusion {
 
 KalmanFilter::KalmanFilter() : BaseFilter("KalmanFilter") {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool KalmanFilter::Init(const Eigen::VectorXd &initial_belief_states,
                         const Eigen::MatrixXd &initial_uncertainty) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (initial_uncertainty.rows() != initial_uncertainty.cols()) {
     AERROR << "the cols and rows of uncertainty martix should be equal";
@@ -66,7 +66,7 @@ COVERAGE_LOG_TOKEN
 
 bool KalmanFilter::Predict(const Eigen::MatrixXd &transform_matrix,
                            const Eigen::MatrixXd &env_uncertainty_matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!init_) {
     AERROR << "Predict: Kalman Filter initialize not successfully";
@@ -99,7 +99,7 @@ COVERAGE_LOG_TOKEN
 
 bool KalmanFilter::Correct(const Eigen::VectorXd &cur_observation,
                            const Eigen::MatrixXd &cur_observation_uncertainty) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!init_) {
     AERROR << "Correct: Kalman Filter initialize not successfully";
@@ -138,7 +138,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool KalmanFilter::SetControlMatrix(const Eigen::MatrixXd &control_matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!init_) {
     AERROR << "SetControlMatrix: Kalman Filter initialize not successfully";
@@ -154,18 +154,18 @@ COVERAGE_LOG_TOKEN
 }
 
 Eigen::VectorXd KalmanFilter::GetStates() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return global_states_; }
 
 Eigen::MatrixXd KalmanFilter::GetUncertainty() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return global_uncertainty_;
 }
 
 bool KalmanFilter::SetGainBreakdownThresh(const std::vector<bool> &break_down,
                                           const float threshold) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (static_cast<int>(break_down.size()) != states_num_) {
     return false;
@@ -181,7 +181,7 @@ COVERAGE_LOG_TOKEN
 
 bool KalmanFilter::SetValueBreakdownThresh(const std::vector<bool> &break_down,
                                            const float threshold) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (static_cast<int>(break_down.size()) != states_num_) {
     return false;
@@ -195,7 +195,7 @@ COVERAGE_LOG_TOKEN
   return true;
 }
 void KalmanFilter::CorrectionBreakdown() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::VectorXd states_gain = global_states_ - prior_global_states_;
   Eigen::VectorXd breakdown_diff = states_gain.cwiseProduct(gain_break_down_);
@@ -216,7 +216,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool KalmanFilter::DeCorrelation(int x, int y, int x_len, int y_len) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (x >= states_num_ || y >= states_num_ || x + x_len >= states_num_ ||
       y + y_len >= states_num_) {

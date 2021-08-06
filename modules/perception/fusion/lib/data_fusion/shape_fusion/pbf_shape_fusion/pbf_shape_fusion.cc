@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,12 +24,12 @@ bool PbfShapeFusion::s_use_camera_3d_ = true;
 float PbfShapeFusion::s_camera_radar_time_diff_th_ = 0.3f;
 
 bool PbfShapeFusion::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return true; }
 
 void PbfShapeFusion::UpdateWithMeasurement(const SensorObjectPtr measurement,
                                            double target_timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // base::SensorType sensor_type = measurement->GetSensorType();
   SensorObjectConstPtr latest_lidar = track_ref_->GetLatestLidarObject();
@@ -67,22 +67,22 @@ COVERAGE_LOG_TOKEN
 void PbfShapeFusion::UpdateWithoutMeasurement(const std::string& sensor_id,
                                               double measurement_timestamp,
                                               double target_timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string PbfShapeFusion::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return "PbfShapeFusion"; }
 
 void PbfShapeFusion::UpdateState(const SensorObjectConstPtr& measurement) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   UpdateShape(measurement);
   UpdateCenter(measurement);
 }
 
 void PbfShapeFusion::UpdateShape(const SensorObjectConstPtr& measurement) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   base::ObjectPtr dst_obj = track_ref_->GetFusedObject()->GetBaseObject();
   base::ObjectConstPtr src_obj = measurement->GetBaseObject();
@@ -94,7 +94,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PbfShapeFusion::UpdateCenter(const SensorObjectConstPtr& measurement) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   base::ObjectPtr dst_obj = track_ref_->GetFusedObject()->GetBaseObject();
   base::ObjectConstPtr src_obj = measurement->GetBaseObject();

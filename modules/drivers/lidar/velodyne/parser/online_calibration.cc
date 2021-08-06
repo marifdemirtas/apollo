@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,7 @@ using apollo::drivers::velodyne::VelodynePacket;
 using apollo::drivers::velodyne::VelodyneScan;
 
 int OnlineCalibration::decode(const std::shared_ptr<VelodyneScan>& scan_msgs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (inited_) {
     return 0;
@@ -123,7 +123,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void OnlineCalibration::get_unit_index() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int size = static_cast<int>(status_values_.size());
   // simple check only for value, maybe need more check fro status type
@@ -143,7 +143,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void OnlineCalibration::dump(const std::string& file_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!inited_) {
     AERROR << "Please decode calibraion info first";

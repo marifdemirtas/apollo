@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,21 +27,21 @@ namespace pyramid_map {
 
 NdtMapConfig::NdtMapConfig(std::string map_version)
     : BaseMapConfig(map_version) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_is_compression_ = true;
   map_resolutions_z_.push_back(1.0f);
 }
 
 void NdtMapConfig::SetSingleResolutionZ(float resolution) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_resolutions_z_.clear();
   map_resolutions_z_.push_back(resolution);
 }
 
 void NdtMapConfig::SetMultiResolutionsZ() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_resolutions_z_.clear();
   map_resolutions_z_.push_back(0.03125);
@@ -57,7 +57,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NdtMapConfig::CreateXml(boost::property_tree::ptree* config) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseMapConfig::CreateXml(config);
   config->put("map.map_config.compression", map_is_compression_);
@@ -69,7 +69,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NdtMapConfig::LoadXml(boost::property_tree::ptree* config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseMapConfig::LoadXml(*config);
   map_is_compression_ = config->get<bool>("map.map_config.compression");

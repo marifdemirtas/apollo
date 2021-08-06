@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -38,7 +38,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool ROIBoundaryFilter::Init(const ObjectFilterInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -60,7 +60,7 @@ COVERAGE_LOG_TOKEN
 
 bool ROIBoundaryFilter::Filter(const ObjectFilterOptions& options,
                                LidarFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!frame) {
     AINFO << "Lidar frame is nullptr.";
@@ -111,7 +111,7 @@ COVERAGE_LOG_TOKEN
 
 void ROIBoundaryFilter::BuildWorldPolygons(const ObjectFilterOptions& options,
                                            const LidarFrame& frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const Eigen::Affine3d& pose = frame.lidar2world_pose;
   const std::vector<base::ObjectPtr>& objects = frame.segmented_objects;
@@ -138,7 +138,7 @@ COVERAGE_LOG_TOKEN
 
 void ROIBoundaryFilter::FillObjectRoiFlag(const ObjectFilterOptions& options,
                                           LidarFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto& objects = frame->segmented_objects;
   objects_cross_roi_.assign(objects.size(), false);
@@ -163,7 +163,7 @@ COVERAGE_LOG_TOKEN
 void ROIBoundaryFilter::FilterObjectsOutsideBoundary(
     const ObjectFilterOptions& options, LidarFrame* frame,
     std::vector<bool>* objects_valid_flag) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const EigenVector<base::RoadBoundary>& road_boundary =
       frame->hdmap_struct->road_boundary;
@@ -207,7 +207,7 @@ COVERAGE_LOG_TOKEN
 void ROIBoundaryFilter::FilterObjectsInsideBoundary(
     const ObjectFilterOptions& options, LidarFrame* frame,
     std::vector<bool>* objects_valid_flag) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const EigenVector<base::RoadBoundary>& road_boundary =
       frame->hdmap_struct->road_boundary;
@@ -252,7 +252,7 @@ COVERAGE_LOG_TOKEN
 void ROIBoundaryFilter::FilterObjectsByConfidence(
     const ObjectFilterOptions& options, LidarFrame* frame,
     std::vector<bool>* objects_valid_flag) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto& objects = frame->segmented_objects;
   for (size_t i = 0; i < objects.size(); ++i) {

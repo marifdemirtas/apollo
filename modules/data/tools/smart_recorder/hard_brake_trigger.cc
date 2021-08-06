@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -30,11 +30,11 @@ namespace data {
 using apollo::canbus::Chassis;
 
 HardBrakeTrigger::HardBrakeTrigger() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  trigger_name_ = "HardBrakeTrigger"; }
 
 void HardBrakeTrigger::Pull(const cyber::record::RecordMessage& msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!trigger_obj_->enabled()) {
     return;
@@ -60,7 +60,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool HardBrakeTrigger::IsNoisy(const float speed) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const float pre_speed_mps =
       (current_speed_queue_.empty() ? 0.0f : current_speed_queue_.back());
@@ -68,7 +68,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool HardBrakeTrigger::IsHardBrake() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (current_speed_queue_.size() < queue_size_ ||
       history_speed_queue_.size() < queue_size_) {
@@ -80,7 +80,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HardBrakeTrigger::EnqueueMessage(const float speed) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   current_speed_queue_.emplace_back(speed);
   current_total_ += speed;

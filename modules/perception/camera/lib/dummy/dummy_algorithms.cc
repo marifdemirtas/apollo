@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -17,9 +17,6 @@
 #include "modules/perception/camera/lib/dummy/dummy_algorithms.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {

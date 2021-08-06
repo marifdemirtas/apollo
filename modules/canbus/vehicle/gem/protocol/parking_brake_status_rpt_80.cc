@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace gem {
 using ::apollo::drivers::canbus::Byte;
 
 Parkingbrakestatusrpt80::Parkingbrakestatusrpt80() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Parkingbrakestatusrpt80::ID = 0x80;
 
 void Parkingbrakestatusrpt80::Parse(const std::uint8_t* bytes, int32_t length,
                                     ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_gem()
       ->mutable_parking_brake_status_rpt_80()
@@ -50,7 +50,7 @@ COVERAGE_LOG_TOKEN
 Parking_brake_status_rpt_80::Parking_brake_enabledType
 Parkingbrakestatusrpt80::parking_brake_enabled(const std::uint8_t* bytes,
                                                int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);

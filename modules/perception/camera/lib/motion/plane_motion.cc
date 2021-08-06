@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -23,13 +23,12 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
 
 PlaneMotion::PlaneMotion(int s) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_buffer_size(s);
   if (mat_motion_sensor_.rows() == 3 && mat_motion_sensor_.cols() == 3) {
@@ -43,7 +42,7 @@ COVERAGE_LOG_TOKEN
 }
 
 PlaneMotion::~PlaneMotion(void) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (mot_buffer_ != nullptr) {
     mot_buffer_->clear();
@@ -53,7 +52,7 @@ COVERAGE_LOG_TOKEN
 
 // Generate the inverse motion for past trajectory
 void PlaneMotion::generate_motion_matrix(base::VehicleStatus *vehicledata) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float time_d = static_cast<float>(vehicledata->time_d);
   if (!is_3d_motion_) {
@@ -107,7 +106,7 @@ COVERAGE_LOG_TOKEN
 
 void PlaneMotion::accumulate_motion(const double start_time,
                                     const double end_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // accumulate CAN+IMU / Localization motion
   auto iter = raw_motion_queue_.begin();
@@ -127,7 +126,7 @@ COVERAGE_LOG_TOKEN
 void PlaneMotion::update_motion_buffer(const base::VehicleStatus &vehicledata,
                                        const double pre_image_timestamp,
                                        const double image_timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
   // compute the projection from pevious frames to the last frame
@@ -152,7 +151,7 @@ COVERAGE_LOG_TOKEN
 
 bool PlaneMotion::find_motion_with_timestamp(double timestamp,
                                              base::VehicleStatus *vs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
   ADEBUG << "mot_buffer_->size(): " << mot_buffer_->size();
@@ -168,7 +167,7 @@ COVERAGE_LOG_TOKEN
 }
 
 base::MotionBuffer PlaneMotion::get_buffer() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
   return *mot_buffer_;
@@ -178,7 +177,7 @@ void PlaneMotion::add_new_motion(double pre_image_timestamp,
                                  double image_timestamp,
                                  int motion_operation_flag,
                                  base::VehicleStatus *vehicledata) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   while (!raw_motion_queue_.empty() &&
          vehicledata->time_ts < raw_motion_queue_.back().time_ts) {

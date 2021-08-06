@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Steeringauxrpt32c::Steeringauxrpt32c() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Steeringauxrpt32c::ID = 0x32C;
 
 void Steeringauxrpt32c::Parse(const std::uint8_t* bytes, int32_t length,
                               ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_lexus()
       ->mutable_steering_aux_rpt_32c()
@@ -65,7 +65,7 @@ COVERAGE_LOG_TOKEN
 // '[0|1]', 'bit': 59, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringauxrpt32c::user_interaction_is_valid(const std::uint8_t* bytes,
                                                   int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(3, 1);
@@ -79,7 +79,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringauxrpt32c::user_interaction(const std::uint8_t* bytes,
                                          int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 1);
@@ -93,7 +93,7 @@ COVERAGE_LOG_TOKEN
 // '[0|1]', 'bit': 58, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringauxrpt32c::rotation_rate_is_valid(const std::uint8_t* bytes,
                                                int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(2, 1);
@@ -107,7 +107,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad/s'}
 double Steeringauxrpt32c::rotation_rate(const std::uint8_t* bytes,
                                         int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -126,7 +126,7 @@ COVERAGE_LOG_TOKEN
 // '[0|1]', 'bit': 57, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringauxrpt32c::raw_torque_is_valid(const std::uint8_t* bytes,
                                             int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(1, 1);
@@ -140,7 +140,7 @@ COVERAGE_LOG_TOKEN
 // 'bit': 23, 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Steeringauxrpt32c::raw_torque(const std::uint8_t* bytes,
                                      int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -162,7 +162,7 @@ COVERAGE_LOG_TOKEN
 // '[0|1]', 'bit': 56, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringauxrpt32c::raw_position_is_valid(const std::uint8_t* bytes,
                                               int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 1);
@@ -176,7 +176,7 @@ COVERAGE_LOG_TOKEN
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Steeringauxrpt32c::raw_position(const std::uint8_t* bytes,
                                        int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -23,13 +23,13 @@ namespace apollo {
 namespace data {
 
 RegularIntervalTrigger::RegularIntervalTrigger() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   trigger_name_ = "RegularIntervalTrigger";
 }
 
 void RegularIntervalTrigger::Pull(const cyber::record::RecordMessage& msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!trigger_obj_->enabled()) {
     return;

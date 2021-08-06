@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace fusion {
 
 bool ObstacleMultiSensorFusion::Init(
     const ObstacleMultiSensorFusionParam& param) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (fusion_ != nullptr) {
     AINFO << "Already inited";
@@ -41,7 +41,7 @@ COVERAGE_LOG_TOKEN
 
 bool ObstacleMultiSensorFusion::Process(const base::FrameConstPtr& frame,
                                         std::vector<base::ObjectPtr>* objects) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   FusionOptions options;
   return fusion_->Fuse(options, frame, objects);

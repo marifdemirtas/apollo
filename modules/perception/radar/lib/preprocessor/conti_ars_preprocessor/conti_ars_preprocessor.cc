@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,7 @@ int ContiArsPreprocessor::current_idx_ = 0;
 std::unordered_map<int, int> ContiArsPreprocessor::local2global_;
 
 bool ContiArsPreprocessor::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string model_name = "ContiArsPreprocessor";
   const lib::ModelConfig* model_config = nullptr;
@@ -39,7 +39,7 @@ bool ContiArsPreprocessor::Preprocess(
     const drivers::ContiRadar& raw_obstacles,
     const PreprocessorOptions& options,
     drivers::ContiRadar* corrected_obstacles) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   PERF_FUNCTION();
   SkipObjects(raw_obstacles, corrected_obstacles);
@@ -49,7 +49,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string ContiArsPreprocessor::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return "ContiArsPreprocessor";
 }
@@ -57,7 +57,7 @@ COVERAGE_LOG_TOKEN
 void ContiArsPreprocessor::SkipObjects(
     const drivers::ContiRadar& raw_obstacles,
     drivers::ContiRadar* corrected_obstacles) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   corrected_obstacles->mutable_header()->CopyFrom(raw_obstacles.header());
   double timestamp = raw_obstacles.header().timestamp_sec() - 1e-6;
@@ -76,7 +76,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ContiArsPreprocessor::ExpandIds(drivers::ContiRadar* corrected_obstacles) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (int iobj = 0; iobj < corrected_obstacles->contiobs_size(); ++iobj) {
     const auto& contiobs = corrected_obstacles->contiobs(iobj);
@@ -100,7 +100,7 @@ COVERAGE_LOG_TOKEN
 
 void ContiArsPreprocessor::CorrectTime(
     drivers::ContiRadar* corrected_obstacles) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double correct_timestamp =
       corrected_obstacles->header().timestamp_sec() - delay_time_;
@@ -108,7 +108,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int ContiArsPreprocessor::GetNextId() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ++current_idx_;
   if (MAX_RADAR_IDX == current_idx_) {

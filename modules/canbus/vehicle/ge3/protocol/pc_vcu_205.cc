@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,11 +28,11 @@ const int32_t Pcvcu205::ID = 0x205;
 
 // public
 Pcvcu205::Pcvcu205() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Pcvcu205::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,7 +40,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Pcvcu205::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_pc_accpedreq(data, pc_accpedreq_);
   set_p_pc_accpedenable(data, pc_accpedenable_);
@@ -51,7 +51,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Pcvcu205::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // you should check this manually
   pc_accpedreq_ = 0.0;
@@ -63,7 +63,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Pcvcu205* Pcvcu205::set_pc_accpedreq(double pc_accpedreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_accpedreq_ = pc_accpedreq;
   return this;
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_range': '[0|100]', 'bit': 15, 'type': 'double', 'order':
 // 'motorola', 'physical_unit': '%'}
 void Pcvcu205::set_p_pc_accpedreq(uint8_t* data, double pc_accpedreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_accpedreq = ProtocolData::BoundedValue(0.0, 100.0, pc_accpedreq);
   int x = static_cast<int>(pc_accpedreq / 0.050000);
@@ -92,7 +92,7 @@ COVERAGE_LOG_TOKEN
 
 Pcvcu205* Pcvcu205::set_pc_accpedenable(
     Pc_vcu_205::Pc_accpedenableType pc_accpedenable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_accpedenable_ = pc_accpedenable;
   return this;
@@ -105,7 +105,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'motorola', 'physical_unit': ''}
 void Pcvcu205::set_p_pc_accpedenable(
     uint8_t* data, Pc_vcu_205::Pc_accpedenableType pc_accpedenable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = pc_accpedenable;
 
@@ -114,7 +114,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Pcvcu205* Pcvcu205::set_pc_torqreq(double pc_torqreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_torqreq_ = pc_torqreq;
   return this;
@@ -125,7 +125,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_range': '[-3000|3000]', 'bit': 19, 'type': 'double', 'order':
 // 'motorola', 'physical_unit': 'Nm'}
 void Pcvcu205::set_p_pc_torqreq(uint8_t* data, double pc_torqreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_torqreq = ProtocolData::BoundedValue(-3000.0, 3000.0, pc_torqreq);
   int x = static_cast<int>((pc_torqreq - -3000.000000) / 1.500000);
@@ -143,7 +143,7 @@ COVERAGE_LOG_TOKEN
 
 Pcvcu205* Pcvcu205::set_pc_torqenable(
     Pc_vcu_205::Pc_torqenableType pc_torqenable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_torqenable_ = pc_torqenable;
   return this;
@@ -156,7 +156,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Pcvcu205::set_p_pc_torqenable(
     uint8_t* data, Pc_vcu_205::Pc_torqenableType pc_torqenable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = pc_torqenable;
 
@@ -165,7 +165,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Pcvcu205* Pcvcu205::set_pc_gearreq(Pc_vcu_205::Pc_gearreqType pc_gearreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_gearreq_ = pc_gearreq;
   return this;
@@ -179,7 +179,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Pcvcu205::set_p_pc_gearreq(uint8_t* data,
                                 Pc_vcu_205::Pc_gearreqType pc_gearreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = pc_gearreq;
 
@@ -189,7 +189,7 @@ COVERAGE_LOG_TOKEN
 
 Pcvcu205* Pcvcu205::set_pc_gearenable(
     Pc_vcu_205::Pc_gearenableType pc_gearenable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_gearenable_ = pc_gearenable;
   return this;
@@ -202,7 +202,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Pcvcu205::set_p_pc_gearenable(
     uint8_t* data, Pc_vcu_205::Pc_gearenableType pc_gearenable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = pc_gearenable;
 

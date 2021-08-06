@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -459,7 +459,7 @@ class Teleop {
 }  // namespace
 
 int main(int32_t argc, char **argv) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   apollo::cyber::Init(argv[0]);
   FLAGS_alsologtostderr = true;

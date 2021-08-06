@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,16 +24,16 @@ namespace apollo {
 namespace localization {
 namespace msf {
 LosslessMap::LosslessMap(LosslessMapConfig* config) : BaseMap(config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LosslessMap::~LosslessMap() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LosslessMap::SetValue(const Eigen::Vector3d& coordinate, int zone_id,
                            unsigned char intensity) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (size_t i = 0; i < map_config_->map_resolutions_.size(); ++i) {
     MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(
@@ -46,7 +46,7 @@ COVERAGE_LOG_TOKEN
 
 void LosslessMap::SetValueLayer(const Eigen::Vector3d& coordinate, int zone_id,
                                 unsigned char intensity) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (size_t i = 0; i < map_config_->map_resolutions_.size(); ++i) {
     MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(
@@ -60,7 +60,7 @@ COVERAGE_LOG_TOKEN
 void LosslessMap::GetValue(const Eigen::Vector3d& coordinate, int zone_id,
                            unsigned int resolution_id,
                            std::vector<unsigned char>* values) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -72,7 +72,7 @@ COVERAGE_LOG_TOKEN
 void LosslessMap::GetValueSafe(const Eigen::Vector3d& coordinate, int zone_id,
                                unsigned int resolution_id,
                                std::vector<unsigned char>* values) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -83,7 +83,7 @@ COVERAGE_LOG_TOKEN
 
 void LosslessMap::GetVar(const Eigen::Vector3d& coordinate, int zone_id,
                          unsigned int resolution_id, std::vector<float>* vars) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -95,7 +95,7 @@ COVERAGE_LOG_TOKEN
 void LosslessMap::GetVarSafe(const Eigen::Vector3d& coordinate, int zone_id,
                              unsigned int resolution_id,
                              std::vector<float>* vars) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -106,7 +106,7 @@ COVERAGE_LOG_TOKEN
 
 void LosslessMap::GetAlt(const Eigen::Vector3d& coordinate, int zone_id,
                          unsigned int resolution_id, std::vector<float>* alts) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -118,7 +118,7 @@ COVERAGE_LOG_TOKEN
 void LosslessMap::GetAltSafe(const Eigen::Vector3d& coordinate, int zone_id,
                              unsigned int resolution_id,
                              std::vector<float>* alts) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -130,7 +130,7 @@ COVERAGE_LOG_TOKEN
 void LosslessMap::GetAltVar(const Eigen::Vector3d& coordinate, int zone_id,
                             unsigned int resolution_id,
                             std::vector<float>* alt_vars) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -142,7 +142,7 @@ COVERAGE_LOG_TOKEN
 void LosslessMap::GetAltVarSafe(const Eigen::Vector3d& coordinate, int zone_id,
                                 unsigned int resolution_id,
                                 std::vector<float>* alt_vars) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -154,7 +154,7 @@ COVERAGE_LOG_TOKEN
 void LosslessMap::GetCount(const Eigen::Vector3d& coordinate, int zone_id,
                            unsigned int resolution_id,
                            std::vector<unsigned int>* counts) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -166,7 +166,7 @@ COVERAGE_LOG_TOKEN
 void LosslessMap::GetCountSafe(const Eigen::Vector3d& coordinate, int zone_id,
                                unsigned int resolution_id,
                                std::vector<unsigned int>* counts) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -177,7 +177,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned char LosslessMap::GetValue(const Eigen::Vector3d& coordinate,
                                     int zone_id, unsigned int resolution_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -189,7 +189,7 @@ COVERAGE_LOG_TOKEN
 unsigned char LosslessMap::GetValueSafe(const Eigen::Vector3d& coordinate,
                                         int zone_id,
                                         unsigned int resolution_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -200,7 +200,7 @@ COVERAGE_LOG_TOKEN
 
 float LosslessMap::GetVar(const Eigen::Vector3d& coordinate, int zone_id,
                           unsigned int resolution_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -211,7 +211,7 @@ COVERAGE_LOG_TOKEN
 
 float LosslessMap::GetVarSafe(const Eigen::Vector3d& coordinate, int zone_id,
                               unsigned int resolution_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -222,7 +222,7 @@ COVERAGE_LOG_TOKEN
 
 float LosslessMap::GetAlt(const Eigen::Vector3d& coordinate, int zone_id,
                           unsigned int resolution_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -233,7 +233,7 @@ COVERAGE_LOG_TOKEN
 
 float LosslessMap::GetAltSafe(const Eigen::Vector3d& coordinate, int zone_id,
                               unsigned int resolution_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -244,7 +244,7 @@ COVERAGE_LOG_TOKEN
 
 float LosslessMap::GetAltVar(const Eigen::Vector3d& coordinate, int zone_id,
                              unsigned int resolution_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -255,7 +255,7 @@ COVERAGE_LOG_TOKEN
 
 float LosslessMap::GetAltVarSafe(const Eigen::Vector3d& coordinate, int zone_id,
                                  unsigned int resolution_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -266,7 +266,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int LosslessMap::GetCount(const Eigen::Vector3d& coordinate,
                                    int zone_id, unsigned int resolution_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -278,7 +278,7 @@ COVERAGE_LOG_TOKEN
 unsigned int LosslessMap::GetCountSafe(const Eigen::Vector3d& coordinate,
                                        int zone_id,
                                        unsigned int resolution_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -291,7 +291,7 @@ void LosslessMap::PreloadMapArea(const Eigen::Vector3d& location,
                                  const Eigen::Vector3d& trans_diff,
                                  unsigned int resolution_id,
                                  unsigned int zone_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseMap::PreloadMapArea(location, trans_diff, resolution_id, zone_id);
 }
@@ -299,7 +299,7 @@ COVERAGE_LOG_TOKEN
 bool LosslessMap::LoadMapArea(const Eigen::Vector3d& seed_pt3d,
                               unsigned int resolution_id, unsigned int zone_id,
                               int filter_size_x, int filter_size_y) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseMap::LoadMapArea(seed_pt3d, resolution_id, zone_id, filter_size_x,
                        filter_size_y);

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -35,7 +35,7 @@ using cyber::common::GetAbsolutePath;
 
 bool TrafficLightDetection::Init(
     const camera::TrafficLightDetectorInitOptions &options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string proto_path = GetAbsolutePath(options.root_dir, options.conf_file);
   AINFO << "proto_path " << proto_path;
@@ -161,7 +161,7 @@ COVERAGE_LOG_TOKEN
 //  traffic lights, because so far batch size can only be 1
 bool TrafficLightDetection::Inference(
     std::vector<base::TrafficLightPtr> *lights, DataProvider *data_provider) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (cudaSetDevice(gpu_id_) != cudaSuccess) {
     AERROR << "Failed to set device to " << gpu_id_;
@@ -237,7 +237,7 @@ COVERAGE_LOG_TOKEN
 
 bool TrafficLightDetection::Detect(const TrafficLightDetectorOptions &options,
                                    CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (frame->traffic_lights.empty()) {
     AINFO << "no lights to detect";
@@ -299,7 +299,7 @@ bool TrafficLightDetection::SelectOutputBoxes(
     const std::vector<float> &resize_scale_list_col,
     const std::vector<float> &resize_scale_list_row,
     std::vector<base::TrafficLightPtr> *lights) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto output_blob = rt_net_->get_blob(net_outputs_[0]);
   std::string model_type = detection_param_.model_type();
@@ -392,7 +392,7 @@ COVERAGE_LOG_TOKEN
 
 void TrafficLightDetection::ApplyNMS(std::vector<base::TrafficLightPtr> *lights,
                                      double iou_thresh) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (lights == nullptr) {
     AERROR << "lights are not available";
@@ -444,7 +444,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string TrafficLightDetection::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return "TrafficLightDetection";
 }

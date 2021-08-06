@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,11 +26,11 @@ namespace bridge {
 
 UDPBridgeMultiReceiverComponent::UDPBridgeMultiReceiverComponent()
     : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool UDPBridgeMultiReceiverComponent::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "UDP bridge multi :receiver init, startin...";
   apollo::bridge::UDPBridgeReceiverRemoteInfo udp_bridge_remote;
@@ -51,14 +51,14 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UDPBridgeMultiReceiverComponent::InitSession(uint16_t port) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return listener_->Initialize(
       this, &UDPBridgeMultiReceiverComponent::MsgHandle, port);
 }
 
 void UDPBridgeMultiReceiverComponent::MsgDispatcher() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << "msg dispatcher start successful.";
   listener_->Listen();
@@ -67,7 +67,7 @@ COVERAGE_LOG_TOKEN
 std::shared_ptr<ProtoDiserializedBufBase>
 UDPBridgeMultiReceiverComponent::CreateBridgeProtoBuf(
     const BridgeHeader &header) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<ProtoDiserializedBufBase> proto_buf;
   if (IsTimeout(header.GetTimeStamp())) {
@@ -99,7 +99,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UDPBridgeMultiReceiverComponent::IsProtoExist(const BridgeHeader &header) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto proto : proto_list_) {
     if (proto->IsTheProto(header)) {
@@ -110,7 +110,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UDPBridgeMultiReceiverComponent::IsTimeout(double time_stamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (enable_timeout_ == false) {
     return false;
@@ -126,7 +126,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UDPBridgeMultiReceiverComponent::MsgHandle(int fd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   struct sockaddr_in client_addr;
   socklen_t sock_len = static_cast<socklen_t>(sizeof(client_addr));
@@ -188,7 +188,7 @@ COVERAGE_LOG_TOKEN
 
 bool UDPBridgeMultiReceiverComponent::RemoveInvalidBuf(
     uint32_t msg_id, const std::string &msg_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (msg_id == 0) {
     return false;

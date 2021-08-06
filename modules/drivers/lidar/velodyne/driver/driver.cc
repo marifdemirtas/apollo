@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ namespace velodyne {
 uint64_t VelodyneDriver::sync_counter = 0;
 
 VelodyneDriver::~VelodyneDriver() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (poll_thread_.joinable()) {
     poll_thread_.join();
@@ -44,7 +44,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool VelodyneDriver::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double frequency = (config_.rpm() / 60.0);  // expected Hz rate
 
@@ -70,7 +70,7 @@ COVERAGE_LOG_TOKEN
 
 void VelodyneDriver::SetBaseTimeFromNmeaTime(NMEATimePtr nmea_time,
                                              uint64_t* basetime) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   struct tm time;
   std::memset(&time, 0, sizeof(tm));
@@ -91,7 +91,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool VelodyneDriver::SetBaseTime() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   NMEATimePtr nmea_time(new NMEATime);
   while (true) {
@@ -114,7 +114,7 @@ COVERAGE_LOG_TOKEN
  *  @returns true unless end of file reached
  */
 bool VelodyneDriver::Poll(const std::shared_ptr<VelodyneScan>& scan) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Allocate a new shared pointer for zero-copy sharing with other nodelets.
   if (basetime_ == 0) {
@@ -153,7 +153,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int VelodyneDriver::PollStandard(std::shared_ptr<VelodyneScan> scan) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Since the velodyne delivers data at a very high rate, keep reading and
   // publishing scans as fast as possible.
@@ -186,7 +186,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void VelodyneDriver::PollPositioningPacket(void) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   while (!cyber::IsShutdown()) {
     NMEATimePtr nmea_time(new NMEATime);
@@ -226,7 +226,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void VelodyneDriver::UpdateGpsTopHour(uint32_t current_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (last_gps_time_ == 0) {
     last_gps_time_ = current_time;
@@ -304,7 +304,7 @@ VelodyneDriver* VelodyneDriverFactory::CreateDriver(
 }
 
 void VelodyneDriver::DevicePoll() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   while (!apollo::cyber::IsShutdown()) {
     // poll device until end of file

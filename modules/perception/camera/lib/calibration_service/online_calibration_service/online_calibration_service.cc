@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace camera {
 
 bool OnlineCalibrationService::Init(
     const CalibrationServiceInitOptions &options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   master_sensor_name_ = options.calibrator_working_sensor_name;
   sensor_name_ = options.calibrator_working_sensor_name;
@@ -69,7 +69,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool OnlineCalibrationService::BuildIndex() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   is_service_ready_ = HasSetIntrinsics() && HasSetGroundPlane();
   return is_service_ready_;
@@ -77,7 +77,7 @@ COVERAGE_LOG_TOKEN
 
 bool OnlineCalibrationService::QueryDepthOnGroundPlane(int x, int y,
                                                        double *depth) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_service_ready_) {
     return false;
@@ -101,7 +101,7 @@ COVERAGE_LOG_TOKEN
 
 bool OnlineCalibrationService::QueryPoint3dOnGroundPlane(
     int x, int y, Eigen::Vector3d *point3d) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_service_ready_) {
     return false;
@@ -126,7 +126,7 @@ COVERAGE_LOG_TOKEN
 
 bool OnlineCalibrationService::QueryGroundPlaneInCameraFrame(
     Eigen::Vector4d *plane_param) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (plane_param == nullptr) {
     AERROR << "plane_param is nullptr";
@@ -147,7 +147,7 @@ COVERAGE_LOG_TOKEN
 
 bool OnlineCalibrationService::QueryCameraToGroundHeightAndPitchAngle(
     float *height, float *pitch) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (height == nullptr) {
     AERROR << "height is nullptr";
@@ -168,7 +168,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void OnlineCalibrationService::Update(CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (frame == nullptr) {
     AERROR << "frame is nullptr";
@@ -212,7 +212,7 @@ void OnlineCalibrationService::SetCameraHeightAndPitch(
     const std::map<std::string, float> &name_camera_ground_height_map,
     const std::map<std::string, float> &name_camera_pitch_angle_diff_map,
     const float &pitch_angle_master_sensor) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   name_camera_status_map_[master_sensor_name_].pitch_angle =
       pitch_angle_master_sensor;
@@ -241,7 +241,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string OnlineCalibrationService::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return "OnlineCalibrationService";
 }

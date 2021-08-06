@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -28,20 +28,20 @@ namespace can {
 using apollo::common::ErrorCode;
 
 bool FakeCanClient::Init(const CANCardParameter &param) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return true; }
 
 ErrorCode FakeCanClient::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return ErrorCode::OK; }
 
 void FakeCanClient::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 ErrorCode FakeCanClient::Send(const std::vector<CanFrame> &frames,
                               int32_t *const frame_num) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (frame_num == nullptr) {
     AERROR << "frame_num pointer is null";
@@ -63,7 +63,7 @@ COVERAGE_LOG_TOKEN
 
 ErrorCode FakeCanClient::Receive(std::vector<CanFrame> *const frames,
                                  int32_t *const frame_num) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (frame_num == nullptr || frames == nullptr) {
     AERROR << "frames or frame_num pointer is null";
@@ -85,7 +85,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string FakeCanClient::GetErrorString(const int32_t /*status*/) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return "";
 }

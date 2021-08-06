@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -49,7 +49,7 @@ using apollo::hdmap::Map;
 using apollo::hdmap::adapter::OpendriveAdapter;
 
 static void DownsampleCurve(Curve* curve) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto* line_segment = curve->mutable_segment(0)->mutable_line_segment();
   std::vector<PointENU> points(line_segment->point().begin(),
@@ -81,7 +81,7 @@ COVERAGE_LOG_TOKEN
 }
 
 static void DownsampleMap(Map* map_pb) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (int i = 0; i < map_pb->lane_size(); ++i) {
     auto* lane = map_pb->mutable_lane(i);
@@ -98,7 +98,7 @@ COVERAGE_LOG_TOKEN
 }
 
 static void OutputMap(const Map& map_pb) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ofstream map_txt_file(FLAGS_output_dir + "/sim_map.txt");
   map_txt_file << map_pb.DebugString();
@@ -112,7 +112,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int main(int32_t argc, char** argv) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   google::InitGoogleLogging(argv[0]);
   FLAGS_alsologtostderr = true;

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -18,7 +18,6 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace lidar {
@@ -28,7 +27,7 @@ using apollo::common::EigenMap;
 using apollo::perception::base::ObjectType;
 
 void FromStdToVector(const std::vector<float>& src_prob, Vectord* dst_prob) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   (*dst_prob)(0) = src_prob[0];
   for (size_t i = 3; i < static_cast<size_t>(ObjectType::MAX_OBJECT_TYPE);
@@ -38,7 +37,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void FromEigenToVector(const Vectord& src_prob, std::vector<float>* dst_prob) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   dst_prob->assign(static_cast<int>(ObjectType::MAX_OBJECT_TYPE), 0);
   dst_prob->at(0) = static_cast<float>(src_prob(0));
@@ -49,7 +48,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ToLog(Vectord* prob) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (size_t i = 0; i < VALID_OBJECT_TYPE; ++i) {
     (*prob)(i) = log((*prob)(i));
@@ -57,7 +56,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ToExp(Vectord* prob) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (size_t i = 0; i < VALID_OBJECT_TYPE; ++i) {
     (*prob)(i) = exp((*prob)(i));
@@ -65,7 +64,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ToExpStable(Vectord* prob) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double min_value = prob->minCoeff();
   for (size_t i = 0; i < VALID_OBJECT_TYPE; ++i) {
@@ -74,7 +73,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Normalize(Vectord* prob) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double sum = prob->sum();
   sum = sum < 1e-9 ? 1e-9 : sum;
@@ -82,7 +81,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void NormalizeRow(Matrixd* prob) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double sum = 0.0;
   for (size_t row = 0; row < VALID_OBJECT_TYPE; ++row) {
@@ -98,7 +97,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool LoadSingleMatrix(std::ifstream& fin, Matrixd* matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (size_t row = 0; row < VALID_OBJECT_TYPE; ++row) {
     for (size_t col = 0; col < VALID_OBJECT_TYPE; ++col) {
@@ -109,7 +108,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool LoadSingleMatrixFile(const std::string& filename, Matrixd* matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (matrix == nullptr) {
     return false;
@@ -126,7 +125,7 @@ COVERAGE_LOG_TOKEN
 
 bool LoadMultipleMatricesFile(const std::string& filename,
                               EigenMap<std::string, Matrixd>* matrices) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (matrices == nullptr) {
     return false;

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -91,7 +91,7 @@ class SqliteWraper {
 }  // namespace
 
 bool KVDB::Put(std::string_view key, std::string_view value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SqliteWraper sqlite;
   return sqlite.SQL(
@@ -100,7 +100,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool KVDB::Delete(std::string_view key) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SqliteWraper sqlite;
   return sqlite.SQL(
@@ -108,7 +108,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::optional<std::string> KVDB::Get(std::string_view key) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SqliteWraper sqlite;
   std::string value;

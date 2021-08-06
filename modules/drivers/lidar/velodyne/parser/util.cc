@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace velodyne {
 
 void init_sin_cos_rot_table(float* sin_rot_table, float* cos_rot_table,
                             uint16_t rotation, float rotation_resolution) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (uint16_t i = 0; i < rotation; ++i) {
     // float rotation = angles::from_degrees(rotation_resolution * i);

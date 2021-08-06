@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /**
  * Copyright (c) 2019 LG Electronics, Inc.
  *
@@ -21,15 +21,15 @@
 using apollo::cyber::message::PyMessageWrap;
 
 Node::Node() : node(apollo::cyber::CreateNode("bridge")) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Node::~Node() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Node::remove(std::shared_ptr<Client> client) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto it = writers.begin(); it != writers.end(); /* empty */) {
     if (it->second.clients.find(client) != it->second.clients.end()) {
@@ -66,7 +66,7 @@ COVERAGE_LOG_TOKEN
 
 void Node::add_reader(const std::string& channel, const std::string& type,
                       std::shared_ptr<Client> client) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto rit = readers.find(channel);
   if (rit != readers.end()) {
@@ -101,7 +101,7 @@ COVERAGE_LOG_TOKEN
 
 void Node::add_writer(const std::string& channel, const std::string& type,
                       std::shared_ptr<Client> client) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto wit = writers.find(channel);
   if (wit != writers.end()) {
@@ -133,7 +133,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Node::publish(const std::string& channel, const std::string& data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto writer = writers.find(channel);
   if (writer == writers.end()) {

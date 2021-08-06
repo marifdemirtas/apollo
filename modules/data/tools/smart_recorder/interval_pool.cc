@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,11 +27,11 @@ namespace apollo {
 namespace data {
 
 IntervalPool::IntervalPool() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void IntervalPool::AddInterval(const Interval& interval) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (pool_.empty() || interval.begin_time > pool_iter_->end_time) {
     pool_.push_back(interval);
@@ -45,7 +45,7 @@ COVERAGE_LOG_TOKEN
 
 void IntervalPool::AddInterval(const uint64_t begin_time,
                                const uint64_t end_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   struct Interval interval;
   interval.begin_time = begin_time;
@@ -54,7 +54,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void IntervalPool::ReorgIntervals() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Sort the intervals by begin_time ascending
   std::sort(pool_.begin(), pool_.end(),
@@ -66,7 +66,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool IntervalPool::MessageFallIntoRange(const uint64_t msg_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // For each message comes for checking, the logic is:
   // 1. Add end_time of any intervals whose begin_time is smaller
@@ -86,7 +86,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void IntervalPool::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pool_.clear();
   pool_iter_ = pool_.begin();
@@ -94,7 +94,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void IntervalPool::PrintIntervals() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto idx = 0;
   for (const auto& interval : pool_) {
@@ -108,7 +108,7 @@ void IntervalPool::LogIntervalEvent(const std::string& name,
                                     const uint64_t msg_time,
                                     const uint64_t backward_time,
                                     const uint64_t forward_time) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ofstream logfile(interval_event_log_file_path_,
                         std::ios::out | std::ios::app);
@@ -124,7 +124,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Interval IntervalPool::GetNextInterval() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (pool_.empty()) {
     struct Interval interval;

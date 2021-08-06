@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace base {
 
 // @brief call pool instance once to initialize memory
 __attribute__((constructor)) void PoolInitialize() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ObjectPool::Instance();
   PointFCloudPool::Instance();

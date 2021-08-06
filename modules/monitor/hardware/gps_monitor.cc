@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -36,11 +36,11 @@ using apollo::drivers::gnss::SolutionType;
 
 GpsMonitor::GpsMonitor()
     : RecurrentRunner(FLAGS_gps_monitor_name, FLAGS_gps_monitor_interval) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void GpsMonitor::RunOnce(const double current_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto manager = MonitorManager::Instance();
   Component* component = apollo::common::util::FindOrNull(

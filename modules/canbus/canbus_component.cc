@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,24 +31,21 @@ using apollo::drivers::canbus::CanClientFactory;
 using apollo::guardian::GuardianCommand;
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
 
 namespace canbus {
 
 std::string CanbusComponent::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return FLAGS_canbus_module_name; }
 
 CanbusComponent::CanbusComponent()
     : monitor_logger_buffer_(
           apollo::common::monitor::MonitorMessageItem::CANBUS) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool CanbusComponent::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!GetProtoConfig(&canbus_conf_)) {
     AERROR << "Unable to load canbus conf file: " << ConfigFilePath();
@@ -178,7 +175,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CanbusComponent::Clear() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   can_sender_.Stop();
   can_receiver_.Stop();
@@ -188,7 +185,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CanbusComponent::PublishChassis() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Chassis chassis = vehicle_controller_->chassis();
   common::util::FillHeader(node_->Name(), &chassis);
@@ -197,7 +194,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CanbusComponent::PublishChassisDetail() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ChassisDetail chassis_detail;
   message_manager_->GetSensorData(&chassis_detail);
@@ -206,7 +203,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool CanbusComponent::Proc() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   PublishChassis();
   if (FLAGS_enable_chassis_detail_pub) {
@@ -216,7 +213,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CanbusComponent::OnControlCommand(const ControlCommand &control_command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int64_t current_timestamp = Time::Now().ToMicrosecond();
   // if command coming too soon, just ignore it.
@@ -246,13 +243,13 @@ COVERAGE_LOG_TOKEN
 
 void CanbusComponent::OnGuardianCommand(
     const GuardianCommand &guardian_command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   OnControlCommand(guardian_command.control_command());
 }
 
 common::Status CanbusComponent::OnError(const std::string &error_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   monitor_logger_buffer_.ERROR(error_msg);
   return ::apollo::common::Status(ErrorCode::CANBUS_ERROR, error_msg);

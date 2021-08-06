@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ using apollo::control::ControlCommand;
 using apollo::monitor::SystemStatus;
 
 bool GuardianComponent::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!GetProtoConfig(&guardian_conf_)) {
     AERROR << "Unable to load canbus conf file: " << ConfigFilePath();
@@ -67,7 +67,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool GuardianComponent::Proc() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   constexpr double kSecondsTillTimeout(2.5);
 
@@ -96,14 +96,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void GuardianComponent::PassThroughControlCommand() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
   guardian_cmd_.mutable_control_command()->CopyFrom(control_cmd_);
 }
 
 void GuardianComponent::TriggerSafetyMode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "Safety state triggered, with system safety mode trigger time : "
         << system_status_.safety_mode_trigger_time();

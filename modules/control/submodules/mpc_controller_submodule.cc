@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -37,21 +37,21 @@ using apollo::planning::ADCTrajectory;
 
 MPCControllerSubmodule::MPCControllerSubmodule()
     : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 MPCControllerSubmodule::~MPCControllerSubmodule() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string MPCControllerSubmodule::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return FLAGS_mpc_controller_submodule_name;
 }
 
 bool MPCControllerSubmodule::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   injector_ = std::make_shared<DependencyInjector>();
   // TODO(SHU): separate common_control conf from controller conf
@@ -73,7 +73,7 @@ COVERAGE_LOG_TOKEN
 
 bool MPCControllerSubmodule::Proc(
     const std::shared_ptr<Preprocessor>& preprocessor_status) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto start_time = Clock::Now();
 
@@ -126,7 +126,7 @@ COVERAGE_LOG_TOKEN
 
 Status MPCControllerSubmodule::ProduceControlCoreCommand(
     const LocalView& local_view, ControlCommand* control_core_command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (local_view.chassis().driving_mode() == Chassis::COMPLETE_MANUAL) {
     mpc_controller_.Reset();

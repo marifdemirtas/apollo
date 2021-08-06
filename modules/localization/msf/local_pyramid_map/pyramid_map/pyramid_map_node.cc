@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +28,15 @@ namespace msf {
 namespace pyramid_map {
 
 PyramidMapNode::PyramidMapNode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PyramidMapNode::~PyramidMapNode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PyramidMapNode::Init(const BaseMapConfig* map_config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_config_ = map_config;
 
@@ -75,7 +75,7 @@ COVERAGE_LOG_TOKEN
 
 void PyramidMapNode::Init(const BaseMapConfig* map_config,
                           const MapNodeIndex& index, bool create_map_cells) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_config_ = map_config;
 
@@ -109,7 +109,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PyramidMapNode::BottomUpBase() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<PyramidMapMatrix> map_matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(map_matrix_);
@@ -117,7 +117,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PyramidMapNode::BottomUpSafe() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<PyramidMapMatrix> map_matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(map_matrix_);
@@ -127,7 +127,7 @@ COVERAGE_LOG_TOKEN
 bool PyramidMapNode::AddValueIfInBound(const Eigen::Vector3d& coordinate,
                                        unsigned char intensity,
                                        unsigned int level) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   //    Eigen::Map<Eigen::Vector2d>(coordinate.data(), 2);
@@ -148,7 +148,7 @@ COVERAGE_LOG_TOKEN
 void PyramidMapNode::AddValueIfInBound(
     const std::vector<Eigen::Vector3d>& coordinates,
     const std::vector<unsigned char>& intensity, unsigned int level) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (coordinates.size() != intensity.size()) {
     return;
@@ -162,7 +162,7 @@ COVERAGE_LOG_TOKEN
 bool PyramidMapNode::GetCoordinate(const Eigen::Vector2d& coordinate,
                                    unsigned int level, unsigned int* x,
                                    unsigned int* y) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<PyramidMapMatrix> map_matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(map_matrix_);
@@ -185,7 +185,7 @@ COVERAGE_LOG_TOKEN
 Eigen::Vector2d PyramidMapNode::GetCoordinate(unsigned int level,
                                               unsigned int x,
                                               unsigned int y) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const PyramidMapConfig* map_config =
       dynamic_cast<const PyramidMapConfig*>(map_config_);
@@ -202,27 +202,27 @@ COVERAGE_LOG_TOKEN
 
 bool PyramidMapNode::GetCoordinate(const Eigen::Vector2d& coordinate,
                                    unsigned int* x, unsigned int* y) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return BaseMapNode::GetCoordinate(coordinate, x, y);
 }
 bool PyramidMapNode::GetCoordinate(const Eigen::Vector3d& coordinate,
                                    unsigned int* x, unsigned int* y) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return BaseMapNode::GetCoordinate(coordinate, x, y);
 }
 
 Eigen::Vector2d PyramidMapNode::GetCoordinate(unsigned int x,
                                               unsigned int y) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return BaseMapNode::GetCoordinate(x, y);
 }
 
 float PyramidMapNode::GetIntensitySafe(const Eigen::Vector3d& coordinate,
                                        unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -245,7 +245,7 @@ COVERAGE_LOG_TOKEN
 
 float PyramidMapNode::GetIntensityVarSafe(const Eigen::Vector3d& coordinate,
                                           unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -269,7 +269,7 @@ COVERAGE_LOG_TOKEN
 
 float PyramidMapNode::GetAltitudeSafe(const Eigen::Vector3d& coordinate,
                                       unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -292,7 +292,7 @@ COVERAGE_LOG_TOKEN
 
 float PyramidMapNode::GetAltitudeVarSafe(const Eigen::Vector3d& coordinate,
                                          unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -315,7 +315,7 @@ COVERAGE_LOG_TOKEN
 
 float PyramidMapNode::GetGroundAltitudeSafe(const Eigen::Vector3d& coordinate,
                                             unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -339,7 +339,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int PyramidMapNode::GetCountSafe(const Eigen::Vector3d& coordinate,
                                           unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -362,7 +362,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int PyramidMapNode::GetGroundCountSafe(
     const Eigen::Vector3d& coordinate, unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -386,7 +386,7 @@ COVERAGE_LOG_TOKEN
 
 float PyramidMapNode::GetIntensity(const Eigen::Vector3d& coordinate,
                                    unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -409,7 +409,7 @@ COVERAGE_LOG_TOKEN
 
 float PyramidMapNode::GetIntensityVar(const Eigen::Vector3d& coordinate,
                                       unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -432,7 +432,7 @@ COVERAGE_LOG_TOKEN
 
 float PyramidMapNode::GetAltitude(const Eigen::Vector3d& coordinate,
                                   unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -455,7 +455,7 @@ COVERAGE_LOG_TOKEN
 
 float PyramidMapNode::GetAltitudeVar(const Eigen::Vector3d& coordinate,
                                      unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -478,7 +478,7 @@ COVERAGE_LOG_TOKEN
 
 float PyramidMapNode::GetGroundAltitude(const Eigen::Vector3d& coordinate,
                                         unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -502,7 +502,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int PyramidMapNode::GetCount(const Eigen::Vector3d& coordinate,
                                       unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -525,7 +525,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int PyramidMapNode::GetGroundCount(const Eigen::Vector3d& coordinate,
                                             unsigned int level) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -548,7 +548,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double PyramidMapNode::ComputeMeanIntensity(unsigned int level) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<PyramidMapMatrix> map_matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(map_matrix_);

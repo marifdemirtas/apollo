@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Gearcontrola1::ID = 0xA1;
 
 // public
 Gearcontrola1::Gearcontrola1() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Gearcontrola1::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(ChaoM) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,14 +41,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void Gearcontrola1::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_gear_state_target(data, gear_state_target_);
   set_p_gear_enable_control(data, gear_enable_control_);
 }
 
 void Gearcontrola1::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(ChaoM) :  you should check this manually
   gear_state_target_ = Gear_control_a1::GEAR_STATE_TARGET_P;
@@ -58,7 +58,7 @@ COVERAGE_LOG_TOKEN
 
 Gearcontrola1* Gearcontrola1::set_gear_state_target(
     Gear_control_a1::Gear_state_targetType gear_state_target) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gear_state_target_ = gear_state_target;
   return this;
@@ -71,7 +71,7 @@ COVERAGE_LOG_TOKEN
 // 'bit': 8, 'type': 'enum', 'order': 'intel', 'physical_unit': ''}
 void Gearcontrola1::set_p_gear_state_target(
     uint8_t* data, Gear_control_a1::Gear_state_targetType gear_state_target) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = gear_state_target;
 
@@ -81,7 +81,7 @@ COVERAGE_LOG_TOKEN
 
 Gearcontrola1* Gearcontrola1::set_gear_enable_control(
     Gear_control_a1::Gear_enable_controlType gear_enable_control) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gear_enable_control_ = gear_enable_control;
   return this;
@@ -95,7 +95,7 @@ COVERAGE_LOG_TOKEN
 void Gearcontrola1::set_p_gear_enable_control(
     uint8_t* data,
     Gear_control_a1::Gear_enable_controlType gear_enable_control) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = gear_enable_control;
 

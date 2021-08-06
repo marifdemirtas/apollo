@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -49,7 +49,7 @@ namespace {
 
 void TransformToVRF(const Point3D& point_mrf, const Quaternion& orientation,
                     Point3D* point_vrf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector3d v_mrf(point_mrf.x(), point_mrf.y(), point_mrf.z());
   auto v_vrf = InverseQuaternionRotate(orientation, v_mrf);
@@ -59,7 +59,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool IsSameHeader(const Header& lhs, const Header& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return lhs.sequence_num() == rhs.sequence_num() &&
          lhs.timestamp_sec() == rhs.timestamp_sec();
@@ -71,13 +71,13 @@ SimControl::SimControl(const MapService* map_service)
     : map_service_(map_service),
       node_(cyber::CreateNode("sim_control")),
       current_trajectory_(std::make_shared<ADCTrajectory>()) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   InitTimerAndIO();
 }
 
 void SimControl::InitTimerAndIO() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   localization_reader_ =
       node_->CreateReader<LocalizationEstimate>(FLAGS_localization_topic);
@@ -118,7 +118,7 @@ COVERAGE_LOG_TOKEN
 
 void SimControl::Init(double start_velocity,
                       double start_acceleration) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!FLAGS_use_navigation_mode) {
     InitStartPoint(start_velocity, start_acceleration);
@@ -127,7 +127,7 @@ COVERAGE_LOG_TOKEN
 
 void SimControl::InitStartPoint(double start_velocity,
                                 double start_acceleration) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   TrajectoryPoint point;
   // Use the latest localization position as start point,
@@ -177,7 +177,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SimControl::SetStartPoint(const TrajectoryPoint& start_point) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   next_point_ = start_point;
   prev_point_index_ = next_point_index_ = 0;
@@ -185,14 +185,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void SimControl::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
   InternalReset();
 }
 
 void SimControl::InternalReset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   current_routing_header_.Clear();
   re_routing_triggered_ = false;
@@ -201,7 +201,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SimControl::ClearPlanning() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   current_trajectory_->Clear();
   received_planning_ = false;
@@ -209,7 +209,7 @@ COVERAGE_LOG_TOKEN
 
 void SimControl::OnReceiveNavigationInfo(
     const std::shared_ptr<NavigationInfo>& navigation_info) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -223,7 +223,7 @@ COVERAGE_LOG_TOKEN
 
 void SimControl::OnRoutingResponse(
     const std::shared_ptr<RoutingResponse>& routing) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
   if (!enabled_) {
@@ -259,7 +259,7 @@ COVERAGE_LOG_TOKEN
 
 void SimControl::OnPredictionObstacles(
     const std::shared_ptr<PredictionObstacles>& obstacles) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -271,7 +271,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SimControl::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -292,7 +292,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SimControl::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -304,7 +304,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SimControl::OnPlanning(const std::shared_ptr<ADCTrajectory>& trajectory) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -326,7 +326,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SimControl::Freeze() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   next_point_.set_v(0.0);
   next_point_.set_a(0.0);
@@ -334,7 +334,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SimControl::RunOnce() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -351,7 +351,7 @@ COVERAGE_LOG_TOKEN
 
 bool SimControl::PerfectControlModel(TrajectoryPoint* point,
                                      Chassis::GearPosition* gear_position) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Result of the interpolation.
   auto current_time = Clock::NowInSeconds();
@@ -404,7 +404,7 @@ COVERAGE_LOG_TOKEN
 
 void SimControl::PublishChassis(double cur_speed,
                                 Chassis::GearPosition gear_position) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto chassis = std::make_shared<Chassis>();
   FillHeader("SimControl", chassis.get());
@@ -425,7 +425,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SimControl::PublishLocalization(const TrajectoryPoint& point) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto localization = std::make_shared<LocalizationEstimate>();
   FillHeader("SimControl", localization.get());
@@ -495,7 +495,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SimControl::PublishDummyPrediction() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto prediction = std::make_shared<PredictionObstacles>();
   {

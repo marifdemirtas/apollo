@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,7 +32,7 @@ namespace apollo {
 namespace canbus {
 
 void VehicleFactory::RegisterVehicleFactory() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Register(apollo::common::LINCOLN_MKZ, []() -> AbstractVehicleFactory * {
     return new LincolnVehicleFactory();
@@ -68,7 +68,7 @@ COVERAGE_LOG_TOKEN
 
 std::unique_ptr<AbstractVehicleFactory> VehicleFactory::CreateVehicle(
     const VehicleParameter &vehicle_parameter) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto abstract_factory = CreateObject(vehicle_parameter.brand());
   if (!abstract_factory) {

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,7 +36,7 @@ using apollo::prediction::Feature;
 using cyber::common::GetAbsolutePath;
 
 bool MlfEngine::Init(const MultiTargetTrackerInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -81,7 +81,7 @@ COVERAGE_LOG_TOKEN
 
 bool MlfEngine::Track(const MultiTargetTrackerOptions& options,
                       LidarFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // 0. modify objects timestamp if necessary
   if (use_frame_timestamp_) {
@@ -129,7 +129,7 @@ COVERAGE_LOG_TOKEN
 void MlfEngine::SplitAndTransformToTrackedObjects(
     const std::vector<base::ObjectPtr>& objects,
     const base::SensorInfo& sensor_info) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<TrackedObjectPtr> tracked_objects;
   TrackedObjectPool::Instance().BatchGet(objects.size(), &tracked_objects);
@@ -158,7 +158,7 @@ void MlfEngine::TrackObjectMatchAndAssign(
     const MlfTrackObjectMatcherOptions& match_options,
     const std::vector<TrackedObjectPtr>& objects, const std::string& name,
     std::vector<MlfTrackDataPtr>* tracks) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<std::pair<size_t, size_t>> assignments;
   std::vector<size_t> unassigned_tracks;
@@ -184,7 +184,7 @@ COVERAGE_LOG_TOKEN
 
 void MlfEngine::TrackStateFilter(const std::vector<MlfTrackDataPtr>& tracks,
                                  double frame_timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<TrackedObjectPtr> objects;
   for (auto& track_data : tracks) {
@@ -200,7 +200,7 @@ COVERAGE_LOG_TOKEN
 
 void convertPoseToLoc(const Eigen::Affine3d& pose,
                       localization::LocalizationEstimate* localization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << "translation x y z " << pose.translation()[0] << " "
          << pose.translation()[1] << " " << pose.translation()[2];
@@ -254,7 +254,7 @@ COVERAGE_LOG_TOKEN
 //}
 
 void MlfEngine::CollectTrackedResult(LidarFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto& tracked_objects = frame->tracked_objects;
   tracked_objects.clear();
@@ -320,7 +320,7 @@ COVERAGE_LOG_TOKEN
 
 void MlfEngine::RemoveStaleTrackData(const std::string& name, double timestamp,
                                      std::vector<MlfTrackDataPtr>* tracks) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t pos = 0;
   for (size_t i = 0; i < tracks->size(); ++i) {

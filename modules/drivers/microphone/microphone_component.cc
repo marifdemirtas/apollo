@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace drivers {
 namespace microphone {
 
 bool MicrophoneComponent::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   microphone_config_ptr_ = std::make_shared<MicrophoneConfig>();
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
@@ -75,7 +75,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MicrophoneComponent::fill_channel_data(int chunk_i) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // next index of channel data to be filled
   int pos = chunk_i * chunk_ * sample_width_;
@@ -89,7 +89,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MicrophoneComponent::run() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int chunk_i;
   while (!cyber::IsShutdown()) {
@@ -107,7 +107,7 @@ COVERAGE_LOG_TOKEN
 }
 
 MicrophoneComponent::~MicrophoneComponent() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   free(buffer_);
   if (running_.load()) {

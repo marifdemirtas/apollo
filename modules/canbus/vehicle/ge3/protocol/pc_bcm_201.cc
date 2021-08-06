@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,11 +28,11 @@ const int32_t Pcbcm201::ID = 0x201;
 
 // public
 Pcbcm201::Pcbcm201() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Pcbcm201::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,7 +40,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Pcbcm201::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_pc_reverselampreq(data, pc_reverselampreq_);
   set_p_pc_lowbeamreq(data, pc_lowbeamreq_);
@@ -52,7 +52,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Pcbcm201::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // you should check this manually
   pc_reverselampreq_ = Pc_bcm_201::PC_REVERSELAMPREQ_NOREQ;
@@ -66,7 +66,7 @@ COVERAGE_LOG_TOKEN
 
 Pcbcm201* Pcbcm201::set_pc_reverselampreq(
     Pc_bcm_201::Pc_reverselampreqType pc_reverselampreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_reverselampreq_ = pc_reverselampreq;
   return this;
@@ -79,7 +79,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Pcbcm201::set_p_pc_reverselampreq(
     uint8_t* data, Pc_bcm_201::Pc_reverselampreqType pc_reverselampreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = pc_reverselampreq;
 
@@ -89,7 +89,7 @@ COVERAGE_LOG_TOKEN
 
 Pcbcm201* Pcbcm201::set_pc_lowbeamreq(
     Pc_bcm_201::Pc_lowbeamreqType pc_lowbeamreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_lowbeamreq_ = pc_lowbeamreq;
   return this;
@@ -102,7 +102,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Pcbcm201::set_p_pc_lowbeamreq(
     uint8_t* data, Pc_bcm_201::Pc_lowbeamreqType pc_lowbeamreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = pc_lowbeamreq;
 
@@ -112,7 +112,7 @@ COVERAGE_LOG_TOKEN
 
 Pcbcm201* Pcbcm201::set_pc_highbeamreq(
     Pc_bcm_201::Pc_highbeamreqType pc_highbeamreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_highbeamreq_ = pc_highbeamreq;
   return this;
@@ -125,7 +125,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Pcbcm201::set_p_pc_highbeamreq(
     uint8_t* data, Pc_bcm_201::Pc_highbeamreqType pc_highbeamreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = pc_highbeamreq;
 
@@ -135,7 +135,7 @@ COVERAGE_LOG_TOKEN
 
 Pcbcm201* Pcbcm201::set_pc_rightturnlampreq(
     Pc_bcm_201::Pc_rightturnlampreqType pc_rightturnlampreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_rightturnlampreq_ = pc_rightturnlampreq;
   return this;
@@ -148,7 +148,7 @@ COVERAGE_LOG_TOKEN
 // 'motorola', 'physical_unit': ''}
 void Pcbcm201::set_p_pc_rightturnlampreq(
     uint8_t* data, Pc_bcm_201::Pc_rightturnlampreqType pc_rightturnlampreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = pc_rightturnlampreq;
 
@@ -158,7 +158,7 @@ COVERAGE_LOG_TOKEN
 
 Pcbcm201* Pcbcm201::set_pc_leftturnlampreq(
     Pc_bcm_201::Pc_leftturnlampreqType pc_leftturnlampreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_leftturnlampreq_ = pc_leftturnlampreq;
   return this;
@@ -171,7 +171,7 @@ COVERAGE_LOG_TOKEN
 // 'motorola', 'physical_unit': ''}
 void Pcbcm201::set_p_pc_leftturnlampreq(
     uint8_t* data, Pc_bcm_201::Pc_leftturnlampreqType pc_leftturnlampreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = pc_leftturnlampreq;
 
@@ -180,7 +180,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Pcbcm201* Pcbcm201::set_pc_hornreq(Pc_bcm_201::Pc_hornreqType pc_hornreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_hornreq_ = pc_hornreq;
   return this;
@@ -192,7 +192,7 @@ COVERAGE_LOG_TOKEN
 // '[0|1]', 'bit': 6, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Pcbcm201::set_p_pc_hornreq(uint8_t* data,
                                 Pc_bcm_201::Pc_hornreqType pc_hornreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = pc_hornreq;
 
@@ -202,7 +202,7 @@ COVERAGE_LOG_TOKEN
 
 Pcbcm201* Pcbcm201::set_pc_hazardlampreq(
     Pc_bcm_201::Pc_hazardlampreqType pc_hazardlampreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pc_hazardlampreq_ = pc_hazardlampreq;
   return this;
@@ -215,7 +215,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Pcbcm201::set_p_pc_hazardlampreq(
     uint8_t* data, Pc_bcm_201::Pc_hazardlampreqType pc_hazardlampreq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = pc_hazardlampreq;
 

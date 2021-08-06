@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -31,24 +31,24 @@ using common::util::TimeUtil;
 
 LocalizationInteg::LocalizationInteg()
     : localization_integ_impl_(new LocalizationIntegImpl()) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LocalizationInteg::~LocalizationInteg() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   delete localization_integ_impl_;
   localization_integ_impl_ = nullptr;
 }
 
 Status LocalizationInteg::Init(const LocalizationIntegParam &params) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return localization_integ_impl_->Init(params);
 }
 
 void LocalizationInteg::PcdProcess(const drivers::PointCloud &message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LidarFrame lidar_frame;
   LidarMsgTransfer transfer;
@@ -57,7 +57,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LocalizationInteg::RawImuProcessFlu(const drivers::gnss::Imu &imu_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ImuData imu;
   TransferImuFlu(imu_msg, &imu);
@@ -65,7 +65,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LocalizationInteg::RawImuProcessRfu(const drivers::gnss::Imu &imu_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ImuData imu;
   TransferImuRfu(imu_msg, &imu);
@@ -74,56 +74,56 @@ COVERAGE_LOG_TOKEN
 
 void LocalizationInteg::RawObservationProcess(
     const drivers::gnss::EpochObservation &raw_obs_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   localization_integ_impl_->RawObservationProcess(raw_obs_msg);
 }
 
 void LocalizationInteg::RawEphemerisProcess(
     const drivers::gnss::GnssEphemeris &gnss_orbit_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   localization_integ_impl_->RawEphemerisProcess(gnss_orbit_msg);
 }
 
 void LocalizationInteg::GnssBestPoseProcess(
     const drivers::gnss::GnssBestPose &bestgnsspos_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   localization_integ_impl_->GnssBestPoseProcess(bestgnsspos_msg);
 }
 
 void LocalizationInteg::GnssHeadingProcess(
     const drivers::gnss::Heading &gnssheading_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   localization_integ_impl_->GnssHeadingProcess(gnssheading_msg);
 }
 
 const LocalizationResult &LocalizationInteg::GetLastestLidarLocalization()
     const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return localization_integ_impl_->GetLastestLidarLocalization();
 }
 
 const LocalizationResult &LocalizationInteg::GetLastestIntegLocalization()
     const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return localization_integ_impl_->GetLastestIntegLocalization();
 }
 
 const LocalizationResult &LocalizationInteg::GetLastestGnssLocalization()
     const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return localization_integ_impl_->GetLastestGnssLocalization();
 }
 
 void LocalizationInteg::TransferImuRfu(const drivers::gnss::Imu &imu_msg,
                                        ImuData *imu_rfu) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(imu_rfu);
 
@@ -140,7 +140,7 @@ COVERAGE_LOG_TOKEN
 
 void LocalizationInteg::TransferImuFlu(const drivers::gnss::Imu &imu_msg,
                                        ImuData *imu_flu) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(imu_flu);
 

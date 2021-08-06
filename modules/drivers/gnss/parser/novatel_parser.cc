@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -67,7 +67,7 @@ constexpr bool is_zero(T value) {
 
 // CRC algorithm from the NovAtel document.
 inline uint32_t crc32_word(uint32_t word) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (int j = 0; j < 8; ++j) {
     if (word & 1) {
@@ -80,7 +80,7 @@ COVERAGE_LOG_TOKEN
 }
 
 inline uint32_t crc32_block(const uint8_t* buffer, size_t length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint32_t word = 0;
   while (length--) {
@@ -94,7 +94,6 @@ COVERAGE_LOG_TOKEN
 // Converts NovAtel's azimuth (north = 0, east = 90) to FLU yaw (east = 0, north
 // = pi/2).
 constexpr double azimuth_deg_to_yaw_rad(double azimuth) {
-COVERAGE_LOG_TOKEN
 
   return (90.0 - azimuth) * DEG_TO_RAD;
 }
@@ -103,7 +102,7 @@ COVERAGE_LOG_TOKEN
 // measurements.
 inline void rfu_to_flu(double r, double f, double u,
                        ::apollo::common::Point3D* flu) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   flu->set_x(f);
   flu->set_y(-r);
@@ -202,13 +201,13 @@ class NovatelParser : public Parser {
 };
 
 Parser* Parser::CreateNovatel(const config::Config& config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return new NovatelParser(config);
 }
 
 NovatelParser::NovatelParser() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   buffer_.reserve(BUFFER_SIZE);
   ins_.mutable_position_covariance()->Resize(9, FLOAT_NAN);
@@ -221,7 +220,7 @@ COVERAGE_LOG_TOKEN
 }
 
 NovatelParser::NovatelParser(const config::Config& config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   buffer_.reserve(BUFFER_SIZE);
   ins_.mutable_position_covariance()->Resize(9, FLOAT_NAN);
@@ -238,7 +237,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Parser::MessageType NovatelParser::GetMessage(MessagePtr* message_ptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (data_ == nullptr) {
     return MessageType::NONE;
@@ -305,7 +304,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NovatelParser::check_crc() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t l = buffer_.size() - novatel::CRC_LENGTH;
   return crc32_block(buffer_.data(), l) ==
@@ -313,7 +312,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!check_crc()) {
     AERROR << "CRC check failed.";
@@ -521,7 +520,7 @@ COVERAGE_LOG_TOKEN
 bool NovatelParser::HandleGnssBestpos(const novatel::BestPos* pos,
                                       uint16_t gps_week,
                                       uint32_t gps_millisecs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bestpos_.set_sol_status(
       static_cast<apollo::drivers::gnss::SolutionStatus>(pos->solution_status));
@@ -555,7 +554,7 @@ COVERAGE_LOG_TOKEN
 
 bool NovatelParser::HandleBestPos(const novatel::BestPos* pos,
                                   uint16_t gps_week, uint32_t gps_millisecs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gnss_.mutable_position()->set_lon(pos->longitude);
   gnss_.mutable_position()->set_lat(pos->latitude);
@@ -638,7 +637,7 @@ COVERAGE_LOG_TOKEN
 
 bool NovatelParser::HandleBestVel(const novatel::BestVel* vel,
                                   uint16_t gps_week, uint32_t gps_millisecs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (velocity_type_ != vel->velocity_type) {
     velocity_type_ = vel->velocity_type;
@@ -663,7 +662,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NovatelParser::HandleCorrImuData(const novatel::CorrImuData* imu) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   rfu_to_flu(imu->x_velocity_change * imu_measurement_hz_,
              imu->y_velocity_change * imu_measurement_hz_,
@@ -685,7 +684,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NovatelParser::HandleInsCov(const novatel::InsCov* cov) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (int i = 0; i < 9; ++i) {
     ins_.set_position_covariance(
@@ -700,7 +699,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NovatelParser::HandleInsPva(const novatel::InsPva* pva) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (ins_status_ != pva->status) {
     ins_status_ = pva->status;
@@ -742,7 +741,7 @@ COVERAGE_LOG_TOKEN
 
 bool NovatelParser::HandleInsPvax(const novatel::InsPvaX* pvax,
                                   uint16_t gps_week, uint32_t gps_millisecs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double seconds = gps_week * SECONDS_PER_WEEK + gps_millisecs * 1e-3;
   double unix_sec = apollo::drivers::util::gps2unix(seconds);
@@ -753,7 +752,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NovatelParser::HandleRawImuX(const novatel::RawImuX* imu) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (imu->imu_error != 0) {
     AWARN << "IMU error. Status: " << std::hex << std::showbase
@@ -817,7 +816,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NovatelParser::HandleRawImu(const novatel::RawImu* imu) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double gyro_scale = 0.0;
   double accel_scale = 0.0;
@@ -880,7 +879,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NovatelParser::HandleGpsEph(const novatel::GPS_Ephemeris* gps_emph) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gnss_ephemeris_.set_gnss_type(apollo::drivers::gnss::GnssType::GPS_SYS);
 
@@ -921,7 +920,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NovatelParser::HandleBdsEph(const novatel::BDS_Ephemeris* bds_emph) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gnss_ephemeris_.set_gnss_type(apollo::drivers::gnss::GnssType::BDS_SYS);
 
@@ -962,7 +961,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NovatelParser::HandleGloEph(const novatel::GLO_Ephemeris* glo_emph) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gnss_ephemeris_.set_gnss_type(apollo::drivers::gnss::GnssType::GLO_SYS);
 
@@ -1004,7 +1003,7 @@ COVERAGE_LOG_TOKEN
 
 bool NovatelParser::HandleHeading(const novatel::Heading* heading,
                                   uint16_t gps_week, uint32_t gps_millisecs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   heading_.set_solution_status(static_cast<uint32_t>(heading->solution_status));
   heading_.set_position_type(static_cast<uint32_t>(heading->position_type));
@@ -1029,7 +1028,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void NovatelParser::SetObservationTime() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int week = 0;
   double second = time2gpst(raw_.time, &week);
@@ -1040,7 +1039,7 @@ COVERAGE_LOG_TOKEN
 
 bool NovatelParser::DecodeGnssObservation(const uint8_t* obs_data,
                                           const uint8_t* obs_data_end) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   while (obs_data < obs_data_end) {
     const int status = input_oem4(&raw_, *obs_data++);

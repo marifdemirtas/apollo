@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,18 +28,18 @@ LearningData FeatureOutput::learning_data_;
 int FeatureOutput::learning_data_file_index_ = 0;
 
 void FeatureOutput::Close() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Clear(); }
 
 void FeatureOutput::Clear() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   learning_data_.Clear();
   learning_data_file_index_ = 0;
 }
 
 bool FeatureOutput::Ready() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Clear();
   return true;
@@ -48,7 +48,7 @@ COVERAGE_LOG_TOKEN
 void FeatureOutput::InsertLearningDataFrame(
     const std::string& record_file,
     const LearningDataFrame& learning_data_frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   learning_data_.add_learning_data_frame()->CopyFrom(learning_data_frame);
 
@@ -60,7 +60,7 @@ COVERAGE_LOG_TOKEN
 }
 
 LearningDataFrame* FeatureOutput::GetLatestLearningDataFrame() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const int size = learning_data_.learning_data_frame_size();
   return size > 0 ? learning_data_.mutable_learning_data_frame(size - 1)
@@ -68,11 +68,11 @@ COVERAGE_LOG_TOKEN
 }
 
 void FeatureOutput::InsertPlanningResult() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void FeatureOutput::WriteLearningData(const std::string& record_file) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string src_file_name =
       record_file.substr(record_file.find_last_of("/") + 1);
@@ -88,7 +88,7 @@ COVERAGE_LOG_TOKEN
 
 void FeatureOutput::WriteRemainderiLearningData(
     const std::string& record_file) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (learning_data_.learning_data_frame_size() > 0) {
     WriteLearningData(record_file);

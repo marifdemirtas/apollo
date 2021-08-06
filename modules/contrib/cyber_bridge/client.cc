@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /**
  * Copyright (c) 2019 LG Electronics, Inc.
  *
@@ -28,7 +28,7 @@ enum {
 
 Client::Client(Node* node, Clients* clients, boost::asio::ip::tcp::socket s)
     : node(*node), clients(*clients), socket(std::move(s)) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto endpoint = socket.remote_endpoint();
   AINFO << "Client [" << endpoint.address() << ":" << endpoint.port()
@@ -36,11 +36,11 @@ COVERAGE_LOG_TOKEN
 }
 
 Client::~Client() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Client::start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   socket.async_read_some(
       boost::asio::buffer(temp, sizeof(temp)),
@@ -50,12 +50,12 @@ COVERAGE_LOG_TOKEN
 }
 
 void Client::stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  socket.close(); }
 
 void Client::handle_read(const boost::system::error_code& ec,
                          std::size_t size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!ec) {
     ADEBUG << "Received " << size << " bytes";
@@ -105,7 +105,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Client::handle_write(const boost::system::error_code& ec) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (ec) {
     if (ec != boost::asio::error::operation_aborted) {
@@ -129,7 +129,7 @@ COVERAGE_LOG_TOKEN
 
 // [1] [count] [string] ... [string]
 void Client::handle_register_desc() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sizeof(uint8_t) + sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_register_desc too short";
@@ -176,7 +176,7 @@ COVERAGE_LOG_TOKEN
 
 // [2] [channel] [type]
 void Client::handle_add_reader() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_add_reader too short header";
@@ -216,7 +216,7 @@ COVERAGE_LOG_TOKEN
 
 // [3] [channel] [type]
 void Client::handle_add_writer() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_new_writer too short header";
@@ -256,7 +256,7 @@ COVERAGE_LOG_TOKEN
 
 // [4] [channel] [message]
 void Client::handle_publish() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     return;
@@ -291,7 +291,7 @@ COVERAGE_LOG_TOKEN
 
 void fill_data(std::vector<uint8_t>* data, const std::string& channel,
                const std::string& msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   data->reserve(data->size() + sizeof(uint8_t) + sizeof(uint32_t) +
                 channel.size() + sizeof(uint32_t) + msg.size());
@@ -315,7 +315,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Client::publish(const std::string& channel, const std::string& msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(publish_mutex);
   if (writing.empty()) {
@@ -333,7 +333,7 @@ COVERAGE_LOG_TOKEN
 }
 
 uint32_t Client::get32le(size_t offset) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return buffer[offset + 0] | (buffer[offset + 1] << 8) |
          (buffer[offset + 2] << 16) | (buffer[offset + 3] << 24);

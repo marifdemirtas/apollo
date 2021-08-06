@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -67,7 +67,7 @@ const std::string planning_pad_channel = "/apollo/planning/pad";
 
 TeleopService::TeleopService(WebSocketHandler *websocket)
     : node_(cyber::CreateNode("teleop")), websocket_(websocket) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   RegisterMessageHandlers();
 
@@ -86,7 +86,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TeleopService::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO get topic names from proto
   // TODO update proto to get all modems' info combined with rank
@@ -133,7 +133,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TeleopService::RegisterMessageHandlers() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Send current teleop status to the new client.
   websocket_->RegisterConnectionReadyHandler(
@@ -265,7 +265,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TeleopService::SendStatus(WebSocketHandler::Connection *conn) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string to_send;
   {
@@ -277,7 +277,7 @@ COVERAGE_LOG_TOKEN
 
 void TeleopService::UpdateModem(const std::string &modem_id,
                                 const std::shared_ptr<ModemInfo> &modem_info) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO simplify data and only send necessary info for display
   // update modem_info_
@@ -305,7 +305,7 @@ COVERAGE_LOG_TOKEN
 // callback for messages that originate from the remote computer
 void TeleopService::UpdateCarDaemonRpt(
     const std::shared_ptr<DaemonRpt> &daemon_rpt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   {
     bool videoIsRunning = false;
@@ -389,7 +389,7 @@ COVERAGE_LOG_TOKEN
 // callback for messages that originate from this computer
 void TeleopService::UpdateOperatorDaemonRpt(
     const std::shared_ptr<DaemonRpt> &daemon_rpt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   {
     bool voipIsRunning = false;
@@ -433,7 +433,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TeleopService::SendVideoStreamCmd(bool start_stop) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DaemonCmd msg;
   if (start_stop) {
@@ -457,7 +457,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TeleopService::SendAudioStreamCmd(bool start_stop) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DaemonCmd msg;
   if (start_stop) {
@@ -474,7 +474,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TeleopService::SendMicStreamCmd(bool start_stop) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // by switching on or off the voip_encoder in the local console
   // we are controlling the mic
@@ -491,7 +491,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TeleopService::SendResumeCruiseCmd() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "Resume cruise";
   PadMessage pad_msg;
@@ -500,7 +500,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TeleopService::SendEstopCmd() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "Pull over";
   PadMessage pad_msg;
@@ -509,7 +509,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TeleopService::SendPullOverCmd() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "EStop";
   PadMessage pad_msg;
@@ -518,7 +518,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TeleopService::UpdatePlanning(const std::shared_ptr<ADCTrajectory> &msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static int count = 0;
   ++count;

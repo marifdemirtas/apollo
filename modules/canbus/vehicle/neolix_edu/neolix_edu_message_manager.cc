@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -45,7 +45,7 @@ namespace canbus {
 namespace neolix_edu {
 
 Neolix_eduMessageManager::Neolix_eduMessageManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Control Messages
   AddSendProtocolData<Adsbrakecommand46, true>();
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Neolix_eduMessageManager::~Neolix_eduMessageManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 }  // namespace neolix_edu

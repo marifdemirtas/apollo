@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,7 +36,7 @@ namespace ndt {
 
 LidarLocatorNdt::LidarLocatorNdt()
     : config_("map_ndt_v01"), map_(&config_), map_preload_node_pool_(30, 12) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Translation3d trans(0, 0, 0);
   Eigen::Quaterniond quat(1, 0, 0, 0);
@@ -49,12 +49,12 @@ COVERAGE_LOG_TOKEN
 }
 
 LidarLocatorNdt::~LidarLocatorNdt() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LidarLocatorNdt::Init(const Eigen::Affine3d& init_location,
                            unsigned int resolution_id, int zone_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   location_ = init_location;
   resolution_id_ = resolution_id;
@@ -98,7 +98,7 @@ COVERAGE_LOG_TOKEN
 
 void LidarLocatorNdt::LoadMap(const Eigen::Affine3d& init_location,
                               unsigned int resolution_id, int zone_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_preload_node_pool_.Initial(&(map_.GetMapConfig()));
   map_.InitMapNodeCaches(12, 24);
@@ -110,7 +110,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LidarLocatorNdt::SetMapFolderPath(const std::string folder_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!map_.SetMapFolderPath(folder_path)) {
     AERROR << "Map folder is invalid!";
@@ -118,20 +118,20 @@ COVERAGE_LOG_TOKEN
 }
 
 void LidarLocatorNdt::SetVelodyneExtrinsic(const Eigen::Affine3d& extrinsic) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   velodyne_extrinsic_ = extrinsic;
 }
 
 void LidarLocatorNdt::SetLidarHeight(double height) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   lidar_height_ = height;
   AINFO << "Set height: " << lidar_height_;
 }
 
 void LidarLocatorNdt::SetOnlineCloudResolution(const float& online_resolution) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   proj_reslution_ = online_resolution;
   AINFO << "Proj resolution: " << proj_reslution_;
@@ -139,7 +139,7 @@ COVERAGE_LOG_TOKEN
 
 int LidarLocatorNdt::Update(unsigned int frame_idx, const Eigen::Affine3d& pose,
                             const LidarFrame& lidar_frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Increasement from INSPVA
   Eigen::Vector3d trans_diff =
@@ -266,17 +266,17 @@ COVERAGE_LOG_TOKEN
 }
 
 Eigen::Affine3d LidarLocatorNdt::GetPose() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return location_; }
 
 Eigen::Vector3d LidarLocatorNdt::GetPredictLocation() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return predict_location_.translation();
 }
 
 Eigen::Matrix3d LidarLocatorNdt::GetLocationCovariance() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return location_covariance_;
 }
@@ -285,7 +285,7 @@ void LidarLocatorNdt::ComposeMapCells(
     const Eigen::Vector2d& left_top_coord2d, int zone_id,
     unsigned int resolution_id, float map_pixel_resolution,
     const Eigen::Affine3d& inverse_transform) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   apollo::common::util::Timer timer;
   timer.Start();

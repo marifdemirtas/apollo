@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,13 +28,13 @@ namespace devkit {
 using ::apollo::drivers::canbus::Byte;
 
 Steeringreport502::Steeringreport502() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Steeringreport502::ID = 0x502;
 
 void Steeringreport502::Parse(const std::uint8_t* bytes, int32_t length,
                               ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_devkit()
       ->mutable_steering_report_502()
@@ -58,7 +58,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'int'}
 int Steeringreport502::steer_angle_spd_actual(const std::uint8_t* bytes,
                                               int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
@@ -75,7 +75,7 @@ COVERAGE_LOG_TOKEN
 // 'enum'}
 Steering_report_502::Steer_flt2Type Steeringreport502::steer_flt2(
     const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -92,7 +92,7 @@ COVERAGE_LOG_TOKEN
 // '[0|255]', 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 Steering_report_502::Steer_flt1Type Steeringreport502::steer_flt1(
     const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -109,7 +109,7 @@ COVERAGE_LOG_TOKEN
 // '[0|2]', 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 Steering_report_502::Steer_en_stateType Steeringreport502::steer_en_state(
     const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 2);
@@ -125,7 +125,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'int'}
 int Steeringreport502::steer_angle_actual(const std::uint8_t* bytes,
                                           int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);

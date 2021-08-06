@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -18,9 +18,6 @@
 #include "modules/perception/radar/lib/tracker/filter/adaptive_kalman_filter.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace radar {
@@ -33,7 +30,7 @@ std::string RadarTrack::s_chosen_filter_ =  // NOLINT
     "AdaptiveKalmanFilter";
 
 RadarTrack::RadarTrack(const base::ObjectPtr& obs, const double timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   s_current_idx_ %= MAX_RADAR_IDX;
   obs_id_ = s_current_idx_++;
@@ -53,7 +50,7 @@ COVERAGE_LOG_TOKEN
 
 void RadarTrack::UpdataObsRadar(const base::ObjectPtr& obs_radar,
                                 const double timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *obs_radar_ = *obs_radar;
   *obs_ = *obs_radar;
@@ -77,30 +74,30 @@ COVERAGE_LOG_TOKEN
 }
 
 void RadarTrack::SetObsRadarNullptr() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   obs_radar_ = nullptr;
   obs_ = nullptr;
 }
 
 base::ObjectPtr RadarTrack::GetObsRadar() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return obs_radar_; }
 
 base::ObjectPtr RadarTrack::GetObs() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return obs_; }
 
 int RadarTrack::GetObsId() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return obs_id_; }
 
 double RadarTrack::GetTimestamp() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return timestamp_; }
 
 double RadarTrack::GetTrackingTime() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return tracking_time_; }
 }  // namespace radar
 }  // namespace perception

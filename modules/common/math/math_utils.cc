@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,46 +25,46 @@ namespace common {
 namespace math {
 
 double Sqr(const double x) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return x * x; }
 
 double CrossProd(const Vec2d& start_point, const Vec2d& end_point_1,
                  const Vec2d& end_point_2) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return (end_point_1 - start_point).CrossProd(end_point_2 - start_point);
 }
 
 double InnerProd(const Vec2d& start_point, const Vec2d& end_point_1,
                  const Vec2d& end_point_2) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return (end_point_1 - start_point).InnerProd(end_point_2 - start_point);
 }
 
 double CrossProd(const double x0, const double y0, const double x1,
                  const double y1) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return x0 * y1 - x1 * y0;
 }
 
 double InnerProd(const double x0, const double y0, const double x1,
                  const double y1) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return x0 * x1 + y0 * y1;
 }
 
 double WrapAngle(const double angle) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const double new_angle = std::fmod(angle, M_PI * 2.0);
   return new_angle < 0 ? new_angle + M_PI * 2.0 : new_angle;
 }
 
 double NormalizeAngle(const double angle) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double a = std::fmod(angle + M_PI, 2.0 * M_PI);
   if (a < 0.0) {
@@ -74,13 +74,13 @@ COVERAGE_LOG_TOKEN
 }
 
 double AngleDiff(const double from, const double to) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return NormalizeAngle(to - from);
 }
 
 int RandomInt(const int s, const int t, unsigned int rand_seed) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (s >= t) {
     return s;
@@ -89,14 +89,14 @@ COVERAGE_LOG_TOKEN
 }
 
 double RandomDouble(const double s, const double t, unsigned int rand_seed) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return s + (t - s) / 16383.0 * (rand_r(&rand_seed) & 16383);
 }
 
 // Gaussian
 double Gaussian(const double u, const double std, const double x) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return (1.0 / std::sqrt(2 * M_PI * std * std)) *
          std::exp(-(x - u) * (x - u) / (2 * std * std));
@@ -104,7 +104,7 @@ COVERAGE_LOG_TOKEN
 
 Eigen::Vector2d RotateVector2d(const Eigen::Vector2d& v_in,
                                const double theta) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const double cos_theta = std::cos(theta);
   const double sin_theta = std::sin(theta);
@@ -116,7 +116,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::pair<double, double> Cartesian2Polar(double x, double y) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double r = std::sqrt(x * x + y * y);
   double theta = std::atan2(y, x);

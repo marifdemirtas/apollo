@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -29,7 +29,7 @@ namespace drivers {
 namespace velodyne {
 
 bool VelodyneDriverComponent::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "Velodyne driver component init";
   Config velodyne_config;
@@ -43,7 +43,7 @@ COVERAGE_LOG_TOKEN
   VelodyneDriver *driver =
       VelodyneDriverFactory::CreateDriver(node, velodyne_config);
   if (driver == nullptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
     return false;
   }

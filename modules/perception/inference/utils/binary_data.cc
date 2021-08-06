@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,19 +26,19 @@ namespace perception {
 namespace inference {
 
 inline std::string get_dtype(const base::Blob<double> &blob) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return "float64";
 }
 
 inline std::string get_dtype(const base::Blob<float> &blob) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return "float32";
 }
 
 size_t BinaryReadString(FILE *fp, char *name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t len = 0;
   size_t nmemb = fread(&len, sizeof(len), 1, fp);
@@ -53,7 +53,7 @@ COVERAGE_LOG_TOKEN
 }
 
 size_t BinaryWriteString(FILE *fp, const std::string &str) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t len = str.length();
   fwrite(&len, sizeof(len), 1, fp);
@@ -63,7 +63,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename Dtype>
 std::shared_ptr<base::Blob<Dtype>> BinaryReadBlob(FILE *fp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int ndim;
   std::shared_ptr<base::Blob<Dtype>> blob(new base::Blob<Dtype>());
@@ -99,7 +99,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename Dtype>
 void BinaryWriteBlob(FILE *fp, const base::Blob<Dtype> &blob) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int ndim, dim;
   // write dtype
@@ -127,9 +127,9 @@ template void BinaryWriteBlob(FILE *fp, const base::Blob<double> &blob);
 template <typename Dtype>
 std::map<std::string, std::shared_ptr<base::Blob<Dtype>>> BinaryReadFile(
     const char *file_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   char name[kMaxStrLen];
   std::map<std::string, std::shared_ptr<base::Blob<Dtype>>> data_dict;
@@ -153,11 +153,11 @@ COVERAGE_LOG_TOKEN
 template <typename Btype>
 bool BinaryWriteFile(const char *file_path,
                      const std::map<std::string, Btype> &data_dict) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   FILE *fp = fopen(file_path, "wb");
   if (NULL == fp) {

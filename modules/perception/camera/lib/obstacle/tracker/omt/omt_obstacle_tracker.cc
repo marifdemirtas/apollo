@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ namespace camera {
 using cyber::common::GetAbsolutePath;
 
 bool OMTObstacleTracker::Init(const ObstacleTrackerInitOptions &options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string omt_config = GetAbsolutePath(options.root_dir, options.conf_file);
   if (!cyber::common::GetProtoFromFile(omt_config, &omt_param_)) {
@@ -79,12 +79,12 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string OMTObstacleTracker::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return "OMTObstacleTracker"; }
 
 // @description combine targets using iou after association
 bool OMTObstacleTracker::CombineDuplicateTargets() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<Hypothesis> score_list;
   Hypothesis hypo;
@@ -172,7 +172,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void OMTObstacleTracker::GenerateHypothesis(const TrackObjectPtrs &objects) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<Hypothesis> score_list;
   Hypothesis hypo;
@@ -230,7 +230,7 @@ COVERAGE_LOG_TOKEN
 
 float OMTObstacleTracker::ScoreMotion(const Target &target,
                                       TrackObjectPtr track_obj) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector4d x = target.image_center.get_state();
   float target_centerx = static_cast<float>(x[0]);
@@ -244,7 +244,7 @@ COVERAGE_LOG_TOKEN
 
 float OMTObstacleTracker::ScoreShape(const Target &target,
                                      TrackObjectPtr track_obj) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d shape = target.image_wh.get_state();
   base::RectF rect(track_obj->projected_box);
@@ -255,7 +255,7 @@ COVERAGE_LOG_TOKEN
 
 float OMTObstacleTracker::ScoreAppearance(const Target &target,
                                           TrackObjectPtr track_obj) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float energy = 0.0f;
   int count = 0;
@@ -277,7 +277,7 @@ COVERAGE_LOG_TOKEN
 // [new]
 float OMTObstacleTracker::ScoreOverlap(const Target &target,
                                        TrackObjectPtr track_obj) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector4d center = target.image_center.get_state();
   Eigen::VectorXd wh = target.image_wh.get_state();
@@ -296,7 +296,7 @@ COVERAGE_LOG_TOKEN
 void ProjectBox(const base::BBox2DF &box_origin,
                 const Eigen::Matrix3d &transform,
                 base::BBox2DF *box_projected) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector3d point;
   //  top left
@@ -313,7 +313,7 @@ COVERAGE_LOG_TOKEN
 
 bool OMTObstacleTracker::Predict(const ObstacleTrackerOptions &options,
                                  CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto &target : targets_) {
     target.Predict(frame);
@@ -324,7 +324,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int OMTObstacleTracker::CreateNewTarget(const TrackObjectPtrs &objects) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const TemplateMap &kMinTemplateHWL =
       object_template_manager_->MinTemplateHWL();
@@ -379,7 +379,7 @@ COVERAGE_LOG_TOKEN
 }
 bool OMTObstacleTracker::Associate2D(const ObstacleTrackerOptions &options,
                                      CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   inference::CudaUtil::set_device_id(gpu_id_);
   frame_list_.Add(frame);
@@ -444,7 +444,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void OMTObstacleTracker::ClearTargets() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int left = 0;
   int end = static_cast<int>(targets_.size() - 1);
@@ -466,7 +466,7 @@ COVERAGE_LOG_TOKEN
 
 bool OMTObstacleTracker::Associate3D(const ObstacleTrackerOptions &options,
                                      CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   reference_.UpdateReference(frame, targets_);
   frame->tracked_objects.clear();
@@ -515,7 +515,7 @@ COVERAGE_LOG_TOKEN
 
 bool OMTObstacleTracker::Track(const ObstacleTrackerOptions &options,
                                CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return true;
 }

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
   /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace perception {
 namespace camera {
 
 bool SmokeObjectMaintainer::Add(int idx, base::ObjectPtr obj) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto obj_it = assigned_index_.find(idx);
   if (obj_it == assigned_index_.end()) {

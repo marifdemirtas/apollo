@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Steeringcmd12c::ID = 0x12C;
 
 // public
 Steeringcmd12c::Steeringcmd12c() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Steeringcmd12c::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(QiL) : modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Steeringcmd12c::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_ignore_overrides(data, ignore_overrides_);
   set_p_enable(data, enable_);
@@ -52,7 +52,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Steeringcmd12c::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(QiL) : you should check this manually
   ignore_overrides_ = false;
@@ -64,7 +64,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Steeringcmd12c* Steeringcmd12c::set_ignore_overrides(bool ignore_overrides) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ignore_overrides_ = ignore_overrides;
   return this;
@@ -75,7 +75,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Steeringcmd12c::set_p_ignore_overrides(uint8_t* data,
                                             bool ignore_overrides) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = ignore_overrides;
 
@@ -84,7 +84,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Steeringcmd12c* Steeringcmd12c::set_enable(bool enable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   enable_ = enable;
   return this;
@@ -94,7 +94,7 @@ COVERAGE_LOG_TOKEN
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Steeringcmd12c::set_p_enable(uint8_t* data, bool enable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = enable;
 
@@ -103,7 +103,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Steeringcmd12c* Steeringcmd12c::set_clear_override(bool clear_override) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   clear_override_ = clear_override;
   return this;
@@ -113,7 +113,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 2,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Steeringcmd12c::set_p_clear_override(uint8_t* data, bool clear_override) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = clear_override;
 
@@ -122,7 +122,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Steeringcmd12c* Steeringcmd12c::set_clear_faults(bool clear_faults) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   clear_faults_ = clear_faults;
   return this;
@@ -132,7 +132,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 3,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Steeringcmd12c::set_p_clear_faults(uint8_t* data, bool clear_faults) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = clear_faults;
 
@@ -141,7 +141,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Steeringcmd12c* Steeringcmd12c::set_position(double position) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(AS): fix this direction and scaling.
   position_ = position;
@@ -152,7 +152,7 @@ COVERAGE_LOG_TOKEN
 // 16, 'is_signed_var': True, 'physical_range': '[-32.768|32.767]', 'bit': 15,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad'}
 void Steeringcmd12c::set_p_position(uint8_t* data, double position) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   position = ProtocolData::BoundedValue(-32.768, 32.767, position);
   int x = static_cast<int>(position / -0.001000);
@@ -169,7 +169,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Steeringcmd12c* Steeringcmd12c::set_rotation_rate(double rotation_rate) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   rotation_rate_ = rotation_rate;
   return this;
@@ -179,7 +179,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|65.535]', 'bit': 31,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad/s'}
 void Steeringcmd12c::set_p_rotation_rate(uint8_t* data, double rotation_rate) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   rotation_rate = ProtocolData::BoundedValue(0.0, 65.535, rotation_rate);
   int x = static_cast<int>(rotation_rate / 0.001000);

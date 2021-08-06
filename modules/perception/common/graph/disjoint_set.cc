@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace common {
 
 Universe::Universe(const int elements_num)
     : elts_(elements_num), sets_num_(elements_num) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (int i = 0; i < elements_num; ++i) {
     elts_[i].rank = 0;
@@ -33,7 +33,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Universe::Reset(const int elements_num) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   sets_num_ = elements_num;
   elts_.resize(elements_num);
@@ -45,7 +45,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int Universe::Find(const int x) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int y = x;
   while (y != elts_[y].p) {
@@ -64,7 +64,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Universe::Join(const int x, const int y) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (elts_[x].rank > elts_[y].rank) {
     elts_[y].p = x;

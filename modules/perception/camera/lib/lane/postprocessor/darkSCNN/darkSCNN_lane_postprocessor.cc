@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,6 @@
 #include "modules/perception/camera/common/timer.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
@@ -79,7 +78,7 @@ T GetPolyValue(T a, T b, T c, T d, T x) {
 
 bool DarkSCNNLanePostprocessor::Init(
     const LanePostprocessorInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Read detector config parameter
   darkSCNN::DarkSCNNParam darkscnn_param;
@@ -123,7 +122,7 @@ COVERAGE_LOG_TOKEN
 
 bool DarkSCNNLanePostprocessor::Process2D(
     const LanePostprocessorOptions& options, CameraFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << "Begin to Process2D.";
   frame->lane_objects.clear();
@@ -413,7 +412,7 @@ COVERAGE_LOG_TOKEN
 // Produce laneline output in camera coordinates (optional)
 bool DarkSCNNLanePostprocessor::Process3D(
     const LanePostprocessorOptions& options, CameraFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ConvertImagePoint2Camera(frame);
   PolyFitCameraLaneline(frame);
@@ -421,7 +420,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DarkSCNNLanePostprocessor::ConvertImagePoint2Camera(CameraFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float pitch_angle = frame->calibration_service->QueryPitchAngle();
   float camera_ground_height =
@@ -451,7 +450,7 @@ COVERAGE_LOG_TOKEN
 
 // @brief: Fit camera lane line using polynomial
 void DarkSCNNLanePostprocessor::PolyFitCameraLaneline(CameraFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<base::LaneLine>& lane_objects = frame->lane_objects;
   int laneline_num = static_cast<int>(lane_objects.size());
@@ -489,7 +488,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string DarkSCNNLanePostprocessor::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return "DarkSCNNLanePostprocessor";
 }

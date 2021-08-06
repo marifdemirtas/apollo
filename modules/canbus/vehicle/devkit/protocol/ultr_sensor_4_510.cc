@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,13 +28,13 @@ namespace devkit {
 using ::apollo::drivers::canbus::Byte;
 
 Ultrsensor4510::Ultrsensor4510() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Ultrsensor4510::ID = 0x510;
 
 void Ultrsensor4510::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_devkit()
       ->mutable_ultr_sensor_4_510()
@@ -55,7 +55,7 @@ COVERAGE_LOG_TOKEN
 // 'bit': 55, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor4510::uiuss5_tof_indirect(const std::uint8_t* bytes,
                                            int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
 // 'bit': 39, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor4510::uiuss4_tof_indirect(const std::uint8_t* bytes,
                                            int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -93,7 +93,7 @@ COVERAGE_LOG_TOKEN
 // 'bit': 23, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor4510::uiuss3_tof_indirect(const std::uint8_t* bytes,
                                            int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -112,7 +112,7 @@ COVERAGE_LOG_TOKEN
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor4510::uiuss2_tof_indirect(const std::uint8_t* bytes,
                                            int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);

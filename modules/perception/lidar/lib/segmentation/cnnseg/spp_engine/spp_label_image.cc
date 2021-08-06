@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,7 +29,7 @@ namespace lidar {
 
 void SppLabelImage::Init(size_t width, size_t height,
                          const std::string& sensor_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // simply release the last memory and allocate new one
   if (labels_) {
@@ -45,7 +45,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SppLabelImage::InitRangeMask(float range, float boundary_distance) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (range_mask_) {
     common::IFree2(&range_mask_);
@@ -70,7 +70,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SppLabelImage::CollectClusterFromSppLabelImage() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t size = width_ * height_;
   // find max label
@@ -90,7 +90,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SppLabelImage::ProjectClusterToSppLabelImage() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   memset(labels_[0], 0, sizeof(uint16_t) * width_ * height_);
   for (size_t n = 0; n < clusters_.size(); ++n) {
@@ -103,7 +103,7 @@ COVERAGE_LOG_TOKEN
 
 void SppLabelImage::FilterClusters(const float* confidence_map,
                                    float threshold) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& cluster : clusters_) {
     float sum = 0.f;
@@ -138,7 +138,7 @@ void SppLabelImage::FilterClusters(const float* confidence_map,
                                    const float* category_map,
                                    float confidence_threshold,
                                    float category_threshold) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<bool> is_valid;
   is_valid.reserve(clusters_.size());
@@ -194,7 +194,7 @@ COVERAGE_LOG_TOKEN
 
 void SppLabelImage::CalculateClusterClass(const float* class_map,
                                           size_t class_num) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& cluster : clusters_) {
     cluster->class_prob.assign(class_num, 0.f);
@@ -223,7 +223,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SppLabelImage::CalculateClusterHeading(const float* heading_map) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const float* heading_map_x_ptr = heading_map;
   const float* heading_map_y_ptr = heading_map + width_ * height_;
@@ -239,7 +239,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SppLabelImage::CalculateClusterTopZ(const float* top_z_map) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& cluster : clusters_) {
     float sum = 0.f;
@@ -254,7 +254,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SppLabelImage::AddPixelSample(size_t id, uint32_t pixel) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (clusters_.size() <= id) {
     SppClusterPool::Instance(sensor_name_)
@@ -264,7 +264,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SppLabelImage::ResizeClusters(size_t size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (size > clusters_.size()) {
     SppClusterPool::Instance(sensor_name_)
@@ -275,7 +275,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SppLabelImage::ResetClusters(size_t size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t reset_pos = std::min(clusters_.size(), size);
   ResizeClusters(size);

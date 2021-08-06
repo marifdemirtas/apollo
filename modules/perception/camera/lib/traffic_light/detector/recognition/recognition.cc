@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace camera {
 
 bool TrafficLightRecognition::Init(
     const TrafficLightDetectorInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string proto_path =
       cyber::common::GetAbsolutePath(options.root_dir, options.conf_file);
@@ -51,7 +51,7 @@ COVERAGE_LOG_TOKEN
 
 bool TrafficLightRecognition::Detect(const TrafficLightDetectorOptions& options,
                                      CameraFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<base::TrafficLightPtr> candidate(1);
 
@@ -83,7 +83,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string TrafficLightRecognition::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return "TrafficLightRecognition";
 }

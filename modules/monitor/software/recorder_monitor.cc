@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -40,11 +40,11 @@ using apollo::data::SmartRecorderStatus;
 RecorderMonitor::RecorderMonitor()
     : RecurrentRunner(FLAGS_smart_recorder_monitor_name,
                       FLAGS_smart_recorder_monitor_interval) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RecorderMonitor::RunOnce(const double current_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto manager = MonitorManager::Instance();
   auto* component = apollo::common::util::FindOrNull(
@@ -72,7 +72,7 @@ COVERAGE_LOG_TOKEN
   // Translate SmartRecorderStatus to ComponentStatus. Note that ERROR and FATAL
   // will trigger safety mode in current settings.
   switch (status->recording_state()) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
     case RecordingState::RECORDING:
       SummaryMonitor::EscalateStatus(ComponentStatus::OK, "", component_status);

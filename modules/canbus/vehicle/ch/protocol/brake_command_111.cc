@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,11 +28,11 @@ const int32_t Brakecommand111::ID = 0x111;
 
 // public
 Brakecommand111::Brakecommand111() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Brakecommand111::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,14 +40,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void Brakecommand111::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_brake_pedal_en_ctrl(data, brake_pedal_en_ctrl_);
   set_p_brake_pedal_cmd(data, brake_pedal_cmd_);
 }
 
 void Brakecommand111::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // you should check this manually
   brake_pedal_en_ctrl_ = Brake_command_111::BRAKE_PEDAL_EN_CTRL_DISABLE;
@@ -56,7 +56,7 @@ COVERAGE_LOG_TOKEN
 
 Brakecommand111* Brakecommand111::set_brake_pedal_en_ctrl(
     Brake_command_111::Brake_pedal_en_ctrlType brake_pedal_en_ctrl) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   brake_pedal_en_ctrl_ = brake_pedal_en_ctrl;
   return this;
@@ -70,7 +70,7 @@ COVERAGE_LOG_TOKEN
 void Brakecommand111::set_p_brake_pedal_en_ctrl(
     uint8_t* data,
     Brake_command_111::Brake_pedal_en_ctrlType brake_pedal_en_ctrl) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = brake_pedal_en_ctrl;
 
@@ -79,7 +79,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Brakecommand111* Brakecommand111::set_brake_pedal_cmd(int brake_pedal_cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   brake_pedal_cmd_ = brake_pedal_cmd;
   return this;
@@ -91,7 +91,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'intel', 'physical_unit': '%'}
 void Brakecommand111::set_p_brake_pedal_cmd(uint8_t* data,
                                             int brake_pedal_cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   brake_pedal_cmd = ProtocolData::BoundedValue(0, 100, brake_pedal_cmd);
   int x = brake_pedal_cmd;

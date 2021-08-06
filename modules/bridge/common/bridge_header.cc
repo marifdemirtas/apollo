@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -20,12 +20,11 @@
 #include <cstring>
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace bridge {
 
 bool BridgeHeader::Serialize(char *buf, size_t size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!buf || size == 0) {
     return false;
@@ -46,7 +45,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool BridgeHeader::Diserialize(const char *buf, size_t buf_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const char *cursor = buf;
 
@@ -73,7 +72,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool BridgeHeader::IsAvailable(const char *buf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!buf) {
     return false;
@@ -85,7 +84,7 @@ COVERAGE_LOG_TOKEN
 }
 
 char *BridgeHeader::SerializeHeaderFlag(char *buf, size_t size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!buf || size == 0) {
     return nullptr;
@@ -95,7 +94,7 @@ COVERAGE_LOG_TOKEN
 }
 
 char *BridgeHeader::SerializeHeaderSize(char *buf, size_t size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   hsize header_size = GetHeaderSize();
   return SerializeBasicType<hsize, sizeof(hsize)>(&header_size, buf, size);

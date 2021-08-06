@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -28,42 +28,42 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Turnsignal68::ID = 0x68;
 
 uint32_t Turnsignal68::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static const uint32_t PERIOD = 50 * 1000;
   return PERIOD;
 }
 
 int32_t Turnsignal68::turn_cmd() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return turn_cmd_; }
 
 void Turnsignal68::UpdateData(uint8_t *data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_turn_cmd_p(data, turn_cmd_);
 }
 
 void Turnsignal68::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  turn_cmd_ = 0; }
 
 Turnsignal68 *Turnsignal68::set_turn_none() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   turn_cmd_ = 0x00;
   return this;
 }
 
 Turnsignal68 *Turnsignal68::set_turn_left() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   turn_cmd_ = 0x01;
   return this;
 }
 
 Turnsignal68 *Turnsignal68::set_turn_right() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   turn_cmd_ = 0x02;
   return this;
@@ -72,7 +72,7 @@ COVERAGE_LOG_TOKEN
 
 // private
 void Turnsignal68::set_turn_cmd_p(uint8_t *data, int32_t turn_cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   turn_cmd = ProtocolData::BoundedValue(0, 3, turn_cmd);
   Byte frame(data + 0);

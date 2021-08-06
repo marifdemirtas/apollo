@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -26,14 +26,14 @@ namespace drivers {
 namespace lidar {
 
 LidarDriverFactory::LidarDriverFactory() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 LidarDriverFactory::LidarDriverFactory(
     const apollo::drivers::lidar::config& config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 void LidarDriverFactory::RegisterLidarClients() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Register(LidarParameter::HESAI,
            [](const std::shared_ptr<::apollo::cyber::Node>& node,
@@ -56,7 +56,7 @@ COVERAGE_LOG_TOKEN
 std::unique_ptr<LidarDriver> LidarDriverFactory::CreateLidarDriver(
     const std::shared_ptr<::apollo::cyber::Node>& node,
     const apollo::drivers::lidar::config& parameter) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto factory = CreateObject(parameter.brand(), node, parameter);
   if (!factory) {

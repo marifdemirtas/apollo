@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace conti_radar {
 using apollo::drivers::canbus::Byte;
 
 RadarState201::RadarState201() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const uint32_t RadarState201::ID = 0x201;
 
 void RadarState201::Parse(const std::uint8_t* bytes, int32_t length,
                           ContiRadar* conti_radar) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto state = conti_radar->mutable_radar_state();
   state->set_max_distance(max_dist(bytes, length));
@@ -47,7 +47,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int RadarState201::max_dist(const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 1);
   uint32_t x = t0.get_byte(0, 8);
@@ -63,7 +63,7 @@ COVERAGE_LOG_TOKEN
 
 int RadarState201::radar_power(const std::uint8_t* bytes,
                                int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 3);
   uint32_t x = t0.get_byte(0, 2);
@@ -79,7 +79,7 @@ COVERAGE_LOG_TOKEN
 
 OutputType RadarState201::output_type(const std::uint8_t* bytes,
                                       int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 5);
   uint32_t x = t0.get_byte(2, 2);
@@ -98,7 +98,7 @@ COVERAGE_LOG_TOKEN
 
 RcsThreshold RadarState201::rcs_threshold(const std::uint8_t* bytes,
                                           int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 7);
   uint32_t x = t0.get_byte(2, 3);
@@ -115,7 +115,7 @@ COVERAGE_LOG_TOKEN
 
 bool RadarState201::send_quality(const std::uint8_t* bytes,
                                  int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 5);
   uint32_t x = t0.get_byte(4, 1);
@@ -126,7 +126,7 @@ COVERAGE_LOG_TOKEN
 
 bool RadarState201::send_ext_info(const std::uint8_t* bytes,
                                   int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 5);
   uint32_t x = t0.get_byte(5, 1);

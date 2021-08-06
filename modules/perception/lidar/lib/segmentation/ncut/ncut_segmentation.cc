@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -36,7 +36,7 @@ using apollo::cyber::common::GetProtoFromFile;
 using Eigen::MatrixXf;
 
 bool NCutSegmentation::Init(const SegmentationInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string param_file;
   ACHECK(GetConfigs(&param_file));
@@ -130,7 +130,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NCutSegmentation::Configure(std::string param_file) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   NCutSegmentationParam seg_param_;
   // get cnnseg params
@@ -156,7 +156,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NCutSegmentation::GetConfigs(std::string* param_file) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -180,7 +180,7 @@ COVERAGE_LOG_TOKEN
 
 bool NCutSegmentation::Segment(const SegmentationOptions& options,
                                LidarFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // check input
   if (frame == nullptr) {
@@ -409,7 +409,7 @@ COVERAGE_LOG_TOKEN
 }
 
 base::ObjectType NCutSegmentation::Label2Type(const std::string& label) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (label == "unknown") {
     return base::ObjectType::UNKNOWN;
@@ -429,7 +429,7 @@ COVERAGE_LOG_TOKEN
 void NCutSegmentation::PartitionConnectedComponents(
     const base::PointFCloudPtr& in_cloud, float cell_size,
     std::vector<base::PointFCloudPtr>* out_clouds) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<base::PointFCloudPtr>& temp_clouds = *out_clouds;
   FloodFill FFfilter(grid_radius_, cell_size);
@@ -448,7 +448,7 @@ void NCutSegmentation::ObstacleFilter(const base::PointFCloudPtr& in_cloud,
                                       bool filter_pedestrian_only,
                                       base::PointFCloudPtr* out_cloud,
                                       std::vector<base::ObjectPtr>* segments) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   FloodFill FFfilter(grid_radius_, cell_size);
   std::vector<std::vector<int>> component_points;
@@ -508,7 +508,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NCutSegmentation::IsOutlier(const base::PointFCloudPtr& in_cloud) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t min_num_points = std::max(outlier_min_num_points_, 1);
   if (in_cloud->size() < min_num_points) {
@@ -551,7 +551,7 @@ COVERAGE_LOG_TOKEN
 
 #ifdef DEBUG_NCUT
 void NCutSegmentation::VisualizePointCloud(const base::PointFCloudPtr& cloud) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // _viewer->removePointCloud(_viewer_id, 0);
   _viewer->removeAllPointClouds(0);
@@ -574,7 +574,7 @@ COVERAGE_LOG_TOKEN
 
 void NCutSegmentation::VisualizeSegments(
     const std::vector<base::ObjectPtr>& segments) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // _viewer->removePointCloud(_viewer_id, 0);
   unsigned int seed;
@@ -605,7 +605,7 @@ COVERAGE_LOG_TOKEN
 void NCutSegmentation::VisualizeComponents(
     const base::PointFCloudPtr& cloud,
     const std::vector<std::vector<int>>& component_points) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // _viewer->removePointCloud(_viewer_id, 0);
   unsigned int seed;

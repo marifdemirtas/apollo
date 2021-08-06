@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -37,11 +37,11 @@ namespace monitor {
 ProcessMonitor::ProcessMonitor()
     : RecurrentRunner(FLAGS_process_monitor_name,
                       FLAGS_process_monitor_interval) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ProcessMonitor::RunOnce(const double current_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Get running processes.
   std::vector<std::string> running_processes;
@@ -93,7 +93,7 @@ void ProcessMonitor::UpdateStatus(
     const std::vector<std::string>& running_processes,
     const apollo::dreamview::ProcessMonitorConfig& config,
     ComponentStatus* status) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   status->clear_status();
   for (const std::string& command : running_processes) {

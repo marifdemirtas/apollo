@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,15 +25,15 @@ namespace pyramid_map {
 
 PyramidMapConfig::PyramidMapConfig(const std::string& map_version)
     : BaseMapConfig(map_version) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PyramidMapConfig::~PyramidMapConfig() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool PyramidMapConfig::CreateXml(boost::property_tree::ptree* config) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool success = BaseMapConfig::CreateXml(config);
   if (success) {
@@ -57,7 +57,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool PyramidMapConfig::LoadXml(const boost::property_tree::ptree& config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool success = BaseMapConfig::LoadXml(config);
   if (success) {

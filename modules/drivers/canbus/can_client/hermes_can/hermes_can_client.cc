@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ namespace can {
 using apollo::common::ErrorCode;
 
 HermesCanClient::~HermesCanClient() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (dev_handler_) {
     Stop();
@@ -38,7 +38,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool HermesCanClient::Init(const CANCardParameter &parameter) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!parameter.has_channel_id()) {
     AERROR << "Init CAN failed: parameter does not have channel id. The "
@@ -58,7 +58,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode HermesCanClient::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (is_init_) {
     return ErrorCode::OK;
@@ -95,7 +95,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HermesCanClient::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (is_init_) {
     is_init_ = false;
@@ -109,7 +109,7 @@ COVERAGE_LOG_TOKEN
 // Synchronous transmission of CAN messages
 apollo::common::ErrorCode HermesCanClient::Send(
     const std::vector<CanFrame> &frames, int32_t *const frame_num) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   /*
   typedef struct bcan_msg {
@@ -156,7 +156,7 @@ const int RX_TIMEOUT = -7;
 
 apollo::common::ErrorCode HermesCanClient::Receive(
     std::vector<CanFrame> *const frames, int32_t *const frame_num) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_init_) {
     AERROR << "Hermes can client is not init! Please init first!";
@@ -197,11 +197,11 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string HermesCanClient::GetErrorString(int32_t ntstatus) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return ""; }
 
 void HermesCanClient::SetInited(bool init) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  is_init_ = init; }
 
 }  // namespace can

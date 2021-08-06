@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -43,11 +43,11 @@ DstExistenceFusion::DstExistenceFusion(TrackPtr track)
     : BaseExistenceFusion(track),
       fused_toic_(toic_name_),
       fused_existence_(name_) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool DstExistenceFusion::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseInitOptions options;
   if (!GetFusionInitOptions("DstExistenceFusion", &options)) {
@@ -91,7 +91,7 @@ COVERAGE_LOG_TOKEN
 void DstExistenceFusion::UpdateWithMeasurement(
     const SensorObjectPtr measurement, double target_timestamp,
     double match_dist) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string sensor_id = measurement->GetSensorId();
   double timestamp = measurement->GetTimestamp();
@@ -132,7 +132,7 @@ void DstExistenceFusion::UpdateWithoutMeasurement(const std::string &sensor_id,
                                                   double measurement_timestamp,
                                                   double target_timestamp,
                                                   double min_match_dist) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SensorObjectConstPtr camera_object = nullptr;
   if (common::SensorManager::Instance()->IsCamera(sensor_id)) {
@@ -180,7 +180,7 @@ COVERAGE_LOG_TOKEN
 double DstExistenceFusion::ComputeDistDecay(base::ObjectConstPtr obj,
                                             const std::string &sensor_id,
                                             double timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double distance = (std::numeric_limits<float>::max)();
   double dist_decay = 1.0;
@@ -211,7 +211,7 @@ COVERAGE_LOG_TOKEN
 
 double DstExistenceFusion::ComputeFeatureInfluence(
     const SensorObjectPtr measurement) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double velocity = measurement->GetBaseObject()->velocity.norm();
   auto sigmoid_fun = [](double velocity) {
@@ -228,7 +228,7 @@ COVERAGE_LOG_TOKEN
 
 double DstExistenceFusion::GetExistReliability(
     const SensorObjectPtr measurement) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool unknown =
       (measurement->GetBaseObject()->type == base::ObjectType::UNKNOWN ||
@@ -246,7 +246,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double DstExistenceFusion::GetUnexistReliability(const std::string &sensor_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   common::SensorManager *sensor_manager = common::SensorManager::Instance();
   CHECK_NOTNULL(sensor_manager);
@@ -262,7 +262,7 @@ COVERAGE_LOG_TOKEN
 void DstExistenceFusion::UpdateToicWithoutCameraMeasurement(
     const std::string &sensor_id, double measurement_timestamp,
     double min_match_dist) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double dist_score = min_match_dist;
   double in_view_ratio = 0.0;
@@ -310,7 +310,7 @@ COVERAGE_LOG_TOKEN
 
 void DstExistenceFusion::UpdateToicWithCameraMeasurement(
     const SensorObjectPtr &camera_obj, double match_dist) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string sensor_id = camera_obj->GetSensorId();
   double timestamp = camera_obj->GetTimestamp();
@@ -362,11 +362,11 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string DstExistenceFusion::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return name_; }
 
 double DstExistenceFusion::GetExistenceProbability() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t toic_ind = DstManager::Instance()->FodSubsetToInd(
       fused_existence_.Name(), ExistenceDstMaps::EXIST);
@@ -377,7 +377,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double DstExistenceFusion::GetToicProbability() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t toic_ind = DstManager::Instance()->FodSubsetToInd(fused_toic_.Name(),
                                                            ToicDstMaps::TOIC);
@@ -387,7 +387,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DstExistenceFusion::UpdateExistenceState() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double toic_p = GetToicProbability();
   track_ref_->SetToicProb(toic_p);

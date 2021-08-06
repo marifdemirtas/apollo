@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -20,21 +20,21 @@ namespace drivers {
 
 namespace robosense {
 Input::Input(const uint16_t &msop_port, const uint16_t &difop_port) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   this->msop_fd_ = setUpSocket(msop_port);
   this->difop_fd_ = setUpSocket(difop_port);
 }
 
 Input::~Input() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   close(this->msop_fd_);
   close(this->difop_fd_);
 }
 
 int Input::setUpSocket(uint16_t port) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int sock_fd = socket(PF_INET, SOCK_DGRAM, 0);
   if (sock_fd < 0) {
@@ -63,7 +63,7 @@ COVERAGE_LOG_TOKEN
 }
 
 InputState Input::getPacket(uint8_t *pkt, uint32_t timeout) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   InputState res = InputState(0);
   if (pkt == NULL) {

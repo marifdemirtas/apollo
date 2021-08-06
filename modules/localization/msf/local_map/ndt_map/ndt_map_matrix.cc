@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace localization {
 namespace msf {
 
 NdtMapSingleCell::NdtMapSingleCell() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   intensity_ = 0.0;
   intensity_var_ = 0.0;
@@ -36,7 +36,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int NdtMapSingleCell::LoadBinary(unsigned char* buf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float* f_buf = reinterpret_cast<float*>(buf);
   intensity_ = *f_buf;
@@ -81,7 +81,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int NdtMapSingleCell::CreateBinary(unsigned char* buf,
                                             unsigned int buf_size) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size = GetBinarySize();
   if (buf_size >= target_size) {
@@ -125,7 +125,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int NdtMapSingleCell::GetBinarySize() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int sz =
       static_cast<unsigned int>(sizeof(float) * 2 + sizeof(unsigned int) * 2 +
@@ -138,7 +138,7 @@ COVERAGE_LOG_TOKEN
 }
 
 NdtMapSingleCell& NdtMapSingleCell::operator=(const NdtMapSingleCell& ref) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   count_ = ref.count_;
   intensity_ = ref.intensity_;
@@ -153,20 +153,20 @@ COVERAGE_LOG_TOKEN
 
 void NdtMapSingleCell::Reduce(NdtMapSingleCell* cell,
                               const NdtMapSingleCell& cell_new) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   cell->MergeCell(cell_new);
 }
 
 NdtMapCells::NdtMapCells() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   max_altitude_index_ = static_cast<int>(-1e10);
   min_altitude_index_ = static_cast<int>(1e10);
 }
 
 void NdtMapCells::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   max_altitude_index_ = static_cast<int>(-1e10);
   min_altitude_index_ = static_cast<int>(1e10);
@@ -177,7 +177,7 @@ COVERAGE_LOG_TOKEN
 int NdtMapCells::AddSample(const float intensity, const float altitude,
                            const float resolution,
                            const Eigen::Vector3f centroid, bool is_road) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int altitude_index = CalAltitudeIndex(resolution, altitude);
   NdtMapSingleCell& cell = cells_[altitude_index];
@@ -200,7 +200,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int NdtMapCells::LoadBinary(unsigned char* buf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int* p = reinterpret_cast<unsigned int*>(buf);
   unsigned int size = *p;
@@ -239,7 +239,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int NdtMapCells::CreateBinary(unsigned char* buf,
                                        unsigned int buf_size) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size = GetBinarySize();
   if (buf_size >= target_size) {
@@ -281,7 +281,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int NdtMapCells::GetBinarySize() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size = sizeof(unsigned int);
   for (auto it = cells_.begin(); it != cells_.end(); ++it) {
@@ -300,21 +300,21 @@ COVERAGE_LOG_TOKEN
 
 int NdtMapCells::CalAltitudeIndex(const float resolution,
                                   const float altitude) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return static_cast<int>(altitude / resolution);
 }
 
 float NdtMapCells::CalAltitude(const float resolution,
                                const int altitude_index) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return static_cast<float>(resolution *
                             (static_cast<float>(altitude_index) + 0.5));
 }
 
 void NdtMapCells::Reduce(NdtMapCells* cell, const NdtMapCells& cell_new) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Reduce cells
   for (auto it = cell_new.cells_.begin(); it != cell_new.cells_.end(); ++it) {
@@ -348,7 +348,7 @@ COVERAGE_LOG_TOKEN
 }
 
 NdtMapMatrix::NdtMapMatrix() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   rows_ = 0;
   cols_ = 0;
@@ -356,11 +356,11 @@ COVERAGE_LOG_TOKEN
 }
 
 NdtMapMatrix::~NdtMapMatrix() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 NdtMapMatrix::NdtMapMatrix(const NdtMapMatrix& cells) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Init(cells.rows_, cells.cols_);
   for (unsigned int y = 0; y < rows_; ++y) {
@@ -373,19 +373,19 @@ COVERAGE_LOG_TOKEN
 }
 
 void NdtMapMatrix::Init(const BaseMapConfig* config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Init(config->map_node_size_y_, config->map_node_size_x_);
 }
 
 void NdtMapMatrix::Reset(const BaseMapConfig* config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Reset(config->map_node_size_y_, config->map_node_size_x_);
 }
 
 void NdtMapMatrix::Init(unsigned int rows, unsigned int cols) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map3d_cells_.reset(new NdtMapCells[rows * cols]);
   rows_ = rows;
@@ -393,7 +393,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void NdtMapMatrix::Reset(unsigned int rows, unsigned int cols) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int length = rows * cols;
   for (unsigned int i = 0; i < length; ++i) {
@@ -402,7 +402,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int NdtMapMatrix::LoadBinary(unsigned char* buf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int* p = reinterpret_cast<unsigned int*>(buf);
   rows_ = *p;
@@ -423,7 +423,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int NdtMapMatrix::CreateBinary(unsigned char* buf,
                                         unsigned int buf_size) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size = GetBinarySize();
   if (buf_size >= target_size) {
@@ -448,7 +448,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int NdtMapMatrix::GetBinarySize() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size =
       static_cast<unsigned int>(sizeof(unsigned int) * 2);
@@ -462,7 +462,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void NdtMapMatrix::Reduce(NdtMapMatrix* cells, const NdtMapMatrix& cells_new) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (unsigned int y = 0; y < cells->GetRows(); ++y) {
     for (unsigned int x = 0; x < cells->GetCols(); ++x) {
@@ -474,7 +474,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void NdtMapMatrix::GetIntensityImg(cv::Mat* intensity_img) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *intensity_img = cv::Mat(cv::Size(cols_, rows_), CV_8UC1);
   for (unsigned int y = 0; y < rows_; ++y) {

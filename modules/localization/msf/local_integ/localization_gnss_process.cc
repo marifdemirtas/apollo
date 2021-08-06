@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -34,9 +34,7 @@ using apollo::common::Status;
 LocalizationGnssProcess::LocalizationGnssProcess()
     : gnss_solver_(new GnssSolver()),
       enable_ins_aid_rtk_(true),
-      gnss_lever_arm_{
-COVERAGE_LOG_TOKEN
-0.0, 0.0, 0.0},
+      gnss_lever_arm_{0.0, 0.0, 0.0},
       sins_align_finish_(false),
       double_antenna_solver_(new GnssSolver()),
       current_obs_time_(0.0),
@@ -45,7 +43,7 @@ COVERAGE_LOG_TOKEN
 }
 
 LocalizationGnssProcess::~LocalizationGnssProcess() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_gnss_eph_.clear();
 
@@ -56,7 +54,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Status LocalizationGnssProcess::Init(const LocalizationIntegParam &param) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // set launch parameter
   enable_ins_aid_rtk_ = param.enable_ins_aid_rtk;
@@ -73,7 +71,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LocalizationGnssProcess::SetDefaultOption() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // set default process modes
   gnss_solver_->set_position_option(3);
@@ -88,7 +86,7 @@ COVERAGE_LOG_TOKEN
 
 void LocalizationGnssProcess::RawObservationProcess(
     const drivers::gnss::EpochObservation &raw_obs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!raw_obs.has_receiver_id()) {
     AERROR << "Obs data being invalid if without receiver id!";
@@ -142,7 +140,7 @@ COVERAGE_LOG_TOKEN
 
 void LocalizationGnssProcess::RawEphemerisProcess(
     const drivers::gnss::GnssEphemeris &msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!msg.has_gnss_type()) {
     return;
@@ -175,7 +173,7 @@ COVERAGE_LOG_TOKEN
 
 void LocalizationGnssProcess::IntegSinsPvaProcess(const InsPva &sins_pva_msg,
                                                   const double variance[9][9]) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!sins_pva_msg.init_and_alignment) {
     return;
@@ -210,7 +208,7 @@ COVERAGE_LOG_TOKEN
 
 LocalizationMeasureState LocalizationGnssProcess::GetResult(
     MeasureData *gnss_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(gnss_msg);
 
@@ -276,7 +274,7 @@ COVERAGE_LOG_TOKEN
 
 bool LocalizationGnssProcess::DuplicateEph(
     const drivers::gnss::GnssEphemeris &raw_eph) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   drivers::gnss::GnssType t_type = raw_eph.gnss_type();
   if (t_type != drivers::gnss::GnssType::GPS_SYS &&
@@ -308,7 +306,7 @@ COVERAGE_LOG_TOKEN
 
 inline void LocalizationGnssProcess::LogPnt(const GnssPntResultMsg &rover_pnt,
                                             double ratio) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   char print_infor[256] = {'\0'};
   snprintf(print_infor, sizeof(print_infor),
@@ -324,7 +322,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool LocalizationGnssProcess::GnssPosition(EpochObservationMsg *raw_rover_obs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(raw_rover_obs);
 

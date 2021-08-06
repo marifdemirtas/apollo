@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ namespace lidar {
 bool config_parser(const std::string& config_file,
                    std::vector<std::string>* channels,
                    std::vector<std::string>* child_frame_ids) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ifstream fin(config_file);
   if (!fin.is_open()) {
@@ -65,7 +65,7 @@ COVERAGE_LOG_TOKEN
 }  // namespace apollo
 
 int main(int argc, char** argv) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (argc < 2) {
     std::cout << "export_msgs config_file" << std::endl;

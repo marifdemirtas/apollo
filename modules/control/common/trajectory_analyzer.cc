@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -39,7 +39,7 @@ namespace {
 // Squared distance from the point to (x, y).
 double PointDistanceSquare(const TrajectoryPoint &point, const double x,
                            const double y) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const double dx = point.path_point().x() - x;
   const double dy = point.path_point().y() - y;
@@ -47,7 +47,7 @@ COVERAGE_LOG_TOKEN
 }
 
 PathPoint TrajectoryPointToPathPoint(const TrajectoryPoint &point) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (point.has_path_point()) {
     return point.path_point();
@@ -60,7 +60,7 @@ COVERAGE_LOG_TOKEN
 
 TrajectoryAnalyzer::TrajectoryAnalyzer(
     const planning::ADCTrajectory *planning_published_trajectory) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   header_time_ = planning_published_trajectory->header().timestamp_sec();
   seq_num_ = planning_published_trajectory->header().sequence_num();
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
 
 PathPoint TrajectoryAnalyzer::QueryMatchedPathPoint(const double x,
                                                     const double y) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GT(trajectory_points_.size(), 0U);
 
@@ -117,7 +117,7 @@ void TrajectoryAnalyzer::ToTrajectoryFrame(const double x, const double y,
                                            double *ptr_s, double *ptr_s_dot,
                                            double *ptr_d,
                                            double *ptr_d_dot) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double dx = x - ref_point.x();
   double dy = y - ref_point.y();
@@ -160,14 +160,14 @@ COVERAGE_LOG_TOKEN
 
 TrajectoryPoint TrajectoryAnalyzer::QueryNearestPointByAbsoluteTime(
     const double t) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return QueryNearestPointByRelativeTime(t - header_time_);
 }
 
 TrajectoryPoint TrajectoryAnalyzer::QueryNearestPointByRelativeTime(
     const double t) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto func_comp = [](const TrajectoryPoint &point,
                       const double relative_time) {
@@ -198,7 +198,7 @@ COVERAGE_LOG_TOKEN
 
 TrajectoryPoint TrajectoryAnalyzer::QueryNearestPointByPosition(
     const double x, const double y) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double d_min = PointDistanceSquare(trajectory_points_.front(), x, y);
   size_t index_min = 0;
@@ -215,7 +215,7 @@ COVERAGE_LOG_TOKEN
 
 const std::vector<TrajectoryPoint> &TrajectoryAnalyzer::trajectory_points()
     const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return trajectory_points_;
 }
@@ -224,7 +224,7 @@ PathPoint TrajectoryAnalyzer::FindMinDistancePoint(const TrajectoryPoint &p0,
                                                    const TrajectoryPoint &p1,
                                                    const double x,
                                                    const double y) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // given the fact that the discretized trajectory is dense enough,
   // we assume linear trajectory between consecutive trajectory points.
@@ -258,7 +258,7 @@ COVERAGE_LOG_TOKEN
 
 void TrajectoryAnalyzer::TrajectoryTransformToCOM(
     const double rear_to_com_distance) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GT(trajectory_points_.size(), 0U);
   for (size_t i = 0; i < trajectory_points_.size(); ++i) {
@@ -271,7 +271,7 @@ COVERAGE_LOG_TOKEN
 
 common::math::Vec2d TrajectoryAnalyzer::ComputeCOMPosition(
     const double rear_to_com_distance, const PathPoint &path_point) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Initialize the vector for coordinate transformation of the position
   // reference point

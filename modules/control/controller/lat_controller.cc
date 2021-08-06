@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -48,7 +48,7 @@ using apollo::cyber::Clock;
 namespace {
 
 std::string GetLogFileName() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   time_t raw_time;
   char name_buffer[80];
@@ -61,7 +61,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void WriteHeaders(std::ofstream &file_stream) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   file_stream << "current_lateral_error,"
               << "current_ref_heading,"
@@ -83,7 +83,7 @@ COVERAGE_LOG_TOKEN
 }  // namespace
 
 LatController::LatController() : name_("LQR-based Lateral Controller") {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (FLAGS_enable_csv_debug) {
     steer_log_file_.open(GetLogFileName());
@@ -95,11 +95,11 @@ COVERAGE_LOG_TOKEN
 }
 
 LatController::~LatController() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  CloseLogFile(); }
 
 bool LatController::LoadControlConf(const ControlConf *control_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!control_conf) {
     AERROR << "[LatController] control_conf == nullptr";
@@ -159,7 +159,7 @@ COVERAGE_LOG_TOKEN
 
 void LatController::ProcessLogs(const SimpleLateralDebug *debug,
                                 const canbus::Chassis *chassis) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::string log_str = absl::StrCat(
       debug->lateral_error(), ",", debug->ref_heading(), ",", debug->heading(),
@@ -179,7 +179,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LatController::LogInitParameters() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << name_ << " begin.";
   AINFO << "[LatController parameters]"
@@ -190,7 +190,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LatController::InitializeFilters(const ControlConf *control_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Low pass filter
   std::vector<double> den(3, 0.0);
@@ -206,7 +206,7 @@ COVERAGE_LOG_TOKEN
 
 Status LatController::Init(std::shared_ptr<DependencyInjector> injector,
                            const ControlConf *control_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   control_conf_ = control_conf;
   injector_ = injector;
@@ -298,7 +298,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LatController::CloseLogFile() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (FLAGS_enable_csv_debug && steer_log_file_.is_open()) {
     steer_log_file_.close();
@@ -307,7 +307,7 @@ COVERAGE_LOG_TOKEN
 
 void LatController::LoadLatGainScheduler(
     const LatControllerConf &lat_controller_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto &lat_err_gain_scheduler =
       lat_controller_conf.lat_err_gain_scheduler();
@@ -332,11 +332,11 @@ COVERAGE_LOG_TOKEN
 }
 
 void LatController::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  CloseLogFile(); }
 
 std::string LatController::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return name_; }
 
 Status LatController::ComputeControlCommand(
@@ -344,7 +344,7 @@ Status LatController::ComputeControlCommand(
     const canbus::Chassis *chassis,
     const planning::ADCTrajectory *planning_published_trajectory,
     ControlCommand *cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto vehicle_state = injector_->vehicle_state();
 
@@ -674,7 +674,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Status LatController::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   matrix_state_.setZero();
   if (enable_mrac_) {
@@ -684,7 +684,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LatController::UpdateState(SimpleLateralDebug *debug) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto vehicle_state = injector_->vehicle_state();
   if (FLAGS_use_navigation_mode) {
@@ -740,7 +740,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LatController::UpdateMatrix() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double v;
   // At reverse driving, replace the lateral translational motion dynamics with
@@ -764,7 +764,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LatController::UpdateMatrixCompound() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Initialize preview matrix
   matrix_adc_.block(0, 0, basic_state_size_, basic_state_size_) = matrix_ad_;
@@ -779,7 +779,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double LatController::ComputeFeedForward(double ref_curvature) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const double kv =
       lr_ * mass_ / 2 / cf_ / wheelbase_ - lf_ * mass_ / 2 / cr_ / wheelbase_;
@@ -808,7 +808,7 @@ void LatController::ComputeLateralErrors(
     const double x, const double y, const double theta, const double linear_v,
     const double angular_v, const double linear_a,
     const TrajectoryAnalyzer &trajectory_analyzer, SimpleLateralDebug *debug) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   TrajectoryPoint target_point;
 
@@ -947,7 +947,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LatController::UpdateDrivingOrientation() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto vehicle_state = injector_->vehicle_state();
   driving_orientation_ = vehicle_state->heading();

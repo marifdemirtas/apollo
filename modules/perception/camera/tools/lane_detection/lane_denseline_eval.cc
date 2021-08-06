@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ namespace perception {
 namespace camera {
 
 int lane_postprocessor_eval() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   //  initialize lane detector
   LaneDetectorInitOptions init_options;
@@ -222,7 +222,7 @@ COVERAGE_LOG_TOKEN
 }  // namespace apollo
 
 int main(int argc, char** argv) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   FLAGS_alsologtostderr = true;

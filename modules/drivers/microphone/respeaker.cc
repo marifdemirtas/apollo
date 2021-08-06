@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,7 @@ PaError err;
 
 // Helper functions
 void report_error(PaError err, const std::string &func_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AERROR << "an error occured while calling " << func_name;
   AERROR << "error number: " << err;
@@ -34,7 +34,7 @@ COVERAGE_LOG_TOKEN
 
 // Stream
 Stream::~Stream() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Pa_CloseStream(pastream_ptr_);
   free(input_parameters_ptr_);
@@ -42,7 +42,7 @@ COVERAGE_LOG_TOKEN
 
 void Stream::init_stream(int rate, int channels, int chunk,
                          int input_device_index, PaSampleFormat format) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Init parameters of input device
   input_parameters_ptr_ = new PaStreamParameters;
@@ -67,7 +67,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Stream::read_stream(int n_frames, char *buffer) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   err =
       Pa_ReadStream(pastream_ptr_, reinterpret_cast<void *>(buffer), n_frames);
@@ -79,11 +79,11 @@ COVERAGE_LOG_TOKEN
 
 // Respeaker
 Respeaker::~Respeaker() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Pa_Terminate(); }
 void Respeaker::init(
     const std::shared_ptr<const MicrophoneConfig> &microphone_config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (microphone_config->microphone_model() != MicrophoneConfig::RESPEAKER) {
     AERROR << "Microphone driver only supports respeaker model in config file";
@@ -104,7 +104,7 @@ COVERAGE_LOG_TOKEN
 
 const PaSampleFormat Respeaker::get_format_from_width(int width,
                                                       bool is_unsigned) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (width) {
     case 1:
@@ -123,7 +123,7 @@ COVERAGE_LOG_TOKEN
 }
 
 const PaDeviceIndex Respeaker::get_respeaker_index() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // return index of respeaker
   const PaHostApiInfo *host_api_info = get_host_api_info(0);
@@ -142,7 +142,7 @@ COVERAGE_LOG_TOKEN
 
 const PaDeviceInfo *Respeaker::get_device_info(
     const PaDeviceIndex index) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const PaDeviceInfo *device_info =
       reinterpret_cast<const PaDeviceInfo *>(Pa_GetDeviceInfo(index));
@@ -155,7 +155,7 @@ COVERAGE_LOG_TOKEN
 
 const PaDeviceIndex Respeaker::host_api_device_index_to_device_index(
     const PaHostApiIndex host_api, const int host_api_device_index) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Get standard device index from host-API-specific device index
   PaDeviceIndex device_index =
@@ -168,7 +168,7 @@ COVERAGE_LOG_TOKEN
 
 const PaHostApiInfo *Respeaker::get_host_api_info(
     const PaHostApiIndex index) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Get host api info by it's index
   const PaHostApiInfo *pa_host_api_info =
@@ -180,7 +180,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Respeaker::read_stream(int n_frames, char *buffer) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   stream_ptr_->read_stream(n_frames, buffer);
 }

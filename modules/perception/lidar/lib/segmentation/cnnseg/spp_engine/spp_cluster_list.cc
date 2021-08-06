@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace perception {
 namespace lidar {
 
 void SppClusterList::Init(size_t size, const std::string& sensor_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   sensor_name_ = sensor_name;
   clusters_.clear();
@@ -32,7 +32,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SppClusterList::resize(size_t size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (clusters_.size() < size) {
     SppClusterPool::Instance(sensor_name_)
@@ -45,7 +45,7 @@ COVERAGE_LOG_TOKEN
 void SppClusterList::AddPointSample(size_t cluster_id,
                                     const base::PointF& point, float height,
                                     uint32_t point_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (clusters_.size() <= cluster_id) {
     resize(cluster_id + 1);
@@ -54,7 +54,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SppClusterList::Merge(SppClusterList* rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   clusters_.reserve(clusters_.size() + rhs->clusters_.size());
   for (size_t i = 0; i < rhs->size(); ++i) {
@@ -63,7 +63,7 @@ COVERAGE_LOG_TOKEN
 }
 
 size_t SppClusterList::HeightCut(float max_gap, size_t start_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t size = clusters_.size();
   size_t count = 0;
@@ -79,7 +79,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SppClusterList::ComputeHeightAndSplitCluster(size_t id, float max_gap) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (id >= clusters_.size()) {
     return false;
@@ -124,7 +124,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SppClusterList::RemoveEmptyClusters() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t current = 0;
   for (size_t i = 0; i < clusters_.size(); ++i) {
@@ -139,7 +139,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SppClusterList::EraseCluster(size_t id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (clusters_.size() <= id) {
     return;

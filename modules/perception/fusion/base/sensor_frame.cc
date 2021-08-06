@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,17 +21,17 @@ namespace perception {
 namespace fusion {
 
 SensorFrame::SensorFrame() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  header_.reset(new SensorFrameHeader()); }
 
 SensorFrame::SensorFrame(const base::FrameConstPtr& base_frame_ptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Initialize(base_frame_ptr);
 }
 
 void SensorFrame::Initialize(const base::FrameConstPtr& base_frame_ptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   header_.reset(new SensorFrameHeader(base_frame_ptr->sensor_info,
                                       base_frame_ptr->timestamp,
@@ -56,13 +56,13 @@ COVERAGE_LOG_TOKEN
 
 void SensorFrame::Initialize(const base::FrameConstPtr& base_frame_ptr,
                              const SensorPtr& sensor) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Initialize(base_frame_ptr);
 }
 
 std::string SensorFrame::GetSensorId() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (header_ == nullptr) {
     return std::string("");
@@ -72,7 +72,7 @@ COVERAGE_LOG_TOKEN
 }
 
 base::SensorType SensorFrame::GetSensorType() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (header_ == nullptr) {
     return base::SensorType::UNKNOWN_SENSOR_TYPE;

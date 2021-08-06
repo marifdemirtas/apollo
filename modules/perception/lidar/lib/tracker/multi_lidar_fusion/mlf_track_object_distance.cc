@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,6 @@
 #include "modules/perception/lidar/lib/tracker/multi_lidar_fusion/proto/multi_lidar_fusion_config.pb.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace lidar {
@@ -41,7 +40,7 @@ const std::vector<float> MlfTrackObjectDistance::kBackgroundDefaultWeight = {
 
 bool MlfTrackObjectDistance::Init(
     const MlfTrackObjectDistanceInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -92,7 +91,7 @@ COVERAGE_LOG_TOKEN
 float MlfTrackObjectDistance::ComputeDistance(
     const TrackedObjectConstPtr& object,
     const MlfTrackDataConstPtr& track) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool is_background = object->is_background;
   const TrackedObjectConstPtr latest_object = track->GetLatestObject().second;

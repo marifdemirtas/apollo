@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -34,7 +34,7 @@ namespace apollo {
 namespace hdmap {
 
 Client::Client() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   YAML::Node node = YAML::LoadFile(FLAGS_client_conf_yaml);
   std::string bin_path = boost::filesystem::current_path().string();
@@ -50,7 +50,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int Client::Run() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string stage = FLAGS_stage;
   AINFO << "stage [" << stage << "]";
@@ -72,7 +72,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int Client::RecordCheckStage() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string cmd = FLAGS_cmd;
   ChannelChecker channel_checker(channel_checker_stop_flag_file_);
@@ -103,7 +103,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int Client::StaticAlignStage() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string cmd = FLAGS_cmd;
   AINFO << "cmd [" << cmd << "]";
@@ -132,7 +132,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int Client::EightRouteStage() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string cmd = FLAGS_cmd;
   AINFO << "cmd [" << cmd << "]";
@@ -161,7 +161,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int Client::DataCollectStage() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string cmd = FLAGS_cmd;
   AINFO << "cmd [" << cmd << "]";
@@ -230,7 +230,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int Client::LoopsCheckStage() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LoopsChecker loops_checker(data_collect_time_flag_file_);
   bool reached = false;
@@ -253,7 +253,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int Client::CleanStage() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (boost::filesystem::exists(data_collect_time_flag_file_)) {
     boost::filesystem::remove(data_collect_time_flag_file_);

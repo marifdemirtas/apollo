@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace drivers {
 namespace hesai {
 
 bool HesaiDriver::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (node_ == nullptr) {
     AERROR << "node is nullptr";
@@ -76,7 +76,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HesaiDriver::PollThread() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "Poll thread start";
   while (running_) {
@@ -102,7 +102,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HesaiDriver::ProcessGps(const HesaiPacket& pkt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (pkt.size != GPS_PACKET_SIZE) {
     return;
@@ -156,7 +156,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HesaiDriver::ProcessThread() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<HesaiPacket> pkt = nullptr;
   bool is_end = false;

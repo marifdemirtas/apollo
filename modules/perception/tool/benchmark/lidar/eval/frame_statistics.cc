@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ bool FrameStatistics::_s_roi_is_main_lanes = false;
 
 double cal_point_based_jaccard_index(unsigned int n1, unsigned int n2,
                                      unsigned int overlap) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (n1 + n2 <= overlap) {
     return 0;
@@ -37,25 +37,25 @@ COVERAGE_LOG_TOKEN
 }
 
 void FrameStatistics::set_jaccard_index_threshold(double threshold) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   _s_jaccard_index_threshold = threshold;
 }
 
 void FrameStatistics::set_jaccard_index_percentile(double percentile) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   _s_jaccard_index_percentile = percentile;
 }
 
 void FrameStatistics::set_roi_is_main_lanes(bool value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   _s_roi_is_main_lanes = value;
 }
 
 double FrameStatistics::jaccard_index_percentile() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (_jaccard_indices.empty()) {
     return 0.0;
@@ -71,7 +71,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool FrameStatistics::find_association() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::size_t objects_num = objects.size();
   std::size_t gt_objects_num = gt_objects.size();
@@ -228,7 +228,7 @@ COVERAGE_LOG_TOKEN
   return true;
 }
 bool FrameStatistics::cal_meta_statistics() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   _meta_stat.reset();
   std::vector<unsigned int> gt_object_range_indices(_gt_object_position.size(),

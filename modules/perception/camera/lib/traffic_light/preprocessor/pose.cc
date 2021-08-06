@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace perception {
 namespace camera {
 
 bool CarPose::Init(double ts, const Eigen::Matrix4d &pose) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   timestamp_ = ts;
   pose_ = pose;
@@ -30,11 +30,11 @@ COVERAGE_LOG_TOKEN
 }
 
 const Eigen::Matrix4d CarPose::getCarPose() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return pose_; }
 
 const Eigen::Vector3d CarPose::getCarPosition() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector3d p;
   p[0] = pose_(0, 3);
@@ -46,14 +46,14 @@ COVERAGE_LOG_TOKEN
 
 void CarPose::SetCameraPose(const std::string &camera_name,
                             const Eigen::Matrix4d &c2w_pose) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   c2w_poses_[camera_name] = c2w_pose;
 }
 
 bool CarPose::GetCameraPose(const std::string &camera_name,
                             Eigen::Matrix4d *c2w_pose) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (c2w_pose == nullptr) {
     AERROR << "c2w_pose is not available";
@@ -72,7 +72,7 @@ std::ostream &operator<<(std::ostream &os, const CarPose &pose) {
   return os;
 }
 void CarPose::ClearCameraPose(const std::string &camera_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto it = c2w_poses_.find(camera_name);
   if (it != c2w_poses_.end()) {

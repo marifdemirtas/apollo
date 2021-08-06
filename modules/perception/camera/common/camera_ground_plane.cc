@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ void ConvertGround3ToGround4(const float &baseline,
                              const std::vector<float> &k_mat,
                              const std::vector<float> &ground3,
                              std::vector<float> *ground4) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GT(baseline, 0.0f);
   CHECK_EQ(k_mat.size(), 9U);
@@ -53,7 +53,7 @@ bool ConvertGround4ToGround3(const float &baseline,
                              const std::vector<float> &k_mat,
                              const std::vector<float> &ground4,
                              std::vector<float> *ground3) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GT(baseline, 0.0f);
   CHECK_EQ(k_mat.size(), 9U);
@@ -84,7 +84,7 @@ void GetGroundPlanePitchHeight(const float &baseline,
                                const std::vector<float> &k_mat,
                                const std::vector<float> &ground3, float *pitch,
                                float *cam_height) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GT(baseline, 0.0f);
   CHECK_EQ(k_mat.size(), 9U);
@@ -106,7 +106,7 @@ void GetGround3FromPitchHeight(const std::vector<float> &k_mat,
                                const float &baseline, const float &pitch,
                                const float &cam_height,
                                std::vector<float> *ground3) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_EQ(k_mat.size(), 9U);
   CHECK_GT(baseline, 0.0f);
@@ -120,7 +120,7 @@ COVERAGE_LOG_TOKEN
 }
 
 GroundPlaneTracker::GroundPlaneTracker(int track_length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (track_length <= 0) {
     AERROR << "track_length, " << track_length << ", should be positive";
@@ -144,7 +144,7 @@ COVERAGE_LOG_TOKEN
 
 void GroundPlaneTracker::Push(const std::vector<float> &ph,
                               const float &inlier_ratio) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_EQ(ph.size(), 2U);
   int i = 0;
@@ -167,7 +167,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void GroundPlaneTracker::GetGround(float *pitch, float *cam_height) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(pitch);
   CHECK_NOTNULL(cam_height);
@@ -206,7 +206,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void GroundPlaneTracker::Restart() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int track_length =
       static_cast<unsigned int>(pitch_height_inlier_tracks_.size() / 3);
@@ -221,7 +221,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CameraGroundPlaneParams::SetDefault() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   min_nr_samples = 6;   // 40
   nr_frames_track = 3;  // 2
@@ -237,7 +237,7 @@ COVERAGE_LOG_TOKEN
 bool CameraGroundPlaneDetector::DetetGround(float pitch, float camera_height,
                                             float *vd, int count_vd,
                                             const std::vector<float> &plane) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ground_is_valid_ = false;
 
@@ -259,7 +259,7 @@ COVERAGE_LOG_TOKEN
     std::vector<float> ph(2, 0);
     if (CameraGroundPlaneDetector::DetectGroundFromSamples(vd, count_vd,
                                                            &inlier_ratio)) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
       ADEBUG << "l: " << l_[0] << ", " << l_[1] << ", " << l_[2];
       ground3.assign(l_, l_ + 3);

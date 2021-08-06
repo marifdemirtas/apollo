@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ bool OrientationSimilarityMetric::penalize_pi = false;
 
 void OrientationSimilarityMetric::cal_orientation_similarity(
     const ObjectPtr& object, const ObjectPtr& gt_object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (object.get() == nullptr || gt_object.get() == nullptr) {
     return;
@@ -51,7 +51,7 @@ std::unique_ptr<BaseRangeInterface> MetaStatistics::_s_range_interface(
 unsigned int MetaStatistics::_s_recall_dim = 41;
 
 void MetaStatistics::set_range_type(RangeType type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (type) {
     case VIEW:
@@ -72,51 +72,51 @@ COVERAGE_LOG_TOKEN
 }
 
 void MetaStatistics::set_recall_dim(unsigned int recall_dim) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   _s_recall_dim = recall_dim;
 }
 
 unsigned int MetaStatistics::get_type_index(const ObjectType& type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned index = translate_type_to_index(type);
   return index;
 }
 
 unsigned int MetaStatistics::get_range_index(const PositionMetric& position) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return _s_range_interface->get_index(position);
 }
 
 unsigned int MetaStatistics::get_confidence_index(double confidence) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int index = static_cast<unsigned int>(confidence / 0.0001);
   return index;
 }
 
 unsigned int MetaStatistics::get_type_dim() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return 4;  // should be sync with get_type_index and object.h!
 }
 
 unsigned int MetaStatistics::get_range_dim() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return _s_range_interface->get_dim();
 }
 
 unsigned int MetaStatistics::get_confidence_dim() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return 10001;  // should be sync with get_confidence_index!
 }
 
 std::string MetaStatistics::get_type(unsigned int index) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (index >= get_type_dim()) {
     return "";
@@ -126,13 +126,13 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string MetaStatistics::get_range(unsigned int index) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return _s_range_interface->get_element(index);
 }
 
 double MetaStatistics::get_confidence(unsigned int index) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (index >= get_confidence_dim()) {
     return -1.0;
@@ -142,15 +142,15 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int MetaStatistics::get_recall_dim() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return _s_recall_dim; }
 
 MetaStatistics::MetaStatistics() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MetaStatistics::reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   _total_detection_num.assign(get_range_dim(), 0);
   _total_groundtruth_num.assign(get_range_dim(), 0);
@@ -217,7 +217,7 @@ void compute_ap_aos(
     std::vector<SPRCTuple>* tuples,
     const std::vector<double>& cumulated_orientation_similarity_per_conf,
     double* aos) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (ap == nullptr || tuples == nullptr || aos == nullptr) {
     return;
@@ -308,7 +308,7 @@ COVERAGE_LOG_TOKEN
 }
 
 MetaStatistics& MetaStatistics::operator+=(const MetaStatistics& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   vec_add1(&_total_detection_num, rhs._total_detection_num);
   vec_add1(&_total_groundtruth_num, rhs._total_groundtruth_num);
@@ -337,7 +337,7 @@ COVERAGE_LOG_TOKEN
 
 void MetaStatistics::get_2017_detection_precision_and_recall(
     std::vector<double>* precisions, std::vector<double>* recalls) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (precisions == nullptr || recalls == nullptr) {
     return;
@@ -375,7 +375,7 @@ COVERAGE_LOG_TOKEN
 
 void MetaStatistics::get_2017_detection_visible_recall(
     std::vector<double>* recalls) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (recalls == nullptr) {
     return;
@@ -400,7 +400,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MetaStatistics::get_2017_aad(std::vector<double>* aad) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (aad == nullptr) {
     return;
@@ -428,7 +428,7 @@ COVERAGE_LOG_TOKEN
 
 void MetaStatistics::get_2016_detection_precision_and_recall(
     std::vector<double>* precisions, std::vector<double>* recalls) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   precisions->resize(get_range_dim(), 0.0);
   recalls->resize(get_range_dim(), 0.0);
@@ -446,7 +446,7 @@ COVERAGE_LOG_TOKEN
 
 void MetaStatistics::get_2017_detection_ap_per_type(
     std::vector<double>* ap, std::vector<std::vector<SPRCTuple>>* tuples) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (ap == nullptr || tuples == nullptr) {
     return;
@@ -474,7 +474,7 @@ COVERAGE_LOG_TOKEN
 
 void MetaStatistics::get_2017_detection_ap_aos(
     double* ap, double* aos, std::vector<SPRCTuple>* tuples) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (ap == nullptr || aos == nullptr || tuples == nullptr) {
     return;
@@ -500,7 +500,7 @@ COVERAGE_LOG_TOKEN
 
 void MetaStatistics::get_2017_classification_accuracy(
     std::vector<std::vector<double>>* accuracys) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (accuracys == nullptr) {
     return;
@@ -538,7 +538,7 @@ COVERAGE_LOG_TOKEN
 
 void MetaStatistics::get_2016_classification_accuracy(
     std::vector<std::vector<double>>* accuracys) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (accuracys == nullptr) {
     return;
@@ -563,7 +563,7 @@ void MetaStatistics::get_classification_confusion_matrix(
     std::vector<std::vector<double>>* matrix_gt_major,
     std::vector<std::vector<double>>* matrix_det_major,
     std::vector<std::vector<double>>* matrix_det_major_with_fp) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (matrix_gt_major == nullptr || matrix_det_major == nullptr) {
     return;

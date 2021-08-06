@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace drivers {
 namespace smartereye {
 
 SmartereyeComponent::~SmartereyeComponent() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (running_.load()) {
     running_.exchange(false);
@@ -35,7 +35,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SmartereyeComponent::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   camera_config_ = std::make_shared<Config>();
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
@@ -66,7 +66,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SmartereyeComponent::run() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   running_.exchange(true);
   while (!cyber::IsShutdown()) {
@@ -76,7 +76,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SmartereyeComponent::SetCallback() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CallbackFunc fun =
       std::bind(&SmartereyeComponent::Callback, this, std::placeholders::_1);
@@ -86,7 +86,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SmartereyeComponent::Callback(RawImageFrame *rawFrame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (rawFrame->frameId == FrameId::Compound ||
       rawFrame->frameId == FrameId::LaneExt) {
@@ -107,7 +107,7 @@ COVERAGE_LOG_TOKEN
 
 void SmartereyeComponent::processFrame(int frameId, char *image, char *extended,
                                        int64_t time, int width, int height) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (frameId) {
     case FrameId::Compound: {
@@ -272,7 +272,7 @@ COVERAGE_LOG_TOKEN
 void SmartereyeComponent::processFrame(int frameId, char *image,
                                        uint32_t dataSize, int width, int height,
                                        int frameFormat) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (frameId) {
     case FrameId::Lane: {

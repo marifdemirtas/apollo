@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Mediacontrolscmd120::Mediacontrolscmd120() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Mediacontrolscmd120::ID = 0x120;
 
 void Mediacontrolscmd120::Parse(const std::uint8_t* bytes, int32_t length,
                                 ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_lexus()
       ->mutable_media_controls_cmd_120()
@@ -65,7 +65,7 @@ COVERAGE_LOG_TOKEN
 Media_controls_cmd_120::Media_controls_cmdType
 Mediacontrolscmd120::media_controls_cmd(const std::uint8_t* bytes,
                                         int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -80,7 +80,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolscmd120::ignore_overrides(const std::uint8_t* bytes,
                                            int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
@@ -94,7 +94,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolscmd120::clear_override(const std::uint8_t* bytes,
                                          int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
@@ -108,7 +108,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolscmd120::clear_faults(const std::uint8_t* bytes,
                                        int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
@@ -122,7 +122,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolscmd120::enable(const std::uint8_t* bytes,
                                  int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);

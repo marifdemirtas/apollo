@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -38,7 +38,7 @@ namespace drivers {
 namespace gnss {
 
 speed_t get_serial_baudrate(uint32_t rate) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (rate) {
     case 9600:
@@ -108,7 +108,7 @@ SerialStream::SerialStream(const char* device_name, speed_t baud_rate,
       fd_(-1),
       errno_(0),
       is_open_(false) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (device_name_.empty()) {
     status_ = Stream::Status::ERROR;
@@ -116,11 +116,11 @@ COVERAGE_LOG_TOKEN
 }
 
 SerialStream::~SerialStream() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  this->close(); }
 
 void SerialStream::open(void) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int fd = 0;
   fd = ::open(device_name_.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
@@ -149,7 +149,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SerialStream::configure_port(int fd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (fd < 0) {
     return false;
@@ -231,7 +231,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SerialStream::Connect() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_open_) {
     this->open();
@@ -252,7 +252,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SerialStream::close(void) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (is_open_) {
     ::close(fd_);
@@ -263,7 +263,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SerialStream::Disconnect() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_open_) {
     // not open
@@ -275,7 +275,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SerialStream::check_remove() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   char data = 0;
   ssize_t nsent = ::write(fd_, &data, 0);
@@ -293,7 +293,7 @@ COVERAGE_LOG_TOKEN
 }
 
 size_t SerialStream::read(uint8_t* buffer, size_t max_length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_open_) {
     if (!Connect()) {
@@ -352,7 +352,7 @@ COVERAGE_LOG_TOKEN
 }
 
 size_t SerialStream::write(const uint8_t* data, size_t length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_open_) {
     if (!Connect()) {
@@ -407,7 +407,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SerialStream::wait_readable(uint32_t timeout_us) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Setup a select call to block for serial data or a timeout
   timespec timeout_ts;
@@ -431,7 +431,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SerialStream::wait_writable(uint32_t timeout_us) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Setup a select call to block for serial data or a timeout
   timespec timeout_ts;
@@ -456,7 +456,7 @@ COVERAGE_LOG_TOKEN
 
 Stream* Stream::create_serial(const char* device_name, uint32_t baud_rate,
                               uint32_t timeout_usec) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   speed_t baud = get_serial_baudrate(baud_rate);
   return baud == 0 ? nullptr

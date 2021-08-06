@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ using common::ErrorCode;
 using control::ControlCommand;
 
 Chassis::DrivingMode VehicleController::driving_mode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mode_mutex_);
   return driving_mode_;
@@ -34,7 +34,7 @@ COVERAGE_LOG_TOKEN
 
 void VehicleController::set_driving_mode(
     const Chassis::DrivingMode &driving_mode) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mode_mutex_);
   driving_mode_ = driving_mode;
@@ -42,7 +42,7 @@ COVERAGE_LOG_TOKEN
 
 ErrorCode VehicleController::SetDrivingMode(
     const Chassis::DrivingMode &driving_mode) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode == Chassis::EMERGENCY_MODE) {
     AINFO << "Can't set vehicle to EMERGENCY_MODE driving mode.";
@@ -99,7 +99,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode VehicleController::Update(const ControlCommand &control_command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_initialized_) {
     AERROR << "Controller is not initialized.";

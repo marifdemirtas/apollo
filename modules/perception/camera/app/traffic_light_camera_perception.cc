@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,9 +32,9 @@ using cyber::common::GetAbsolutePath;
 
 bool TrafficLightCameraPerception::Init(
     const CameraPerceptionInitOptions &options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-  AINFO << "Arif called TrafficLightCameraPerception::Init";
+  AINFO << "[COV_LOG] Arif called TrafficLightCameraPerception::Init";
   std::string work_root = "";
   if (options.use_cyber_work_root) {
     work_root = GetCyberWorkRoot();
@@ -94,9 +94,9 @@ COVERAGE_LOG_TOKEN
 
 bool TrafficLightCameraPerception::Perception(
     const CameraPerceptionOptions &options, CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-  AINFO << "Arif called TrafficLightCameraPerception::Perception";
+  AINFO << "[COV_LOG] Arif called TrafficLightCameraPerception::Perception";
   PERF_FUNCTION();
   PERF_BLOCK_START();
   TrafficLightDetectorOptions detector_options;

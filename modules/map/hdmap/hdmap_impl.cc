@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,7 +36,7 @@ using apollo::common::math::AABoxKDTreeParams;
 using apollo::common::math::Vec2d;
 
 Id CreateHDMapId(const std::string& string_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Id id;
   id.set_id(string_id);
@@ -51,7 +51,7 @@ constexpr int kBackwardDistance = 4;
 }  // namespace
 
 int HDMapImpl::LoadMapFromFile(const std::string& map_filename) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Clear();
   // TODO(All) seems map_ can be changed to a local variable of this
@@ -68,7 +68,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int HDMapImpl::LoadMapFromProto(const Map& map_proto) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (&map_proto != &map_) {  // avoid an unnecessary copy
     Clear();
@@ -160,105 +160,105 @@ COVERAGE_LOG_TOKEN
 }
 
 LaneInfoConstPtr HDMapImpl::GetLaneById(const Id& id) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LaneTable::const_iterator it = lane_table_.find(id.id());
   return it != lane_table_.end() ? it->second : nullptr;
 }
 
 JunctionInfoConstPtr HDMapImpl::GetJunctionById(const Id& id) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   JunctionTable::const_iterator it = junction_table_.find(id.id());
   return it != junction_table_.end() ? it->second : nullptr;
 }
 
 SignalInfoConstPtr HDMapImpl::GetSignalById(const Id& id) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SignalTable::const_iterator it = signal_table_.find(id.id());
   return it != signal_table_.end() ? it->second : nullptr;
 }
 
 CrosswalkInfoConstPtr HDMapImpl::GetCrosswalkById(const Id& id) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CrosswalkTable::const_iterator it = crosswalk_table_.find(id.id());
   return it != crosswalk_table_.end() ? it->second : nullptr;
 }
 
 StopSignInfoConstPtr HDMapImpl::GetStopSignById(const Id& id) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   StopSignTable::const_iterator it = stop_sign_table_.find(id.id());
   return it != stop_sign_table_.end() ? it->second : nullptr;
 }
 
 YieldSignInfoConstPtr HDMapImpl::GetYieldSignById(const Id& id) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   YieldSignTable::const_iterator it = yield_sign_table_.find(id.id());
   return it != yield_sign_table_.end() ? it->second : nullptr;
 }
 
 ClearAreaInfoConstPtr HDMapImpl::GetClearAreaById(const Id& id) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ClearAreaTable::const_iterator it = clear_area_table_.find(id.id());
   return it != clear_area_table_.end() ? it->second : nullptr;
 }
 
 SpeedBumpInfoConstPtr HDMapImpl::GetSpeedBumpById(const Id& id) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SpeedBumpTable::const_iterator it = speed_bump_table_.find(id.id());
   return it != speed_bump_table_.end() ? it->second : nullptr;
 }
 
 OverlapInfoConstPtr HDMapImpl::GetOverlapById(const Id& id) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   OverlapTable::const_iterator it = overlap_table_.find(id.id());
   return it != overlap_table_.end() ? it->second : nullptr;
 }
 
 RoadInfoConstPtr HDMapImpl::GetRoadById(const Id& id) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   RoadTable::const_iterator it = road_table_.find(id.id());
   return it != road_table_.end() ? it->second : nullptr;
 }
 
 ParkingSpaceInfoConstPtr HDMapImpl::GetParkingSpaceById(const Id& id) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ParkingSpaceTable::const_iterator it = parking_space_table_.find(id.id());
   return it != parking_space_table_.end() ? it->second : nullptr;
 }
 
 PNCJunctionInfoConstPtr HDMapImpl::GetPNCJunctionById(const Id& id) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   PNCJunctionTable::const_iterator it = pnc_junction_table_.find(id.id());
   return it != pnc_junction_table_.end() ? it->second : nullptr;
 }
 
 RSUInfoConstPtr HDMapImpl::GetRSUById(const Id& id) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   RSUTable::const_iterator it = rsu_table_.find(id.id());
   return it != rsu_table_.end() ? it->second : nullptr;
 }
 int HDMapImpl::GetLanes(const PointENU& point, double distance,
                         std::vector<LaneInfoConstPtr>* lanes) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetLanes({point.x(), point.y()}, distance, lanes);
 }
 
 int HDMapImpl::GetLanes(const Vec2d& point, double distance,
                         std::vector<LaneInfoConstPtr>* lanes) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (lanes == nullptr || lane_segment_kdtree_ == nullptr) {
     return -1;
@@ -278,14 +278,14 @@ COVERAGE_LOG_TOKEN
 
 int HDMapImpl::GetRoads(const PointENU& point, double distance,
                         std::vector<RoadInfoConstPtr>* roads) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetRoads({point.x(), point.y()}, distance, roads);
 }
 
 int HDMapImpl::GetRoads(const Vec2d& point, double distance,
                         std::vector<RoadInfoConstPtr>* roads) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<LaneInfoConstPtr> lanes;
   if (GetLanes(point, distance, &lanes) != 0) {
@@ -310,7 +310,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetJunctions(
     const PointENU& point, double distance,
     std::vector<JunctionInfoConstPtr>* junctions) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetJunctions({point.x(), point.y()}, distance, junctions);
 }
@@ -318,7 +318,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetJunctions(
     const Vec2d& point, double distance,
     std::vector<JunctionInfoConstPtr>* junctions) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (junctions == nullptr || junction_polygon_kdtree_ == nullptr) {
     return -1;
@@ -338,14 +338,14 @@ COVERAGE_LOG_TOKEN
 
 int HDMapImpl::GetSignals(const PointENU& point, double distance,
                           std::vector<SignalInfoConstPtr>* signals) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetSignals({point.x(), point.y()}, distance, signals);
 }
 
 int HDMapImpl::GetSignals(const Vec2d& point, double distance,
                           std::vector<SignalInfoConstPtr>* signals) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (signals == nullptr || signal_segment_kdtree_ == nullptr) {
     return -1;
@@ -366,7 +366,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetCrosswalks(
     const PointENU& point, double distance,
     std::vector<CrosswalkInfoConstPtr>* crosswalks) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetCrosswalks({point.x(), point.y()}, distance, crosswalks);
 }
@@ -374,7 +374,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetCrosswalks(
     const Vec2d& point, double distance,
     std::vector<CrosswalkInfoConstPtr>* crosswalks) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (crosswalks == nullptr || crosswalk_polygon_kdtree_ == nullptr) {
     return -1;
@@ -395,7 +395,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetStopSigns(
     const PointENU& point, double distance,
     std::vector<StopSignInfoConstPtr>* stop_signs) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetStopSigns({point.x(), point.y()}, distance, stop_signs);
 }
@@ -403,7 +403,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetStopSigns(
     const Vec2d& point, double distance,
     std::vector<StopSignInfoConstPtr>* stop_signs) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (stop_signs == nullptr || stop_sign_segment_kdtree_ == nullptr) {
     return -1;
@@ -424,7 +424,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetYieldSigns(
     const PointENU& point, double distance,
     std::vector<YieldSignInfoConstPtr>* yield_signs) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetYieldSigns({point.x(), point.y()}, distance, yield_signs);
 }
@@ -432,7 +432,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetYieldSigns(
     const Vec2d& point, double distance,
     std::vector<YieldSignInfoConstPtr>* yield_signs) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (yield_signs == nullptr || yield_sign_segment_kdtree_ == nullptr) {
     return -1;
@@ -454,7 +454,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetClearAreas(
     const PointENU& point, double distance,
     std::vector<ClearAreaInfoConstPtr>* clear_areas) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetClearAreas({point.x(), point.y()}, distance, clear_areas);
 }
@@ -462,7 +462,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetClearAreas(
     const Vec2d& point, double distance,
     std::vector<ClearAreaInfoConstPtr>* clear_areas) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (clear_areas == nullptr || clear_area_polygon_kdtree_ == nullptr) {
     return -1;
@@ -484,7 +484,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetSpeedBumps(
     const PointENU& point, double distance,
     std::vector<SpeedBumpInfoConstPtr>* speed_bumps) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetSpeedBumps({point.x(), point.y()}, distance, speed_bumps);
 }
@@ -492,7 +492,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetSpeedBumps(
     const Vec2d& point, double distance,
     std::vector<SpeedBumpInfoConstPtr>* speed_bumps) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (speed_bumps == nullptr || speed_bump_segment_kdtree_ == nullptr) {
     return -1;
@@ -514,7 +514,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetParkingSpaces(
     const PointENU& point, double distance,
     std::vector<ParkingSpaceInfoConstPtr>* parking_spaces) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetParkingSpaces({point.x(), point.y()}, distance, parking_spaces);
 }
@@ -522,7 +522,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetParkingSpaces(
     const Vec2d& point, double distance,
     std::vector<ParkingSpaceInfoConstPtr>* parking_spaces) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (parking_spaces == nullptr || parking_space_polygon_kdtree_ == nullptr) {
     return -1;
@@ -544,7 +544,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetPNCJunctions(
     const apollo::common::PointENU& point, double distance,
     std::vector<PNCJunctionInfoConstPtr>* pnc_junctions) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetPNCJunctions({point.x(), point.y()}, distance, pnc_junctions);
 }
@@ -552,7 +552,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetPNCJunctions(
     const apollo::common::math::Vec2d& point, double distance,
     std::vector<PNCJunctionInfoConstPtr>* pnc_junctions) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (pnc_junctions == nullptr || pnc_junction_polygon_kdtree_ == nullptr) {
     return -1;
@@ -576,7 +576,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetNearestLane(const PointENU& point,
                               LaneInfoConstPtr* nearest_lane, double* nearest_s,
                               double* nearest_l) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetNearestLane({point.x(), point.y()}, nearest_lane, nearest_s,
                         nearest_l);
@@ -585,7 +585,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetNearestLane(const Vec2d& point,
                               LaneInfoConstPtr* nearest_lane, double* nearest_s,
                               double* nearest_l) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(nearest_lane);
   CHECK_NOTNULL(nearest_s);
@@ -612,7 +612,7 @@ int HDMapImpl::GetNearestLaneWithHeading(
     const PointENU& point, const double distance, const double central_heading,
     const double max_heading_difference, LaneInfoConstPtr* nearest_lane,
     double* nearest_s, double* nearest_l) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetNearestLaneWithHeading({point.x(), point.y()}, distance,
                                    central_heading, max_heading_difference,
@@ -623,7 +623,7 @@ int HDMapImpl::GetNearestLaneWithHeading(
     const Vec2d& point, const double distance, const double central_heading,
     const double max_heading_difference, LaneInfoConstPtr* nearest_lane,
     double* nearest_s, double* nearest_l) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(nearest_lane);
   CHECK_NOTNULL(nearest_s);
@@ -670,7 +670,7 @@ int HDMapImpl::GetLanesWithHeading(const PointENU& point, const double distance,
                                    const double central_heading,
                                    const double max_heading_difference,
                                    std::vector<LaneInfoConstPtr>* lanes) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetLanesWithHeading({point.x(), point.y()}, distance, central_heading,
                              max_heading_difference, lanes);
@@ -680,7 +680,7 @@ int HDMapImpl::GetLanesWithHeading(const Vec2d& point, const double distance,
                                    const double central_heading,
                                    const double max_heading_difference,
                                    std::vector<LaneInfoConstPtr>* lanes) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lanes);
   std::vector<LaneInfoConstPtr> all_lanes;
@@ -712,7 +712,7 @@ int HDMapImpl::GetRoadBoundaries(
     const PointENU& point, double radius,
     std::vector<RoadROIBoundaryPtr>* road_boundaries,
     std::vector<JunctionBoundaryPtr>* junctions) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(road_boundaries);
   CHECK_NOTNULL(junctions);
@@ -773,7 +773,7 @@ int HDMapImpl::GetRoadBoundaries(
     const PointENU& point, double radius,
     std::vector<RoadRoiPtr>* road_boundaries,
     std::vector<JunctionInfoConstPtr>* junctions) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (road_boundaries == nullptr || junctions == nullptr) {
     AERROR << "the pointer in parameter is null";
@@ -845,7 +845,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetRoi(const apollo::common::PointENU& point, double radius,
                       std::vector<RoadRoiPtr>* roads_roi,
                       std::vector<PolygonRoiPtr>* polygons_roi) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (roads_roi == nullptr || polygons_roi == nullptr) {
     AERROR << "the pointer in parameter is null";
@@ -957,7 +957,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetForwardNearestSignalsOnLane(
     const apollo::common::PointENU& point, const double distance,
     std::vector<SignalInfoConstPtr>* signals) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(signals);
 
@@ -1066,7 +1066,7 @@ COVERAGE_LOG_TOKEN
 
 int HDMapImpl::GetStopSignAssociatedStopSigns(
     const Id& id, std::vector<StopSignInfoConstPtr>* stop_signs) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(stop_signs);
 
@@ -1105,7 +1105,7 @@ COVERAGE_LOG_TOKEN
 
 int HDMapImpl::GetStopSignAssociatedLanes(
     const Id& id, std::vector<LaneInfoConstPtr>* lanes) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lanes);
 
@@ -1155,7 +1155,7 @@ COVERAGE_LOG_TOKEN
 int HDMapImpl::GetLocalMap(const apollo::common::PointENU& point,
                            const std::pair<double, double>& range,
                            Map* local_map) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(local_map);
 
@@ -1298,7 +1298,7 @@ int HDMapImpl::GetForwardNearestRSUs(const apollo::common::PointENU& point,
                     double distance, double central_heading,
                     double max_heading_difference,
                     std::vector<RSUInfoConstPtr>* rsus) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(rsus);
 
@@ -1443,7 +1443,7 @@ void HDMapImpl::BuildPolygonKDTree(const Table& table,
 }
 
 void HDMapImpl::BuildLaneSegmentKDTree() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
@@ -1453,7 +1453,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HDMapImpl::BuildJunctionPolygonKDTree() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
@@ -1463,7 +1463,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HDMapImpl::BuildCrosswalkPolygonKDTree() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
@@ -1473,7 +1473,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HDMapImpl::BuildSignalSegmentKDTree() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
@@ -1483,7 +1483,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HDMapImpl::BuildStopSignSegmentKDTree() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
@@ -1493,7 +1493,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HDMapImpl::BuildYieldSignSegmentKDTree() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
@@ -1503,7 +1503,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HDMapImpl::BuildClearAreaPolygonKDTree() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
@@ -1513,7 +1513,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HDMapImpl::BuildSpeedBumpSegmentKDTree() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
@@ -1523,7 +1523,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HDMapImpl::BuildParkingSpacePolygonKDTree() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
@@ -1534,7 +1534,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HDMapImpl::BuildPNCJunctionPolygonKDTree() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
@@ -1565,7 +1565,7 @@ int HDMapImpl::SearchObjects(const Vec2d& center, const double radius,
 }
 
 void HDMapImpl::Clear() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_.Clear();
   lane_table_.clear();

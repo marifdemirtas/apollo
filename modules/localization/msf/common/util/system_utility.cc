@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -28,28 +28,28 @@ namespace localization {
 namespace msf {
 
 bool system::IsExists(const std::string& path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::filesystem::path p(path);
   return boost::filesystem::exists(p);
 }
 
 bool system::IsDirectory(const std::string& path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::filesystem::path p(path);
   return boost::filesystem::is_directory(p);
 }
 
 bool system::CreateDirectory(const std::string& path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::filesystem::path p(path);
   return boost::filesystem::create_directory(p);
 }
 
 bool system::GetFileSize(const std::string& path, unsigned int* size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::filesystem::path p(path);
   if (boost::filesystem::exists(p) && boost::filesystem::is_regular_file(p)) {
@@ -62,7 +62,7 @@ COVERAGE_LOG_TOKEN
 
 bool system::CopyFile(const std::string& src, const std::string& dst,
                       bool is_overwrite) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::filesystem::path path_src(src);
   boost::filesystem::path path_dst(dst);
@@ -87,7 +87,7 @@ COVERAGE_LOG_TOKEN
 void system::GetFilesInFolderRecursive(const std::string& folder,
                                        const std::string& ext,
                                        std::vector<std::string>* ret) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ret->clear();
   namespace fs = boost::filesystem;
@@ -109,7 +109,7 @@ COVERAGE_LOG_TOKEN
 
 void system::GetFilesInFolder(const std::string& folder, const std::string& ext,
                               std::vector<std::string>* ret) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ret->clear();
   namespace fs = boost::filesystem;
@@ -131,7 +131,7 @@ COVERAGE_LOG_TOKEN
 
 void system::GetFoldersInFolder(const std::string& folder,
                                 std::vector<std::string>* ret) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ret->clear();
   namespace fs = boost::filesystem;

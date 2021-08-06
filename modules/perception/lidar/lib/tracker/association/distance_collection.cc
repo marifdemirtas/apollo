@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,6 @@
 #include "modules/perception/lidar/lib/tracker/association/distance_collection.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace lidar {
@@ -34,7 +33,7 @@ float LocationDistance(const TrackedObjectConstPtr& last_object,
                        const Eigen::VectorXf& track_predict,
                        const TrackedObjectConstPtr& new_object,
                        const double time_diff) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Compute locatin distance for last object and new object
   // range from 0 to positive infinity
@@ -75,7 +74,7 @@ float DirectionDistance(const TrackedObjectConstPtr& last_object,
                         const Eigen::VectorXf& track_predict,
                         const TrackedObjectConstPtr& new_object,
                         const double time_diff) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Compute direction distance for last object and new object
   // range from 0 to 2
@@ -106,7 +105,7 @@ float BboxSizeDistance(const TrackedObjectConstPtr& last_object,
                        const Eigen::VectorXf& track_predict,
                        const TrackedObjectConstPtr& new_object,
                        const double time_diff) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Compute bbox size distance for last object and new object
   // range from 0 to 1
@@ -144,7 +143,7 @@ float PointNumDistance(const TrackedObjectConstPtr& last_object,
                        const Eigen::VectorXf& track_predict,
                        const TrackedObjectConstPtr& new_object,
                        const double time_diff) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Compute point num distance for last object and new object
   // range from 0 and 1
@@ -165,7 +164,7 @@ float HistogramDistance(const TrackedObjectConstPtr& last_object,
                         const Eigen::VectorXf& track_predict,
                         const TrackedObjectConstPtr& new_object,
                         const double time_diff) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Compute histogram distance for last object and new object
   // range from 0 to 3
@@ -193,7 +192,7 @@ float CentroidShiftDistance(const TrackedObjectConstPtr& last_object,
                             const Eigen::VectorXf& track_predict,
                             const TrackedObjectConstPtr& new_object,
                             const double time_diff) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float dist = static_cast<float>(
       (last_object->barycenter.head(2) - new_object->barycenter.head(2))
@@ -205,7 +204,7 @@ float BboxIouDistance(const TrackedObjectConstPtr& last_object,
                       const Eigen::VectorXf& track_predict,
                       const TrackedObjectConstPtr& new_object,
                       const double time_diff, double match_threshold) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Step 1: unify bbox direction, change the one with less pts,
   // for efficiency.

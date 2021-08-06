@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,29 +24,29 @@ namespace msf {
 namespace pyramid_map {
 // =================PyramidMapMatrixHandlerSelector=================
 NdtMapMatrixHandlerSelector::NdtMapMatrixHandlerSelector() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 NdtMapMatrixHandlerSelector::~NdtMapMatrixHandlerSelector() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 BaseMapMatrixHandler* NdtMapMatrixHandlerSelector::AllocNdtMapMatrixHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return new NdtMapMatrixHandler();
 }
 
 NdtMapMatrixHandler::NdtMapMatrixHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 NdtMapMatrixHandler::~NdtMapMatrixHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t NdtMapMatrixHandler::LoadBinary(const unsigned char* buf,
                                        std::shared_ptr<BaseMapMatrix> matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!matrix) {
     return 0;
@@ -63,7 +63,7 @@ COVERAGE_LOG_TOKEN
 size_t NdtMapMatrixHandler::CreateBinary(
     const std::shared_ptr<BaseMapMatrix> matrix, unsigned char* buf,
     size_t buf_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!matrix) {
     return 0;
@@ -75,7 +75,7 @@ COVERAGE_LOG_TOKEN
 /**@brief Get the binary size of the object. */
 size_t NdtMapMatrixHandler::GetBinarySize(
     const std::shared_ptr<BaseMapMatrix> matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::shared_ptr<NdtMapMatrix> ndt_matrix =
       std::dynamic_pointer_cast<NdtMapMatrix>(matrix);

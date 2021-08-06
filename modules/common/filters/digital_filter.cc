@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,20 +32,20 @@ namespace common {
 
 DigitalFilter::DigitalFilter(const std::vector<double> &denominators,
                              const std::vector<double> &numerators) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_coefficients(denominators, numerators);
 }
 
 void DigitalFilter::set_denominators(const std::vector<double> &denominators) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   denominators_ = denominators;
   y_values_.resize(denominators_.size(), 0.0);
 }
 
 void DigitalFilter::set_numerators(const std::vector<double> &numerators) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   numerators_ = numerators;
   x_values_.resize(numerators_.size(), 0.0);
@@ -53,21 +53,21 @@ COVERAGE_LOG_TOKEN
 
 void DigitalFilter::set_coefficients(const std::vector<double> &denominators,
                                      const std::vector<double> &numerators) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_denominators(denominators);
   set_numerators(numerators);
 }
 
 void DigitalFilter::set_dead_zone(const double deadzone) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   dead_zone_ = std::fabs(deadzone);
   AINFO << "Setting digital filter dead zone = " << dead_zone_;
 }
 
 double DigitalFilter::Filter(const double x_insert) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (denominators_.empty() || numerators_.empty()) {
     AERROR << "Empty denominators or numerators";
@@ -93,14 +93,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void DigitalFilter::reset_values() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::fill(x_values_.begin(), x_values_.end(), 0.0);
   std::fill(y_values_.begin(), y_values_.end(), 0.0);
 }
 
 double DigitalFilter::UpdateLast(const double input) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const double diff = std::fabs(input - last_);
   if (diff < dead_zone_) {
@@ -114,7 +114,7 @@ double DigitalFilter::Compute(const std::deque<double> &values,
                               const std::vector<double> &coefficients,
                               const std::size_t coeff_start,
                               const std::size_t coeff_end) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(coeff_start <= coeff_end && coeff_end < coefficients.size());
   ACHECK((coeff_end - coeff_start + 1) == values.size());
@@ -129,29 +129,29 @@ COVERAGE_LOG_TOKEN
 }
 
 const std::vector<double> &DigitalFilter::denominators() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return denominators_;
 }
 
 const std::vector<double> &DigitalFilter::numerators() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return numerators_;
 }
 
 double DigitalFilter::dead_zone() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return dead_zone_; }
 
 const std::deque<double> &DigitalFilter::inputs_queue() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return x_values_;
 }
 
 const std::deque<double> &DigitalFilter::outputs_queue() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return y_values_;
 }

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -79,15 +79,15 @@ NtripStream::NtripStream(const std::string& address, uint16_t port,
                   common::util::EncodeBase64(user + ":" + passwd) + "\r\n\r\n"),
       timeout_s_(timeout_s),
       tcp_stream_(new TcpStream(address.c_str(), port, 0, false)) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 NtripStream::~NtripStream() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  this->Disconnect(); }
 
 bool NtripStream::Connect() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (is_login_) {
     return true;
@@ -157,7 +157,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NtripStream::Disconnect() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (is_login_) {
     bool ret = tcp_stream_->Disconnect();
@@ -172,7 +172,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void NtripStream::Reconnect() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "Reconnect ntrip caster.";
   std::unique_lock<std::mutex> lock(internal_mutex_);
@@ -188,7 +188,7 @@ COVERAGE_LOG_TOKEN
 }
 
 size_t NtripStream::read(uint8_t* buffer, size_t max_length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!tcp_stream_) {
     return 0;
@@ -222,7 +222,7 @@ COVERAGE_LOG_TOKEN
 }
 
 size_t NtripStream::write(const uint8_t* buffer, size_t length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!tcp_stream_) {
     return 0;
@@ -254,7 +254,7 @@ Stream* Stream::create_ntrip(const std::string& address, uint16_t port,
                              const std::string& mountpoint,
                              const std::string& user, const std::string& passwd,
                              uint32_t timeout_s) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return new NtripStream(address, port, mountpoint, user, passwd, timeout_s);
 }

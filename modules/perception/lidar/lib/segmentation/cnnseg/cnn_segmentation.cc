@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -42,7 +42,7 @@ using base::Object;
 using base::PointF;
 
 bool CNNSegmentation::Init(const SegmentationInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // get configs
   std::string param_file;
@@ -150,7 +150,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool CNNSegmentation::InitClusterAndBackgroundSegmentation() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // init ground detector
   ground_detector_ = BaseGroundDetectorRegisterer::GetInstanceByName(
@@ -245,7 +245,7 @@ COVERAGE_LOG_TOKEN
 
 void CNNSegmentation::MapPointToGrid(
     const std::shared_ptr<AttributePointCloud<PointF>>& pc_ptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float inv_res_x = 0.5f * static_cast<float>(width_) / range_;
   // float inv_res_y = 0.5 * static_cast<float>(height_) / range_;
@@ -272,7 +272,7 @@ COVERAGE_LOG_TOKEN
 
 bool CNNSegmentation::Segment(const SegmentationOptions& options,
                               LidarFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // check input
   if (frame == nullptr) {
@@ -337,7 +337,7 @@ COVERAGE_LOG_TOKEN
 
 void CNNSegmentation::GetObjectsFromSppEngine(
     std::vector<std::shared_ptr<Object>>* objects) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Timer timer;
   spp_engine_.GetSppData().grid_indices = point2grid_.data();
@@ -480,7 +480,7 @@ bool CNNSegmentation::GetConfigs(std::string* param_file,
                                  std::string* proto_file,
                                  std::string* weight_file,
                                  std::string* engine_file) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;

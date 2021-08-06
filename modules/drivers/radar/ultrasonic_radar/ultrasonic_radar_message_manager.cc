@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,21 +32,21 @@ UltrasonicRadarMessageManager::UltrasonicRadarMessageManager(
     const int entrance_num,
     const std::shared_ptr<::apollo::cyber::Writer<Ultrasonic>> &writer)
     : entrance_num_(entrance_num), ultrasonic_radar_writer_(writer) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   sensor_data_.mutable_ranges()->Resize(entrance_num_, 0.0);
 }
 
 void UltrasonicRadarMessageManager::set_can_client(
     std::shared_ptr<CanClient> can_client) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   can_client_ = can_client;
 }
 
 void UltrasonicRadarMessageManager::Parse(const uint32_t message_id,
                                           const uint8_t *data, int32_t length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (message_id == 0x301) {
     sensor_data_.set_ranges(0, data[1]);

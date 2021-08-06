@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,7 @@ namespace apollo {
 namespace control {
 
 double LeadlagController::Control(const double error, const double dt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // check if the c2d transform passed during the initilization
   if (!transfromc2d_enabled_) {
@@ -63,7 +63,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LeadlagController::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   previous_output_ = 0.0;
   previous_innerstate_ = 0.0;
@@ -72,7 +72,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LeadlagController::Init(const LeadlagConf &leadlag_conf, const double dt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   previous_output_ = 0.0;
   previous_innerstate_ = 0.0;
@@ -87,7 +87,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LeadlagController::SetLeadlag(const LeadlagConf &leadlag_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   alpha_ = leadlag_conf.alpha();
   beta_ = leadlag_conf.beta();
@@ -95,7 +95,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LeadlagController::TransformC2d(const double dt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (dt <= 0.0) {
     AWARN << "dt <= 0, continuous-discrete transformation failed, dt: " << dt;
@@ -121,7 +121,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int LeadlagController::InnerstateSaturationStatus() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return innerstate_saturation_status_;
 }

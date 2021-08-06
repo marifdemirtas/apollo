@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace apollo {
 namespace control {
 
 double PIDICController::Control(const double error, const double dt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (dt <= 0) {
     AWARN << "dt <= 0, will use the last output";
@@ -73,7 +73,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int PIDICController::OutputSaturationStatus() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return output_saturation_status_;
 }

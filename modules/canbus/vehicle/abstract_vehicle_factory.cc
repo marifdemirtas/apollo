@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace canbus {
 
 void AbstractVehicleFactory::SetVehicleParameter(
     const VehicleParameter &vehicle_parameter) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   vehicle_parameter_ = vehicle_parameter;
 }

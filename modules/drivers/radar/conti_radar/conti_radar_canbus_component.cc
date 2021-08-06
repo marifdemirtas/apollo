@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -46,14 +46,14 @@ using apollo::localization::LocalizationEstimate;
 ContiRadarCanbusComponent::ContiRadarCanbusComponent()
     : monitor_logger_buffer_(
           apollo::common::monitor::MonitorMessageItem::CONTI_RADAR) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 ContiRadarCanbusComponent::~ContiRadarCanbusComponent() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Stop(); }
 
 bool ContiRadarCanbusComponent::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!GetProtoConfig(&conti_radar_conf_)) {
     return OnError("Unable to load canbus conf file: " + ConfigFilePath());
@@ -100,7 +100,7 @@ COVERAGE_LOG_TOKEN
 }
 
 apollo::common::ErrorCode ContiRadarCanbusComponent::ConfigureRadar() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   RadarConfig200 radar_config;
   radar_config.set_radar_conf(conti_radar_conf_.radar_conf());
@@ -110,7 +110,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool ContiRadarCanbusComponent::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // 1. init and start the can card hardware
   if (can_client_->Start() != ErrorCode::OK) {
@@ -134,7 +134,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ContiRadarCanbusComponent::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (start_success_) {
     can_receiver_.Stop();
@@ -144,7 +144,7 @@ COVERAGE_LOG_TOKEN
 
 // Send the error to monitor and return it
 bool ContiRadarCanbusComponent::OnError(const std::string& error_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   monitor_logger_buffer_.ERROR(error_msg);
   AERROR << error_msg;
@@ -153,7 +153,7 @@ COVERAGE_LOG_TOKEN
 
 void ContiRadarCanbusComponent::PoseCallback(
     const std::shared_ptr<LocalizationEstimate>& pose_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto send_interval = conti_radar_conf_.radar_conf().input_send_interval();
   uint64_t now_nsec = cyber::Time().Now().ToNanosecond();

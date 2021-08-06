@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,19 +28,19 @@ namespace lidar {
 
 MatchCost::MatchCost(size_t ridx, size_t cidx, double cost)
     : row_idx_(ridx), col_idx_(cidx), cost_(cost) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t MatchCost::RowIdx() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return row_idx_; }
 
 size_t MatchCost::ColIdx() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return col_idx_; }
 
 double MatchCost::Cost() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return cost_; }
 
 bool operator<(const MatchCost& m1, const MatchCost& m2) {
@@ -54,7 +54,7 @@ std::ostream& operator<<(std::ostream& os, const MatchCost& m) {
 }
 
 GnnBipartiteGraphMatcher::GnnBipartiteGraphMatcher(size_t max_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   row_tag_.reserve(max_size);
   col_tag_.reserve(max_size);
@@ -62,7 +62,7 @@ COVERAGE_LOG_TOKEN
 }
 
 GnnBipartiteGraphMatcher::~GnnBipartiteGraphMatcher() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (cost_matrix_ != nullptr) {
     delete cost_matrix_;
@@ -74,7 +74,7 @@ void GnnBipartiteGraphMatcher::Match(
     std::vector<NodeNodePair>* assignments,
     std::vector<size_t>* unassigned_rows,
     std::vector<size_t>* unassigned_cols) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   assignments->clear();
   unassigned_rows->clear();

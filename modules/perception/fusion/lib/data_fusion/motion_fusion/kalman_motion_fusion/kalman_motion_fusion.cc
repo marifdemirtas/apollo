@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,7 +36,7 @@ int KalmanMotionFusion::s_eval_window_ = 3;
 size_t KalmanMotionFusion::s_history_size_maximum_ = 20;
 
 bool KalmanMotionFusion::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (track_ref_ == nullptr) {
     return false;
@@ -50,7 +50,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool KalmanMotionFusion::InitFilter(const SensorObjectConstPtr& sensor_object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::vector<bool> gain_break_down = {0, 0, 0, 0, 1, 1};
   const std::vector<bool> value_break_down = {0, 0, 1, 1, 0, 0};
@@ -107,7 +107,7 @@ COVERAGE_LOG_TOKEN
 
 void KalmanMotionFusion::GetStates(Eigen::Vector3d* anchor_point,
                                    Eigen::Vector3d* velocity) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *anchor_point = fused_anchor_point_;
   *velocity = fused_velocity_;
@@ -116,7 +116,7 @@ COVERAGE_LOG_TOKEN
 void KalmanMotionFusion::UpdateWithoutMeasurement(const std::string& sensor_id,
                                                   double measurement_timestamp,
                                                   double target_timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SensorObjectConstPtr lidar_ptr = track_ref_->GetLatestLidarObject();
   SensorObjectConstPtr radar_ptr = track_ref_->GetLatestRadarObject();
@@ -142,7 +142,7 @@ COVERAGE_LOG_TOKEN
 
 void KalmanMotionFusion::UpdateWithMeasurement(
     const SensorObjectConstPtr& measurement, double target_timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   fused_anchor_point_ =
       measurement->GetBaseObject()->anchor_point.cast<double>();
@@ -229,7 +229,7 @@ COVERAGE_LOG_TOKEN
 
 void KalmanMotionFusion::MotionFusionWithoutMeasurement(
     const double time_diff) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::MatrixXd transform_matrix;
   Eigen::MatrixXd env_uncertainty;
@@ -242,7 +242,7 @@ COVERAGE_LOG_TOKEN
 
 void KalmanMotionFusion::MotionFusionWithMeasurement(
     const SensorObjectConstPtr& measurement, double time_diff) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // we use kalman filter to update our tracker.
   // The pipeline is detailed as follows:
@@ -349,7 +349,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void KalmanMotionFusion::UpdateMotionState() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   base::ObjectPtr obj = track_ref_->GetFusedObject()->GetBaseObject();
   obj->anchor_point = fused_anchor_point_.cast<double>();
@@ -374,7 +374,7 @@ COVERAGE_LOG_TOKEN
 Eigen::VectorXd KalmanMotionFusion::ComputeAccelerationMeasurement(
     const base::SensorType& sensor_type, const Eigen::Vector3d& velocity,
     const double& timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector3d acceleration_measurement = Eigen::Vector3d::Zero();
   if (common::SensorManager::Instance()->IsCamera(sensor_type)) {
@@ -397,7 +397,7 @@ COVERAGE_LOG_TOKEN
 void KalmanMotionFusion::RewardRMatrix(const base::SensorType& sensor_type,
                                        const bool& converged,
                                        Eigen::MatrixXd* r_matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   common::SensorManager* sensor_manager = common::SensorManager::Instance();
   const float converged_scale = 0.01f;
@@ -426,7 +426,7 @@ COVERAGE_LOG_TOKEN
 
 Eigen::Vector4d KalmanMotionFusion::ComputePseudoMeasurement(
     const Eigen::Vector4d& measurement, const base::SensorType& sensor_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // What is a pseudo-lidar estimation? if given lidar estimation could trace
   // a good radar estimation within a short window, then project radar
@@ -451,7 +451,7 @@ COVERAGE_LOG_TOKEN
 
 Eigen::Vector4d KalmanMotionFusion::ComputePseudoLidarMeasurement(
     const Eigen::Vector4d& measurement) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Initialize status variables
   int trace_count = 0;
@@ -528,7 +528,7 @@ COVERAGE_LOG_TOKEN
 
 Eigen::Vector4d KalmanMotionFusion::ComputePseudoCameraMeasurement(
     const Eigen::Vector4d& measurement) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Initialize status variables
   int trace_count = 0;
@@ -605,7 +605,7 @@ COVERAGE_LOG_TOKEN
 
 Eigen::Vector4d KalmanMotionFusion::ComputePseudoRadarMeasurement(
     const Eigen::Vector4d& measurement) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Initialize status variables
   int lidar_trace_count = 0;
@@ -721,7 +721,7 @@ COVERAGE_LOG_TOKEN
 void KalmanMotionFusion::UpdateSensorHistory(
     const base::SensorType& sensor_type, const Eigen::Vector3d& velocity,
     const double& timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int lidar_history_length =
       GetSensorHistoryLength(base::SensorType::VELODYNE_64);
@@ -741,7 +741,7 @@ COVERAGE_LOG_TOKEN
 
 int KalmanMotionFusion::GetSensorHistoryLength(
     const base::SensorType& sensor_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int sensor_history_length = 0;
   for (size_t i = 0; i < history_sensor_type_.size(); ++i) {
@@ -754,7 +754,7 @@ COVERAGE_LOG_TOKEN
 
 int KalmanMotionFusion::GetSensorHistoryIndex(
     const base::SensorType& sensor_type, const int& trace_length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int history_index = 0;
   int history_count = 0;

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -35,15 +35,15 @@ BaseMap::BaseMap(BaseMapConfig* config)
       map_node_cache_lvl1_(nullptr),
       map_node_cache_lvl2_(nullptr),
       map_node_pool_(nullptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 BaseMap::~BaseMap() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMap::InitMapNodeCaches(int cacheL1_size, int cahceL2_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   destroy_func_lvl1_ =
       std::bind(MapNodeCache<MapNodeIndex, BaseMapNode>::CacheL1Destroy,
@@ -58,13 +58,13 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMap::AttachMapNodePool(BaseMapNodePool* map_node_pool) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_node_pool_ = map_node_pool;
 }
 
 BaseMapNode* BaseMap::GetMapNode(const MapNodeIndex& index) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseMapNode* node = nullptr;
   map_node_cache_lvl1_->Get(index, &node);
@@ -72,7 +72,7 @@ COVERAGE_LOG_TOKEN
 }
 
 BaseMapNode* BaseMap::GetMapNodeSafe(const MapNodeIndex& index) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseMapNode* node = nullptr;
   // try get from cacheL1
@@ -110,7 +110,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool BaseMap::IsMapNodeExist(const MapNodeIndex& index) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::unique_lock<boost::recursive_mutex> lock(map_load_mutex_);
   bool if_exist = map_node_cache_lvl1_->IsExist(index);
@@ -119,7 +119,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool BaseMap::SetMapFolderPath(const std::string folder_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_config_->map_folder_path_ = folder_path;
   // Try to load the config
@@ -132,7 +132,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMap::AddDataset(const std::string dataset_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_config_->map_datasets_.push_back(dataset_path);
   std::string config_path = map_config_->map_folder_path_ + "/config.xml";
@@ -140,7 +140,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMap::LoadMapNodes(std::set<MapNodeIndex>* map_ids) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (map_ids->size() > map_node_cache_lvl1_->Capacity()) {
     std::cerr << "map_ids's size is bigger than cache's capacity" << std::endl;
@@ -183,7 +183,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMap::CheckAndUpdateCache(std::set<MapNodeIndex>* map_ids) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::set<MapNodeIndex>::iterator itr = map_ids->begin();
   BaseMapNode* node = nullptr;
@@ -202,7 +202,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMap::PreloadMapNodes(std::set<MapNodeIndex>* map_ids) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (map_ids->size() > map_node_cache_lvl2_->Capacity()) {
     AERROR << "map_ids's size is bigger than cache's capacity";
@@ -252,7 +252,7 @@ COVERAGE_LOG_TOKEN
 
 void BaseMap::LoadMapNodeThreadSafety(const MapNodeIndex& index,
                                       bool is_reserved) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseMapNode* map_node = nullptr;
   while (map_node == nullptr) {
@@ -290,7 +290,7 @@ COVERAGE_LOG_TOKEN
 void BaseMap::PreloadMapArea(const Eigen::Vector3d& location,
                              const Eigen::Vector3d& trans_diff,
                              unsigned int resolution_id, unsigned int zone_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (map_node_pool_ == nullptr) {
     std::cerr << "Map node pool is nullptr!" << std::endl;
@@ -423,7 +423,7 @@ COVERAGE_LOG_TOKEN
 bool BaseMap::LoadMapArea(const Eigen::Vector3d& seed_pt3d,
                           unsigned int resolution_id, unsigned int zone_id,
                           int filter_size_x, int filter_size_y) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (map_node_pool_ == nullptr) {
     std::cerr << "Map node pool is nullptr!" << std::endl;
@@ -519,7 +519,7 @@ COVERAGE_LOG_TOKEN
 }
 
 MapNodeIndex BaseMap::GetMapIndexFromMapPath(const std::string& map_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   MapNodeIndex index;
   char buf[100];
@@ -533,7 +533,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMap::GetAllMapIndexAndPath() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string map_folder_path = map_config_->map_folder_path_;
   boost::filesystem::path map_folder_path_boost(map_folder_path);
@@ -555,7 +555,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMap::ComputeMd5ForAllMapNodes() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   all_map_node_md5s_.clear();
   GetAllMapIndexAndPath();
@@ -568,7 +568,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool BaseMap::CheckMap() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ComputeMd5ForAllMapNodes();
 
@@ -589,7 +589,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool BaseMap::CheckMapStrictly() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(fuxiangyu@baidu.com)
   return true;

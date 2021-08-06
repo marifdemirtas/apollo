@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -34,20 +34,20 @@ namespace common {
 namespace math {
 
 Polygon2d::Polygon2d(const Box2d &box) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   box.GetAllCorners(&points_);
   BuildFromPoints();
 }
 
 Polygon2d::Polygon2d(std::vector<Vec2d> points) : points_(std::move(points)) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BuildFromPoints();
 }
 
 double Polygon2d::DistanceTo(const Vec2d &point) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   if (IsPointIn(point)) {
@@ -61,7 +61,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double Polygon2d::DistanceSquareTo(const Vec2d &point) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   if (IsPointIn(point)) {
@@ -76,7 +76,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double Polygon2d::DistanceTo(const LineSegment2d &line_segment) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (line_segment.length() <= kMathEpsilon) {
     return DistanceTo(line_segment.start());
@@ -101,14 +101,14 @@ COVERAGE_LOG_TOKEN
 }
 
 double Polygon2d::DistanceTo(const Box2d &box) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   return DistanceTo(Polygon2d(box));
 }
 
 double Polygon2d::DistanceTo(const Polygon2d &polygon) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   CHECK_GE(polygon.num_points(), 3);
@@ -127,7 +127,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double Polygon2d::DistanceToBoundary(const Vec2d &point) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double distance = std::numeric_limits<double>::infinity();
   for (int i = 0; i < num_points_; ++i) {
@@ -137,7 +137,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Polygon2d::IsPointOnBoundary(const Vec2d &point) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   return std::any_of(
@@ -146,7 +146,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Polygon2d::IsPointIn(const Vec2d &point) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   if (IsPointOnBoundary(point)) {
@@ -167,7 +167,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Polygon2d::HasOverlap(const Polygon2d &polygon) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   if (polygon.max_x() < min_x() || polygon.min_x() > max_x() ||
@@ -178,7 +178,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Polygon2d::Contains(const LineSegment2d &line_segment) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (line_segment.length() <= kMathEpsilon) {
     return IsPointIn(line_segment.start());
@@ -202,7 +202,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Polygon2d::Contains(const Polygon2d &polygon) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   if (area_ < polygon.area() - kMathEpsilon) {
@@ -219,15 +219,15 @@ COVERAGE_LOG_TOKEN
 }
 
 int Polygon2d::Next(int at) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return at >= num_points_ - 1 ? 0 : at + 1; }
 
 int Polygon2d::Prev(int at) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return at == 0 ? num_points_ - 1 : at - 1; }
 
 void Polygon2d::BuildFromPoints() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   num_points_ = static_cast<int>(points_.size());
   CHECK_GE(num_points_, 3);
@@ -275,7 +275,7 @@ COVERAGE_LOG_TOKEN
 
 bool Polygon2d::ComputeConvexHull(const std::vector<Vec2d> &points,
                                   Polygon2d *const polygon) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(polygon);
   const int n = static_cast<int>(points.size());
@@ -330,7 +330,7 @@ COVERAGE_LOG_TOKEN
 
 bool Polygon2d::ClipConvexHull(const LineSegment2d &line_segment,
                                std::vector<Vec2d> *const points) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (line_segment.length() <= kMathEpsilon) {
     return true;
@@ -371,7 +371,7 @@ COVERAGE_LOG_TOKEN
 
 bool Polygon2d::ComputeOverlap(const Polygon2d &other_polygon,
                                Polygon2d *const overlap_polygon) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   CHECK_NOTNULL(overlap_polygon);
@@ -386,7 +386,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double Polygon2d::ComputeIoU(const Polygon2d &other_polygon) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Polygon2d overlap_polygon;
   if (!ComputeOverlap(other_polygon, &overlap_polygon)) {
@@ -398,7 +398,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Polygon2d::HasOverlap(const LineSegment2d &line_segment) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   if ((line_segment.start().x() < min_x_ && line_segment.end().x() < min_x_) ||
@@ -414,7 +414,7 @@ COVERAGE_LOG_TOKEN
 
 bool Polygon2d::GetOverlap(const LineSegment2d &line_segment,
                            Vec2d *const first, Vec2d *const last) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   CHECK_NOTNULL(first);
@@ -457,7 +457,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Polygon2d::GetAllVertices(std::vector<Vec2d> *const vertices) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (vertices == nullptr) {
     return;
@@ -466,12 +466,12 @@ COVERAGE_LOG_TOKEN
 }
 
 std::vector<Vec2d> Polygon2d::GetAllVertices() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return points_; }
 
 std::vector<LineSegment2d> Polygon2d::GetAllOverlaps(
     const LineSegment2d &line_segment) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
 
@@ -527,7 +527,7 @@ COVERAGE_LOG_TOKEN
 
 void Polygon2d::ExtremePoints(const double heading, Vec2d *const first,
                               Vec2d *const last) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   CHECK_NOTNULL(first);
@@ -550,13 +550,13 @@ COVERAGE_LOG_TOKEN
 }
 
 AABox2d Polygon2d::AABoundingBox() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return AABox2d({min_x_, min_y_}, {max_x_, max_y_});
 }
 
 Box2d Polygon2d::BoundingBoxWithHeading(const double heading) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   const Vec2d direction_vec = Vec2d::CreateUnitVec2d(heading);
@@ -577,7 +577,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Box2d Polygon2d::MinAreaBoundingBox() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(points_.size(), 3U);
   if (!is_convex_) {
@@ -638,7 +638,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Polygon2d Polygon2d::ExpandByDistance(const double distance) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_convex_) {
     Polygon2d convex_polygon;
@@ -670,7 +670,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string Polygon2d::DebugString() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return absl::StrCat("polygon2d (  num_points = ", num_points_, "  points = (",
                       absl::StrJoin(points_, " ", util::DebugStringFormatter()),

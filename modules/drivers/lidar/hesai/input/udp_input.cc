@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -35,7 +35,7 @@ namespace drivers {
 namespace hesai {
 
 Input::Input(uint16_t port, uint16_t gpsPort) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   socketForLidar = -1;
   socketForLidar = socket(PF_INET, SOCK_DGRAM, 0);
@@ -94,7 +94,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Input::~Input(void) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (socketForGPS > 0) close(socketForGPS);
   if (socketForLidar > 0) (void)close(socketForLidar);
@@ -104,7 +104,7 @@ COVERAGE_LOG_TOKEN
 //          1 - gps
 //         -1 - error
 int Input::GetPacket(HesaiPacket *pkt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   struct pollfd fds[socketNumber];
   if (socketNumber == 2) {

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace perception {
 namespace camera {
 
 bool TLPreprocessor::Init(const TrafficLightPreprocessorInitOptions &options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   camera::MultiCamerasInitOption projection_init_option;
   projection_init_option.camera_names = options.camera_names;
@@ -48,7 +48,7 @@ COVERAGE_LOG_TOKEN
 bool TLPreprocessor::UpdateCameraSelection(
     const CarPose &pose, const TLPreprocessorOption &option,
     std::vector<base::TrafficLightPtr> *lights) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const double &timestamp = pose.getTimestamp();
   selected_camera_name_.first = timestamp;
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
 
 bool TLPreprocessor::SyncInformation(const double image_timestamp,
                                      const std::string &cam_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const double &proj_ts = selected_camera_name_.first;
   const std::string &proj_camera_name = selected_camera_name_.second;
@@ -111,7 +111,7 @@ bool TLPreprocessor::UpdateLightsProjection(
     const CarPose &pose, const TLPreprocessorOption &option,
     const std::string &camera_name,
     std::vector<base::TrafficLightPtr> *lights) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   lights_on_image_.clear();
   lights_outside_image_.clear();
@@ -158,7 +158,7 @@ COVERAGE_LOG_TOKEN
 
 bool TLPreprocessor::SetCameraWorkingFlag(const std::string &camera_name,
                                           bool is_working) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!projection_.HasCamera(camera_name)) {
     AERROR << "SetCameraWorkingFlag failed, "
@@ -173,7 +173,7 @@ COVERAGE_LOG_TOKEN
 
 bool TLPreprocessor::GetCameraWorkingFlag(const std::string &camera_name,
                                           bool *is_working) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!projection_.HasCamera(camera_name)) {
     AERROR << "GetCameraWorkingFlag failed, "
@@ -195,7 +195,7 @@ void TLPreprocessor::SelectCamera(
     std::vector<base::TrafficLightPtrs> *lights_on_image_array,
     std::vector<base::TrafficLightPtrs> *lights_outside_image_array,
     const TLPreprocessorOption &option, std::string *selected_camera_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // do not check boundary if this is min focal camera
   auto min_focal_len_working_camera = GetMinFocalLenWorkingCameraName();
@@ -254,7 +254,7 @@ bool TLPreprocessor::ProjectLights(
     std::vector<base::TrafficLightPtr> *lights,
     base::TrafficLightPtrs *lights_on_image,
     base::TrafficLightPtrs *lights_outside_image) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (lights->empty()) {
     AINFO << "project_lights get empty signals.";
@@ -293,7 +293,7 @@ bool TLPreprocessor::ProjectLightsAndSelectCamera(
     const CarPose &pose, const TLPreprocessorOption &option,
     std::string *selected_camera_name,
     std::vector<base::TrafficLightPtr> *lights) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (selected_camera_name == nullptr) {
     AERROR << "selected_camera_name is not available";
@@ -342,17 +342,17 @@ COVERAGE_LOG_TOKEN
 }
 
 bool TLPreprocessor::GetAlllightsOutsideFlag() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return projections_outside_all_images_;
 }
 
 std::string TLPreprocessor::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return "TLPreprocessor"; }
 
 std::string TLPreprocessor::GetMinFocalLenWorkingCameraName() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto &camera_names = projection_.getCameraNamesByDescendingFocalLen();
   for (auto itr = camera_names.crbegin(); itr != camera_names.crend(); ++itr) {
@@ -366,7 +366,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string TLPreprocessor::GetMaxFocalLenWorkingCameraName() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto &camera_names = projection_.getCameraNamesByDescendingFocalLen();
   for (const auto &camera_name : camera_names) {

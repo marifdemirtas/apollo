@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,7 @@ namespace adapter {
 Status SignalsXmlParser::ParseTrafficLights(
     const tinyxml2::XMLElement& xml_node,
     std::vector<TrafficLightInternal>* traffic_lights) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(traffic_lights);
   auto signal_node = xml_node.FirstChildElement("signal");
@@ -136,7 +136,7 @@ COVERAGE_LOG_TOKEN
 
 Status SignalsXmlParser::ToPbSignalType(const std::string& xml_type,
                                         PbSignalType* signal_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(signal_type);
 
@@ -164,7 +164,7 @@ COVERAGE_LOG_TOKEN
 
 Status SignalsXmlParser::ToPbSubSignalType(const std::string& xml_type,
                                            PbSubSignalType* sub_signal_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(sub_signal_type);
 
@@ -195,7 +195,7 @@ COVERAGE_LOG_TOKEN
 
 Status SignalsXmlParser::to_pb_sign_info_type(const std::string& xml_type,
                                               PbSignInfoType* sign_info_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(sign_info_type);
 
@@ -212,7 +212,7 @@ COVERAGE_LOG_TOKEN
 
 Status SignalsXmlParser::ToPbStopSignType(const std::string& xml_type,
                                           PbStopSignType* stop_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(stop_type);
 
@@ -240,7 +240,7 @@ COVERAGE_LOG_TOKEN
 Status SignalsXmlParser::ParseStopSigns(
     const tinyxml2::XMLElement& xml_node,
     std::vector<StopSignInternal>* stop_signs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(stop_signs);
 
@@ -304,7 +304,7 @@ COVERAGE_LOG_TOKEN
 Status SignalsXmlParser::ParseYieldSigns(
     const tinyxml2::XMLElement& xml_node,
     std::vector<YieldSignInternal>* yield_signs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(yield_signs);
 

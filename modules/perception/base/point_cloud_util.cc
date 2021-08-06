@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace base {
 bool DownSamplePointCloudBeams(base::PointFCloudPtr cloud_ptr,
                                base::PointFCloudPtr out_cloud_ptr,
                                int downsample_factor) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (downsample_factor <= 0) {
     return false;
@@ -47,7 +47,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void GetPointCloudCentroid(const PointFCloud& cloud, PointF* centroid) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (size_t i = 0; i < cloud.size(); ++i) {
     centroid->x += cloud[i].x;
@@ -60,7 +60,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CloudDemean(PointFCloud* pc) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Demean by using centroid.
   PointF centroid;
@@ -73,7 +73,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double OrientCloud(const PointFCloud& pc, PointFCloud* pc_out, bool demean) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Approach#1:
   // Find car dominant direction on XY plane.
@@ -92,7 +92,7 @@ COVERAGE_LOG_TOKEN
   transform.rotate(Eigen::AngleAxisf(-theta, Eigen::Vector3f(0, 0, 1)));
   pc.TransformPointCloud(transform, pc_out, true);
   if (demean) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
     CloudDemean(pc_out);
   }

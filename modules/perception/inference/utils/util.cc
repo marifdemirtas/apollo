@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -19,19 +19,12 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace inference {
 
 std::shared_ptr<float> load_binary_data(const std::string &filename) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ifstream ifs(filename, std::ifstream::binary);
   if (!ifs) {
@@ -50,7 +43,7 @@ COVERAGE_LOG_TOKEN
 
 bool write_result(const std::string &out_path,
                   const std::vector<float> &results) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ofstream outf(out_path, std::ios::binary | std::ios::out);
   if (!outf.is_open()) {

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace benchmark {
 
 bool get_bbox_vertices(const ObjectConstPtr object,
                        std::vector<Eigen::Vector3d>* vertices) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (object == nullptr) {
     return false;
@@ -61,7 +61,7 @@ COVERAGE_LOG_TOKEN
 
 bool fill_objects_with_point_cloud(std::vector<ObjectPtr>* objects,
                                    const PointCloudConstPtr cloud) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (objects == nullptr || cloud == nullptr) {
     return false;
@@ -139,7 +139,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool fill_axis_align_box(ObjectPtr object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (object->cloud == nullptr || object->cloud->size() == 0) {
     return false;

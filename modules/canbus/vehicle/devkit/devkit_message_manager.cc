@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -42,7 +42,7 @@ namespace canbus {
 namespace devkit {
 
 DevkitMessageManager::DevkitMessageManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Control Messages
   AddSendProtocolData<Brakecommand101, true>();
@@ -68,7 +68,7 @@ COVERAGE_LOG_TOKEN
 }
 
 DevkitMessageManager::~DevkitMessageManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 }  // namespace devkit

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -42,7 +42,7 @@ using Json = nlohmann::json;
 PreprocessMonitor::PreprocessMonitor()
     : FuelMonitor(FLAGS_preprocess_monitor_name),
       node_(cyber::CreateNode("progress_monitor")) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   InitReaders();
   LoadConfiguration();
@@ -52,18 +52,18 @@ PreprocessMonitor::PreprocessMonitor(const std::string& task_name)
     : FuelMonitor(FLAGS_preprocess_monitor_name),
       task_name_(task_name),
       node_(cyber::CreateNode(task_name + "_progress_monitor")) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   InitReaders();
   LoadConfiguration();
 }
 
 PreprocessMonitor::~PreprocessMonitor() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Stop(); }
 
 void PreprocessMonitor::InitReaders() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   node_->CreateReader<Progress>(
       FLAGS_progress_topic, [this](const std::shared_ptr<Progress>& progress) {
@@ -72,7 +72,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PreprocessMonitor::LoadConfiguration() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!task_name_.empty()) {
     const std::string& vehicle_dir =
@@ -102,7 +102,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PreprocessMonitor::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!enabled_) {
     current_status_json_.clear();
@@ -112,11 +112,11 @@ COVERAGE_LOG_TOKEN
 }
 
 void PreprocessMonitor::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  enabled_ = false; }
 
 void PreprocessMonitor::OnProgress(const std::shared_ptr<Progress>& progress) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!enabled_) {
     return;
@@ -131,7 +131,7 @@ COVERAGE_LOG_TOKEN
 }
 
 nlohmann::json PreprocessMonitor::GetProgressAsJson() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::unique_lock<boost::shared_mutex> reader_lock(mutex_);
   return current_status_json_;

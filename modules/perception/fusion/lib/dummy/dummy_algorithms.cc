@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace fusion {
 
 // class DummyFusionSystem implementation
 bool DummyFusionSystem::Init(const FusionInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   main_sensors_ = options.main_sensors;
   return true;
@@ -31,7 +31,7 @@ COVERAGE_LOG_TOKEN
 bool DummyFusionSystem::Fuse(const FusionOptions& options,
                              const base::FrameConstPtr& sensor_frame,
                              std::vector<base::ObjectPtr>* fused_objects) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (fused_objects == nullptr) {
     return false;
@@ -52,21 +52,21 @@ COVERAGE_LOG_TOKEN
 
 // class DummyDataAssociation implementation
 bool DummyDataAssociation::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return true; }
 
 bool DummyDataAssociation::Associate(const AssociationOptions& options,
                                      SensorFramePtr sensor_measurements,
                                      ScenePtr scene,
                                      AssociationResult* association_result) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return true;
 }
 
 // class DummyTracker implementation
 bool DummyTracker::Init(TrackPtr track, SensorObjectPtr measurement) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return true;
 }
@@ -74,14 +74,14 @@ COVERAGE_LOG_TOKEN
 void DummyTracker::UpdateWithMeasurement(const TrackerOptions& options,
                                          const SensorObjectPtr measurement,
                                          double target_timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void DummyTracker::UpdateWithoutMeasurement(const TrackerOptions& options,
                                             const std::string& sensor_id,
                                             double measurement_timestamp,
                                             double target_timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 FUSION_REGISTER_FUSIONSYSTEM(DummyFusionSystem);

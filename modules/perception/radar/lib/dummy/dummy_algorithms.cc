@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -17,9 +17,6 @@
 #include "modules/perception/radar/lib/dummy/dummy_algorithms.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace radar {
@@ -27,7 +24,7 @@ namespace radar {
 void DummyDetector::ContiObs2Frame(
     const drivers::ContiRadar& corrected_obstacles,
     base::FramePtr radar_frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (const auto& radar_obs : corrected_obstacles.contiobs()) {
     base::ObjectPtr radar_object(new base::Object);
@@ -81,12 +78,12 @@ COVERAGE_LOG_TOKEN
 }
 
 bool DummyPreprocessor::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return true; }
 bool DummyPreprocessor::Preprocess(const drivers::ContiRadar& raw_obstacles,
                                    const PreprocessorOptions& options,
                                    drivers::ContiRadar* corrected_obstacles) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (corrected_obstacles == nullptr) {
     AERROR << "corrected_obstacles is not available";
@@ -96,35 +93,35 @@ COVERAGE_LOG_TOKEN
   return true;
 }
 std::string DummyPreprocessor::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return "DummyPreprocessor"; }
 
 bool DummyDetector::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return true; }
 bool DummyDetector::Detect(const drivers::ContiRadar& corrected_obstacles,
                            const DetectorOptions& options,
                            base::FramePtr detected_frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ContiObs2Frame(corrected_obstacles, detected_frame);
   return true;
 }
 std::string DummyDetector::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return "DummyDetector"; }
 
 bool DummyRoiFilter::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return true; }
 bool DummyRoiFilter::RoiFilter(const RoiFilterOptions& options,
                                base::FramePtr radar_frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return true;
 }
 std::string DummyRoiFilter::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return "DummyRoiFilter"; }
 
 PERCEPTION_REGISTER_PREPROCESSOR(DummyPreprocessor);

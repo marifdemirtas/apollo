@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -29,14 +29,14 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Brake60::ID = 0x60;
 
 uint32_t Brake60::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static const uint32_t PERIOD = 10 * 1000;
   return PERIOD;
 }
 
 void Brake60::UpdateData(uint8_t *data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_pedal_p(data, pedal_cmd_);
   set_boo_cmd_p(data, boo_cmd_);
@@ -46,7 +46,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Brake60::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pedal_cmd_ = 0.0;
   boo_cmd_ = false;
@@ -57,7 +57,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Brake60 *Brake60::set_pedal(double pedal) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pedal_cmd_ = pedal;
   if (pedal_cmd_ < 1e-3) {
@@ -69,35 +69,35 @@ COVERAGE_LOG_TOKEN
 }
 
 Brake60 *Brake60::enable_boo_cmd() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boo_cmd_ = true;
   return this;
 }
 
 Brake60 *Brake60::disable_boo_cmd() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boo_cmd_ = false;
   return this;
 }
 
 Brake60 *Brake60::set_enable() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pedal_enable_ = true;
   return this;
 }
 
 Brake60 *Brake60::set_disable() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pedal_enable_ = false;
   return this;
 }
 
 void Brake60::set_pedal_p(uint8_t *data, double pedal) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // change from [0-100] to [0.00-1.00]
   // and a rough mapping
@@ -117,7 +117,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Brake60::set_boo_cmd_p(uint8_t *bytes, bool boo_cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte frame(bytes + 2);
   if (boo_cmd) {
@@ -128,7 +128,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Brake60::set_enable_p(uint8_t *bytes, bool enable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte frame(bytes + 3);
   if (enable) {
@@ -139,7 +139,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Brake60::set_clear_driver_override_flag_p(uint8_t *bytes, bool clear) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte frame(bytes + 3);
   if (clear) {
@@ -150,7 +150,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Brake60::set_watchdog_counter_p(uint8_t *data, int32_t count) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   count = ProtocolData::BoundedValue(0, 255, count);
   Byte frame(data + 7);

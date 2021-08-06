@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace math {
 double GoldenSectionSearch(const std::function<double(double)> &func,
                            const double lower_bound, const double upper_bound,
                            const double tol) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static constexpr double gr = 1.618033989;  // (sqrt(5) + 1) / 2
 

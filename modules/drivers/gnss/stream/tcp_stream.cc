@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -38,7 +38,7 @@ namespace gnss {
 TcpStream::TcpStream(const char* address, uint16_t port, uint32_t timeout_usec,
                      bool auto_reconnect)
     : sockfd_(-1), errno_(0), auto_reconnect_(auto_reconnect) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   peer_addr_ = inet_addr(address);
   peer_port_ = htons(port);
@@ -46,11 +46,11 @@ COVERAGE_LOG_TOKEN
 }
 
 TcpStream::~TcpStream() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  this->close(); }
 
 void TcpStream::open() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (fd < 0) {
@@ -64,7 +64,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool TcpStream::InitSocket() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sockfd_ < 0) {
     return false;
@@ -130,7 +130,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TcpStream::close() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sockfd_ > 0) {
     ::close(sockfd_);
@@ -140,7 +140,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool TcpStream::Reconnect() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (auto_reconnect_) {
     Disconnect();
@@ -152,7 +152,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool TcpStream::Connect() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sockfd_ < 0) {
     this->open();
@@ -248,7 +248,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool TcpStream::Disconnect() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sockfd_ < 0) {
     // not open
@@ -260,7 +260,7 @@ COVERAGE_LOG_TOKEN
 }
 
 size_t TcpStream::read(uint8_t* buffer, size_t max_length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ssize_t ret = 0;
 
@@ -303,7 +303,7 @@ COVERAGE_LOG_TOKEN
 }
 
 size_t TcpStream::write(const uint8_t* buffer, size_t length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t total_nsent = 0;
 
@@ -341,7 +341,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool TcpStream::Readable(uint32_t timeout_us) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Setup a select call to block for serial data or a timeout
   timespec timeout_ts;
@@ -366,7 +366,7 @@ COVERAGE_LOG_TOKEN
 
 Stream* Stream::create_tcp(const char* address, uint16_t port,
                            uint32_t timeout_usec) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return new TcpStream(address, port, timeout_usec);
 }

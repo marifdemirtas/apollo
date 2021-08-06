@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -32,7 +32,7 @@ namespace video {
 FrameProcessor::FrameProcessor(const std::string& input_video_file,
                                const std::string& output_jpg_dir)
     : output_jpg_dir_(output_jpg_dir) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ifstream video_file(input_video_file, std::ios::binary);
   std::istreambuf_iterator<char> buf_begin(video_file), buf_end;
@@ -42,7 +42,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool FrameProcessor::ProcessStream() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (input_video_buffer_.empty()) {
     AERROR << "error: failed to read from input video file";
@@ -104,7 +104,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string FrameProcessor::GetOutputFile(const int frame_num) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static constexpr int kSuffixLen = 5;
   std::stringstream jpg_suffix;
@@ -117,7 +117,7 @@ COVERAGE_LOG_TOKEN
 void FrameProcessor::WriteOutputJpgFile(
     const std::vector<uint8_t>& jpeg_buffer,
     const std::string& output_jpg_file) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ofstream out(output_jpg_file, std::ios::binary);
   for (const uint8_t current : jpeg_buffer) {

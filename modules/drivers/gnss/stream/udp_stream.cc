@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -57,14 +57,14 @@ class UdpStream : public Stream {
 
 Stream* Stream::create_udp(const char* address, uint16_t port,
                            uint32_t timeout_usec) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return new UdpStream(address, port, timeout_usec);
 }
 
 UdpStream::UdpStream(const char* address, uint16_t port, uint32_t timeout_usec)
     : sockfd_(-1), errno_(0) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   peer_addr_ = inet_addr(address);
   peer_port_ = htons(port);
@@ -73,11 +73,11 @@ COVERAGE_LOG_TOKEN
 }
 
 UdpStream::~UdpStream() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  this->close(); }
 
 void UdpStream::open() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
   if (fd < 0) {
@@ -142,7 +142,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void UdpStream::close() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sockfd_ > 0) {
     ::close(sockfd_);
@@ -152,7 +152,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UdpStream::Connect() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sockfd_ < 0) {
     this->open();
@@ -172,7 +172,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UdpStream::Disconnect() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sockfd_ < 0) {
     // not open
@@ -184,7 +184,7 @@ COVERAGE_LOG_TOKEN
 }
 
 size_t UdpStream::read(uint8_t* buffer, size_t max_length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ssize_t ret = 0;
   struct sockaddr_in peer_sockaddr;
@@ -214,7 +214,7 @@ COVERAGE_LOG_TOKEN
 }
 
 size_t UdpStream::write(const uint8_t* data, size_t length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t total_nsent = 0;
   struct sockaddr_in peer_sockaddr;

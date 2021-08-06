@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace apollo {
 namespace hdmap {
 
 ChannelVerifyAgent::ChannelVerifyAgent(std::shared_ptr<JsonConf> sp_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   sp_conf_ = sp_conf;
   sp_channel_checker_ = nullptr;
@@ -35,7 +35,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ChannelVerifyAgent::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> guard(stop_mutex_);
   need_stop_ = false;
@@ -48,7 +48,7 @@ COVERAGE_LOG_TOKEN
 grpc::Status ChannelVerifyAgent::ProcessGrpcRequest(
     grpc::ServerContext *context, ChannelVerifyRequest *request,
     ChannelVerifyResponse *response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "ChannelVerifyAgent Request: " << request->DebugString();
   switch (request->cmd()) {
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
 
 void ChannelVerifyAgent::StartCheck(ChannelVerifyRequest *request,
                                     ChannelVerifyResponse *response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (GetState() == ChannelVerifyAgentState::RUNNING) {
     AINFO << "ChannelVerify is RUNNING, do not need start again";
@@ -88,7 +88,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ChannelVerifyAgent::AsyncCheck(const std::string &records_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SetState(ChannelVerifyAgentState::RUNNING);
   std::thread doctor_strange([=]() {
@@ -115,7 +115,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ChannelVerifyAgent::DoCheck(const std::string &records_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sp_channel_checker_ == nullptr) {
     sp_channel_checker_ = std::make_shared<ChannelVerify>(sp_conf_);
@@ -128,7 +128,7 @@ COVERAGE_LOG_TOKEN
 int ChannelVerifyAgent::AddTopicLack(
     VerifyResult *result, const std::string &record_path,
     std::vector<std::string> const &lack_channels) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   TopicResult *topics = result->mutable_topics();
   for (const std::string &channel : lack_channels) {
@@ -140,7 +140,7 @@ COVERAGE_LOG_TOKEN
 
 FrameRate *ChannelVerifyAgent::FindRates(VerifyResult *result,
                                          const std::string &channel) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (FrameRate &rate : *result->mutable_rates()) {
     if (rate.topic() == channel) {
@@ -153,7 +153,7 @@ COVERAGE_LOG_TOKEN
 int ChannelVerifyAgent::AddInadequateRate(
     VerifyResult *result, std::string const &record_path,
     std::map<std::string, std::pair<double, double>> const &inadequate_rate) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto it = inadequate_rate.begin(); it != inadequate_rate.end(); ++it) {
     const std::string &channel = it->first;
@@ -176,7 +176,7 @@ COVERAGE_LOG_TOKEN
 
 void ChannelVerifyAgent::CheckResult(ChannelVerifyRequest *request,
                                      ChannelVerifyResponse *response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (GetState() == ChannelVerifyAgentState::IDLE) {
     AINFO << "ChannelVerify is not RUNNING, it should start first";
@@ -215,7 +215,7 @@ COVERAGE_LOG_TOKEN
 
 void ChannelVerifyAgent::StopCheck(ChannelVerifyRequest *request,
                                    ChannelVerifyResponse *response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> guard(stop_mutex_);
   need_stop_ = true;
@@ -242,13 +242,13 @@ COVERAGE_LOG_TOKEN
 }
 
 void ChannelVerifyAgent::SetState(ChannelVerifyAgentState state) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   state_ = state;
 }
 
 ChannelVerifyAgentState ChannelVerifyAgent::GetState() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return state_; }
 
 }  // namespace hdmap

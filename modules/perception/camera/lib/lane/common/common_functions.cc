@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -19,7 +19,6 @@
 #include <algorithm>
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
@@ -27,7 +26,7 @@ namespace camera {
 /** DisjointSet **/
 // add a new element, which is a subset by itself;
 int DisjointSet::Add() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int cur_size = static_cast<int>(disjoint_array_.size());
   disjoint_array_.push_back(cur_size);
@@ -36,7 +35,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int DisjointSet::Find(int x) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (disjoint_array_[x] == x) {
     return x;
@@ -59,7 +58,7 @@ COVERAGE_LOG_TOKEN
 
 // point the x and y to smaller root of the two
 void DisjointSet::Unite(int x, int y) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (x == y) {
     return;
@@ -78,7 +77,7 @@ COVERAGE_LOG_TOKEN
 
 /** ConnectedComponent **/
 void ConnectedComponent::AddPixel(int x, int y) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   base::Point2DI point;
   point.x = x;
@@ -93,7 +92,7 @@ COVERAGE_LOG_TOKEN
 
 bool FindCC(const std::vector<unsigned char>& src, int width, int height,
             const base::RectI& roi, std::vector<ConnectedComponent>* cc) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (src.empty()) {
     AERROR << "input image is empty";
@@ -217,7 +216,7 @@ bool ImagePoint2Camera(const base::Point2DF& img_point, float pitch_angle,
                        float camera_ground_height,
                        const Eigen::Matrix3f& intrinsic_params_inverse,
                        Eigen::Vector3d* camera_point) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::MatrixXf pt_m(3, 1);
   pt_m << img_point.x, img_point.y, 1;
@@ -241,7 +240,7 @@ COVERAGE_LOG_TOKEN
 bool CameraPoint2Image(const Eigen::Vector3d& camera_point,
                        const Eigen::Matrix3f& intrinsic_params,
                        base::Point2DF* img_point) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector3f camera_point3f;
   camera_point3f(0, 0) = static_cast<float>(camera_point(0, 0));
@@ -257,13 +256,13 @@ COVERAGE_LOG_TOKEN
 }
 bool ComparePoint2DY(const base::Point2DF& point1,
                      const base::Point2DF& point2) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return point1.y < point2.y;
 }
 
 bool FindKSmallValue(const float* distance, int dim, int k, int* index) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (dim < k) {
     AWARN << "dim is smaller than k";
@@ -311,7 +310,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool FindKLargeValue(const float* distance, int dim, int k, int* index) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (dim < k) {
     AWARN << "dim is smaller than k";

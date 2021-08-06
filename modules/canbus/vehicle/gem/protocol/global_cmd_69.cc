@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Globalcmd69::ID = 0x69;
 
 // public
 Globalcmd69::Globalcmd69() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Globalcmd69::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Globalcmd69::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_pacmod_enable(data, pacmod_enable_);
   set_p_clear_override(data, clear_override_);
@@ -49,7 +49,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Globalcmd69::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(QiL) :you should check this manually
   pacmod_enable_ = Global_cmd_69::PACMOD_ENABLE_CONTROL_DISABLED;
@@ -59,7 +59,7 @@ COVERAGE_LOG_TOKEN
 
 Globalcmd69* Globalcmd69::set_pacmod_enable(
     Global_cmd_69::Pacmod_enableType pacmod_enable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pacmod_enable_ = pacmod_enable;
   return this;
@@ -72,7 +72,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Globalcmd69::set_p_pacmod_enable(
     uint8_t* data, Global_cmd_69::Pacmod_enableType pacmod_enable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = pacmod_enable;
 
@@ -82,7 +82,7 @@ COVERAGE_LOG_TOKEN
 
 Globalcmd69* Globalcmd69::set_clear_override(
     Global_cmd_69::Clear_overrideType clear_override) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   clear_override_ = clear_override;
   return this;
@@ -95,7 +95,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Globalcmd69::set_p_clear_override(
     uint8_t* data, Global_cmd_69::Clear_overrideType clear_override) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = clear_override;
 
@@ -105,7 +105,7 @@ COVERAGE_LOG_TOKEN
 
 Globalcmd69* Globalcmd69::set_ignore_override(
     Global_cmd_69::Ignore_overrideType ignore_override) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ignore_override_ = ignore_override;
   return this;
@@ -118,7 +118,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Globalcmd69::set_p_ignore_override(
     uint8_t* data, Global_cmd_69::Ignore_overrideType ignore_override) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = ignore_override;
 

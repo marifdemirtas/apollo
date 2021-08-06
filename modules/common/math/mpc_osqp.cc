@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -44,7 +44,7 @@ MpcOsqp::MpcOsqp(const Eigen::MatrixXd &matrix_a,
       max_iteration_(max_iter),
       horizon_(horizon),
       eps_abs_(eps_abs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   state_dim_ = matrix_b.rows();
   control_dim_ = matrix_b.cols();
@@ -56,7 +56,7 @@ COVERAGE_LOG_TOKEN
 void MpcOsqp::CalculateKernel(std::vector<c_float> *P_data,
                               std::vector<c_int> *P_indices,
                               std::vector<c_int> *P_indptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // col1:(row,val),...; col2:(row,val),....; ...
   std::vector<std::vector<std::pair<c_int, c_float>>> columns;
@@ -98,7 +98,7 @@ COVERAGE_LOG_TOKEN
 
 // reference is always zero
 void MpcOsqp::CalculateGradient() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // populate the gradient vector
   gradient_ = Eigen::VectorXd::Zero(
@@ -115,7 +115,7 @@ COVERAGE_LOG_TOKEN
 void MpcOsqp::CalculateEqualityConstraint(std::vector<c_float> *A_data,
                                           std::vector<c_int> *A_indices,
                                           std::vector<c_int> *A_indptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static constexpr double kEpsilon = 1e-6;
   // block matrix
@@ -187,7 +187,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MpcOsqp::CalculateConstraintVectors() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // evaluate the lower and the upper inequality vectors
   Eigen::VectorXd lowerInequality = Eigen::MatrixXd::Zero(
@@ -228,7 +228,7 @@ COVERAGE_LOG_TOKEN
 }
 
 OSQPSettings *MpcOsqp::Settings() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // default setting
   OSQPSettings *settings =
@@ -247,7 +247,7 @@ COVERAGE_LOG_TOKEN
 }
 
 OSQPData *MpcOsqp::Data() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   OSQPData *data = reinterpret_cast<OSQPData *>(c_malloc(sizeof(OSQPData)));
   size_t kernel_dim = state_dim_ * (horizon_ + 1) + control_dim_ * horizon_;
@@ -288,7 +288,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MpcOsqp::FreeData(OSQPData *data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   c_free(data->A);
   c_free(data->P);
@@ -296,7 +296,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool MpcOsqp::Solve(std::vector<double> *control_cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << "Before Calc Gradient";
   CalculateGradient();

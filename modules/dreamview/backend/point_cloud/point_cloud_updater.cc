@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -45,17 +45,17 @@ PointCloudUpdater::PointCloudUpdater(WebSocketHandler *websocket,
       point_cloud_str_(""),
       future_ready_(true),
       simworld_updater_(simworld_updater) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   RegisterMessageHandlers();
 }
 
 PointCloudUpdater::~PointCloudUpdater() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Stop(); }
 
 void PointCloudUpdater::LoadLidarHeight(const std::string &file_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!cyber::common::PathExists(file_path)) {
     AWARN << "No such file: " << FLAGS_lidar_height_yaml
@@ -81,7 +81,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PointCloudUpdater::RegisterMessageHandlers() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Send current point_cloud status to the new client.
   websocket_->RegisterConnectionReadyHandler(
@@ -129,7 +129,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PointCloudUpdater::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   localization_reader_ = node_->CreateReader<LocalizationEstimate>(
       FLAGS_localization_topic,
@@ -146,7 +146,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PointCloudUpdater::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (enabled_) {
     async_future_.wait();
@@ -155,7 +155,7 @@ COVERAGE_LOG_TOKEN
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr PointCloudUpdater::ConvertPCLPointCloud(
     const std::shared_ptr<drivers::PointCloud> &point_cloud) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_ptr(
       new pcl::PointCloud<pcl::PointXYZ>);
@@ -181,7 +181,7 @@ COVERAGE_LOG_TOKEN
 
 void PointCloudUpdater::UpdatePointCloud(
     const std::shared_ptr<drivers::PointCloud> &point_cloud) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!enabled_) {
     return;
@@ -204,7 +204,7 @@ COVERAGE_LOG_TOKEN
       async_future_ = std::move(f);
     }
   } else {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
     pcl_ptr = ConvertPCLPointCloud(point_cloud);
     this->FilterPointCloud(pcl_ptr);
@@ -255,7 +255,7 @@ void PointCloudUpdater::FilterPointCloud(
 
 void PointCloudUpdater::UpdateLocalizationTime(
     const std::shared_ptr<LocalizationEstimate> &localization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   last_localization_time_ = localization->header().timestamp_sec();
 }

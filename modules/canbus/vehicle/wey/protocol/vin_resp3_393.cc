@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace wey {
 using ::apollo::drivers::canbus::Byte;
 
 Vinresp3393::Vinresp3393() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Vinresp3393::ID = 0x393;
 
 void Vinresp3393::Parse(const std::uint8_t* bytes, int32_t length,
                         ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_wey()->mutable_vin_resp3_393()->set_vin16(
       vin16(bytes, length));
@@ -45,7 +45,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]',
 // 'bit': 7, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vinresp3393::vin16(const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);

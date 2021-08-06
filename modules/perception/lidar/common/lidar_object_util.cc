@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ using base::PointF;
 
 void GetBoundingBox2d(const std::shared_ptr<Object>& object,
                       PointCloud<PointD>* box, double expand) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   box->clear();
   box->resize(4);
@@ -63,7 +63,7 @@ COVERAGE_LOG_TOKEN
 
 void ComputeObjectShapeFromPolygon(std::shared_ptr<Object> object,
                                    bool use_world_cloud) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const PointCloud<PointD>& polygon = object->polygon;
   const PointCloud<PointF>& cloud = object->lidar_supplement.cloud;

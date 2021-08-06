@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace apollo {
 namespace hdmap {
 
 int ExceptionHandler::ExceptionHandlerFun(ErrorCode error_code) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int ret = 0;
   switch (error_code) {

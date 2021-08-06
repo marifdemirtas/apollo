@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,21 +26,6 @@
 #include "modules/perception/inference/utils/resize.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
@@ -49,7 +34,7 @@ using cyber::common::GetAbsolutePath;
 
 bool ExternalFeatureExtractor::Init(
     const FeatureExtractorInitOptions &options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string efx_config = GetAbsolutePath(options.root_dir, options.conf_file);
   ACHECK(cyber::common::GetProtoFromFile(efx_config, &param_))
@@ -85,7 +70,7 @@ COVERAGE_LOG_TOKEN
 }
 bool ExternalFeatureExtractor::InitFeatureExtractor(
     const std::string &root_dir) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   FeatureExtractorInitOptions feat_options;
   feat_options.conf_file = param_.feature_file();
@@ -102,7 +87,7 @@ COVERAGE_LOG_TOKEN
 }
 bool ExternalFeatureExtractor::Extract(const FeatureExtractorOptions &options,
                                        CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int raw_height = frame->data_provider->src_height();
   int raw_width = frame->data_provider->src_width();
@@ -128,7 +113,7 @@ COVERAGE_LOG_TOKEN
   return true;
 }
 std::string ExternalFeatureExtractor::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return "ExternalFeatureExtractor";
 }

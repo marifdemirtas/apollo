@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -32,11 +32,11 @@ constexpr float MAX_STEER_PER = 100.0;
 constexpr float MIN_STEER_PER = -100.0;
 
 SwerveTrigger::SwerveTrigger() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  trigger_name_ = "SwerveTrigger"; }
 
 void SwerveTrigger::Pull(const cyber::record::RecordMessage& msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!trigger_obj_->enabled()) {
     return;
@@ -62,7 +62,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SwerveTrigger::IsNoisy(const float steer) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (steer > MAX_STEER_PER || steer < MIN_STEER_PER) {
     return true;
@@ -73,7 +73,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SwerveTrigger::IsSwerve() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (current_steer_queue_.size() < queue_size_ ||
       history_steer_queue_.size() < queue_size_) {
@@ -86,7 +86,7 @@ COVERAGE_LOG_TOKEN
 
 // TODO(Leisheng Mu): reuse the code with hard_brake_trigger in next iteration
 void SwerveTrigger::EnqueueMessage(const float steer) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   current_steer_queue_.emplace_back(steer);
   current_total_ += steer;

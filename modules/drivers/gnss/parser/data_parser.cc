@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -54,7 +54,7 @@ static const boost::array<double, 36> POSE_COVAR = {
     0, 0, 0, 0.01, 0, 0, 0, 0, 0, 0, 0.01, 0, 0, 0, 0, 0, 0, 0.01};
 
 Parser *CreateParser(config::Config config, bool is_base_station = false) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (config.data().format()) {
     case config::Stream::NOVATEL_BINARY:
@@ -70,7 +70,7 @@ COVERAGE_LOG_TOKEN
 DataParser::DataParser(const config::Config &config,
                        const std::shared_ptr<apollo::cyber::Node> &node)
     : config_(config), tf_broadcaster_(node), node_(node) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string utm_target_param;
 
@@ -84,7 +84,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool DataParser::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ins_status_.mutable_header()->set_timestamp_sec(
       cyber::Time::Now().ToSecond());
@@ -122,7 +122,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataParser::ParseRawData(const std::string &msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!init_flag_) {
     AERROR << "Data parser not init.";
@@ -143,7 +143,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataParser::CheckInsStatus(::apollo::drivers::gnss::Ins *ins) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static double last_notify = cyber::Time().Now().ToSecond();
   double now = cyber::Time().Now().ToSecond();
@@ -172,7 +172,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataParser::CheckGnssStatus(::apollo::drivers::gnss::Gnss *gnss) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gnss_status_.set_solution_status(
       static_cast<uint32_t>(gnss->solution_status()));
@@ -189,7 +189,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataParser::DispatchMessage(Parser::MessageType type, MessagePtr message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (type) {
     case Parser::MessageType::GNSS:
@@ -234,7 +234,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataParser::PublishInsStat(const MessagePtr message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto ins_stat = std::make_shared<InsStat>(*As<InsStat>(message));
   common::util::FillHeader("gnss", ins_stat.get());
@@ -242,7 +242,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataParser::PublishBestpos(const MessagePtr message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto bestpos = std::make_shared<GnssBestPose>(*As<GnssBestPose>(message));
   common::util::FillHeader("gnss", bestpos.get());
@@ -250,7 +250,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataParser::PublishImu(const MessagePtr message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto raw_imu = std::make_shared<Imu>(*As<Imu>(message));
   Imu *imu = As<Imu>(message);
@@ -269,7 +269,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataParser::PublishOdometry(const MessagePtr message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Ins *ins = As<Ins>(message);
   auto gps = std::make_shared<Gps>();
@@ -315,7 +315,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataParser::PublishCorrimu(const MessagePtr message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Ins *ins = As<Ins>(message);
   auto imu = std::make_shared<CorrectedImu>();
@@ -341,14 +341,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataParser::PublishEphemeris(const MessagePtr message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto eph = std::make_shared<GnssEphemeris>(*As<GnssEphemeris>(message));
   gnssephemeris_writer_->Write(eph);
 }
 
 void DataParser::PublishObservation(const MessagePtr message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto observation =
       std::make_shared<EpochObservation>(*As<EpochObservation>(message));
@@ -356,7 +356,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataParser::PublishHeading(const MessagePtr message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto heading = std::make_shared<Heading>(*As<Heading>(message));
   heading_writer_->Write(heading);
@@ -364,7 +364,7 @@ COVERAGE_LOG_TOKEN
 
 void DataParser::GpsToTransformStamped(const std::shared_ptr<Gps> &gps,
                                        TransformStamped *transform) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   transform->mutable_header()->set_timestamp_sec(gps->header().timestamp_sec());
   transform->mutable_header()->set_frame_id(config_.tf().frame_id());

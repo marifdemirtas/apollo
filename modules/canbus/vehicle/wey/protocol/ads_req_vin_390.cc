@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Adsreqvin390::ID = 0x390;
 
 // public
 Adsreqvin390::Adsreqvin390() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Adsreqvin390::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(ChaoMa) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,13 +41,13 @@ COVERAGE_LOG_TOKEN
 }
 
 void Adsreqvin390::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_req_vin_signal(data, req_vin_signal_);
 }
 
 void Adsreqvin390::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(ChaoMa) :you should check this manually
   req_vin_signal_ = Ads_req_vin_390::REQ_VIN_SIGNAL_NO_REQUEST;
@@ -55,7 +55,7 @@ COVERAGE_LOG_TOKEN
 
 Adsreqvin390* Adsreqvin390::set_req_vin_signal(
     Ads_req_vin_390::Req_vin_signalType req_vin_signal) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   req_vin_signal_ = req_vin_signal;
   return this;
@@ -68,7 +68,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Adsreqvin390::set_p_req_vin_signal(
     uint8_t* data, Ads_req_vin_390::Req_vin_signalType req_vin_signal) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = req_vin_signal;
 

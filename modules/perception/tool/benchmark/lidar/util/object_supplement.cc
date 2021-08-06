@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -22,38 +22,38 @@ namespace benchmark {
 
 /**LidarSupplement implementation*/
 LidarSupplement::LidarSupplement() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LidarSupplement::~LidarSupplement() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LidarSupplement::LidarSupplement(const LidarSupplement& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LidarSupplement& LidarSupplement::operator=(const LidarSupplement& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return (*this);
 }
 
 void LidarSupplement::clone(const LidarSupplement& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 /**RadarSupplement implementation*/
 RadarSupplement::RadarSupplement() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 RadarSupplement::~RadarSupplement() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 RadarSupplement::RadarSupplement(const RadarSupplement& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   range = rhs.range;
   angle = rhs.angle;
@@ -62,7 +62,7 @@ COVERAGE_LOG_TOKEN
 }
 
 RadarSupplement& RadarSupplement::operator=(const RadarSupplement& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   range = rhs.range;
   angle = rhs.angle;
@@ -72,7 +72,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void RadarSupplement::clone(const RadarSupplement& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   range = rhs.range;
   angle = rhs.angle;
@@ -82,22 +82,22 @@ COVERAGE_LOG_TOKEN
 
 /**CameraSupplement implementation*/
 CameraSupplement::CameraSupplement() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 CameraSupplement::~CameraSupplement() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 CameraSupplement::CameraSupplement(const CameraSupplement& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;
 }
 
 CameraSupplement& CameraSupplement::operator=(const CameraSupplement& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;
@@ -105,7 +105,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CameraSupplement::clone(const CameraSupplement& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;

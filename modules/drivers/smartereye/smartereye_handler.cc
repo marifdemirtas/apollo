@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -32,19 +32,19 @@ namespace smartereye {
 
 SmartereyeHandler::SmartereyeHandler(std::string name)
     : mName(name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pCallbackFunc = nullptr;
 }
 
 SmartereyeHandler::~SmartereyeHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pCallbackFunc = nullptr;
 }
 
 bool SmartereyeHandler::SetCallback(CallbackFunc ptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pCallbackFunc = ptr;
 
@@ -52,7 +52,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SmartereyeHandler::handleRawFrame(const RawImageFrame *rawFrame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pCallbackFunc(const_cast<RawImageFrame *>(rawFrame));
 }

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace apollo {
 namespace hdmap {
 
 MapDataCheckerAgent::MapDataCheckerAgent() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   sp_conf_ = ParseJson(FLAGS_conf_json);
   assert(sp_conf_ != nullptr);
@@ -42,7 +42,7 @@ COVERAGE_LOG_TOKEN
 
 std::shared_ptr<PoseCollectionAgent>
 MapDataCheckerAgent::GetSpPoseCollectionAgent() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return sp_pose_collection_agent_;
 }
@@ -50,7 +50,7 @@ COVERAGE_LOG_TOKEN
 grpc::Status MapDataCheckerAgent::ServiceChannelVerify(
     grpc::ServerContext *context, ChannelVerifyRequest *request,
     ChannelVerifyResponse *response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return sp_channel_checker_agent_->ProcessGrpcRequest(context, request,
                                                        response);
@@ -59,7 +59,7 @@ COVERAGE_LOG_TOKEN
 grpc::Status MapDataCheckerAgent::ServiceStaticAlign(
     grpc::ServerContext *context, StaticAlignRequest *request,
     StaticAlignResponse *response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return sp_static_align_agent_->ProcessGrpcRequest(context, request, response);
 }
@@ -67,7 +67,7 @@ COVERAGE_LOG_TOKEN
 grpc::Status MapDataCheckerAgent::ServiceEightRoute(
     grpc::ServerContext *context, EightRouteRequest *request,
     EightRouteResponse *response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return sp_eight_route_agent_->ProcessGrpcRequest(context, request, response);
 }
@@ -75,7 +75,7 @@ COVERAGE_LOG_TOKEN
 grpc::Status MapDataCheckerAgent::ServiceLoopsVerify(
     grpc::ServerContext *context, LoopsVerifyRequest *request,
     LoopsVerifyResponse *response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return sp_loops_verify_agent_->ProcessGrpcRequest(context, request, response);
 }

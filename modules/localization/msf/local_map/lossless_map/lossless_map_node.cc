@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,16 +25,16 @@ namespace localization {
 namespace msf {
 LosslessMapNode::LosslessMapNode()
     : BaseMapNode(new LosslessMapMatrix(), new ZlibStrategy()) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LosslessMapNode::~LosslessMapNode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LosslessMapNode::SetValue(const Eigen::Vector3d& coordinate,
                                unsigned char intensity) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -52,7 +52,7 @@ COVERAGE_LOG_TOKEN
 
 bool LosslessMapNode::SetValueIfInBound(const Eigen::Vector3d& coordinate,
                                         unsigned char intensity) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
 
 void LosslessMapNode::SetValueLayer(const Eigen::Vector3d& coordinate,
                                     unsigned char intensity) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -91,7 +91,7 @@ COVERAGE_LOG_TOKEN
 
 void LosslessMapNode::GetValue(const Eigen::Vector3d& coordinate,
                                std::vector<unsigned char>* values) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -105,7 +105,7 @@ COVERAGE_LOG_TOKEN
 
 void LosslessMapNode::GetVar(const Eigen::Vector3d& coordinate,
                              std::vector<float>* vars) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -119,7 +119,7 @@ COVERAGE_LOG_TOKEN
 
 void LosslessMapNode::GetAlt(const Eigen::Vector3d& coordinate,
                              std::vector<float>* alts) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -133,7 +133,7 @@ COVERAGE_LOG_TOKEN
 
 void LosslessMapNode::GetAltVar(const Eigen::Vector3d& coordinate,
                                 std::vector<float>* alt_vars) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -147,7 +147,7 @@ COVERAGE_LOG_TOKEN
 
 void LosslessMapNode::GetCount(const Eigen::Vector3d& coordinate,
                                std::vector<unsigned int>* counts) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -161,7 +161,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned char LosslessMapNode::GetValue(
     const Eigen::Vector3d& coordinate) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -174,7 +174,7 @@ COVERAGE_LOG_TOKEN
 }
 
 float LosslessMapNode::GetVar(const Eigen::Vector3d& coordinate) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -187,7 +187,7 @@ COVERAGE_LOG_TOKEN
 }
 
 float LosslessMapNode::GetAlt(const Eigen::Vector3d& coordinate) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -200,7 +200,7 @@ COVERAGE_LOG_TOKEN
 }
 
 float LosslessMapNode::GetAltVar(const Eigen::Vector3d& coordinate) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
@@ -214,7 +214,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int LosslessMapNode::GetCount(
     const Eigen::Vector3d& coordinate) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;

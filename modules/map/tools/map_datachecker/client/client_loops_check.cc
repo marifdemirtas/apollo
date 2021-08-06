@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace hdmap {
 
 LoopsChecker::LoopsChecker(const std::string& time_flag_file)
     : time_flag_file_(time_flag_file) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   YAML::Node node = YAML::LoadFile(FLAGS_client_conf_yaml);
   std::string server_addr =
@@ -40,7 +40,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int LoopsChecker::SyncStart(bool* reached) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<std::pair<double, double>> time_ranges = GetTimeRanges();
   size_t pair_count = time_ranges.size();
@@ -58,7 +58,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int LoopsChecker::PeriodicCheck(bool* reached) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int ret = 0;
   while (true) {
@@ -87,7 +87,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::vector<std::pair<double, double>> LoopsChecker::GetTimeRanges() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<std::pair<double, double>> result;
   std::vector<std::pair<double, double>> empty;
@@ -128,7 +128,7 @@ COVERAGE_LOG_TOKEN
 
 int LoopsChecker::GrpcStub(LoopsVerifyRequest* request,
                            LoopsVerifyResponse* response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   grpc::ClientContext context;
   grpc::Status status;
@@ -147,7 +147,7 @@ COVERAGE_LOG_TOKEN
 
 int LoopsChecker::Start(
     const std::vector<std::pair<double, double>>& time_ranges) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LoopsVerifyRequest request;
   request.set_cmd(CmdType::START);
@@ -162,7 +162,7 @@ COVERAGE_LOG_TOKEN
   return GrpcStub(&request, &response);
 }
 int LoopsChecker::Check(double* progress, bool* reached) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LoopsVerifyRequest request;
   request.set_cmd(CmdType::CHECK);
@@ -178,7 +178,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int LoopsChecker::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LoopsVerifyRequest request;
   request.set_cmd(CmdType::STOP);

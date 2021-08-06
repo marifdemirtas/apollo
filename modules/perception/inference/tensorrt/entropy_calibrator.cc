@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ Int8EntropyCalibrator::Int8EntropyCalibrator(
     const apollo::perception::inference::BatchStream &stream, int first_batch,
     bool read_cache, std::string network)
     : stream_(stream), read_cache_(read_cache), network_(network) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DimsNCHW dims = stream_.getDims();
   input_count_ = stream_.getBatchSize() * dims.c() * dims.h() * dims.w();
@@ -35,7 +35,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Int8EntropyCalibrator::~Int8EntropyCalibrator() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (device_input_) {
     (cudaFree(device_input_));
@@ -44,7 +44,7 @@ COVERAGE_LOG_TOKEN
 
 bool Int8EntropyCalibrator::getBatch(void *bindings[], const char *names[],
                                      int nbBindings) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!stream_.next()) {
     return false;
@@ -57,7 +57,7 @@ COVERAGE_LOG_TOKEN
 }
 
 const void *Int8EntropyCalibrator::readCalibrationCache(size_t &length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   calibration_cache_.clear();
   std::ifstream input(
@@ -75,7 +75,7 @@ COVERAGE_LOG_TOKEN
 
 void Int8EntropyCalibrator::writeCalibrationCache(const void *cache,
                                                   size_t length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ofstream output(
       apollo::perception::inference::locateFile(network_, "CalibrationTable"),

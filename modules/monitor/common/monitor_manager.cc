@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -37,11 +37,11 @@ using apollo::dreamview::HMIWorker;
 MonitorManager::MonitorManager()
     : hmi_config_(HMIWorker::LoadConfig()),
       log_buffer_(apollo::common::monitor::MonitorMessageItem::MONITOR) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MonitorManager::Init(const std::shared_ptr<apollo::cyber::Node>& node) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   node_ = node;
   if (FLAGS_use_sim_time) {
@@ -50,7 +50,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool MonitorManager::StartFrame(const double current_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Get latest HMIStatus.
   static auto hmi_status_reader =
@@ -90,14 +90,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void MonitorManager::EndFrame() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Print and publish all monitor logs.
   log_buffer_.Publish();
 }
 
 bool MonitorManager::CheckAutonomousDriving(const double current_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // It's in offline mode if use_sim_time is set.
   if (FLAGS_use_sim_time) {

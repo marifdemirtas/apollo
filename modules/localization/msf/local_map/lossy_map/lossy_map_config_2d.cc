@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace msf {
 
 LossyMapConfig2D::LossyMapConfig2D(std::string map_version)
     : BaseMapConfig(map_version) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_layer_alt_thres_ = 10000.0;  // in meters
   map_cache_size_ = 50;            // 80
@@ -34,7 +34,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LossyMapConfig2D::CreateXml(boost::property_tree::ptree* config) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseMapConfig::CreateXml(config);
   config->put("map.map_runtime.layer_alt_thres", map_layer_alt_thres_);
@@ -45,7 +45,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LossyMapConfig2D::LoadXml(const boost::property_tree::ptree& config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseMapConfig::LoadXml(config);
   map_layer_alt_thres_ = config.get<float>("map.map_runtime.layer_alt_thres");

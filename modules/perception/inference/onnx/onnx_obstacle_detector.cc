@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ using apollo::perception::base::Blob;
   { GPUAssert((ans), __FILE__, __LINE__); }
 inline void GPUAssert(cudaError_t code, const char* file, int line,
                       bool abort = true) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (code != cudaSuccess) {
     fprintf(stderr, "GPUassert: %s %s %d\n", cudaGetErrorString(code), file,
@@ -48,7 +48,7 @@ OnnxObstacleDetector::OnnxObstacleDetector(
     score_threshold_(score_threshold),
     output_names_(outputs),
     input_names_(inputs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 OnnxObstacleDetector::OnnxObstacleDetector(
@@ -56,17 +56,17 @@ OnnxObstacleDetector::OnnxObstacleDetector(
   const std::vector<std::string> &outputs,
   const std::vector<std::string> &inputs)
   : model_file_(model_file), output_names_(outputs), input_names_(inputs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 OnnxObstacleDetector::~OnnxObstacleDetector() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void OnnxObstacleDetector::OnnxToTRTModel(
     const std::string& model_file,  // name of the onnx model
     nvinfer1::ICudaEngine** engine_ptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int verbosity = static_cast<int>(nvinfer1::ILogger::Severity::kWARNING);
   kBatchSize = 1;
@@ -102,14 +102,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void OnnxObstacleDetector::inference() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "Do Inference";
 }
 
 bool OnnxObstacleDetector::Init(const std::map<std::string,
                                 std::vector<int>> &shapes) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // create a TensorRT model from the onnx model and load it into an engine
   OnnxToTRTModel(model_file_, &engine_);
@@ -141,13 +141,13 @@ COVERAGE_LOG_TOKEN
 }
 
 void OnnxObstacleDetector::Infer() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::cout << "Infer" << std::endl;
 }
 
 BlobPtr OnnxObstacleDetector::get_blob(const std::string &name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto iter = blobs_.find(name);
   if (iter == blobs_.end()) {

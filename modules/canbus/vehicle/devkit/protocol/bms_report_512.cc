@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,13 +28,13 @@ namespace devkit {
 using ::apollo::drivers::canbus::Byte;
 
 Bmsreport512::Bmsreport512() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Bmsreport512::ID = 0x512;
 
 void Bmsreport512::Parse(const std::uint8_t* bytes, int32_t length,
                          ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_devkit()->mutable_bms_report_512()->set_battery_current(
       battery_current(bytes, length));
@@ -50,7 +50,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': 'A', 'precision': 0.1, 'type': 'double'}
 double Bmsreport512::battery_current(const std::uint8_t* bytes,
                                      int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -70,7 +70,7 @@ COVERAGE_LOG_TOKEN
 // 'precision': 0.01, 'type': 'double'}
 double Bmsreport512::battery_voltage(const std::uint8_t* bytes,
                                      int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -89,7 +89,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'motorola', 'physical_range': '[0|100]', 'physical_unit': '%',
 // 'precision': 1.0, 'type': 'int'}
 int Bmsreport512::battery_soc(const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);

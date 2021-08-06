@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,12 +30,12 @@ namespace bridge {
 template <typename T>
 UDPBridgeReceiverComponent<T>::UDPBridgeReceiverComponent()
     : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 template <typename T>
 UDPBridgeReceiverComponent<T>::~UDPBridgeReceiverComponent() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto proto : proto_list_) {
     FREE_POINTER(proto);
@@ -44,7 +44,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "UDP bridge receiver init, startin...";
   apollo::bridge::UDPBridgeReceiverRemoteInfo udp_bridge_remote;
@@ -70,7 +70,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::InitSession(uint16_t port) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return listener_->Initialize(this, &UDPBridgeReceiverComponent<T>::MsgHandle,
                                port);
@@ -78,7 +78,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename T>
 void UDPBridgeReceiverComponent<T>::MsgDispatcher() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << "msg dispatcher start successful.";
   listener_->Listen();
@@ -88,7 +88,7 @@ template <typename T>
 BridgeProtoDiserializedBuf<T>
     *UDPBridgeReceiverComponent<T>::CreateBridgeProtoBuf(
         const BridgeHeader &header) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (IsTimeout(header.GetTimeStamp())) {
     typename std::vector<BridgeProtoDiserializedBuf<T> *>::iterator itor =
@@ -121,7 +121,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::IsProtoExist(const BridgeHeader &header) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto proto : proto_list_) {
     if (proto->IsTheProto(header)) {
@@ -133,7 +133,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::IsTimeout(double time_stamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (enable_timeout_ == false) {
     return false;
@@ -150,7 +150,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::MsgHandle(int fd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   struct sockaddr_in client_addr;
   socklen_t sock_len = static_cast<socklen_t>(sizeof(client_addr));
@@ -218,7 +218,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::RemoveInvalidBuf(uint32_t msg_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (msg_id == 0) {
     return false;

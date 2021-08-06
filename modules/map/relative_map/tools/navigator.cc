@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -46,9 +46,9 @@ bool GetNavigationPathFromFile(const std::string& filename,
 void CheckConfig(const apollo::relative_map::NavigatorConfig& navigator_config);
 
 int main(int argc, char** argv) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   // Init the cyber framework
@@ -86,9 +86,9 @@ COVERAGE_LOG_TOKEN
     auto* navigation_path = navigation_info.add_navigation_path();
     if (!GetNavigationPathFromFile(filename, navigator_config,
                                    navigation_path)) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
       AWARN << "Failed to load file: " << filename;
       continue;
@@ -212,9 +212,9 @@ bool GetNavigationPathFromFile(const std::string& filename,
 
 void CheckConfig(
     const apollo::relative_map::NavigatorConfig& navigator_config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(navigator_config.has_sample_param());
   const auto& sample_param = navigator_config.sample_param();

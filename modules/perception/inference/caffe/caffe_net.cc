@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,11 +26,11 @@ namespace inference {
 CaffeNet::CaffeNet(const std::string &net_file, const std::string &model_file,
                    const std::vector<std::string> &outputs)
     : net_file_(net_file), model_file_(model_file), output_names_(outputs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool CaffeNet::Init(const std::map<std::string, std::vector<int>> &shapes) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (gpu_id_ >= 0) {
     caffe::Caffe::SetDevice(gpu_id_);
@@ -81,12 +81,12 @@ CaffeNet::CaffeNet(const std::string &net_file, const std::string &model_file,
       model_file_(model_file),
       output_names_(outputs),
       input_names_(inputs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::shared_ptr<apollo::perception::base::Blob<float>> CaffeNet::get_blob(
     const std::string &name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto iter = blobs_.find(name);
   if (iter == blobs_.end()) {
@@ -96,7 +96,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool CaffeNet::reshape() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto name : input_names_) {
     auto blob = this->get_blob(name);
@@ -113,7 +113,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CaffeNet::Infer() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (gpu_id_ >= 0) {
     caffe::Caffe::SetDevice(gpu_id_);
@@ -146,7 +146,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool CaffeNet::shape(const std::string &name, std::vector<int> *res) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto blob = net_->blob_by_name(name);
   if (blob == nullptr) {

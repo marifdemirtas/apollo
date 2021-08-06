@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace velodyne {
 
 Velodyne64Parser::Velodyne64Parser(const Config& config)
     : VelodyneParser(config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (int i = 0; i < 4; i++) {
     gps_base_usec_[i] = 0;
@@ -47,7 +47,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Velodyne64Parser::setup() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   VelodyneParser::setup();
   if (!config_.calibration_online() && config_.organized()) {
@@ -56,7 +56,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Velodyne64Parser::SetBaseTimeFromPackets(const VelodynePacket& pkt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // const RawPacket* raw = (const RawPacket*)&pkt.data[0];
   const RawPacket* raw = (const RawPacket*)pkt.data().c_str();
@@ -124,7 +124,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Velodyne64Parser::CheckGpsStatus(const VelodynePacket& pkt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // const RawPacket* raw = (const RawPacket*)&pkt.data[0];
   const RawPacket* raw = (const RawPacket*)pkt.data().c_str();
@@ -142,7 +142,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Velodyne64Parser::InitOffsets() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int width = 64;
   // pre compute col offsets
@@ -160,7 +160,7 @@ COVERAGE_LOG_TOKEN
 void Velodyne64Parser::GeneratePointcloud(
     const std::shared_ptr<VelodyneScan>& scan_msg,
     std::shared_ptr<PointCloud> pointcloud) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (config_.calibration_online() && !calibration_.initialized_) {
     if (online_calibration_.decode(scan_msg) == -1) {
@@ -212,7 +212,7 @@ COVERAGE_LOG_TOKEN
 
 uint64_t Velodyne64Parser::GetTimestamp(double base_time, float time_offset,
                                         uint16_t block_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double t = base_time - time_offset;
   double timestamp = 0.0;
@@ -237,7 +237,7 @@ COVERAGE_LOG_TOKEN
 int Velodyne64Parser::IntensityCompensate(const LaserCorrection& corrections,
                                           const uint16_t raw_distance,
                                           int intensity) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float tmp = 1.0f - static_cast<float>(raw_distance) / 65535.0f;
   intensity +=
@@ -256,7 +256,7 @@ COVERAGE_LOG_TOKEN
 
 void Velodyne64Parser::Unpack(const VelodynePacket& pkt,
                               std::shared_ptr<PointCloud> pc) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << "Received packet, time: " << pkt.stamp();
 
@@ -324,7 +324,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Velodyne64Parser::Order(std::shared_ptr<PointCloud> cloud) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int height = 64;
   cloud->set_height(height);

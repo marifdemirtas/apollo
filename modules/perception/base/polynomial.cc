@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,27 +21,27 @@ namespace perception {
 namespace base {
 
 Polynomial::Polynomial() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  coeff_[0] = 0.0; }
 Polynomial::~Polynomial() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 const std::map<uint32_t, double>& Polynomial::getCoeff() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return coeff_;
 }
 
 double& Polynomial::operator[](const uint32_t& order) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   initialized_ = false;
   return coeff_[order];
 }
 
 double Polynomial::operator()(const double& x) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!initialized_) {
     index_gap_.resize(coeff_.size() - 1, 0);

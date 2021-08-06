@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,7 @@ namespace apollo {
 namespace hdmap {
 
 PJTransformer::PJTransformer(int zone_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // init projPJ
   std::stringstream stream;
@@ -44,7 +44,7 @@ COVERAGE_LOG_TOKEN
 }
 
 PJTransformer::~PJTransformer() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (pj_latlong_) {
     pj_free(pj_latlong_);
@@ -57,7 +57,7 @@ COVERAGE_LOG_TOKEN
 }
 int PJTransformer::LatlongToUtm(int64_t point_count, int point_offset,
                                 double *x, double *y, double *z) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!pj_latlong_ || !pj_utm_) {
     AERROR << "pj_latlong_:" << pj_latlong_ << "pj_utm_:" << pj_utm_

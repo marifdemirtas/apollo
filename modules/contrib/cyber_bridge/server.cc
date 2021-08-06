@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /**
  * Copyright (c) 2019 LG Electronics, Inc.
  *
@@ -27,18 +27,18 @@ Server::Server(Node* node)
       endpoint(boost::asio::ip::tcp::v4(), (uint16_t)FLAGS_port),
       acceptor(io, endpoint),
       socket(io) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   signals.add(SIGTERM);
   signals.add(SIGINT);
 }
 
 Server::~Server() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Server::run() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   signals.async_wait(boost::bind(&Server::stop, shared_from_this(),
                                  boost::asio::placeholders::error,
@@ -50,7 +50,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Server::stop(const boost::system::error_code& ec, int signal_number) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (ec) {
     AERROR << "Error waiting on signals: " << ec.message();
@@ -62,7 +62,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Server::begin_accept() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   acceptor.async_accept(socket,
                         boost::bind(&Server::end_accept, shared_from_this(),
@@ -70,7 +70,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Server::end_accept(const boost::system::error_code& ec) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!acceptor.is_open()) {
     return;

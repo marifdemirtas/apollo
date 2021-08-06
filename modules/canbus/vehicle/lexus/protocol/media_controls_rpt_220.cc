@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Mediacontrolsrpt220::Mediacontrolsrpt220() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Mediacontrolsrpt220::ID = 0x220;
 
 void Mediacontrolsrpt220::Parse(const std::uint8_t* bytes, int32_t length,
                                 ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_lexus()->mutable_media_controls_rpt_220()->set_output_value(
       output_value(bytes, length));
@@ -76,7 +76,7 @@ COVERAGE_LOG_TOKEN
 // 31, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Media_controls_rpt_220::Output_valueType Mediacontrolsrpt220::output_value(
     const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -99,7 +99,7 @@ COVERAGE_LOG_TOKEN
 Media_controls_rpt_220::Commanded_valueType
 Mediacontrolsrpt220::commanded_value(const std::uint8_t* bytes,
                                      int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -121,7 +121,7 @@ COVERAGE_LOG_TOKEN
 // 15, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Media_controls_rpt_220::Manual_inputType Mediacontrolsrpt220::manual_input(
     const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -136,7 +136,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::vehicle_fault(const std::uint8_t* bytes,
                                         int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(6, 1);
@@ -150,7 +150,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::pacmod_fault(const std::uint8_t* bytes,
                                        int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
@@ -164,7 +164,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::override_active(const std::uint8_t* bytes,
                                           int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
@@ -178,7 +178,7 @@ COVERAGE_LOG_TOKEN
 // '[0|1]', 'bit': 4, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::output_reported_fault(const std::uint8_t* bytes,
                                                 int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 1);
@@ -192,7 +192,7 @@ COVERAGE_LOG_TOKEN
 // '[0|1]', 'bit': 3, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::input_output_fault(const std::uint8_t* bytes,
                                              int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
@@ -206,7 +206,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::enabled(const std::uint8_t* bytes,
                                   int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
@@ -220,7 +220,7 @@ COVERAGE_LOG_TOKEN
 // '[0|1]', 'bit': 2, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Mediacontrolsrpt220::command_output_fault(const std::uint8_t* bytes,
                                                int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,6 @@
 #include "modules/perception/lib/config_manager/config_manager.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace fusion {
@@ -31,15 +30,15 @@ namespace fusion {
 using cyber::common::GetAbsolutePath;
 
 PbfGatekeeper::PbfGatekeeper() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PbfGatekeeper::~PbfGatekeeper() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool PbfGatekeeper::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseInitOptions options;
   if (!GetFusionInitOptions("PbfGatekeeper", &options)) {
@@ -73,11 +72,11 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string PbfGatekeeper::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return "PbfGatekeeper"; }
 
 bool PbfGatekeeper::AbleToPublish(const TrackPtr &track) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool invisible_in_lidar = !(track->IsLidarVisible());
   bool invisible_in_radar = !(track->IsRadarVisible());
@@ -111,7 +110,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool PbfGatekeeper::LidarAbleToPublish(const TrackPtr &track) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool visible_in_lidar = track->IsLidarVisible();
   if (params_.publish_if_has_lidar && visible_in_lidar) {
@@ -121,7 +120,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool PbfGatekeeper::RadarAbleToPublish(const TrackPtr &track, bool is_night) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool visible_in_radar = track->IsRadarVisible();
   SensorObjectConstPtr radar_object = track->GetLatestRadarObject();
@@ -190,7 +189,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool PbfGatekeeper::CameraAbleToPublish(const TrackPtr &track, bool is_night) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool visible_in_camera = track->IsCameraVisible();
   SensorId2ObjectMap &camera_objects = track->GetCameraObjects();

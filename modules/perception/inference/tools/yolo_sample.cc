@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ DEFINE_string(image_ext, ".jpg", "path of image ext");
 DEFINE_string(res_dir, "./result.dat", "path of result");
 
 int main(int argc, char **argv) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
 

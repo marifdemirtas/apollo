@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace common {
 namespace monitor {
 
 MonitorLogger::MonitorLogger() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::string node_name =
       absl::StrCat("monitor_logger", Time::Now().ToNanosecond());
@@ -40,7 +40,7 @@ COVERAGE_LOG_TOKEN
 
 void MonitorLogger::Publish(const MonitorMessageItem::MessageSource &source,
                             const std::vector<MessageItem> &messages) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // compose a monitor message
   if (messages.empty()) {
@@ -60,7 +60,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MonitorLogger::DoPublish(MonitorMessage *message) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   RETURN_IF_NULL(monitor_msg_writer_);
   common::util::FillHeader("monitor", message);

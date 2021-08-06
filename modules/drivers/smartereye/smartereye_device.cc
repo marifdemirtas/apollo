@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,15 +29,15 @@ namespace drivers {
 namespace smartereye {
 
 SmartereyeDevice::SmartereyeDevice() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 SmartereyeDevice::~SmartereyeDevice() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  uninit(); }
 
 bool SmartereyeDevice::init(const std::shared_ptr<Config>& camera_config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pcamera_ = StereoCamera::connect("192.168.1.251");
   pcameraHandler_ = new SmartereyeHandler("camera A");
@@ -48,7 +48,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SmartereyeDevice::SetCallback(CallbackFunc ptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pcameraHandler_->SetCallback(ptr);
 
@@ -56,7 +56,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int SmartereyeDevice::poll() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pcamera_->requestFrame(pcameraHandler_, FrameId::Compound);
   is_capturing_ = true;
@@ -65,7 +65,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int SmartereyeDevice::uninit() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!inited_) {
     return 1;
@@ -79,11 +79,11 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SmartereyeDevice::is_capturing() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return is_capturing_; }
 
 bool SmartereyeDevice::wait_for_device() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (is_capturing_) {
     ADEBUG << "is capturing";

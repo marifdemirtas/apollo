@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,9 +23,6 @@
 #include "modules/perception/proto/perception_config_schema.pb.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace lidar {
@@ -33,7 +30,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool SceneManager::InitInternal(const SceneManagerInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (initialized_) {
     return true;
@@ -69,7 +66,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SceneManager::Init(const SceneManagerInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
   bool status = InitInternal(options);
@@ -77,7 +74,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SceneManager::Reset(const SceneManagerInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
   initialized_ = false;
@@ -86,7 +83,7 @@ COVERAGE_LOG_TOKEN
 }
 
 SceneServicePtr SceneManager::Service(const std::string& name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto iter = services_.find(name);
   if (iter == services_.end()) {

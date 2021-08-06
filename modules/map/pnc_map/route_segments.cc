@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -34,34 +34,34 @@ constexpr double kSegmentationEpsilon = 0.2;
 }  // namespace
 
 const std::string &RouteSegments::Id() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return id_; }
 
 void RouteSegments::SetId(const std::string &id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  id_ = id; }
 
 void RouteSegments::SetCanExit(bool can_exit) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  can_exit_ = can_exit; }
 
 bool RouteSegments::CanExit() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return can_exit_; }
 
 bool RouteSegments::StopForDestination() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return stop_for_destination_; }
 
 void RouteSegments::SetStopForDestination(bool stop_for_destination) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   stop_for_destination_ = stop_for_destination;
 }
 
 bool RouteSegments::WithinLaneSegment(const LaneSegment &lane_segment,
                                       const LaneWaypoint &waypoint) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return waypoint.lane &&
          lane_segment.lane->id().id() == waypoint.lane->id().id() &&
@@ -71,7 +71,7 @@ COVERAGE_LOG_TOKEN
 
 bool RouteSegments::WithinLaneSegment(const LaneSegment &lane_segment,
                                       const routing::LaneWaypoint &waypoint) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return lane_segment.lane && lane_segment.lane->id().id() == waypoint.id() &&
          lane_segment.start_s - kSegmentationEpsilon <= waypoint.s() &&
@@ -80,7 +80,7 @@ COVERAGE_LOG_TOKEN
 
 bool RouteSegments::WithinLaneSegment(const routing::LaneSegment &lane_segment,
                                       const LaneWaypoint &waypoint) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return waypoint.lane && lane_segment.id() == waypoint.lane->id().id() &&
          lane_segment.start_s() - kSegmentationEpsilon <= waypoint.s &&
@@ -89,7 +89,7 @@ COVERAGE_LOG_TOKEN
 
 bool RouteSegments::WithinLaneSegment(const routing::LaneSegment &lane_segment,
                                       const routing::LaneWaypoint &waypoint) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return lane_segment.id() == waypoint.id() &&
          lane_segment.start_s() - kSegmentationEpsilon <= waypoint.s() &&
@@ -97,7 +97,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool RouteSegments::Stitch(const RouteSegments &other) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto first_waypoint = FirstWaypoint();
   bool has_overlap = IsWaypointOnSegment(other.FirstWaypoint());
@@ -126,51 +126,51 @@ COVERAGE_LOG_TOKEN
 }
 
 const LaneWaypoint &RouteSegments::RouteEndWaypoint() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return route_end_waypoint_;
 }
 
 bool RouteSegments::IsOnSegment() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return is_on_segment_; }
 
 void RouteSegments::SetIsOnSegment(bool on_segment) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   is_on_segment_ = on_segment;
 }
 
 bool RouteSegments::IsNeighborSegment() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return is_neighbor_; }
 
 void RouteSegments::SetIsNeighborSegment(bool is_neighbor) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   is_neighbor_ = is_neighbor;
 }
 
 void RouteSegments::SetRouteEndWaypoint(const LaneWaypoint &waypoint) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   route_end_waypoint_ = waypoint;
 }
 
 LaneWaypoint RouteSegments::FirstWaypoint() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return LaneWaypoint(front().lane, front().start_s, 0.0);
 }
 
 LaneWaypoint RouteSegments::LastWaypoint() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return LaneWaypoint(back().lane, back().end_s, 0.0);
 }
 
 void RouteSegments::SetProperties(const RouteSegments &other) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   route_end_waypoint_ = other.RouteEndWaypoint();
   can_exit_ = other.CanExit();
@@ -182,7 +182,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double RouteSegments::Length(const RouteSegments &segments) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double s = 0.0;
   for (const auto &seg : segments) {
@@ -194,13 +194,13 @@ COVERAGE_LOG_TOKEN
 bool RouteSegments::GetProjection(const common::PointENU &point_enu,
                                   common::SLPoint *sl_point,
                                   LaneWaypoint *waypoint) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetProjection({point_enu.x(), point_enu.y()}, sl_point, waypoint);
 }
 
 bool RouteSegments::IsConnectedSegment(const RouteSegments &other) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (empty() || other.empty()) {
     return false;
@@ -223,7 +223,7 @@ COVERAGE_LOG_TOKEN
 bool RouteSegments::Shrink(const common::math::Vec2d &point,
                            const double look_backward,
                            const double look_forward) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   common::SLPoint sl_point;
   LaneWaypoint waypoint;
@@ -236,7 +236,7 @@ COVERAGE_LOG_TOKEN
 
 bool RouteSegments::Shrink(const double s, const double look_backward,
                            const double look_forward) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LaneWaypoint waypoint;
   if (!GetWaypoint(s, &waypoint)) {
@@ -248,7 +248,7 @@ COVERAGE_LOG_TOKEN
 bool RouteSegments::Shrink(const double s, const LaneWaypoint &waypoint,
                            const double look_backward,
                            const double look_forward) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double acc_s = 0.0;
   auto iter = begin();
@@ -295,7 +295,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool RouteSegments::GetWaypoint(const double s, LaneWaypoint *waypoint) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double accumulated_s = 0.0;
   bool has_projection = false;
@@ -321,7 +321,7 @@ COVERAGE_LOG_TOKEN
 bool RouteSegments::GetProjection(const common::math::Vec2d &point,
                                   common::SLPoint *sl_point,
                                   LaneWaypoint *waypoint) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double min_l = std::numeric_limits<double>::infinity();
   double accumulated_s = 0.0;
@@ -354,31 +354,31 @@ COVERAGE_LOG_TOKEN
 }
 
 void RouteSegments::SetPreviousAction(routing::ChangeLaneType action) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   previous_action_ = action;
 }
 
 routing::ChangeLaneType RouteSegments::PreviousAction() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return previous_action_;
 }
 
 void RouteSegments::SetNextAction(routing::ChangeLaneType action) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   next_action_ = action;
 }
 
 routing::ChangeLaneType RouteSegments::NextAction() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return next_action_;
 }
 
 bool RouteSegments::IsWaypointOnSegment(const LaneWaypoint &waypoint) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto iter = begin(); iter != end(); ++iter) {
     if (WithinLaneSegment(*iter, waypoint)) {
@@ -389,7 +389,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool RouteSegments::CanDriveFrom(const LaneWaypoint &waypoint) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto point = waypoint.lane->GetSmoothPoint(waypoint.s);
 

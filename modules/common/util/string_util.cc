@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,7 +31,7 @@ static const char kBase64Array[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 std::string Base64Piece(const char in0, const char in1, const char in2) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const int triplet = in0 << 16 | in1 << 8 | in2;
   std::string out(4, '=');
@@ -49,7 +49,7 @@ COVERAGE_LOG_TOKEN
 }  // namespace
 
 std::string EncodeBase64(std::string_view in) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string out;
   if (in.empty()) {

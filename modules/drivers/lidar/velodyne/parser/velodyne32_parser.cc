@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace velodyne {
 
 Velodyne32Parser::Velodyne32Parser(const Config& config)
     : VelodyneParser(config), previous_firing_stamp_(0), gps_base_usec_(0) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   inner_time_ = &velodyne::INNER_TIME_HDL32E;
   need_two_pt_correction_ = false;
@@ -35,7 +35,7 @@ COVERAGE_LOG_TOKEN
 void Velodyne32Parser::GeneratePointcloud(
     const std::shared_ptr<VelodyneScan>& scan_msg,
     std::shared_ptr<PointCloud> out_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // allocate a point cloud with same time and frame ID as raw data
   out_msg->mutable_header()->set_frame_id(scan_msg->header().frame_id());
@@ -75,7 +75,7 @@ COVERAGE_LOG_TOKEN
 
 uint64_t Velodyne32Parser::GetTimestamp(double base_time, float time_offset,
                                         uint16_t block_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double t = base_time - time_offset;
   if (config_.model() == VLP32C) {
@@ -112,7 +112,7 @@ COVERAGE_LOG_TOKEN
 
 void Velodyne32Parser::UnpackVLP32C(const VelodynePacket& pkt,
                                     std::shared_ptr<PointCloud> pc) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const RawPacket* raw = (const RawPacket*)pkt.data().c_str();
   // This is the packet timestamp which marks the moment of the first data point
@@ -187,7 +187,7 @@ COVERAGE_LOG_TOKEN
 
 void Velodyne32Parser::Unpack(const VelodynePacket& pkt,
                               std::shared_ptr<PointCloud> pc) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // const RawPacket* raw = (const RawPacket*)&pkt.data[0];
   const RawPacket* raw = (const RawPacket*)pkt.data().c_str();
@@ -236,7 +236,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Velodyne32Parser::Order(std::shared_ptr<PointCloud> cloud) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (config_.model() == VLP32C) {
     return;

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -36,7 +36,7 @@ namespace canbus {
 namespace ch {
 
 ChMessageManager::ChMessageManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Control Messages
   AddSendProtocolData<Brakecommand111, true>();
@@ -58,7 +58,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ChMessageManager::~ChMessageManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 }  // namespace ch

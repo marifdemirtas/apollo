@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -31,7 +31,7 @@ using PointFCloud = apollo::perception::base::AttributePointCloud<base::PointF>;
 
 TrackedObject::TrackedObject(base::ObjectPtr obj_ptr,
                              const Eigen::Affine3d& pose) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AttachObject(obj_ptr, pose);
 }
@@ -40,7 +40,7 @@ void TrackedObject::AttachObject(base::ObjectPtr obj_ptr,
                                  const Eigen::Affine3d& pose,
                                  const Eigen::Vector3d& global_to_local_offset,
                                  const base::SensorInfo& sensor) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (obj_ptr) {
     // all state of input obj_ptr will not change except cloud world
@@ -96,7 +96,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TrackedObject::TransformObjectCloudToWorld() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const base::PointFCloud& cloud = (object_ptr->lidar_supplement).cloud;
   base::PointDCloud& cloud_world = (object_ptr->lidar_supplement).cloud_world;
@@ -115,7 +115,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TrackedObject::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   object_ptr.reset();
   sensor_to_local_pose = Eigen::Affine3d::Identity();
@@ -179,14 +179,14 @@ COVERAGE_LOG_TOKEN
 void TrackedObject::Reset(base::ObjectPtr obj_ptr, const Eigen::Affine3d& pose,
                           const Eigen::Vector3d& global_to_local_offset,
                           const base::SensorInfo& sensor) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Reset();
   AttachObject(obj_ptr, pose, global_to_local_offset, sensor);
 }
 
 void TrackedObject::CopyFrom(TrackedObjectPtr rhs, bool is_deep) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *this = *rhs;
   if (is_deep) {
@@ -198,7 +198,7 @@ COVERAGE_LOG_TOKEN
 }
 
 float TrackedObject::GetVelThreshold(base::ObjectPtr obj) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (obj->type == base::ObjectType::VEHICLE) {
     return 0.99f;
@@ -207,7 +207,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TrackedObject::ToObject(base::ObjectPtr obj) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *obj = *object_ptr;
   // obj id keep default
@@ -247,7 +247,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string TrackedObject::ToString() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // std::string txt;
   // return txt;
@@ -261,7 +261,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TrackedObject::ComputeShapeFeatures() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Compute object's shape feature
   // 1. check whether shape feature is ready

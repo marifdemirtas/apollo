@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,7 @@ namespace adapter {
 
 Status UtilXmlParser::ParseCurve(const tinyxml2::XMLElement& xml_node,
                                  PbCurve* curve) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(curve);
 
@@ -42,7 +42,7 @@ COVERAGE_LOG_TOKEN
 
 Status UtilXmlParser::ParseGeometry(const tinyxml2::XMLElement& xml_node,
                                     PbCurveSegment* curve_segment) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(curve_segment);
 
@@ -87,7 +87,7 @@ COVERAGE_LOG_TOKEN
 
 Status UtilXmlParser::ParsePointSet(const tinyxml2::XMLElement& xml_node,
                                     PbLineSegment* line_segment) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const tinyxml2::XMLElement* sub_node = xml_node.FirstChildElement("point");
   while (sub_node) {
@@ -119,7 +119,7 @@ COVERAGE_LOG_TOKEN
 
 Status UtilXmlParser::ParseOutline(const tinyxml2::XMLElement& xml_node,
                                    PbPolygon* polygon) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const tinyxml2::XMLElement* sub_node =
       xml_node.FirstChildElement("cornerGlobal");
@@ -154,7 +154,7 @@ COVERAGE_LOG_TOKEN
 
 Status UtilXmlParser::ParsePoint(const tinyxml2::XMLElement& xml_node,
                                  PbPoint3D* pt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(pt);
 
@@ -185,7 +185,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string UtilXmlParser::ToUpper(const std::string& s) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string value = s;
   std::transform(value.begin(), value.end(), value.begin(),
@@ -197,14 +197,14 @@ COVERAGE_LOG_TOKEN
 void UtilXmlParser::WGS84ToUTM(const double x, const double y, const double z,
                                double* output_x, double* output_y,
                                double* output_z) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CoordinateConvertTool::GetInstance()->CoordiateConvert(x, y, z, output_x,
                                                          output_y, output_z);
 }
 
 double UtilXmlParser::CurveLength(const PbCurve& curve) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double length = 0.0;
   for (int i = 0; i < curve.segment_size(); ++i) {
@@ -217,7 +217,7 @@ COVERAGE_LOG_TOKEN
 tinyxml2::XMLError UtilXmlParser::QueryStringAttribute(
     const tinyxml2::XMLElement& xml_node, const std::string& name,
     std::string* value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(value);
   const char* val = xml_node.Attribute(name.c_str());

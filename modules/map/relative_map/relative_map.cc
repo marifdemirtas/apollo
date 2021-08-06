@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -37,11 +37,11 @@ using apollo::perception::PerceptionObstacles;
 RelativeMap::RelativeMap()
     : monitor_logger_buffer_(MonitorMessageItem::RELATIVE_MAP),
       vehicle_state_provider_(nullptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status RelativeMap::Init(common::VehicleStateProvider* vehicle_state_provider) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   vehicle_state_provider_ = vehicle_state_provider;
   if (!FLAGS_use_navigation_mode) {
@@ -68,7 +68,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LogErrorStatus(MapMsg* map_msg, const std::string& error_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto* status = map_msg->mutable_header()->mutable_status();
   status->set_msg(error_msg);
@@ -76,14 +76,14 @@ COVERAGE_LOG_TOKEN
 }
 
 apollo::common::Status RelativeMap::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   monitor_logger_buffer_.INFO("RelativeMap started");
   return Status::OK();
 }
 
 bool RelativeMap::Process(MapMsg* const map_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -93,7 +93,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void RelativeMap::OnNavigationInfo(const NavigationInfo& navigation_info) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -103,7 +103,7 @@ COVERAGE_LOG_TOKEN
 
 void RelativeMap::OnPerception(
     const PerceptionObstacles& perception_obstacles) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -112,7 +112,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void RelativeMap::OnChassis(const Chassis& chassis) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -121,7 +121,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void RelativeMap::OnLocalization(const LocalizationEstimate& localization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -130,7 +130,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool RelativeMap::CreateMapFromNavigationLane(MapMsg* map_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(map_msg);
 
@@ -171,7 +171,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void RelativeMap::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  monitor_logger_buffer_.INFO("RelativeMap stopped"); }
 
 }  // namespace relative_map

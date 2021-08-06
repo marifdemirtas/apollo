@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ using apollo::drivers::PointXYZIT;
 Hesai40Parser::Hesai40Parser(const std::shared_ptr<Node> &node,
                              const Config &conf)
     : Parser(node, conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // init the block time offset, us
   block_offset_[9] = 55.56 * 0.0 + 28.58;
@@ -91,12 +91,12 @@ COVERAGE_LOG_TOKEN
 }
 
 Hesai40Parser::~Hesai40Parser() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Hesai40Parser::ParseRawPacket(const uint8_t *buf, const int len,
                                    bool *is_end) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // PrintMem(buf, len);
   if (len != PACKET_SIZE && len != PACKET_SIZE_WITH_UDPSEQ) {
@@ -184,7 +184,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Hesai40Parser::CalcPointXYZIT(Hesai40Packet *pkt, int blockid) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Hesai40PBlock *block = &pkt->blocks[blockid];
   double unix_second = static_cast<double>(mktime(&pkt->t) + tz_second_);

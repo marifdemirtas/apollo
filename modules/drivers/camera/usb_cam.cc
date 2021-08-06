@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /*********************************************************************
  *
  * Software License Agreement (BSD License)
@@ -61,11 +61,11 @@ UsbCam::UsbCam()
       device_wait_sec_(2),
       last_nsec_(0),
       frame_drop_interval_(0.0) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 UsbCam::~UsbCam() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   stop_capturing();
   uninit_device();
@@ -73,7 +73,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::init(const std::shared_ptr<Config>& cameraconfig) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   config_ = cameraconfig;
 
@@ -107,7 +107,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int UsbCam::init_mjpeg_decoder(int image_width, int image_height) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   avcodec_register_all();
 
@@ -168,7 +168,7 @@ COVERAGE_LOG_TOKEN
 
 void UsbCam::mjpeg2rgb(char* mjpeg_buffer, int len, char* rgb_buffer,
                        int NumPixels) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   (void)NumPixels;
   int got_picture = 0;
@@ -238,7 +238,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::poll(const CameraImagePtr& raw_image) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   raw_image->is_new = 0;
   // free memory in this struct desturctor
@@ -282,7 +282,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::open_device(void) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   struct stat st;
 
@@ -310,7 +310,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::init_device(void) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   struct v4l2_capability cap;
   struct v4l2_cropcap cropcap;
@@ -449,7 +449,7 @@ COVERAGE_LOG_TOKEN
 
 #ifndef __aarch64__
 bool UsbCam::set_adv_trigger() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "Trigger enable, dev:" << config_->camera_dev()
         << ", fps:" << config_->trigger_fps()
@@ -467,7 +467,7 @@ COVERAGE_LOG_TOKEN
 #endif
 
 int UsbCam::xioctl(int fd, int request, void* arg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int r = 0;
   do {
@@ -478,7 +478,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::init_read(unsigned int buffer_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   buffers_ = reinterpret_cast<buffer*>(calloc(1, sizeof(*buffers_)));
 
@@ -501,7 +501,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::init_mmap(void) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   struct v4l2_requestbuffers req;
   CLEAR(req);
@@ -552,7 +552,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::init_userp(unsigned int buffer_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   struct v4l2_requestbuffers req;
   unsigned int page_size = 0;
@@ -599,7 +599,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::start_capturing(void) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (is_capturing_) {
     return true;
@@ -674,7 +674,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void UsbCam::set_device_config() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (config_->brightness() >= 0) {
     set_v4l_parameter("brightness", config_->brightness());
@@ -725,7 +725,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::uninit_device(void) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int i = 0;
 
@@ -760,7 +760,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::close_device(void) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (-1 == close(fd_)) {
     AERROR << "close";
@@ -772,7 +772,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::stop_capturing(void) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_capturing_) {
     return true;
@@ -806,7 +806,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::read_frame(CameraImagePtr raw_image) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   struct v4l2_buffer buf;
   unsigned int i = 0;
@@ -967,7 +967,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::process_image(void* src, int len, CameraImagePtr dest) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (src == nullptr || dest == nullptr) {
     AERROR << "process image error. src or dest is null";
@@ -997,7 +997,7 @@ COVERAGE_LOG_TOKEN
                    dest->width * dest->height);
 #endif
     } else {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
       AERROR << "unsupported output format:" << config_->output_type();
       return false;
@@ -1010,12 +1010,12 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::is_capturing() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return is_capturing_; }
 
 // enables/disables auto focus
 void UsbCam::set_auto_focus(int value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   struct v4l2_queryctrl queryctrl;
   struct v4l2_ext_control control;
@@ -1053,7 +1053,7 @@ COVERAGE_LOG_TOKEN
  * @param param The value to assign
  */
 void UsbCam::set_v4l_parameter(const std::string& param, int value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_v4l_parameter(param, std::to_string(value));
 }
@@ -1065,7 +1065,7 @@ COVERAGE_LOG_TOKEN
  */
 void UsbCam::set_v4l_parameter(const std::string& param,
                                const std::string& value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // build the command
   std::stringstream ss;
@@ -1095,7 +1095,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool UsbCam::wait_for_device() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (is_capturing_) {
     ADEBUG << "is capturing";
@@ -1121,7 +1121,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void UsbCam::reconnect() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   stop_capturing();
   uninit_device();
@@ -1130,7 +1130,7 @@ COVERAGE_LOG_TOKEN
 
 #ifdef __aarch64__
 int UsbCam::convert_yuv_to_rgb_pixel(int y, int u, int v) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int pixel32 = 0;
   unsigned char* pixel = (unsigned char*)&pixel32;
@@ -1153,7 +1153,7 @@ COVERAGE_LOG_TOKEN
 
 int UsbCam::convert_yuv_to_rgb_buffer(unsigned char* yuv, unsigned char* rgb,
                                       unsigned int width, unsigned int height) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int in, out = 0;
   unsigned int pixel_16;

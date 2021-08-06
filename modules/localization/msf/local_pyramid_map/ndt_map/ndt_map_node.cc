@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,14 +26,14 @@ namespace msf {
 namespace pyramid_map {
 
 NdtMapNode::NdtMapNode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 NdtMapNode::~NdtMapNode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void NdtMapNode::Init(const BaseMapConfig* map_config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_config_ = map_config;
 
@@ -55,7 +55,7 @@ COVERAGE_LOG_TOKEN
 }
 void NdtMapNode::Init(const BaseMapConfig* map_config,
                       const MapNodeIndex& index, bool create_map_cells) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_config_ = map_config;
 
@@ -83,7 +83,7 @@ COVERAGE_LOG_TOKEN
 
 Eigen::Vector3d NdtMapNode::GetCoordinate3D(unsigned int x, unsigned int y,
                                             int altitude_index) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const Eigen::Vector2d& left_top_corner = GetLeftTopCorner();
   Eigen::Vector2d coord_2d;
@@ -105,7 +105,7 @@ COVERAGE_LOG_TOKEN
 Eigen::Vector3d NdtMapNode::GetCoordinateCenter3D(unsigned int x,
                                                   unsigned int y,
                                                   int altitude_index) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const Eigen::Vector2d& left_top_corner = GetLeftTopCorner();
   Eigen::Vector2d coord_2d;
@@ -125,7 +125,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void NdtMapNode::Reduce(NdtMapNode* map_node, const NdtMapNode& map_node_new) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   assert(map_node->index_.m_ == map_node_new.index_.m_);
   assert(map_node->index_.n_ == map_node_new.index_.n_);

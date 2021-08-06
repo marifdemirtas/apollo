@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace perception {
 namespace radar {
 
 bool RadarObstaclePerception::Init(const std::string& pipeline_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string model_name = pipeline_name;
   const ModelConfig* model_config = nullptr;
@@ -72,7 +72,7 @@ bool RadarObstaclePerception::Perceive(
     const drivers::ContiRadar& corrected_obstacles,
     const RadarPerceptionOptions& options,
     std::vector<base::ObjectPtr>* objects) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   PERF_FUNCTION();
   const std::string& sensor_name = options.sensor_name;
@@ -110,7 +110,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string RadarObstaclePerception::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return "RadarObstaclePerception";
 }

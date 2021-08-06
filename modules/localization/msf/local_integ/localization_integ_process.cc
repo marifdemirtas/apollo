@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,9 +36,7 @@ LocalizationIntegProcess::LocalizationIntegProcess()
       gnss_antenna_extrinsic_(TransformD::Identity()),
       integ_state_(IntegState::NOT_INIT),
       ins_pva_(),
-      pva_covariance_{
-COVERAGE_LOG_TOKEN
-0.0},
+      pva_covariance_{0.0},
       corrected_imu_(),
       earth_param_(),
       keep_running_(false),
@@ -46,7 +44,7 @@ COVERAGE_LOG_TOKEN
       delay_output_counter_(0) {}
 
 LocalizationIntegProcess::~LocalizationIntegProcess() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   StopThreadLoop();
 
@@ -55,7 +53,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Status LocalizationIntegProcess::Init(const LocalizationIntegParam &param) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // sins init
   sins_->Init(param.is_ins_can_self_align);
@@ -88,7 +86,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LocalizationIntegProcess::RawImuProcess(const ImuData &imu_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   integ_state_ = IntegState::NOT_INIT;
   double cur_imu_time = imu_msg.measurement_time;
@@ -160,7 +158,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LocalizationIntegProcess::GetValidFromOK() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (integ_state_ != IntegState::OK) {
     return;
@@ -175,7 +173,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LocalizationIntegProcess::GetState(IntegState *state) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(state);
 
@@ -184,7 +182,7 @@ COVERAGE_LOG_TOKEN
 
 void LocalizationIntegProcess::GetResult(IntegState *state,
                                          LocalizationEstimate *localization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(state);
   CHECK_NOTNULL(localization);
@@ -264,7 +262,7 @@ COVERAGE_LOG_TOKEN
 
 void LocalizationIntegProcess::GetResult(IntegState *state, InsPva *sins_pva,
                                          double pva_covariance[9][9]) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(state);
   CHECK_NOTNULL(sins_pva);
@@ -276,7 +274,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LocalizationIntegProcess::GetCorrectedImu(ImuData *imu_data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(imu_data);
 
@@ -285,7 +283,7 @@ COVERAGE_LOG_TOKEN
 
 void LocalizationIntegProcess::GetEarthParameter(
     InertialParameter *earth_param) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(earth_param);
 
@@ -294,7 +292,7 @@ COVERAGE_LOG_TOKEN
 
 void LocalizationIntegProcess::MeasureDataProcess(
     const MeasureData &measure_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   measure_data_queue_mutex_.lock();
   measure_data_queue_.push(measure_msg);
@@ -302,7 +300,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LocalizationIntegProcess::StartThreadLoop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   keep_running_ = true;
   measure_data_queue_size_ = 150;
@@ -310,7 +308,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LocalizationIntegProcess::StopThreadLoop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (keep_running_.load()) {
     keep_running_ = false;
@@ -318,7 +316,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LocalizationIntegProcess::MeasureDataThreadLoop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "Started measure data process thread";
   while (keep_running_.load()) {
@@ -356,7 +354,7 @@ COVERAGE_LOG_TOKEN
 
 void LocalizationIntegProcess::MeasureDataProcessImpl(
     const MeasureData &measure_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   common::util::Timer timer;
   timer.Start();
@@ -372,7 +370,7 @@ COVERAGE_LOG_TOKEN
 
 bool LocalizationIntegProcess::CheckIntegMeasureData(
     const MeasureData &measure_data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (measure_data.measure_type == MeasureType::ODOMETER_VEL_ONLY) {
     AERROR << "receive a new odometry measurement!!!\n";
@@ -397,7 +395,7 @@ COVERAGE_LOG_TOKEN
 
 bool LocalizationIntegProcess::LoadGnssAntennaExtrinsic(
     const std::string &file_path, TransformD *extrinsic) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(extrinsic);
 

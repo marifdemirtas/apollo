@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All -Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace zhongyun {
 using ::apollo::drivers::canbus::Byte;
 
 Vehiclestatefeedback2c4::Vehiclestatefeedback2c4() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Vehiclestatefeedback2c4::ID = 0xC4;
 
 void Vehiclestatefeedback2c4::Parse(const std::uint8_t* bytes, int32_t length,
                                     ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_zhongyun()
       ->mutable_vehicle_state_feedback_2_c4()
@@ -50,7 +50,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'int', 'order': 'intel', 'physical_unit': 'rpm'}
 int Vehiclestatefeedback2c4::motor_speed(const std::uint8_t* bytes,
                                          int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -72,7 +72,7 @@ COVERAGE_LOG_TOKEN
 // 16, 'type': 'double', 'order': 'intel', 'physical_unit': '%'}
 double Vehiclestatefeedback2c4::driven_torque_feedback(
     const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);

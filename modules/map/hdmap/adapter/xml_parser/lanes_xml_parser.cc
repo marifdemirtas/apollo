@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,10 +19,10 @@ limitations under the License.
 
 namespace {
 double ToMPS(double speed) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return speed * 1000.0 / 3600.0; }
 bool IsReferenceLane(int lane_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return lane_id == 0; }
 };  // namespace
 
@@ -33,7 +33,7 @@ namespace adapter {
 Status LanesXmlParser::Parse(const tinyxml2::XMLElement& xml_node,
                              const std::string& road_id,
                              std::vector<RoadSectionInternal>* sections) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(sections);
   const auto lanes_node = xml_node.FirstChildElement("lanes");
@@ -64,7 +64,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ParseSectionBoundary(
     const tinyxml2::XMLElement& xml_node, PbBoundaryPolygon* boundary) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(boundary);
 
@@ -97,7 +97,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ToPbBoundaryType(const std::string& type,
                                         PbBoundaryEdgeType* boundary_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(boundary_type);
 
@@ -116,7 +116,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ParseLaneSection(const tinyxml2::XMLElement& xml_node,
                                         std::vector<LaneInternal>* lanes) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lanes);
 
@@ -176,7 +176,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ParseLane(const tinyxml2::XMLElement& xml_node,
                                  LaneInternal* lane_internal) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lane_internal);
 
@@ -314,7 +314,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ParseDirection(const tinyxml2::XMLElement& xml_node,
                                       PbLane* lane) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lane);
   std::string direction;
@@ -337,7 +337,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ParseCenterCurve(const tinyxml2::XMLElement& xml_node,
                                         PbLane* lane) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lane);
   auto sub_node = xml_node.FirstChildElement("centerLine");
@@ -360,7 +360,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ParseSpeed(const tinyxml2::XMLElement& xml_node,
                                   PbLane* lane) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double max_speed = 0.0;
   auto sub_node = xml_node.FirstChildElement("speed");
@@ -378,7 +378,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ParseSampleAssociates(
     const tinyxml2::XMLElement& xml_node, PbLane* lane) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lane);
   auto sub_node = xml_node.FirstChildElement("sampleAssociates");
@@ -420,7 +420,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ParseSingleSideRoadSampleAssociates(
     const tinyxml2::XMLElement& xml_node, bool bleft, PbLane* lane) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lane);
 
@@ -457,7 +457,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ParseLeftRoadSampleAssociates(
     const tinyxml2::XMLElement& xml_node, PbLane* lane) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lane);
 
@@ -466,7 +466,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ParseRightRoadSampleAssociates(
     const tinyxml2::XMLElement& xml_node, PbLane* lane) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lane);
 
@@ -475,7 +475,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ParseRoadSampleAssociates(
     const tinyxml2::XMLElement& xml_node, PbLane* lane) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lane);
 
@@ -520,7 +520,7 @@ COVERAGE_LOG_TOKEN
 Status LanesXmlParser::ParseObjectOverlapGroup(
     const tinyxml2::XMLElement& xml_node,
     std::vector<OverlapWithLane>* object_overlaps) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(object_overlaps);
 
@@ -571,7 +571,7 @@ COVERAGE_LOG_TOKEN
 Status LanesXmlParser::ParseSignalOverlapGroup(
     const tinyxml2::XMLElement& xml_node,
     std::vector<OverlapWithLane>* signal_overlaps) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(signal_overlaps);
 
@@ -614,7 +614,7 @@ COVERAGE_LOG_TOKEN
 Status LanesXmlParser::ParseJunctionOverlapGroup(
     const tinyxml2::XMLElement& xml_node,
     std::vector<OverlapWithLane>* junction_overlaps) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(junction_overlaps);
 
@@ -657,7 +657,7 @@ COVERAGE_LOG_TOKEN
 Status LanesXmlParser::ParseLaneOverlapGroup(
     const tinyxml2::XMLElement& xml_node,
     std::vector<OverlapWithLane>* lane_overlaps) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lane_overlaps);
 
@@ -700,7 +700,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ToPbLaneType(const std::string& type,
                                     PbLaneType* lane_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lane_type);
 
@@ -728,7 +728,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ToPbTurnType(const std::string& type,
                                     PbTurnType* pb_turn_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(pb_turn_type);
 
@@ -752,7 +752,7 @@ COVERAGE_LOG_TOKEN
 
 Status LanesXmlParser::ToPbDirection(const std::string& type,
                                      PbLaneDirection* pb_direction) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(pb_direction);
 
@@ -774,7 +774,7 @@ COVERAGE_LOG_TOKEN
 
 void LanesXmlParser::ParseLaneLink(const tinyxml2::XMLElement& xml_node,
                                    PbLane* lane) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lane);
 
@@ -846,7 +846,7 @@ COVERAGE_LOG_TOKEN
 Status LanesXmlParser::ParseLaneBorderMark(
     const tinyxml2::XMLElement& xml_node,
     PbLaneBoundaryTypeType* boundary_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(boundary_type);
 
@@ -872,7 +872,7 @@ COVERAGE_LOG_TOKEN
 Status LanesXmlParser::ToPbLaneMarkType(const std::string& type,
                                         const std::string& color,
                                         PbLaneBoundaryTypeType* boundary_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(boundary_type);
 
@@ -918,7 +918,7 @@ COVERAGE_LOG_TOKEN
 Status LanesXmlParser::ParseRegionOverlap(
     const tinyxml2::XMLElement& xml_node,
     std::vector<PbRegionOverlap>* region_overlaps) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(region_overlaps);
 

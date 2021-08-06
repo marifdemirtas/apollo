@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -51,12 +51,12 @@ std::vector<base::ObjectSubType> kTypeRefinedByRef = {
     base::ObjectSubType::TRICYCLIST};
 
 ObjectTemplateManager::ObjectTemplateManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool ObjectTemplateManager::Init(
     const ObjectTemplateManagerInitOptions &options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   lib::MutexLock lock(&mutex_);
   if (inited_) {
@@ -185,7 +185,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ObjectTemplateManager::LoadVehTemplates(const ObjectTemplate &tmplt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<std::tuple<float, float, float>> list_tpl;
   list_tpl.resize(0);
@@ -203,7 +203,7 @@ COVERAGE_LOG_TOKEN
 
 void ObjectTemplateManager::LoadVehMinMidMaxTemplates(
     const base::ObjectSubType &type, const ObjectTemplate &tmplt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<std::tuple<float, float, float>> list_tpl;
   list_tpl.resize(0);
@@ -234,7 +234,7 @@ COVERAGE_LOG_TOKEN
 // util for tmplt search
 float ObjectTemplateManager::Get3dDimensionSimilarity(const float *hwl1,
                                                       const float *hwl2) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(hwl1 != nullptr);
   ACHECK(hwl2 != nullptr);
@@ -256,7 +256,7 @@ COVERAGE_LOG_TOKEN
 // for general visual obj
 float ObjectTemplateManager::VehObjHwlBySearchTemplates(float *hwl, int *index,
                                                         bool *is_flip) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(inited_);
   ACHECK(hwl != nullptr);

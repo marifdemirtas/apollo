@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -25,12 +25,12 @@ namespace apollo {
 namespace dreamview {
 
 FuelMonitorManager::FuelMonitorManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void FuelMonitorManager::RegisterFuelMonitor(
     const std::string& mode, std::unique_ptr<FuelMonitor>&& fuel_monitor) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto& class_name = fuel_monitor->GetClassName();
   if (monitors_.find(mode) != monitors_.end() &&
@@ -43,7 +43,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void FuelMonitorManager::SetCurrentMode(const std::string& mode) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   current_mode_ = mode;
   if (monitors_.find(mode) != monitors_.end()) {
@@ -68,7 +68,7 @@ COVERAGE_LOG_TOKEN
 }
 
 FuelMonitorMap* FuelMonitorManager::GetCurrentMonitors() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::unique_lock<boost::shared_mutex> reader_lock(mutex_);
   return current_monitors_;

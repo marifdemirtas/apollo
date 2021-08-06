@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace apollo {
 namespace audio {
 
 SirenDetection::SirenDetection() : device_(torch::kCPU) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LoadModel();
 }
 
 bool SirenDetection::Evaluate(const std::vector<std::vector<double>>& signals) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Sanity checks.
   omp_set_num_threads(1);
@@ -88,7 +88,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SirenDetection::LoadModel() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (torch::cuda::is_available()) {
     AINFO << "CUDA is available";

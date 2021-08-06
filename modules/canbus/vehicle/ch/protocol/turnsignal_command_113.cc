@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,11 +28,11 @@ const int32_t Turnsignalcommand113::ID = 0x113;
 
 // public
 Turnsignalcommand113::Turnsignalcommand113() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Turnsignalcommand113::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,13 +40,13 @@ COVERAGE_LOG_TOKEN
 }
 
 void Turnsignalcommand113::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_turn_signal_cmd(data, turn_signal_cmd_);
 }
 
 void Turnsignalcommand113::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // you should check this manually
   turn_signal_cmd_ = Turnsignal_command_113::TURN_SIGNAL_CMD_NONE;
@@ -54,7 +54,7 @@ COVERAGE_LOG_TOKEN
 
 Turnsignalcommand113* Turnsignalcommand113::set_turn_signal_cmd(
     Turnsignal_command_113::Turn_signal_cmdType turn_signal_cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   turn_signal_cmd_ = turn_signal_cmd;
   return this;
@@ -68,7 +68,7 @@ COVERAGE_LOG_TOKEN
 void Turnsignalcommand113::set_p_turn_signal_cmd(
     uint8_t* data,
     Turnsignal_command_113::Turn_signal_cmdType turn_signal_cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = turn_signal_cmd;
 

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -35,11 +35,11 @@ using apollo::perception::base::SensorOrientation;
 using apollo::perception::base::SensorType;
 
 SensorManager::SensorManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  CHECK_EQ(this->Init(), true); }
 
 bool SensorManager::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
   if (inited_) {
@@ -104,14 +104,14 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SensorManager::IsSensorExist(const std::string& name) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return sensor_info_map_.find(name) != sensor_info_map_.end();
 }
 
 bool SensorManager::GetSensorInfo(const std::string& name,
                                   SensorInfo* sensor_info) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sensor_info == nullptr) {
     AERROR << "Nullptr error.";
@@ -129,7 +129,7 @@ COVERAGE_LOG_TOKEN
 
 std::shared_ptr<BaseCameraDistortionModel> SensorManager::GetDistortCameraModel(
     const std::string& name) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto& itr = distort_model_map_.find(name);
 
@@ -138,7 +138,7 @@ COVERAGE_LOG_TOKEN
 
 std::shared_ptr<BaseCameraModel> SensorManager::GetUndistortCameraModel(
     const std::string& name) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto& itr = undistort_model_map_.find(name);
 
@@ -146,7 +146,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SensorManager::IsHdLidar(const std::string& name) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto& itr = sensor_info_map_.find(name);
   if (itr == sensor_info_map_.end()) {
@@ -158,14 +158,14 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SensorManager::IsHdLidar(const SensorType& type) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return type == SensorType::VELODYNE_128 || type == SensorType::VELODYNE_64 ||
          type == SensorType::VELODYNE_32 || type == SensorType::VELODYNE_16;
 }
 
 bool SensorManager::IsLdLidar(const std::string& name) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto& itr = sensor_info_map_.find(name);
   if (itr == sensor_info_map_.end()) {
@@ -177,13 +177,13 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SensorManager::IsLdLidar(const SensorType& type) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return type == SensorType::LDLIDAR_4 || type == SensorType::LDLIDAR_1;
 }
 
 bool SensorManager::IsLidar(const std::string& name) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto& itr = sensor_info_map_.find(name);
   if (itr == sensor_info_map_.end()) {
@@ -195,13 +195,13 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SensorManager::IsLidar(const SensorType& type) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return this->IsHdLidar(type) || this->IsLdLidar(type);
 }
 
 bool SensorManager::IsRadar(const std::string& name) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto& itr = sensor_info_map_.find(name);
   if (itr == sensor_info_map_.end()) {
@@ -213,14 +213,14 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SensorManager::IsRadar(const SensorType& type) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return type == SensorType::SHORT_RANGE_RADAR ||
          type == SensorType::LONG_RANGE_RADAR;
 }
 
 bool SensorManager::IsCamera(const std::string& name) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto& itr = sensor_info_map_.find(name);
   if (itr == sensor_info_map_.end()) {
@@ -232,14 +232,14 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SensorManager::IsCamera(const SensorType& type) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return type == SensorType::MONOCULAR_CAMERA ||
          type == SensorType::STEREO_CAMERA;
 }
 
 bool SensorManager::IsUltrasonic(const std::string& name) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto& itr = sensor_info_map_.find(name);
   if (itr == sensor_info_map_.end()) {
@@ -251,13 +251,13 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SensorManager::IsUltrasonic(const SensorType& type) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return type == SensorType::ULTRASONIC;
 }
 
 std::string SensorManager::GetFrameId(const std::string& name) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto& itr = sensor_info_map_.find(name);
   return itr == sensor_info_map_.end() ? std::string("") : itr->second.frame_id;

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -50,16 +50,16 @@ namespace velodyne {
  *  @param udp_port UDP port number to connect
  */
 SocketInput::SocketInput() : sockfd_(-1), port_(0) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 /** @brief destructor */
 SocketInput::~SocketInput(void) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  (void)close(sockfd_); }
 
 void SocketInput::init(const int &port) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sockfd_ != -1) {
     (void)close(sockfd_);
@@ -98,7 +98,7 @@ COVERAGE_LOG_TOKEN
 
 /** @brief Get one velodyne packet. */
 int SocketInput::get_firing_data_packet(VelodynePacket *pkt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // double time1 = ros::Time::now().toSec();
   double time1 = apollo::cyber::Time().Now().ToSecond();
@@ -135,7 +135,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int SocketInput::get_positioning_data_packet(NMEATimePtr nmea_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   while (true) {
     if (!input_available(POLL_TIMEOUT)) {
@@ -172,7 +172,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SocketInput::input_available(int timeout) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   struct pollfd fds[1];
   fds[0].fd = sockfd_;

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -45,7 +45,7 @@ using apollo::common::VehicleConfigHelper;
 namespace {
 
 std::string GetLogFileName() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   time_t raw_time;
   char name_buffer[80];
@@ -59,12 +59,12 @@ COVERAGE_LOG_TOKEN
 }
 
 void WriteHeaders(std::ofstream &file_stream) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 }  // namespace
 
 MPCController::MPCController() : name_("MPC Controller") {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (FLAGS_enable_csv_debug) {
     mpc_log_file_.open(GetLogFileName());
@@ -76,11 +76,11 @@ COVERAGE_LOG_TOKEN
 }
 
 MPCController::~MPCController() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  CloseLogFile(); }
 
 bool MPCController::LoadControlConf(const ControlConf *control_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!control_conf) {
     AERROR << "[MPCController] control_conf = nullptr";
@@ -154,13 +154,13 @@ COVERAGE_LOG_TOKEN
 
 void MPCController::ProcessLogs(const SimpleMPCDebug *debug,
                                 const canbus::Chassis *chassis) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(QiL): Add debug information
 }
 
 void MPCController::LogInitParameters() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << name_ << " begin.";
   ADEBUG << "[MPCController parameters]"
@@ -171,7 +171,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MPCController::InitializeFilters(const ControlConf *control_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Low pass filter
   std::vector<double> den(3, 0.0);
@@ -187,7 +187,7 @@ COVERAGE_LOG_TOKEN
 
 Status MPCController::Init(std::shared_ptr<DependencyInjector> injector,
                            const ControlConf *control_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!LoadControlConf(control_conf)) {
     AERROR << "failed to load control conf";
@@ -261,7 +261,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MPCController::CloseLogFile() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (FLAGS_enable_csv_debug && mpc_log_file_.is_open()) {
     mpc_log_file_.close();
@@ -269,22 +269,22 @@ COVERAGE_LOG_TOKEN
 }
 
 double MPCController::Wheel2SteerPct(const double wheel_angle) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return wheel_angle / wheel_single_direction_max_degree_ * 100;
 }
 
 void MPCController::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  CloseLogFile(); }
 
 std::string MPCController::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return name_; }
 
 void MPCController::LoadMPCGainScheduler(
     const MPCControllerConf &mpc_controller_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto &lat_err_gain_scheduler =
       mpc_controller_conf.lat_err_gain_scheduler();
@@ -331,7 +331,7 @@ Status MPCController::ComputeControlCommand(
     const canbus::Chassis *chassis,
     const planning::ADCTrajectory *planning_published_trajectory,
     ControlCommand *cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   trajectory_analyzer_ =
       std::move(TrajectoryAnalyzer(planning_published_trajectory));
@@ -557,7 +557,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Status MPCController::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   previous_heading_error_ = 0.0;
   previous_lateral_error_ = 0.0;
@@ -566,7 +566,7 @@ COVERAGE_LOG_TOKEN
 
 void MPCController::LoadControlCalibrationTable(
     const MPCControllerConf &mpc_controller_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto &control_table = mpc_controller_conf.calibration_table();
   ADEBUG << "Control calibration table loaded";
@@ -584,7 +584,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MPCController::UpdateState(SimpleMPCDebug *debug) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto &com = injector_->vehicle_state()->ComputeCOMPosition(lr_);
   ComputeLateralErrors(com.x(), com.y(), injector_->vehicle_state()->heading(),
@@ -603,7 +603,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MPCController::UpdateMatrix(SimpleMPCDebug *debug) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const double v = std::max(injector_->vehicle_state()->linear_velocity(),
                             minimum_speed_protection_);
@@ -622,7 +622,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MPCController::FeedforwardUpdate(SimpleMPCDebug *debug) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const double v = injector_->vehicle_state()->linear_velocity();
   const double kv =
@@ -635,7 +635,7 @@ void MPCController::ComputeLateralErrors(
     const double x, const double y, const double theta, const double linear_v,
     const double angular_v, const double linear_a,
     const TrajectoryAnalyzer &trajectory_analyzer, SimpleMPCDebug *debug) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto matched_point =
       trajectory_analyzer.QueryNearestPointByPosition(x, y);
@@ -704,7 +704,7 @@ COVERAGE_LOG_TOKEN
 
 void MPCController::ComputeLongitudinalErrors(
     const TrajectoryAnalyzer *trajectory_analyzer, SimpleMPCDebug *debug) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // the decomposed vehicle motion onto Frenet frame
   // s: longitudinal accumulated distance along reference trajectory

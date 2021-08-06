@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace perception {
 namespace camera {
 
 bool LaneLineCalibrator::Init(const CalibratorInitOptions &options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LocalCalibratorInitOptions local_options;
   local_options.cx = options.cx;
@@ -38,7 +38,7 @@ COVERAGE_LOG_TOKEN
 
 bool LaneLineCalibrator::Calibrate(const CalibratorOptions &options,
                                    float *pitch_angle) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (pitch_angle == nullptr) {
     AERROR << "pitch_angle is not available";
@@ -104,7 +104,7 @@ COVERAGE_LOG_TOKEN
 
 bool LaneLineCalibrator::LoadEgoLaneline(
     const std::vector<base::LaneLine> &lane_objects, EgoLane *ego_lane) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (ego_lane == nullptr) {
     AERROR << "ego_lane is not available";

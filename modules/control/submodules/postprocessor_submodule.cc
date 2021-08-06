@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -38,13 +38,13 @@ using apollo::common::Status;
 using apollo::cyber::Clock;
 
 std::string PostprocessorSubmodule::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return FLAGS_postprocessor_submodule_name;
 }
 
 bool PostprocessorSubmodule::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(cyber::common::GetProtoFromFile(FLAGS_control_common_conf_file,
                                          &control_common_conf_))
@@ -59,7 +59,7 @@ COVERAGE_LOG_TOKEN
 
 bool PostprocessorSubmodule::Proc(
     const std::shared_ptr<ControlCommand>& control_core_command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto start_time = Clock::Instance()->Now();
   ControlCommand control_command;

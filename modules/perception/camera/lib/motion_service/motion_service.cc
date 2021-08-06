@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -32,7 +32,7 @@ namespace perception {
 namespace camera {
 
 bool MotionService::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "start to init MotionService.";
   // node_.reset(new cyber::Node("MotionService"));
@@ -85,7 +85,7 @@ COVERAGE_LOG_TOKEN
 // On receiving image input, just need to record its timestamp
 void MotionService::OnReceiveImage(const ImageMsgType &message,
                                    const std::string &camera_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
   const double curr_timestamp = message->measurement_time() + timestamp_offset_;
@@ -97,7 +97,7 @@ COVERAGE_LOG_TOKEN
 // On reveiving localization input, register it to camera timestamp,
 // compute motion between camera time stamps
 void MotionService::OnLocalization(const LocalizationMsgType &message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
   ADEBUG << "localization received: localization ts: "
@@ -168,7 +168,7 @@ COVERAGE_LOG_TOKEN
 // pubulish vehicle status buffer to output channel
 // which is at camera timestamp
 void MotionService::PublishEvent(const double timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // protobuf msg
   std::shared_ptr<apollo::perception::Motion_Service> motion_service_msg(
@@ -192,7 +192,7 @@ COVERAGE_LOG_TOKEN
 // convert vehicle status buffer to output message
 void MotionService::ConvertVehicleMotionToMsgOut(
     base::VehicleStatus vs, apollo::perception::VehicleStatus *v_status_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   v_status_msg->set_roll_rate(vs.roll_rate);
   v_status_msg->set_pitch_rate(vs.pitch_rate);
@@ -224,14 +224,14 @@ COVERAGE_LOG_TOKEN
 
 // load vehicle status buffer from vehicle_planemotion_
 base::MotionBuffer MotionService::GetMotionBuffer() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(motion_mutex_);
   return vehicle_planemotion_->get_buffer();
 }
 
 double MotionService::GetLatestTimestamp() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // std::lock_guard<std::mutex> lock(image_mutex_);
   return pre_camera_timestamp_;
@@ -240,7 +240,7 @@ COVERAGE_LOG_TOKEN
 // retrieve vehiclestattus at the closeset cameratimestamp
 bool MotionService::GetMotionInformation(double timestamp,
                                          base::VehicleStatus *vs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return vehicle_planemotion_->find_motion_with_timestamp(timestamp, vs);
 }

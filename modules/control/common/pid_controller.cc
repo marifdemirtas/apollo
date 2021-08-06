@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,7 @@ namespace apollo {
 namespace control {
 
 double PIDController::Control(const double error, const double dt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (dt <= 0) {
     AWARN << "dt <= 0, will use the last output, dt: " << dt;
@@ -62,7 +62,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PIDController::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   previous_error_ = 0.0;
   previous_output_ = 0.0;
@@ -73,7 +73,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PIDController::Init(const PidConf &pid_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   previous_error_ = 0.0;
   previous_output_ = 0.0;
@@ -93,7 +93,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PIDController::SetPID(const PidConf &pid_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   kp_ = pid_conf.kp();
   ki_ = pid_conf.ki();
@@ -102,17 +102,17 @@ COVERAGE_LOG_TOKEN
 }
 
 int PIDController::IntegratorSaturationStatus() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return integrator_saturation_status_;
 }
 
 bool PIDController::IntegratorHold() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return integrator_hold_; }
 
 void PIDController::SetIntegratorHold(bool hold) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  integrator_hold_ = hold; }
 
 }  // namespace control

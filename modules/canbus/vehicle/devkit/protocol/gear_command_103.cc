@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Gearcommand103::ID = 0x103;
 
 // public
 Gearcommand103::Gearcommand103() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Gearcommand103::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Gearcommand103::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_gear_target(data, gear_target_);
   set_p_gear_en_ctrl(data, gear_en_ctrl_);
@@ -51,7 +51,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Gearcommand103::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(All) :  you should check this manually
   gear_target_ = Gear_command_103::GEAR_TARGET_NEUTRAL;
@@ -61,7 +61,7 @@ COVERAGE_LOG_TOKEN
 
 Gearcommand103* Gearcommand103::set_gear_target(
     Gear_command_103::Gear_targetType gear_target) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gear_target_ = gear_target;
   return this;
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
 // 'motorola', 'physical_unit': ''}
 void Gearcommand103::set_p_gear_target(
     uint8_t* data, Gear_command_103::Gear_targetType gear_target) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = gear_target;
 
@@ -84,7 +84,7 @@ COVERAGE_LOG_TOKEN
 
 Gearcommand103* Gearcommand103::set_gear_en_ctrl(
     Gear_command_103::Gear_en_ctrlType gear_en_ctrl) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gear_en_ctrl_ = gear_en_ctrl;
   return this;
@@ -96,7 +96,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'motorola', 'physical_unit': ''}
 void Gearcommand103::set_p_gear_en_ctrl(
     uint8_t* data, Gear_command_103::Gear_en_ctrlType gear_en_ctrl) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = gear_en_ctrl;
 
@@ -105,7 +105,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Gearcommand103* Gearcommand103::set_checksum_103(int checksum_103) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   checksum_103_ = checksum_103;
   return this;
@@ -115,7 +115,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 63,
 // 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Gearcommand103::set_p_checksum_103(uint8_t* data, int checksum_103) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   checksum_103 = ProtocolData::BoundedValue(0, 255, checksum_103);
   int x = checksum_103;

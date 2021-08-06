@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -34,14 +34,12 @@ static const std::map<std::string,
                       std::function<bool(const std::string&, PointCloudPtr)>>
     s_load_method = {
         {"xyzl", load_pcl_pcds_xyzl},
-        {
-COVERAGE_LOG_TOKEN
-"xyzit", load_pcl_pcds_xyzit},
+        {"xyzit", load_pcl_pcds_xyzit},
 };
 
 bool load_pcl_pcds(const std::string& filename, PointCloudPtr cloud_out,
                    const std::string& cloud_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto iter = s_load_method.find(cloud_type);
   if (iter == s_load_method.end()) {
@@ -73,7 +71,7 @@ bool load_pcl_pcds_xyzit(const std::string& filename, PointCloudPtr cloud_out) {
 }
 
 bool load_pcl_pcds_xyzl(const std::string& filename, PointCloudPtr cloud_out) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   PointXYZLCloud org_cloud;
   if (pcl::io::loadPCDFile(filename, org_cloud) < 0) {
@@ -106,7 +104,7 @@ bool load_frame_objects(const std::string& filename,
                         std::vector<PointCloud>* left_lane_boundary,
                         std::vector<PointCloud>* right_lane_boundary,
                         PointCloud* cloud) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::fstream fin(filename.c_str());
   if (!fin.is_open()) {
@@ -287,7 +285,7 @@ COVERAGE_LOG_TOKEN
 
 bool load_sensor2world_pose(const std::string& filename,
                             Eigen::Matrix4d* pose_out_pt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Matrix4d& pose_out = *pose_out_pt;
   std::ifstream ifs(filename.c_str());
@@ -317,7 +315,7 @@ COVERAGE_LOG_TOKEN
 
 bool save_frame_objects(const std::string& filename,
                         const std::vector<ObjectPtr>& objects, int frame_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ofstream fout(filename.c_str());
   if (!fout.is_open()) {

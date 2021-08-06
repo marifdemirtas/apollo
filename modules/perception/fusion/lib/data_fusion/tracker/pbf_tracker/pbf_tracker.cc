@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -39,15 +39,15 @@ std::string PbfTracker::s_motion_fusion_method_ =  // NOLINT
 std::string PbfTracker::s_shape_fusion_method_ = "PbfShapeFusion";  // NOLINT
 
 PbfTracker::PbfTracker() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PbfTracker::~PbfTracker() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool PbfTracker::InitParams() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseInitOptions options;
   if (!GetFusionInitOptions("PbfTracker", &options)) {
@@ -77,7 +77,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool PbfTracker::InitMethods() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (s_type_fusion_method_ == "DstTypeFusion") {
     type_fusion_.reset(new DstTypeFusion(track_));
@@ -111,7 +111,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool PbfTracker::Init(TrackPtr track, SensorObjectPtr measurement) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   track_ = track;
   if (!InitMethods()) {
@@ -124,7 +124,7 @@ COVERAGE_LOG_TOKEN
 void PbfTracker::UpdateWithMeasurement(const TrackerOptions& options,
                                        const SensorObjectPtr measurement,
                                        double target_timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string sensor_id = measurement->GetSensorId();
   ADEBUG << "fusion_updating..." << track_->GetTrackId() << " with "
@@ -142,7 +142,7 @@ void PbfTracker::UpdateWithoutMeasurement(const TrackerOptions& options,
                                           const std::string& sensor_id,
                                           double measurement_timestamp,
                                           double target_timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   existence_fusion_->UpdateWithoutMeasurement(sensor_id, measurement_timestamp,
                                               target_timestamp,
@@ -158,7 +158,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string PbfTracker::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return "PbfTracker"; }
 
 }  // namespace fusion

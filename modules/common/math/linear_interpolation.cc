@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace math {
 
 double slerp(const double a0, const double t0, const double a1, const double t1,
              const double t) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (std::abs(t1 - t0) <= kMathEpsilon) {
     ADEBUG << "input time difference is too small";
@@ -50,7 +50,7 @@ COVERAGE_LOG_TOKEN
 
 SLPoint InterpolateUsingLinearApproximation(const SLPoint &p0,
                                             const SLPoint &p1, const double w) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(w, 0.0);
 
@@ -63,7 +63,7 @@ COVERAGE_LOG_TOKEN
 PathPoint InterpolateUsingLinearApproximation(const PathPoint &p0,
                                               const PathPoint &p1,
                                               const double s) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double s0 = p0.s();
   double s1 = p1.s();
@@ -89,7 +89,7 @@ COVERAGE_LOG_TOKEN
 TrajectoryPoint InterpolateUsingLinearApproximation(const TrajectoryPoint &tp0,
                                                     const TrajectoryPoint &tp1,
                                                     const double t) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!tp0.has_path_point() || !tp1.has_path_point()) {
     TrajectoryPoint p;

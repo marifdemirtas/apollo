@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -50,7 +50,7 @@ const double kSampleDistance = 0.25;
 
 bool FindLaneSegment(const MapPathPoint& p1, const MapPathPoint& p2,
                      LaneSegment* const lane_segment) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (const auto& wp1 : p1.lane_waypoints()) {
     for (const auto& wp2 : p2.lane_waypoints()) {
@@ -66,7 +66,7 @@ COVERAGE_LOG_TOKEN
 }  // namespace
 
 std::string LaneWaypoint::DebugString() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (lane == nullptr) {
     return "(lane is null)";
@@ -75,7 +75,7 @@ COVERAGE_LOG_TOKEN
 }
 
 LaneBoundaryType::Type LeftBoundaryType(const LaneWaypoint& waypoint) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!waypoint.lane) {
     return LaneBoundaryType::UNKNOWN;
@@ -94,7 +94,7 @@ COVERAGE_LOG_TOKEN
 }
 
 LaneBoundaryType::Type RightBoundaryType(const LaneWaypoint& waypoint) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!waypoint.lane) {
     return LaneBoundaryType::UNKNOWN;
@@ -113,7 +113,7 @@ COVERAGE_LOG_TOKEN
 }
 
 LaneWaypoint LeftNeighborWaypoint(const LaneWaypoint& waypoint) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LaneWaypoint neighbor;
   if (!waypoint.lane) {
@@ -144,7 +144,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LaneSegment::Join(std::vector<LaneSegment>* segments) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static constexpr double kSegmentDelta = 0.5;
   std::size_t k = 0;
@@ -173,7 +173,7 @@ COVERAGE_LOG_TOKEN
 }
 
 LaneWaypoint RightNeighborWaypoint(const LaneWaypoint& waypoint) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LaneWaypoint neighbor;
   if (!waypoint.lane) {
@@ -203,7 +203,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string LaneSegment::DebugString() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (lane == nullptr) {
     return "(lane is null)";
@@ -214,7 +214,7 @@ COVERAGE_LOG_TOKEN
 
 std::vector<MapPathPoint> MapPathPoint::GetPointsFromSegment(
     const LaneSegment& segment) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetPointsFromLane(segment.lane, segment.start_s, segment.end_s);
 }
@@ -222,7 +222,7 @@ COVERAGE_LOG_TOKEN
 std::vector<MapPathPoint> MapPathPoint::GetPointsFromLane(LaneInfoConstPtr lane,
                                                           const double start_s,
                                                           const double end_s) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<MapPathPoint> points;
   if (start_s >= end_s) {
@@ -257,7 +257,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MapPathPoint::RemoveDuplicates(std::vector<MapPathPoint>* points) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static constexpr double kDuplicatedPointsEpsilon = 1e-7;
   static constexpr double limit =
@@ -276,7 +276,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string MapPathPoint::DebugString() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return absl::StrCat(
       "x = ", x_, "  y = ", y_, "  heading = ", heading_,
@@ -286,7 +286,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string Path::DebugString() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return absl::StrCat(
       "num_points = ", num_points_,
@@ -302,21 +302,21 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string PathOverlap::DebugString() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return absl::StrCat(object_id, " ", start_s, " ", end_s);
 }
 
 Path::Path(const std::vector<MapPathPoint>& path_points)
     : path_points_(path_points) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Init();
 }
 
 Path::Path(std::vector<MapPathPoint>&& path_points)
     : path_points_(std::move(path_points)) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Init();
 }
@@ -324,7 +324,7 @@ COVERAGE_LOG_TOKEN
 Path::Path(const std::vector<MapPathPoint>& path_points,
            const std::vector<LaneSegment>& lane_segments)
     : path_points_(path_points), lane_segments_(lane_segments) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Init();
 }
@@ -333,7 +333,7 @@ Path::Path(std::vector<MapPathPoint>&& path_points,
            std::vector<LaneSegment>&& lane_segments)
     : path_points_(std::move(path_points)),
       lane_segments_(std::move(lane_segments)) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Init();
 }
@@ -342,7 +342,7 @@ Path::Path(const std::vector<MapPathPoint>& path_points,
            const std::vector<LaneSegment>& lane_segments,
            const double max_approximation_error)
     : path_points_(path_points), lane_segments_(lane_segments) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Init();
   if (max_approximation_error > 0.0) {
@@ -353,7 +353,7 @@ COVERAGE_LOG_TOKEN
 
 Path::Path(const std::vector<LaneSegment>& segments)
     : lane_segments_(segments) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (const auto& segment : lane_segments_) {
     const auto points = MapPathPoint::GetPointsFromLane(
@@ -367,7 +367,7 @@ COVERAGE_LOG_TOKEN
 
 Path::Path(std::vector<LaneSegment>&& segments)
     : lane_segments_(std::move(segments)) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (const auto& segment : lane_segments_) {
     const auto points = MapPathPoint::GetPointsFromLane(
@@ -384,7 +384,7 @@ Path::Path(std::vector<MapPathPoint>&& path_points,
            const double max_approximation_error)
     : path_points_(std::move(path_points)),
       lane_segments_(std::move(lane_segments)) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Init();
   if (max_approximation_error > 0.0) {
@@ -394,7 +394,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Path::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   InitPoints();
   InitLaneSegments();
@@ -404,7 +404,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Path::InitPoints() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   num_points_ = static_cast<int>(path_points_.size());
   CHECK_GE(num_points_, 2);
@@ -441,7 +441,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Path::InitLaneSegments() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (lane_segments_.empty()) {
     for (int i = 0; i + 1 < num_points_; ++i) {
@@ -478,7 +478,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Path::InitWidth() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   lane_left_width_.clear();
   lane_left_width_.reserve(num_sample_points_);
@@ -529,7 +529,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Path::InitPointIndex() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   last_point_index_.clear();
   last_point_index_.reserve(num_sample_points_);
@@ -548,7 +548,7 @@ COVERAGE_LOG_TOKEN
 
 void Path::GetAllOverlaps(GetOverlapFromLaneFunc GetOverlaps_from_lane,
                           std::vector<PathOverlap>* const overlaps) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (overlaps == nullptr) {
     return;
@@ -609,7 +609,7 @@ COVERAGE_LOG_TOKEN
 }
 
 const PathOverlap* Path::NextLaneOverlap(double s) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto next = std::upper_bound(
       lane_overlaps_.begin(), lane_overlaps_.end(), s,
@@ -622,7 +622,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Path::InitOverlaps() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   GetAllOverlaps(std::bind(&LaneInfo::cross_lanes, _1), &lane_overlaps_);
   GetAllOverlaps(std::bind(&LaneInfo::signals, _1), &signal_overlaps_);
@@ -639,7 +639,7 @@ COVERAGE_LOG_TOKEN
 }
 
 MapPathPoint Path::GetSmoothPoint(const InterpolatedIndex& index) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GE(index.id, 0);
   CHECK_LT(index.id, num_points_);
@@ -674,13 +674,13 @@ COVERAGE_LOG_TOKEN
 }
 
 MapPathPoint Path::GetSmoothPoint(double s) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetSmoothPoint(GetIndexFromS(s));
 }
 
 double Path::GetSFromIndex(const InterpolatedIndex& index) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (index.id < 0) {
     return 0.0;
@@ -692,7 +692,7 @@ COVERAGE_LOG_TOKEN
 }
 
 InterpolatedIndex Path::GetIndexFromS(double s) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (s <= 0.0) {
     return {0, 0.0};
@@ -722,7 +722,7 @@ COVERAGE_LOG_TOKEN
 }
 
 InterpolatedIndex Path::GetLaneIndexFromS(double s) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (s <= 0.0) {
     return {0, 0.0};
@@ -749,7 +749,7 @@ COVERAGE_LOG_TOKEN
 
 std::vector<hdmap::LaneSegment> Path::GetLaneSegments(
     const double start_s, const double end_s) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<hdmap::LaneSegment> lanes;
   if (start_s + kMathEpsilon > end_s) {
@@ -779,7 +779,7 @@ COVERAGE_LOG_TOKEN
 
 bool Path::GetNearestPoint(const Vec2d& point, double* accumulate_s,
                            double* lateral) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double distance = 0.0;
   return GetNearestPoint(point, accumulate_s, lateral, &distance);
@@ -787,7 +787,7 @@ COVERAGE_LOG_TOKEN
 
 bool Path::GetNearestPoint(const Vec2d& point, double* accumulate_s,
                            double* lateral, double* min_distance) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!GetProjection(point, accumulate_s, lateral, min_distance)) {
     return false;
@@ -804,7 +804,7 @@ COVERAGE_LOG_TOKEN
 
 bool Path::GetProjection(const common::math::Vec2d& point, double* accumulate_s,
                          double* lateral) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double distance = 0.0;
   return GetProjection(point, accumulate_s, lateral, &distance);
@@ -816,7 +816,7 @@ bool Path::GetProjectionWithHueristicParams(const Vec2d& point,
                                             double* accumulate_s,
                                             double* lateral,
                                             double* min_distance) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (segments_.empty()) {
     return false;
@@ -867,7 +867,7 @@ COVERAGE_LOG_TOKEN
 
 bool Path::GetProjection(const Vec2d& point, double* accumulate_s,
                          double* lateral, double* min_distance) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (segments_.empty()) {
     return false;
@@ -917,7 +917,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Path::GetHeadingAlongPath(const Vec2d& point, double* heading) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (heading == nullptr) {
     return false;
@@ -932,20 +932,20 @@ COVERAGE_LOG_TOKEN
 }
 
 double Path::GetLaneLeftWidth(const double s) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetSample(lane_left_width_, s);
 }
 
 double Path::GetLaneRightWidth(const double s) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetSample(lane_right_width_, s);
 }
 
 bool Path::GetLaneWidth(const double s, double* lane_left_width,
                         double* lane_right_width) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lane_left_width);
   CHECK_NOTNULL(lane_right_width);
@@ -959,20 +959,20 @@ COVERAGE_LOG_TOKEN
 }
 
 double Path::GetRoadLeftWidth(const double s) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetSample(road_left_width_, s);
 }
 
 double Path::GetRoadRightWidth(const double s) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return GetSample(road_right_width_, s);
 }
 
 bool Path::GetRoadWidth(const double s, double* road_left_width,
                         double* road_right_width) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(road_left_width);
   CHECK_NOTNULL(road_right_width);
@@ -988,7 +988,7 @@ COVERAGE_LOG_TOKEN
 
 double Path::GetSample(const std::vector<double>& samples,
                        const double s) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (samples.empty()) {
     return 0.0;
@@ -1005,7 +1005,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Path::IsOnPath(const Vec2d& point) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double accumulate_s = 0.0;
   double lateral = 0.0;
@@ -1024,7 +1024,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Path::OverlapWith(const common::math::Box2d& box, double width) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (use_path_approximation_) {
     return approximation_.OverlapWith(*this, box, width);
@@ -1044,7 +1044,7 @@ COVERAGE_LOG_TOKEN
 
 double PathApproximation::compute_max_error(const Path& path, const int s,
                                             const int t) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (s + 1 >= t) {
     return 0.0;
@@ -1061,7 +1061,7 @@ COVERAGE_LOG_TOKEN
 
 bool PathApproximation::is_within_max_error(const Path& path, const int s,
                                             const int t) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (s + 1 >= t) {
     return true;
@@ -1077,14 +1077,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void PathApproximation::Init(const Path& path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   InitDilute(path);
   InitProjections(path);
 }
 
 void PathApproximation::InitDilute(const Path& path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const int num_original_points = path.num_points();
   original_ids_.clear();
@@ -1128,7 +1128,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PathApproximation::InitProjections(const Path& path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (num_points_ == 0) {
     return;
@@ -1205,7 +1205,7 @@ bool PathApproximation::GetProjection(const Path& path,
                                       const common::math::Vec2d& point,
                                       double* accumulate_s, double* lateral,
                                       double* min_distance) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (num_points_ == 0) {
     return false;
@@ -1340,7 +1340,7 @@ COVERAGE_LOG_TOKEN
 
 bool PathApproximation::OverlapWith(const Path& path, const Box2d& box,
                                     double width) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (num_points_ == 0) {
     return false;

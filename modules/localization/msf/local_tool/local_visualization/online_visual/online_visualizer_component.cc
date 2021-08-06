@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,17 +32,17 @@ namespace localization {
 namespace msf {
 
 OnlineVisualizerComponent::OnlineVisualizerComponent() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 OnlineVisualizerComponent::~OnlineVisualizerComponent() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   VisualizationManager::GetInstance().StopVisualization();
 }
 
 bool OnlineVisualizerComponent::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!InitConfig()) {
     AERROR << "InitParams failed.";
@@ -60,7 +60,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool OnlineVisualizerComponent::InitConfig() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_folder_ = FLAGS_map_dir + "/" + FLAGS_local_map_name;
   map_visual_folder_ = FLAGS_map_visual_dir;
@@ -105,7 +105,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool OnlineVisualizerComponent::InitIO() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Lidar localization
   std::function<void(const std::shared_ptr<LocalizationEstimate> &)>
@@ -144,7 +144,7 @@ COVERAGE_LOG_TOKEN
 
 bool OnlineVisualizerComponent::Proc(
     const std::shared_ptr<drivers::PointCloud> &msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LidarVisFrame lidar_vis_frame;
   lidar_vis_frame.timestamp = cyber::Time(msg->measurement_time()).ToSecond();
@@ -162,7 +162,7 @@ COVERAGE_LOG_TOKEN
 
 void OnlineVisualizerComponent::OnLidarLocalization(
     const std::shared_ptr<LocalizationEstimate> &msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LocalizationMsg lidar_loc_msg;
 
@@ -191,7 +191,7 @@ COVERAGE_LOG_TOKEN
 
 void OnlineVisualizerComponent::OnGNSSLocalization(
     const std::shared_ptr<LocalizationEstimate> &msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LocalizationMsg gnss_loc_msg;
 
@@ -220,7 +220,7 @@ COVERAGE_LOG_TOKEN
 
 void OnlineVisualizerComponent::OnFusionLocalization(
     const std::shared_ptr<LocalizationEstimate> &msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LocalizationMsg fusion_loc_msg;
 
@@ -251,7 +251,7 @@ void OnlineVisualizerComponent::ParsePointCloudMessage(
     const std::shared_ptr<drivers::PointCloud> &msg,
     ::apollo::common::EigenVector3dVec *pt3ds,
     std::vector<unsigned char> *intensities) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(pt3ds);
   CHECK_NOTNULL(intensities);

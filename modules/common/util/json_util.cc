@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ using Json = nlohmann::json;
 using google::protobuf::util::MessageToJsonString;
 
 google::protobuf::util::JsonOptions JsonOption() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   google::protobuf::util::JsonOptions json_option;
   json_option.always_print_primitive_fields = true;
@@ -39,7 +39,7 @@ COVERAGE_LOG_TOKEN
 
 nlohmann::json JsonUtil::ProtoToTypedJson(
     const std::string &json_type, const google::protobuf::Message &proto) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static const auto kJsonOption = JsonOption();
   std::string json_string;
@@ -54,7 +54,7 @@ COVERAGE_LOG_TOKEN
 
 bool JsonUtil::GetString(const Json &json, const std::string &key,
                          std::string *value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto iter = json.find(key);
   if (iter == json.end()) {
@@ -71,7 +71,7 @@ COVERAGE_LOG_TOKEN
 
 bool JsonUtil::GetStringVector(const Json &json, const std::string &key,
                                std::vector<std::string> *value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto iter = json.find(key);
   if (iter == json.end()) {
@@ -101,7 +101,7 @@ COVERAGE_LOG_TOKEN
 
 bool JsonUtil::GetBoolean(const nlohmann::json &json, const std::string &key,
                           bool *value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto iter = json.find(key);
   if (iter == json.end()) {

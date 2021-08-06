@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace msf {
 
 LosslessMapConfig::LosslessMapConfig(std::string map_version)
     : BaseMapConfig(map_version) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_layer_alt_thres_ = 10000.0;  // in meters
   map_cache_size_ = 50;            // 80
@@ -35,7 +35,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LosslessMapConfig::CreateXml(boost::property_tree::ptree* config) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseMapConfig::CreateXml(config);
   config->put("map.map_config.coordinate_type", coordinate_type_);
@@ -47,7 +47,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LosslessMapConfig::LoadXml(const boost::property_tree::ptree& config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseMapConfig::LoadXml(config);
   coordinate_type_ = config.get<std::string>("map.map_config.coordinate_type");

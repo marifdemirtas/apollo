@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -54,7 +54,7 @@ using apollo::common::LatencyStat;
 using apollo::common::LatencyTrack;
 
 LatencyStat GenerateStat(const std::vector<uint64_t>& numbers) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   LatencyStat stat;
   uint64_t min_number = (1UL << 63), max_number = 0, sum = 0;
@@ -73,7 +73,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SetStat(const LatencyStat& src, LatencyStat* dst) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   dst->set_min_duration(src.min_duration());
   dst->set_max_duration(src.max_duration());
@@ -84,7 +84,7 @@ COVERAGE_LOG_TOKEN
 void SetLatency(const std::string& latency_name,
                 const std::vector<uint64_t>& latency_values,
                 LatencyTrack* track) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto* latency_track = track->add_latency_track();
   latency_track->set_latency_name(latency_name);
@@ -96,11 +96,11 @@ COVERAGE_LOG_TOKEN
 LatencyMonitor::LatencyMonitor()
     : RecurrentRunner(FLAGS_latency_monitor_name,
                       FLAGS_latency_monitor_interval) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LatencyMonitor::RunOnce(const double current_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static auto reader =
       MonitorManager::Instance()->CreateReader<LatencyRecordMap>(
@@ -133,7 +133,7 @@ COVERAGE_LOG_TOKEN
 
 void LatencyMonitor::UpdateStat(
     const std::shared_ptr<LatencyRecordMap>& records) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto module_name = records->module_name();
   for (const auto& record : records->latency_records()) {
@@ -153,7 +153,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LatencyMonitor::PublishLatencyReport() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static auto writer = MonitorManager::Instance()->CreateWriter<LatencyReport>(
       FLAGS_latency_reporting_topic);
@@ -167,7 +167,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LatencyMonitor::AggregateLatency() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static const std::string kE2EStartPoint = FLAGS_pointcloud_topic;
   std::unordered_map<std::string, std::vector<uint64_t>> modules_track;
@@ -232,7 +232,7 @@ COVERAGE_LOG_TOKEN
 
 bool LatencyMonitor::GetFrequency(const std::string& channel_name,
                                   double* freq) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (freq_map_.find(channel_name) == freq_map_.end()) {
     return false;

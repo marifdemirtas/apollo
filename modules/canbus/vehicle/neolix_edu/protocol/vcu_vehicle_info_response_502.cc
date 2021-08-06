@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace neolix_edu {
 using ::apollo::drivers::canbus::Byte;
 
 Vcuvehicleinforesponse502::Vcuvehicleinforesponse502() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Vcuvehicleinforesponse502::ID = 0x502;
 
 void Vcuvehicleinforesponse502::Parse(const std::uint8_t* bytes, int32_t length,
                                       ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_neolix_edu()
       ->mutable_vcu_vehicle_info_response_502()
@@ -67,7 +67,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 int Vcuvehicleinforesponse502::vehicle_softwareversion_indicati(
     const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -91,7 +91,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehicleinforesponse502::project(const std::uint8_t* bytes,
                                        int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 4);
@@ -105,7 +105,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehicleinforesponse502::manufacturer(const std::uint8_t* bytes,
                                             int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(4, 4);
@@ -119,7 +119,7 @@ COVERAGE_LOG_TOKEN
 // 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehicleinforesponse502::year(const std::uint8_t* bytes,
                                     int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -133,7 +133,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehicleinforesponse502::month(const std::uint8_t* bytes,
                                      int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(4, 4);
@@ -147,7 +147,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehicleinforesponse502::day(const std::uint8_t* bytes,
                                    int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 4);
@@ -167,7 +167,7 @@ COVERAGE_LOG_TOKEN
 // ''}
 int Vcuvehicleinforesponse502::vehicle_serial_number(const std::uint8_t* bytes,
                                                      int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 7);

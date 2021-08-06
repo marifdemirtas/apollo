@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -57,13 +57,13 @@ SimulationWorldUpdater::SimulationWorldUpdater(
       camera_ws_(camera_ws),
       sim_control_(sim_control),
       perception_camera_updater_(perception_camera_updater) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   RegisterMessageHandlers();
 }
 
 void SimulationWorldUpdater::RegisterMessageHandlers() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Send current sim_control status to the new client.
   websocket_->RegisterConnectionReadyHandler(
@@ -397,7 +397,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Json SimulationWorldUpdater::CheckRoutingPoint(const Json &json) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Json result;
   if (!ContainsKey(json, "point")) {
@@ -421,7 +421,7 @@ COVERAGE_LOG_TOKEN
 
 bool SimulationWorldUpdater::ConstructRoutingRequest(
     const Json &json, RoutingRequest *routing_request) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   routing_request->clear_waypoint();
   // set start point
@@ -507,7 +507,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SimulationWorldUpdater::ValidateCoordinate(const nlohmann::json &json) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!ContainsKey(json, "x") || !ContainsKey(json, "y")) {
     AERROR << "Failed to find x or y coordinate.";
@@ -521,7 +521,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SimulationWorldUpdater::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   timer_.reset(new cyber::Timer(
       kSimWorldTimeIntervalMs, [this]() { this->OnTimer(); }, false));
@@ -529,7 +529,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SimulationWorldUpdater::OnTimer() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   sim_world_service_.Update();
 
@@ -546,7 +546,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SimulationWorldUpdater::LoadPOI() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (GetProtoFromASCIIFile(EndWayPointFile(), &poi_)) {
     return true;
@@ -557,7 +557,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SimulationWorldUpdater::LoadDefaultRoutings() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (GetProtoFromASCIIFile(DefaultRoutingFile(), &default_routings_)) {
     return true;
@@ -569,7 +569,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SimulationWorldUpdater::AddDefaultRouting(const Json &json) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!ContainsKey(json, "name")) {
     AERROR << "Failed to save a default routing: routing name not found.";

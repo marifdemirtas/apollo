@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -20,11 +20,8 @@
 #include "modules/common/math/sin_table.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace common {
-COVERAGE_LOG_TOKEN
-
 namespace math {
 
 float sin(Angle16 a) {
@@ -50,25 +47,25 @@ float cos(Angle16 a) {
 }
 
 float tan(Angle16 a) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return sin(a) / cos(a); }
 
 float sin(Angle8 a) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Angle16 b(static_cast<int16_t>(a.raw() << 8));
   return sin(b);
 }
 
 float cos(Angle8 a) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Angle16 b(static_cast<int16_t>(a.raw() << 8));
   return cos(b);
 }
 
 float tan(Angle8 a) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Angle16 b(static_cast<int16_t>(a.raw() << 8));
   return tan(b);

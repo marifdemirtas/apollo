@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -44,7 +44,7 @@ typedef apollo::localization::msf::FeatureXYPlane::PointCloudPtrT
 
 bool ParseCommandLine(int argc, char* argv[],
                       boost::program_options::variables_map* vm) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::program_options::options_description desc("Allowd options");
   desc.add_options()("help", "product help message")(
@@ -99,7 +99,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void VarianceOnline(double* mean, double* var, unsigned int* N, double x) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ++(*N);
   double value = (x - (*mean)) / (*N);
@@ -113,7 +113,7 @@ using ::apollo::common::EigenAffine3dVec;
 using ::apollo::common::EigenVector3dVec;
 
 int main(int argc, char** argv) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   FeatureXYPlane plane_extractor;
 

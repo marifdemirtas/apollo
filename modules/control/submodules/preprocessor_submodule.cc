@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -42,21 +42,21 @@ using apollo::planning::ADCTrajectory;
 
 PreprocessorSubmodule::PreprocessorSubmodule()
     : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PreprocessorSubmodule::~PreprocessorSubmodule() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string PreprocessorSubmodule::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return FLAGS_preprocessor_submodule_name;
 }
 
 bool PreprocessorSubmodule::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   injector_ = std::make_shared<DependencyInjector>();
   ACHECK(cyber::common::GetProtoFromFile(FLAGS_control_common_conf_file,
@@ -73,7 +73,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool PreprocessorSubmodule::Proc(const std::shared_ptr<LocalView> &local_view) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << "Preprocessor started ....";
   const auto start_time = Clock::Now();
@@ -131,7 +131,7 @@ COVERAGE_LOG_TOKEN
 
 Status PreprocessorSubmodule::ProducePreprocessorStatus(
     Preprocessor *control_preprocessor) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(SJiang): rename this function since local view got changed in this
   // function.
@@ -221,7 +221,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Status PreprocessorSubmodule::CheckInput(LocalView *local_view) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << "Received localization:"
          << local_view->localization().ShortDebugString();
@@ -254,7 +254,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Status PreprocessorSubmodule::CheckTimestamp(const LocalView &local_view) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!control_common_conf_.enable_input_timestamp_check() ||
       control_common_conf_.is_control_test_mode()) {

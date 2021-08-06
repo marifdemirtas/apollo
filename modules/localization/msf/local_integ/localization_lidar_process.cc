@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -64,11 +64,11 @@ LocalizationLidarProcess::LocalizationLidarProcess()
       out_map_count_(0),
       forecast_integ_state_(ForecastState::NOT_VALID),
       forecast_timer_(-1) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LocalizationLidarProcess::~LocalizationLidarProcess() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   delete locator_;
   locator_ = nullptr;
@@ -78,7 +78,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Status LocalizationLidarProcess::Init(const LocalizationIntegParam& params) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // initial_success_ = false;
   map_path_ = params.map_path;
@@ -159,7 +159,7 @@ COVERAGE_LOG_TOKEN
 double LocalizationLidarProcess::ComputeDeltaYawLimit(
     const int64_t index_cur, const int64_t index_stable, const double limit_min,
     const double limit_max) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (index_cur > index_stable) {
     return limit_min;
@@ -171,7 +171,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LocalizationLidarProcess::PcdProcess(const LidarFrame& lidar_frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!CheckState()) {
     AERROR << "PcdProcess: Receive an invalid lidar msg!";
@@ -219,7 +219,7 @@ COVERAGE_LOG_TOKEN
 void LocalizationLidarProcess::GetResult(int* lidar_status,
                                          TransformD* location,
                                          Matrix3D* covariance) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lidar_status);
   CHECK_NOTNULL(location);
@@ -231,7 +231,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int LocalizationLidarProcess::GetResult(LocalizationEstimate* lidar_local_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (lidar_local_msg == nullptr) {
     return static_cast<int>(LidarState::NOT_VALID);
@@ -279,13 +279,13 @@ COVERAGE_LOG_TOKEN
 }
 
 void LocalizationLidarProcess::IntegPvaProcess(const InsPva& sins_pva_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pose_forecastor_->PushInspvaData(sins_pva_msg);
 }
 
 void LocalizationLidarProcess::RawImuProcess(const ImuData& imu_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pose_forecastor_->PushImuData(imu_msg);
 }
@@ -293,7 +293,7 @@ COVERAGE_LOG_TOKEN
 bool LocalizationLidarProcess::GetPredictPose(const double lidar_time,
                                               TransformD* predict_pose,
                                               ForecastState* forecast_state) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(predict_pose);
   CHECK_NOTNULL(forecast_state);
@@ -360,11 +360,11 @@ COVERAGE_LOG_TOKEN
 }
 
 bool LocalizationLidarProcess::CheckState() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return true; }
 
 void LocalizationLidarProcess::UpdateState(const int ret, const double time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (ret == 0) {  // OK
     double location_score = 0.0;
@@ -435,7 +435,7 @@ COVERAGE_LOG_TOKEN
 
 bool LocalizationLidarProcess::LoadLidarExtrinsic(const std::string& file_path,
                                                   TransformD* lidar_extrinsic) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lidar_extrinsic);
 
@@ -464,7 +464,7 @@ COVERAGE_LOG_TOKEN
 
 bool LocalizationLidarProcess::LoadLidarHeight(const std::string& file_path,
                                                LidarHeight* height) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(height);
 

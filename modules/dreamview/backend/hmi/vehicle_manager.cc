@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ namespace dreamview {
 using cyber::common::GetProtoFromFile;
 
 VehicleManager::VehicleManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(GetProtoFromFile(FLAGS_vehicle_data_config_filename, &vehicle_data_))
       << "Unable to parse VehicleData config file "
@@ -41,13 +41,13 @@ COVERAGE_LOG_TOKEN
 }
 
 const std::string &VehicleManager::GetVehicleDataPath() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return vehicle_data_path_;
 }
 
 bool VehicleManager::UseVehicle(const std::string &vehicle_data_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!cyber::common::DirectoryExists(vehicle_data_path)) {
     AERROR << "Cannot find vehicle data: " << vehicle_data_path;

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ void HysteresisFilter::filter(const double input_value, const double threshold,
                               const double hysteresis_upper,
                               const double hysteresis_lower, int *state,
                               double *output_value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Use integer to represent mode as of now, for instance,
   // 1 is throttle, 0 is brake, then threshold is speed error

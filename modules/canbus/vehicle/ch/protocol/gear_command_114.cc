@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,11 +28,11 @@ const int32_t Gearcommand114::ID = 0x114;
 
 // public
 Gearcommand114::Gearcommand114() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Gearcommand114::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,13 +40,13 @@ COVERAGE_LOG_TOKEN
 }
 
 void Gearcommand114::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_gear_cmd(data, gear_cmd_);
 }
 
 void Gearcommand114::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // you should check this manually
   gear_cmd_ = Gear_command_114::GEAR_CMD_NEUTRAL;
@@ -54,7 +54,7 @@ COVERAGE_LOG_TOKEN
 
 Gearcommand114* Gearcommand114::set_gear_cmd(
     Gear_command_114::Gear_cmdType gear_cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gear_cmd_ = gear_cmd;
   return this;
@@ -67,7 +67,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'enum', 'order': 'intel', 'physical_unit': ''}
 void Gearcommand114::set_p_gear_cmd(uint8_t* data,
                                     Gear_command_114::Gear_cmdType gear_cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = gear_cmd;
 

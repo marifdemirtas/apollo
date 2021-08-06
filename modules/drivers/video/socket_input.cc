@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
 
@@ -43,7 +43,7 @@ namespace video {
  *  @param udpport UDP port number to connect
  */
 SocketInput::SocketInput() : sockfd_(-1), port_(0) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pkg_num_ = 0;
   bytes_num_ = 0;
@@ -52,7 +52,7 @@ COVERAGE_LOG_TOKEN
 
 /** @brief destructor */
 SocketInput::~SocketInput() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (buf_) {
     delete[] buf_;
@@ -64,7 +64,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void SocketInput::Init(uint32_t port) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sockfd_ != -1) {
     (void)close(sockfd_);
@@ -117,7 +117,7 @@ COVERAGE_LOG_TOKEN
 
 /** @brief Get one camera packet. */
 int SocketInput::GetFramePacket(std::shared_ptr<CompressedImage> h265Pb) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t *frame_data = &buf_[0];
   uint8_t *pdu_data = &pdu_[0];
@@ -212,7 +212,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SocketInput::InputAvailable(int timeout) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   (void)timeout;
   struct pollfd fds[1];

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ using cyber::common::GetAbsolutePath;
 using cyber::common::GetProtoFromASCIIFile;
 
 ConfigManager::ConfigManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   work_root_ = FLAGS_work_root;
 
@@ -44,14 +44,14 @@ COVERAGE_LOG_TOKEN
 }
 
 bool ConfigManager::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   MutexLock lock(&mutex_);
   return InitInternal();
 }
 
 bool ConfigManager::InitInternal() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (inited_) {
     return true;
@@ -120,7 +120,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool ConfigManager::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   MutexLock lock(&mutex_);
   inited_ = false;
@@ -129,7 +129,7 @@ COVERAGE_LOG_TOKEN
 
 bool ConfigManager::GetModelConfig(const std::string &model_name,
                                    const ModelConfig **model_config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!inited_ && !Init()) {
     return false;
@@ -144,7 +144,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ConfigManager::~ConfigManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto iter = model_config_map_.begin(); iter != model_config_map_.end();
        ++iter) {
@@ -153,7 +153,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool ModelConfig::Reset(const ModelConfigProto &proto) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   name_ = proto.name();
   version_ = proto.version();

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Componentrpt20::Componentrpt20() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Componentrpt20::ID = 0x20;
 
 void Componentrpt20::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_lexus()->mutable_component_rpt_20()->set_component_type(
       component_type(bytes, length));
@@ -56,7 +56,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'motorola', 'physical_unit': ''}
 Component_rpt_20::Component_typeType Componentrpt20::component_type(
     const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -75,7 +75,7 @@ COVERAGE_LOG_TOKEN
 // 'bit': 15, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Component_rpt_20::Component_funcType Componentrpt20::component_func(
     const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -89,7 +89,7 @@ COVERAGE_LOG_TOKEN
 // 'is_signed_var': False, 'physical_range': '[0|15]', 'bit': 19, 'type': 'int',
 // 'order': 'motorola', 'physical_unit': ''}
 int Componentrpt20::counter(const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 4);
@@ -103,7 +103,7 @@ COVERAGE_LOG_TOKEN
 // 'int', 'order': 'motorola', 'physical_unit': ''}
 int Componentrpt20::complement(const std::uint8_t* bytes,
                                int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(4, 4);
@@ -117,7 +117,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Componentrpt20::config_fault(const std::uint8_t* bytes,
                                   int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 1);

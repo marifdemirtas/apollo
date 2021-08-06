@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -19,13 +19,12 @@
 #include <limits>
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
 
 void ObjMapperParams::set_default() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   nr_bins_z = 15;
   nr_bins_ry = 36;
@@ -53,7 +52,7 @@ bool ObjMapper::SolveCenterFromNearestVerticalEdge(const float *bbox,
                                                    const float *hwl, float ry,
                                                    float *center,
                                                    float *center_2d) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   center[0] = center[1] = center[2] = 0.0f;
   float height_bbox = bbox[3] - bbox[1];
@@ -96,7 +95,7 @@ COVERAGE_LOG_TOKEN
 
 bool ObjMapper::Solve3dBboxGivenOneFullBboxDimensionOrientation(
     const float *bbox, const float *hwl, float *ry, float *center) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const float PI = common::Constant<float>::PI();
   const float PI_HALF = PI / 2;
@@ -132,7 +131,7 @@ COVERAGE_LOG_TOKEN
 
 bool ObjMapper::Solve3dBbox(const ObjMapperOptions &options, float center[3],
                             float hwl[3], float *ry) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // set default value for variance
   set_default_variance();
@@ -233,7 +232,7 @@ COVERAGE_LOG_TOKEN
 
 void ObjMapper::PostRefineOrientation(const float *bbox, const float *hwl,
                                       const float *center, float *ry) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const int kNrBinsRy = static_cast<int>(ry_score_.size());
   const float PI = common::Constant<float>::PI();
@@ -284,7 +283,7 @@ COVERAGE_LOG_TOKEN
 void ObjMapper::GetCenter(const float *bbox, const float &z_ref,
                           const float &ry, const float *hwl, float *center,
                           float *x) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float x_target[2] = {(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2};
   const float kMinCost = params_.reproj_err;

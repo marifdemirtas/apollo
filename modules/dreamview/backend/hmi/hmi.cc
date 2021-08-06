@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -45,7 +45,7 @@ HMI::HMI(WebSocketHandler* websocket, MapService* map_service)
       monitor_log_buffer_(apollo::common::monitor::MonitorMessageItem::HMI),
       websocket_(websocket),
       map_service_(map_service) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (websocket_) {
     RegisterMessageHandlers();
@@ -53,15 +53,15 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMI::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  hmi_worker_->Start(); }
 
 void HMI::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  hmi_worker_->Stop(); }
 
 void HMI::RegisterMessageHandlers() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Broadcast HMIStatus to clients when status changed.
   hmi_worker_->RegisterStatusUpdateHandler(
@@ -222,7 +222,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMI::SendVehicleParam(WebSocketHandler::Connection* conn) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (websocket_ == nullptr) {
     return;
@@ -240,7 +240,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMI::SendStatus(WebSocketHandler::Connection* conn) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto status_json =
       JsonUtil::ProtoToTypedJson("HMIStatus", hmi_worker_->GetStatus());

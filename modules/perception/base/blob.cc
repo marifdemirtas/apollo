@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
 COPYRIGHT
 
@@ -72,7 +72,7 @@ namespace base {
 template <typename Dtype>
 void Blob<Dtype>::Reshape(const int num, const int channels, const int height,
                           const int width) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<int> shape(4);
   shape[0] = num;
@@ -84,7 +84,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename Dtype>
 void Blob<Dtype>::Reshape(const std::vector<int>& shape) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_LE(shape.size(), kMaxBlobAxes);
   count_ = 1;
@@ -113,7 +113,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename Dtype>
 void Blob<Dtype>::ReshapeLike(const Blob<Dtype>& other) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Reshape(other.shape());
 }
@@ -123,7 +123,7 @@ Blob<Dtype>::Blob(const int num, const int channels, const int height,
                   const int width, const bool use_cuda_host_malloc)
     // capacity_ must be initialized before calling Reshape
     : capacity_(0), use_cuda_host_malloc_(use_cuda_host_malloc) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Reshape(num, channels, height, width);
 }
@@ -133,14 +133,14 @@ Blob<Dtype>::Blob(const std::vector<int>& shape,
                   const bool use_cuda_host_malloc)
     // capacity_ must be initialized before calling Reshape
     : capacity_(0), use_cuda_host_malloc_(use_cuda_host_malloc) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Reshape(shape);
 }
 
 template <typename Dtype>
 const int* Blob<Dtype>::gpu_shape() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(shape_data_);
   return (const int*)shape_data_->gpu_data();
@@ -148,7 +148,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename Dtype>
 const Dtype* Blob<Dtype>::cpu_data() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(data_);
   return (const Dtype*)data_->cpu_data();
@@ -156,7 +156,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename Dtype>
 void Blob<Dtype>::set_cpu_data(Dtype* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(data);
   // Make sure CPU and GPU sizes remain equal
@@ -169,7 +169,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename Dtype>
 const Dtype* Blob<Dtype>::gpu_data() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(data_);
   return (const Dtype*)data_->gpu_data();
@@ -177,7 +177,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename Dtype>
 void Blob<Dtype>::set_gpu_data(Dtype* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(data);
   // Make sure CPU and GPU sizes remain equal
@@ -190,7 +190,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename Dtype>
 Dtype* Blob<Dtype>::mutable_cpu_data() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(data_);
   return static_cast<Dtype*>(data_->mutable_cpu_data());
@@ -198,7 +198,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename Dtype>
 Dtype* Blob<Dtype>::mutable_gpu_data() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(data_);
   return static_cast<Dtype*>(data_->mutable_gpu_data());
@@ -206,7 +206,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename Dtype>
 void Blob<Dtype>::ShareData(const Blob& other) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_EQ(count_, other.count());
   data_ = other.data();

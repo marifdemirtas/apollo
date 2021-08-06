@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -95,21 +95,21 @@ static const float kDefaultPitchAngle = 0.0f;
 static const float kDefaultCameraHeight = 1.5f;
 
 void save_image(const std::string &path, base::Image8U &image) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   // NOLINT
   AINFO << path;
   int cv_type = image.type() == base::Color::GRAY ? CV_8UC1 : CV_8UC3;
@@ -119,7 +119,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int work() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Init pipeline:
   ObstacleCameraPerception perception;
@@ -370,7 +370,7 @@ COVERAGE_LOG_TOKEN
 }  // namespace apollo
 
 int main(int argc, char *argv[]) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   google::SetUsageMessage(

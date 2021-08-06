@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,14 +28,14 @@ namespace fusion {
 SensorObject::SensorObject(
     const std::shared_ptr<const base::Object>& object_ptr)
     : object_(object_ptr), frame_header_(nullptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 SensorObject::SensorObject(
     const std::shared_ptr<const base::Object>& object_ptr,
     const std::shared_ptr<const SensorFrameHeader>& frame_header)
     : object_(object_ptr), frame_header_(frame_header) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 SensorObject::SensorObject(
@@ -43,12 +43,12 @@ SensorObject::SensorObject(
     const std::shared_ptr<SensorFrame>& frame_ptr)
     : object_(object_ptr),
       frame_header_((frame_ptr == nullptr) ? nullptr : frame_ptr->GetHeader()) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 }
 
 double SensorObject::GetTimestamp() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (frame_header_ == nullptr) {
     return 0.0;
@@ -58,7 +58,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool SensorObject::GetRelatedFramePose(Eigen::Affine3d* pose) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (pose == nullptr) {
     AERROR << "pose is not available";
@@ -73,7 +73,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string SensorObject::GetSensorId() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (frame_header_ == nullptr) {
     return std::string("");
@@ -83,7 +83,7 @@ COVERAGE_LOG_TOKEN
 }
 
 base::SensorType SensorObject::GetSensorType() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (frame_header_ == nullptr) {
     return base::SensorType::UNKNOWN_SENSOR_TYPE;
@@ -94,28 +94,28 @@ COVERAGE_LOG_TOKEN
 
 // FusedObject implementations
 FusedObject::FusedObject() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   base::ObjectPool& object_pool = base::ObjectPool::Instance();
   object_ = object_pool.Get();
 }
 
 bool IsLidar(const SensorObjectConstPtr& obj) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   base::SensorType type = obj->GetSensorType();
   return common::SensorManager::Instance()->IsLidar(type);
 }
 
 bool IsRadar(const SensorObjectConstPtr& obj) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   base::SensorType type = obj->GetSensorType();
   return common::SensorManager::Instance()->IsRadar(type);
 }
 
 bool IsCamera(const SensorObjectConstPtr& obj) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   base::SensorType type = obj->GetSensorType();
   return common::SensorManager::Instance()->IsCamera(type);

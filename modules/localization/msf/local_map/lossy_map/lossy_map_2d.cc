@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,18 +22,18 @@ namespace localization {
 namespace msf {
 
 LossyMap2D::LossyMap2D(LossyMapConfig2D* config) : BaseMap(config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LossyMap2D::~LossyMap2D() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LossyMap2D::PreloadMapArea(const Eigen::Vector3d& location,
                                 const Eigen::Vector3d& trans_diff,
                                 unsigned int resolution_id,
                                 unsigned int zone_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseMap::PreloadMapArea(location, trans_diff, resolution_id, zone_id);
 }
@@ -41,7 +41,7 @@ COVERAGE_LOG_TOKEN
 bool LossyMap2D::LoadMapArea(const Eigen::Vector3d& seed_pt3d,
                              unsigned int resolution_id, unsigned int zone_id,
                              int filter_size_x, int filter_size_y) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   BaseMap::LoadMapArea(seed_pt3d, resolution_id, zone_id, filter_size_x,
                        filter_size_y);

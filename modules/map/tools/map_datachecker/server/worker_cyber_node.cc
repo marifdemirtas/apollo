@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ namespace hdmap {
 
 MapDataCheckerCyberNode::MapDataCheckerCyberNode(
     std::shared_ptr<MapDataCheckerAgent> agent, bool *init_success) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!agent) {
     AFATAL << "MapDataCheckerAgent pointer is nullptr";
@@ -54,7 +54,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int MapDataCheckerCyberNode::CreateChannelSubscriber() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "create bestgnsspos reader, topic: " << FLAGS_topic_bestgnsspos;
   bestgnsspos_reader_ = node_->CreateReader<GnssBestPose_t>(

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,14 +24,13 @@
 // TODO(Xun): code completion
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
 
 bool LocationRefinerObstaclePostprocessor::Init(
     const ObstaclePostprocessorInitOptions &options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string postprocessor_config =
       cyber::common::GetAbsolutePath(options.root_dir, options.conf_file);
@@ -52,7 +51,7 @@ COVERAGE_LOG_TOKEN
 
 bool LocationRefinerObstaclePostprocessor::Process(
     const ObstaclePostprocessorOptions &options, CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (frame->detected_objects.empty() ||
       frame->calibration_service == nullptr ||
@@ -168,7 +167,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string LocationRefinerObstaclePostprocessor::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return "LocationRefinerObstaclePostprocessor";
 }

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ bool DetectionEvaluation::init(const std::string& clouds,
                                unsigned int eval_thread_num,
                                unsigned int eval_parrallel_num,
                                const std::string& reserve) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<std::string> strs;
   strs.push_back(clouds);
@@ -65,7 +65,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DetectionEvaluation::run_evaluation() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // sequential loading and accumulate
   while (true) {

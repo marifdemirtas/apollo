@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -37,7 +37,7 @@ using apollo::transform::TransformStamped;
 namespace {
 void ConvertMatrixToArray(const Eigen::Matrix4d &matrix,
                           std::vector<double> *array) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const double *pointer = matrix.data();
   for (int i = 0; i < matrix.size(); ++i) {
@@ -66,17 +66,17 @@ void ConstructTransformationMatrix(const Quaternion &quaternion,
 PerceptionCameraUpdater::PerceptionCameraUpdater(WebSocketHandler *websocket)
     : websocket_(websocket),
       node_(cyber::CreateNode("perception_camera_updater")) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   InitReaders();
 }
 
 void PerceptionCameraUpdater::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  enabled_ = true; }
 
 void PerceptionCameraUpdater::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (enabled_) {
     localization_queue_.clear();
@@ -89,7 +89,7 @@ COVERAGE_LOG_TOKEN
 
 void PerceptionCameraUpdater::GetImageLocalization(
     std::vector<double> *localization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (localization_queue_.empty()) {
     AERROR << "Localization queue is empty, cannot get localization for image,"
@@ -129,7 +129,7 @@ COVERAGE_LOG_TOKEN
 bool PerceptionCameraUpdater::QueryStaticTF(const std::string &frame_id,
                                             const std::string &child_frame_id,
                                             Eigen::Matrix4d *matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   TransformStamped transform;
   if (tf_buffer_->GetLatestStaticTF(frame_id, child_frame_id, &transform)) {
@@ -142,7 +142,7 @@ COVERAGE_LOG_TOKEN
 
 void PerceptionCameraUpdater::GetLocalization2CameraTF(
     std::vector<double> *localization2camera_tf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Matrix4d localization2camera_mat = Eigen::Matrix4d::Identity();
 
@@ -170,7 +170,7 @@ COVERAGE_LOG_TOKEN
 
 void PerceptionCameraUpdater::OnImage(
     const std::shared_ptr<CompressedImage> &compressed_image) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!enabled_ ||
       compressed_image->format() == "h265" /* skip video format */) {
@@ -212,7 +212,7 @@ COVERAGE_LOG_TOKEN
 
 void PerceptionCameraUpdater::OnLocalization(
     const std::shared_ptr<LocalizationEstimate> &localization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!enabled_) {
     return;
@@ -223,7 +223,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PerceptionCameraUpdater::InitReaders() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   node_->CreateReader<CompressedImage>(
       FLAGS_image_short_topic,
@@ -239,7 +239,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PerceptionCameraUpdater::GetUpdate(std::string *camera_update) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   {
     std::lock(image_mutex_, localization_mutex_);

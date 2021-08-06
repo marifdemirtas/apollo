@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +31,7 @@ namespace {
 
 // Find the first existing file from a list of candidates: "file_a|file_b|...".
 std::string FindFirstExist(const std::string& dir, const std::string& files) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::vector<std::string> candidates = absl::StrSplit(files, '|');
   for (const auto& filename : candidates) {
@@ -49,7 +49,7 @@ COVERAGE_LOG_TOKEN
 }  // namespace
 
 std::string BaseMapFile() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (FLAGS_use_navigation_mode) {
     AWARN << "base_map file is not used when FLAGS_use_navigation_mode is true";
@@ -60,7 +60,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string SimMapFile() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (FLAGS_use_navigation_mode) {
     AWARN << "sim_map file is not used when FLAGS_use_navigation_mode is true";
@@ -69,7 +69,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string RoutingMapFile() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (FLAGS_use_navigation_mode) {
     AWARN << "routing_map file is not used when FLAGS_use_navigation_mode is "
@@ -79,7 +79,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::unique_ptr<HDMap> CreateMap(const std::string& map_file_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::unique_ptr<HDMap> hdmap(new HDMap());
   if (hdmap->LoadMapFromFile(map_file_path) != 0) {
@@ -91,7 +91,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::unique_ptr<HDMap> CreateMap(const MapMsg& map_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::unique_ptr<HDMap> hdmap(new HDMap());
   if (hdmap->LoadMapFromProto(map_msg.hdmap()) != 0) {
@@ -110,7 +110,7 @@ std::unique_ptr<HDMap> HDMapUtil::sim_map_ = nullptr;
 std::mutex HDMapUtil::sim_map_mutex_;
 
 const HDMap* HDMapUtil::BaseMapPtr(const MapMsg& map_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(base_map_mutex_);
   if (base_map_ != nullptr &&
@@ -125,7 +125,7 @@ COVERAGE_LOG_TOKEN
 }
 
 const HDMap* HDMapUtil::BaseMapPtr() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(all) Those logics should be removed to planning
   /*if (FLAGS_use_navigation_mode) {
@@ -159,11 +159,11 @@ COVERAGE_LOG_TOKEN
 }
 
 const HDMap& HDMapUtil::BaseMap() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return *CHECK_NOTNULL(BaseMapPtr()); }
 
 const HDMap* HDMapUtil::SimMapPtr() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (FLAGS_use_navigation_mode) {
     return BaseMapPtr();
@@ -177,11 +177,11 @@ COVERAGE_LOG_TOKEN
 }
 
 const HDMap& HDMapUtil::SimMap() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return *CHECK_NOTNULL(SimMapPtr()); }
 
 bool HDMapUtil::ReloadMaps() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   {
     std::lock_guard<std::mutex> lock(base_map_mutex_);

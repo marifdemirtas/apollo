@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -37,7 +37,7 @@ namespace hdmap {
 
 ChannelChecker::ChannelChecker(const std::string& stop_flag_file)
     : stop_flag_file_(stop_flag_file) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   YAML::Node node = YAML::LoadFile(FLAGS_client_conf_yaml);
   std::string server_addr =
@@ -49,7 +49,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int ChannelChecker::SyncStart(const std::string& record_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!boost::filesystem::exists(record_path)) {
     AERROR << "record_path [" << record_path << "]does not exist";
@@ -64,7 +64,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int ChannelChecker::SyncStop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // stop client
   std::ofstream ofs(stop_flag_file_);
@@ -78,7 +78,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int ChannelChecker::PeriodicCheck() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int ret = 0;
   while (!boost::filesystem::exists(stop_flag_file_)) {
@@ -99,7 +99,7 @@ COVERAGE_LOG_TOKEN
 
 int ChannelChecker::GrpcStub(ChannelVerifyRequest* request,
                              ChannelVerifyResponse* response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   grpc::ClientContext context;
   grpc::Status status;
@@ -117,7 +117,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int ChannelChecker::Start(const std::string& record_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ChannelVerifyRequest request;
   request.set_path(record_path);
@@ -130,7 +130,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int ChannelChecker::Check() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ChannelVerifyRequest request;
   request.set_cmd(CmdType::CHECK);
@@ -145,7 +145,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int ChannelChecker::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ChannelVerifyRequest request;
   request.set_cmd(CmdType::STOP);
@@ -156,7 +156,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int ChannelChecker::ProcessAbnormal(ChannelVerifyResponse* response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ErrorCode code = response->code();
   if (code == ErrorCode::ERROR_CHANNEL_VERIFY_RATES_ABNORMAL) {

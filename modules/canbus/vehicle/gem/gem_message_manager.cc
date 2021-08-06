@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /* Copyright 2018 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,7 +53,7 @@ namespace canbus {
 namespace gem {
 
 GemMessageManager::GemMessageManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Control Messages
   AddSendProtocolData<Accelcmd67, true>();
@@ -91,7 +91,7 @@ COVERAGE_LOG_TOKEN
 }
 
 GemMessageManager::~GemMessageManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 }  // namespace gem

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Ads338e::ID = 0x38E;
 
 // public
 Ads338e::Ads338e() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Ads338e::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(ChaoMa) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Ads338e::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_ads_bcm_worksts(data, ads_bcm_worksts_);
   set_p_ads_bcmworkstsvalid(data, ads_bcmworkstsvalid_);
@@ -59,7 +59,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Ads338e::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(ChaoMa) you should check this manually
   ads_bcm_worksts_ = Ads3_38e::ADS_BCM_WORKSTS_DISABLE;
@@ -79,7 +79,7 @@ COVERAGE_LOG_TOKEN
 
 Ads338e* Ads338e::set_ads_bcm_worksts(
     Ads3_38e::Ads_bcm_workstsType ads_bcm_worksts) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ads_bcm_worksts_ = ads_bcm_worksts;
   return this;
@@ -94,7 +94,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Ads338e::set_p_ads_bcm_worksts(
     uint8_t* data, Ads3_38e::Ads_bcm_workstsType ads_bcm_worksts) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = ads_bcm_worksts;
 
@@ -104,7 +104,7 @@ COVERAGE_LOG_TOKEN
 
 Ads338e* Ads338e::set_ads_bcmworkstsvalid(
     Ads3_38e::Ads_bcmworkstsvalidType ads_bcmworkstsvalid) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ads_bcmworkstsvalid_ = ads_bcmworkstsvalid;
   return this;
@@ -117,7 +117,7 @@ COVERAGE_LOG_TOKEN
 // '[0|1]', 'bit': 7, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Ads338e::set_p_ads_bcmworkstsvalid(
     uint8_t* data, Ads3_38e::Ads_bcmworkstsvalidType ads_bcmworkstsvalid) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = ads_bcmworkstsvalid;
 
@@ -127,7 +127,7 @@ COVERAGE_LOG_TOKEN
 
 Ads338e* Ads338e::set_ads_reqcontrolbcm(
     Ads3_38e::Ads_reqcontrolbcmType ads_reqcontrolbcm) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ads_reqcontrolbcm_ = ads_reqcontrolbcm;
   return this;
@@ -140,7 +140,7 @@ COVERAGE_LOG_TOKEN
 // '[0|1]', 'bit': 8, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Ads338e::set_p_ads_reqcontrolbcm(
     uint8_t* data, Ads3_38e::Ads_reqcontrolbcmType ads_reqcontrolbcm) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = ads_reqcontrolbcm;
 
@@ -149,7 +149,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Ads338e* Ads338e::set_highbeamton(Ads3_38e::HighbeamtonType highbeamton) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   highbeamton_ = highbeamton;
   return this;
@@ -162,7 +162,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Ads338e::set_p_highbeamton(uint8_t* data,
                                 Ads3_38e::HighbeamtonType highbeamton) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = highbeamton;
 
@@ -171,7 +171,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Ads338e* Ads338e::set_dippedbeamon(Ads3_38e::DippedbeamonType dippedbeamon) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   dippedbeamon_ = dippedbeamon;
   return this;
@@ -184,7 +184,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Ads338e::set_p_dippedbeamon(uint8_t* data,
                                  Ads3_38e::DippedbeamonType dippedbeamon) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = dippedbeamon;
 
@@ -193,7 +193,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Ads338e* Ads338e::set_turnllighton(Ads3_38e::TurnllightonType turnllighton) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   turnllighton_ = turnllighton;
   return this;
@@ -207,7 +207,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Ads338e::set_p_turnllighton(uint8_t* data,
                                  Ads3_38e::TurnllightonType turnllighton) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = turnllighton;
 
@@ -217,7 +217,7 @@ COVERAGE_LOG_TOKEN
 
 Ads338e* Ads338e::set_emergencylighton(
     Ads3_38e::EmergencylightonType emergencylighton) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   emergencylighton_ = emergencylighton;
   return this;
@@ -230,7 +230,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Ads338e::set_p_emergencylighton(
     uint8_t* data, Ads3_38e::EmergencylightonType emergencylighton) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = emergencylighton;
 
@@ -239,7 +239,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Ads338e* Ads338e::set_ffoglampon(Ads3_38e::FfoglamponType ffoglampon) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ffoglampon_ = ffoglampon;
   return this;
@@ -252,7 +252,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Ads338e::set_p_ffoglampon(uint8_t* data,
                                Ads3_38e::FfoglamponType ffoglampon) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = ffoglampon;
 
@@ -261,7 +261,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Ads338e* Ads338e::set_rfoglampon(Ads3_38e::RfoglamponType rfoglampon) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   rfoglampon_ = rfoglampon;
   return this;
@@ -274,7 +274,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Ads338e::set_p_rfoglampon(uint8_t* data,
                                Ads3_38e::RfoglamponType rfoglampon) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = rfoglampon;
 
@@ -283,7 +283,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Ads338e* Ads338e::set_brakelight(Ads3_38e::BrakelightType brakelight) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   brakelight_ = brakelight;
   return this;
@@ -296,7 +296,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Ads338e::set_p_brakelight(uint8_t* data,
                                Ads3_38e::BrakelightType brakelight) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = brakelight;
 
@@ -305,7 +305,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Ads338e* Ads338e::set_hornon(Ads3_38e::HornonType hornon) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   hornon_ = hornon;
   return this;
@@ -316,7 +316,7 @@ COVERAGE_LOG_TOKEN
 // 'HornON', 'is_signed_var': False, 'offset': 0.0, 'physical_range': '[0|1]',
 // 'bit': 49, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Ads338e::set_p_hornon(uint8_t* data, Ads3_38e::HornonType hornon) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = hornon;
 
@@ -326,7 +326,7 @@ COVERAGE_LOG_TOKEN
 
 Ads338e* Ads338e::set_fwindshieldwiper(
     Ads3_38e::FwindshieldwiperType fwindshieldwiper) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   fwindshieldwiper_ = fwindshieldwiper;
   return this;
@@ -339,7 +339,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Ads338e::set_p_fwindshieldwiper(
     uint8_t* data, Ads3_38e::FwindshieldwiperType fwindshieldwiper) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = fwindshieldwiper;
 
@@ -349,7 +349,7 @@ COVERAGE_LOG_TOKEN
 
 Ads338e* Ads338e::set_rwindshieldwiper(
     Ads3_38e::RwindshieldwiperType rwindshieldwiper) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   rwindshieldwiper_ = rwindshieldwiper;
   return this;
@@ -362,7 +362,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Ads338e::set_p_rwindshieldwiper(
     uint8_t* data, Ads3_38e::RwindshieldwiperType rwindshieldwiper) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = rwindshieldwiper;
 

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -41,7 +41,7 @@ using cyber::record::RecordViewer;
 using cyber::record::RecordWriter;
 
 bool PostRecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!DirectoryExists(source_record_dir_)) {
     AERROR << "source record dir does not exist: " << source_record_dir_;
@@ -61,7 +61,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool PostRecordProcessor::Process() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // First scan, get intervals
   for (const std::string& record : source_record_files_) {
@@ -102,7 +102,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string PostRecordProcessor::GetDefaultOutputFile() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string src_file_name = source_record_files_.front();
   const std::string record_flag(".record");
@@ -112,7 +112,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PostRecordProcessor::LoadSourceRecords() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DIR* dirp = opendir(source_record_dir_.c_str());
   if (dirp == nullptr) {

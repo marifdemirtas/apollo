@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,7 @@ limitations under the License.
 
 namespace {
 bool IsRoadBelongToJunction(const std::string& road_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(!road_id.empty());
   return road_id != "-1";
@@ -36,7 +36,7 @@ namespace adapter {
 
 Status RoadsXmlParser::Parse(const tinyxml2::XMLElement& xml_node,
                              std::vector<RoadInternal>* roads) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(roads);
 
@@ -88,7 +88,7 @@ COVERAGE_LOG_TOKEN
 
 void RoadsXmlParser::Parse_road_objects(const tinyxml2::XMLElement& xml_node,
                                         RoadInternal* road_info) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(road_info);
 
@@ -112,7 +112,7 @@ COVERAGE_LOG_TOKEN
 
 void RoadsXmlParser::Parse_road_signals(const tinyxml2::XMLElement& xml_node,
                                         RoadInternal* road_info) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(road_info);
 
@@ -130,7 +130,7 @@ COVERAGE_LOG_TOKEN
 
 Status RoadsXmlParser::to_pb_road_type(const std::string& type,
                                        PbRoadType* pb_road_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(pb_road_type);
 

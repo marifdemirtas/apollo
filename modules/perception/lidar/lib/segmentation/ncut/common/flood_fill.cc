@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ const int kNonEmptyGridLabel = -2;
 }  // namespace
 
 int FloodFill::Pos(float x, float y) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const int irow = static_cast<int>((y + _offset_y) / _cell_size);
   if (!IsValidRowIndex(irow)) {
@@ -44,7 +44,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool FloodFill::Pos2d(float x, float y, int* irow, int* jcol) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *irow = static_cast<int>((y + _offset_y) / _cell_size);
   if (!IsValidRowIndex(*irow)) {
@@ -58,7 +58,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void FloodFill::BuildGrid(base::PointFCloudConstPtr cloud) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GT(_grid_radius, 0.0);
   CHECK_GT(_cell_size, 0.0);
@@ -105,7 +105,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int FloodFill::GetConnectedComponents() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int num_components = 0;
   for (int idx = 0; idx < _grid_size; ++idx) {
@@ -120,7 +120,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void FloodFill::DfsColoring(int i, int j, int curr_component) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // recursively label the neighbors
   for (int direction = 0; direction < kNumDirections; ++direction) {
@@ -139,7 +139,7 @@ COVERAGE_LOG_TOKEN
 void FloodFill::GetSegments(base::PointFCloudConstPtr cloud,
                             std::vector<std::vector<int>>* segments_indices,
                             std::vector<int>* num_cells_per_segment) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(segments_indices);
   CHECK_NOTNULL(num_cells_per_segment);

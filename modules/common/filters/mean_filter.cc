@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,7 +31,7 @@ using TimedValue = std::pair<uint8, double>;
 const uint8 kMaxWindowSize = std::numeric_limits<uint8>::max() / 2;
 
 MF::MeanFilter(const uint8 window_size) : window_size_(window_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GT(window_size_, 0);
   CHECK_LE(window_size_, kMaxWindowSize);
@@ -39,7 +39,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double MF::GetMin() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (min_candidates_.empty()) {
     return std::numeric_limits<double>::infinity();
@@ -49,7 +49,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double MF::GetMax() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (max_candidates_.empty()) {
     return -std::numeric_limits<double>::infinity();
@@ -59,7 +59,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double MF::Update(const double measurement) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(initialized_);
   CHECK_LE(values_.size(), window_size_);
@@ -80,7 +80,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool MF::ShouldPopOldestCandidate(const uint8 old_time) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (old_time < window_size_) {
     CHECK_LE(time_, old_time + window_size_);
@@ -94,7 +94,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MF::RemoveEarliest() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_EQ(values_.size(), window_size_);
   double removed = values_.front();
@@ -109,7 +109,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MF::Insert(const double value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   values_.push_back(value);
   sum_ += value;

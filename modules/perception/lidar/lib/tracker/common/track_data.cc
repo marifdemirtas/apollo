@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,19 +23,19 @@ namespace perception {
 namespace lidar {
 const int TrackData::kMaxHistorySize = 40;
 TrackData::TrackData() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 TrackData::TrackData(TrackedObjectPtr obj, int track_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 TrackData::~TrackData() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::pair<double, TrackedObjectPtr> TrackData::GetHistoryObject(int idx) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (history_objects_.empty()) {
     AWARN << "no object in track";
@@ -64,7 +64,7 @@ COVERAGE_LOG_TOKEN
 
 std::pair<double, TrackedObjectConstPtr> TrackData::GetHistoryObject(
     int idx) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (history_objects_.empty()) {
     AINFO << "no object in track";
@@ -92,7 +92,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TrackData::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   track_id_ = -1;
   age_ = 0;
@@ -110,7 +110,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TrackData::Reset(TrackedObjectPtr obj, double time, int track_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Reset();
   track_id_ = track_id;
@@ -118,7 +118,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TrackData::PushTrackedObjectToTrack(TrackedObjectPtr obj, double time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (history_objects_.find(time) == history_objects_.end()) {
     history_objects_.insert(std::make_pair(time, obj));

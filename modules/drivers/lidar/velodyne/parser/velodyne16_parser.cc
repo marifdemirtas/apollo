@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace velodyne {
 
 Velodyne16Parser::Velodyne16Parser(const Config& config)
     : VelodyneParser(config), previous_packet_stamp_(0), gps_base_usec_(0) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   inner_time_ = &velodyne::INNER_TIME_16;
   need_two_pt_correction_ = false;
@@ -32,7 +32,7 @@ COVERAGE_LOG_TOKEN
 void Velodyne16Parser::GeneratePointcloud(
     const std::shared_ptr<VelodyneScan>& scan_msg,
     std::shared_ptr<PointCloud> out_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // allocate a point cloud with same time and frame ID as raw data
   out_msg->mutable_header()->set_frame_id(scan_msg->header().frame_id());
@@ -59,7 +59,7 @@ COVERAGE_LOG_TOKEN
 
 uint64_t Velodyne16Parser::GetTimestamp(double base_time, float time_offset,
                                         uint16_t block_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double t = base_time - time_offset;
   uint64_t timestamp = Velodyne16Parser::GetGpsStamp(t, &previous_packet_stamp_,
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
  */
 void Velodyne16Parser::Unpack(const VelodynePacket& pkt,
                               std::shared_ptr<PointCloud> pc) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float azimuth_diff = 0.0f;
   float last_azimuth_diff = 0.0f;
@@ -167,7 +167,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Velodyne16Parser::Order(std::shared_ptr<PointCloud> cloud) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int width = 16;
   cloud->set_width(width);

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,16 +29,16 @@ namespace pyramid_map {
 BaseMapNodePool::BaseMapNodePool(unsigned int pool_size,
                                  unsigned int thread_size)
     : pool_size_(pool_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 BaseMapNodePool::~BaseMapNodePool() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Release(); }
 
 void BaseMapNodePool::Initial(const BaseMapConfig* map_config,
                               bool is_fixed_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   is_fixed_size_ = is_fixed_size;
   map_config_ = map_config;
@@ -50,7 +50,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMapNodePool::Release() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (node_reset_workers_.valid()) {
     node_reset_workers_.get();
@@ -69,7 +69,7 @@ COVERAGE_LOG_TOKEN
 }
 
 BaseMapNode* BaseMapNodePool::AllocMapNode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (free_list_.empty()) {
     if (node_reset_workers_.valid()) {
@@ -95,14 +95,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMapNodePool::FreeMapNode(BaseMapNode* map_node) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   node_reset_workers_ =
       cyber::Async(&BaseMapNodePool::FreeMapNodeTask, this, map_node);
 }
 
 void BaseMapNodePool::FreeMapNodeTask(BaseMapNode* map_node) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   FinalizeMapNode(map_node);
   ResetMapNode(map_node);
@@ -118,13 +118,13 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMapNodePool::InitNewMapNode(BaseMapNode* node) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   node->Init(map_config_);
 }
 
 void BaseMapNodePool::FinalizeMapNode(BaseMapNode* node) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (node != nullptr) {
     node->Finalize();
@@ -132,7 +132,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMapNodePool::DellocMapNode(BaseMapNode* node) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (node != nullptr) {
     delete node;
@@ -140,7 +140,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMapNodePool::ResetMapNode(BaseMapNode* node) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (node != nullptr) {
     node->ResetMapNode();

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Adsepscommand56::ID = 0x56;
 
 // public
 Adsepscommand56::Adsepscommand56() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Adsepscommand56::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Adsepscommand56::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_drive_enable(data, drive_enable_);
   set_p_auto_target_angle(data, auto_target_angle_);
@@ -54,7 +54,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Adsepscommand56::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(All) :  you should check this manually
   drive_enable_ = false;
@@ -64,7 +64,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Adsepscommand56* Adsepscommand56::set_drive_enable(bool drive_enable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   drive_enable_ = drive_enable;
   return this;
@@ -75,7 +75,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_range': '[0|0]', 'bit': 0, 'type': 'bool', 'order': 'motorola',
 // 'physical_unit': ''}
 void Adsepscommand56::set_p_drive_enable(uint8_t* data, bool drive_enable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = drive_enable;
 
@@ -85,7 +85,7 @@ COVERAGE_LOG_TOKEN
 
 Adsepscommand56* Adsepscommand56::set_auto_target_angle(
     double auto_target_angle) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto_target_angle_ = -auto_target_angle;
   return this;
@@ -96,7 +96,7 @@ COVERAGE_LOG_TOKEN
 // 23, 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 void Adsepscommand56::set_p_auto_target_angle(uint8_t* data,
                                               double auto_target_angle) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto_target_angle =
       ProtocolData::BoundedValue(-380.0, 380.0, auto_target_angle);
@@ -115,7 +115,7 @@ COVERAGE_LOG_TOKEN
 
 Adsepscommand56* Adsepscommand56::set_auto_drivercmd_alivecounter(
     int auto_drivercmd_alivecounter) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto_drivercmd_alivecounter_ = auto_drivercmd_alivecounter;
   return this;
@@ -126,7 +126,7 @@ COVERAGE_LOG_TOKEN
 // '[0|0]', 'bit': 51, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsepscommand56::set_p_auto_drivercmd_alivecounter(
     uint8_t* data, int auto_drivercmd_alivecounter) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto_drivercmd_alivecounter =
       ProtocolData::BoundedValue(0, 15, auto_drivercmd_alivecounter);
@@ -138,7 +138,7 @@ COVERAGE_LOG_TOKEN
 
 Adsepscommand56* Adsepscommand56::set_auto_drivercmd_checksum(
     int auto_drivercmd_checksum) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto_drivercmd_checksum_ = auto_drivercmd_checksum;
   return this;
@@ -149,7 +149,7 @@ COVERAGE_LOG_TOKEN
 // '[0|0]', 'bit': 63, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsepscommand56::set_p_auto_drivercmd_checksum(
     uint8_t* data, int auto_drivercmd_checksum) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto_drivercmd_checksum =
       ProtocolData::BoundedValue(0, 255, auto_drivercmd_checksum);

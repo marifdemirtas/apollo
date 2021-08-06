@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,7 +29,7 @@ namespace drivers {
 namespace smartereye {
 
 bool CompressComponent::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!GetProtoConfig(&config_)) {
     AERROR << "Parse config file failed: " << ConfigFilePath();
@@ -51,7 +51,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool CompressComponent::Proc(const std::shared_ptr<Image>& image) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << "procing compressed";
   auto compressed_image = image_pool_->GetObject();

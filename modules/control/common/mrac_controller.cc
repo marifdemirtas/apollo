@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -39,7 +39,7 @@ using Matrix = Eigen::MatrixXd;
 double MracController::Control(const double command, const Matrix state,
                                const double input_limit,
                                const double input_rate_limit) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // check if the current sampling time is valid and the reference/adaption
   // model well set up during the initialization
@@ -111,7 +111,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MracController::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // reset the overall states
   ResetStates();
@@ -124,7 +124,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MracController::ResetStates() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // reset the inputs and outputs of the closed-loop MRAC controller
   control_previous_ = 0.0;
@@ -138,7 +138,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MracController::ResetGains() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gain_state_adaption_.setZero(model_order_, 2);
   gain_input_adaption_ = Matrix::Ones(1, 2);
@@ -149,7 +149,7 @@ COVERAGE_LOG_TOKEN
 
 void MracController::Init(const MracConf &mrac_conf,
                           const LatencyParam &latency_param, const double dt) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   control_previous_ = 0.0;
   saturation_status_control_ = 0;
@@ -195,7 +195,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Status MracController::SetReferenceModel(const MracConf &mrac_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const double Epsilon = 0.000001;
   if (((mrac_conf.reference_time_constant() < Epsilon && model_order_ == 1)) ||
@@ -221,7 +221,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Status MracController::SetAdaptionModel(const MracConf &mrac_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const int p_size = mrac_conf.adaption_matrix_p_size();
   const int x_size = mrac_conf.adaption_state_gain_size();
@@ -255,7 +255,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Status MracController::BuildReferenceModel() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (model_order_ > 2) {
     const auto error_msg =
@@ -277,7 +277,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Status MracController::BuildAdaptionModel() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (model_order_ > 2) {
     const auto error_msg =
@@ -303,7 +303,7 @@ COVERAGE_LOG_TOKEN
 
 bool MracController::CheckLyapunovPD(const Matrix matrix_a,
                                      const Matrix matrix_p) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Matrix matrix_q = -matrix_p * matrix_a - matrix_a.transpose() * matrix_p;
   Eigen::LLT<Matrix> llt_matrix_q(matrix_q);
@@ -314,7 +314,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MracController::EstimateInitialGains(const LatencyParam &latency_param) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const double rise_time_estimate =
       latency_param.dead_time() + latency_param.rise_time();
@@ -371,7 +371,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MracController::UpdateReference() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Matrix matrix_i = Matrix::Identity(model_order_, model_order_);
   state_reference_.col(0) =
@@ -383,7 +383,7 @@ COVERAGE_LOG_TOKEN
 
 void MracController::UpdateAdaption(Matrix *law_adp, const Matrix state_adp,
                                     const Matrix gain_adp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Matrix state_error = state_action_ - state_reference_;
   law_adp->col(0) =
@@ -398,7 +398,7 @@ COVERAGE_LOG_TOKEN
 
 void MracController::AntiWindupCompensation(const double control_command,
                                             const double previous_command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Matrix offset_windup = Matrix::Zero(model_order_, 1);
   offset_windup(0, 0) =
@@ -421,7 +421,7 @@ COVERAGE_LOG_TOKEN
 
 int MracController::BoundOutput(const double output_unbounded,
                                 const double previous_output, double *output) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int status = 0;
   if (output_unbounded > bound_command_ ||
@@ -453,7 +453,7 @@ COVERAGE_LOG_TOKEN
 
 void MracController::SetInitialReferenceState(
     const Matrix &state_reference_init) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (state_reference_init.rows() != model_order_ ||
       state_reference_init.cols() != 1) {
@@ -467,7 +467,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MracController::SetInitialActionState(const Matrix &state_action_init) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (state_action_init.rows() != model_order_ ||
       state_action_init.cols() != 1) {
@@ -481,14 +481,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void MracController::SetInitialCommand(const double command_init) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   input_desired_(0, 1) = command_init;
 }
 
 void MracController::SetInitialStateAdaptionGain(
     const Matrix &gain_state_adaption_init) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (gain_state_adaption_init.rows() != model_order_ ||
       gain_state_adaption_init.cols() != 1) {
@@ -504,20 +504,20 @@ COVERAGE_LOG_TOKEN
 
 void MracController::SetInitialInputAdaptionGain(
     const double gain_input_adaption_init) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gain_input_adaption_(0, 1) = gain_input_adaption_init;
 }
 
 void MracController::SetInitialNonlinearAdaptionGain(
     const double gain_nonlinear_adaption_init) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   gain_nonlinear_adaption_(0, 1) = gain_nonlinear_adaption_init;
 }
 
 void MracController::SetStateAdaptionRate(const double ratio_state) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (ratio_state < 0.0) {
     AWARN << "failed to set the state adaption rate, due to new ratio < 0; the "
@@ -529,7 +529,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MracController::SetInputAdaptionRate(const double ratio_input) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (ratio_input < 0.0) {
     AWARN << "failed to set the input adaption rate, due to new ratio < 0; the "
@@ -541,7 +541,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MracController::SetNonlinearAdaptionRate(const double ratio_nonlinear) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (ratio_nonlinear < 0.0) {
     AWARN << "failed to set the nonlinear adaption rate, due to new ratio < 0; "
@@ -553,51 +553,51 @@ COVERAGE_LOG_TOKEN
 }
 
 double MracController::StateAdaptionRate() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return gamma_ratio_state_; }
 
 double MracController::InputAdaptionRate() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return gamma_ratio_input_; }
 
 double MracController::NonlinearAdaptionRate() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return gamma_ratio_nonlinear_;
 }
 
 int MracController::ReferenceSaturationStatus() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return saturation_status_reference_;
 }
 
 int MracController::ControlSaturationStatus() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return saturation_status_control_;
 }
 
 Matrix MracController::CurrentReferenceState() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return state_reference_;
 }
 
 Matrix MracController::CurrentStateAdaptionGain() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return gain_state_adaption_;
 }
 
 Matrix MracController::CurrentInputAdaptionGain() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return gain_input_adaption_;
 }
 
 Matrix MracController::CurrentNonlinearAdaptionGain() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return gain_nonlinear_adaption_;
 }

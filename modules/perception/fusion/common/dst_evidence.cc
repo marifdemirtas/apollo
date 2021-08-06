@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -31,7 +31,7 @@ namespace fusion {
 bool DstManager::AddApp(const std::string &app_name,
                         const std::vector<uint64_t> &fod_subsets,
                         const std::vector<std::string> &fod_subset_names) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (dst_common_data_.find(app_name) != dst_common_data_.end()) {
     AWARN << boost::format("Dst %s was added!") % app_name;
@@ -60,7 +60,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool DstManager::IsAppAdded(const std::string &app_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto iter = dst_common_data_.find(app_name);
   if (iter == dst_common_data_.end()) {
@@ -70,7 +70,7 @@ COVERAGE_LOG_TOKEN
 }
 
 DstCommonDataPtr DstManager::GetAppDataPtr(const std::string &app_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!IsAppAdded(app_name)) {
     AERROR << "app_name is not available";
@@ -85,7 +85,7 @@ COVERAGE_LOG_TOKEN
 
 size_t DstManager::FodSubsetToInd(const std::string &app_name,
                                   const uint64_t &fod_subset) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto iter0 = dst_common_data_.find(app_name);
   ACHECK(iter0 != dst_common_data_.end());
@@ -96,7 +96,7 @@ COVERAGE_LOG_TOKEN
 
 uint64_t DstManager::IndToFodSubset(const std::string &app_name,
                                     const size_t &ind) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto iter = dst_common_data_.find(app_name);
   ACHECK(iter != dst_common_data_.end());
@@ -104,7 +104,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DstManager::BuildSubsetsIndMap(DstCommonData *dst_data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   dst_data->subsets_ind_map_.clear();
   for (size_t i = 0; i < dst_data->fod_subsets_.size(); ++i) {
@@ -113,7 +113,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DstManager::FodCheck(DstCommonData *dst_data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint64_t fod = 0;
   for (auto fod_subset : dst_data->fod_subsets_) {
@@ -130,7 +130,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DstManager::ComputeCardinalities(DstCommonData *dst_data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto count_set_bits = [](uint64_t fod_subset) {
     size_t count = 0;
@@ -147,7 +147,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool DstManager::ComputeRelations(DstCommonData *dst_data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto reserve_space = [](std::vector<std::vector<size_t>> &relations,
                           size_t size) {
@@ -195,7 +195,7 @@ COVERAGE_LOG_TOKEN
 
 void DstManager::BuildNamesMap(const std::vector<std::string> &fod_subset_names,
                                DstCommonData *dst_data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // reset and reserve space
   dst_data->fod_subset_names_.clear();
@@ -214,7 +214,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Dst::Dst(const std::string &app_name) : app_name_(app_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (DstManager::Instance()->IsAppAdded(app_name)) {
     dst_data_ptr_ = DstManager::Instance()->GetAppDataPtr(app_name);
@@ -225,7 +225,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Dst::SelfCheck() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(DstManager::Instance()->IsAppAdded(app_name_));
   if (dst_data_ptr_ == nullptr) {
@@ -237,7 +237,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double Dst::GetSubsetBfmass(uint64_t fod_subset) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SelfCheck();
   size_t idx = DstManager::Instance()->FodSubsetToInd(app_name_, fod_subset);
@@ -245,14 +245,14 @@ COVERAGE_LOG_TOKEN
 }
 
 double Dst::GetIndBfmass(size_t ind) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SelfCheck();
   return bba_vec_[ind];
 }
 
 bool Dst::SetBbaVec(const std::vector<double> &bba_vec) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SelfCheck();
   if (bba_vec.size() != dst_data_ptr_->fod_subsets_.size()) {
@@ -275,7 +275,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Dst::SetBba(const std::map<uint64_t, double> &bba_map) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SelfCheck();
   std::vector<double> bba_vec(dst_data_ptr_->fod_subsets_.size(), 0.0);
@@ -303,7 +303,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string Dst::PrintBba() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SelfCheck();
   static constexpr size_t total_res_size = 10000;
@@ -338,7 +338,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Dst::ComputeSptPlsUct() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SelfCheck();
   auto resize_space = [](std::vector<double> &vec, size_t size) {
@@ -373,7 +373,7 @@ COVERAGE_LOG_TOKEN
 
 // use combination_relations to compute all the probability at one time
 void Dst::ComputeProbability() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SelfCheck();
   probability_vec_.clear();
@@ -396,7 +396,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Dst::Normalize() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SelfCheck();
   double mass_sum = std::accumulate(bba_vec_.begin(), bba_vec_.end(), 0.0);

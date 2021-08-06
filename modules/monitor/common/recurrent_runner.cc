@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -24,11 +24,11 @@ namespace monitor {
 
 RecurrentRunner::RecurrentRunner(const std::string &name, const double interval)
     : name_(name), interval_(interval) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RecurrentRunner::Tick(const double current_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (next_round_ <= current_time) {
     ++round_count_;

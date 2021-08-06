@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace benchmark {
 
 bool is_point_xy_in_polygon2d_xy(const Point& point, const PointCloud& polygon,
                                  float distance_to_boundary) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   typedef float Type;
   bool in_poly = false;
@@ -71,7 +71,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool VisPoint::operator<(const VisPoint& other) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool is_a_left = strictly_less(x(), 0.0);
   bool is_b_left = strictly_less(other.x(), 0.0);
@@ -100,19 +100,19 @@ COVERAGE_LOG_TOKEN
 }
 
 bool VisPoint::operator==(const VisPoint& other) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return approx_equal(x(), other.x()) && approx_equal(y(), other.y());
 }
 
 bool VisPoint::operator!=(const VisPoint& other) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return !(*this == other);
 }
 
 bool Segment::operator<(const Segment& other) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   VisPoint a = start, b = end;
   VisPoint c = other.start, d = other.end;
@@ -182,20 +182,20 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Segment::operator==(const Segment& other) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return start == other.start && end == other.end;
 }
 
 bool Segment::operator!=(const Segment& other) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return !(*this == other);
 }
 
 Orientation compute_orientation(const VisPoint& o, const VisPoint& a,
                                 const VisPoint& b) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float det = (a - o).cross(b - o);
   return static_cast<Orientation>(static_cast<int>(strictly_less(0.0, det)) -
@@ -204,7 +204,7 @@ COVERAGE_LOG_TOKEN
 
 bool intersects(const VisPoint& ray, const Segment& segment,
                 VisPoint* intersection) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // let a = a2 - a1 (ray), b = b2 - b1 (segment),
   // accordingly segment: s1 = a1 + t*a, s2 = b1 + u*b

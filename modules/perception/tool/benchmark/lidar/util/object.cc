@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace perception {
 namespace benchmark {
 
 Object::Object() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   direction = Eigen::Vector3d(1, 0, 0);
   center = Eigen::Vector3d::Zero();
@@ -39,7 +39,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Object::Object(const Object& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   id = rhs.id;
   cloud = rhs.cloud;
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Object& Object::operator=(const Object& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   id = rhs.id;
   cloud = rhs.cloud;
@@ -110,7 +110,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Object::clone(const Object& rhs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   id = rhs.id;
   pcl::copyPointCloud<Point, Point>(*(rhs.cloud), *cloud);
@@ -159,7 +159,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string Object::to_string() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ostringstream oss;
   oss << "Object[id: " << id << ", track_id: " << track_id
@@ -180,7 +180,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string get_object_name(ObjectType obj_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string obj_name;
   switch (obj_type) {
@@ -210,7 +210,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string get_sensor_name(SensorType sensor_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string sensor_name;
   switch (sensor_type) {
@@ -234,7 +234,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string SensorObjects::to_string() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ostringstream oss;
   oss << "SensorObjects[sensor_type: " << get_sensor_name(type)
@@ -249,7 +249,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ObjectType translate_string_to_type(const std::string& str) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (str == "bigMot" || str == "smallMot" || str == "vehicle" ||
       str == "midMot" || str == "5") {
@@ -265,7 +265,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int translate_type_to_index(const ObjectType& type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (type <= UNKNOWN) {
     return 0;
@@ -277,7 +277,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string translate_type_index_to_string(unsigned int index) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (index) {
     case 0:
@@ -294,7 +294,7 @@ COVERAGE_LOG_TOKEN
 }
 
 SensorType translate_string_to_sensor_type(const std::string& str) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (str == "velodyne_64") {
     return VELODYNE_64;
@@ -310,7 +310,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string translate_type_to_string(ObjectType type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (type) {
     case UNKNOWN:
@@ -330,7 +330,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string translate_sensor_type_to_string(const SensorType& type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (type) {
     case VELODYNE_64:

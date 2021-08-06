@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ namespace monitor {
 namespace {
 
 bool IsSafe(const std::string& name, const ComponentStatus& status) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (status.status() == ComponentStatus::ERROR ||
       status.status() == ComponentStatus::FATAL) {
@@ -48,11 +48,11 @@ COVERAGE_LOG_TOKEN
 
 FunctionalSafetyMonitor::FunctionalSafetyMonitor()
     : RecurrentRunner(FLAGS_functional_safety_monitor_name, 0) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void FunctionalSafetyMonitor::RunOnce(const double current_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto* system_status = MonitorManager::Instance()->GetStatus();
   // Everything looks good or has been handled properly.
@@ -83,7 +83,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool FunctionalSafetyMonitor::CheckSafety() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // We only check safety in self driving mode.
   auto manager = MonitorManager::Instance();

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,11 +25,6 @@
 #include "modules/perception/camera/lib/lane/common/proto/denseline.pb.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
@@ -38,7 +33,7 @@ using cyber::common::GetAbsolutePath;
 
 bool DenselineLanePostprocessor::Init(
     const LanePostprocessorInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Read detector config parameter
   denseline::DenselineParam denseline_param;
@@ -90,7 +85,7 @@ COVERAGE_LOG_TOKEN
 
 bool DenselineLanePostprocessor::Process2D(
     const LanePostprocessorOptions& options, CameraFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   frame->lane_objects.clear();
   // 1. locate the lane line point set
@@ -124,7 +119,7 @@ COVERAGE_LOG_TOKEN
 
 bool DenselineLanePostprocessor::Process3D(
     const LanePostprocessorOptions& options, CameraFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ConvertImagePoint2Camera(frame);
   PolyFitCameraLaneline(frame);
@@ -132,7 +127,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DenselineLanePostprocessor::ConvertImagePoint2Camera(CameraFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float pitch_angle = frame->calibration_service->QueryPitchAngle();
   float camera_ground_height =
@@ -161,7 +156,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string DenselineLanePostprocessor::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return "DenselineLanePostprocessor";
 }
@@ -169,7 +164,7 @@ COVERAGE_LOG_TOKEN
 void DenselineLanePostprocessor::CalLaneMap(
     const float* output_data, int width, int height,
     std::vector<unsigned char>* lane_map) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int out_dim = width * height;
   for (int y = 0; y < height - omit_bottom_line_num_; y++) {
@@ -229,7 +224,7 @@ void DenselineLanePostprocessor::InferPointSetFromLaneCenter(
     const std::vector<ConnectedComponent>& lane_ccs,
     const std::vector<LaneType>& ccs_pos_type,
     std::vector<std::vector<LanePointInfo>>* lane_map_group_point_set) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   //  0: adj-left lane center
   //  1: ego-lane center;
@@ -261,7 +256,7 @@ COVERAGE_LOG_TOKEN
 void DenselineLanePostprocessor::InferPointSetFromOneCC(
     const ConnectedComponent& lane_cc, int left_index, int right_index,
     std::vector<std::vector<LanePointInfo>>* lane_map_group_point_set) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   //  find the points which belongs to this CC
   const std::vector<base::Point2DI>& pixels = lane_cc.GetPixels();
@@ -348,7 +343,7 @@ bool DenselineLanePostprocessor::MaxScorePoint(const float* score_pointer,
                                                const int* x_count_pointer,
                                                int y_pos,
                                                LanePointInfo* point_info) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int large_index[2];
   bool flag = FindKLargeValue(score_pointer, lane_map_width_, 2, large_index);
@@ -370,7 +365,7 @@ COVERAGE_LOG_TOKEN
 bool DenselineLanePostprocessor::SelectLanecenterCCs(
     const std::vector<ConnectedComponent>& lane_ccs,
     std::vector<ConnectedComponent>* select_lane_ccs) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   select_lane_ccs->clear();
   int lane_ccs_num = static_cast<int>(lane_ccs.size());
@@ -406,7 +401,7 @@ COVERAGE_LOG_TOKEN
 // @brief: locate lane line points
 bool DenselineLanePostprocessor::LocateLanelinePointSet(
     const CameraFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   //  find laneline_point center_point of each row
   //  0:adj-left 1:ego-left 2:ego-right 3:adj-right
@@ -480,7 +475,7 @@ COVERAGE_LOG_TOKEN
 bool DenselineLanePostprocessor::ClassifyLaneCCsPosTypeInImage(
     const std::vector<ConnectedComponent>& select_lane_ccs,
     std::vector<LaneType>* ccs_pos_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   //
   int ccs_num = static_cast<int>(select_lane_ccs.size());
@@ -550,7 +545,7 @@ void DenselineLanePostprocessor::ClassifyLanelinePosTypeInImage(
     const std::vector<std::vector<LanePointInfo>>& image_group_point_set,
     std::vector<base::LaneLinePositionType>* laneline_type,
     std::vector<bool>* line_flag) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int set_size = static_cast<int>(image_group_point_set.size());
   std::vector<float> latitude_intersection(set_size, lane_max_value_);
@@ -622,7 +617,7 @@ COVERAGE_LOG_TOKEN
 bool DenselineLanePostprocessor::LocateNeighborLaneLine(
     const std::vector<float>& latitude_intersection, int line_index,
     bool left_flag, int* locate_index) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // left_flag = true: find the line which is at left side of the line
   // left_flag = false: find the line which is at right side of the line
@@ -663,7 +658,7 @@ COVERAGE_LOG_TOKEN
 void DenselineLanePostprocessor::Convert2OriginalCoord(
     const std::vector<std::vector<LanePointInfo>>& lane_map_group_point_set,
     std::vector<std::vector<LanePointInfo>>* image_group_point_set) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float x_ratio =
       static_cast<float>(input_crop_width_) * lane_map_width_inverse_;
@@ -689,7 +684,7 @@ void DenselineLanePostprocessor::AddImageLaneline(
     const std::vector<LanePointInfo>& image_point_set,
     const base::LaneLineType type, const base::LaneLinePositionType pos_type,
     int line_index, std::vector<base::LaneLine>* lane_marks) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // x: longitudinal direction
   // y: horizontal direction
@@ -766,7 +761,7 @@ COVERAGE_LOG_TOKEN
 
 // @brief: fit camera lane line using polynomial
 void DenselineLanePostprocessor::PolyFitCameraLaneline(CameraFrame* frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<base::LaneLine>& lane_objects = frame->lane_objects;
   int laneline_num = static_cast<int>(lane_objects.size());
@@ -811,14 +806,14 @@ COVERAGE_LOG_TOKEN
 
 std::vector<std::vector<LanePointInfo>>
 DenselineLanePostprocessor::GetLanelinePointSet() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return image_group_point_set_;
 }
 
 std::vector<LanePointInfo>
 DenselineLanePostprocessor::GetAllInferLinePointSet() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float x_ratio =
       static_cast<float>(input_crop_width_) * lane_map_width_inverse_;
@@ -869,7 +864,7 @@ void DenselineLanePostprocessor::GetLaneCCs(
     std::vector<unsigned char>* lane_map, int* lane_map_width,
     int* lane_map_height, std::vector<ConnectedComponent>* connected_components,
     std::vector<ConnectedComponent>* select_connected_components) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *lane_map = lane_map_;
   *lane_map_width = lane_map_width_;

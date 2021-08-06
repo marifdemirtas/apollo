@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -36,43 +36,43 @@ QpSolver::QpSolver(const Eigen::MatrixXd& kernel_matrix,
       affine_inequality_boundary_(affine_inequality_boundary),
       affine_equality_matrix_(affine_equality_matrix),
       affine_equality_boundary_(affine_equality_boundary) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 const Eigen::MatrixXd& QpSolver::params() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return params_; }
 
 const Eigen::MatrixXd& QpSolver::kernel_matrix() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return kernel_matrix_;
 }
 
 const Eigen::MatrixXd& QpSolver::offset() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return offset_; }
 
 const Eigen::MatrixXd& QpSolver::affine_equality_matrix() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return affine_equality_matrix_;
 }
 
 const Eigen::MatrixXd& QpSolver::affine_equality_boundary() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return affine_equality_boundary_;
 }
 
 const Eigen::MatrixXd& QpSolver::affine_inequality_matrix() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return affine_inequality_matrix_;
 }
 
 const Eigen::MatrixXd& QpSolver::affine_inequality_boundary() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return affine_inequality_boundary_;
 }

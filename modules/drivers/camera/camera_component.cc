@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace drivers {
 namespace camera {
 
 bool CameraComponent::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   camera_config_ = std::make_shared<Config>();
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
@@ -85,7 +85,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CameraComponent::run() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   running_.exchange(true);
   while (!cyber::IsShutdown()) {
@@ -116,7 +116,7 @@ COVERAGE_LOG_TOKEN
 }
 
 CameraComponent::~CameraComponent() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (running_.load()) {
     running_.exchange(false);

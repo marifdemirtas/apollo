@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,11 +25,11 @@ using apollo::cyber::proto::RoleAttributes;
 GnssDriverComponent::GnssDriverComponent()
     : monitor_logger_buffer_(
           apollo::common::monitor::MonitorMessageItem::GNSS) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool GnssDriverComponent::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   config::Config gnss_config;
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,

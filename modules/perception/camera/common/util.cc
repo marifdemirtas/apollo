@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,18 +24,18 @@ namespace perception {
 namespace camera {
 
 bool Equal(double x, double target, double eps) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return std::abs(x - target) < eps;
 }
 bool Equal(float x, float target, float eps) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return std::abs(x - target) < eps;
 }
 
 bool LoadAnchors(const std::string &path, std::vector<float> *anchors) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int num_anchors = 0;
   std::ifstream ifs(path, std::ifstream::in);
@@ -58,7 +58,7 @@ COVERAGE_LOG_TOKEN
 
 bool LoadTypes(const std::string &path,
                std::vector<base::ObjectSubType> *types) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ifstream ifs(path, std::ifstream::in);
   if (!ifs.good()) {
@@ -80,7 +80,7 @@ COVERAGE_LOG_TOKEN
   return true;
 }
 bool LoadExpand(const std::string &path, std::vector<float> *expands) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ifstream ifs(path, std::ifstream::in);
   if (!ifs.good()) {
@@ -99,7 +99,7 @@ COVERAGE_LOG_TOKEN
 bool ResizeCPU(const base::Blob<uint8_t> &src_blob,
                std::shared_ptr<base::Blob<float>> dst_blob, int stepwidth,
                int start_axis) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int width = dst_blob->shape(2);
   int height = dst_blob->shape(1);
@@ -169,7 +169,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string GetCyberWorkRoot() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string work_root = cyber::common::GetEnv("MODULE_PATH");
   if (work_root.empty()) {
@@ -179,7 +179,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void FillObjectPolygonFromBBox3D(base::Object *object_ptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!object_ptr) {
     return;

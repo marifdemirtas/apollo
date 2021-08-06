@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -19,14 +19,13 @@
 #include "cyber/common/file.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
 
 bool TrackingFeatureExtractor::Init(
     const FeatureExtractorInitOptions &init_options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   //  setup bottom and top
   int feat_height = init_options.feat_blob->shape(2);
@@ -69,7 +68,7 @@ COVERAGE_LOG_TOKEN
 void TrackingFeatureExtractor::init_roipooling(
     const FeatureExtractorInitOptions &options,
     const tracking_feature::ROIPoolingParam &param) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int feat_channel = options.feat_blob->shape(1);
   feat_height_ = options.feat_blob->shape(2);
@@ -92,7 +91,7 @@ COVERAGE_LOG_TOKEN
 
 bool TrackingFeatureExtractor::Extract(const FeatureExtractorOptions &options,
                                        CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (frame == nullptr) {
     return false;

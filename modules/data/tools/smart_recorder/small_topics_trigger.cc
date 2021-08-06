@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,14 +28,14 @@ namespace apollo {
 namespace data {
 
 SmallTopicsTrigger::SmallTopicsTrigger() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   trigger_name_ = "SmallTopicsTrigger";
 }
 
 bool SmallTopicsTrigger::ShouldRestore(
     const cyber::record::RecordMessage& msg) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::set<std::string>& small_channels =
       ChannelPool::Instance()->GetSmallChannels();

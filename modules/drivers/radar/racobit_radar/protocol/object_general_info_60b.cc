@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -31,13 +31,13 @@ namespace racobit_radar {
 using apollo::drivers::canbus::Byte;
 
 ObjectGeneralInfo60B::ObjectGeneralInfo60B() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const uint32_t ObjectGeneralInfo60B::ID = 0x60B;
 
 void ObjectGeneralInfo60B::Parse(const std::uint8_t* bytes, int32_t length,
                                  RacobitRadar* racobit_radar) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int obj_id = object_id(bytes, length);
   auto racobit_obs = racobit_radar->add_contiobs();
@@ -57,7 +57,7 @@ COVERAGE_LOG_TOKEN
 
 int ObjectGeneralInfo60B::object_id(const std::uint8_t* bytes,
                                     int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes);
   int32_t x = t0.get_byte(0, 8);
@@ -68,7 +68,7 @@ COVERAGE_LOG_TOKEN
 
 double ObjectGeneralInfo60B::longitude_dist(const std::uint8_t* bytes,
                                             int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -85,7 +85,7 @@ COVERAGE_LOG_TOKEN
 
 double ObjectGeneralInfo60B::lateral_dist(const std::uint8_t* bytes,
                                           int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 3);
@@ -102,7 +102,7 @@ COVERAGE_LOG_TOKEN
 
 double ObjectGeneralInfo60B::longitude_vel(const std::uint8_t* bytes,
                                            int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -117,7 +117,7 @@ COVERAGE_LOG_TOKEN
 
 double ObjectGeneralInfo60B::lateral_vel(const std::uint8_t* bytes,
                                          int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 6);
@@ -134,7 +134,7 @@ COVERAGE_LOG_TOKEN
 
 double ObjectGeneralInfo60B::rcs(const std::uint8_t* bytes,
                                  int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
@@ -145,7 +145,7 @@ COVERAGE_LOG_TOKEN
 
 int ObjectGeneralInfo60B::dynprop(const std::uint8_t* bytes,
                                   int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 3);

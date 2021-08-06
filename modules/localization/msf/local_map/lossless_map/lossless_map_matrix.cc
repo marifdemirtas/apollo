@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,11 +28,11 @@ LosslessMapSingleCell::LosslessMapSingleCell()
       altitude(0.0),
       altitude_var(0.0),
       count(0) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LosslessMapSingleCell::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   intensity = 0.0;
   intensity_var = 0.0;
@@ -42,7 +42,7 @@ COVERAGE_LOG_TOKEN
 
 LosslessMapSingleCell& LosslessMapSingleCell::operator=(
     const LosslessMapSingleCell& ref) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   intensity = ref.intensity;
   intensity_var = ref.intensity_var;
@@ -53,7 +53,7 @@ COVERAGE_LOG_TOKEN
 
 void LosslessMapSingleCell::AddSample(const float new_altitude,
                                       const float new_intensity) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ++count;
   float fcount = static_cast<float>(count);
@@ -71,7 +71,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int LosslessMapSingleCell::LoadBinary(unsigned char* buf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float* p = reinterpret_cast<float*>(buf);
   intensity = *p;
@@ -90,7 +90,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int LosslessMapSingleCell::CreateBinary(unsigned char* buf,
                                                  unsigned int buf_size) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size = GetBinarySize();
   if (buf_size >= target_size) {
@@ -111,18 +111,18 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int LosslessMapSingleCell::GetBinarySize() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return static_cast<unsigned int>(sizeof(float) * 4 + sizeof(unsigned int));
 }
 
 // ======================LosslessMapCell===========================
 LosslessMapCell::LosslessMapCell() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  layer_num = 1; }
 
 void LosslessMapCell::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (unsigned int i = 0; i < IDL_CAR_NUM_RESERVED_MAP_LAYER; ++i) {
     map_cells[i].Reset();
@@ -132,7 +132,7 @@ COVERAGE_LOG_TOKEN
 
 void LosslessMapCell::SetValueLayer(double altitude, unsigned char intensity,
                                     double altitude_thres) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LE(layer_num, IDL_CAR_NUM_RESERVED_MAP_LAYER);
 
@@ -175,7 +175,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LosslessMapCell::SetValue(double altitude, unsigned char intensity) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   DCHECK_LE(layer_num, IDL_CAR_NUM_RESERVED_MAP_LAYER);
   LosslessMapSingleCell& cell = map_cells[0];
@@ -183,7 +183,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int LosslessMapCell::LoadBinary(unsigned char* buf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int* p = reinterpret_cast<unsigned int*>(buf);
   unsigned int size = *p;
@@ -200,7 +200,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int LosslessMapCell::CreateBinary(unsigned char* buf,
                                            unsigned int buf_size) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size = GetBinarySize();
   if (buf_size >= target_size) {
@@ -221,7 +221,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int LosslessMapCell::GetBinarySize() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size = sizeof(
       unsigned int);  // The size of the variable for the number of layers.
@@ -233,7 +233,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int LosslessMapCell::GetLayerId(double altitude) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int best_layer_id = 0;
   double best_layer_alt_dif = 1e10;
@@ -249,7 +249,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LosslessMapCell::GetValue(std::vector<unsigned char>* values) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   values->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
@@ -259,7 +259,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LosslessMapCell::GetVar(std::vector<float>* vars) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   vars->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
@@ -269,7 +269,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LosslessMapCell::GetAlt(std::vector<float>* alts) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   alts->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
@@ -279,7 +279,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LosslessMapCell::GetAltVar(std::vector<float>* alt_vars) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   alt_vars->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
@@ -289,7 +289,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LosslessMapCell::GetCount(std::vector<unsigned int>* counts) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   counts->clear();
   for (unsigned int i = 1; i < layer_num; ++i) {
@@ -300,7 +300,7 @@ COVERAGE_LOG_TOKEN
 
 // ======================LosslessMapMatrix===========================
 LosslessMapMatrix::LosslessMapMatrix() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   rows_ = 0;
   cols_ = 0;
@@ -308,7 +308,7 @@ COVERAGE_LOG_TOKEN
 }
 
 LosslessMapMatrix::~LosslessMapMatrix() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (map_cells_) {
     delete[] map_cells_;
@@ -319,7 +319,7 @@ COVERAGE_LOG_TOKEN
 
 LosslessMapMatrix::LosslessMapMatrix(const LosslessMapMatrix& matrix)
     : BaseMapMatrix(matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Init(matrix.rows_, matrix.cols_);
   for (unsigned int y = 0; y < rows_; ++y) {
@@ -330,7 +330,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LosslessMapMatrix::Init(const BaseMapConfig* config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int rows = config->map_node_size_y_;
   unsigned int cols = config->map_node_size_x_;
@@ -341,13 +341,13 @@ COVERAGE_LOG_TOKEN
 }
 
 void LosslessMapMatrix::Reset(const BaseMapConfig* config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Reset(config->map_node_size_y_, config->map_node_size_x_);
 }
 
 void LosslessMapMatrix::Init(unsigned int rows, unsigned int cols) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (map_cells_) {
     delete[] map_cells_;
@@ -359,7 +359,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LosslessMapMatrix::Reset(unsigned int rows, unsigned int cols) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int length = rows * cols;
   for (unsigned int i = 0; i < length; ++i) {
@@ -368,7 +368,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int LosslessMapMatrix::LoadBinary(unsigned char* buf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int* p = reinterpret_cast<unsigned int*>(buf);
   rows_ = *p;
@@ -390,7 +390,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int LosslessMapMatrix::CreateBinary(unsigned char* buf,
                                              unsigned int buf_size) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size = GetBinarySize();
   if (buf_size >= target_size) {
@@ -415,7 +415,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int LosslessMapMatrix::GetBinarySize() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // default binary size
   unsigned int target_size =
@@ -430,7 +430,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LosslessMapMatrix::GetIntensityImg(cv::Mat* intensity_img) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *intensity_img = cv::Mat(cv::Size(cols_, rows_), CV_8UC1);
 

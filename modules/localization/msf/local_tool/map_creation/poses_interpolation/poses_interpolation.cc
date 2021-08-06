@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,14 +25,14 @@ namespace apollo {
 namespace localization {
 namespace msf {
 PosesInterpolation::PosesInterpolation() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool PosesInterpolation::Init(const std::string &input_poses_path,
                               const std::string &ref_timestamps_path,
                               const std::string &out_poses_path,
                               const std::string &extrinsic_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   this->input_poses_path_ = input_poses_path;
   this->ref_timestamps_path_ = ref_timestamps_path;
@@ -49,7 +49,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PosesInterpolation::DoInterpolation() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Load input poses
   ::apollo::common::EigenVector3dVec input_stds;
@@ -69,7 +69,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PosesInterpolation::LoadPCDTimestamp() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   FILE *file = fopen(ref_timestamps_path_.c_str(), "r");
   if (file) {
@@ -87,7 +87,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void PosesInterpolation::WritePCDPoses() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::ofstream fout;
   fout.open(out_poses_path_.c_str(), std::ofstream::out);
@@ -124,7 +124,7 @@ void PosesInterpolation::PoseInterpolationByTime(
     const std::vector<unsigned int> &ref_indexes,
     std::vector<unsigned int> *out_indexes, std::vector<double> *out_timestamps,
     ::apollo::common::EigenAffine3dVec *out_poses) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   out_indexes->clear();
   out_timestamps->clear();

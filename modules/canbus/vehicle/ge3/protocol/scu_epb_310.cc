@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,13 +27,13 @@ namespace ge3 {
 using ::apollo::drivers::canbus::Byte;
 
 Scuepb310::Scuepb310() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Scuepb310::ID = 0x310;
 
 void Scuepb310::Parse(const std::uint8_t* bytes, int32_t length,
                       ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_ge3()->mutable_scu_epb_310()->set_epb_intidx(
       epb_intidx(bytes, length));
@@ -52,7 +52,7 @@ COVERAGE_LOG_TOKEN
 // 'motorola', 'physical_unit': ''}
 Scu_epb_310::Epb_intidxType Scuepb310::epb_intidx(const std::uint8_t* bytes,
                                                   int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 3);
@@ -68,7 +68,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Scu_epb_310::Epb_drvmodeType Scuepb310::epb_drvmode(const std::uint8_t* bytes,
                                                     int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 2);
@@ -86,7 +86,7 @@ COVERAGE_LOG_TOKEN
 // 'motorola', 'physical_unit': ''}
 Scu_epb_310::Epb_sysstType Scuepb310::epb_sysst(const std::uint8_t* bytes,
                                                 int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 3);
@@ -102,7 +102,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 Scu_epb_310::Epb_faultstType Scuepb310::epb_faultst(const std::uint8_t* bytes,
                                                     int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(7, 1);

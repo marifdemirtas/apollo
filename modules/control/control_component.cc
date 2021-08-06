@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -38,11 +38,11 @@ using apollo::planning::ADCTrajectory;
 
 ControlComponent::ControlComponent()
     : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool ControlComponent::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   injector_ = std::make_shared<DependencyInjector>();
   init_time_ = Clock::Now();
@@ -127,7 +127,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ControlComponent::OnPad(const std::shared_ptr<PadMessage> &pad) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
   pad_msg_.CopyFrom(*pad);
@@ -136,7 +136,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ControlComponent::OnChassis(const std::shared_ptr<Chassis> &chassis) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << "Received chassis data: run chassis callback.";
   std::lock_guard<std::mutex> lock(mutex_);
@@ -145,7 +145,7 @@ COVERAGE_LOG_TOKEN
 
 void ControlComponent::OnPlanning(
     const std::shared_ptr<ADCTrajectory> &trajectory) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << "Received chassis data: run trajectory callback.";
   std::lock_guard<std::mutex> lock(mutex_);
@@ -154,7 +154,7 @@ COVERAGE_LOG_TOKEN
 
 void ControlComponent::OnLocalization(
     const std::shared_ptr<LocalizationEstimate> &localization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << "Received control data: run localization message callback.";
   std::lock_guard<std::mutex> lock(mutex_);
@@ -163,7 +163,7 @@ COVERAGE_LOG_TOKEN
 
 void ControlComponent::OnMonitor(
     const common::monitor::MonitorMessage &monitor_message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (const auto &item : monitor_message.item()) {
     if (item.log_level() == common::monitor::MonitorMessageItem::FATAL) {
@@ -175,7 +175,7 @@ COVERAGE_LOG_TOKEN
 
 Status ControlComponent::ProduceControlCommand(
     ControlCommand *control_command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Status status = CheckInput(&local_view_);
   // check data
@@ -294,7 +294,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool ControlComponent::Proc() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto start_time = Clock::Now();
 
@@ -437,7 +437,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Status ControlComponent::CheckInput(LocalView *local_view) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ADEBUG << "Received localization:"
          << local_view->localization().ShortDebugString();
@@ -470,7 +470,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Status ControlComponent::CheckTimestamp(const LocalView &local_view) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!control_conf_.enable_input_timestamp_check() ||
       control_conf_.is_control_test_mode()) {

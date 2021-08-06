@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,14 +31,12 @@ using apollo::cyber::Clock;
 using ::Eigen::Vector3d;
 
 RTKLocalization::RTKLocalization()
-    : map_offset_{
-COVERAGE_LOG_TOKEN
-0.0, 0.0, 0.0},
+    : map_offset_{0.0, 0.0, 0.0},
       monitor_logger_(
           apollo::common::monitor::MonitorMessageItem::LOCALIZATION) {}
 
 void RTKLocalization::InitConfig(const rtk_config::Config &config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   imu_list_max_size_ = config.imu_list_max_size();
   gps_imu_time_diff_threshold_ = config.gps_imu_time_diff_threshold();
@@ -49,7 +47,7 @@ COVERAGE_LOG_TOKEN
 
 void RTKLocalization::GpsCallback(
     const std::shared_ptr<localization::Gps> &gps_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double time_delay = last_received_timestamp_sec_
                           ? Clock::NowInSeconds() - last_received_timestamp_sec_
@@ -100,7 +98,7 @@ COVERAGE_LOG_TOKEN
 
 void RTKLocalization::GpsStatusCallback(
     const std::shared_ptr<drivers::gnss::InsStat> &status_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::unique_lock<std::mutex> lock(gps_status_list_mutex_);
   if (gps_status_list_.size() < gps_status_list_max_size_) {
@@ -113,7 +111,7 @@ COVERAGE_LOG_TOKEN
 
 void RTKLocalization::ImuCallback(
     const std::shared_ptr<localization::CorrectedImu> &imu_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::unique_lock<std::mutex> lock(imu_list_mutex_);
   if (imu_list_.size() < imu_list_max_size_) {
@@ -125,24 +123,24 @@ COVERAGE_LOG_TOKEN
 }
 
 bool RTKLocalization::IsServiceStarted() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return service_started_; }
 
 void RTKLocalization::GetLocalization(LocalizationEstimate *localization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *localization = last_localization_result_;
 }
 
 void RTKLocalization::GetLocalizationStatus(
     LocalizationStatus *localization_status) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *localization_status = last_localization_status_result_;
 }
 
 void RTKLocalization::RunWatchDog(double gps_timestamp) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!enable_watch_dog_) {
     return;
@@ -193,7 +191,7 @@ COVERAGE_LOG_TOKEN
 void RTKLocalization::PrepareLocalizationMsg(
     const localization::Gps &gps_msg, LocalizationEstimate *localization,
     LocalizationStatus *localization_status) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // find the matching gps and imu message
   double gps_time_stamp = gps_msg.header().timestamp_sec();
@@ -208,7 +206,7 @@ COVERAGE_LOG_TOKEN
 
 void RTKLocalization::FillLocalizationMsgHeader(
     LocalizationEstimate *localization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto *header = localization->mutable_header();
   double timestamp = apollo::cyber::Clock::NowInSeconds();
@@ -220,7 +218,7 @@ COVERAGE_LOG_TOKEN
 void RTKLocalization::FillLocalizationStatusMsg(
     const drivers::gnss::InsStat &status,
     LocalizationStatus *localization_status) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   apollo::common::Header *header = localization_status->mutable_header();
   double timestamp = apollo::cyber::Clock::NowInSeconds();
@@ -256,7 +254,7 @@ COVERAGE_LOG_TOKEN
 void RTKLocalization::ComposeLocalizationMsg(
     const localization::Gps &gps_msg, const localization::CorrectedImu &imu_msg,
     LocalizationEstimate *localization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   localization->Clear();
 
@@ -349,7 +347,7 @@ COVERAGE_LOG_TOKEN
 
 bool RTKLocalization::FindMatchingIMU(const double gps_timestamp_sec,
                                       CorrectedImu *imu_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (imu_msg == nullptr) {
     AERROR << "imu_msg should NOT be nullptr.";
@@ -427,7 +425,7 @@ bool RTKLocalization::InterpolateIMU(const CorrectedImu &imu1,
                                      const CorrectedImu &imu2,
                                      const double timestamp_sec,
                                      CorrectedImu *imu_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!(imu1.header().has_timestamp_sec() &&
         imu2.header().has_timestamp_sec())) {
@@ -498,7 +496,7 @@ T RTKLocalization::InterpolateXYZ(const T &p1, const T &p2,
 
 bool RTKLocalization::FindNearestGpsStatus(const double gps_timestamp_sec,
                                            drivers::gnss::InsStat *status) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(status);
 

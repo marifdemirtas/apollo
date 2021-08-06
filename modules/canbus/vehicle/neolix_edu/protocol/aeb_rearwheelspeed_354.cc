@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace neolix_edu {
 using ::apollo::drivers::canbus::Byte;
 
 Aebrearwheelspeed354::Aebrearwheelspeed354() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Aebrearwheelspeed354::ID = 0x354;
 
 void Aebrearwheelspeed354::Parse(const std::uint8_t* bytes, int32_t length,
                                  ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_neolix_edu()
       ->mutable_aeb_rearwheelspeed_354()
@@ -69,7 +69,7 @@ COVERAGE_LOG_TOKEN
 // 'motorola', 'physical_unit': 'bit'}
 bool Aebrearwheelspeed354::wheelspeed_rl_valid(const std::uint8_t* bytes,
                                                int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(7, 1);
@@ -83,7 +83,7 @@ COVERAGE_LOG_TOKEN
 // 22, 'type': 'double', 'order': 'motorola', 'physical_unit': 'km/h'}
 double Aebrearwheelspeed354::wheelspeed_rl(const std::uint8_t* bytes,
                                            int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 7);
@@ -103,7 +103,7 @@ COVERAGE_LOG_TOKEN
 // 'motorola', 'physical_unit': 'bit'}
 bool Aebrearwheelspeed354::wheelspeed_rr_valid(const std::uint8_t* bytes,
                                                int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(7, 1);
@@ -117,7 +117,7 @@ COVERAGE_LOG_TOKEN
 // 38, 'type': 'double', 'order': 'motorola', 'physical_unit': 'km/h'}
 double Aebrearwheelspeed354::wheelspeed_rr(const std::uint8_t* bytes,
                                            int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 7);
@@ -137,7 +137,7 @@ COVERAGE_LOG_TOKEN
 // 'double', 'order': 'motorola', 'physical_unit': 'bit'}
 double Aebrearwheelspeed354::wheelspeed_rl_direct(const std::uint8_t* bytes,
                                                   int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(4, 2);
@@ -152,7 +152,7 @@ COVERAGE_LOG_TOKEN
 // 'double', 'order': 'motorola', 'physical_unit': 'bit'}
 double Aebrearwheelspeed354::wheelspeed_rr_direct(const std::uint8_t* bytes,
                                                   int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(6, 2);
@@ -166,7 +166,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Aebrearwheelspeed354::alivecounter_rear(const std::uint8_t* bytes,
                                                int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 4);
@@ -180,7 +180,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Aebrearwheelspeed354::checksum_rear(const std::uint8_t* bytes,
                                            int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);

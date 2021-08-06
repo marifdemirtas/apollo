@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -48,7 +48,7 @@ bool GetProtobufFloatByFieldName(const google::protobuf::Message& message,
                                  const google::protobuf::Descriptor* descriptor,
                                  const google::protobuf::Reflection* reflection,
                                  const std::string& field_name, float* value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!descriptor) {
     AERROR << "Protobuf descriptor not found";
@@ -77,7 +77,7 @@ COVERAGE_LOG_TOKEN
 bool IsCompliedWithCriterion(float actual_value,
                              const ComparisonOperator& comparison_operator,
                              float target_value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (comparison_operator) {
     case ComparisonOperator::EQUAL:
@@ -104,18 +104,18 @@ COVERAGE_LOG_TOKEN
 DataCollectionMonitor::DataCollectionMonitor()
     : FuelMonitor(FLAGS_data_collection_monitor_name),
       node_(cyber::CreateNode("data_collection_monitor")) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   InitReaders();
   LoadConfiguration();
 }
 
 DataCollectionMonitor::~DataCollectionMonitor() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Stop(); }
 
 void DataCollectionMonitor::InitReaders() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   node_->CreateReader<Chassis>(FLAGS_chassis_topic,
                                [this](const std::shared_ptr<Chassis>& chassis) {
@@ -124,7 +124,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataCollectionMonitor::LoadConfiguration() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::string& vehicle_dir =
       VehicleManager::Instance()->GetVehicleDataPath();
@@ -147,7 +147,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataCollectionMonitor::ConstructCategories() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   scenario_to_categories_.clear();
 
@@ -163,7 +163,7 @@ COVERAGE_LOG_TOKEN
 void DataCollectionMonitor::ConstructCategoriesHelper(
     const std::string& scenario_name, const Scenario& scenario, int feature_idx,
     std::string current_category_name, const Category& current_category) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (feature_idx == scenario.feature_size()) {
     scenario_to_categories_[scenario_name].insert(
@@ -197,7 +197,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataCollectionMonitor::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!enabled_) {
     category_consecutive_frame_count_.clear();
@@ -209,14 +209,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void DataCollectionMonitor::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   enabled_ = false;
   AINFO << "DataCollectionMonitor stopped";
 }
 
 void DataCollectionMonitor::OnChassis(const std::shared_ptr<Chassis>& chassis) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!enabled_) {
     return;
@@ -269,7 +269,7 @@ COVERAGE_LOG_TOKEN
 
 bool DataCollectionMonitor::IsCompliedWithCriteria(
     const std::shared_ptr<Chassis>& chassis, const Category& category) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto& vehicle_param = VehicleConfigHelper::GetConfig().vehicle_param();
   const auto* vehicle_param_descriptor = vehicle_param.GetDescriptor();
@@ -308,7 +308,7 @@ COVERAGE_LOG_TOKEN
 }
 
 nlohmann::json DataCollectionMonitor::GetProgressAsJson() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::unique_lock<boost::shared_mutex> reader_lock(mutex_);
   return current_progress_json_;

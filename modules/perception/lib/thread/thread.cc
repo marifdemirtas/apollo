@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,7 @@ namespace perception {
 namespace lib {
 
 void Thread::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pthread_attr_t attr;
   CHECK_EQ(pthread_attr_init(&attr), 0);
@@ -45,7 +45,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Thread::Join() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ACHECK(joinable_) << "Thread is not joinable";
   int result = pthread_join(tid_, nullptr);
@@ -55,7 +55,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Thread::IsAlive() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (tid_ == 0) {
     return false;

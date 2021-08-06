@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace msf {
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::BandObservation& in,
                                BandObservationMsg* out) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(out);
   if (in.has_band_id()) {
@@ -56,7 +56,7 @@ COVERAGE_LOG_TOKEN
 void GnssMagTransfer::Transfer(
     const apollo::drivers::gnss::SatelliteObservation& in,
     SatelliteObservationMsg* out) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(out);
   if (in.has_sat_prn()) {
@@ -78,7 +78,7 @@ COVERAGE_LOG_TOKEN
 void GnssMagTransfer::Transfer(
     const apollo::drivers::gnss::EpochObservation& in,
     EpochObservationMsg* out) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(out);
   if (in.has_receiver_id()) {
@@ -117,7 +117,7 @@ COVERAGE_LOG_TOKEN
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::KepplerOrbit& in,
                                KepplerOrbitMsg* out) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {
@@ -238,7 +238,7 @@ COVERAGE_LOG_TOKEN
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::GlonassOrbit& in,
                                GlonassOrbitMsg* out) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {
@@ -326,7 +326,7 @@ COVERAGE_LOG_TOKEN
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::GnssEphemeris& in,
                                GnssEphemerisMsg* out) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {

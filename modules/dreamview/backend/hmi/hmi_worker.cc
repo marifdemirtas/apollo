@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -77,7 +77,7 @@ constexpr char kNavigationModeName[] = "Navigation";
 
 // Convert a string to be title-like. E.g.: "hello_world" -> "Hello World".
 std::string TitleCase(std::string_view origin) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::vector<std::string> parts = absl::StrSplit(origin, '_');
   for (auto& part : parts) {
@@ -92,7 +92,7 @@ COVERAGE_LOG_TOKEN
 
 // List subdirs and return a dict of {subdir_title: subdir_path}.
 Map<std::string, std::string> ListDirAsDict(const std::string& dir) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Map<std::string, std::string> result;
   const auto subdirs = cyber::common::ListSubPaths(dir);
@@ -107,7 +107,7 @@ COVERAGE_LOG_TOKEN
 // List files by pattern and return a dict of {file_title: file_path}.
 Map<std::string, std::string> ListFilesAsDict(std::string_view dir,
                                               std::string_view extension) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Map<std::string, std::string> result;
   const std::string pattern = absl::StrCat(dir, "/*", extension);
@@ -136,7 +136,7 @@ void SetGlobalFlag(std::string_view flag_name, const ValueType& value,
 }
 
 void System(std::string_view cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const int ret = std::system(cmd.data());
   if (ret == 0) {
@@ -150,13 +150,13 @@ COVERAGE_LOG_TOKEN
 
 HMIWorker::HMIWorker(const std::shared_ptr<Node>& node)
     : config_(LoadConfig()), node_(node) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   InitStatus();
 }
 
 void HMIWorker::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   InitReadersAndWriters();
   RegisterStatusUpdateHandler(
@@ -170,7 +170,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMIWorker::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   stop_ = true;
   if (thread_future_.valid()) {
@@ -179,7 +179,7 @@ COVERAGE_LOG_TOKEN
 }
 
 HMIConfig HMIWorker::LoadConfig() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   HMIConfig config;
   // Get available modes, maps and vehicles by listing data directory.
@@ -195,7 +195,7 @@ COVERAGE_LOG_TOKEN
 }
 
 HMIMode HMIWorker::LoadMode(const std::string& mode_config_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   HMIMode mode;
   ACHECK(cyber::common::GetProtoFromFile(mode_config_path, &mode))
@@ -237,7 +237,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMIWorker::InitStatus() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static constexpr char kDockerImageEnv[] = "DOCKER_IMG";
   status_.set_docker_image(cyber::common::GetEnv(kDockerImageEnv));
@@ -296,7 +296,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMIWorker::InitReadersAndWriters() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   status_writer_ = node_->CreateWriter<HMIStatus>(FLAGS_hmi_status_topic);
   pad_writer_ = node_->CreateWriter<control::PadMessage>(FLAGS_pad_topic);
@@ -375,7 +375,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool HMIWorker::Trigger(const HMIAction action) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "HMIAction " << HMIAction_Name(action) << " was triggered!";
   switch (action) {
@@ -399,7 +399,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool HMIWorker::Trigger(const HMIAction action, const std::string& value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "HMIAction " << HMIAction_Name(action) << "(" << value
         << ") was triggered!";
@@ -431,7 +431,7 @@ void HMIWorker::SubmitAudioEvent(const uint64_t event_time_ms,
                                  const int moving_result,
                                  const int audio_direction,
                                  const bool is_siren_on) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<AudioEvent> audio_event = std::make_shared<AudioEvent>();
   apollo::common::util::FillHeader("HMI", audio_event.get());
@@ -469,7 +469,7 @@ void HMIWorker::SubmitDriveEvent(const uint64_t event_time_ms,
                                  const std::string& event_msg,
                                  const std::vector<std::string>& event_types,
                                  const bool is_reportable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<DriveEvent> drive_event = std::make_shared<DriveEvent>();
   apollo::common::util::FillHeader("HMI", drive_event.get());
@@ -492,7 +492,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMIWorker::SensorCalibrationPreprocess(const std::string& task_type) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string start_command = absl::StrCat(
       "nohup bash /apollo/scripts/extract_data.sh -t ", task_type, " &");
@@ -500,7 +500,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMIWorker::VehicleCalibrationPreprocess() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string start_command = absl::StrCat(
       "nohup bash /apollo/modules/tools/vehicle_calibration/preprocess.sh "
@@ -510,7 +510,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool HMIWorker::ChangeDrivingMode(const Chassis::DrivingMode mode) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Always reset to MANUAL mode before changing to other mode.
   const std::string mode_name = Chassis::DrivingMode_Name(mode);
@@ -555,7 +555,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMIWorker::ChangeMap(const std::string& map_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::string* map_dir = FindOrNull(config_.maps(), map_name);
   if (map_dir == nullptr) {
@@ -578,7 +578,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMIWorker::ChangeVehicle(const std::string& vehicle_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::string* vehicle_dir = FindOrNull(config_.vehicles(), vehicle_name);
   if (vehicle_dir == nullptr) {
@@ -609,7 +609,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMIWorker::ChangeMode(const std::string& mode_name) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!ContainsKey(config_.modes(), mode_name)) {
     AERROR << "Cannot change to unknown mode " << mode_name;
@@ -653,7 +653,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMIWorker::StartModule(const std::string& module) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const Module* module_conf = FindOrNull(current_mode_.modules(), module);
   if (module_conf != nullptr) {
@@ -678,7 +678,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMIWorker::StopModule(const std::string& module) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const Module* module_conf = FindOrNull(current_mode_.modules(), module);
   if (module_conf != nullptr) {
@@ -689,14 +689,14 @@ COVERAGE_LOG_TOKEN
 }
 
 HMIStatus HMIWorker::GetStatus() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   RLock rlock(status_mutex_);
   return status_;
 }
 
 void HMIWorker::SetupMode() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (const auto& iter : current_mode_.modules()) {
     System(iter.second.start_command());
@@ -704,7 +704,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMIWorker::ResetMode() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (const auto& iter : current_mode_.modules()) {
     System(iter.second.stop_command());
@@ -713,7 +713,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMIWorker::StatusUpdateThreadLoop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   constexpr int kLoopIntervalMs = 200;
   while (!stop_) {
@@ -744,14 +744,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void HMIWorker::ResetComponentStatusTimer() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   last_status_received_s_ = Clock::NowInSeconds();
   last_status_fingerprint_ = 0;
 }
 
 void HMIWorker::UpdateComponentStatus() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   constexpr double kSecondsTillTimeout(2.5);
   const double now = Clock::NowInSeconds();

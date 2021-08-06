@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -35,7 +35,7 @@ namespace math {
 
 PathPoint PathMatcher::MatchToPath(const std::vector<PathPoint>& reference_line,
                                    const double x, const double y) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_GT(reference_line.size(), 0U);
 
@@ -72,7 +72,7 @@ COVERAGE_LOG_TOKEN
 std::pair<double, double> PathMatcher::GetPathFrenetCoordinate(
     const std::vector<PathPoint>& reference_line, const double x,
     const double y) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto matched_path_point = MatchToPath(reference_line, x, y);
   double rtheta = matched_path_point.theta();
@@ -90,7 +90,7 @@ COVERAGE_LOG_TOKEN
 
 PathPoint PathMatcher::MatchToPath(const std::vector<PathPoint>& reference_line,
                                    const double s) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto comp = [](const PathPoint& point, const double s) {
     return point.s() < s;
@@ -112,7 +112,7 @@ COVERAGE_LOG_TOKEN
 PathPoint PathMatcher::FindProjectionPoint(const PathPoint& p0,
                                            const PathPoint& p1, const double x,
                                            const double y) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double v0x = x - p0.x();
   double v0y = y - p0.y();

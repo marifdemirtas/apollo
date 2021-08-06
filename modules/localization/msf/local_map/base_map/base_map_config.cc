@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,7 @@ namespace localization {
 namespace msf {
 
 BaseMapConfig::BaseMapConfig(std::string map_version) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_resolutions_.push_back(0.125);  // Resolution: 0.125m in level 2
   map_node_size_x_ = 1024;            // in pixels
@@ -37,7 +37,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool BaseMapConfig::Save(const std::string file_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::property_tree::ptree config;
   CreateXml(&config);
@@ -47,7 +47,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool BaseMapConfig::Load(const std::string file_path) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::property_tree::ptree config;
   boost::property_tree::read_xml(file_path, config);
@@ -65,7 +65,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMapConfig::CreateXml(boost::property_tree::ptree* config) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   config->put("map.map_config.version", map_version_);
   config->put("map.map_config.node_size.x", map_node_size_x_);
@@ -87,7 +87,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMapConfig::LoadXml(const boost::property_tree::ptree& config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_resolutions_.clear();
   map_datasets_.clear();
@@ -117,7 +117,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMapConfig::ResizeMapRange() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double min_x = 0;
   double min_y = 0;
@@ -167,14 +167,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void BaseMapConfig::SetSingleResolutions(float resolution) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_resolutions_.clear();
   map_resolutions_.push_back(resolution);
 }
 
 void BaseMapConfig::SetMultiResolutions() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   map_resolutions_.clear();
   map_resolutions_.push_back(0.03125);

@@ -52,7 +52,7 @@ def add_logging():
                     print("Cannot find:", func)
                     continue
             replace_start = full_text.find('{', search_start) + 1
-            full_text = full_text[:replace_start] + '\nCOVERAGE_LOG_TOKEN\n' + full_text[replace_start:]
+            full_text = full_text[:replace_start] + '\nstd::cerr << "Arif called __PRETTY_FUNCTION__";\n' + full_text[replace_start:]
     with open('all_module_cpp_files_concat_logged.cc','w') as wfd:
         wfd.write(full_text)
 
@@ -66,12 +66,29 @@ def read():
                 print("%5 gone")
             f, c = fc.split(start_token_content)
             with open(f, 'w') as fd:
-                fd.write('#include "modules/covlogger.h"\n' + c)
+                fd.write('#include <iostream>\n' + c)
 
+def add_build_statement():
+    offset = len('deps = [\n')
+    with open('all_build_files.txt', 'r') as fl:
+        build_paths = [l.strip('\t').strip('\n') for l in fl.readlines()]
+    for b in build_paths:
+        try:
+            with open(b, 'r') as f:
+                content = f.read()
+                if b.find('proto') == -1: # and content.find('#    deps = [\n"@com_github_google_glog//:glog",\n') != -1:
+                    content = content.replace(
+                        '#     deps = [\n"@com_github_google_glog//:glog",\n',
+                        '#     deps = [\n',
+                    )
+            with open(b, 'w') as f:
+                f.write(content)
+        except Exception as e:
+            print(e)
 '''
 Read symbols, find those with function, find the next {, replace it with { + logging
 '''
-add_logging()
+#add_logging()
 read()
 
 #create_concat_cyber()

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ DEFINE_string(output_dir, "/tmp/", "output map directory");
 using apollo::hdmap::Map;
 
 static void ShiftMap(Map* map_pb) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& lane : *(map_pb->mutable_lane())) {
     for (auto& segment : *(lane.mutable_central_curve()->mutable_segment())) {
@@ -67,7 +67,7 @@ COVERAGE_LOG_TOKEN
 }
 
 static void OutputMap(const Map& map_pb) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::string txt_file = FLAGS_output_dir + "/base_map.txt";
   const std::string bin_file = FLAGS_output_dir + "/base_map.bin";
@@ -76,7 +76,7 @@ COVERAGE_LOG_TOKEN
 }
 
 int main(int32_t argc, char** argv) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   google::InitGoogleLogging(argv[0]);
   FLAGS_alsologtostderr = true;

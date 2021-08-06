@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,13 +28,12 @@
 #include "modules/perception/common/sensor_manager/sensor_manager.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
 
 bool MultiCamerasProjection::Init(const MultiCamerasInitOption& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (options.camera_names.empty()) {
     AERROR << "no cameras to be projected";
@@ -88,7 +87,7 @@ COVERAGE_LOG_TOKEN
 bool MultiCamerasProjection::Project(const CarPose& pose,
                                      const ProjectOption& option,
                                      base::TrafficLight* light) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!HasCamera(option.camera_name)) {
     AERROR << "no camera: " << option.camera_name;
@@ -116,7 +115,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool MultiCamerasProjection::HasCamera(const std::string& camera_name) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto iter =
       std::find(camera_names_.begin(), camera_names_.end(), camera_name);
@@ -126,7 +125,7 @@ COVERAGE_LOG_TOKEN
 
 int MultiCamerasProjection::getImageWidth(
     const std::string& camera_name) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!HasCamera(camera_name)) {
     AERROR << "getImageWidth failed, camera_name: " << camera_name;
@@ -137,7 +136,7 @@ COVERAGE_LOG_TOKEN
 
 int MultiCamerasProjection::getImageHeight(
     const std::string& camera_name) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!HasCamera(camera_name)) {
     AERROR << "getImageHeight failed, camera_name: " << camera_name;
@@ -151,7 +150,7 @@ bool MultiCamerasProjection::BoundaryBasedProject(
     const Eigen::Matrix4d& c2w_pose,
     const std::vector<base::PointXYZID>& points,
     base::TrafficLight* light) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (camera_model.get() == nullptr) {
     AERROR << "camera_model is not available.";

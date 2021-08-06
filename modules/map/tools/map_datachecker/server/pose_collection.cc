@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -20,20 +20,20 @@ namespace apollo {
 namespace hdmap {
 
 PoseCollection::PoseCollection(std::shared_ptr<JsonConf> sp_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   sp_conf_ = sp_conf;
   Reset();
 }
 
 void PoseCollection::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   sp_poses_ = std::make_shared<std::vector<FramePose>>();
 }
 
 void PoseCollection::Collect(const FramePose& pose) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sp_poses_ == nullptr) {
     sp_poses_ = std::make_shared<std::vector<FramePose>>();
@@ -42,7 +42,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::shared_ptr<std::vector<FramePose>> PoseCollection::GetPoses() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return sp_poses_;
 }

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,6 @@
 #include "modules/perception/inference/utils/gemm.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
@@ -34,7 +33,7 @@ namespace camera {
 using cyber::common::GetAbsolutePath;
 
 bool ProjectFeature::Init(const FeatureExtractorInitOptions &options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string efx_config = GetAbsolutePath(options.root_dir, options.conf_file);
   ACHECK(cyber::common::GetProtoFromFile(efx_config, &param_))
@@ -68,7 +67,7 @@ COVERAGE_LOG_TOKEN
 
 bool ProjectFeature::Extract(const FeatureExtractorOptions &options,
                              CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto input_blob = inference_->get_blob(param_.input_blob());
   auto output_blob = inference_->get_blob(param_.feat_blob());
@@ -96,7 +95,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string ProjectFeature::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return "ProjectFeature"; }
 
 REGISTER_FEATURE_EXTRACTOR(ProjectFeature);

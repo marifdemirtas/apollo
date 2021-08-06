@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -52,7 +52,7 @@ ErrorCode LincolnController::Init(
     const VehicleParameter &params,
     CanSender<::apollo::canbus::ChassisDetail> *const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail> *const message_manager) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (is_initialized_) {
     AINFO << "LincolnController has already been initiated.";
@@ -128,7 +128,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool LincolnController::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_initialized_) {
     AERROR << "LincolnController has NOT been initiated.";
@@ -141,7 +141,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LincolnController::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_initialized_) {
     AERROR << "LincolnController stops or starts improperly!";
@@ -156,7 +156,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Chassis LincolnController::chassis() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis_.Clear();
 
@@ -391,7 +391,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LincolnController::Emergency() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
@@ -401,7 +401,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode LincolnController::EnableAutoMode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
     AINFO << "Already in COMPLETE_AUTO_DRIVE mode";
@@ -426,7 +426,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode LincolnController::DisableAutoMode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ResetProtocol();
   can_sender_->Update();
@@ -437,7 +437,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode LincolnController::EnableSteeringOnlyMode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_STEER_ONLY) {
@@ -462,7 +462,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode LincolnController::EnableSpeedOnlyMode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_SPEED_ONLY) {
@@ -488,7 +488,7 @@ COVERAGE_LOG_TOKEN
 
 // NEUTRAL, REVERSE, DRIVE
 void LincolnController::Gear(Chassis::GearPosition ref_gear_position) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -557,7 +557,7 @@ COVERAGE_LOG_TOKEN
 // acceleration_spd:60 ~ 100, suggest: 90
 // -> pedal
 void LincolnController::Brake(double pedal) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -570,7 +570,7 @@ COVERAGE_LOG_TOKEN
 // drive with old acceleration
 // gas:0.00~99.99 unit:%
 void LincolnController::Throttle(double pedal) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -583,7 +583,7 @@ COVERAGE_LOG_TOKEN
 // drive with acceleration/deceleration
 // acc:-7.0 ~ 5.0, unit:m/s^2
 void LincolnController::Acceleration(double acc) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -598,7 +598,7 @@ COVERAGE_LOG_TOKEN
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:%, left:-, right:+
 void LincolnController::Steer(double angle) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
@@ -615,7 +615,7 @@ COVERAGE_LOG_TOKEN
 // angle:-99.99~0.00~99.99, unit:%, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void LincolnController::Steer(double angle, double angle_spd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
@@ -635,7 +635,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LincolnController::SetEpbBreak(const ControlCommand &command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (command.parking_brake()) {
     // None
@@ -645,7 +645,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LincolnController::SetBeam(const ControlCommand &command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (command.signal().high_beam()) {
     // None
@@ -657,7 +657,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LincolnController::SetHorn(const ControlCommand &command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (command.signal().horn()) {
     // None
@@ -667,7 +667,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LincolnController::SetTurningSignal(const ControlCommand &command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Set Turn Signal
   auto signal = command.signal().turn_signal();
@@ -681,13 +681,13 @@ COVERAGE_LOG_TOKEN
 }
 
 void LincolnController::ResetProtocol() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   message_manager_->ResetSendMessages();
 }
 
 bool LincolnController::CheckChassisError() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ChassisDetail chassis_detail;
   message_manager_->GetSensorData(&chassis_detail);
@@ -811,7 +811,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LincolnController::SecurityDogThreadFunc() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (can_sender_ == nullptr) {
     AERROR << "Failed to run SecurityDogThreadFunc() because can_sender_ is "
@@ -879,7 +879,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool LincolnController::CheckResponse(const int32_t flags, bool need_wait) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // for Lincoln, CheckResponse commonly takes 300ms. We leave a 100ms buffer
   // for it.
@@ -929,21 +929,21 @@ COVERAGE_LOG_TOKEN
 }
 
 void LincolnController::set_chassis_error_mask(const int32_t mask) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t LincolnController::chassis_error_mask() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode LincolnController::chassis_error_code() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
@@ -951,7 +951,7 @@ COVERAGE_LOG_TOKEN
 
 void LincolnController::set_chassis_error_code(
     const Chassis::ErrorCode &error_code) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
@@ -959,7 +959,7 @@ COVERAGE_LOG_TOKEN
 
 bool LincolnController::CheckSafetyError(
     const ::apollo::canbus::ChassisDetail &chassis_detail) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool safety_error =
       chassis_detail.safety().is_passenger_door_open() ||

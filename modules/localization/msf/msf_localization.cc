@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -40,11 +40,11 @@ MSFLocalization::MSFLocalization()
       localization_state_(msf::LocalizationMeasureState::OK),
       pcd_msg_index_(-1),
       raw_imu_msg_(nullptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status MSFLocalization::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   InitParams();
 
@@ -52,7 +52,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MSFLocalization::InitParams() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // integration module
   localization_param_.is_ins_can_self_align = FLAGS_integ_ins_can_self_align;
@@ -200,7 +200,7 @@ COVERAGE_LOG_TOKEN
 
 void MSFLocalization::OnPointCloud(
     const std::shared_ptr<drivers::PointCloud> &message) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ++pcd_msg_index_;
   if (pcd_msg_index_ % FLAGS_point_cloud_step != 0) {
@@ -220,7 +220,7 @@ COVERAGE_LOG_TOKEN
 
 void MSFLocalization::OnRawImu(
     const std::shared_ptr<drivers::gnss::Imu> &imu_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (FLAGS_imu_coord_rfu) {
     localization_integ_.RawImuProcessRfu(*imu_msg);
@@ -256,7 +256,7 @@ COVERAGE_LOG_TOKEN
 
 void MSFLocalization::OnRawImuCache(
     const std::shared_ptr<drivers::gnss::Imu> &imu_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (imu_msg) {
     std::unique_lock<std::mutex> lock(mutex_imu_msg_);
@@ -266,7 +266,7 @@ COVERAGE_LOG_TOKEN
 
 void MSFLocalization::OnGnssBestPose(
     const std::shared_ptr<drivers::gnss::GnssBestPose> &bestgnsspos_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
@@ -286,7 +286,7 @@ COVERAGE_LOG_TOKEN
 
 void MSFLocalization::OnGnssRtkObs(
     const std::shared_ptr<drivers::gnss::EpochObservation> &raw_obs_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
@@ -306,7 +306,7 @@ COVERAGE_LOG_TOKEN
 
 void MSFLocalization::OnGnssRtkEph(
     const std::shared_ptr<drivers::gnss::GnssEphemeris> &gnss_orbit_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
@@ -319,7 +319,7 @@ COVERAGE_LOG_TOKEN
 
 void MSFLocalization::OnGnssHeading(
     const std::shared_ptr<drivers::gnss::Heading> &gnss_heading_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
@@ -330,7 +330,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MSFLocalization::OnLocalizationTimer() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!raw_imu_msg_) {
     return;
@@ -341,14 +341,14 @@ COVERAGE_LOG_TOKEN
 
 void MSFLocalization::SetPublisher(
     const std::shared_ptr<LocalizationMsgPublisher> &publisher) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   publisher_ = publisher;
 }
 
 void MSFLocalization::CompensateImuVehicleExtrinsic(
     LocalizationEstimate *local_result) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(local_result);
   // calculate orientation_vehicle_world
@@ -377,7 +377,7 @@ bool MSFLocalization::LoadGnssAntennaExtrinsic(
     const std::string &file_path, double *offset_x, double *offset_y,
     double *offset_z, double *uncertainty_x, double *uncertainty_y,
     double *uncertainty_z) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   YAML::Node config = YAML::LoadFile(file_path);
   if (config["leverarm"]) {
@@ -404,7 +404,7 @@ bool MSFLocalization::LoadImuVehicleExtrinsic(const std::string &file_path,
                                               double *quat_qx, double *quat_qy,
                                               double *quat_qz,
                                               double *quat_qw) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!cyber::common::PathExists(file_path)) {
     return false;
@@ -426,7 +426,7 @@ COVERAGE_LOG_TOKEN
 
 bool MSFLocalization::LoadZoneIdFromFolder(const std::string &folder_path,
                                            int *zone_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string map_zone_id_folder;
   if (cyber::common::DirectoryExists(folder_path + "/map/000/north")) {

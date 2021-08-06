@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,7 +29,7 @@ namespace video {
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 bool H265Decoder::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   avcodec_register_all();
   AVCodec* codec_h265 = avcodec_find_decoder(AV_CODEC_ID_H265);
@@ -77,7 +77,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void H265Decoder::Release() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (codec_ctx_h265_ != nullptr) {
     avcodec_free_context(&codec_ctx_h265_);
@@ -96,7 +96,7 @@ COVERAGE_LOG_TOKEN
 H265Decoder::DecodingResult H265Decoder::Process(
     const uint8_t* indata, const int32_t insize,
     std::vector<uint8_t>* outdata) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AVPacket apt;
   outdata->clear();

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -36,7 +36,7 @@ namespace lidar {
 MsgExporter::MsgExporter(std::shared_ptr<apollo::cyber::Node> node,
                          const std::vector<std::string> channels,
                          const std::vector<std::string> child_frame_ids) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   _cyber_node = node;
   _channels = channels;
@@ -68,7 +68,7 @@ COVERAGE_LOG_TOKEN
       create_folder(folder);
       std::cout << "Bind camera channel: " << channel << std::endl;
     } else {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
       std::cout << "Unknown channel type: " << channel << std::endl;
     }
@@ -102,7 +102,7 @@ void MsgExporter::ImageMessageHandler(
 void MsgExporter::PointCloudMessageHandler(
     const std::shared_ptr<const PcMsg>& cloud_msg, const std::string& channel,
     const std::string& child_frame_id, const std::string& folder) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double timestamp = cloud_msg->measurement_time();
   // std::cout << "Receive point cloud message from channel: " << channel <<
@@ -139,7 +139,7 @@ COVERAGE_LOG_TOKEN
 bool MsgExporter::SavePointCloud(
     const pcl::PointCloud<PCLPointXYZIT>& point_cloud, double timestamp,
     const std::string& folder) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static char path[500];
   snprintf(path, sizeof(path), "%s/%.6f.pcd", folder.c_str(), timestamp);
@@ -152,7 +152,7 @@ bool MsgExporter::SaveImage(const unsigned char* color_image,
                             const unsigned char* range_image, std::size_t width,
                             std::size_t height, double timestamp,
                             const std::string& folder) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   cv::Mat image(static_cast<int>(height), static_cast<int>(width), CV_8UC1,
                 const_cast<unsigned char*>(color_image));
@@ -178,7 +178,7 @@ COVERAGE_LOG_TOKEN
 bool MsgExporter::QuerySensorToWorldPose(double timestamp,
                                          const std::string& child_frame_id,
                                          Eigen::Matrix4d* pose) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Matrix4d sensor2novatel_extrinsics = Eigen::Matrix4d::Identity();
   Eigen::Matrix4d novatel2world_pose;
@@ -200,7 +200,7 @@ COVERAGE_LOG_TOKEN
 bool MsgExporter::QueryPose(double timestamp, const std::string& frame_id,
                             const std::string& child_frame_id,
                             Eigen::Matrix4d* pose) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   cyber::Time query_time(timestamp);
   std::string err_string;
@@ -233,7 +233,7 @@ COVERAGE_LOG_TOKEN
 
 bool MsgExporter::SavePose(const Eigen::Matrix4d& pose, double timestamp,
                            const std::string& folder) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Eigen::Affine3d affine(pose);
   Eigen::Quaterniond quat = (Eigen::Quaterniond)affine.linear();
@@ -250,28 +250,28 @@ COVERAGE_LOG_TOKEN
 }
 
 bool MsgExporter::IsStereoCamera(const std::string& channel) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::vector<std::string> strs = absl::StrSplit(channel, '/');
   return strs.size() > 2 && strs[2] == "smartereye";
 }
 
 bool MsgExporter::IsCamera(const std::string& channel) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::vector<std::string> strs = absl::StrSplit(channel, '/');
   return strs.size() > 1 && strs[1] == "camera";
 }
 
 bool MsgExporter::IsLidar(const std::string& channel) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::vector<std::string> strs = absl::StrSplit(channel, '/');
   return strs.size() > 0 && strs.back() == "PointCloud2";
 }
 
 std::string MsgExporter::TransformChannelToFolder(const std::string& channel) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::vector<std::string> strs = absl::StrSplit(channel, '/');
   std::string target = "";

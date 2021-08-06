@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -31,11 +31,11 @@ const int32_t Brakecmd104::ID = 0x104;
 
 // public
 Brakecmd104::Brakecmd104() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Brakecmd104::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -43,7 +43,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Brakecmd104::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_ignore_overrides(data, ignore_overrides_);
   set_p_enable(data, enable_);
@@ -53,7 +53,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Brakecmd104::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(QiL) you should check this manually
   ignore_overrides_ = false;
@@ -64,7 +64,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Brakecmd104* Brakecmd104::set_ignore_overrides(bool ignore_overrides) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ignore_overrides_ = ignore_overrides;
   return this;
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 1,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Brakecmd104::set_p_ignore_overrides(uint8_t* data, bool ignore_overrides) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = ignore_overrides;
 
@@ -83,7 +83,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Brakecmd104* Brakecmd104::set_enable(bool enable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   enable_ = enable;
   return this;
@@ -93,7 +93,7 @@ COVERAGE_LOG_TOKEN
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Brakecmd104::set_p_enable(uint8_t* data, bool enable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = enable;
 
@@ -102,7 +102,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Brakecmd104* Brakecmd104::set_clear_override(bool clear_override) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   clear_override_ = clear_override;
   return this;
@@ -112,7 +112,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 2,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Brakecmd104::set_p_clear_override(uint8_t* data, bool clear_override) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = clear_override;
 
@@ -121,7 +121,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Brakecmd104* Brakecmd104::set_clear_faults(bool clear_faults) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   clear_faults_ = clear_faults;
   return this;
@@ -131,7 +131,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 3,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Brakecmd104::set_p_clear_faults(uint8_t* data, bool clear_faults) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = clear_faults;
 
@@ -140,7 +140,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Brakecmd104* Brakecmd104::set_brake_cmd(double brake_cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   brake_cmd_ = brake_cmd;
   return this;
@@ -150,7 +150,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 15,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 void Brakecmd104::set_p_brake_cmd(uint8_t* data, double brake_cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const double scaling_bias = 0.0;   // estimated from the garage test data
   const double scaling_gain = 0.80;  // estimated from the garage test data

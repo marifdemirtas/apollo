@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,15 +30,15 @@ VehicleConfig VehicleConfigHelper::vehicle_config_;
 bool VehicleConfigHelper::is_init_ = false;
 
 VehicleConfigHelper::VehicleConfigHelper() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void VehicleConfigHelper::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Init(FLAGS_vehicle_config_path); }
 
 void VehicleConfigHelper::Init(const std::string &config_file) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   VehicleConfig params;
   ACHECK(cyber::common::GetProtoFromFile(config_file, &params))
@@ -47,14 +47,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void VehicleConfigHelper::Init(const VehicleConfig &vehicle_params) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   vehicle_config_ = vehicle_params;
   is_init_ = true;
 }
 
 const VehicleConfig &VehicleConfigHelper::GetConfig() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_init_) {
     Init();
@@ -63,7 +63,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double VehicleConfigHelper::MinSafeTurnRadius() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto &param = vehicle_config_.vehicle_param();
   double lat_edge_to_center =
@@ -77,7 +77,7 @@ COVERAGE_LOG_TOKEN
 
 common::math::Box2d VehicleConfigHelper::GetBoundingBox(
     const common::PathPoint &path_point) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto &vehicle_param = vehicle_config_.vehicle_param();
   double diff_truecenter_and_pointX = (vehicle_param.front_edge_to_center() -

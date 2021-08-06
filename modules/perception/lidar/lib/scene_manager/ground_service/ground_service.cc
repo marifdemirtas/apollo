@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,6 @@
 #include "modules/perception/lidar/lib/scene_manager/ground_service/proto/ground_service_config.pb.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace lidar {
@@ -32,7 +31,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 void GroundServiceContent::GetCopy(SceneServiceContent* content) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   GroundServiceContent* ground_content =
       dynamic_cast<GroundServiceContent*>(content);
@@ -53,7 +52,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void GroundServiceContent::SetContent(const SceneServiceContent& content) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const GroundServiceContent* ground_content =
       dynamic_cast<const GroundServiceContent*>(&content);
@@ -80,7 +79,7 @@ uint32_t inline GetIndex(uint32_t r, uint32_t c, uint32_t cols) {
 
 bool GroundServiceContent::PointToGrid(const Eigen::Vector3d& world_point,
                                        uint32_t* grid_index) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double x = world_point(0) - grid_center_(0);
   double y = world_point(1) - grid_center_(1);
@@ -99,7 +98,7 @@ COVERAGE_LOG_TOKEN
 
 float GroundServiceContent::PointToPlaneDistance(
     const Eigen::Vector3d& world_point) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint32_t grid_index = 0;
   if (!PointToGrid(world_point, &grid_index)) {
@@ -127,7 +126,7 @@ COVERAGE_LOG_TOKEN
 
 bool GroundServiceContent::Init(double roi_x, double roi_y, uint32_t rows,
                                 uint32_t cols) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bound_x_min_ = -roi_x;
   bound_y_min_ = -roi_y;
@@ -145,7 +144,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool GroundService::Init(const SceneServiceInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   self_content_.reset(new GroundServiceContent);
   ground_content_ref_ =
@@ -182,7 +181,7 @@ COVERAGE_LOG_TOKEN
 
 float GroundService::QueryPointToGroundDistance(
     const Eigen::Vector3d& world_point) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(mutex_);
   float distance =
@@ -192,7 +191,7 @@ COVERAGE_LOG_TOKEN
 
 float GroundService::QueryPointToGroundDistance(
     const Eigen::Vector3d& world_point, const GroundServiceContent& content) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return content.PointToPlaneDistance(world_point);
 }

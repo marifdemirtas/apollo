@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,13 +23,13 @@ namespace perception {
 namespace radar {
 
 bool ContiArsDetector::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return true; }
 
 bool ContiArsDetector::Detect(const drivers::ContiRadar& corrected_obstacles,
                               const DetectorOptions& options,
                               base::FramePtr radar_frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   RawObs2Frame(corrected_obstacles, options, radar_frame);
   radar_frame->timestamp = corrected_obstacles.header().timestamp_sec();
@@ -38,13 +38,13 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string ContiArsDetector::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return "ContiArsDetector"; }
 
 void ContiArsDetector::RawObs2Frame(
     const drivers::ContiRadar& corrected_obstacles,
     const DetectorOptions& options, base::FramePtr radar_frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const Eigen::Matrix4d& radar2world = *(options.radar2world_pose);
   const Eigen::Matrix4d& radar2novatel = *(options.radar2novatel_trans);

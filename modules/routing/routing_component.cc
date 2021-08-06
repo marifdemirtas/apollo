@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,6 @@
 DECLARE_string(flagfile);
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace routing {
 

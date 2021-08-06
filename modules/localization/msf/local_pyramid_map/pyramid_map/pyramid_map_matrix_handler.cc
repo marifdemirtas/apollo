@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
@@ -26,17 +26,17 @@ namespace msf {
 namespace pyramid_map {
 // =================PyramidMapMatrixHandlerSelector=================
 PyramidMapMatrixHandlerSelector::PyramidMapMatrixHandlerSelector() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PyramidMapMatrixHandlerSelector::~PyramidMapMatrixHandlerSelector() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 BaseMapMatrixHandler*
 PyramidMapMatrixHandlerSelector::AllocPyramidMapMatrixHandler(
     MapVersion version) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   switch (version) {
     case MapVersion::LOSSY_FULL_ALT_MAP:
@@ -56,15 +56,15 @@ COVERAGE_LOG_TOKEN
 
 // =================LossyMapMatrixHandler=================
 LossyMapMatrixHandler::LossyMapMatrixHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LossyMapMatrixHandler::~LossyMapMatrixHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 unsigned char LossyMapMatrixHandler::EncodeIntensity(float intensity) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned char encoded_intensity = 0;
   if (intensity > 255) {
@@ -79,13 +79,13 @@ COVERAGE_LOG_TOKEN
 
 void LossyMapMatrixHandler::DecodeIntensity(unsigned char data,
                                             float* intensity) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *intensity = static_cast<float>(data);
 }
 
 uint16_t LossyMapMatrixHandler::EncodeIntensityVar(float var) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   var = std::sqrt(var);
   unsigned int encoded_var =
@@ -102,7 +102,7 @@ COVERAGE_LOG_TOKEN
 
 void LossyMapMatrixHandler::DecodeIntensityVar(uint16_t data,
                                                float* var) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *var = static_cast<float>(data);
   *var = (static_cast<float>(var_range_) / (*var) - 1.0f) /
@@ -113,7 +113,7 @@ COVERAGE_LOG_TOKEN
 uint16_t LossyMapMatrixHandler::EncodeAltitude(float altitude,
                                                float min_altitude,
                                                float altitude_interval) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float delta_alt = altitude - min_altitude;
   delta_alt /= altitude_interval;
@@ -130,14 +130,14 @@ COVERAGE_LOG_TOKEN
 void LossyMapMatrixHandler::DecodeAltitude(uint16_t data, float min_altitude,
                                            float altitude_interval,
                                            float* altitude) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *altitude = min_altitude + data * altitude_interval;
 }
 
 unsigned char LossyMapMatrixHandler::EncodeCount(
     unsigned int count, unsigned int count_range) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int encoded_count = 0;
   while (count > 0) {
@@ -152,7 +152,7 @@ COVERAGE_LOG_TOKEN
 
 void LossyMapMatrixHandler::DecodeCount(unsigned char data,
                                         unsigned int* count) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (data == 0) {
     *count = data;
@@ -163,16 +163,16 @@ COVERAGE_LOG_TOKEN
 
 // =================LossyMapFullAltMatrixHandler=================
 LossyMapFullAltMatrixHandler::LossyMapFullAltMatrixHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LossyMapFullAltMatrixHandler::~LossyMapFullAltMatrixHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t LossyMapFullAltMatrixHandler::LoadBinary(
     const unsigned char* buf, std::shared_ptr<BaseMapMatrix> base_matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -289,7 +289,7 @@ COVERAGE_LOG_TOKEN
 size_t LossyMapFullAltMatrixHandler::CreateBinary(
     const std::shared_ptr<BaseMapMatrix> base_matrix, unsigned char* buf,
     size_t buf_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -448,7 +448,7 @@ COVERAGE_LOG_TOKEN
 
 size_t LossyMapFullAltMatrixHandler::GetBinarySize(
     const std::shared_ptr<BaseMapMatrix> base_matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -470,16 +470,16 @@ COVERAGE_LOG_TOKEN
 
 // =================LosslessMapMatrixHandler====================
 LosslessMapMatrixHandler::LosslessMapMatrixHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LosslessMapMatrixHandler::~LosslessMapMatrixHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t LosslessMapMatrixHandler::LoadBinary(
     const unsigned char* buf, std::shared_ptr<BaseMapMatrix> base_matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -556,7 +556,7 @@ COVERAGE_LOG_TOKEN
 size_t LosslessMapMatrixHandler::CreateBinary(
     const std::shared_ptr<BaseMapMatrix> base_matrix, unsigned char* buf,
     size_t buf_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -644,7 +644,7 @@ COVERAGE_LOG_TOKEN
 
 size_t LosslessMapMatrixHandler::GetBinarySize(
     const std::shared_ptr<BaseMapMatrix> base_matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -673,16 +673,16 @@ COVERAGE_LOG_TOKEN
 
 // =================PyramidLossyMapMatrixHandler====================
 PyramidLossyMapMatrixHandler::PyramidLossyMapMatrixHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PyramidLossyMapMatrixHandler::~PyramidLossyMapMatrixHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t PyramidLossyMapMatrixHandler::LoadBinary(
     const unsigned char* buf, std::shared_ptr<BaseMapMatrix> base_matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -842,7 +842,7 @@ COVERAGE_LOG_TOKEN
 size_t PyramidLossyMapMatrixHandler::CreateBinary(
     const std::shared_ptr<BaseMapMatrix> base_matrix, unsigned char* buf,
     size_t buf_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -1049,7 +1049,7 @@ COVERAGE_LOG_TOKEN
 
 size_t PyramidLossyMapMatrixHandler::GetBinarySize(
     const std::shared_ptr<BaseMapMatrix> base_matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -1097,16 +1097,16 @@ COVERAGE_LOG_TOKEN
 
 // =================PyramidLosslessMapMatrixHandler====================
 PyramidLosslessMapMatrixHandler::PyramidLosslessMapMatrixHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PyramidLosslessMapMatrixHandler::~PyramidLosslessMapMatrixHandler() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t PyramidLosslessMapMatrixHandler::LoadBinary(
     const unsigned char* buf, std::shared_ptr<BaseMapMatrix> base_matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -1210,7 +1210,7 @@ COVERAGE_LOG_TOKEN
 size_t PyramidLosslessMapMatrixHandler::CreateBinary(
     const std::shared_ptr<BaseMapMatrix> base_matrix, unsigned char* buf,
     size_t buf_size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);
@@ -1337,7 +1337,7 @@ COVERAGE_LOG_TOKEN
 
 size_t PyramidLosslessMapMatrixHandler::GetBinarySize(
     const std::shared_ptr<BaseMapMatrix> base_matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const std::shared_ptr<PyramidMapMatrix> matrix =
       std::dynamic_pointer_cast<PyramidMapMatrix>(base_matrix);

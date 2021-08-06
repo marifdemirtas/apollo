@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -47,7 +47,7 @@ ErrorCode TransitController::Init(
     const VehicleParameter& params,
     CanSender<::apollo::canbus::ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (is_initialized_) {
     AINFO << "TransitController has already been initialized.";
@@ -137,11 +137,11 @@ COVERAGE_LOG_TOKEN
 }
 
 TransitController::~TransitController() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool TransitController::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_initialized_) {
     AERROR << "TransitController has NOT been initiated.";
@@ -154,7 +154,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TransitController::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!is_initialized_) {
     AERROR << "TransitController stops or starts improperly!";
@@ -169,7 +169,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Chassis TransitController::chassis() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis_.Clear();
 
@@ -258,14 +258,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void TransitController::Emergency() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
 }
 
 ErrorCode TransitController::EnableAutoMode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
     AINFO << "Already in COMPLETE_AUTO_DRIVE mode";
@@ -299,7 +299,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode TransitController::DisableAutoMode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ResetProtocol();
   can_sender_->Update();
@@ -310,7 +310,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode TransitController::EnableSteeringOnlyMode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_STEER_ONLY) {
@@ -333,7 +333,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode TransitController::EnableSpeedOnlyMode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_SPEED_ONLY) {
@@ -370,7 +370,7 @@ COVERAGE_LOG_TOKEN
 
 // NEUTRAL, REVERSE, DRIVE
 void TransitController::Gear(Chassis::GearPosition gear_position) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -428,7 +428,7 @@ COVERAGE_LOG_TOKEN
 // acceleration_spd:60 ~ 100, suggest: 90
 // -> pedal
 void TransitController::Brake(double pedal) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // double real_value = params_.max_acc() * acceleration / 100;
   // TODO(QiL):  Update brake value based on mode
@@ -447,7 +447,7 @@ COVERAGE_LOG_TOKEN
 // drive with old acceleration
 // gas:0.00~99.99 unit:
 void TransitController::Throttle(double pedal) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -464,7 +464,7 @@ COVERAGE_LOG_TOKEN
 // drive with acceleration/deceleration
 // acc:-7.0 ~ 5.0, unit:m/s^2
 void TransitController::Acceleration(double acc) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -479,7 +479,7 @@ COVERAGE_LOG_TOKEN
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 void TransitController::Steer(double angle) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
@@ -498,7 +498,7 @@ COVERAGE_LOG_TOKEN
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void TransitController::Steer(double angle, double angle_spd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
@@ -517,7 +517,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TransitController::SetEpbBreak(const ControlCommand& command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (command.parking_brake()) {
     adc_motioncontrol1_10_->set_adc_cmd_parkingbrake(true);
@@ -527,7 +527,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TransitController::SetBeam(const ControlCommand& command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (command.signal().high_beam()) {
     adc_auxiliarycontrol_110_->set_adc_cmd_highbeam(true);
@@ -540,7 +540,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TransitController::SetHorn(const ControlCommand& command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (command.signal().horn()) {
     adc_auxiliarycontrol_110_->set_adc_cmd_horn(true);
@@ -550,7 +550,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void TransitController::SetTurningSignal(const ControlCommand& command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Set Turn Signal
   auto signal = command.signal().turn_signal();
@@ -567,20 +567,20 @@ COVERAGE_LOG_TOKEN
 }
 
 void TransitController::ResetProtocol() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   message_manager_->ResetSendMessages();
 }
 
 bool TransitController::CheckChassisError() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(QiL): re-design later
   return true;
 }
 
 void TransitController::SecurityDogThreadFunc() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
@@ -645,7 +645,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool TransitController::CheckResponse() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(Udelv): Add separate indicators
   ChassisDetail chassis_detail;
@@ -667,21 +667,21 @@ COVERAGE_LOG_TOKEN
 }
 
 void TransitController::set_chassis_error_mask(const int32_t mask) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t TransitController::chassis_error_mask() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode TransitController::chassis_error_code() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
@@ -689,7 +689,7 @@ COVERAGE_LOG_TOKEN
 
 void TransitController::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
@@ -697,13 +697,13 @@ COVERAGE_LOG_TOKEN
 
 bool TransitController::CheckSafetyError(
     const ::apollo::canbus::ChassisDetail& chassis_detail) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return true;
 }
 
 void TransitController::SetLimits() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   adc_motioncontrollimits1_12_->set_adc_cmd_throttlecommandlimit(100);
   adc_motioncontrollimits1_12_->set_adc_cmd_steerwheelanglelimit(1275);

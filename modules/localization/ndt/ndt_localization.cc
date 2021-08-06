@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ namespace localization {
 namespace ndt {
 
 void NDTLocalization::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   tf_buffer_ = apollo::transform::Buffer::Instance();
   tf_buffer_->Init();
@@ -99,7 +99,7 @@ COVERAGE_LOG_TOKEN
 // receive odometry message
 void NDTLocalization::OdometryCallback(
     const std::shared_ptr<localization::Gps>& odometry_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double odometry_time = odometry_msg->header().timestamp_sec();
   static double pre_odometry_time = odometry_time;
@@ -175,7 +175,7 @@ COVERAGE_LOG_TOKEN
 // receive lidar pointcloud message
 void NDTLocalization::LidarCallback(
     const std::shared_ptr<drivers::PointCloud>& lidar_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static unsigned int frame_idx = 0;
   LidarFrame lidar_frame;
@@ -233,7 +233,7 @@ COVERAGE_LOG_TOKEN
 
 void NDTLocalization::OdometryStatusCallback(
     const std::shared_ptr<drivers::gnss::InsStat>& status_msg) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::unique_lock<std::mutex> lock(odometry_status_list_mutex_);
   if (odometry_status_list_.size() < odometry_status_list_max_size_) {
@@ -246,32 +246,32 @@ COVERAGE_LOG_TOKEN
 // output localization result
 void NDTLocalization::GetLocalization(
     LocalizationEstimate* localization) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *localization = localization_result_;
 }
 
 void NDTLocalization::GetLidarLocalization(
     LocalizationEstimate* localization) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *localization = lidar_localization_result_;
 }
 
 void NDTLocalization::GetLocalizationStatus(
     LocalizationStatus* localization_status) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *localization_status = localization_status_;
 }
 
 bool NDTLocalization::IsServiceStarted() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return is_service_started_; }
 
 void NDTLocalization::FillLocalizationMsgHeader(
     LocalizationEstimate* localization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto* header = localization->mutable_header();
   double timestamp = apollo::cyber::Clock::NowInSeconds();
@@ -284,7 +284,7 @@ void NDTLocalization::ComposeLocalizationEstimate(
     const Eigen::Affine3d& pose,
     const std::shared_ptr<localization::Gps>& odometry_msg,
     LocalizationEstimate* localization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   localization->Clear();
   FillLocalizationMsgHeader(localization);
@@ -335,7 +335,7 @@ COVERAGE_LOG_TOKEN
 void NDTLocalization::ComposeLidarResult(double time_stamp,
                                          const Eigen::Affine3d& pose,
                                          LocalizationEstimate* localization) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   localization->Clear();
   FillLocalizationMsgHeader(localization);
@@ -362,7 +362,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NDTLocalization::QueryPoseFromTF(double time, Eigen::Affine3d* pose) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   cyber::Time query_time(time);
   const float time_out = 0.01f;
@@ -395,7 +395,7 @@ COVERAGE_LOG_TOKEN
 void NDTLocalization::ComposeLocalizationStatus(
     const drivers::gnss::InsStat& status,
     LocalizationStatus* localization_status) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   apollo::common::Header* header = localization_status->mutable_header();
   double timestamp = apollo::cyber::Clock::NowInSeconds();
@@ -429,7 +429,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NDTLocalization::QueryPoseFromBuffer(double time, Eigen::Affine3d* pose) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(pose);
 
@@ -487,7 +487,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool NDTLocalization::ZeroOdometry(const Eigen::Affine3d& pose) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double x = pose.translation().x();
   double y = pose.translation().y();
@@ -501,7 +501,7 @@ COVERAGE_LOG_TOKEN
 
 void NDTLocalization::LidarMsgTransfer(
     const std::shared_ptr<drivers::PointCloud>& msg, LidarFrame* lidar_frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lidar_frame);
 
@@ -564,7 +564,7 @@ COVERAGE_LOG_TOKEN
 
 bool NDTLocalization::LoadLidarExtrinsic(const std::string& file_path,
                                          Eigen::Affine3d* lidar_extrinsic) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(lidar_extrinsic);
 
@@ -593,7 +593,7 @@ COVERAGE_LOG_TOKEN
 
 bool NDTLocalization::LoadLidarHeight(const std::string& file_path,
                                       LidarHeight* height) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(height);
 
@@ -615,7 +615,7 @@ COVERAGE_LOG_TOKEN
 
 bool NDTLocalization::LoadZoneIdFromFolder(const std::string& folder_path,
                                            int* zone_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string map_zone_id_folder;
   if (cyber::common::DirectoryExists(folder_path + "/map/000/north")) {
@@ -636,7 +636,7 @@ COVERAGE_LOG_TOKEN
 
 bool NDTLocalization::FindNearestOdometryStatus(
     const double odometry_timestamp, drivers::gnss::InsStat* status) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   CHECK_NOTNULL(status);
 

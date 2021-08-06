@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace perception {
 namespace camera {
 
 bool DataProvider::Init(const DataProvider::InitOptions &options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   src_height_ = options.image_height;
   src_width_ = options.image_width;
@@ -118,7 +118,7 @@ COVERAGE_LOG_TOKEN
 
 bool DataProvider::FillImageData(int rows, int cols, const uint8_t *data,
                                  const std::string &encoding) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (cudaSetDevice(device_id_) != cudaSuccess) {
     AERROR << "Failed to set device to: " << device_id_;
@@ -200,7 +200,7 @@ COVERAGE_LOG_TOKEN
 #if 0
 bool DataProvider::GetImageBlob(const DataProvider::ImageOptions &options,
                                 base::Blob<float> *blob) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   bool ret = GetImageBlob(options, &temp_uint8_);
   if (!ret) {
@@ -226,7 +226,7 @@ COVERAGE_LOG_TOKEN
 
 bool DataProvider::GetImageBlob(const DataProvider::ImageOptions &options,
                                 base::Blob<uint8_t> *blob) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   base::Image8U image;
   if (!GetImage(options, &image)) {
@@ -252,7 +252,7 @@ COVERAGE_LOG_TOKEN
 
 bool DataProvider::GetImage(const DataProvider::ImageOptions &options,
                             base::Image8U *image) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "GetImage ...";
   if (image == nullptr) {
@@ -289,7 +289,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool DataProvider::to_gray_image() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!gray_ready_) {
     NppiSize roi;
@@ -316,7 +316,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool DataProvider::to_rgb_image() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!rgb_ready_) {
     NppiSize roi;
@@ -342,7 +342,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool DataProvider::to_bgr_image() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!bgr_ready_) {
     NppiSize roi;

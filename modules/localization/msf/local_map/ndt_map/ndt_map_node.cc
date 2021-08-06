@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,17 +23,17 @@ namespace localization {
 namespace msf {
 
 NdtMapNode::NdtMapNode() : BaseMapNode(new NdtMapMatrix(), new ZlibStrategy()) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   num_valid_cells_ = 0;
   num_valid_single_cells_ = 0;
 }
 NdtMapNode::~NdtMapNode() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 Eigen::Vector3d NdtMapNode::GetCoordinate3D(unsigned int x, unsigned int y,
                                             int altitude_index) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const Eigen::Vector2d& left_top_corner = GetLeftTopCorner();
   Eigen::Vector2d coord_2d;
@@ -55,7 +55,7 @@ COVERAGE_LOG_TOKEN
 Eigen::Vector3d NdtMapNode::GetCoordinateCenter3D(unsigned int x,
                                                   unsigned int y,
                                                   int altitude_index) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const Eigen::Vector2d& left_top_corner = GetLeftTopCorner();
   Eigen::Vector2d coord_2d;
@@ -75,7 +75,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void NdtMapNode::Reduce(NdtMapNode* map_node, const NdtMapNode& map_node_new) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   assert(map_node->index_.m_ == map_node_new.index_.m_);
   assert(map_node->index_.n_ == map_node_new.index_.n_);

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -34,13 +34,13 @@ constexpr bool is_zero(T value) {
 }  // namespace
 
 Parser *Parser::CreateRtcmV3(bool is_base_station) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return new Rtcm3Parser(is_base_station);
 }
 
 Rtcm3Parser::Rtcm3Parser(bool is_base_station) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (1 != init_rtcm(&rtcm_)) {
     init_flag_ = true;
@@ -54,7 +54,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Rtcm3Parser::SetStationPosition() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto iter = station_location_.find(rtcm_.staid);
   if (iter == station_location_.end()) {
@@ -70,7 +70,7 @@ COVERAGE_LOG_TOKEN
 
 void Rtcm3Parser::FillKepplerOrbit(
     const eph_t &eph, apollo::drivers::gnss::KepplerOrbit *keppler_orbit) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   keppler_orbit->set_week_num(eph.week);
 
@@ -115,7 +115,7 @@ COVERAGE_LOG_TOKEN
 
 void Rtcm3Parser::FillGlonassOrbit(const geph_t &eph,
                                    apollo::drivers::gnss::GlonassOrbit *orbit) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   orbit->set_position_x(eph.pos[0]);
   orbit->set_position_y(eph.pos[1]);
@@ -156,7 +156,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Rtcm3Parser::SetObservationTime() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int week = 0;
   double second = time2gpst(rtcm_.time, &week);
@@ -166,7 +166,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Parser::MessageType Rtcm3Parser::GetMessage(MessagePtr *message_ptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (data_ == nullptr) {
     return MessageType::NONE;
@@ -204,7 +204,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Rtcm3Parser::ProcessObservation() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (rtcm_.obs.n == 0) {
     AWARN << "Obs is zero.";
@@ -279,7 +279,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Rtcm3Parser::ProcessEphemerides() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   apollo::drivers::gnss::GnssType gnss_type;
 
@@ -312,7 +312,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Rtcm3Parser::ProcessStationParameters() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // station pose/ant parameters, set pose.
 

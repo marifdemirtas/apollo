@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Adseps113::ID = 0x113;
 
 // public
 Adseps113::Adseps113() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Adseps113::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(ChaoMa) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,14 +41,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void Adseps113::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_ads_epsmode(data, ads_epsmode_);
   set_p_ads_reqepstargetangle(data, ads_reqepstargetangle_);
 }
 
 void Adseps113::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(ChaoMa) :you should check this manually
   ads_epsmode_ = Ads_eps_113::ADS_EPSMODE_DISABLE;
@@ -57,7 +57,7 @@ COVERAGE_LOG_TOKEN
 
 Adseps113* Adseps113::set_ads_epsmode(
     Ads_eps_113::Ads_epsmodeType ads_epsmode) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ads_epsmode_ = ads_epsmode;
   return this;
@@ -69,7 +69,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Adseps113::set_p_ads_epsmode(uint8_t* data,
                                   Ads_eps_113::Ads_epsmodeType ads_epsmode) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = ads_epsmode;
 
@@ -78,7 +78,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Adseps113* Adseps113::set_ads_reqepstargetangle(double ads_reqepstargetangle) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ads_reqepstargetangle_ = ads_reqepstargetangle;
   return this;
@@ -90,7 +90,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'deg'}
 void Adseps113::set_p_ads_reqepstargetangle(uint8_t* data,
                                             double ads_reqepstargetangle) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ads_reqepstargetangle =
       ProtocolData::BoundedValue(-800.0, 838.3, ads_reqepstargetangle);

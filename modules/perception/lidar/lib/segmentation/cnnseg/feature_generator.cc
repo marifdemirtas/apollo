@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,14 +22,13 @@
 #include "modules/perception/lidar/lib/segmentation/cnnseg/util.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace lidar {
 
 bool FeatureGenerator::Init(const FeatureParam& feature_param,
                             base::Blob<float>* out_blob) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // set output feature blob
   out_blob_ = out_blob;
@@ -119,7 +118,7 @@ COVERAGE_LOG_TOKEN
 
 void FeatureGenerator::GenerateCPU(const base::PointFCloudPtr& pc_ptr,
                                    const std::vector<int>& point2grid) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // DO NOT remove this line!!!
   // Otherwise, the gpu_data will not be updated for the later frames.

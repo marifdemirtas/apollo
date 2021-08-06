@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /* Copyright 2019 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,7 +37,7 @@ namespace canbus {
 namespace wey {
 
 WeyMessageManager::WeyMessageManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Control Messages
   AddSendProtocolData<Ads1111, true>();
@@ -59,7 +59,7 @@ COVERAGE_LOG_TOKEN
 }
 
 WeyMessageManager::~WeyMessageManager() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 }  // namespace wey

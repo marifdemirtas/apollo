@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ using base::AttributePointCloud;
 using base::PointF;
 
 size_t CloudMask::ValidIndicesCount() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t count = 0;
   for (auto& i : mask_) {
@@ -37,7 +37,7 @@ COVERAGE_LOG_TOKEN
 
 void CloudMask::GetValidCloud(const AttributePointCloud<PointF>& source_cloud,
                               AttributePointCloud<PointF>* target_cloud) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (target_cloud == nullptr) {
     return;
@@ -53,7 +53,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CloudMask::GetValidIndices(base::PointIndices* indices) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   indices->indices.clear();
   indices->indices.reserve(mask_.size());
@@ -65,7 +65,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CloudMask::Flip() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& i : mask_) {
     i = i > 0 ? 0 : 1;
@@ -73,7 +73,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CloudMask::AddIndices(const base::PointIndices& indices, int value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AddIndices(indices.indices, value);
 }
@@ -81,7 +81,7 @@ COVERAGE_LOG_TOKEN
 void CloudMask::AddIndicesOfIndices(
     const base::PointIndices& indices,
     const base::PointIndices& indices_of_indices, int value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& id : indices_of_indices.indices) {
     mask_[indices.indices[id]] = value;
@@ -89,7 +89,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CloudMask::RemoveIndices(const base::PointIndices& indices) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   RemoveIndices(indices.indices);
 }
@@ -97,7 +97,7 @@ COVERAGE_LOG_TOKEN
 void CloudMask::RemoveIndicesOfIndices(
     const base::PointIndices& indices,
     const base::PointIndices& indices_of_indices) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& id : indices_of_indices.indices) {
     mask_[indices.indices[id]] = 0;
@@ -105,7 +105,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CloudMask::GetValidMask(CloudMask* rhs) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (rhs == nullptr) {
     return;
@@ -119,7 +119,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void CloudMask::ResetValue(int source_value, int target_value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (auto& i : mask_) {
     if (i == source_value) {

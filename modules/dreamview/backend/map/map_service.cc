@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -65,7 +65,7 @@ void ExtractIds(const std::vector<MapElementInfoConstPtr> &items,
 void ExtractRoadAndLaneIds(const std::vector<LaneInfoConstPtr> &lanes,
                            RepeatedPtrField<std::string> *lane_ids,
                            RepeatedPtrField<std::string> *road_ids) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   lane_ids->Reserve(static_cast<unsigned int>(lanes.size()));
   road_ids->Reserve(static_cast<unsigned int>(lanes.size()));
@@ -87,13 +87,13 @@ COVERAGE_LOG_TOKEN
 const char MapService::kMetaFileName[] = "/metaInfo.json";
 
 MapService::MapService(bool use_sim_map) : use_sim_map_(use_sim_map) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ReloadMap(false);
 }
 
 bool MapService::ReloadMap(bool force_reload) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::unique_lock<boost::shared_mutex> writer_lock(mutex_);
   bool ret = true;
@@ -107,7 +107,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MapService::UpdateOffsets() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   x_offset_ = 0.0;
   y_offset_ = 0.0;
@@ -155,24 +155,24 @@ COVERAGE_LOG_TOKEN
 }
 
 const hdmap::HDMap *MapService::HDMap() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return HDMapUtil::BaseMapPtr();
 }
 
 const hdmap::HDMap *MapService::SimMap() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return use_sim_map_ ? HDMapUtil::SimMapPtr() : HDMapUtil::BaseMapPtr();
 }
 
 bool MapService::MapReady() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return HDMap() && SimMap(); }
 
 void MapService::CollectMapElementIds(const PointENU &point, double radius,
                                       MapElementIds *ids) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!MapReady()) {
     return;
@@ -242,7 +242,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Map MapService::RetrieveMapElements(const MapElementIds &ids) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::shared_lock<boost::shared_mutex> reader_lock(mutex_);
 
@@ -351,7 +351,7 @@ COVERAGE_LOG_TOKEN
 bool MapService::GetNearestLane(const double x, const double y,
                                 LaneInfoConstPtr *nearest_lane,
                                 double *nearest_s, double *nearest_l) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::shared_lock<boost::shared_mutex> reader_lock(mutex_);
 
@@ -370,7 +370,7 @@ bool MapService::GetNearestLaneWithHeading(const double x, const double y,
                                            LaneInfoConstPtr *nearest_lane,
                                            double *nearest_s, double *nearest_l,
                                            const double heading) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   boost::shared_lock<boost::shared_mutex> reader_lock(mutex_);
 
@@ -390,7 +390,7 @@ COVERAGE_LOG_TOKEN
 
 bool MapService::GetPathsFromRouting(const RoutingResponse &routing,
                                      std::vector<Path> *paths) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!CreatePathsFromRouting(routing, paths)) {
     AERROR << "Unable to get paths from routing!";
@@ -401,7 +401,7 @@ COVERAGE_LOG_TOKEN
 
 bool MapService::GetPoseWithRegardToLane(const double x, const double y,
                                          double *theta, double *s) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double l;
   LaneInfoConstPtr nearest_lane;
@@ -415,7 +415,7 @@ COVERAGE_LOG_TOKEN
 
 bool MapService::ConstructLaneWayPoint(
     const double x, const double y, routing::LaneWaypoint *laneWayPoint) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double s, l;
   LaneInfoConstPtr lane;
@@ -439,7 +439,7 @@ COVERAGE_LOG_TOKEN
 bool MapService::ConstructLaneWayPointWithHeading(
     const double x, const double y, const double heading,
     routing::LaneWaypoint *laneWayPoint) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double s, l;
   LaneInfoConstPtr lane;
@@ -461,7 +461,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool MapService::CheckRoutingPoint(const double x, const double y) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double s, l;
   LaneInfoConstPtr lane;
@@ -475,7 +475,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool MapService::CheckRoutingPointLaneType(LaneInfoConstPtr lane) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (lane->lane().type() != Lane::CITY_DRIVING) {
     AERROR
@@ -488,7 +488,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool MapService::GetStartPoint(apollo::common::PointENU *start_point) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Start from origin to find a lane from the map.
   double s, l;
@@ -503,7 +503,7 @@ COVERAGE_LOG_TOKEN
 
 bool MapService::CreatePathsFromRouting(const RoutingResponse &routing,
                                         std::vector<Path> *paths) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (routing.road().empty()) {
     return false;
@@ -522,7 +522,7 @@ COVERAGE_LOG_TOKEN
 
 bool MapService::AddPathFromPassageRegion(
     const routing::Passage &passage_region, std::vector<Path> *paths) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!MapReady()) {
     return false;
@@ -553,7 +553,7 @@ COVERAGE_LOG_TOKEN
 }
 
 size_t MapService::CalculateMapHash(const MapElementIds &ids) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static std::hash<std::string> hash_function;
   return hash_function(ids.DebugString());

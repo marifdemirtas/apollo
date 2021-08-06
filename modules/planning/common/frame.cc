@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -58,7 +58,7 @@ FrameHistory::FrameHistory()
 Frame::Frame(uint32_t sequence_num)
     : sequence_num_(sequence_num),
       monitor_logger_buffer_(common::monitor::MonitorMessageItem::PLANNING) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Frame::Frame(uint32_t sequence_num, const LocalView &local_view,
@@ -71,7 +71,7 @@ Frame::Frame(uint32_t sequence_num, const LocalView &local_view,
       vehicle_state_(vehicle_state),
       reference_line_provider_(reference_line_provider),
       monitor_logger_buffer_(common::monitor::MonitorMessageItem::PLANNING) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Frame::Frame(uint32_t sequence_num, const LocalView &local_view,
@@ -79,23 +79,23 @@ Frame::Frame(uint32_t sequence_num, const LocalView &local_view,
              const common::VehicleState &vehicle_state)
     : Frame(sequence_num, local_view, planning_start_point, vehicle_state,
             nullptr) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 const common::TrajectoryPoint &Frame::PlanningStartPoint() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return planning_start_point_;
 }
 
 const common::VehicleState &Frame::vehicle_state() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return vehicle_state_;
 }
 
 bool Frame::Rerouting(PlanningContext *planning_context) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (FLAGS_use_navigation_mode) {
     AERROR << "Rerouting not supported in navigation mode";
@@ -146,20 +146,20 @@ COVERAGE_LOG_TOKEN
 }
 
 const std::list<ReferenceLineInfo> &Frame::reference_line_info() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return reference_line_info_;
 }
 
 std::list<ReferenceLineInfo> *Frame::mutable_reference_line_info() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return &reference_line_info_;
 }
 
 void Frame::UpdateReferenceLinePriority(
     const std::map<std::string, uint32_t> &id_to_priority) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   for (const auto &pair : id_to_priority) {
     const auto id = pair.first;
@@ -178,7 +178,7 @@ COVERAGE_LOG_TOKEN
 bool Frame::CreateReferenceLineInfo(
     const std::list<ReferenceLine> &reference_lines,
     const std::list<hdmap::RouteSegments> &segments) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   reference_line_info_.clear();
   auto ref_line_iter = reference_lines.begin();
@@ -228,7 +228,7 @@ COVERAGE_LOG_TOKEN
 const Obstacle *Frame::CreateStopObstacle(
     ReferenceLineInfo *const reference_line_info,
     const std::string &obstacle_id, const double obstacle_s) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (reference_line_info == nullptr) {
     AERROR << "reference_line_info nullptr";
@@ -253,7 +253,7 @@ COVERAGE_LOG_TOKEN
 const Obstacle *Frame::CreateStopObstacle(const std::string &obstacle_id,
                                           const std::string &lane_id,
                                           const double lane_s) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (!hdmap_) {
     AERROR << "Invalid HD Map.";
@@ -287,7 +287,7 @@ const Obstacle *Frame::CreateStaticObstacle(
     ReferenceLineInfo *const reference_line_info,
     const std::string &obstacle_id, const double obstacle_start_s,
     const double obstacle_end_s) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (reference_line_info == nullptr) {
     AERROR << "reference_line_info nullptr";
@@ -332,7 +332,7 @@ COVERAGE_LOG_TOKEN
 
 const Obstacle *Frame::CreateStaticVirtualObstacle(const std::string &id,
                                                    const Box2d &box) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   const auto *object = obstacles_.Find(id);
   if (object) {

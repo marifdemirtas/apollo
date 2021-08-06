@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace localization {
 namespace msf {
 
 bool OnlineLocalizationExpert::Init(const LocalizationIntegParam &param) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   msf_status_.set_local_lidar_consistency(MSF_LOCAL_LIDAR_CONSISTENCY_03);
   msf_status_.set_gnss_consistency(MSF_GNSS_CONSISTENCY_03);
@@ -56,7 +56,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void OnlineLocalizationExpert::AddImu(const ImuData &data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double cur_imu_time = data.measurement_time;
   CheckImuDelayStatus(cur_imu_time);
@@ -66,14 +66,14 @@ COVERAGE_LOG_TOKEN
 
 void OnlineLocalizationExpert::AddFusionLocalization(
     const LocalizationEstimate &data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   SetLocalizationStatus(data);
 }
 
 void OnlineLocalizationExpert::AddLidarLocalization(
     const LocalizationEstimate &data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   msf_status_mutex_.lock();
   msf_status_.set_local_lidar_status(data.msf_status().local_lidar_status());
@@ -86,7 +86,7 @@ COVERAGE_LOG_TOKEN
 
 void OnlineLocalizationExpert::AddGnssBestPose(
     const drivers::gnss::GnssBestPose &msg, const MeasureData &data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int gnss_solution_status = static_cast<int>(msg.sol_status());
   int gnss_position_type = static_cast<int>(msg.sol_type());
@@ -109,7 +109,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void OnlineLocalizationExpert::CheckImuDelayStatus(const double &cur_imu_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   sensor_status_.set_imu_delay_status(apollo::localization::IMU_DELAY_NORMAL);
   double cur_system_time = apollo::cyber::Clock::NowInSeconds();
@@ -134,7 +134,7 @@ COVERAGE_LOG_TOKEN
 
 void OnlineLocalizationExpert::CheckImuMissingStatus(
     const double &cur_imu_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   sensor_status_.set_imu_missing_status(
       ImuMsgMissingStatus::IMU_MISSING_NORMAL);
@@ -168,7 +168,7 @@ COVERAGE_LOG_TOKEN
 
 void OnlineLocalizationExpert::CheckGnssLidarMsfStatus(
     const double &cur_imu_time) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lock(msf_status_mutex_);
   latest_gnsspos_timestamp_mutex_.lock();
@@ -196,7 +196,7 @@ COVERAGE_LOG_TOKEN
 
 void OnlineLocalizationExpert::SetLocalizationStatus(
     const LocalizationEstimate &data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   apollo::common::Point3D position_std = data.uncertainty().position_std_dev();
   std::lock_guard<std::mutex> lock(msf_status_mutex_);
@@ -446,7 +446,7 @@ COVERAGE_LOG_TOKEN
 void OnlineLocalizationExpert::GetFusionStatus(
     MsfStatus *msf_status, MsfSensorMsgStatus *sensor_status,
     LocalizationIntegStatus *integ_status) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   {
     std::unique_lock<std::mutex> lock(msf_status_mutex_);
@@ -467,7 +467,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void OnlineLocalizationExpert::GetGnssStatus(MsfStatus *msf_status) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::unique_lock<std::mutex> lock(msf_status_mutex_);
   msf_status->set_gnsspos_position_type(msf_status_.gnsspos_position_type());

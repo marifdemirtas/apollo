@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Wipercmd134::ID = 0x134;
 
 // public
 Wipercmd134::Wipercmd134() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Wipercmd134::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Wipercmd134::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_ignore_overrides(data, ignore_overrides_);
   set_p_enable(data, enable_);
@@ -51,7 +51,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Wipercmd134::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(QiL) you should check this manually
   ignore_overrides_ = false;
@@ -62,7 +62,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Wipercmd134* Wipercmd134::set_ignore_overrides(bool ignore_overrides) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ignore_overrides_ = ignore_overrides;
   return this;
@@ -72,7 +72,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 1,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Wipercmd134::set_p_ignore_overrides(uint8_t* data, bool ignore_overrides) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = ignore_overrides;
 
@@ -81,7 +81,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Wipercmd134* Wipercmd134::set_enable(bool enable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   enable_ = enable;
   return this;
@@ -91,7 +91,7 @@ COVERAGE_LOG_TOKEN
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Wipercmd134::set_p_enable(uint8_t* data, bool enable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = enable;
 
@@ -100,7 +100,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Wipercmd134* Wipercmd134::set_clear_override(bool clear_override) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   clear_override_ = clear_override;
   return this;
@@ -110,7 +110,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 2,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Wipercmd134::set_p_clear_override(uint8_t* data, bool clear_override) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = clear_override;
 
@@ -120,7 +120,7 @@ COVERAGE_LOG_TOKEN
 
 Wipercmd134* Wipercmd134::set_wiper_cmd(
     Wiper_cmd_134::Wiper_cmdType wiper_cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   wiper_cmd_ = wiper_cmd;
   return this;
@@ -135,7 +135,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Wipercmd134::set_p_wiper_cmd(uint8_t* data,
                                   Wiper_cmd_134::Wiper_cmdType wiper_cmd) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = wiper_cmd;
 
@@ -144,7 +144,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Wipercmd134* Wipercmd134::set_clear_faults(bool clear_faults) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   clear_faults_ = clear_faults;
   return this;
@@ -154,7 +154,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 3,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Wipercmd134::set_p_clear_faults(uint8_t* data, bool clear_faults) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint8_t x = clear_faults;
 

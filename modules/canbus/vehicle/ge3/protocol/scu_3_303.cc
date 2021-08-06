@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,13 +27,13 @@ namespace ge3 {
 using ::apollo::drivers::canbus::Byte;
 
 Scu3303::Scu3303() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Scu3303::ID = 0x303;
 
 void Scu3303::Parse(const std::uint8_t* bytes, int32_t length,
                     ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_ge3()->mutable_scu_3_303()->set_vin15(vin15(bytes, length));
   chassis->mutable_ge3()->mutable_scu_3_303()->set_vin14(vin14(bytes, length));
@@ -50,7 +50,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_range': '[0|255]', 'bit': 63, 'type': 'int', 'order': 'motorola',
 // 'physical_unit': '-'}
 int Scu3303::vin15(const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
@@ -64,7 +64,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_range': '[0|255]', 'bit': 55, 'type': 'int', 'order': 'motorola',
 // 'physical_unit': '-'}
 int Scu3303::vin14(const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
@@ -78,7 +78,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_range': '[0|255]', 'bit': 47, 'type': 'int', 'order': 'motorola',
 // 'physical_unit': '-'}
 int Scu3303::vin13(const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);
@@ -92,7 +92,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_range': '[0|255]', 'bit': 39, 'type': 'int', 'order': 'motorola',
 // 'physical_unit': '-'}
 int Scu3303::vin12(const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -106,7 +106,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_range': '[0|255]', 'bit': 31, 'type': 'int', 'order': 'motorola',
 // 'physical_unit': '-'}
 int Scu3303::vin11(const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -120,7 +120,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_range': '[0|255]', 'bit': 23, 'type': 'int', 'order': 'motorola',
 // 'physical_unit': '-'}
 int Scu3303::vin10(const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -134,7 +134,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_range': '[0|255]', 'bit': 15, 'type': 'int', 'order': 'motorola',
 // 'physical_unit': '-'}
 int Scu3303::vin09(const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -148,7 +148,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_range': '[0|255]', 'bit': 7, 'type': 'int', 'order': 'motorola',
 // 'physical_unit': '-'}
 int Scu3303::vin08(const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);

@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace control {
 const double kDoubleEpsilon = 1e-6;
 
 bool Interpolation1D::Init(const DataType& xy) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (xy.empty()) {
     AERROR << "empty input.";
@@ -56,7 +56,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double Interpolation1D::Interpolate(double x) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (x < x_min_) {
     return y_start_;
@@ -69,7 +69,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double Interpolation1D::ScaledValue(double x) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (std::fabs(x_max_ - x_min_) < kDoubleEpsilon) {
     return x_min_;
@@ -79,7 +79,7 @@ COVERAGE_LOG_TOKEN
 
 Eigen::RowVectorXd Interpolation1D::ScaledValues(
     Eigen::VectorXd const& x_vec) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return x_vec.unaryExpr([this](double x) { return ScaledValue(x); })
       .transpose();

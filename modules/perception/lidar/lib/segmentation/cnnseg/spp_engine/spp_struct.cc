@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,7 +21,7 @@ namespace perception {
 namespace lidar {
 
 void SppData::MakeReference(size_t width, size_t height, float range) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   obs_prob_data = category_pt_blob->mutable_cpu_data();
   offset_data = instance_pt_blob->mutable_cpu_data();
@@ -50,7 +50,7 @@ COVERAGE_LOG_TOKEN
 }
 
 SppData::~SppData() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (obs_prob_data_ref) {
     delete[] obs_prob_data_ref;

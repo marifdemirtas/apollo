@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -46,7 +46,7 @@ using apollo::drivers::canbus::SenderMessage;
 ContiRadarMessageManager::ContiRadarMessageManager(
     const std::shared_ptr<Writer<ContiRadar>> &writer)
     : conti_radar_writer_(writer) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AddRecvProtocolData<RadarState201, true>();
   AddRecvProtocolData<ClusterListStatus600, true>();
@@ -59,21 +59,21 @@ COVERAGE_LOG_TOKEN
 }
 
 void ContiRadarMessageManager::set_radar_conf(RadarConf radar_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   radar_config_.set_radar_conf(radar_conf);
 }
 
 void ContiRadarMessageManager::set_can_client(
     std::shared_ptr<CanClient> can_client) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   can_client_ = can_client;
 }
 
 ProtocolData<ContiRadar> *ContiRadarMessageManager::GetMutableProtocolDataById(
     const uint32_t message_id) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   uint32_t converted_message_id = message_id;
   if (protocol_data_map_.find(converted_message_id) ==
@@ -87,7 +87,7 @@ COVERAGE_LOG_TOKEN
 
 void ContiRadarMessageManager::Parse(const uint32_t message_id,
                                      const uint8_t *data, int32_t length) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   ProtocolData<ContiRadar> *sensor_protocol_data =
       GetMutableProtocolDataById(message_id);

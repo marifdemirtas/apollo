@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace hdmap {
 LoopsVerifyAgent::LoopsVerifyAgent(
     std::shared_ptr<JsonConf> sp_conf,
     std::shared_ptr<PoseCollectionAgent> sp_pose_collection_agent) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   sp_conf_ = sp_conf;
   sp_pose_collection_agent_ = sp_pose_collection_agent;
@@ -35,7 +35,7 @@ COVERAGE_LOG_TOKEN
 grpc::Status LoopsVerifyAgent::ProcessGrpcRequest(
     grpc::ServerContext *context, LoopsVerifyRequest *request,
     LoopsVerifyResponse *response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "LoopsVerifyAgent request is: " << request->DebugString();
   switch (request->cmd()) {
@@ -59,7 +59,7 @@ COVERAGE_LOG_TOKEN
 
 void LoopsVerifyAgent::StartVerify(LoopsVerifyRequest *request,
                                    LoopsVerifyResponse *response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "Call StartVerify";
   if (GetState() == LoopsVerifyAgentState::RUNNING) {
@@ -81,7 +81,7 @@ COVERAGE_LOG_TOKEN
 
 void LoopsVerifyAgent::CheckVerify(LoopsVerifyRequest *request,
                                    LoopsVerifyResponse *response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "Call CheckVerify";
   if (GetState() == LoopsVerifyAgentState::IDLE) {
@@ -134,7 +134,7 @@ COVERAGE_LOG_TOKEN
 
 void LoopsVerifyAgent::StopVerify(LoopsVerifyRequest *request,
                                   LoopsVerifyResponse *response) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "call StopVerify";
   response->set_code(ErrorCode::SUCCESS);
@@ -170,7 +170,7 @@ COVERAGE_LOG_TOKEN
 
 std::shared_ptr<std::vector<std::pair<double, double>>>
 LoopsVerifyAgent::get_verify_range(LoopsVerifyRequest *request) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<std::vector<std::pair<double, double>>> sp_range(
       new std::vector<std::pair<double, double>>());
@@ -181,7 +181,7 @@ COVERAGE_LOG_TOKEN
 }
 
 size_t LoopsVerifyAgent::GetLoopsToCheck(LoopsVerifyRequest *request) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t loops_to_check = 0;
   DataType data_type = request->type();
@@ -198,7 +198,7 @@ double LoopsVerifyAgent::GetRangeIndex(
     std::shared_ptr<std::vector<std::pair<double, double>>> sp_range,
     std::vector<bool> *sp_range_index,
     std::shared_ptr<std::vector<FramePose>> sp_vec_poses) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sp_range == nullptr) {
     AINFO << "error, sp_range is null";
@@ -253,7 +253,7 @@ COVERAGE_LOG_TOKEN
 int LoopsVerifyAgent::GetPosesToCheck(
     std::shared_ptr<std::vector<std::pair<double, double>>> sp_range,
     std::vector<FramePose> *sp_poses) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (sp_pose_collection_agent_ == nullptr) {
     AINFO << "error, sp_pose_collection_agent is null";
@@ -293,7 +293,7 @@ COVERAGE_LOG_TOKEN
 int LoopsVerifyAgent::DoStartVerify(
     std::shared_ptr<std::vector<std::pair<double, double>>> sp_range,
     double loops_to_check) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   clock_t start = clock();
   std::vector<FramePose> all_poses;
@@ -309,10 +309,10 @@ COVERAGE_LOG_TOKEN
 }
 
 void LoopsVerifyAgent::SetState(LoopsVerifyAgentState state) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  state_ = state; }
 LoopsVerifyAgentState LoopsVerifyAgent::GetState() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return state_; }
 
 }  // namespace hdmap

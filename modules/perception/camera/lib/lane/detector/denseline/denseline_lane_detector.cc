@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,11 +25,6 @@
 #include "modules/perception/inference/utils/resize.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
@@ -37,7 +32,7 @@ namespace camera {
 using cyber::common::GetAbsolutePath;
 
 bool DenselineLaneDetector::Init(const LaneDetectorInitOptions &options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string proto_path = GetAbsolutePath(options.root_dir, options.conf_file);
   if (!cyber::common::GetProtoFromFile(proto_path, &denseline_param_)) {
@@ -158,7 +153,7 @@ COVERAGE_LOG_TOKEN
 
 bool DenselineLaneDetector::Detect(const LaneDetectorOptions &options,
                                    CameraFrame *frame) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (frame == nullptr) {
     AINFO << "camera frame is empty.";
@@ -215,7 +210,7 @@ COVERAGE_LOG_TOKEN
 }
 
 std::string DenselineLaneDetector::Name() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return "DenselineLaneDetector";
 }

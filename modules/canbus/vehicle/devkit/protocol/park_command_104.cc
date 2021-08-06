@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Parkcommand104::ID = 0x104;
 
 // public
 Parkcommand104::Parkcommand104() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Parkcommand104::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Parkcommand104::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_park_target(data, park_target_);
   set_p_park_en_ctrl(data, park_en_ctrl_);
@@ -51,7 +51,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Parkcommand104::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(All) :  you should check this manually
   checksum_104_ = 0;
@@ -60,7 +60,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Parkcommand104* Parkcommand104::set_checksum_104(int checksum_104) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   checksum_104_ = checksum_104;
   return this;
@@ -70,7 +70,7 @@ COVERAGE_LOG_TOKEN
 // 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 63,
 // 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Parkcommand104::set_p_checksum_104(uint8_t* data, int checksum_104) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   checksum_104 = ProtocolData::BoundedValue(0, 255, checksum_104);
   int x = checksum_104;
@@ -81,7 +81,7 @@ COVERAGE_LOG_TOKEN
 
 Parkcommand104* Parkcommand104::set_park_target(
     Park_command_104::Park_targetType park_target) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   park_target_ = park_target;
   return this;
@@ -93,7 +93,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'motorola', 'physical_unit': ''}
 void Parkcommand104::set_p_park_target(
     uint8_t* data, Park_command_104::Park_targetType park_target) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = park_target;
 
@@ -103,7 +103,7 @@ COVERAGE_LOG_TOKEN
 
 Parkcommand104* Parkcommand104::set_park_en_ctrl(
     Park_command_104::Park_en_ctrlType park_en_ctrl) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   park_en_ctrl_ = park_en_ctrl;
   return this;
@@ -115,7 +115,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'motorola', 'physical_unit': ''}
 void Parkcommand104::set_p_park_en_ctrl(
     uint8_t* data, Park_command_104::Park_en_ctrlType park_en_ctrl) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = park_en_ctrl;
 

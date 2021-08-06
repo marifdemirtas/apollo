@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,7 +29,7 @@ namespace inference {
 
 BatchStream::BatchStream(int batchSize, int maxBatches, std::string dataPath)
     : mBatchSize(batchSize), mMaxBatches(maxBatches), mPath(dataPath) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   FILE *file = fopen((mPath + "Batch0").c_str(), "rb");
   if (file != nullptr) {
@@ -46,11 +46,11 @@ COVERAGE_LOG_TOKEN
 }
 
 BatchStream::BatchStream() : mPath("") {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BatchStream::reset(int firstBatch) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (mPath != "") {
     mBatchCount = 0;
@@ -61,7 +61,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool BatchStream::next() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (mBatchCount == mMaxBatches) {
     return false;
@@ -87,7 +87,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void BatchStream::skip(int skipCount) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (mBatchSize >= mDims.n() && mBatchSize % mDims.n() == 0 &&
       mFileBatchPos == mDims.n()) {
@@ -103,7 +103,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool BatchStream::update() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::string inputFileName = absl::StrCat(mPath, "Batch", mFileCount++);
   FILE *file = fopen(inputFileName.c_str(), "rb");

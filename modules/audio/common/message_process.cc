@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ void MessageProcess::OnMicrophone(
     MovingDetection* moving_detection,
     SirenDetection* siren_detection,
     AudioDetection* audio_detection) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   audio_info->Insert(audio_data);
   auto direction_result =

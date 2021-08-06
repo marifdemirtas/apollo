@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,15 +25,15 @@ namespace msf {
 namespace pyramid_map {
 
 BaseMapNodeConfig::BaseMapNodeConfig() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 BaseMapNodeConfig::~BaseMapNodeConfig() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::shared_ptr<BaseMapNodeConfig> BaseMapNodeConfig::Clone() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::shared_ptr<BaseMapNodeConfig> map_node_config(new BaseMapNodeConfig());
   map_node_config->node_index_ = node_index_;
@@ -47,7 +47,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int BaseMapNodeConfig::LoadBinary(const unsigned char *buf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t binary_size = 0;
 
@@ -96,7 +96,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int BaseMapNodeConfig::CreateBinary(unsigned char *buf,
                                              size_t buf_size) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size = GetBinarySize();
 
@@ -144,7 +144,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int BaseMapNodeConfig::GetBinarySize() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   size_t binary_size = 0;
 

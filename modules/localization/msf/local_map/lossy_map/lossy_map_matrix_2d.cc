@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,11 +28,11 @@ LossyMapCell2D::LossyMapCell2D()
       altitude(0.0),
       altitude_ground(0.0),
       is_ground_useful(false) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LossyMapCell2D::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   intensity = 0.0;
   intensity_var = 0.0;
@@ -43,7 +43,7 @@ COVERAGE_LOG_TOKEN
 }
 
 LossyMapCell2D& LossyMapCell2D::operator=(const LossyMapCell2D& ref) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   altitude = ref.altitude;
   altitude_ground = ref.altitude_ground;
@@ -55,7 +55,7 @@ COVERAGE_LOG_TOKEN
 }
 
 LossyMapMatrix2D::LossyMapMatrix2D() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   rows_ = 0;
   cols_ = 0;
@@ -63,7 +63,7 @@ COVERAGE_LOG_TOKEN
 }
 
 LossyMapMatrix2D::~LossyMapMatrix2D() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (map_cells_) {
     delete[] map_cells_;
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
 
 LossyMapMatrix2D::LossyMapMatrix2D(const LossyMapMatrix2D& matrix)
     : BaseMapMatrix(matrix), map_cells_(NULL) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Init(matrix.rows_, matrix.cols_);
   for (unsigned int y = 0; y < rows_; ++y) {
@@ -85,7 +85,7 @@ COVERAGE_LOG_TOKEN
 }
 
 LossyMapMatrix2D& LossyMapMatrix2D::operator=(const LossyMapMatrix2D& matrix) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Init(matrix.rows_, matrix.cols_);
   for (unsigned int y = 0; y < rows_; ++y) {
@@ -97,7 +97,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LossyMapMatrix2D::Init(const BaseMapConfig* config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int rows = config->map_node_size_y_;
   unsigned int cols = config->map_node_size_x_;
@@ -108,7 +108,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LossyMapMatrix2D::Init(unsigned int rows, unsigned int cols) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (map_cells_) {
     delete[] map_cells_;
@@ -120,13 +120,13 @@ COVERAGE_LOG_TOKEN
 }
 
 void LossyMapMatrix2D::Reset(const BaseMapConfig* config) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Reset(config->map_node_size_y_, config->map_node_size_x_);
 }
 
 void LossyMapMatrix2D::Reset(unsigned int rows, unsigned int cols) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int length = rows * cols;
   for (unsigned int i = 0; i < length; ++i) {
@@ -136,7 +136,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned char LossyMapMatrix2D::EncodeIntensity(
     const LossyMapCell2D& cell) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int intensity = static_cast<int>(cell.intensity);
   if (intensity > 255) {
@@ -150,13 +150,13 @@ COVERAGE_LOG_TOKEN
 
 void LossyMapMatrix2D::DecodeIntensity(unsigned char data,
                                        LossyMapCell2D* cell) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   cell->intensity = data;
 }
 
 uint16_t LossyMapMatrix2D::EncodeVar(const LossyMapCell2D& cell) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float var = cell.intensity_var;
   var = std::sqrt(var);
@@ -173,7 +173,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LossyMapMatrix2D::DecodeVar(uint16_t data, LossyMapCell2D* cell) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float var = data;
   var = static_cast<float>((static_cast<const float>(var_range_) / var - 1.0) /
@@ -183,7 +183,7 @@ COVERAGE_LOG_TOKEN
 
 uint16_t LossyMapMatrix2D::EncodeAltitudeGround(
     const LossyMapCell2D& cell) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float delta_alt = cell.altitude_ground - alt_ground_min_;
   delta_alt /= alt_ground_interval_;
@@ -199,14 +199,14 @@ COVERAGE_LOG_TOKEN
 
 void LossyMapMatrix2D::DecodeAltitudeGround(uint16_t data,
                                             LossyMapCell2D* cell) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float ratio = data;
   cell->altitude_ground = alt_ground_min_ + ratio * alt_ground_interval_;
 }
 
 uint16_t LossyMapMatrix2D::EncodeAltitudeAvg(const LossyMapCell2D& cell) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float delta_alt = cell.altitude - alt_avg_min_;
   delta_alt /= alt_avg_interval_;
@@ -222,14 +222,14 @@ COVERAGE_LOG_TOKEN
 
 void LossyMapMatrix2D::DecodeAltitudeAvg(uint16_t data,
                                          LossyMapCell2D* cell) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   float ratio = data;
   cell->altitude = alt_avg_min_ + ratio * alt_avg_interval_;
 }
 
 unsigned char LossyMapMatrix2D::EncodeCount(const LossyMapCell2D& cell) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int count_exp = 0;
   int count_tmp = cell.count;
@@ -245,7 +245,7 @@ COVERAGE_LOG_TOKEN
 
 void LossyMapMatrix2D::DecodeCount(unsigned char data,
                                    LossyMapCell2D* cell) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int count_exp = data;
   if (count_exp == 0) {
@@ -256,7 +256,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int LossyMapMatrix2D::LoadBinary(unsigned char* buf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int* p = reinterpret_cast<unsigned int*>(buf);
   rows_ = *p;
@@ -350,7 +350,7 @@ COVERAGE_LOG_TOKEN
 
 unsigned int LossyMapMatrix2D::CreateBinary(unsigned char* buf,
                                             unsigned int buf_size) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size = GetBinarySize();
   if (buf_size >= target_size) {
@@ -470,7 +470,7 @@ COVERAGE_LOG_TOKEN
 }
 
 unsigned int LossyMapMatrix2D::GetBinarySize() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   unsigned int target_size =
       static_cast<unsigned int>(sizeof(unsigned int) * 2 + sizeof(float) * 4);
@@ -483,7 +483,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void LossyMapMatrix2D::GetIntensityImg(cv::Mat* intensity_img) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   *intensity_img = cv::Mat(cv::Size(cols_, rows_), CV_8UC1);
 

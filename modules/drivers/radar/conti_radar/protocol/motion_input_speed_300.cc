@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,14 +29,14 @@ using apollo::drivers::canbus::Byte;
 const uint32_t MotionInputSpeed300::ID = 0x300;
 
 MotionInputSpeed300::MotionInputSpeed300() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 MotionInputSpeed300::~MotionInputSpeed300() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 uint32_t MotionInputSpeed300::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
@@ -47,7 +47,7 @@ COVERAGE_LOG_TOKEN
  * @param data a pointer to the data to be updated
  */
 void MotionInputSpeed300::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (std::isnan(speed_)) {
     AWARN << "speed is nan";
@@ -75,11 +75,11 @@ COVERAGE_LOG_TOKEN
  * @brief reset the private variables
  */
 void MotionInputSpeed300::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  speed_ = NAN; }
 
 void MotionInputSpeed300::SetSpeed(const float& speed) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  speed_ = speed; }
 
 }  // namespace conti_radar

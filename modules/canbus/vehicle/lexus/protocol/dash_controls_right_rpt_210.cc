@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Dashcontrolsrightrpt210::ID = 0x210;
 
 // public
 Dashcontrolsrightrpt210::Dashcontrolsrightrpt210() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Dashcontrolsrightrpt210::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Dashcontrolsrightrpt210::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_output_value(data, output_value_);
   set_p_commanded_value(data, commanded_value_);
@@ -56,7 +56,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Dashcontrolsrightrpt210::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(QiL) you should check this manually
   output_value_ = Dash_controls_right_rpt_210::OUTPUT_VALUE_DASH_CONTROL_NONE;
@@ -74,7 +74,7 @@ COVERAGE_LOG_TOKEN
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_output_value(
     Dash_controls_right_rpt_210::Output_valueType output_value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   output_value_ = output_value;
   return this;
@@ -89,7 +89,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_output_value(
     uint8_t* data, Dash_controls_right_rpt_210::Output_valueType output_value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = output_value;
 
@@ -99,7 +99,7 @@ COVERAGE_LOG_TOKEN
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_commanded_value(
     Dash_controls_right_rpt_210::Commanded_valueType commanded_value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   commanded_value_ = commanded_value;
   return this;
@@ -115,7 +115,7 @@ COVERAGE_LOG_TOKEN
 void Dashcontrolsrightrpt210::set_p_commanded_value(
     uint8_t* data,
     Dash_controls_right_rpt_210::Commanded_valueType commanded_value) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = commanded_value;
 
@@ -125,7 +125,7 @@ COVERAGE_LOG_TOKEN
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_vehicle_fault(
     bool vehicle_fault) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   vehicle_fault_ = vehicle_fault;
   return this;
@@ -136,7 +136,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_vehicle_fault(uint8_t* data,
                                                   bool vehicle_fault) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = vehicle_fault;
 
@@ -146,7 +146,7 @@ COVERAGE_LOG_TOKEN
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_pacmod_fault(
     bool pacmod_fault) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   pacmod_fault_ = pacmod_fault;
   return this;
@@ -157,7 +157,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_pacmod_fault(uint8_t* data,
                                                  bool pacmod_fault) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = pacmod_fault;
 
@@ -167,7 +167,7 @@ COVERAGE_LOG_TOKEN
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_override_active(
     bool override_active) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   override_active_ = override_active;
   return this;
@@ -178,7 +178,7 @@ COVERAGE_LOG_TOKEN
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_override_active(uint8_t* data,
                                                     bool override_active) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = override_active;
 
@@ -188,7 +188,7 @@ COVERAGE_LOG_TOKEN
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_output_reported_fault(
     bool output_reported_fault) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   output_reported_fault_ = output_reported_fault;
   return this;
@@ -199,7 +199,7 @@ COVERAGE_LOG_TOKEN
 // '[0|1]', 'bit': 4, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_output_reported_fault(
     uint8_t* data, bool output_reported_fault) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = output_reported_fault;
 
@@ -209,7 +209,7 @@ COVERAGE_LOG_TOKEN
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_input_output_fault(
     bool input_output_fault) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   input_output_fault_ = input_output_fault;
   return this;
@@ -220,7 +220,7 @@ COVERAGE_LOG_TOKEN
 // '[0|1]', 'bit': 3, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_input_output_fault(
     uint8_t* data, bool input_output_fault) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = input_output_fault;
 
@@ -229,7 +229,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_enabled(bool enabled) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   enabled_ = enabled;
   return this;
@@ -239,7 +239,7 @@ COVERAGE_LOG_TOKEN
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_enabled(uint8_t* data, bool enabled) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = enabled;
 
@@ -249,7 +249,7 @@ COVERAGE_LOG_TOKEN
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_command_output_fault(
     bool command_output_fault) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   command_output_fault_ = command_output_fault;
   return this;
@@ -260,7 +260,7 @@ COVERAGE_LOG_TOKEN
 // '[0|1]', 'bit': 2, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_command_output_fault(
     uint8_t* data, bool command_output_fault) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = command_output_fault;
 
@@ -270,7 +270,7 @@ COVERAGE_LOG_TOKEN
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_manual_input(
     Dash_controls_right_rpt_210::Manual_inputType manual_input) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   manual_input_ = manual_input;
   return this;
@@ -285,7 +285,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_manual_input(
     uint8_t* data, Dash_controls_right_rpt_210::Manual_inputType manual_input) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = manual_input;
 

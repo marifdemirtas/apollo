@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,13 +21,13 @@ namespace perception {
 namespace lib {
 
 void ThreadWorker::Bind(const std::function<bool()> &func) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   work_func_ = func;
 }
 
 void ThreadWorker::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (thread_ptr_ == nullptr) {
     thread_ptr_.reset(new std::thread(&ThreadWorker::Core, this));
@@ -38,7 +38,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ThreadWorker::WakeUp() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -48,14 +48,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void ThreadWorker::Join() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::unique_lock<std::mutex> lock(mutex_);
   condition_.wait(lock, [&]() { return !work_flag_; });
 }
 
 void ThreadWorker::Release() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (thread_ptr_ == nullptr) {
     return;
@@ -71,7 +71,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void ThreadWorker::Core() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   while (true) {
     {

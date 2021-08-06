@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,14 +29,14 @@ namespace apollo {
 namespace hdmap {
 
 bool Mapdatachecker::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   grpc_address_ = FLAGS_map_datachecker_host + ":" + FLAGS_map_datachecker_port;
   return true;
 }
 
 bool Mapdatachecker::Start() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "Mapdatachecker::Start";
   Init();
@@ -68,11 +68,11 @@ COVERAGE_LOG_TOKEN
 }
 
 bool Mapdatachecker::Stop() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  return true; }
 
 void Mapdatachecker::Report() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 }  // namespace hdmap

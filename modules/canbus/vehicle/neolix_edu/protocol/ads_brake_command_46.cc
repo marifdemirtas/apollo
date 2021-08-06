@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Adsbrakecommand46::ID = 0x46;
 
 // public
 Adsbrakecommand46::Adsbrakecommand46() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Adsbrakecommand46::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Adsbrakecommand46::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_drive_enable(data, drive_enable_);
   set_p_auto_brake_command(data, auto_brake_command_);
@@ -56,7 +56,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Adsbrakecommand46::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(All) :  you should check this manually
   drive_enable_ = false;
@@ -68,7 +68,7 @@ COVERAGE_LOG_TOKEN
 }
 
 Adsbrakecommand46* Adsbrakecommand46::set_drive_enable(bool drive_enable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   drive_enable_ = drive_enable;
   return this;
@@ -79,7 +79,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_range': '[0|0]', 'bit': 0, 'type': 'bool', 'order': 'motorola',
 // 'physical_unit': ''}
 void Adsbrakecommand46::set_p_drive_enable(uint8_t* data, bool drive_enable) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = drive_enable;
 
@@ -89,7 +89,7 @@ COVERAGE_LOG_TOKEN
 
 Adsbrakecommand46* Adsbrakecommand46::set_auto_brake_command(
     int auto_brake_command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto_brake_command_ = auto_brake_command;
   return this;
@@ -100,7 +100,7 @@ COVERAGE_LOG_TOKEN
 // '[0|0]', 'bit': 23, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_auto_brake_command(uint8_t* data,
                                                  int auto_brake_command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto_brake_command = ProtocolData::BoundedValue(0, 100, auto_brake_command);
   int x = auto_brake_command;
@@ -111,7 +111,7 @@ COVERAGE_LOG_TOKEN
 
 Adsbrakecommand46* Adsbrakecommand46::set_auto_parking_command(
     bool auto_parking_command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto_parking_command_ = auto_parking_command;
   return this;
@@ -123,7 +123,7 @@ COVERAGE_LOG_TOKEN
 // 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_auto_parking_command(uint8_t* data,
                                                    bool auto_parking_command) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = auto_parking_command;
 
@@ -133,7 +133,7 @@ COVERAGE_LOG_TOKEN
 
 Adsbrakecommand46* Adsbrakecommand46::set_epb_rampauxiliarycommand(
     bool epb_rampauxiliarycommand) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   epb_rampauxiliarycommand_ = epb_rampauxiliarycommand;
   return this;
@@ -145,7 +145,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_epb_rampauxiliarycommand(
     uint8_t* data, bool epb_rampauxiliarycommand) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int x = epb_rampauxiliarycommand;
 
@@ -155,7 +155,7 @@ COVERAGE_LOG_TOKEN
 
 Adsbrakecommand46* Adsbrakecommand46::set_auto_drivercmd_alivecounter(
     int auto_drivercmd_alivecounter) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto_drivercmd_alivecounter_ = auto_drivercmd_alivecounter;
   return this;
@@ -166,7 +166,7 @@ COVERAGE_LOG_TOKEN
 // '[0|0]', 'bit': 51, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_auto_drivercmd_alivecounter(
     uint8_t* data, int auto_drivercmd_alivecounter) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto_drivercmd_alivecounter =
       ProtocolData::BoundedValue(0, 15, auto_drivercmd_alivecounter);
@@ -178,7 +178,7 @@ COVERAGE_LOG_TOKEN
 
 Adsbrakecommand46* Adsbrakecommand46::set_auto_drivercmd_checksum(
     int auto_drivercmd_checksum) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto_drivercmd_checksum_ = auto_drivercmd_checksum;
   return this;
@@ -189,7 +189,7 @@ COVERAGE_LOG_TOKEN
 // '[0|0]', 'bit': 63, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_auto_drivercmd_checksum(
     uint8_t* data, int auto_drivercmd_checksum) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto_drivercmd_checksum =
       ProtocolData::BoundedValue(0, 255, auto_drivercmd_checksum);

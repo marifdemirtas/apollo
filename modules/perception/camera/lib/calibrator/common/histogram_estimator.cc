@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -19,15 +19,12 @@
 #include "modules/perception/common/i_lib/core/i_basic.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
-
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
 
 void HistogramEstimatorParams::Init() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   // set default value
   nr_bins_in_histogram = 64;
   data_sp = 0;
@@ -51,7 +48,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HistogramEstimator::Init(const HistogramEstimatorParams *params) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (params != nullptr) {
     params_ = *params;
@@ -65,7 +62,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool HistogramEstimator::Process() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // smooth histogram - >
   // get peak & check mass ->
@@ -102,7 +99,7 @@ COVERAGE_LOG_TOKEN
 
 void HistogramEstimator::Smooth(const uint32_t *hist_input, int nr_bins,
                                 uint32_t *hist_output) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   assert(nr_bins == params_.nr_bins_in_histogram);
 
@@ -161,7 +158,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void HistogramEstimator::GenerateHat(float *hist_hat, int nr_bins) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   assert(nr_bins == params_.nr_bins_in_histogram);
   // Equation: e^(-(x^2 / (2 * a^2)) + b
@@ -179,7 +176,7 @@ COVERAGE_LOG_TOKEN
 
 bool HistogramEstimator::IsGoodShape(const uint32_t *hist, int nr_bins,
                                      int max_index) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   assert(nr_bins == params_.nr_bins_in_histogram);
   assert(max_index < params_.nr_bins_in_histogram);
@@ -203,7 +200,7 @@ COVERAGE_LOG_TOKEN
 
 void HistogramEstimator::GetPeakIndexAndMass(const uint32_t *hist, int nr_bins,
                                              int *index, uint32_t *mass) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   assert(nr_bins == params_.nr_bins_in_histogram);
   assert(hist != nullptr);

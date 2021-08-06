@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Llcdiagsteeringcontrol722::ID = 0x722;
 
 // public
 Llcdiagsteeringcontrol722::Llcdiagsteeringcontrol722() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  Reset(); }
 
 uint32_t Llcdiagsteeringcontrol722::GetPeriod() const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 10 * 1000;
@@ -41,7 +41,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Llcdiagsteeringcontrol722::UpdateData(uint8_t* data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   set_p_llc_dbg_steeringsensorposition(data, llc_dbg_steeringsensorposition_);
   set_p_llc_dbg_steeringrackinputtorque(data, llc_dbg_steeringrackinputtorque_);
@@ -49,7 +49,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void Llcdiagsteeringcontrol722::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(All) :  you should check this manually
   llc_dbg_steeringsensorposition_ = 0.0;
@@ -60,7 +60,7 @@ COVERAGE_LOG_TOKEN
 Llcdiagsteeringcontrol722*
 Llcdiagsteeringcontrol722::set_llc_dbg_steeringsensorposition(
     double llc_dbg_steeringsensorposition) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   llc_dbg_steeringsensorposition_ = llc_dbg_steeringsensorposition;
   return this;
@@ -73,7 +73,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': 'rev'}
 void Llcdiagsteeringcontrol722::set_p_llc_dbg_steeringsensorposition(
     uint8_t* data, double llc_dbg_steeringsensorposition) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   llc_dbg_steeringsensorposition = ProtocolData::BoundedValue(
       -6.5536, 6.5534, llc_dbg_steeringsensorposition);
@@ -93,7 +93,7 @@ COVERAGE_LOG_TOKEN
 Llcdiagsteeringcontrol722*
 Llcdiagsteeringcontrol722::set_llc_dbg_steeringrackinputtorque(
     int llc_dbg_steeringrackinputtorque) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   llc_dbg_steeringrackinputtorque_ = llc_dbg_steeringrackinputtorque;
   return this;
@@ -106,7 +106,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': 'counts'}
 void Llcdiagsteeringcontrol722::set_p_llc_dbg_steeringrackinputtorque(
     uint8_t* data, int llc_dbg_steeringrackinputtorque) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   llc_dbg_steeringrackinputtorque = ProtocolData::BoundedValue(
       -32768, 32767, llc_dbg_steeringrackinputtorque);
@@ -126,7 +126,7 @@ COVERAGE_LOG_TOKEN
 Llcdiagsteeringcontrol722*
 Llcdiagsteeringcontrol722::set_llc_dbg_steeringmotorposition(
     double llc_dbg_steeringmotorposition) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   llc_dbg_steeringmotorposition_ = llc_dbg_steeringmotorposition;
   return this;
@@ -139,7 +139,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': 'rev'}
 void Llcdiagsteeringcontrol722::set_p_llc_dbg_steeringmotorposition(
     uint8_t* data, double llc_dbg_steeringmotorposition) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   llc_dbg_steeringmotorposition = ProtocolData::BoundedValue(
       -83.88608, 83.88607, llc_dbg_steeringmotorposition);

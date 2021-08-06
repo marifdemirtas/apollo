@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,21 +26,21 @@ namespace bridge {
 
 template <typename T>
 BridgeBuffer<T>::BridgeBuffer() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 template <typename T>
 BridgeBuffer<T>::BridgeBuffer(size_t size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   reset(size);
 }
 
 template <typename T>
 BridgeBuffer<T>::~BridgeBuffer() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lg(mutex_);
   if (buf_) {
@@ -53,14 +53,14 @@ COVERAGE_LOG_TOKEN
 
 template <typename T>
 BridgeBuffer<T>::operator T *() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   return buf_;
 }
 
 template <typename T>
 void BridgeBuffer<T>::reset(size_t size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lg(mutex_);
   if (capacity_ < size) {
@@ -76,7 +76,7 @@ COVERAGE_LOG_TOKEN
 
 template <typename T>
 void BridgeBuffer<T>::write(size_t index, const T *data, size_t size) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   std::lock_guard<std::mutex> lg(mutex_);
   reset(size + index);

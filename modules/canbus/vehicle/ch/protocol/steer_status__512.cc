@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,13 +27,13 @@ namespace ch {
 using ::apollo::drivers::canbus::Byte;
 
 Steerstatus512::Steerstatus512() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 const int32_t Steerstatus512::ID = 0x512;
 
 void Steerstatus512::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   chassis->mutable_ch()->mutable_steer_status__512()->set_steer_angle_en_sts(
       steer_angle_en_sts(bytes, length));
@@ -55,7 +55,7 @@ COVERAGE_LOG_TOKEN
 // 'physical_unit': ''}
 Steer_status__512::Steer_angle_en_stsType Steerstatus512::steer_angle_en_sts(
     const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -71,7 +71,7 @@ COVERAGE_LOG_TOKEN
 // 'double', 'order': 'intel', 'physical_unit': 'radian'}
 double Steerstatus512::steer_angle_sts(const std::uint8_t* bytes,
                                        int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -94,7 +94,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'intel', 'physical_unit': ''}
 Steer_status__512::Steer_errType Steerstatus512::steer_err(
     const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -110,7 +110,7 @@ COVERAGE_LOG_TOKEN
 // 'order': 'intel', 'physical_unit': ''}
 Steer_status__512::Sensor_errType Steerstatus512::sensor_err(
     const std::uint8_t* bytes, int32_t length) const {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);

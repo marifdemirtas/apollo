@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,6 @@
 #include "modules/perception/lidar/lib/tracker/multi_lidar_fusion/proto/multi_lidar_fusion_config.pb.h"
 
 namespace apollo {
-COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace lidar {
@@ -35,7 +34,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool MlfMotionFilter::Init(const MlfFilterInitOptions& options) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -71,7 +70,7 @@ COVERAGE_LOG_TOKEN
 void MlfMotionFilter::UpdateWithObject(const MlfFilterOptions& options,
                                        const MlfTrackDataConstPtr& track_data,
                                        TrackedObjectPtr new_object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (track_data->age_ == 0) {
     InitializeTrackState(new_object);
@@ -112,11 +111,11 @@ COVERAGE_LOG_TOKEN
 void MlfMotionFilter::UpdateWithoutObject(const MlfFilterOptions& options,
                                           double timestamp,
                                           MlfTrackDataPtr track_data) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MlfMotionFilter::InitializeTrackState(TrackedObjectPtr new_object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   new_object->boostup_need_history_size =
       static_cast<int>(boostup_history_size_minimum_);
@@ -150,7 +149,7 @@ COVERAGE_LOG_TOKEN
 void MlfMotionFilter::KalmanFilterUpdateWithPartialObservation(
     const MlfTrackDataConstPtr& track_data,
     const TrackedObjectConstPtr& latest_object, TrackedObjectPtr new_object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double range = new_object->object_ptr->center.norm();
 
@@ -246,7 +245,7 @@ void MlfMotionFilter::StateGainAdjustment(
     const MlfTrackDataConstPtr& track_data,
     const TrackedObjectConstPtr& latest_object,
     const TrackedObjectConstPtr& new_object, Eigen::Vector4d* gain) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // 1 quality penalize and gain break down
   if (use_adaptive_) {
@@ -271,14 +270,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void MlfMotionFilter::StateToBelief(TrackedObjectPtr object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   object->belief_velocity << object->state.head<2>(), 0;
   object->belief_acceleration << object->state.tail<2>(), 0;
 }
 
 void MlfMotionFilter::BeliefToOutput(TrackedObjectPtr object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   object->output_velocity = object->belief_velocity;
   object->output_velocity_uncertainty =
@@ -286,7 +285,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void MlfMotionFilter::ClipingState(TrackedObjectPtr object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (object->state.head<2>().norm() < noise_maximum_) {
     object->state.setZero();
@@ -298,7 +297,7 @@ COVERAGE_LOG_TOKEN
 
 void MlfMotionFilter::OnlineCovarianceEstimation(
     const MlfTrackDataConstPtr& track_data, TrackedObjectPtr object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   object->belief_velocity_online_covariance = Eigen::Matrix3d::Zero();
   size_t evaluate_window =
@@ -337,7 +336,7 @@ COVERAGE_LOG_TOKEN
 void MlfMotionFilter::ConvergenceEstimationAndBoostUp(
     const MlfTrackDataConstPtr& track_data,
     const TrackedObjectConstPtr& latest_object, TrackedObjectPtr new_object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   new_object->boostup_need_history_size =
       latest_object->boostup_need_history_size;
@@ -368,7 +367,7 @@ COVERAGE_LOG_TOKEN
 void MlfMotionFilter::ComputeConvergenceConfidence(
     const MlfTrackDataConstPtr& track_data, TrackedObjectPtr new_object,
     bool velocity_source_is_belief) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Compute convergence score list
   std::vector<double> convergence_score_list;
@@ -430,7 +429,7 @@ COVERAGE_LOG_TOKEN
 
 void MlfMotionFilter::BoostupState(const MlfTrackDataConstPtr& track_data,
                                    TrackedObjectPtr new_object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // Compute min & max boosted velocity
   Eigen::Vector3d& new_obj_belief_velocity = new_object->belief_velocity;
@@ -497,7 +496,7 @@ COVERAGE_LOG_TOKEN
 
 void MlfMotionFilter::UpdateConverged(const MlfTrackDataConstPtr& track_data,
                                       TrackedObjectPtr object) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (object->convergence_confidence > converged_confidence_minimum_) {
     // set converged true

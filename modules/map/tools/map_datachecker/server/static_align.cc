@@ -1,4 +1,4 @@
-#include "modules/covlogger.h"
+#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace hdmap {
 
 StaticAlign::StaticAlign(std::shared_ptr<JsonConf> sp_conf)
     : Alignment(sp_conf) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   sp_conf_ = sp_conf;
   static_align_detect_method_ = StaticAlignDetectMethod::DYNAMIC_CENTROID;
@@ -31,7 +31,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void StaticAlign::Reset() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   progress_ = 0.0;
   last_progress_ = 0.0;
@@ -45,7 +45,7 @@ COVERAGE_LOG_TOKEN
 }
 
 bool StaticAlign::IsStaticPose(const FramePose& pose) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (dynamic_centroid_.count == 0) {
     return true;
@@ -65,7 +65,7 @@ COVERAGE_LOG_TOKEN
 }
 
 void StaticAlign::UpdateDynamicCentroid(const FramePose& pose) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int count = dynamic_centroid_.count;
   if (count == 0) {
@@ -88,7 +88,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double StaticAlign::GetCentroidTimeDuring() {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   if (dynamic_centroid_.start_time > 0 && dynamic_centroid_.end_time > 0) {
     return dynamic_centroid_.end_time - dynamic_centroid_.start_time;
@@ -97,14 +97,14 @@ COVERAGE_LOG_TOKEN
 }
 
 void StaticAlign::UpdateGoodPoseInfo(const FramePose& pose) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   UpdateDynamicCentroid(pose);
 }
 
 double StaticAlign::StaticAlignDynamicCentroid(
     const std::vector<FramePose>& poses) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   int start_index = TimeToIndex(poses, start_time_);
   AINFO << "start_index:" << start_index << ",pose size:" << poses.size();
@@ -132,7 +132,7 @@ COVERAGE_LOG_TOKEN
 }
 
 double StaticAlign::StaticAlignRansac(const std::vector<FramePose>& poses) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   // TODO(yuanyijun): implementation of selecting an center by RANSAC
   return 0.0;
@@ -140,7 +140,7 @@ COVERAGE_LOG_TOKEN
 
 double StaticAlign::GetStaticAlignProgress(
     const std::vector<FramePose>& poses) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   double progress = 0.0;
   switch (static_align_detect_method_) {
@@ -158,7 +158,7 @@ COVERAGE_LOG_TOKEN
 }
 
 ErrorCode StaticAlign::Process(const std::vector<FramePose>& poses) {
-COVERAGE_LOG_TOKEN
+std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
   AINFO << "[StaticAlign::process] begin";
   size_t size = poses.size();
