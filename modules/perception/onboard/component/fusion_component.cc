@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ uint32_t FusionComponent::s_seq_num_ = 0;
 std::mutex FusionComponent::s_mutex_;
 
 bool FusionComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   FusionComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool FusionComponent::Proc(const std::shared_ptr<SensorFrameMessage>& message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (message->process_stage_ == ProcessStage::SENSOR_FUSION) {
     return true;
@@ -88,7 +88,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool FusionComponent::InitAlgorithmPlugin() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   fusion_.reset(new fusion::ObstacleMultiSensorFusion());
   fusion::ObstacleMultiSensorFusionParam param;
@@ -108,7 +108,7 @@ bool FusionComponent::InternalProc(
     const std::shared_ptr<SensorFrameMessage const>& in_message,
     std::shared_ptr<PerceptionObstacles> out_message,
     std::shared_ptr<SensorFrameMessage> viz_message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   {
     std::unique_lock<std::mutex> lock(s_mutex_);

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ using apollo::drivers::microphone::config::ChannelType;
 using apollo::drivers::microphone::config::MicrophoneConfig;
 
 void AudioInfo::Insert(const AudioData& audio_data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::size_t index = 0;
   for (const auto& channel_data : audio_data.channel_data()) {
@@ -44,7 +44,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void AudioInfo::InsertChannelData(const std::size_t index,
                                   const ChannelData& channel_data,
                                   const MicrophoneConfig& microphone_config) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   while (index >= signals_.size()) {
     signals_.push_back(std::deque<double>());
@@ -64,7 +64,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::vector<std::vector<double>> AudioInfo::GetSignals(
     const int signal_length) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::vector<std::vector<double>> signals;
   for (std::size_t i = 0; i < signals_.size(); ++i) {

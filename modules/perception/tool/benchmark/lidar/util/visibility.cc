@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -30,13 +30,13 @@ std::map<int, std::vector<size_t>> Visibility::s_lut_{
 };
 
 void Visibility::set_car_pos(const Eigen::Vector3d& car_pos) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   car_pos_ = car_pos;
 }
 
 void Visibility::fill_objects(std::vector<ObjectPtr>* objs, float thresh) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto get_interval = [](float num, float thresh) -> int {
     if (num < -thresh) {
@@ -119,7 +119,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 float Visibility::calculate(std::vector<ObjectPtr>* objs, float thresh) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (points_.empty()) {
     return 0.0;
@@ -208,7 +208,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Visibility::reset_state() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   latest_query_point_ = VisPoint(0, 0);
   latest_query_segments_cache_.clear();
@@ -219,7 +219,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Visibility::add_region() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   VisPoint a(half_length_, half_width_);
   VisPoint b(half_length_, -half_width_);
@@ -233,7 +233,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Visibility::add_segment(const VisPoint& a, const VisPoint& b, int idx) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (compute_orientation(VisPoint(0, 0), a, b) == Orientation::collinear) {
     return;
@@ -270,7 +270,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Visibility::query_segments(const VisPoint& p) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (p == latest_query_point_) {
     return;
@@ -287,7 +287,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void Visibility::update_candidate_segment(const VisPoint& p,
                                           UpdateOperation op) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   query_segments(p);
 
@@ -310,7 +310,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 float Visibility::calculate_area(const VisPoint& a, const VisPoint& b) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   float dot = a.dot(b);
   float area = static_cast<float>(
@@ -320,7 +320,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 float Visibility::calculate_visual_angle(const VisPoint& a, const VisPoint& b) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   float cos_theta = static_cast<float>(
       a.dot(b) / sqrt(a.length_squared() * b.length_squared()));

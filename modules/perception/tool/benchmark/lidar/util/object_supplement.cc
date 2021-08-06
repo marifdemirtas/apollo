@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -22,38 +22,38 @@ namespace benchmark {
 
 /**LidarSupplement implementation*/
 LidarSupplement::LidarSupplement() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 LidarSupplement::~LidarSupplement() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 LidarSupplement::LidarSupplement(const LidarSupplement& rhs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 LidarSupplement& LidarSupplement::operator=(const LidarSupplement& rhs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return (*this);
 }
 
 void LidarSupplement::clone(const LidarSupplement& rhs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 /**RadarSupplement implementation*/
 RadarSupplement::RadarSupplement() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 RadarSupplement::~RadarSupplement() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 RadarSupplement::RadarSupplement(const RadarSupplement& rhs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   range = rhs.range;
   angle = rhs.angle;
@@ -62,7 +62,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 RadarSupplement& RadarSupplement::operator=(const RadarSupplement& rhs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   range = rhs.range;
   angle = rhs.angle;
@@ -72,7 +72,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RadarSupplement::clone(const RadarSupplement& rhs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   range = rhs.range;
   angle = rhs.angle;
@@ -82,22 +82,22 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 /**CameraSupplement implementation*/
 CameraSupplement::CameraSupplement() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 CameraSupplement::~CameraSupplement() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 CameraSupplement::CameraSupplement(const CameraSupplement& rhs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;
 }
 
 CameraSupplement& CameraSupplement::operator=(const CameraSupplement& rhs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;
@@ -105,7 +105,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CameraSupplement::clone(const CameraSupplement& rhs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;

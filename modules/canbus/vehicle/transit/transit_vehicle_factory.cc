@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -27,14 +27,14 @@ namespace canbus {
 
 std::unique_ptr<VehicleController>
 TransitVehicleFactory::CreateVehicleController() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return std::unique_ptr<VehicleController>(new transit::TransitController());
 }
 
 std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>
 TransitVehicleFactory::CreateMessageManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>(
       new transit::TransitMessageManager());

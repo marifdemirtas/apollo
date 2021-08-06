@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,14 +27,14 @@ namespace canbus {
 
 std::unique_ptr<VehicleController>
 GemVehicleFactory::CreateVehicleController() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return std::unique_ptr<VehicleController>(new gem::GemController());
 }
 
 std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>
 GemVehicleFactory::CreateMessageManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>(
       new gem::GemMessageManager());

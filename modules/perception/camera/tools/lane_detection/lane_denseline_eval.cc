@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ namespace perception {
 namespace camera {
 
 int lane_postprocessor_eval() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   //  initialize lane detector
   LaneDetectorInitOptions init_options;
@@ -222,7 +222,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }  // namespace apollo
 
 int main(int argc, char** argv) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   FLAGS_alsologtostderr = true;

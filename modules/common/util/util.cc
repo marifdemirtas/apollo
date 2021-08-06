@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -35,7 +35,7 @@ PointENU operator+(const PointENU enu, const math::Vec2d& xy) {
 PathPoint GetWeightedAverageOfTwoPathPoints(const PathPoint& p1,
                                             const PathPoint& p2,
                                             const double w1, const double w2) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   PathPoint p;
   p.set_x(p1.x() * w1 + p2.x() * w2);

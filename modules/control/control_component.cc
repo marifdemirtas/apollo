@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -38,11 +38,11 @@ using apollo::planning::ADCTrajectory;
 
 ControlComponent::ControlComponent()
     : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 bool ControlComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   injector_ = std::make_shared<DependencyInjector>();
   init_time_ = Clock::Now();
@@ -127,7 +127,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ControlComponent::OnPad(const std::shared_ptr<PadMessage> &pad) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(mutex_);
   pad_msg_.CopyFrom(*pad);
@@ -136,7 +136,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ControlComponent::OnChassis(const std::shared_ptr<Chassis> &chassis) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ADEBUG << "Received chassis data: run chassis callback.";
   std::lock_guard<std::mutex> lock(mutex_);
@@ -145,7 +145,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ControlComponent::OnPlanning(
     const std::shared_ptr<ADCTrajectory> &trajectory) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ADEBUG << "Received chassis data: run trajectory callback.";
   std::lock_guard<std::mutex> lock(mutex_);
@@ -154,7 +154,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ControlComponent::OnLocalization(
     const std::shared_ptr<LocalizationEstimate> &localization) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ADEBUG << "Received control data: run localization message callback.";
   std::lock_guard<std::mutex> lock(mutex_);
@@ -163,7 +163,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ControlComponent::OnMonitor(
     const common::monitor::MonitorMessage &monitor_message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (const auto &item : monitor_message.item()) {
     if (item.log_level() == common::monitor::MonitorMessageItem::FATAL) {
@@ -175,7 +175,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status ControlComponent::ProduceControlCommand(
     ControlCommand *control_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Status status = CheckInput(&local_view_);
   // check data
@@ -294,7 +294,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool ControlComponent::Proc() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const auto start_time = Clock::Now();
 
@@ -437,7 +437,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status ControlComponent::CheckInput(LocalView *local_view) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ADEBUG << "Received localization:"
          << local_view->localization().ShortDebugString();
@@ -470,7 +470,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status ControlComponent::CheckTimestamp(const LocalView &local_view) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!control_conf_.enable_input_timestamp_check() ||
       control_conf_.is_control_test_mode()) {

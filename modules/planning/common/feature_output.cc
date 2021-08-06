@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,18 +28,18 @@ LearningData FeatureOutput::learning_data_;
 int FeatureOutput::learning_data_file_index_ = 0;
 
 void FeatureOutput::Close() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Clear(); }
 
 void FeatureOutput::Clear() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   learning_data_.Clear();
   learning_data_file_index_ = 0;
 }
 
 bool FeatureOutput::Ready() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Clear();
   return true;
@@ -48,7 +48,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void FeatureOutput::InsertLearningDataFrame(
     const std::string& record_file,
     const LearningDataFrame& learning_data_frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   learning_data_.add_learning_data_frame()->CopyFrom(learning_data_frame);
 
@@ -60,7 +60,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LearningDataFrame* FeatureOutput::GetLatestLearningDataFrame() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const int size = learning_data_.learning_data_frame_size();
   return size > 0 ? learning_data_.mutable_learning_data_frame(size - 1)
@@ -68,11 +68,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void FeatureOutput::InsertPlanningResult() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void FeatureOutput::WriteLearningData(const std::string& record_file) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::string src_file_name =
       record_file.substr(record_file.find_last_of("/") + 1);
@@ -88,7 +88,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void FeatureOutput::WriteRemainderiLearningData(
     const std::string& record_file) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (learning_data_.learning_data_frame_size() > 0) {
     WriteLearningData(record_file);

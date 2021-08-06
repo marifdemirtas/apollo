@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -48,7 +48,7 @@ void extract_vector(const std::vector<T>& vec,
 bool HMTrackersObjectsAssociation::Associate(
     const AssociationOptions& options, SensorFramePtr sensor_measurements,
     ScenePtr scene, AssociationResult* association_result) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const std::vector<SensorObjectPtr>& sensor_objects =
       sensor_measurements->GetForegroundObjects();
@@ -150,7 +150,7 @@ void HMTrackersObjectsAssociation::PostIdAssign(
     const std::vector<size_t>& unassigned_fusion_tracks,
     const std::vector<size_t>& unassigned_sensor_objects,
     std::vector<TrackMeasurmentPair>* post_assignments) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::vector<size_t> valid_unassigned_tracks;
   valid_unassigned_tracks.reserve(unassigned_fusion_tracks.size());
@@ -186,7 +186,7 @@ bool HMTrackersObjectsAssociation::MinimizeAssignment(
     std::vector<TrackMeasurmentPair>* assignments,
     std::vector<size_t>* unassigned_tracks,
     std::vector<size_t>* unassigned_measurements) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   common::GatedHungarianMatcher<float>::OptimizeFlag opt_flag =
       common::GatedHungarianMatcher<float>::OptimizeFlag::OPTMIN;
@@ -231,7 +231,7 @@ void HMTrackersObjectsAssociation::ComputeDistance(
     const std::vector<size_t>& measurement_ind_l2g,
     const std::vector<std::vector<double>>& association_mat,
     AssociationResult* association_result) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (size_t i = 0; i < association_result->assignments.size(); i++) {
     int track_ind = static_cast<int>(association_result->assignments[i].first);
@@ -309,7 +309,7 @@ void HMTrackersObjectsAssociation::ComputeAssociationDistanceMat(
     const std::vector<size_t>& unassigned_tracks,
     const std::vector<size_t>& unassigned_measurements,
     std::vector<std::vector<double>>* association_mat) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // if (sensor_objects.empty()) return;
   TrackObjectDistanceOptions opt;
@@ -354,7 +354,7 @@ void HMTrackersObjectsAssociation::IdAssign(
     std::vector<size_t>* unassigned_fusion_tracks,
     std::vector<size_t>* unassigned_sensor_objects, bool do_nothing,
     bool post) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   size_t num_track = fusion_tracks.size();
   size_t num_obj = sensor_objects.size();
@@ -418,7 +418,7 @@ void HMTrackersObjectsAssociation::GenerateUnassignedData(
     const std::vector<TrackMeasurmentPair>& assignments,
     std::vector<size_t>* unassigned_tracks,
     std::vector<size_t>* unassigned_objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::vector<bool> track_flags(track_num, false);
   std::vector<bool> objects_flags(objects_num, false);

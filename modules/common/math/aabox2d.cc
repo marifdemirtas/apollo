@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -35,7 +35,7 @@ AABox2d::AABox2d(const Vec2d &center, const double length, const double width)
       width_(width),
       half_length_(length / 2.0),
       half_width_(width / 2.0) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_GT(length_, -kMathEpsilon);
   CHECK_GT(width_, -kMathEpsilon);
@@ -45,11 +45,11 @@ AABox2d::AABox2d(const Vec2d &one_corner, const Vec2d &opposite_corner)
     : AABox2d((one_corner + opposite_corner) / 2.0,
               std::abs(one_corner.x() - opposite_corner.x()),
               std::abs(one_corner.y() - opposite_corner.y())) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 AABox2d::AABox2d(const std::vector<Vec2d> &points) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ACHECK(!points.empty());
   double min_x = points[0].x();
@@ -71,7 +71,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void AABox2d::GetAllCorners(std::vector<Vec2d> *const corners) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(corners)->clear();
   corners->reserve(4);
@@ -82,14 +82,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool AABox2d::IsPointIn(const Vec2d &point) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return std::abs(point.x() - center_.x()) <= half_length_ + kMathEpsilon &&
          std::abs(point.y() - center_.y()) <= half_width_ + kMathEpsilon;
 }
 
 bool AABox2d::IsPointOnBoundary(const Vec2d &point) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const double dx = std::abs(point.x() - center_.x());
   const double dy = std::abs(point.y() - center_.y());
@@ -100,7 +100,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double AABox2d::DistanceTo(const Vec2d &point) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const double dx = std::abs(point.x() - center_.x()) - half_length_;
   const double dy = std::abs(point.y() - center_.y()) - half_width_;
@@ -114,7 +114,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double AABox2d::DistanceTo(const AABox2d &box) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const double dx =
       std::abs(box.center_x() - center_.x()) - box.half_length() - half_length_;
@@ -130,7 +130,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool AABox2d::HasOverlap(const AABox2d &box) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return std::abs(box.center_x() - center_.x()) <=
              box.half_length() + half_length_ &&
@@ -139,11 +139,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void AABox2d::Shift(const Vec2d &shift_vec) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  center_ += shift_vec; }
 
 void AABox2d::MergeFrom(const AABox2d &other_box) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const double x1 = std::min(min_x(), other_box.min_x());
   const double x2 = std::max(max_x(), other_box.max_x());
@@ -157,7 +157,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void AABox2d::MergeFrom(const Vec2d &other_point) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const double x1 = std::min(min_x(), other_point.x());
   const double x2 = std::max(max_x(), other_point.x());
@@ -171,7 +171,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string AABox2d::DebugString() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return absl::StrCat("aabox2d ( center = ", center_.DebugString(),
                       "  length = ", length_, "  width = ", width_, " )");

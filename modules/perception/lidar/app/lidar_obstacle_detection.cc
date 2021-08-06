@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace lidar {
 
 bool LidarObstacleDetection::Init(
     const LidarObstacleDetectionInitOptions& options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto& sensor_name = options.sensor_name;
   auto config_manager = lib::ConfigManager::Instance();
@@ -65,7 +65,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 LidarProcessResult LidarObstacleDetection::Process(
     const LidarObstacleDetectionOptions& options, LidarFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   PointCloudPreprocessorOptions preprocessor_options;
   preprocessor_options.sensor2novatel_extrinsics =
@@ -81,7 +81,7 @@ LidarProcessResult LidarObstacleDetection::Process(
     const LidarObstacleDetectionOptions& options,
     const std::shared_ptr<apollo::drivers::PointCloud const>& message,
     LidarFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const auto& sensor_name = options.sensor_name;
 
@@ -101,7 +101,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 LidarProcessResult LidarObstacleDetection::ProcessCommon(
     const LidarObstacleDetectionOptions& options, LidarFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const auto& sensor_name = options.sensor_name;
 

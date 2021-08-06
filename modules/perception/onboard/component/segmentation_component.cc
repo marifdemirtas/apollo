@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -34,7 +34,7 @@ uint32_t SegmentationComponent::s_seq_num_ = 0;
 std::mutex SegmentationComponent::s_mutex_;
 
 bool SegmentationComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   LidarSegmentationComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
@@ -59,7 +59,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool SegmentationComponent::Proc(
     const std::shared_ptr<drivers::PointCloud>& message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << std::setprecision(16)
         << "Enter segmentation component, message timestamp: "
@@ -78,7 +78,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SegmentationComponent::InitAlgorithmPlugin() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ACHECK(common::SensorManager::Instance()->GetSensorInfo(sensor_name_,
                                                           &sensor_info_));
@@ -106,7 +106,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool SegmentationComponent::InternalProc(
     const std::shared_ptr<const drivers::PointCloud>& in_message,
     const std::shared_ptr<LidarFrameMessage>& out_message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   PERF_FUNCTION_WITH_INDICATOR(sensor_name_);
   {

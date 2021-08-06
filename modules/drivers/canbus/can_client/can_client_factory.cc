@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -34,11 +34,11 @@ namespace drivers {
 namespace canbus {
 
 CanClientFactory::CanClientFactory() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void CanClientFactory::RegisterCanClients() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "CanClientFactory::RegisterCanClients";
   Register(CANCardParameter::FAKE_CAN,
@@ -57,7 +57,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::unique_ptr<CanClient> CanClientFactory::CreateCANClient(
     const CANCardParameter& parameter) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto factory = CreateObject(parameter.brand());
   if (!factory) {

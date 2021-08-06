@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,7 +31,7 @@ namespace velodyne {
 void LoadPcds(const std::string& file_path, const unsigned int frame_index,
               const Eigen::Affine3d& pose, VelodyneFrame* velodyne_frame,
               bool is_global) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   velodyne_frame->frame_index = frame_index;
   velodyne_frame->pose = pose;
@@ -43,7 +43,7 @@ void LoadPcds(const std::string& file_path, const unsigned int frame_index,
               const Eigen::Affine3d& pose,
               ::apollo::common::EigenVector3dVec* pt3ds,
               std::vector<unsigned char>* intensities, bool is_global) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Eigen::Affine3d pose_inv = pose.inverse();
   pcl::PointCloud<PointXYZIT>::Ptr cloud(new pcl::PointCloud<PointXYZIT>);
@@ -99,7 +99,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void LoadPcdPoses(const std::string& file_path,
                   ::apollo::common::EigenAffine3dVec* poses,
                   std::vector<double>* timestamps) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::vector<unsigned int> pcd_indices;
   LoadPcdPoses(file_path, poses, timestamps, &pcd_indices);
@@ -109,7 +109,7 @@ void LoadPcdPoses(const std::string& file_path,
                   ::apollo::common::EigenAffine3dVec* poses,
                   std::vector<double>* timestamps,
                   std::vector<unsigned int>* pcd_indices) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   poses->clear();
   timestamps->clear();
@@ -140,7 +140,7 @@ void LoadPosesAndStds(const std::string& file_path,
                       ::apollo::common::EigenAffine3dVec* poses,
                       ::apollo::common::EigenVector3dVec* stds,
                       std::vector<double>* timestamps) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   poses->clear();
   stds->clear();
@@ -173,7 +173,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool LoadExtrinsic(const std::string& file_path, Eigen::Affine3d* extrinsic) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   YAML::Node config = YAML::LoadFile(file_path);
   if (config["transform"]) {

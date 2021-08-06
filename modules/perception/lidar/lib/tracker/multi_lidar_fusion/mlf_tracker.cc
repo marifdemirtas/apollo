@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool MlfTracker::Init(const MlfTrackerInitOptions options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -57,7 +57,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MlfTracker::InitializeTrack(MlfTrackDataPtr new_track_data,
                                  TrackedObjectPtr new_object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   new_track_data->Reset(new_object, GetNextTrackId());
   new_track_data->is_current_state_predicted_ = false;
@@ -65,7 +65,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MlfTracker::UpdateTrackDataWithObject(MlfTrackDataPtr track_data,
                                            TrackedObjectPtr new_object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // 1. state filter and store belief in new_object
   for (auto& filter : filters_) {
@@ -78,7 +78,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MlfTracker::UpdateTrackDataWithoutObject(double timestamp,
                                               MlfTrackDataPtr track_data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto& filter : filters_) {
     filter->UpdateWithoutObject(filter_options_, timestamp, track_data);

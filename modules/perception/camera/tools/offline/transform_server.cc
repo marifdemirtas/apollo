@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace camera {
 
 bool TransformServer::Init(const std::vector<std::string> &camera_names,
                            const std::string &params_path) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const std::string params_dir = params_path;
   // 1. Init lidar height
@@ -105,7 +105,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool TransformServer::LoadFromFile(const std::string &tf_input,
                                    float frequency) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (frequency <= 0) {
     AERROR << "Error frequency value:" << frequency;
@@ -133,7 +133,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TransformServer::QueryPos(double timestamp, Eigen::Affine3d *pose) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto &&tf : tf_) {
     if (Equal(timestamp, tf.timestamp, error_limit_)) {
@@ -150,7 +150,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool TransformServer::AddTransform(const std::string &child_frame_id,
                                    const std::string &frame_id,
                                    const Eigen::Affine3d &transform) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   vertices_.insert(child_frame_id);
   vertices_.insert(frame_id);
@@ -183,7 +183,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool TransformServer::QueryTransform(const std::string &child_frame_id,
                                      const std::string &frame_id,
                                      Eigen::Affine3d *transform) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   *transform = Eigen::Affine3d::Identity();
 
@@ -209,7 +209,7 @@ bool TransformServer::FindTransform(const std::string &child_frame_id,
                                     const std::string &frame_id,
                                     Eigen::Affine3d *transform,
                                     std::map<std::string, bool> *visited) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Eigen::Affine3d loc_transform = Eigen::Affine3d::Identity();
 
@@ -246,7 +246,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TransformServer::print() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto item : edges_) {
     AINFO << "----------------" << std::endl;

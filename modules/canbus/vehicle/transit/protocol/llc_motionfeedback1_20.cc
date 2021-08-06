@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace transit {
 using ::apollo::drivers::canbus::Byte;
 
 Llcmotionfeedback120::Llcmotionfeedback120() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 const int32_t Llcmotionfeedback120::ID = 0x20;
 
 void Llcmotionfeedback120::Parse(const std::uint8_t* bytes, int32_t length,
                                  ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis->mutable_transit()
       ->mutable_llc_motionfeedback1_20()
@@ -94,7 +94,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 Llc_motionfeedback1_20::Llc_fbk_gearType Llcmotionfeedback120::llc_fbk_gear(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(2, 3);
@@ -110,7 +110,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'intel', 'physical_unit': 'T/F'}
 bool Llcmotionfeedback120::llc_fbk_parkingbrake(const std::uint8_t* bytes,
                                                 int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(5, 1);
@@ -125,7 +125,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'double', 'order': 'intel', 'physical_unit': '%'}
 double Llcmotionfeedback120::llc_fbk_throttleposition(const std::uint8_t* bytes,
                                                       int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);
@@ -145,7 +145,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'double', 'order': 'intel', 'physical_unit': '%'}
 double Llcmotionfeedback120::llc_fbk_brakepercentrear(const std::uint8_t* bytes,
                                                       int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 6);
@@ -165,7 +165,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'double', 'order': 'intel', 'physical_unit': '%'}
 double Llcmotionfeedback120::llc_fbk_brakepercentfront(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 3);
@@ -189,7 +189,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Llc_motionfeedback1_20::Llc_fbk_steeringcontrolmodeType
 Llcmotionfeedback120::llc_fbk_steeringcontrolmode(const std::uint8_t* bytes,
                                                   int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(6, 2);
@@ -205,7 +205,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|3]', 'bit': 54, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
 int Llcmotionfeedback120::llc_motionfeedback1_counter(const std::uint8_t* bytes,
                                                       int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(6, 2);
@@ -220,7 +220,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'int', 'order': 'intel', 'physical_unit': ''}
 int Llcmotionfeedback120::llc_motionfeedback1_checksum(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
@@ -235,7 +235,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 11, 'type': 'bool', 'order': 'intel', 'physical_unit': 'T/F'}
 bool Llcmotionfeedback120::llc_fbk_commandaligned(const std::uint8_t* bytes,
                                                   int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(3, 1);
@@ -250,7 +250,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'intel', 'physical_unit': 'T/F'}
 bool Llcmotionfeedback120::llc_fbk_estoppressed(const std::uint8_t* bytes,
                                                 int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(2, 1);
@@ -265,7 +265,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 9, 'type': 'bool', 'order': 'intel', 'physical_unit': 'T/F'}
 bool Llcmotionfeedback120::llc_fbk_adcrequestautonomy(const std::uint8_t* bytes,
                                                       int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(1, 1);
@@ -280,7 +280,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit': 8, 'type': 'bool', 'order': 'intel', 'physical_unit': 'T/F'}
 bool Llcmotionfeedback120::llc_fbk_allowautonomy(const std::uint8_t* bytes,
                                                  int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 1);
@@ -300,7 +300,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Llc_motionfeedback1_20::Llc_fbk_longitudinalcontrolmodeType
 Llcmotionfeedback120::llc_fbk_longitudinalcontrolmode(const std::uint8_t* bytes,
                                                       int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 2);
@@ -325,7 +325,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 Llc_motionfeedback1_20::Llc_fbk_stateType Llcmotionfeedback120::llc_fbk_state(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 4);

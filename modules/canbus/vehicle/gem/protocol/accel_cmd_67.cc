@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Accelcmd67::ID = 0x67;
 
 // public
 Accelcmd67::Accelcmd67() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Accelcmd67::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,20 +41,20 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Accelcmd67::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_accel_cmd(data, accel_cmd_);
 }
 
 void Accelcmd67::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(QiL) :you should check this manually
   accel_cmd_ = 0.0;
 }
 
 Accelcmd67* Accelcmd67::set_accel_cmd(double accel_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   accel_cmd_ = accel_cmd;
   return this;
@@ -64,7 +64,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 7,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': '%'}
 void Accelcmd67::set_p_accel_cmd(uint8_t* data, double accel_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   accel_cmd = ProtocolData::BoundedValue(0.0, 1.0, accel_cmd);
   int x = static_cast<int>(accel_cmd / 0.001000);

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,18 +28,18 @@ using apollo::common::util::FillHeader;
 using apollo::drivers::microphone::config::AudioData;
 
 AudioComponent::~AudioComponent() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 std::string AudioComponent::Name() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(all) implement
   return "";
 }
 
 bool AudioComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AudioConf audio_conf;
   if (!ComponentBase::GetProtoConfig(&audio_conf)) {
@@ -57,7 +57,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool AudioComponent::Proc(const std::shared_ptr<AudioData>& audio_data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(all) remove GetSignals() multiple calls
   AudioDetection audio_detection;

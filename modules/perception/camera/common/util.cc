@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,18 +24,18 @@ namespace perception {
 namespace camera {
 
 bool Equal(double x, double target, double eps) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return std::abs(x - target) < eps;
 }
 bool Equal(float x, float target, float eps) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return std::abs(x - target) < eps;
 }
 
 bool LoadAnchors(const std::string &path, std::vector<float> *anchors) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int num_anchors = 0;
   std::ifstream ifs(path, std::ifstream::in);
@@ -58,7 +58,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LoadTypes(const std::string &path,
                std::vector<base::ObjectSubType> *types) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::ifstream ifs(path, std::ifstream::in);
   if (!ifs.good()) {
@@ -80,7 +80,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return true;
 }
 bool LoadExpand(const std::string &path, std::vector<float> *expands) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::ifstream ifs(path, std::ifstream::in);
   if (!ifs.good()) {
@@ -99,7 +99,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool ResizeCPU(const base::Blob<uint8_t> &src_blob,
                std::shared_ptr<base::Blob<float>> dst_blob, int stepwidth,
                int start_axis) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int width = dst_blob->shape(2);
   int height = dst_blob->shape(1);
@@ -169,7 +169,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string GetCyberWorkRoot() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::string work_root = cyber::common::GetEnv("MODULE_PATH");
   if (work_root.empty()) {
@@ -179,7 +179,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void FillObjectPolygonFromBBox3D(base::Object *object_ptr) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!object_ptr) {
     return;

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -61,16 +61,16 @@ const double kTrajectoryApproximationMaxError = 2.0;
 }  // namespace
 
 PncMap::PncMap(const HDMap *hdmap) : hdmap_(hdmap) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 const hdmap::HDMap *PncMap::hdmap() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return hdmap_; }
 
 LaneWaypoint PncMap::ToLaneWaypoint(
     const routing::LaneWaypoint &waypoint) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto lane = hdmap_->GetLaneById(hdmap::MakeMapId(waypoint.id()));
   ACHECK(lane) << "Invalid lane id: " << waypoint.id();
@@ -78,7 +78,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double PncMap::LookForwardDistance(double velocity) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto forward_distance = velocity * FLAGS_look_forward_time_sec;
 
@@ -88,7 +88,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LaneSegment PncMap::ToLaneSegment(const routing::LaneSegment &segment) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto lane = hdmap_->GetLaneById(hdmap::MakeMapId(segment.id()));
   ACHECK(lane) << "Invalid lane id: " << segment.id();
@@ -96,7 +96,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PncMap::UpdateNextRoutingWaypointIndex(int cur_index) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (cur_index < 0) {
     next_routing_waypoint_index_ = 0;
@@ -140,7 +140,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::vector<routing::LaneWaypoint> PncMap::FutureRouteWaypoints() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const auto &waypoints = routing_.routing_request().waypoint();
   return std::vector<routing::LaneWaypoint>(
@@ -148,7 +148,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PncMap::UpdateRoutingRange(int adc_index) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Track routing range.
   range_lane_ids_.clear();
@@ -165,7 +165,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool PncMap::UpdateVehicleState(const VehicleState &vehicle_state) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!ValidateRouting(routing_)) {
     AERROR << "The routing is invalid when updating vehicle state.";
@@ -212,14 +212,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool PncMap::IsNewRouting(const routing::RoutingResponse &routing) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return IsNewRouting(routing_, routing);
 }
 
 bool PncMap::IsNewRouting(const routing::RoutingResponse &prev,
                           const routing::RoutingResponse &routing) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!ValidateRouting(routing)) {
     ADEBUG << "The provided routing is invalid.";
@@ -229,7 +229,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool PncMap::UpdateRoutingResponse(const routing::RoutingResponse &routing) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   range_lane_ids_.clear();
   route_indices_.clear();
@@ -285,13 +285,13 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const routing::RoutingResponse &PncMap::routing_response() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return routing_;
 }
 
 bool PncMap::ValidateRouting(const RoutingResponse &routing) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const int num_road = routing.road_size();
   if (num_road == 0) {
@@ -314,7 +314,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int PncMap::SearchForwardWaypointIndex(int start,
                                        const LaneWaypoint &waypoint) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int i = std::max(start, 0);
   while (
@@ -327,7 +327,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int PncMap::SearchBackwardWaypointIndex(int start,
                                         const LaneWaypoint &waypoint) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int i = std::min(static_cast<int>(route_indices_.size() - 1), start);
   while (i >= 0 && !RouteSegments::WithinLaneSegment(route_indices_[i].segment,
@@ -338,7 +338,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int PncMap::NextWaypointIndex(int index) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (index >= static_cast<int>(route_indices_.size() - 1)) {
     return static_cast<int>(route_indices_.size()) - 1;
@@ -350,7 +350,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int PncMap::GetWaypointIndex(const LaneWaypoint &waypoint) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int forward_index = SearchForwardWaypointIndex(adc_route_index_, waypoint);
   if (forward_index >= static_cast<int>(route_indices_.size())) {
@@ -371,7 +371,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool PncMap::PassageToSegments(routing::Passage passage,
                                RouteSegments *segments) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(segments);
   segments->clear();
@@ -389,7 +389,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::vector<int> PncMap::GetNeighborPassages(const routing::RoadSegment &road,
                                              int start_passage) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_GE(start_passage, 0);
   CHECK_LE(start_passage, road.passage_size());
@@ -447,7 +447,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 bool PncMap::GetRouteSegments(const VehicleState &vehicle_state,
                               std::list<RouteSegments> *const route_segments) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   double look_forward_distance =
       LookForwardDistance(vehicle_state.linear_velocity());
@@ -460,7 +460,7 @@ bool PncMap::GetRouteSegments(const VehicleState &vehicle_state,
                               const double backward_length,
                               const double forward_length,
                               std::list<RouteSegments> *const route_segments) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!UpdateVehicleState(vehicle_state)) {
     AERROR << "Failed to update vehicle state in pnc_map.";
@@ -535,7 +535,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool PncMap::GetNearestPointFromRouting(const VehicleState &state,
                                         LaneWaypoint *waypoint) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const double kMaxDistance = 10.0;  // meters.
   const double kHeadingBuffer = M_PI / 10.0;
@@ -610,7 +610,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LaneInfoConstPtr PncMap::GetRouteSuccessor(LaneInfoConstPtr lane) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (lane->lane().successor_id().empty()) {
     return nullptr;
@@ -626,7 +626,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LaneInfoConstPtr PncMap::GetRoutePredecessor(LaneInfoConstPtr lane) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (lane->lane().predecessor_id().empty()) {
     return nullptr;
@@ -652,7 +652,7 @@ bool PncMap::ExtendSegments(const RouteSegments &segments,
                             const common::PointENU &point, double look_backward,
                             double look_forward,
                             RouteSegments *extended_segments) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   common::SLPoint sl;
   LaneWaypoint waypoint;
@@ -667,7 +667,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool PncMap::ExtendSegments(const RouteSegments &segments, double start_s,
                             double end_s,
                             RouteSegments *const truncated_segments) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (segments.empty()) {
     AERROR << "The input segments is empty";
@@ -767,7 +767,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void PncMap::AppendLaneToPoints(LaneInfoConstPtr lane, const double start_s,
                                 const double end_s,
                                 std::vector<MapPathPoint> *const points) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (points == nullptr || start_s >= end_s) {
     return;

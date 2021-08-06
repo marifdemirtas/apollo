@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -35,7 +35,7 @@ namespace can {
 using apollo::common::ErrorCode;
 
 bool SocketCanClientRaw::Init(const CANCardParameter &parameter) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!parameter.has_channel_id()) {
     AERROR << "Init CAN failed: parameter does not have channel id. The "
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 SocketCanClientRaw::~SocketCanClientRaw() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (dev_handler_) {
     Stop();
@@ -64,7 +64,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ErrorCode SocketCanClientRaw::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (is_started_) {
     return ErrorCode::OK;
@@ -143,7 +143,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SocketCanClientRaw::Stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (is_started_) {
     is_started_ = false;
@@ -160,7 +160,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // Synchronous transmission of CAN messages
 ErrorCode SocketCanClientRaw::Send(const std::vector<CanFrame> &frames,
                                    int32_t *const frame_num) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(frame_num);
   CHECK_EQ(frames.size(), static_cast<size_t>(*frame_num));
@@ -195,7 +195,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // buf size must be 8 bytes, every time, we receive only one frame
 ErrorCode SocketCanClientRaw::Receive(std::vector<CanFrame> *const frames,
                                       int32_t *const frame_num) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!is_started_) {
     AERROR << "Nvidia can client is not init! Please init first!";
@@ -234,7 +234,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string SocketCanClientRaw::GetErrorString(const int32_t /*status*/) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return "";
 }

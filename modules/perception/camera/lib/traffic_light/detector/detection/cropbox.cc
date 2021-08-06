@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,7 +21,7 @@
 #include "modules/perception/camera/common/util.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
@@ -29,7 +29,7 @@ namespace camera {
 void CropBox::getCropBox(const int width, const int height,
                          const base::TrafficLightPtr &light,
                          base::RectI *crop_box) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int rows = height;
   int cols = width;
@@ -83,20 +83,20 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   crop_box->height = yb - yt + 1;
 }
 void CropBox::Init(float crop_scale, int min_crop_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   crop_scale_ = crop_scale;
   min_crop_size_ = min_crop_size;
 }
 CropBox::CropBox(float crop_scale, int min_crop_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Init(crop_scale, min_crop_size);
 }
 void CropBoxWholeImage::getCropBox(const int width, const int height,
                                    const base::TrafficLightPtr &light,
                                    base::RectI *crop_box) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!OutOfValidRegion(light->region.projection_roi, width, height) &&
       light->region.projection_roi.Area() > 0) {

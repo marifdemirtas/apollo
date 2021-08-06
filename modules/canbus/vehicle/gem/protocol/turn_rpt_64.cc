@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace gem {
 using ::apollo::drivers::canbus::Byte;
 
 Turnrpt64::Turnrpt64() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 const int32_t Turnrpt64::ID = 0x64;
 
 void Turnrpt64::Parse(const std::uint8_t* bytes, int32_t length,
                       ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis->mutable_gem()->mutable_turn_rpt_64()->set_manual_input(
       manual_input(bytes, length));
@@ -52,7 +52,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 Turn_rpt_64::Manual_inputType Turnrpt64::manual_input(const std::uint8_t* bytes,
                                                       int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -69,7 +69,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit': 15, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Turn_rpt_64::Commanded_valueType Turnrpt64::commanded_value(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -86,7 +86,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 Turn_rpt_64::Output_valueType Turnrpt64::output_value(const std::uint8_t* bytes,
                                                       int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);

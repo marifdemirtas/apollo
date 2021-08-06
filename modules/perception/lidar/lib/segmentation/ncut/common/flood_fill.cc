@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ const int kNonEmptyGridLabel = -2;
 }  // namespace
 
 int FloodFill::Pos(float x, float y) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const int irow = static_cast<int>((y + _offset_y) / _cell_size);
   if (!IsValidRowIndex(irow)) {
@@ -44,7 +44,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool FloodFill::Pos2d(float x, float y, int* irow, int* jcol) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   *irow = static_cast<int>((y + _offset_y) / _cell_size);
   if (!IsValidRowIndex(*irow)) {
@@ -58,7 +58,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void FloodFill::BuildGrid(base::PointFCloudConstPtr cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_GT(_grid_radius, 0.0);
   CHECK_GT(_cell_size, 0.0);
@@ -105,7 +105,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int FloodFill::GetConnectedComponents() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int num_components = 0;
   for (int idx = 0; idx < _grid_size; ++idx) {
@@ -120,7 +120,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void FloodFill::DfsColoring(int i, int j, int curr_component) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // recursively label the neighbors
   for (int direction = 0; direction < kNumDirections; ++direction) {
@@ -139,7 +139,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void FloodFill::GetSegments(base::PointFCloudConstPtr cloud,
                             std::vector<std::vector<int>>* segments_indices,
                             std::vector<int>* num_cells_per_segment) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(segments_indices);
   CHECK_NOTNULL(num_cells_per_segment);

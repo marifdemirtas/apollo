@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -331,7 +331,7 @@ class OfflineLidarObstaclePerception {
 }  // namespace apollo
 
 int main(int argc, char** argv) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   FLAGS_alsologtostderr = 1;
   google::ParseCommandLineFlags(&argc, &argv, true);

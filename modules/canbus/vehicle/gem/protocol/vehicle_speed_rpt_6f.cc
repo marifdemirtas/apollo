@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace gem {
 using ::apollo::drivers::canbus::Byte;
 
 Vehiclespeedrpt6f::Vehiclespeedrpt6f() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 const int32_t Vehiclespeedrpt6f::ID = 0x6F;
 
 void Vehiclespeedrpt6f::Parse(const std::uint8_t* bytes, int32_t length,
                               ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis->mutable_gem()->mutable_vehicle_speed_rpt_6f()->set_vehicle_speed(
       vehicle_speed(bytes, length));
@@ -49,7 +49,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'm/s'}
 double Vehiclespeedrpt6f::vehicle_speed(const std::uint8_t* bytes,
                                         int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -74,7 +74,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Vehicle_speed_rpt_6f::Vehicle_speed_validType
 Vehiclespeedrpt6f::vehicle_speed_valid(const std::uint8_t* bytes,
                                        int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 1);

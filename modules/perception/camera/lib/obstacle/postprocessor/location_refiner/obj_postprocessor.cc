@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -20,17 +20,17 @@
 
 // TODO(Xun & Yucheng): code completion
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
 
 void ObjPostProcessorParams::set_default() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   max_nr_iter = 5;
   sampling_ratio_low = 0.1f;
@@ -45,7 +45,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool ObjPostProcessor::PostProcessObjWithGround(
     const ObjPostProcessorOptions &options, float center[3], float hwl[3],
     float *ry) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   memcpy(hwl, options.hwl, sizeof(float) * 3);
   float bbox[4] = {0};
@@ -70,7 +70,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool ObjPostProcessor::PostProcessObjWithDispmap(
     const ObjPostProcessorOptions &options, float center[3], float hwl[3],
     float *ry) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return true;
 }
@@ -79,7 +79,7 @@ bool ObjPostProcessor::AdjustCenterWithGround(const float *bbox,
                                               const float *hwl, float ry,
                                               const float *plane,
                                               float *center) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   float iou_ini = GetProjectionScore(ry, bbox, hwl, center);
   if (iou_ini < params_.iou_good) {  // ini pos is not good enough
@@ -141,7 +141,7 @@ bool ObjPostProcessor::PostRefineCenterWithGroundBoundary(
     const float *bbox, const float *hwl, float ry, const float *plane,
     const std::vector<LineSegment2D<float>> &line_seg_limits, float *center,
     bool check_lowerbound) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   bool truncated_on_bottom =
       bbox[3] >= static_cast<float>(height_) -
@@ -184,7 +184,7 @@ int ObjPostProcessor::GetDepthXPair(const float *bbox, const float *hwl,
                                     const float *center, float ry,
                                     float *depth_pts, int *x_pts,
                                     float *pts_c) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int y_min = height_;
   float w_half = hwl[1] / 2;

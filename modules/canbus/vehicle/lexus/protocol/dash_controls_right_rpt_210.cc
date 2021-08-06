@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Dashcontrolsrightrpt210::ID = 0x210;
 
 // public
 Dashcontrolsrightrpt210::Dashcontrolsrightrpt210() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Dashcontrolsrightrpt210::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Dashcontrolsrightrpt210::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_output_value(data, output_value_);
   set_p_commanded_value(data, commanded_value_);
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Dashcontrolsrightrpt210::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(QiL) you should check this manually
   output_value_ = Dash_controls_right_rpt_210::OUTPUT_VALUE_DASH_CONTROL_NONE;
@@ -74,7 +74,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_output_value(
     Dash_controls_right_rpt_210::Output_valueType output_value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   output_value_ = output_value;
   return this;
@@ -89,7 +89,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_output_value(
     uint8_t* data, Dash_controls_right_rpt_210::Output_valueType output_value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = output_value;
 
@@ -99,7 +99,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_commanded_value(
     Dash_controls_right_rpt_210::Commanded_valueType commanded_value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   commanded_value_ = commanded_value;
   return this;
@@ -115,7 +115,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Dashcontrolsrightrpt210::set_p_commanded_value(
     uint8_t* data,
     Dash_controls_right_rpt_210::Commanded_valueType commanded_value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = commanded_value;
 
@@ -125,7 +125,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_vehicle_fault(
     bool vehicle_fault) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   vehicle_fault_ = vehicle_fault;
   return this;
@@ -136,7 +136,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_vehicle_fault(uint8_t* data,
                                                   bool vehicle_fault) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = vehicle_fault;
 
@@ -146,7 +146,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_pacmod_fault(
     bool pacmod_fault) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pacmod_fault_ = pacmod_fault;
   return this;
@@ -157,7 +157,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_pacmod_fault(uint8_t* data,
                                                  bool pacmod_fault) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = pacmod_fault;
 
@@ -167,7 +167,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_override_active(
     bool override_active) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   override_active_ = override_active;
   return this;
@@ -178,7 +178,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_override_active(uint8_t* data,
                                                     bool override_active) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = override_active;
 
@@ -188,7 +188,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_output_reported_fault(
     bool output_reported_fault) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   output_reported_fault_ = output_reported_fault;
   return this;
@@ -199,7 +199,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 4, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_output_reported_fault(
     uint8_t* data, bool output_reported_fault) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = output_reported_fault;
 
@@ -209,7 +209,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_input_output_fault(
     bool input_output_fault) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   input_output_fault_ = input_output_fault;
   return this;
@@ -220,7 +220,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 3, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_input_output_fault(
     uint8_t* data, bool input_output_fault) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = input_output_fault;
 
@@ -229,7 +229,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_enabled(bool enabled) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   enabled_ = enabled;
   return this;
@@ -239,7 +239,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_enabled(uint8_t* data, bool enabled) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = enabled;
 
@@ -249,7 +249,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_command_output_fault(
     bool command_output_fault) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   command_output_fault_ = command_output_fault;
   return this;
@@ -260,7 +260,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 2, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_command_output_fault(
     uint8_t* data, bool command_output_fault) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = command_output_fault;
 
@@ -270,7 +270,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_manual_input(
     Dash_controls_right_rpt_210::Manual_inputType manual_input) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   manual_input_ = manual_input;
   return this;
@@ -285,7 +285,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_manual_input(
     uint8_t* data, Dash_controls_right_rpt_210::Manual_inputType manual_input) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = manual_input;
 

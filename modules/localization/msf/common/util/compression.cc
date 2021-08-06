@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,19 +30,19 @@ namespace msf {
 const unsigned int ZlibStrategy::zlib_chunk = 16384;
 
 int ZlibStrategy::Encode(BufferStr* buf, BufferStr* buf_compressed) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return ZlibCompress(buf, buf_compressed);
 }
 
 int ZlibStrategy::Decode(BufferStr* buf, BufferStr* buf_uncompressed) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return ZlibUncompress(buf, buf_uncompressed);
 }
 
 int ZlibStrategy::ZlibCompress(BufferStr* src, BufferStr* dst) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   dst->resize(zlib_chunk * 2);
   int ret, flush;
@@ -101,7 +101,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int ZlibStrategy::ZlibUncompress(BufferStr* src, BufferStr* dst) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   dst->resize(zlib_chunk * 2);
   int ret;

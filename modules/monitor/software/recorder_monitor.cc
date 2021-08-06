@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -40,11 +40,11 @@ using apollo::data::SmartRecorderStatus;
 RecorderMonitor::RecorderMonitor()
     : RecurrentRunner(FLAGS_smart_recorder_monitor_name,
                       FLAGS_smart_recorder_monitor_interval) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void RecorderMonitor::RunOnce(const double current_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto manager = MonitorManager::Instance();
   auto* component = apollo::common::util::FindOrNull(
@@ -72,7 +72,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   // Translate SmartRecorderStatus to ComponentStatus. Note that ERROR and FATAL
   // will trigger safety mode in current settings.
   switch (status->recording_state()) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
     case RecordingState::RECORDING:
       SummaryMonitor::EscalateStatus(ComponentStatus::OK, "", component_status);

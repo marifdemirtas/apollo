@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,18 +32,18 @@ using apollo::common::VehicleConfigHelper;
 using cyber::common::PathExists;
 
 Dreamview::~Dreamview() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Stop(); }
 
 void Dreamview::TerminateProfilingMode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Stop();
   AWARN << "Profiling timer called shutdown!";
 }
 
 Status Dreamview::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   VehicleConfigHelper::Init();
 
@@ -112,7 +112,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status Dreamview::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   sim_world_updater_->Start();
   point_cloud_updater_->Start();
@@ -125,7 +125,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Dreamview::Stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   server_->close();
   sim_control_->Stop();

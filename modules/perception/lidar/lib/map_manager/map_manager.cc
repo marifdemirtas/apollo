@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@
 #include "modules/perception/proto/map_manager_config.pb.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace lidar {
@@ -31,7 +31,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool MapManager::Init(const MapManagerInitOptions& options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -55,7 +55,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool MapManager::Update(const MapManagerOptions& options, LidarFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!frame) {
     AINFO << "Frame is nullptr.";
@@ -88,7 +88,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return true;
 }
 bool MapManager::QueryPose(Eigen::Affine3d* sensor2world_pose) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(...): map-based alignment to refine pose
   return false;

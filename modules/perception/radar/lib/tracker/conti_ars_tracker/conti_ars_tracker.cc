@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,13 +23,13 @@ namespace radar {
 double ContiArsTracker::s_tracking_time_win_ = 0.06;
 ContiArsTracker::ContiArsTracker()
     : BaseTracker(), matcher_(nullptr), track_manager_(nullptr) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   name_ = "ContiArsTracker";
 }
 
 ContiArsTracker::~ContiArsTracker() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (matcher_ != nullptr) {
     delete matcher_;
@@ -40,7 +40,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool ContiArsTracker::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::string model_name = name_;
   const lib::ModelConfig *model_config = nullptr;
@@ -95,7 +95,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool ContiArsTracker::Track(const base::Frame &detected_frame,
                             const TrackerOptions &options,
                             base::FramePtr tracked_frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   TrackObjects(detected_frame);
   CollectTrackedFrame(tracked_frame);
@@ -103,7 +103,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ContiArsTracker::TrackObjects(const base::Frame &radar_frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::vector<TrackObjectPair> assignments;
   std::vector<size_t> unassigned_tracks;
@@ -120,7 +120,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ContiArsTracker::UpdateAssignedTracks(
     const base::Frame &radar_frame, std::vector<TrackObjectPair> assignments) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto &radar_tracks = track_manager_->mutable_tracks();
   for (size_t i = 0; i < assignments.size(); ++i) {
@@ -132,7 +132,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void ContiArsTracker::UpdateUnassignedTracks(
     const base::Frame &radar_frame,
     const std::vector<size_t> &unassigned_tracks) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   double timestamp = radar_frame.timestamp;
   auto &radar_tracks = track_manager_->mutable_tracks();
@@ -150,13 +150,13 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ContiArsTracker::DeleteLostTracks() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  track_manager_->RemoveLostTracks(); }
 
 void ContiArsTracker::CreateNewTracks(
     const base::Frame &radar_frame,
     const std::vector<size_t> &unassigned_objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (size_t i = 0; i < unassigned_objects.size(); ++i) {
     RadarTrackPtr radar_track;
@@ -167,7 +167,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ContiArsTracker::CollectTrackedFrame(base::FramePtr tracked_frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (tracked_frame == nullptr) {
     AERROR << "tracked_frame is nullptr";

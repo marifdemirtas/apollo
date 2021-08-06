@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace gem {
 using ::apollo::drivers::canbus::Byte;
 
 Shiftrpt66::Shiftrpt66() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 const int32_t Shiftrpt66::ID = 0x66;
 
 void Shiftrpt66::Parse(const std::uint8_t* bytes, int32_t length,
                        ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis->mutable_gem()->mutable_shift_rpt_66()->set_manual_input(
       manual_input(bytes, length));
@@ -52,7 +52,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': ''}
 Shift_rpt_66::Manual_inputType Shiftrpt66::manual_input(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -70,7 +70,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': ''}
 Shift_rpt_66::Commanded_valueType Shiftrpt66::commanded_value(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -87,7 +87,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': ''}
 Shift_rpt_66::Output_valueType Shiftrpt66::output_value(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);

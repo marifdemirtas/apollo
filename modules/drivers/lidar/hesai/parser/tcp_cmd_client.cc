@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -41,7 +41,7 @@ namespace drivers {
 namespace hesai {
 
 int TcpCmdClient::BuildCmdHeader(const Command& cmd, unsigned char* buffer) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int index = 0;
   buffer[index++] = 0x47;
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TcpCmdClient::GetCalibration(std::string* content) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lck(mutex_);
   if (!Open()) {
@@ -86,7 +86,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void TcpCmdClient::ParseHeader(const unsigned char* buffer, const int len,
                                CommandHeader* header) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int index = 0;
   header->cmd = buffer[index++];
@@ -97,7 +97,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TcpCmdClient::WriteCmd(const Command& cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   unsigned char buffer[128];
   int size = BuildCmdHeader(cmd, buffer);
@@ -121,7 +121,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TcpCmdClient::ReadCmd(Command* feedback) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (feedback == nullptr) {
     return false;
@@ -165,7 +165,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int TcpCmdClient::Read(unsigned char* buffer, int n) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int nleft = -1, nread = -1;
   unsigned char* ptr = buffer;
@@ -188,7 +188,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TcpCmdClient::Close() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (socket_fd_ >= 0) {
     close(socket_fd_);
@@ -197,7 +197,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TcpCmdClient::Open() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int sockfd = -1;
   struct sockaddr_in servaddr;

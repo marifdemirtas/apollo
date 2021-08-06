@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -20,7 +20,7 @@
 #include "modules/perception/lidar/lib/tracker/common/track_pool_types.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace lidar {
@@ -28,7 +28,7 @@ namespace lidar {
 const double MlfTrackData::kMaxHistoryTime = 2.0;
 
 void MlfTrackData::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   TrackData::Reset();
   duration_ = 0.0;
@@ -44,7 +44,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MlfTrackData::Reset(TrackedObjectPtr obj, int track_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Reset();
   track_id_ = track_id;
@@ -52,7 +52,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MlfTrackData::PushTrackedObjectToTrack(TrackedObjectPtr obj) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   double timestamp = obj->object_ptr->latest_tracked_time;
   if (history_objects_.find(timestamp) == history_objects_.end()) {
@@ -88,7 +88,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MlfTrackData::PushTrackedObjectToCache(TrackedObjectPtr obj) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   double timestamp = obj->object_ptr->latest_tracked_time;
   if (cached_objects_.find(timestamp) == cached_objects_.end()) {
@@ -102,7 +102,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool MlfTrackData::ToObject(const Eigen::Vector3d& local_to_global_offset,
                             double timestamp, base::ObjectPtr object) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (history_objects_.empty()) {
     return false;
@@ -145,7 +145,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MlfTrackData::PredictState(double timestamp) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (history_objects_.empty()) {
     return;
@@ -176,7 +176,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MlfTrackData::GetAndCleanCachedObjectsInTimeInterval(
     std::vector<TrackedObjectPtr>* objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   objects->clear();
   auto iter = cached_objects_.begin();
@@ -206,11 +206,11 @@ void RemoveStaleDataFromMap(double timestamp,
 }
 
 void MlfTrackData::RemoveStaleHistory(double timestamp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   RemoveStaleDataFromMap(timestamp, &history_objects_);
   for (auto& map : sensor_history_objects_) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
     RemoveStaleDataFromMap(timestamp, &map.second);
   }

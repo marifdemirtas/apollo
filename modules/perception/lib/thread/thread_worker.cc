@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,13 +21,13 @@ namespace perception {
 namespace lib {
 
 void ThreadWorker::Bind(const std::function<bool()> &func) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   work_func_ = func;
 }
 
 void ThreadWorker::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (thread_ptr_ == nullptr) {
     thread_ptr_.reset(new std::thread(&ThreadWorker::Core, this));
@@ -38,7 +38,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ThreadWorker::WakeUp() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -48,14 +48,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ThreadWorker::Join() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::unique_lock<std::mutex> lock(mutex_);
   condition_.wait(lock, [&]() { return !work_flag_; });
 }
 
 void ThreadWorker::Release() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (thread_ptr_ == nullptr) {
     return;
@@ -71,7 +71,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ThreadWorker::Core() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   while (true) {
     {

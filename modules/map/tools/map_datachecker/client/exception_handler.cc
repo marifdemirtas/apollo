@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace apollo {
 namespace hdmap {
 
 int ExceptionHandler::ExceptionHandlerFun(ErrorCode error_code) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int ret = 0;
   switch (error_code) {

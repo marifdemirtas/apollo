@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,7 @@ namespace apollo {
 namespace data {
 
 ChannelPool::ChannelPool() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   small_channels_ = {FLAGS_chassis_topic,
                      FLAGS_chassis_detail_topic,

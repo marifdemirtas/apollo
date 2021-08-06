@@ -52,7 +52,7 @@ def add_logging():
                     print("Cannot find:", func)
                     continue
             replace_start = full_text.find('{', search_start) + 1
-            full_text = full_text[:replace_start] + '\nAINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";\n' + full_text[replace_start:]
+            full_text = full_text[:replace_start] + '\nCOVERAGE_LOG_TOKEN\n' + full_text[replace_start:]
     with open('all_module_cpp_files_concat_logged.cc','w') as wfd:
         wfd.write(full_text)
 
@@ -66,7 +66,7 @@ def read():
                 print("%5 gone")
             f, c = fc.split(start_token_content)
             with open(f, 'w') as fd:
-                fd.write('#include <iostream>\n' + c)
+                fd.write('#include "modules/covlogger.h"\n' + c)
 
 '''
 Read symbols, find those with function, find the next {, replace it with { + logging

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace perception {
 namespace onboard {
 
 bool RadarDetectionComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   RadarComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
@@ -64,7 +64,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RadarDetectionComponent::Proc(const std::shared_ptr<ContiRadar>& message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Enter radar preprocess, message timestamp: "
         << message->header().timestamp_sec() << " current timestamp "
@@ -80,7 +80,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RadarDetectionComponent::InitAlgorithmPlugin() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "onboard radar_preprocessor: " << preprocessor_method_;
   if (FLAGS_obs_enable_hdmap_input) {
@@ -108,7 +108,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool RadarDetectionComponent::InternalProc(
     const std::shared_ptr<ContiRadar>& in_message,
     std::shared_ptr<SensorFrameMessage> out_message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   PERF_FUNCTION_WITH_INDICATOR(radar_info_.name);
   ContiRadar raw_obstacles = *in_message;
@@ -207,7 +207,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool RadarDetectionComponent::GetCarLocalizationSpeed(
     double timestamp, Eigen::Vector3f* car_linear_speed,
     Eigen::Vector3f* car_angular_speed) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (car_linear_speed == nullptr) {
     AERROR << "car_linear_speed is not available";

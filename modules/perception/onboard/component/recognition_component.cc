@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -31,7 +31,7 @@ namespace perception {
 namespace onboard {
 
 bool RecognitionComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   LidarRecognitionComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
@@ -50,7 +50,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool RecognitionComponent::Proc(
     const std::shared_ptr<LidarFrameMessage>& message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << std::setprecision(16)
         << "Enter Tracking component, message timestamp: "
@@ -68,7 +68,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RecognitionComponent::InitAlgorithmPlugin() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   tracker_.reset(new lidar::LidarObstacleTracking);
   if (tracker_ == nullptr) {
@@ -88,7 +88,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool RecognitionComponent::InternalProc(
     const std::shared_ptr<const LidarFrameMessage>& in_message,
     const std::shared_ptr<SensorFrameMessage>& out_message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto& sensor_name = in_message->lidar_frame_->sensor_info.name;
   PERF_FUNCTION_WITH_INDICATOR(sensor_name);

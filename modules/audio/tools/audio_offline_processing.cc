@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -42,7 +42,7 @@ using apollo::perception::PerceptionObstacles;
 
 void GetRecordFileNames(const boost::filesystem::path& p,
                         std::vector<std::string>* record_files) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!boost::filesystem::exists(p)) {
     return;
@@ -67,7 +67,7 @@ void ProcessSingleRecordFile(const AudioConf& audio_conf,
     DirectionDetection* direction_detection,
     MovingDetection* moving_detection,
     SirenDetection* siren_detection) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   RecordReader reader(input_record_filepath);
   RecordMessage message;
@@ -119,7 +119,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ProcessFolder() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (FLAGS_audio_records_dir.empty()) {
     AERROR << "The input folder is empty";
@@ -152,7 +152,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }  // namespace apollo
 
 int main(int argc, char* argv[]) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   apollo::audio::ProcessFolder();

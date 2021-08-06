@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace fusion {
 
 bool GetFusionInitOptions(const std::string& module_name,
                           BaseInitOptions* options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(options);
   const lib::ModelConfig* model_config = nullptr;

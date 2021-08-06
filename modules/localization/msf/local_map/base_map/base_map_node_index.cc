@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -24,11 +24,11 @@ namespace localization {
 namespace msf {
 
 MapNodeIndex::MapNodeIndex() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 bool MapNodeIndex::operator<(const MapNodeIndex& index) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Compare elements by priority.
   return std::forward_as_tuple(resolution_id_, zone_id_, m_, n_) <
@@ -37,20 +37,20 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool MapNodeIndex::operator==(const MapNodeIndex& index) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return resolution_id_ == index.resolution_id_ && zone_id_ == index.zone_id_ &&
          m_ == index.m_ && n_ == index.n_;
 }
 
 bool MapNodeIndex::operator!=(const MapNodeIndex& index) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return !(*this == index);
 }
 
 std::string MapNodeIndex::ToString() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::ostringstream ss;
   ss << "Map node (Resolution ID: " << resolution_id_
@@ -63,7 +63,7 @@ MapNodeIndex MapNodeIndex::GetMapNodeIndex(const BaseMapConfig& option,
                                            const Eigen::Vector3d& coordinate,
                                            unsigned int resolution_id,
                                            int zone_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   return GetMapNodeIndex(option, coord2d, resolution_id, zone_id);
@@ -73,7 +73,7 @@ MapNodeIndex MapNodeIndex::GetMapNodeIndex(const BaseMapConfig& option,
                                            const Eigen::Vector2d& coordinate,
                                            unsigned int resolution_id,
                                            int zone_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, option.map_resolutions_.size());
   MapNodeIndex index;
@@ -98,7 +98,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int MapNodeIndex::GetMapIndexRangeEast(const BaseMapConfig& option,
                                                 unsigned int resolution_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return static_cast<unsigned int>(
       (option.map_range_.GetMaxX() - option.map_range_.GetMinX()) /
@@ -108,7 +108,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int MapNodeIndex::GetMapIndexRangeNorth(const BaseMapConfig& option,
                                                  unsigned int resolution_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return static_cast<unsigned int>(
       (option.map_range_.GetMaxY() - option.map_range_.GetMinY()) /

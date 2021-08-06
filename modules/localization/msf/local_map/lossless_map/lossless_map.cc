@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,16 +24,16 @@ namespace apollo {
 namespace localization {
 namespace msf {
 LosslessMap::LosslessMap(LosslessMapConfig* config) : BaseMap(config) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 LosslessMap::~LosslessMap() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void LosslessMap::SetValue(const Eigen::Vector3d& coordinate, int zone_id,
                            unsigned char intensity) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (size_t i = 0; i < map_config_->map_resolutions_.size(); ++i) {
     MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(
@@ -46,7 +46,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LosslessMap::SetValueLayer(const Eigen::Vector3d& coordinate, int zone_id,
                                 unsigned char intensity) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (size_t i = 0; i < map_config_->map_resolutions_.size(); ++i) {
     MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(
@@ -60,7 +60,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void LosslessMap::GetValue(const Eigen::Vector3d& coordinate, int zone_id,
                            unsigned int resolution_id,
                            std::vector<unsigned char>* values) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -72,7 +72,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void LosslessMap::GetValueSafe(const Eigen::Vector3d& coordinate, int zone_id,
                                unsigned int resolution_id,
                                std::vector<unsigned char>* values) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -83,7 +83,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LosslessMap::GetVar(const Eigen::Vector3d& coordinate, int zone_id,
                          unsigned int resolution_id, std::vector<float>* vars) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -95,7 +95,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void LosslessMap::GetVarSafe(const Eigen::Vector3d& coordinate, int zone_id,
                              unsigned int resolution_id,
                              std::vector<float>* vars) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -106,7 +106,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LosslessMap::GetAlt(const Eigen::Vector3d& coordinate, int zone_id,
                          unsigned int resolution_id, std::vector<float>* alts) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -118,7 +118,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void LosslessMap::GetAltSafe(const Eigen::Vector3d& coordinate, int zone_id,
                              unsigned int resolution_id,
                              std::vector<float>* alts) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -130,7 +130,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void LosslessMap::GetAltVar(const Eigen::Vector3d& coordinate, int zone_id,
                             unsigned int resolution_id,
                             std::vector<float>* alt_vars) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -142,7 +142,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void LosslessMap::GetAltVarSafe(const Eigen::Vector3d& coordinate, int zone_id,
                                 unsigned int resolution_id,
                                 std::vector<float>* alt_vars) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -154,7 +154,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void LosslessMap::GetCount(const Eigen::Vector3d& coordinate, int zone_id,
                            unsigned int resolution_id,
                            std::vector<unsigned int>* counts) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -166,7 +166,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void LosslessMap::GetCountSafe(const Eigen::Vector3d& coordinate, int zone_id,
                                unsigned int resolution_id,
                                std::vector<unsigned int>* counts) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -177,7 +177,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned char LosslessMap::GetValue(const Eigen::Vector3d& coordinate,
                                     int zone_id, unsigned int resolution_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -189,7 +189,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 unsigned char LosslessMap::GetValueSafe(const Eigen::Vector3d& coordinate,
                                         int zone_id,
                                         unsigned int resolution_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -200,7 +200,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float LosslessMap::GetVar(const Eigen::Vector3d& coordinate, int zone_id,
                           unsigned int resolution_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -211,7 +211,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float LosslessMap::GetVarSafe(const Eigen::Vector3d& coordinate, int zone_id,
                               unsigned int resolution_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -222,7 +222,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float LosslessMap::GetAlt(const Eigen::Vector3d& coordinate, int zone_id,
                           unsigned int resolution_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -233,7 +233,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float LosslessMap::GetAltSafe(const Eigen::Vector3d& coordinate, int zone_id,
                               unsigned int resolution_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -244,7 +244,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float LosslessMap::GetAltVar(const Eigen::Vector3d& coordinate, int zone_id,
                              unsigned int resolution_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -255,7 +255,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float LosslessMap::GetAltVarSafe(const Eigen::Vector3d& coordinate, int zone_id,
                                  unsigned int resolution_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -266,7 +266,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int LosslessMap::GetCount(const Eigen::Vector3d& coordinate,
                                    int zone_id, unsigned int resolution_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -278,7 +278,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 unsigned int LosslessMap::GetCountSafe(const Eigen::Vector3d& coordinate,
                                        int zone_id,
                                        unsigned int resolution_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DCHECK_LT(resolution_id, map_config_->map_resolutions_.size());
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(*map_config_, coordinate,
@@ -291,7 +291,7 @@ void LosslessMap::PreloadMapArea(const Eigen::Vector3d& location,
                                  const Eigen::Vector3d& trans_diff,
                                  unsigned int resolution_id,
                                  unsigned int zone_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   BaseMap::PreloadMapArea(location, trans_diff, resolution_id, zone_id);
 }
@@ -299,7 +299,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool LosslessMap::LoadMapArea(const Eigen::Vector3d& seed_pt3d,
                               unsigned int resolution_id, unsigned int zone_id,
                               int filter_size_x, int filter_size_y) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   BaseMap::LoadMapArea(seed_pt3d, resolution_id, zone_id, filter_size_x,
                        filter_size_y);

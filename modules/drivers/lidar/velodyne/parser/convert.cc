@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,7 @@ using apollo::drivers::PointCloud;
 using apollo::drivers::velodyne::VelodyneScan;
 
 void Convert::init(const Config& velodyne_config) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   config_ = velodyne_config;
   // we use Beijing time by default
@@ -42,7 +42,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Convert::ConvertPacketsToPointcloud(
     const std::shared_ptr<VelodyneScan>& scan_msg,
     std::shared_ptr<PointCloud> point_cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ADEBUG << "Convert scan msg seq " << scan_msg->header().sequence_num();
 

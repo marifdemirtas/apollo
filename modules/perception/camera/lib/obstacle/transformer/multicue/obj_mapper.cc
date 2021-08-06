@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -19,13 +19,13 @@
 #include <limits>
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
 
 void ObjMapperParams::set_default() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   nr_bins_z = 15;
   nr_bins_ry = 36;
@@ -53,7 +53,7 @@ bool ObjMapper::SolveCenterFromNearestVerticalEdge(const float *bbox,
                                                    const float *hwl, float ry,
                                                    float *center,
                                                    float *center_2d) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   center[0] = center[1] = center[2] = 0.0f;
   float height_bbox = bbox[3] - bbox[1];
@@ -96,7 +96,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ObjMapper::Solve3dBboxGivenOneFullBboxDimensionOrientation(
     const float *bbox, const float *hwl, float *ry, float *center) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const float PI = common::Constant<float>::PI();
   const float PI_HALF = PI / 2;
@@ -132,7 +132,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ObjMapper::Solve3dBbox(const ObjMapperOptions &options, float center[3],
                             float hwl[3], float *ry) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // set default value for variance
   set_default_variance();
@@ -233,7 +233,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ObjMapper::PostRefineOrientation(const float *bbox, const float *hwl,
                                       const float *center, float *ry) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const int kNrBinsRy = static_cast<int>(ry_score_.size());
   const float PI = common::Constant<float>::PI();
@@ -284,7 +284,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void ObjMapper::GetCenter(const float *bbox, const float &z_ref,
                           const float &ry, const float *hwl, float *center,
                           float *x) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   float x_target[2] = {(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2};
   const float kMinCost = params_.reproj_err;

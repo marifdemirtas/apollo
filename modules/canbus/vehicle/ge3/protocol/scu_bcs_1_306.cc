@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,13 +27,13 @@ namespace ge3 {
 using ::apollo::drivers::canbus::Byte;
 
 Scubcs1306::Scubcs1306() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 const int32_t Scubcs1306::ID = 0x306;
 
 void Scubcs1306::Parse(const std::uint8_t* bytes, int32_t length,
                        ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis->mutable_ge3()->mutable_scu_bcs_1_306()->set_bcs_aebavailable(
       bcs_aebavailable(bytes, length));
@@ -67,7 +67,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': ''}
 Scu_bcs_1_306::Bcs_aebavailableType Scubcs1306::bcs_aebavailable(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(1, 1);
@@ -84,7 +84,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': ''}
 Scu_bcs_1_306::Bcs_cddavailableType Scubcs1306::bcs_cddavailable(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 1);
@@ -100,7 +100,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': '%'}
 double Scubcs1306::bcs_brkpedact(const std::uint8_t* bytes,
                                  int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -122,7 +122,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': ''}
 Scu_bcs_1_306::Bcs_intidxType Scubcs1306::bcs_intidx(const std::uint8_t* bytes,
                                                      int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(3, 3);
@@ -139,7 +139,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 Scu_bcs_1_306::Bcs_vdcfaultstType Scubcs1306::bcs_vdcfaultst(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
@@ -156,7 +156,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 Scu_bcs_1_306::Bcs_vdcactivestType Scubcs1306::bcs_vdcactivest(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
@@ -173,7 +173,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 Scu_bcs_1_306::Bcs_absfaultstType Scubcs1306::bcs_absfaultst(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
@@ -190,7 +190,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 Scu_bcs_1_306::Bcs_absactivestType Scubcs1306::bcs_absactivest(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 1);
@@ -207,7 +207,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 Scu_bcs_1_306::Bcs_faultstType Scubcs1306::bcs_faultst(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
@@ -224,7 +224,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Scu_bcs_1_306::Bcs_drvmodeType Scubcs1306::bcs_drvmode(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(6, 2);

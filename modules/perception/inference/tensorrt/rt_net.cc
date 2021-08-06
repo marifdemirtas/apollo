@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@
 #include "modules/perception/inference/tensorrt/plugins/softmax_plugin.h"
 
 class RTLogger : public nvinfer1::ILogger {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   void log(Severity severity, const char *msg) override {
     if (severity != Severity::kINFO) {
@@ -50,7 +50,7 @@ namespace inference {
 void RTNet::ConstructMap(const LayerParameter &layer_param,
                          nvinfer1::ILayer *layer, TensorMap *tensor_map,
                          TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (int i = 0; i < layer_param.top_size(); i++) {
     std::string top_name = layer_param.top(i);
@@ -76,7 +76,7 @@ void RTNet::addConvLayer(const LayerParameter &layer_param,
                          nvinfer1::INetworkDefinition *net,
                          TensorMap *tensor_map,
                          TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ConvolutionParameter p = layer_param.convolution_param();
 
@@ -163,7 +163,7 @@ void RTNet::addDeconvLayer(const LayerParameter &layer_param,
                            nvinfer1::INetworkDefinition *net,
                            TensorMap *tensor_map,
                            TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ConvolutionParameter conv = layer_param.convolution_param();
   ConvParam param;
@@ -204,7 +204,7 @@ void RTNet::addActiveLayer(const LayerParameter &layer_param,
                            nvinfer1::INetworkDefinition *net,
                            TensorMap *tensor_map,
                            TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (layer_param.type() == "ReLU" &&
       layer_param.relu_param().negative_slope() > 0.0f) {
@@ -235,7 +235,7 @@ void RTNet::addConcatLayer(const LayerParameter &layer_param,
                            nvinfer1::INetworkDefinition *net,
                            TensorMap *tensor_map,
                            TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ConcatParameter concat = layer_param.concat_param();
   nvinfer1::IConcatenationLayer *concatLayer =
@@ -265,7 +265,7 @@ void RTNet::addPoolingLayer(const LayerParameter &layer_param,
                             nvinfer1::INetworkDefinition *net,
                             TensorMap *tensor_map,
                             TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   PoolingParameter pool = layer_param.pooling_param();
   nvinfer1::PoolingType pool_type =
@@ -305,7 +305,7 @@ void RTNet::addSliceLayer(const LayerParameter &layer_param,
                           nvinfer1::INetworkDefinition *net,
                           TensorMap *tensor_map,
                           TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_GT(layer_param.slice_param().axis(), 0);
   std::shared_ptr<SLICEPlugin> slice_plugin;
@@ -324,7 +324,7 @@ void RTNet::addInnerproductLayer(const LayerParameter &layer_param,
                                  nvinfer1::INetworkDefinition *net,
                                  TensorMap *tensor_map,
                                  TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   InnerProductParameter fc = layer_param.inner_product_param();
   nvinfer1::Weights bias{nvinfer1::DataType::kFLOAT, nullptr, 0};
@@ -344,7 +344,7 @@ void RTNet::addScaleLayer(const LayerParameter &layer_param,
                           nvinfer1::INetworkDefinition *net,
                           TensorMap *tensor_map,
                           TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::vector<nvinfer1::Weights> lw(
       3, nvinfer1::Weights{nvinfer1::DataType::kFLOAT, nullptr, 0});
@@ -376,7 +376,7 @@ void RTNet::addBatchnormLayer(const LayerParameter &layer_param,
                               nvinfer1::INetworkDefinition *net,
                               TensorMap *tensor_map,
                               TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   BatchNormParameter param = layer_param.batch_norm_param();
   nvinfer1::Weights power{nvinfer1::DataType::kFLOAT, nullptr, 0};
@@ -394,7 +394,7 @@ void RTNet::addSoftmaxLayer(const LayerParameter &layer_param,
                             nvinfer1::INetworkDefinition *net,
                             TensorMap *tensor_map,
                             TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (layer_param.has_softmax_param()) {
     std::shared_ptr<SoftmaxPlugin> softmax_plugin;
@@ -418,7 +418,7 @@ void RTNet::addEltwiseLayer(const LayerParameter &layer_param,
                             nvinfer1::INetworkDefinition *net,
                             TensorMap *tensor_map,
                             TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto pair = eltwise_map.find(layer_param.eltwise_param().operation());
   nvinfer1::ElementWiseOperation op = nvinfer1::ElementWiseOperation::kSUM;
@@ -437,7 +437,7 @@ void RTNet::addArgmaxLayer(const LayerParameter &layer_param,
                            nvinfer1::INetworkDefinition *net,
                            TensorMap *tensor_map,
                            TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::shared_ptr<ArgMax1Plugin> argmax_plugin;
   argmax_plugin.reset(new ArgMax1Plugin(layer_param.argmax_param(),
@@ -455,7 +455,7 @@ void RTNet::addPermuteLayer(const LayerParameter &layer_param,
                             nvinfer1::INetworkDefinition *net,
                             TensorMap *tensor_map,
                             TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_LE(layer_param.permute_param().order_size(), nvinfer1::Dims::MAX_DIMS);
   nvinfer1::IShuffleLayer *permuteLayer = net->addShuffle(*inputs[0]);
@@ -479,7 +479,7 @@ void RTNet::addReshapeLayer(const LayerParameter &layer_param,
                             nvinfer1::INetworkDefinition *net,
                             TensorMap *tensor_map,
                             TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   nvinfer1::DimsCHW dims;
   dims.d[0] = static_cast<int>(layer_param.reshape_param().shape().dim(1));
@@ -496,7 +496,7 @@ void RTNet::addPaddingLayer(const LayerParameter &layer_param,
                             nvinfer1::INetworkDefinition *net,
                             TensorMap *tensor_map,
                             TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   nvinfer1::DimsHW pre_dims(layer_param.padding_param().pad_t(),
                             layer_param.padding_param().pad_l());
@@ -514,7 +514,7 @@ void RTNet::addDFMBPSROIAlignLayer(const LayerParameter &layer_param,
                                    nvinfer1::INetworkDefinition *net,
                                    TensorMap *tensor_map,
                                    TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::shared_ptr<DFMBPSROIAlignPlugin> dfmb_psroi_align_plugin;
   nvinfer1::Dims input_dims[3];
@@ -537,7 +537,7 @@ void RTNet::addRCNNProposalLayer(const LayerParameter &layer_param,
                                  nvinfer1::INetworkDefinition *net,
                                  TensorMap *tensor_map,
                                  TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::shared_ptr<RCNNProposalPlugin> rcnn_proposal_plugin;
   nvinfer1::Dims input_dims[4];
@@ -561,7 +561,7 @@ void RTNet::addRPNProposalSSDLayer(const LayerParameter &layer_param,
                                    nvinfer1::INetworkDefinition *net,
                                    TensorMap *tensor_map,
                                    TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::shared_ptr<RPNProposalSSDPlugin> rpn_proposal_ssd_plugin;
   nvinfer1::Dims input_dims[3];
@@ -585,7 +585,7 @@ void RTNet::addLayer(const LayerParameter &layer_param,
                      WeightMap *weight_map, nvinfer1::INetworkDefinition *net,
                      TensorMap *tensor_map,
                      TensorModifyMap *tensor_modify_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (layer_param.type() == "Convolution") {
     addConvLayer(layer_param, inputs, weight_map, net, tensor_map,
@@ -648,7 +648,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   }
 }
 bool RTNet::loadWeights(const std::string &model_file, WeightMap *weight_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   NetParameter net;
   if (!ReadProtoFromBinaryFile(model_file.c_str(), &net)) {
@@ -675,7 +675,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return true;
 }
 void RTNet::mergeBN(int index, LayerParameter *layer_param) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto blob = (layer_param->mutable_blobs(index));
   CHECK_EQ(blob->double_data_size(), 0);
@@ -703,7 +703,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   }
 }
 nvinfer1::Weights RTNet::loadLayerWeights(const float *data, int size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   nvinfer1::Weights wt{nvinfer1::DataType::kFLOAT, nullptr, 0};
   std::shared_ptr<float> val;
@@ -717,7 +717,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return wt;
 }
 nvinfer1::Weights RTNet::loadLayerWeights(float data, int size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   nvinfer1::Weights wt{nvinfer1::DataType::kFLOAT, nullptr, 0};
   std::shared_ptr<float> val;
@@ -735,7 +735,7 @@ RTNet::RTNet(const std::string &net_file, const std::string &model_file,
              const std::vector<std::string> &outputs,
              const std::vector<std::string> &inputs)
     : output_names_(outputs), input_names_(inputs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   loadWeights(model_file, &weight_map_);
   net_param_.reset(new NetParameter);
@@ -746,7 +746,7 @@ RTNet::RTNet(const std::string &net_file, const std::string &model_file,
              const std::vector<std::string> &inputs,
              nvinfer1::Int8EntropyCalibrator *calibrator)
     : output_names_(outputs), input_names_(inputs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   loadWeights(model_file, &weight_map_);
   net_param_.reset(new NetParameter);
@@ -759,7 +759,7 @@ RTNet::RTNet(const std::string &net_file, const std::string &model_file,
              const std::vector<std::string> &inputs,
              const std::string &model_root)
     : output_names_(outputs), input_names_(inputs), is_own_calibrator_(true) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   loadWeights(model_file, &weight_map_);
   net_param_.reset(new NetParameter);
@@ -772,7 +772,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RTNet::shape(const std::string &name, std::vector<int> *res) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto engine = &(context_->getEngine());
   if (tensor_modify_map_.find(name) == tensor_modify_map_.end()) {
@@ -793,7 +793,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return true;
 }
 void RTNet::init_blob(std::vector<std::string> *names) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto engine = &(context_->getEngine());
 
@@ -816,7 +816,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RTNet::Init(const std::map<std::string, std::vector<int>> &shapes) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (gpu_id_ < 0) {
     AINFO << "must use gpu mode";
@@ -851,7 +851,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 bool RTNet::checkInt8(const std::string &gpu_name,
                       nvinfer1::IInt8Calibrator *calibrator) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (calibrator == nullptr) {
     AINFO << "Device Works on FP32 Mode.";
@@ -870,7 +870,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool RTNet::addInput(const TensorDimsMap &tensor_dims_map,
                      const std::map<std::string, std::vector<int>> &shapes,
                      TensorMap *tensor_map) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_GT(net_param_->layer_size(), 0);
   input_names_.clear();
@@ -896,7 +896,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void RTNet::parse_with_api(
     const std::map<std::string, std::vector<int>> &shapes) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_GT(net_param_->layer_size(), 0);
   std::vector<LayerParameter> order;
@@ -930,7 +930,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 RTNet::~RTNet() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (is_own_calibrator_ && calibrator_ != nullptr) {
     delete calibrator_;
@@ -947,7 +947,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RTNet::Infer() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   BASE_CUDA_CHECK(cudaSetDevice(gpu_id_));
   BASE_CUDA_CHECK(cudaStreamSynchronize(stream_));
@@ -981,7 +981,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 std::shared_ptr<apollo::perception::base::Blob<float>> RTNet::get_blob(
     const std::string &name) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto iter = blobs_.find(name);
   if (iter == blobs_.end()) {

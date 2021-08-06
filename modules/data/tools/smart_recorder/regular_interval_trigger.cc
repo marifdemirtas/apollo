@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -23,13 +23,13 @@ namespace apollo {
 namespace data {
 
 RegularIntervalTrigger::RegularIntervalTrigger() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   trigger_name_ = "RegularIntervalTrigger";
 }
 
 void RegularIntervalTrigger::Pull(const cyber::record::RecordMessage& msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!trigger_obj_->enabled()) {
     return;

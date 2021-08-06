@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ bool PointCamera1ToCamera2(const Eigen::Vector2d& point,
                            const Eigen::Matrix3d& camera2_intrinsic,
                            const Eigen::Matrix3d& trans_camera1_to_camera2,
                            Eigen::Vector2d* point_out) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Eigen::Vector3d pt = point.homogeneous();
   Eigen::Vector3d camera2_3d =
@@ -51,7 +51,7 @@ bool IsCamerasFieldOverlap(const base::PinholeCameraModel& from_camera,
                            const Eigen::Matrix4d& extrinsic,
                            Eigen::Vector2d* up_left,
                            Eigen::Vector2d* low_right) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   size_t f_width = from_camera.get_width();
   size_t f_height = from_camera.get_height();

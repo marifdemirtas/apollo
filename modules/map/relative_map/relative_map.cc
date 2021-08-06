@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -37,11 +37,11 @@ using apollo::perception::PerceptionObstacles;
 RelativeMap::RelativeMap()
     : monitor_logger_buffer_(MonitorMessageItem::RELATIVE_MAP),
       vehicle_state_provider_(nullptr) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 Status RelativeMap::Init(common::VehicleStateProvider* vehicle_state_provider) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   vehicle_state_provider_ = vehicle_state_provider;
   if (!FLAGS_use_navigation_mode) {
@@ -68,7 +68,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LogErrorStatus(MapMsg* map_msg, const std::string& error_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto* status = map_msg->mutable_header()->mutable_status();
   status->set_msg(error_msg);
@@ -76,14 +76,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 apollo::common::Status RelativeMap::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   monitor_logger_buffer_.INFO("RelativeMap started");
   return Status::OK();
 }
 
 bool RelativeMap::Process(MapMsg* const map_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -93,7 +93,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RelativeMap::OnNavigationInfo(const NavigationInfo& navigation_info) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -103,7 +103,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void RelativeMap::OnPerception(
     const PerceptionObstacles& perception_obstacles) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -112,7 +112,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RelativeMap::OnChassis(const Chassis& chassis) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -121,7 +121,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RelativeMap::OnLocalization(const LocalizationEstimate& localization) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -130,7 +130,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RelativeMap::CreateMapFromNavigationLane(MapMsg* map_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(map_msg);
 
@@ -171,7 +171,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RelativeMap::Stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  monitor_logger_buffer_.INFO("RelativeMap stopped"); }
 
 }  // namespace relative_map

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -38,13 +38,13 @@ LocalizationLidar::LocalizationLidar()
       pre_vehicle_ground_height_(0.0),
       is_pre_ground_height_valid_(false),
       velodyne_extrinsic_(Eigen::Affine3d::Identity()) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   map_left_top_corner_ = Eigen::Vector2d::Zero();
 }
 
 LocalizationLidar::~LocalizationLidar() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (lidar_map_node_) {
     delete lidar_map_node_;
@@ -60,7 +60,7 @@ bool LocalizationLidar::Init(const std::string& map_path,
                              const unsigned int search_range_y,
                              const int zone_id,
                              const unsigned int resolution_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // init map
   resolution_id_ = resolution_id;
@@ -89,7 +89,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationLidar::SetVelodyneExtrinsic(const Eigen::Affine3d& pose) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   velodyne_extrinsic_ = pose;
   Eigen::Vector3d trans = pose.translation();
@@ -100,38 +100,38 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationLidar::SetVehicleHeight(double height) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   vehicle_lidar_height_ = height;
   AINFO << "Set height: " << vehicle_lidar_height_;
 }
 
 void LocalizationLidar::SetValidThreshold(float valid_threashold) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   lidar_locator_->SetValidThreshold(valid_threashold);
 }
 
 void LocalizationLidar::SetImageAlignMode(int mode) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   lidar_locator_->SetImageAlignMode(mode);
 }
 
 void LocalizationLidar::SetLocalizationMode(int mode) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   lidar_locator_->SetLocalizationMode(mode);
 }
 
 void LocalizationLidar::SetDeltaYawLimit(double limit) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   lidar_locator_->SetDeltaYawLimit(limit);
 }
 
 void LocalizationLidar::SetDeltaPitchRollLimit(double limit) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   lidar_locator_->SetDeltaPitchRollLimit(limit);
 }
@@ -140,7 +140,7 @@ int LocalizationLidar::Update(const unsigned int frame_idx,
                               const Eigen::Affine3d& pose,
                               const Eigen::Vector3d velocity,
                               const LidarFrame& lidar_frame, bool use_avx) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // check whether loaded map
   if (!is_map_loaded_) {
@@ -192,7 +192,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void LocalizationLidar::GetResult(Eigen::Affine3d* location,
                                   Eigen::Matrix3d* covariance,
                                   double* location_score) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!location || !covariance) {
     return;
@@ -230,7 +230,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationLidar::GetLocalizationDistribution(
     Eigen::MatrixXd* distribution) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(distribution);
 
@@ -250,7 +250,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationLidar::RefineAltitudeFromMap(Eigen::Affine3d* pose) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(pose);
 
@@ -300,7 +300,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationLidar::ComposeMapNode(const Eigen::Vector3d& trans) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Eigen::Vector2d center(trans(0), trans(1));
   Eigen::Vector2d left_top_corner(center(0) - node_size_x_ * resolution_ / 2.0,

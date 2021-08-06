@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -39,7 +39,7 @@ bool MsgSerializer::SerializeMsg(double timestamp, uint64_t lidar_timestamp,
                                  const std::vector<base::ObjectPtr> &objects,
                                  const apollo::common::ErrorCode &error_code,
                                  PerceptionObstacles *obstacles) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   double publish_time = Clock::NowInSeconds();
   ::apollo::common::Header *header = obstacles->mutable_header();
@@ -63,7 +63,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool MsgSerializer::ConvertObjectToPb(const base::ObjectPtr &object_ptr,
                                       PerceptionObstacle *pb_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (object_ptr == nullptr || pb_msg == nullptr) {
     return false;

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -43,7 +43,7 @@ DEFINE_int32(mean_g, 99, "image g");
 DEFINE_int32(mean_r, 96, "image r");
 
 int main(int argc, char **argv) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   google::ParseCommandLineFlags(&argc, &argv, true);
 

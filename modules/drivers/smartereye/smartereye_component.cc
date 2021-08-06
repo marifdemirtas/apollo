@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace drivers {
 namespace smartereye {
 
 SmartereyeComponent::~SmartereyeComponent() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (running_.load()) {
     running_.exchange(false);
@@ -35,7 +35,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SmartereyeComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   camera_config_ = std::make_shared<Config>();
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
@@ -66,7 +66,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SmartereyeComponent::run() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   running_.exchange(true);
   while (!cyber::IsShutdown()) {
@@ -76,7 +76,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SmartereyeComponent::SetCallback() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CallbackFunc fun =
       std::bind(&SmartereyeComponent::Callback, this, std::placeholders::_1);
@@ -86,7 +86,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SmartereyeComponent::Callback(RawImageFrame *rawFrame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (rawFrame->frameId == FrameId::Compound ||
       rawFrame->frameId == FrameId::LaneExt) {
@@ -107,7 +107,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void SmartereyeComponent::processFrame(int frameId, char *image, char *extended,
                                        int64_t time, int width, int height) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   switch (frameId) {
     case FrameId::Compound: {
@@ -272,7 +272,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void SmartereyeComponent::processFrame(int frameId, char *image,
                                        uint32_t dataSize, int width, int height,
                                        int frameFormat) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   switch (frameId) {
     case FrameId::Lane: {

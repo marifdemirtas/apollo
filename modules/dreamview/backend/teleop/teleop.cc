@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -67,7 +67,7 @@ const std::string planning_pad_channel = "/apollo/planning/pad";
 
 TeleopService::TeleopService(WebSocketHandler *websocket)
     : node_(cyber::CreateNode("teleop")), websocket_(websocket) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   RegisterMessageHandlers();
 
@@ -86,7 +86,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TeleopService::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO get topic names from proto
   // TODO update proto to get all modems' info combined with rank
@@ -133,7 +133,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TeleopService::RegisterMessageHandlers() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Send current teleop status to the new client.
   websocket_->RegisterConnectionReadyHandler(
@@ -265,7 +265,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TeleopService::SendStatus(WebSocketHandler::Connection *conn) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::string to_send;
   {
@@ -277,7 +277,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void TeleopService::UpdateModem(const std::string &modem_id,
                                 const std::shared_ptr<ModemInfo> &modem_info) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO simplify data and only send necessary info for display
   // update modem_info_
@@ -305,7 +305,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // callback for messages that originate from the remote computer
 void TeleopService::UpdateCarDaemonRpt(
     const std::shared_ptr<DaemonRpt> &daemon_rpt) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   {
     bool videoIsRunning = false;
@@ -389,7 +389,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // callback for messages that originate from this computer
 void TeleopService::UpdateOperatorDaemonRpt(
     const std::shared_ptr<DaemonRpt> &daemon_rpt) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   {
     bool voipIsRunning = false;
@@ -433,7 +433,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TeleopService::SendVideoStreamCmd(bool start_stop) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DaemonCmd msg;
   if (start_stop) {
@@ -457,7 +457,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TeleopService::SendAudioStreamCmd(bool start_stop) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   DaemonCmd msg;
   if (start_stop) {
@@ -474,7 +474,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TeleopService::SendMicStreamCmd(bool start_stop) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // by switching on or off the voip_encoder in the local console
   // we are controlling the mic
@@ -491,7 +491,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TeleopService::SendResumeCruiseCmd() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Resume cruise";
   PadMessage pad_msg;
@@ -500,7 +500,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TeleopService::SendEstopCmd() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Pull over";
   PadMessage pad_msg;
@@ -509,7 +509,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TeleopService::SendPullOverCmd() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "EStop";
   PadMessage pad_msg;
@@ -518,7 +518,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TeleopService::UpdatePlanning(const std::shared_ptr<ADCTrajectory> &msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   static int count = 0;
   ++count;

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /* Copyright 2018 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +35,7 @@ namespace canbus {
 namespace transit {
 
 TransitMessageManager::TransitMessageManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Control Messages
   AddSendProtocolData<Adcauxiliarycontrol110, true>();
@@ -55,7 +55,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 TransitMessageManager::~TransitMessageManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 }  // namespace transit

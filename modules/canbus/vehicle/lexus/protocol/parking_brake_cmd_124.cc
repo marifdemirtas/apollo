@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Parkingbrakecmd124::ID = 0x124;
 
 // public
 Parkingbrakecmd124::Parkingbrakecmd124() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Parkingbrakecmd124::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Parkingbrakecmd124::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_ignore_overrides(data, ignore_overrides_);
   set_p_enable(data, enable_);
@@ -51,7 +51,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Parkingbrakecmd124::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(QiL) you should check this manually
   ignore_overrides_ = false;
@@ -63,7 +63,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Parkingbrakecmd124* Parkingbrakecmd124::set_ignore_overrides(
     bool ignore_overrides) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ignore_overrides_ = ignore_overrides;
   return this;
@@ -74,7 +74,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Parkingbrakecmd124::set_p_ignore_overrides(uint8_t* data,
                                                 bool ignore_overrides) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint8_t x = ignore_overrides;
 
@@ -83,7 +83,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Parkingbrakecmd124* Parkingbrakecmd124::set_enable(bool enable) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   enable_ = enable;
   return this;
@@ -93,7 +93,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Parkingbrakecmd124::set_p_enable(uint8_t* data, bool enable) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint8_t x = enable;
 
@@ -103,7 +103,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Parkingbrakecmd124* Parkingbrakecmd124::set_clear_override(
     bool clear_override) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   clear_override_ = clear_override;
   return this;
@@ -114,7 +114,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Parkingbrakecmd124::set_p_clear_override(uint8_t* data,
                                               bool clear_override) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint8_t x = clear_override;
 
@@ -124,7 +124,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Parkingbrakecmd124* Parkingbrakecmd124::set_parking_brake_cmd(
     bool parking_brake_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   parking_brake_cmd_ = parking_brake_cmd;
   return this;
@@ -135,7 +135,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Parkingbrakecmd124::set_p_parking_brake_cmd(uint8_t* data,
                                                  bool parking_brake_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint8_t x = parking_brake_cmd;
 
@@ -144,7 +144,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Parkingbrakecmd124* Parkingbrakecmd124::set_clear_faults(bool clear_faults) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   clear_faults_ = clear_faults;
   return this;
@@ -154,7 +154,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 3,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Parkingbrakecmd124::set_p_clear_faults(uint8_t* data, bool clear_faults) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint8_t x = clear_faults;
 

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,11 +25,11 @@
 #include "modules/perception/inference/utils/resize.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
@@ -37,7 +37,7 @@ namespace camera {
 using cyber::common::GetAbsolutePath;
 
 bool DenselineLaneDetector::Init(const LaneDetectorInitOptions &options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::string proto_path = GetAbsolutePath(options.root_dir, options.conf_file);
   if (!cyber::common::GetProtoFromFile(proto_path, &denseline_param_)) {
@@ -158,7 +158,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool DenselineLaneDetector::Detect(const LaneDetectorOptions &options,
                                    CameraFrame *frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (frame == nullptr) {
     AINFO << "camera frame is empty.";
@@ -215,7 +215,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string DenselineLaneDetector::Name() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return "DenselineLaneDetector";
 }

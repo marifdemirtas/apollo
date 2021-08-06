@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace lidar {
 void MeasureAnchorPointVelocity(TrackedObjectPtr new_object,
                                 const TrackedObjectConstPtr& old_object,
                                 const double& time_diff) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Compute 2D anchor point velocity measurement
   Eigen::Vector3d measured_anchor_point_velocity =
@@ -39,7 +39,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void MeasureBboxCenterVelocity(TrackedObjectPtr new_object,
                                const TrackedObjectConstPtr& old_object,
                                const double& time_diff) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Compute 2D bbox center velocity measurement
   Eigen::Vector3f old_dir_tmp = old_object->output_direction.cast<float>();
@@ -71,7 +71,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void MeasureBboxCornerVelocity(TrackedObjectPtr new_object,
                                const TrackedObjectConstPtr& old_object,
                                const double& time_diff) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Compute 2D bbxo corner velocity measurement
   Eigen::Vector3f old_dir_tmp = old_object->output_direction.cast<float>();

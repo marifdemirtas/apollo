@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace math {
 
 double IntegrateBySimpson(const std::vector<double>& func, const double dx,
                           const std::size_t nsteps) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_EQ(1U, nsteps & 1);
   double sum1 = 0.0;
@@ -44,7 +44,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double IntegrateByTrapezoidal(const std::vector<double>& func, const double dx,
                               const std::size_t nsteps) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   double sum = 0;
   for (std::size_t i = 1; i + 1 < nsteps; ++i) {

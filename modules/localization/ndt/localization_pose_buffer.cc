@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ namespace ndt {
 const unsigned int LocalizationPoseBuffer::s_buffer_size_ = 20;
 
 LocalizationPoseBuffer::LocalizationPoseBuffer() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   lidar_poses_.resize(s_buffer_size_);
   used_buffer_size_ = 0;
@@ -39,13 +39,13 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LocalizationPoseBuffer::~LocalizationPoseBuffer() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void LocalizationPoseBuffer::UpdateLidarPose(
     double timestamp, const Eigen::Affine3d& locator_pose,
     const Eigen::Affine3d& novatel_pose) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!has_initialized_) {
     lidar_poses_[head_index_].locator_pose = locator_pose;
@@ -72,7 +72,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Eigen::Affine3d LocalizationPoseBuffer::UpdateOdometryPose(
     double timestamp, const Eigen::Affine3d& novatel_pose) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Eigen::Affine3d pose = novatel_pose;
   if (used_buffer_size_ > 0) {

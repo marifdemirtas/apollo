@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace msf {
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::BandObservation& in,
                                BandObservationMsg* out) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(out);
   if (in.has_band_id()) {
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void GnssMagTransfer::Transfer(
     const apollo::drivers::gnss::SatelliteObservation& in,
     SatelliteObservationMsg* out) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(out);
   if (in.has_sat_prn()) {
@@ -78,7 +78,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void GnssMagTransfer::Transfer(
     const apollo::drivers::gnss::EpochObservation& in,
     EpochObservationMsg* out) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(out);
   if (in.has_receiver_id()) {
@@ -117,7 +117,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::KepplerOrbit& in,
                                KepplerOrbitMsg* out) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {
@@ -238,7 +238,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::GlonassOrbit& in,
                                GlonassOrbitMsg* out) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {
@@ -326,7 +326,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::GnssEphemeris& in,
                                GnssEphemerisMsg* out) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -61,14 +61,14 @@ PreprocessPoints::PreprocessPoints(
       min_y_range_(min_y_range),
       min_z_range_(min_z_range),
       num_inds_for_scan_(num_inds_for_scan) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void PreprocessPoints::InitializeVariables(int* coor_to_pillaridx,
                                            float* sparse_pillar_map,
                                            float* pillar_point_feature,
                                            float* pillar_coors) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (int i = 0; i < grid_y_size_; ++i) {
     for (int j = 0; j < grid_x_size_; ++j) {
@@ -99,7 +99,7 @@ void PreprocessPoints::Preprocess(const float* in_points_array,
                                   float* pillar_point_feature,
                                   float* pillar_coors, float* sparse_pillar_map,
                                   int* host_pillar_count) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int pillar_count = 0;
   // init variables

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace video {
 using cyber::common::EnsureDirectory;
 
 bool CompCameraH265Compressed::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Initialize video driver component.";
 
@@ -67,7 +67,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CompCameraH265Compressed::VideoPoll() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::ofstream fout;
   if (camera_deivce_->Record()) {

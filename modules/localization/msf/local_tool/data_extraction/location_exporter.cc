@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace localization {
 namespace msf {
 
 LocationExporter::LocationExporter(const std::string &loc_file_folder) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   gnss_loc_file_ = loc_file_folder + "/gnss_loc.txt";
   lidar_loc_file_ = loc_file_folder + "/lidar_loc.txt";
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LocationExporter::~LocationExporter() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (gnss_loc_file_handle_ != nullptr) {
     fclose(gnss_loc_file_handle_);
@@ -76,7 +76,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocationExporter::GnssLocCallback(const std::string &msg_string) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "GNSS location callback.";
   LocalizationEstimate msg;
@@ -106,7 +106,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocationExporter::LidarLocCallback(const std::string &msg_string) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Lidar location callback.";
   LocalizationEstimate msg;
@@ -141,7 +141,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocationExporter::FusionLocCallback(const std::string &msg_string) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Fusion location callback.";
   LocalizationEstimate msg;
@@ -176,7 +176,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocationExporter::OdometryLocCallback(const std::string &msg_string) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Odometry location callback.";
   Gps msg;

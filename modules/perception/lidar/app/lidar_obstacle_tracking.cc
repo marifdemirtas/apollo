@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace lidar {
 
 bool LidarObstacleTracking::Init(
     const LidarObstacleTrackingInitOptions& options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto& sensor_name = options.sensor_name;
   auto config_manager = lib::ConfigManager::Instance();
@@ -65,7 +65,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 LidarProcessResult LidarObstacleTracking::Process(
     const LidarObstacleTrackingOptions& options, LidarFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const auto& sensor_name = options.sensor_name;
 

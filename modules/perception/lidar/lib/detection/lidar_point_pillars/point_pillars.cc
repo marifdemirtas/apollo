@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -112,7 +112,7 @@ PointPillars::PointPillars(const bool reproduce_result_mode,
       backbone_torch_file_(backbone_torch_file),
       fpn_torch_file_(fpn_torch_file),
       bbox_head_torch_file_(bbox_head_torch_file) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (reproduce_result_mode_) {
     preprocess_points_ptr_.reset(new PreprocessPoints(
@@ -143,7 +143,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PointPillars::~PointPillars() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   delete[] anchors_px_;
   delete[] anchors_py_;
@@ -200,7 +200,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PointPillars::DeviceMemoryMalloc() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   GPU_CHECK(cudaMalloc(reinterpret_cast<void**>(&dev_x_coors_),
                        kMaxNumPillars * sizeof(int)));
@@ -281,7 +281,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PointPillars::InitAnchors() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // allocate memory for anchors
   anchors_px_ = new float[kNumAnchor]();
@@ -311,7 +311,7 @@ void PointPillars::GenerateAnchors(float* anchors_px_, float* anchors_py_,
                                    float* anchors_pz_, float* anchors_dx_,
                                    float* anchors_dy_, float* anchors_dz_,
                                    float* anchors_ro_) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (int i = 0; i < kNumAnchor; ++i) {
     anchors_px_[i] = 0;
@@ -371,7 +371,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PointPillars::PutAnchorsInDeviceMemory() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   GPU_CHECK(cudaMemcpy(dev_box_anchors_min_x_, box_anchors_min_x_,
                        kNumAnchor * sizeof(float), cudaMemcpyHostToDevice));
@@ -404,7 +404,7 @@ void PointPillars::ConvertAnchors2BoxAnchors(float* anchors_px,
                                              float* box_anchors_min_y_,
                                              float* box_anchors_max_x_,
                                              float* box_anchors_max_y_) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // flipping box's dimension
   float* flipped_anchors_dx = new float[kNumAnchor]();
@@ -461,7 +461,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PointPillars::InitTorch() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (gpu_id_ >= 0) {
     device_type_ = torch::kCUDA;
@@ -481,7 +481,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PointPillars::InitTRT() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // create a TensorRT model from the onnx model and load it into an engine
   OnnxToTRTModel(pfe_onnx_file_, &pfe_engine_);
@@ -501,7 +501,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void PointPillars::OnnxToTRTModel(
     const std::string& model_file,  // name of the onnx model
     nvinfer1::ICudaEngine** engine_ptr) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int verbosity = static_cast<int>(nvinfer1::ILogger::Severity::kWARNING);
 
@@ -537,7 +537,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void PointPillars::PreprocessCPU(const float* in_points_array,
                                  const int in_num_points) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x_coors[kMaxNumPillars] = {};
   int y_coors[kMaxNumPillars] = {};
@@ -589,7 +589,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void PointPillars::PreprocessGPU(const float* in_points_array,
                                  const int in_num_points) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   float* dev_points;
   GPU_CHECK(cudaMalloc(reinterpret_cast<void**>(&dev_points),
@@ -623,7 +623,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void PointPillars::Preprocess(const float* in_points_array,
                               const int in_num_points) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (reproduce_result_mode_) {
     PreprocessCPU(in_points_array, in_num_points);
@@ -636,7 +636,7 @@ void PointPillars::DoInference(const float* in_points_array,
                                const int in_num_points,
                                std::vector<float>* out_detections,
                                std::vector<int>* out_labels) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (device_id_ < 0) {
     AERROR << "Torch is not using GPU!";

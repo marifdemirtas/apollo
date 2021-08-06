@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace perception {
 namespace benchmark {
 
 bool OptionParser::parse_from_string(const std::string& input) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   _options.clear();
   std::vector<std::string> option_pairs = absl::StrSplit(input, '|');

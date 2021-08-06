@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -54,7 +54,7 @@ using apollo::common::LatencyStat;
 using apollo::common::LatencyTrack;
 
 LatencyStat GenerateStat(const std::vector<uint64_t>& numbers) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   LatencyStat stat;
   uint64_t min_number = (1UL << 63), max_number = 0, sum = 0;
@@ -73,7 +73,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SetStat(const LatencyStat& src, LatencyStat* dst) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   dst->set_min_duration(src.min_duration());
   dst->set_max_duration(src.max_duration());
@@ -84,7 +84,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void SetLatency(const std::string& latency_name,
                 const std::vector<uint64_t>& latency_values,
                 LatencyTrack* track) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto* latency_track = track->add_latency_track();
   latency_track->set_latency_name(latency_name);
@@ -96,11 +96,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 LatencyMonitor::LatencyMonitor()
     : RecurrentRunner(FLAGS_latency_monitor_name,
                       FLAGS_latency_monitor_interval) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void LatencyMonitor::RunOnce(const double current_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   static auto reader =
       MonitorManager::Instance()->CreateReader<LatencyRecordMap>(
@@ -133,7 +133,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LatencyMonitor::UpdateStat(
     const std::shared_ptr<LatencyRecordMap>& records) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const auto module_name = records->module_name();
   for (const auto& record : records->latency_records()) {
@@ -153,7 +153,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LatencyMonitor::PublishLatencyReport() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   static auto writer = MonitorManager::Instance()->CreateWriter<LatencyReport>(
       FLAGS_latency_reporting_topic);
@@ -167,7 +167,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LatencyMonitor::AggregateLatency() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   static const std::string kE2EStartPoint = FLAGS_pointcloud_topic;
   std::unordered_map<std::string, std::vector<uint64_t>> modules_track;
@@ -232,7 +232,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LatencyMonitor::GetFrequency(const std::string& channel_name,
                                   double* freq) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (freq_map_.find(channel_name) == freq_map_.end()) {
     return false;

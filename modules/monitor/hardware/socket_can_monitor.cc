@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -45,7 +45,7 @@ namespace {
 
 // Test Socket CAN on an open handler.
 bool SocketCanHandlerTest(const int dev_handler, std::string* message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // init config and state
   // 1. set receive message_id filter, ie white list
@@ -93,7 +93,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // Open a Socket CAN handler and test.
 bool SocketCanTest(std::string* message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const int dev_handler = socket(PF_CAN, SOCK_RAW, CAN_RAW);
   if (dev_handler < 0) {
@@ -110,11 +110,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 SocketCanMonitor::SocketCanMonitor()
     : RecurrentRunner(FLAGS_socket_can_monitor_name,
                       FLAGS_socket_can_monitor_interval) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void SocketCanMonitor::RunOnce(const double current_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto manager = MonitorManager::Instance();
   Component* component = apollo::common::util::FindOrNull(

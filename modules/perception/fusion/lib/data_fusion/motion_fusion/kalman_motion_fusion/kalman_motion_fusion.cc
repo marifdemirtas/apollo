@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,7 +36,7 @@ int KalmanMotionFusion::s_eval_window_ = 3;
 size_t KalmanMotionFusion::s_history_size_maximum_ = 20;
 
 bool KalmanMotionFusion::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (track_ref_ == nullptr) {
     return false;
@@ -50,7 +50,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool KalmanMotionFusion::InitFilter(const SensorObjectConstPtr& sensor_object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const std::vector<bool> gain_break_down = {0, 0, 0, 0, 1, 1};
   const std::vector<bool> value_break_down = {0, 0, 1, 1, 0, 0};
@@ -107,7 +107,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void KalmanMotionFusion::GetStates(Eigen::Vector3d* anchor_point,
                                    Eigen::Vector3d* velocity) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   *anchor_point = fused_anchor_point_;
   *velocity = fused_velocity_;
@@ -116,7 +116,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void KalmanMotionFusion::UpdateWithoutMeasurement(const std::string& sensor_id,
                                                   double measurement_timestamp,
                                                   double target_timestamp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   SensorObjectConstPtr lidar_ptr = track_ref_->GetLatestLidarObject();
   SensorObjectConstPtr radar_ptr = track_ref_->GetLatestRadarObject();
@@ -142,7 +142,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void KalmanMotionFusion::UpdateWithMeasurement(
     const SensorObjectConstPtr& measurement, double target_timestamp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   fused_anchor_point_ =
       measurement->GetBaseObject()->anchor_point.cast<double>();
@@ -229,7 +229,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void KalmanMotionFusion::MotionFusionWithoutMeasurement(
     const double time_diff) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Eigen::MatrixXd transform_matrix;
   Eigen::MatrixXd env_uncertainty;
@@ -242,7 +242,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void KalmanMotionFusion::MotionFusionWithMeasurement(
     const SensorObjectConstPtr& measurement, double time_diff) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // we use kalman filter to update our tracker.
   // The pipeline is detailed as follows:
@@ -349,7 +349,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void KalmanMotionFusion::UpdateMotionState() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   base::ObjectPtr obj = track_ref_->GetFusedObject()->GetBaseObject();
   obj->anchor_point = fused_anchor_point_.cast<double>();
@@ -374,7 +374,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 Eigen::VectorXd KalmanMotionFusion::ComputeAccelerationMeasurement(
     const base::SensorType& sensor_type, const Eigen::Vector3d& velocity,
     const double& timestamp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Eigen::Vector3d acceleration_measurement = Eigen::Vector3d::Zero();
   if (common::SensorManager::Instance()->IsCamera(sensor_type)) {
@@ -397,7 +397,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void KalmanMotionFusion::RewardRMatrix(const base::SensorType& sensor_type,
                                        const bool& converged,
                                        Eigen::MatrixXd* r_matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   common::SensorManager* sensor_manager = common::SensorManager::Instance();
   const float converged_scale = 0.01f;
@@ -426,7 +426,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Eigen::Vector4d KalmanMotionFusion::ComputePseudoMeasurement(
     const Eigen::Vector4d& measurement, const base::SensorType& sensor_type) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // What is a pseudo-lidar estimation? if given lidar estimation could trace
   // a good radar estimation within a short window, then project radar
@@ -451,7 +451,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Eigen::Vector4d KalmanMotionFusion::ComputePseudoLidarMeasurement(
     const Eigen::Vector4d& measurement) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Initialize status variables
   int trace_count = 0;
@@ -528,7 +528,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Eigen::Vector4d KalmanMotionFusion::ComputePseudoCameraMeasurement(
     const Eigen::Vector4d& measurement) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Initialize status variables
   int trace_count = 0;
@@ -605,7 +605,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Eigen::Vector4d KalmanMotionFusion::ComputePseudoRadarMeasurement(
     const Eigen::Vector4d& measurement) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Initialize status variables
   int lidar_trace_count = 0;
@@ -721,7 +721,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void KalmanMotionFusion::UpdateSensorHistory(
     const base::SensorType& sensor_type, const Eigen::Vector3d& velocity,
     const double& timestamp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int lidar_history_length =
       GetSensorHistoryLength(base::SensorType::VELODYNE_64);
@@ -741,7 +741,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int KalmanMotionFusion::GetSensorHistoryLength(
     const base::SensorType& sensor_type) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int sensor_history_length = 0;
   for (size_t i = 0; i < history_sensor_type_.size(); ++i) {
@@ -754,7 +754,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int KalmanMotionFusion::GetSensorHistoryIndex(
     const base::SensorType& sensor_type, const int& trace_length) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int history_index = 0;
   int history_count = 0;

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ namespace localization {
 namespace ndt {
 
 void NDTLocalization::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   tf_buffer_ = apollo::transform::Buffer::Instance();
   tf_buffer_->Init();
@@ -99,7 +99,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // receive odometry message
 void NDTLocalization::OdometryCallback(
     const std::shared_ptr<localization::Gps>& odometry_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   double odometry_time = odometry_msg->header().timestamp_sec();
   static double pre_odometry_time = odometry_time;
@@ -175,7 +175,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // receive lidar pointcloud message
 void NDTLocalization::LidarCallback(
     const std::shared_ptr<drivers::PointCloud>& lidar_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   static unsigned int frame_idx = 0;
   LidarFrame lidar_frame;
@@ -233,7 +233,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void NDTLocalization::OdometryStatusCallback(
     const std::shared_ptr<drivers::gnss::InsStat>& status_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::unique_lock<std::mutex> lock(odometry_status_list_mutex_);
   if (odometry_status_list_.size() < odometry_status_list_max_size_) {
@@ -246,32 +246,32 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // output localization result
 void NDTLocalization::GetLocalization(
     LocalizationEstimate* localization) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   *localization = localization_result_;
 }
 
 void NDTLocalization::GetLidarLocalization(
     LocalizationEstimate* localization) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   *localization = lidar_localization_result_;
 }
 
 void NDTLocalization::GetLocalizationStatus(
     LocalizationStatus* localization_status) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   *localization_status = localization_status_;
 }
 
 bool NDTLocalization::IsServiceStarted() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return is_service_started_; }
 
 void NDTLocalization::FillLocalizationMsgHeader(
     LocalizationEstimate* localization) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto* header = localization->mutable_header();
   double timestamp = apollo::cyber::Clock::NowInSeconds();
@@ -284,7 +284,7 @@ void NDTLocalization::ComposeLocalizationEstimate(
     const Eigen::Affine3d& pose,
     const std::shared_ptr<localization::Gps>& odometry_msg,
     LocalizationEstimate* localization) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   localization->Clear();
   FillLocalizationMsgHeader(localization);
@@ -335,7 +335,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void NDTLocalization::ComposeLidarResult(double time_stamp,
                                          const Eigen::Affine3d& pose,
                                          LocalizationEstimate* localization) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   localization->Clear();
   FillLocalizationMsgHeader(localization);
@@ -362,7 +362,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NDTLocalization::QueryPoseFromTF(double time, Eigen::Affine3d* pose) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   cyber::Time query_time(time);
   const float time_out = 0.01f;
@@ -395,7 +395,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void NDTLocalization::ComposeLocalizationStatus(
     const drivers::gnss::InsStat& status,
     LocalizationStatus* localization_status) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   apollo::common::Header* header = localization_status->mutable_header();
   double timestamp = apollo::cyber::Clock::NowInSeconds();
@@ -429,7 +429,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NDTLocalization::QueryPoseFromBuffer(double time, Eigen::Affine3d* pose) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(pose);
 
@@ -487,7 +487,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool NDTLocalization::ZeroOdometry(const Eigen::Affine3d& pose) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   double x = pose.translation().x();
   double y = pose.translation().y();
@@ -501,7 +501,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void NDTLocalization::LidarMsgTransfer(
     const std::shared_ptr<drivers::PointCloud>& msg, LidarFrame* lidar_frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(lidar_frame);
 
@@ -564,7 +564,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool NDTLocalization::LoadLidarExtrinsic(const std::string& file_path,
                                          Eigen::Affine3d* lidar_extrinsic) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(lidar_extrinsic);
 
@@ -593,7 +593,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool NDTLocalization::LoadLidarHeight(const std::string& file_path,
                                       LidarHeight* height) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(height);
 
@@ -615,7 +615,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool NDTLocalization::LoadZoneIdFromFolder(const std::string& folder_path,
                                            int* zone_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::string map_zone_id_folder;
   if (cyber::common::DirectoryExists(folder_path + "/map/000/north")) {
@@ -636,7 +636,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool NDTLocalization::FindNearestOdometryStatus(
     const double odometry_timestamp, drivers::gnss::InsStat* status) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(status);
 

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -44,7 +44,7 @@ ErrorCode ChController::Init(
     const VehicleParameter& params,
     CanSender<::apollo::canbus::ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (is_initialized_) {
     AINFO << "ChController has already been initiated.";
@@ -122,11 +122,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ChController::~ChController() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 bool ChController::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!is_initialized_) {
     AERROR << "ChController has NOT been initiated.";
@@ -139,7 +139,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ChController::Stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!is_initialized_) {
     AERROR << "ChController stops or starts improperly!";
@@ -154,7 +154,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Chassis ChController::chassis() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis_.Clear();
 
@@ -270,14 +270,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ChController::Emergency() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
 }
 
 ErrorCode ChController::EnableAutoMode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
     AINFO << "already in COMPLETE_AUTO_DRIVE mode";
@@ -307,7 +307,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ErrorCode ChController::DisableAutoMode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ResetProtocol();
   can_sender_->Update();
@@ -318,14 +318,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ErrorCode ChController::EnableSteeringOnlyMode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AFATAL << "SteeringOnlyMode Not supported!";
   return ErrorCode::OK;
 }
 
 ErrorCode ChController::EnableSpeedOnlyMode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AFATAL << "SpeedOnlyMode Not supported!";
   return ErrorCode::OK;
@@ -333,7 +333,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // NEUTRAL, REVERSE, DRIVE
 void ChController::Gear(Chassis::GearPosition gear_position) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_SPEED_ONLY)) {
@@ -376,7 +376,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // acceleration:0.0 ~ 7.0, unit:m/s^2
 // acceleration_spd:60 ~ 100, suggest: 90
 void ChController::Brake(double pedal) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Update brake value based on mode
   if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
@@ -391,7 +391,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // drive with old acceleration
 // gas:0.00~99.99 unit:
 void ChController::Throttle(double pedal) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -403,7 +403,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ChController::Acceleration(double acc) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 // ch default, -23 ~ 23, left:+, right:-
@@ -411,7 +411,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 void ChController::Steer(double angle) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_STEER_ONLY)) {
@@ -428,7 +428,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void ChController::Steer(double angle, double angle_spd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_STEER_ONLY)) {
@@ -441,27 +441,27 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ChController::SetEpbBreak(const ControlCommand& command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void ChController::SetBeam(const ControlCommand& command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void ChController::SetHorn(const ControlCommand& command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void ChController::SetTurningSignal(const ControlCommand& command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void ChController::ResetProtocol() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  message_manager_->ResetSendMessages(); }
 
 bool ChController::CheckChassisError() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ChassisDetail chassis_detail;
   message_manager_->GetSensorData(&chassis_detail);
@@ -504,7 +504,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ChController::SecurityDogThreadFunc() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
@@ -571,7 +571,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   }
 }
 bool ChController::CheckResponse(const int32_t flags, bool need_wait) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int32_t retry_num = 20;
   ChassisDetail chassis_detail;
@@ -621,21 +621,21 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ChController::set_chassis_error_mask(const int32_t mask) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t ChController::chassis_error_mask() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode ChController::chassis_error_code() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
@@ -643,7 +643,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ChController::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;

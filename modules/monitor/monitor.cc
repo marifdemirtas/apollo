@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -39,7 +39,7 @@ namespace apollo {
 namespace monitor {
 
 bool Monitor::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   MonitorManager::Instance()->Init(node_);
 
@@ -78,7 +78,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Monitor::Proc() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const double current_time = apollo::cyber::Clock::NowInSeconds();
   if (!MonitorManager::Instance()->StartFrame(current_time)) {

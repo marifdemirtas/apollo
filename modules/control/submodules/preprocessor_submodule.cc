@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -42,21 +42,21 @@ using apollo::planning::ADCTrajectory;
 
 PreprocessorSubmodule::PreprocessorSubmodule()
     : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 PreprocessorSubmodule::~PreprocessorSubmodule() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 std::string PreprocessorSubmodule::Name() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return FLAGS_preprocessor_submodule_name;
 }
 
 bool PreprocessorSubmodule::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   injector_ = std::make_shared<DependencyInjector>();
   ACHECK(cyber::common::GetProtoFromFile(FLAGS_control_common_conf_file,
@@ -73,7 +73,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool PreprocessorSubmodule::Proc(const std::shared_ptr<LocalView> &local_view) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ADEBUG << "Preprocessor started ....";
   const auto start_time = Clock::Now();
@@ -131,7 +131,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status PreprocessorSubmodule::ProducePreprocessorStatus(
     Preprocessor *control_preprocessor) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(SJiang): rename this function since local view got changed in this
   // function.
@@ -221,7 +221,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status PreprocessorSubmodule::CheckInput(LocalView *local_view) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ADEBUG << "Received localization:"
          << local_view->localization().ShortDebugString();
@@ -254,7 +254,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status PreprocessorSubmodule::CheckTimestamp(const LocalView &local_view) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!control_common_conf_.enable_input_timestamp_check() ||
       control_common_conf_.is_control_test_mode()) {

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -34,7 +34,7 @@ using apollo::common::Status;
 using apollo::cyber::Clock;
 
 void ControllerAgent::RegisterControllers(const ControlConf *control_conf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Only support MPC controller or Lat + Lon controllers as of now";
   for (auto active_controller : control_conf->active_controllers()) {
@@ -61,7 +61,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status ControllerAgent::InitializeConf(const ControlConf *control_conf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!control_conf) {
     AERROR << "control_conf is null";
@@ -84,7 +84,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Status ControllerAgent::Init(std::shared_ptr<DependencyInjector> injector,
                              const ControlConf *control_conf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   injector_ = injector;
   RegisterControllers(control_conf);
@@ -107,7 +107,7 @@ Status ControllerAgent::ComputeControlCommand(
     const localization::LocalizationEstimate *localization,
     const canbus::Chassis *chassis, const planning::ADCTrajectory *trajectory,
     control::ControlCommand *cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto &controller : controller_list_) {
     ADEBUG << "controller:" << controller->Name() << " processing ...";
@@ -124,7 +124,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status ControllerAgent::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto &controller : controller_list_) {
     ADEBUG << "controller:" << controller->Name() << " reset...";

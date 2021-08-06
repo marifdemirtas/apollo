@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -23,11 +23,11 @@ namespace localization {
 
 RTKLocalizationComponent::RTKLocalizationComponent()
     : localization_(new RTKLocalization()) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 bool RTKLocalizationComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   tf2_broadcaster_.reset(new apollo::transform::TransformBroadcaster(node_));
   if (!InitConfig()) {
@@ -44,7 +44,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RTKLocalizationComponent::InitConfig() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   rtk_config::Config rtk_config;
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
@@ -67,7 +67,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool RTKLocalizationComponent::InitIO() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   corrected_imu_listener_ = node_->CreateReader<localization::CorrectedImu>(
       imu_topic_, std::bind(&RTKLocalization::ImuCallback, localization_.get(),
@@ -91,7 +91,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool RTKLocalizationComponent::Proc(
     const std::shared_ptr<localization::Gps>& gps_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   localization_->GpsCallback(gps_msg);
 
@@ -113,7 +113,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void RTKLocalizationComponent::PublishPoseBroadcastTF(
     const LocalizationEstimate& localization) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // broadcast tf message
   apollo::transform::TransformStamped tf2_msg;
@@ -139,14 +139,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void RTKLocalizationComponent::PublishPoseBroadcastTopic(
     const LocalizationEstimate& localization) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   localization_talker_->Write(localization);
 }
 
 void RTKLocalizationComponent::PublishLocalizationStatus(
     const LocalizationStatus& localization_status) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   localization_status_talker_->Write(localization_status);
 }

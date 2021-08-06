@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Accelauxrpt300::Accelauxrpt300() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 const int32_t Accelauxrpt300::ID = 0x300;
 
 void Accelauxrpt300::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis->mutable_lexus()
       ->mutable_accel_aux_rpt_300()
@@ -59,7 +59,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 42, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Accelauxrpt300::user_interaction_is_valid(const std::uint8_t* bytes,
                                                int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(2, 1);
@@ -73,7 +73,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Accelauxrpt300::user_interaction(const std::uint8_t* bytes,
                                       int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 1);
@@ -87,7 +87,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 41, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Accelauxrpt300::raw_pedal_force_is_valid(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(1, 1);
@@ -101,7 +101,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit': 23, 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Accelauxrpt300::raw_pedal_force(const std::uint8_t* bytes,
                                        int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -123,7 +123,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'bit': 40, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Accelauxrpt300::raw_pedal_pos_is_valid(const std::uint8_t* bytes,
                                             int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 1);
@@ -137,7 +137,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Accelauxrpt300::raw_pedal_pos(const std::uint8_t* bytes,
                                      int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);

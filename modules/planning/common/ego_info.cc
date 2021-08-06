@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -31,14 +31,14 @@ using apollo::common::math::Box2d;
 using apollo::common::math::Vec2d;
 
 EgoInfo::EgoInfo() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ego_vehicle_config_ = common::VehicleConfigHelper::GetConfig();
 }
 
 bool EgoInfo::Update(const common::TrajectoryPoint& start_point,
                      const common::VehicleState& vehicle_state) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_start_point(start_point);
   set_vehicle_state(vehicle_state);
@@ -47,7 +47,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void EgoInfo::CalculateEgoBox(const common::VehicleState& vehicle_state) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const auto& param = ego_vehicle_config_.vehicle_param();
   ADEBUG << "param: " << param.DebugString();
@@ -64,7 +64,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void EgoInfo::Clear() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   start_point_.Clear();
   vehicle_state_.Clear();
@@ -77,7 +77,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 2. the road is not necessaries straight
 void EgoInfo::CalculateFrontObstacleClearDistance(
     const std::vector<const Obstacle*>& obstacles) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Vec2d position(vehicle_state_.x(), vehicle_state_.y());
 

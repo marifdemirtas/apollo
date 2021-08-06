@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -43,15 +43,15 @@ MeasureRepublishProcess::MeasureRepublishProcess()
       is_trans_gpstime_to_utctime_(true),
       map_height_time_(0.0),
       gnss_mode_(GnssMode::NOVATEL) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 MeasureRepublishProcess::~MeasureRepublishProcess() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 Status MeasureRepublishProcess::Init(const LocalizationIntegParam& params) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   local_utm_zone_id_ = params.utm_zone_id;
   is_trans_gpstime_to_utctime_ = params.is_trans_gpstime_to_utctime;
@@ -138,7 +138,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool MeasureRepublishProcess::NovatelBestgnssposProcess(
     const GnssBestPose& bestgnsspos_msg, MeasureData* measure) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (gnss_mode_ != GnssMode::NOVATEL) {
     return false;
@@ -192,7 +192,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MeasureRepublishProcess::GnssLocalProcess(
     const MeasureData& gnss_local_msg, MeasureData* measure) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (gnss_mode_ != GnssMode::SELF) {
     return;
@@ -331,7 +331,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MeasureRepublishProcess::IntegPvaProcess(const InsPva& inspva_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const InsPva& integ_pva = inspva_msg;
 
@@ -346,7 +346,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool MeasureRepublishProcess::LidarLocalProcess(
     const LocalizationEstimate& lidar_local_msg, MeasureData* measure) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(measure);
 
@@ -411,7 +411,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool MeasureRepublishProcess::IsSinsAlign() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(integ_pva_mutex_);
   return !integ_pva_list_.empty() && integ_pva_list_.back().init_and_alignment;
@@ -419,7 +419,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MeasureRepublishProcess::TransferXYZFromBestgnsspose(
     const GnssBestPose& bestgnsspos_msg, MeasureData* measure) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(measure);
 
@@ -452,7 +452,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MeasureRepublishProcess::TransferFirstMeasureFromBestgnsspose(
     const GnssBestPose& bestgnsspos_msg, MeasureData* measure) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(measure);
 
@@ -471,7 +471,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool MeasureRepublishProcess::CalculateVelFromBestgnsspose(
     const GnssBestPose& bestgnsspos_msg, MeasureData* measure) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(measure);
 
@@ -557,7 +557,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool MeasureRepublishProcess::GnssHeadingProcess(
     const drivers::gnss::Heading& heading_msg, MeasureData* measure_data,
     int* status) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if ((imu_gnssant_extrinsic_.ant_num == 1)) {
     return false;
@@ -659,7 +659,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool MeasureRepublishProcess::LoadImuGnssAntennaExtrinsic(
     std::string file_path, VehicleGnssAntExtrinsic* extrinsic) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   YAML::Node confige = YAML::LoadFile(file_path);
   if (confige["leverarm"]) {
@@ -715,7 +715,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool MeasureRepublishProcess::CheckBestgnssPoseXYStd(
     const GnssBestPose& bestgnsspos_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // check the standard deviation of xy
   if ((bestgnsspos_msg.longitude_std_dev() > GNSS_XY_STD_THRESHOLD) ||
@@ -730,7 +730,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool MeasureRepublishProcess::CheckBestgnssposeStatus(
     const GnssBestPose& bestgnsspos_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int gnss_solution_status = static_cast<int>(bestgnsspos_msg.sol_status());
   int gnss_position_type = static_cast<int>(bestgnsspos_msg.sol_type());

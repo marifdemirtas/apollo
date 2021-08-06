@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,13 +26,13 @@ namespace benchmark {
 std::string PointCloudFrame::_s_cloud_type = "xyzit";  // NOLINT
 
 void PointCloudFrame::set_cloud_type(const std::string& type) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   _s_cloud_type = type;
 }
 
 bool PointCloudFrame::load(const std::vector<std::string>& filenames) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (filenames.empty()) {
     std::cerr << "Filenames is empty" << std::endl;

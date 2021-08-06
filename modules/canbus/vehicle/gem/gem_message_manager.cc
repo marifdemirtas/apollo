@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /* Copyright 2018 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,7 +53,7 @@ namespace canbus {
 namespace gem {
 
 GemMessageManager::GemMessageManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Control Messages
   AddSendProtocolData<Accelcmd67, true>();
@@ -91,7 +91,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 GemMessageManager::~GemMessageManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 }  // namespace gem

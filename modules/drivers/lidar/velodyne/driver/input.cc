@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace velodyne {
 
 bool Input::exract_nmea_time_from_packet(NMEATimePtr nmea_time,
                                          const uint8_t* bytes) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   unsigned int gprmc_index = 206;
 

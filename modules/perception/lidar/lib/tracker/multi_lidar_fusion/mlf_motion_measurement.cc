@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,14 +23,14 @@
 #include "modules/perception/lidar/lib/tracker/multi_lidar_fusion/mlf_motion_measurement.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace lidar {
 
 void MlfMotionMeasurement::ComputeMotionMeasurment(
     const MlfTrackDataConstPtr& track_data, TrackedObjectPtr new_object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // prefer to choose objects from the same sensor
   std::string sensor_name = new_object->sensor_info.name;
@@ -60,7 +60,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void MlfMotionMeasurement::MeasurementSelection(
     const MlfTrackDataConstPtr& track_data,
     const TrackedObjectConstPtr& latest_object, TrackedObjectPtr new_object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Select measured velocity among candidates according motion consistency
   int64_t corner_index = 0;
@@ -106,7 +106,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MlfMotionMeasurement::MeasurementQualityEstimation(
     const TrackedObjectConstPtr& latest_object, TrackedObjectPtr new_object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // 1. point size diff (only for same sensor)
   int pre_num = static_cast<int>(

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /* Copyright 2019 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,7 +37,7 @@ namespace canbus {
 namespace ge3 {
 
 Ge3MessageManager::Ge3MessageManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Control Messages
   AddSendProtocolData<Pcbcm201, true>();
@@ -61,7 +61,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Ge3MessageManager::~Ge3MessageManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 }  // namespace ge3

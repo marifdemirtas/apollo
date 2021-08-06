@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -20,21 +20,21 @@
 #include "modules/perception/common/point_cloud_processing/common.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace lidar {
 
 bool DummyMultiTargetTracker::Init(
     const MultiTargetTrackerInitOptions& options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return true;
 }
 
 bool DummyMultiTargetTracker::Track(const MultiTargetTrackerOptions& options,
                                     LidarFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (frame == nullptr) {
     return false;

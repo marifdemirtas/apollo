@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -19,14 +19,14 @@
 #include "modules/perception/radar/lib/roi_filter/hdmap_radar_roi_filter/hdmap_radar_roi_filter.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace radar {
 
 bool HdmapRadarRoiFilter::RoiFilter(const RoiFilterOptions& options,
                                     base::FramePtr radar_frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::vector<base::ObjectPtr> origin_objects = radar_frame->objects;
   return common::ObjectInRoiCheck(options.roi, origin_objects,
@@ -34,7 +34,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string HdmapRadarRoiFilter::Name() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return "HdmapRadarRoiFilter"; }
 
 PERCEPTION_REGISTER_ROI_FILTER(HdmapRadarRoiFilter);

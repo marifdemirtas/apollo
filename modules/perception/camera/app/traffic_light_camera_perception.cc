@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,7 +32,7 @@ using cyber::common::GetAbsolutePath;
 
 bool TrafficLightCameraPerception::Init(
     const CameraPerceptionInitOptions &options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Arif called TrafficLightCameraPerception::Init";
   std::string work_root = "";
@@ -94,7 +94,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool TrafficLightCameraPerception::Perception(
     const CameraPerceptionOptions &options, CameraFrame *frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Arif called TrafficLightCameraPerception::Perception";
   PERF_FUNCTION();

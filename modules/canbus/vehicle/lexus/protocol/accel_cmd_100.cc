@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -31,11 +31,11 @@ const int32_t Accelcmd100::ID = 0x100;
 
 // public
 Accelcmd100::Accelcmd100() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Accelcmd100::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -43,7 +43,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Accelcmd100::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_ignore_overrides(data, ignore_overrides_);
   set_p_enable(data, enable_);
@@ -53,7 +53,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Accelcmd100::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(QiL) you should check this manually
   ignore_overrides_ = false;
@@ -64,7 +64,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Accelcmd100* Accelcmd100::set_ignore_overrides(bool ignore_overrides) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ignore_overrides_ = ignore_overrides;
   return this;
@@ -74,7 +74,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 1,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Accelcmd100::set_p_ignore_overrides(uint8_t* data, bool ignore_overrides) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint8_t x = ignore_overrides;
 
@@ -83,7 +83,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Accelcmd100* Accelcmd100::set_enable(bool enable) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   enable_ = enable;
   return this;
@@ -93,7 +93,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Accelcmd100::set_p_enable(uint8_t* data, bool enable) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint8_t x = enable;
 
@@ -102,7 +102,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Accelcmd100* Accelcmd100::set_clear_override(bool clear_override) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   clear_override_ = clear_override;
   return this;
@@ -112,7 +112,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 2,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Accelcmd100::set_p_clear_override(uint8_t* data, bool clear_override) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint8_t x = clear_override;
 
@@ -121,7 +121,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Accelcmd100* Accelcmd100::set_clear_faults(bool clear_faults) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   clear_faults_ = clear_faults;
   return this;
@@ -131,7 +131,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 3,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Accelcmd100::set_p_clear_faults(uint8_t* data, bool clear_faults) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint8_t x = clear_faults;
 
@@ -140,7 +140,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Accelcmd100* Accelcmd100::set_accel_cmd(double accel_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   accel_cmd_ = accel_cmd;
   return this;
@@ -150,7 +150,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 15,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 void Accelcmd100::set_p_accel_cmd(uint8_t* data, double accel_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const double scaling_bias = 0.0;   // estimated from the garage test data
   const double scaling_gain = 1.20;  // estimated from the garage test data

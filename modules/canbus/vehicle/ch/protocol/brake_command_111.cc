@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,11 +28,11 @@ const int32_t Brakecommand111::ID = 0x111;
 
 // public
 Brakecommand111::Brakecommand111() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Brakecommand111::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,14 +40,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Brakecommand111::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_brake_pedal_en_ctrl(data, brake_pedal_en_ctrl_);
   set_p_brake_pedal_cmd(data, brake_pedal_cmd_);
 }
 
 void Brakecommand111::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // you should check this manually
   brake_pedal_en_ctrl_ = Brake_command_111::BRAKE_PEDAL_EN_CTRL_DISABLE;
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Brakecommand111* Brakecommand111::set_brake_pedal_en_ctrl(
     Brake_command_111::Brake_pedal_en_ctrlType brake_pedal_en_ctrl) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   brake_pedal_en_ctrl_ = brake_pedal_en_ctrl;
   return this;
@@ -70,7 +70,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Brakecommand111::set_p_brake_pedal_en_ctrl(
     uint8_t* data,
     Brake_command_111::Brake_pedal_en_ctrlType brake_pedal_en_ctrl) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = brake_pedal_en_ctrl;
 
@@ -79,7 +79,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Brakecommand111* Brakecommand111::set_brake_pedal_cmd(int brake_pedal_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   brake_pedal_cmd_ = brake_pedal_cmd;
   return this;
@@ -91,7 +91,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'intel', 'physical_unit': '%'}
 void Brakecommand111::set_p_brake_pedal_cmd(uint8_t* data,
                                             int brake_pedal_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   brake_pedal_cmd = ProtocolData::BoundedValue(0, 100, brake_pedal_cmd);
   int x = brake_pedal_cmd;

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,13 +27,13 @@ namespace ch {
 using ::apollo::drivers::canbus::Byte;
 
 Brakestatus511::Brakestatus511() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 const int32_t Brakestatus511::ID = 0x511;
 
 void Brakestatus511::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis->mutable_ch()->mutable_brake_status__511()->set_brake_pedal_en_sts(
       brake_pedal_en_sts(bytes, length));
@@ -61,7 +61,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 Brake_status__511::Brake_pedal_en_stsType Brakestatus511::brake_pedal_en_sts(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -76,7 +76,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'intel', 'physical_unit': '%'}
 int Brakestatus511::brake_pedal_sts(const std::uint8_t* bytes,
                                     int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -91,7 +91,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'intel', 'physical_unit': ''}
 Brake_status__511::Brake_errType Brakestatus511::brake_err(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -108,7 +108,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 Brake_status__511::Emergency_btn_envType Brakestatus511::emergency_btn_env(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -124,7 +124,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'enum', 'order': 'intel', 'physical_unit': ''}
 Brake_status__511::Front_bump_envType Brakestatus511::front_bump_env(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -140,7 +140,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'enum', 'order': 'intel', 'physical_unit': ''}
 Brake_status__511::Back_bump_envType Brakestatus511::back_bump_env(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);
@@ -156,7 +156,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'intel', 'physical_unit': ''}
 Brake_status__511::Overspd_envType Brakestatus511::overspd_env(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);

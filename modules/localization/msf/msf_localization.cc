@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -40,11 +40,11 @@ MSFLocalization::MSFLocalization()
       localization_state_(msf::LocalizationMeasureState::OK),
       pcd_msg_index_(-1),
       raw_imu_msg_(nullptr) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 Status MSFLocalization::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   InitParams();
 
@@ -52,7 +52,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MSFLocalization::InitParams() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // integration module
   localization_param_.is_ins_can_self_align = FLAGS_integ_ins_can_self_align;
@@ -200,7 +200,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MSFLocalization::OnPointCloud(
     const std::shared_ptr<drivers::PointCloud> &message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ++pcd_msg_index_;
   if (pcd_msg_index_ % FLAGS_point_cloud_step != 0) {
@@ -220,7 +220,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MSFLocalization::OnRawImu(
     const std::shared_ptr<drivers::gnss::Imu> &imu_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (FLAGS_imu_coord_rfu) {
     localization_integ_.RawImuProcessRfu(*imu_msg);
@@ -256,7 +256,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MSFLocalization::OnRawImuCache(
     const std::shared_ptr<drivers::gnss::Imu> &imu_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (imu_msg) {
     std::unique_lock<std::mutex> lock(mutex_imu_msg_);
@@ -266,7 +266,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MSFLocalization::OnGnssBestPose(
     const std::shared_ptr<drivers::gnss::GnssBestPose> &bestgnsspos_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
@@ -286,7 +286,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MSFLocalization::OnGnssRtkObs(
     const std::shared_ptr<drivers::gnss::EpochObservation> &raw_obs_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
@@ -306,7 +306,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MSFLocalization::OnGnssRtkEph(
     const std::shared_ptr<drivers::gnss::GnssEphemeris> &gnss_orbit_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
@@ -319,7 +319,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MSFLocalization::OnGnssHeading(
     const std::shared_ptr<drivers::gnss::Heading> &gnss_heading_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
@@ -330,7 +330,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MSFLocalization::OnLocalizationTimer() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!raw_imu_msg_) {
     return;
@@ -341,14 +341,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MSFLocalization::SetPublisher(
     const std::shared_ptr<LocalizationMsgPublisher> &publisher) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   publisher_ = publisher;
 }
 
 void MSFLocalization::CompensateImuVehicleExtrinsic(
     LocalizationEstimate *local_result) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(local_result);
   // calculate orientation_vehicle_world
@@ -377,7 +377,7 @@ bool MSFLocalization::LoadGnssAntennaExtrinsic(
     const std::string &file_path, double *offset_x, double *offset_y,
     double *offset_z, double *uncertainty_x, double *uncertainty_y,
     double *uncertainty_z) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   YAML::Node config = YAML::LoadFile(file_path);
   if (config["leverarm"]) {
@@ -404,7 +404,7 @@ bool MSFLocalization::LoadImuVehicleExtrinsic(const std::string &file_path,
                                               double *quat_qx, double *quat_qy,
                                               double *quat_qz,
                                               double *quat_qw) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!cyber::common::PathExists(file_path)) {
     return false;
@@ -426,7 +426,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool MSFLocalization::LoadZoneIdFromFolder(const std::string &folder_path,
                                            int *zone_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::string map_zone_id_folder;
   if (cyber::common::DirectoryExists(folder_path + "/map/000/north")) {

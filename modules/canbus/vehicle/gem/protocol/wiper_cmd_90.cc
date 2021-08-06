@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Wipercmd90::ID = 0x90;
 
 // public
 Wipercmd90::Wipercmd90() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Wipercmd90::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,20 +41,20 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Wipercmd90::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_wiper_cmd(data, wiper_cmd_);
 }
 
 void Wipercmd90::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(QiL) :you should check this manually
   wiper_cmd_ = Wiper_cmd_90::WIPER_CMD_WIPERS_OFF;
 }
 
 Wipercmd90* Wipercmd90::set_wiper_cmd(Wiper_cmd_90::Wiper_cmdType wiper_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   wiper_cmd_ = wiper_cmd;
   return this;
@@ -69,7 +69,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Wipercmd90::set_p_wiper_cmd(uint8_t* data,
                                  Wiper_cmd_90::Wiper_cmdType wiper_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint8_t x = wiper_cmd;
 

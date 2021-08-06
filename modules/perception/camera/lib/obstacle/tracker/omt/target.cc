@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,29 +25,29 @@
 #include "modules/perception/common/geometry/basic.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
 
 int Target::global_track_id = 0;
 int Target::Size() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return static_cast<int>(tracked_objects.size()); }
 
 void Target::Clear() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  tracked_objects.clear(); }
 
 TrackObjectPtr Target::operator[](int index) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return get_object(index); }
 TrackObjectPtr Target::get_object(int index) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_GT(static_cast<int>(tracked_objects.size()), 0);
   CHECK_LT(index, static_cast<int>(tracked_objects.size()));
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
                          tracked_objects.size()];
 }
 void Target::Add(TrackObjectPtr object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (tracked_objects.empty()) {
     start_ts = object->timestamp;
@@ -71,7 +71,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   tracked_objects.push_back(object);
 }
 void Target::RemoveOld(int frame_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   size_t index = 0;
   while (index < tracked_objects.size() &&
@@ -82,7 +82,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
                         tracked_objects.begin() + index);
 }
 void Target::Init(const omt::TargetParam &param) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   target_param_ = param;
   id = -1;
@@ -122,11 +122,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   object_template_manager_ = ObjectTemplateManager::Instance();
 }
 Target::Target(const omt::TargetParam &param) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Init(param); }
 
 void Target::Predict(CameraFrame *frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto delta_t =
       static_cast<float>(frame->timestamp - latest_object->timestamp);
@@ -153,7 +153,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Target::Update2D(CameraFrame *frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // measurements
   auto obj = latest_object->object;
@@ -186,7 +186,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Target::Update3D(CameraFrame *frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto object = latest_object->object;
   if (!isLost()) {
@@ -335,7 +335,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Target::UpdateType(CameraFrame *frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto object = latest_object->object;
   if (!isLost()) {
@@ -377,7 +377,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Target::ClappingTrackVelocity(const base::ObjectPtr &obj) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // check angle between velocity and heading(orientation)
   if (obj->type == base::ObjectType::VEHICLE) {
@@ -419,7 +419,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  * 3. check velocity theta's variance
  */
 bool Target::CheckStatic() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (static_cast<int>(history_world_states_.size()) <
       target_param_.min_cached_world_state_history_size()) {
@@ -521,12 +521,12 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Target::isTracked() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return Size() >= target_param_.tracked_life();
 }
 bool Target::isLost() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return lost_age > 0; }
 
 }  // namespace camera

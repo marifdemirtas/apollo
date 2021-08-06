@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,15 +24,15 @@ namespace pyramid_map {
 PyramidMapNodePool::PyramidMapNodePool(unsigned int pool_size,
                                        unsigned int thread_size)
     : BaseMapNodePool(pool_size, thread_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 PyramidMapNodePool::~PyramidMapNodePool() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 BaseMapNode* PyramidMapNodePool::AllocNewMapNode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return new PyramidMapNode();
 }

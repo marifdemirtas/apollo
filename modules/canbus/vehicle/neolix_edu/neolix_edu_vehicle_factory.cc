@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace canbus {
 
 std::unique_ptr<VehicleController>
 Neolix_eduVehicleFactory::CreateVehicleController() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return std::unique_ptr<VehicleController>(
       new neolix_edu::Neolix_eduController());
@@ -35,7 +35,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>
 Neolix_eduVehicleFactory::CreateMessageManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>(
       new neolix_edu::Neolix_eduMessageManager());

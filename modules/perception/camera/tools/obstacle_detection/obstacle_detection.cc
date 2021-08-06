@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -64,7 +64,7 @@ static const cv::Scalar kFaceColorMap[] = {
 };
 
 base::ObjectSubType GetObjectSubType(const std::string &type_name) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (type_name == "car") {
     return base::ObjectSubType::CAR;
@@ -91,7 +91,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool LoadFromKitti(const std::string &kitti_path, CameraFrame *frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   frame->detected_objects.clear();
   FILE *fp = fopen(kitti_path.c_str(), "r");
@@ -147,7 +147,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int main() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CameraFrame frame;
   DataProvider data_provider;
@@ -339,7 +339,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }  // namespace apollo
 
 int main(int argc, char *argv[]) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   google::SetUsageMessage(

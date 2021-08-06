@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,7 +21,7 @@ namespace perception {
 namespace radar {
 
 int RadarTrackManager::RemoveLostTracks() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   size_t track_count = 0;
   for (size_t i = 0; i < tracks_.size(); ++i) {
@@ -39,7 +39,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RadarTrackManager::ClearTracks() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  tracks_.clear(); }
 
 }  // namespace radar

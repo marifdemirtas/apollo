@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace drivers {
 namespace hesai {
 
 bool HesaiDriver::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (node_ == nullptr) {
     AERROR << "node is nullptr";
@@ -76,7 +76,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HesaiDriver::PollThread() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Poll thread start";
   while (running_) {
@@ -102,7 +102,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HesaiDriver::ProcessGps(const HesaiPacket& pkt) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (pkt.size != GPS_PACKET_SIZE) {
     return;
@@ -156,7 +156,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HesaiDriver::ProcessThread() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::shared_ptr<HesaiPacket> pkt = nullptr;
   bool is_end = false;

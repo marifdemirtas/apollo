@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /**
  * Copyright (c) 2019 LG Electronics, Inc.
  *
@@ -28,7 +28,7 @@ enum {
 
 Client::Client(Node* node, Clients* clients, boost::asio::ip::tcp::socket s)
     : node(*node), clients(*clients), socket(std::move(s)) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto endpoint = socket.remote_endpoint();
   AINFO << "Client [" << endpoint.address() << ":" << endpoint.port()
@@ -36,11 +36,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Client::~Client() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void Client::start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   socket.async_read_some(
       boost::asio::buffer(temp, sizeof(temp)),
@@ -50,12 +50,12 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Client::stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  socket.close(); }
 
 void Client::handle_read(const boost::system::error_code& ec,
                          std::size_t size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!ec) {
     ADEBUG << "Received " << size << " bytes";
@@ -105,7 +105,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Client::handle_write(const boost::system::error_code& ec) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (ec) {
     if (ec != boost::asio::error::operation_aborted) {
@@ -129,7 +129,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // [1] [count] [string] ... [string]
 void Client::handle_register_desc() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (sizeof(uint8_t) + sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_register_desc too short";
@@ -176,7 +176,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // [2] [channel] [type]
 void Client::handle_add_reader() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_add_reader too short header";
@@ -216,7 +216,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // [3] [channel] [type]
 void Client::handle_add_writer() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_new_writer too short header";
@@ -256,7 +256,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // [4] [channel] [message]
 void Client::handle_publish() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     return;
@@ -291,7 +291,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void fill_data(std::vector<uint8_t>* data, const std::string& channel,
                const std::string& msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   data->reserve(data->size() + sizeof(uint8_t) + sizeof(uint32_t) +
                 channel.size() + sizeof(uint32_t) + msg.size());
@@ -315,7 +315,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Client::publish(const std::string& channel, const std::string& msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(publish_mutex);
   if (writing.empty()) {
@@ -333,7 +333,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 uint32_t Client::get32le(size_t offset) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return buffer[offset + 0] | (buffer[offset + 1] << 8) |
          (buffer[offset + 2] << 16) | (buffer[offset + 3] << 24);

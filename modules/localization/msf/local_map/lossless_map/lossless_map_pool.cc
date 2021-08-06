@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,11 +24,11 @@ namespace msf {
 LosslessMapNodePool::LosslessMapNodePool(unsigned int pool_size,
                                          unsigned int thread_size)
     : BaseMapNodePool(pool_size, thread_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 BaseMapNode* LosslessMapNodePool::AllocNewMapNode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return new LosslessMapNode();
 }

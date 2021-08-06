@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,14 +29,14 @@ using apollo::drivers::canbus::Byte;
 const uint32_t MotionInputYawRate301::ID = 0x301;
 
 MotionInputYawRate301::MotionInputYawRate301() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 MotionInputYawRate301::~MotionInputYawRate301() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 uint32_t MotionInputYawRate301::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
@@ -47,7 +47,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  * @param data a pointer to the data to be updated
  */
 void MotionInputYawRate301::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (std::isnan(yaw_rate_)) {
     AWARN << "yaw_rate is nan";
@@ -67,11 +67,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
  * @brief reset the private variables
  */
 void MotionInputYawRate301::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  yaw_rate_ = NAN; }
 
 void MotionInputYawRate301::SetYawRate(const float& yaw_rate) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   yaw_rate_ = yaw_rate;
 }

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,18 +28,18 @@ using torch::indexing::Slice;
 using apollo::common::math::NormalizeAngle;
 
 DirectionDetection::DirectionDetection() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 DirectionDetection::~DirectionDetection() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 std::pair<Point3D, double> DirectionDetection::EstimateSoundSource(
     std::vector<std::vector<double>>&& channels_vec,
     const std::string& respeaker_extrinsic_file, const int sample_rate,
     const double mic_distance) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!respeaker2imu_ptr_.get()) {
     respeaker2imu_ptr_.reset(new Eigen::Matrix4d);
@@ -62,7 +62,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 double DirectionDetection::EstimateDirection(
     std::vector<std::vector<double>>&& channels_vec, const int sample_rate,
     const double mic_distance) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::vector<torch::Tensor> channels_ts;
   auto options = torch::TensorOptions().dtype(torch::kFloat64);
@@ -93,7 +93,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool DirectionDetection::LoadExtrinsics(const std::string& yaml_file,
                                         Eigen::Matrix4d* respeaker_extrinsic) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!apollo::cyber::common::PathExists(yaml_file)) {
     AINFO << yaml_file << " does not exist!";
@@ -141,7 +141,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 double DirectionDetection::GccPhat(const torch::Tensor& sig,
                                    const torch::Tensor& refsig, int fs,
                                    double max_tau, int interp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const int n_sig = sig.size(0), n_refsig = refsig.size(0),
             n = n_sig + n_refsig;
@@ -169,14 +169,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void DirectionDetection::ConjugateTensor(torch::Tensor* tensor) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   tensor->index_put_({"...", 1}, -tensor->index({"...", 1}));
 }
 
 torch::Tensor DirectionDetection::ComplexMultiply(const torch::Tensor& a,
                                                   const torch::Tensor& b) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   torch::Tensor real = a.index({"...", 0}) * b.index({"...", 0}) -
                        a.index({"...", 1}) * b.index({"...", 1});
@@ -186,7 +186,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 torch::Tensor DirectionDetection::ComplexAbsolute(const torch::Tensor& tensor) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   torch::Tensor res = tensor * tensor;
   res = at::sqrt(res.sum(1)).reshape({-1, 1});

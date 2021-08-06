@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,15 +24,15 @@ namespace msf {
 namespace pyramid_map {
 
 PyramidMapNodeConfig::PyramidMapNodeConfig() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 PyramidMapNodeConfig::~PyramidMapNodeConfig() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 std::shared_ptr<BaseMapNodeConfig> PyramidMapNodeConfig::Clone() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::shared_ptr<PyramidMapNodeConfig> map_node_config(
       new PyramidMapNodeConfig());

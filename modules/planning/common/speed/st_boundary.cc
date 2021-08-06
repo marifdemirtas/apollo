@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -134,7 +134,7 @@ bool STBoundary::GetUnblockSRange(const double curr_time, double* s_upper,
   size_t left = 0;
   size_t right = 0;
   if (!GetIndexRange(lower_points_, curr_time, &left, &right)) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
     AERROR << "Fail to get index range.";
     return false;

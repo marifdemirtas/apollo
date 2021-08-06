@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ DEFINE_double(qz, 0, "quaternion z");
 DEFINE_double(qw, 0, "quaternion w");
 
 int main(int32_t argc, char** argv) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   google::InitGoogleLogging(argv[0]);
   FLAGS_alsologtostderr = true;

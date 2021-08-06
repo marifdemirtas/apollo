@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -30,11 +30,11 @@ namespace data {
 using apollo::canbus::Chassis;
 
 HardBrakeTrigger::HardBrakeTrigger() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  trigger_name_ = "HardBrakeTrigger"; }
 
 void HardBrakeTrigger::Pull(const cyber::record::RecordMessage& msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!trigger_obj_->enabled()) {
     return;
@@ -60,7 +60,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool HardBrakeTrigger::IsNoisy(const float speed) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const float pre_speed_mps =
       (current_speed_queue_.empty() ? 0.0f : current_speed_queue_.back());
@@ -68,7 +68,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool HardBrakeTrigger::IsHardBrake() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (current_speed_queue_.size() < queue_size_ ||
       history_speed_queue_.size() < queue_size_) {
@@ -80,7 +80,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HardBrakeTrigger::EnqueueMessage(const float speed) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   current_speed_queue_.emplace_back(speed);
   current_total_ += speed;

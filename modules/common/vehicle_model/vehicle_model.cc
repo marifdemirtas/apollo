@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ void VehicleModel::RearCenteredKinematicBicycleModel(
     const VehicleModelConfig& vehicle_model_config,
     const double predicted_time_horizon, const VehicleState& cur_vehicle_state,
     VehicleState* predicted_vehicle_state) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Kinematic bicycle model centered at rear axis center by Euler forward
   // discretization
@@ -85,7 +85,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 VehicleState VehicleModel::Predict(const double predicted_time_horizon,
                                    const VehicleState& cur_vehicle_state) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   VehicleModelConfig vehicle_model_config;
 

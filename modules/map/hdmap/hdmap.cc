@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,7 @@ namespace apollo {
 namespace hdmap {
 
 int HDMap::LoadMapFromFile(const std::string& map_filename) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Loading HDMap: " << map_filename << " ...";
   try
@@ -54,7 +54,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int HDMap::LoadMapFromProto(const Map& map_proto) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ADEBUG << "Loading HDMap with header: "
          << map_proto.header().ShortDebugString();
@@ -62,108 +62,108 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LaneInfoConstPtr HDMap::GetLaneById(const Id& id) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetLaneById(id);
 }
 
 JunctionInfoConstPtr HDMap::GetJunctionById(const Id& id) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetJunctionById(id);
 }
 
 SignalInfoConstPtr HDMap::GetSignalById(const Id& id) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetSignalById(id);
 }
 
 CrosswalkInfoConstPtr HDMap::GetCrosswalkById(const Id& id) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetCrosswalkById(id);
 }
 
 StopSignInfoConstPtr HDMap::GetStopSignById(const Id& id) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetStopSignById(id);
 }
 
 YieldSignInfoConstPtr HDMap::GetYieldSignById(const Id& id) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetYieldSignById(id);
 }
 
 ClearAreaInfoConstPtr HDMap::GetClearAreaById(const Id& id) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetClearAreaById(id);
 }
 
 SpeedBumpInfoConstPtr HDMap::GetSpeedBumpById(const Id& id) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetSpeedBumpById(id);
 }
 
 OverlapInfoConstPtr HDMap::GetOverlapById(const Id& id) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetOverlapById(id);
 }
 
 RoadInfoConstPtr HDMap::GetRoadById(const Id& id) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetRoadById(id);
 }
 
 ParkingSpaceInfoConstPtr HDMap::GetParkingSpaceById(const Id& id) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetParkingSpaceById(id);
 }
 
 PNCJunctionInfoConstPtr HDMap::GetPNCJunctionById(const Id& id) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetPNCJunctionById(id);
 }
 
 int HDMap::GetLanes(const apollo::common::PointENU& point, double distance,
                     std::vector<LaneInfoConstPtr>* lanes) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetLanes(point, distance, lanes);
 }
 
 int HDMap::GetJunctions(const apollo::common::PointENU& point, double distance,
                         std::vector<JunctionInfoConstPtr>* junctions) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetJunctions(point, distance, junctions);
 }
 
 int HDMap::GetSignals(const apollo::common::PointENU& point, double distance,
                       std::vector<SignalInfoConstPtr>* signals) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetSignals(point, distance, signals);
 }
 
 int HDMap::GetCrosswalks(const apollo::common::PointENU& point, double distance,
                          std::vector<CrosswalkInfoConstPtr>* crosswalks) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetCrosswalks(point, distance, crosswalks);
 }
 
 int HDMap::GetStopSigns(const apollo::common::PointENU& point, double distance,
                         std::vector<StopSignInfoConstPtr>* stop_signs) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetStopSigns(point, distance, stop_signs);
 }
@@ -171,7 +171,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int HDMap::GetYieldSigns(
     const apollo::common::PointENU& point, double distance,
     std::vector<YieldSignInfoConstPtr>* yield_signs) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetYieldSigns(point, distance, yield_signs);
 }
@@ -179,7 +179,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int HDMap::GetClearAreas(
     const apollo::common::PointENU& point, double distance,
     std::vector<ClearAreaInfoConstPtr>* clear_areas) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetClearAreas(point, distance, clear_areas);
 }
@@ -187,14 +187,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int HDMap::GetSpeedBumps(
     const apollo::common::PointENU& point, double distance,
     std::vector<SpeedBumpInfoConstPtr>* speed_bumps) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetSpeedBumps(point, distance, speed_bumps);
 }
 
 int HDMap::GetRoads(const apollo::common::PointENU& point, double distance,
                     std::vector<RoadInfoConstPtr>* roads) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetRoads(point, distance, roads);
 }
@@ -202,7 +202,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int HDMap::GetParkingSpaces(
     const apollo::common::PointENU& point, double distance,
     std::vector<ParkingSpaceInfoConstPtr>* parking_spaces) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetParkingSpaces(point, distance, parking_spaces);
 }
@@ -210,7 +210,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int HDMap::GetPNCJunctions(
     const apollo::common::PointENU& point, double distance,
     std::vector<PNCJunctionInfoConstPtr>* pnc_junctions) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetPNCJunctions(point, distance, pnc_junctions);
 }
@@ -218,7 +218,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int HDMap::GetNearestLane(const common::PointENU& point,
                           LaneInfoConstPtr* nearest_lane, double* nearest_s,
                           double* nearest_l) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetNearestLane(point, nearest_lane, nearest_s, nearest_l);
 }
@@ -230,7 +230,7 @@ int HDMap::GetNearestLaneWithHeading(const apollo::common::PointENU& point,
                                      LaneInfoConstPtr* nearest_lane,
                                      double* nearest_s,
                                      double* nearest_l) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetNearestLaneWithHeading(point, distance, central_heading,
                                          max_heading_difference, nearest_lane,
@@ -242,7 +242,7 @@ int HDMap::GetLanesWithHeading(const apollo::common::PointENU& point,
                                const double central_heading,
                                const double max_heading_difference,
                                std::vector<LaneInfoConstPtr>* lanes) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetLanesWithHeading(point, distance, central_heading,
                                    max_heading_difference, lanes);
@@ -252,7 +252,7 @@ int HDMap::GetRoadBoundaries(
     const apollo::common::PointENU& point, double radius,
     std::vector<RoadROIBoundaryPtr>* road_boundaries,
     std::vector<JunctionBoundaryPtr>* junctions) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetRoadBoundaries(point, radius, road_boundaries, junctions);
 }
@@ -261,7 +261,7 @@ int HDMap::GetRoadBoundaries(
     const apollo::common::PointENU& point, double radius,
     std::vector<RoadRoiPtr>* road_boundaries,
     std::vector<JunctionInfoConstPtr>* junctions) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetRoadBoundaries(point, radius, road_boundaries, junctions);
 }
@@ -269,7 +269,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int HDMap::GetRoi(const apollo::common::PointENU& point, double radius,
                   std::vector<RoadRoiPtr>* roads_roi,
                   std::vector<PolygonRoiPtr>* polygons_roi) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetRoi(point, radius, roads_roi, polygons_roi);
 }
@@ -277,21 +277,21 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int HDMap::GetForwardNearestSignalsOnLane(
     const apollo::common::PointENU& point, const double distance,
     std::vector<SignalInfoConstPtr>* signals) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetForwardNearestSignalsOnLane(point, distance, signals);
 }
 
 int HDMap::GetStopSignAssociatedStopSigns(
     const Id& id, std::vector<StopSignInfoConstPtr>* stop_signs) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetStopSignAssociatedStopSigns(id, stop_signs);
 }
 
 int HDMap::GetStopSignAssociatedLanes(
     const Id& id, std::vector<LaneInfoConstPtr>* lanes) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetStopSignAssociatedLanes(id, lanes);
 }
@@ -299,7 +299,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 int HDMap::GetLocalMap(const apollo::common::PointENU& point,
                        const std::pair<double, double>& range,
                        Map* local_map) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetLocalMap(point, range, local_map);
 }
@@ -308,7 +308,7 @@ int HDMap::GetForwardNearestRSUs(const apollo::common::PointENU& point,
                     double distance, double central_heading,
                     double max_heading_difference,
                     std::vector<RSUInfoConstPtr>* rsus) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return impl_.GetForwardNearestRSUs(point, distance,
                     central_heading,

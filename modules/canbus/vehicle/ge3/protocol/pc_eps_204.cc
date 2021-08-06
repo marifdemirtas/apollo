@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,11 +28,11 @@ const int32_t Pceps204::ID = 0x204;
 
 // public
 Pceps204::Pceps204() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Pceps204::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,7 +40,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Pceps204::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_pc_steerspdreq(data, pc_steerspdreq_);
   set_p_pc_steerenable(data, pc_steerenable_);
@@ -48,7 +48,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Pceps204::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // you should check this manually
   pc_steerspdreq_ = 0;
@@ -57,7 +57,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Pceps204* Pceps204::set_pc_steerspdreq(int pc_steerspdreq) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pc_steerspdreq_ = pc_steerspdreq;
   return this;
@@ -68,7 +68,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // False, 'physical_range': '[0|500]', 'bit': 31, 'type': 'int', 'order':
 // 'motorola', 'physical_unit': 'deg/s'}
 void Pceps204::set_p_pc_steerspdreq(uint8_t* data, int pc_steerspdreq) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pc_steerspdreq = ProtocolData::BoundedValue(0, 500, pc_steerspdreq);
   int x = pc_steerspdreq;
@@ -86,7 +86,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Pceps204* Pceps204::set_pc_steerenable(
     Pc_eps_204::Pc_steerenableType pc_steerenable) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pc_steerenable_ = pc_steerenable;
   return this;
@@ -99,7 +99,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Pceps204::set_p_pc_steerenable(
     uint8_t* data, Pc_eps_204::Pc_steerenableType pc_steerenable) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = pc_steerenable;
 
@@ -108,7 +108,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Pceps204* Pceps204::set_pc_steerangreq(double pc_steerangreq) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pc_steerangreq_ = pc_steerangreq;
   return this;
@@ -119,7 +119,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // False, 'physical_range': '[-500|500]', 'bit': 15, 'type': 'double', 'order':
 // 'motorola', 'physical_unit': 'deg'}
 void Pceps204::set_p_pc_steerangreq(uint8_t* data, double pc_steerangreq) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pc_steerangreq = ProtocolData::BoundedValue(-500.0, 500.0, pc_steerangreq);
   int x = static_cast<int>((pc_steerangreq - -500.000000) / 0.100000);

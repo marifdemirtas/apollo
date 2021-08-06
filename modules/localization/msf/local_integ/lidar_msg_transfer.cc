@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ namespace msf {
 
 void LidarMsgTransfer::Transfer(const drivers::PointCloud &msg,
                                 LidarFrame *lidar_frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(lidar_frame);
 

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -34,13 +34,13 @@ constexpr bool is_zero(T value) {
 }  // namespace
 
 Parser *Parser::CreateRtcmV3(bool is_base_station) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return new Rtcm3Parser(is_base_station);
 }
 
 Rtcm3Parser::Rtcm3Parser(bool is_base_station) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (1 != init_rtcm(&rtcm_)) {
     init_flag_ = true;
@@ -54,7 +54,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Rtcm3Parser::SetStationPosition() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto iter = station_location_.find(rtcm_.staid);
   if (iter == station_location_.end()) {
@@ -70,7 +70,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void Rtcm3Parser::FillKepplerOrbit(
     const eph_t &eph, apollo::drivers::gnss::KepplerOrbit *keppler_orbit) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   keppler_orbit->set_week_num(eph.week);
 
@@ -115,7 +115,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void Rtcm3Parser::FillGlonassOrbit(const geph_t &eph,
                                    apollo::drivers::gnss::GlonassOrbit *orbit) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   orbit->set_position_x(eph.pos[0]);
   orbit->set_position_y(eph.pos[1]);
@@ -156,7 +156,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Rtcm3Parser::SetObservationTime() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int week = 0;
   double second = time2gpst(rtcm_.time, &week);
@@ -166,7 +166,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Parser::MessageType Rtcm3Parser::GetMessage(MessagePtr *message_ptr) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (data_ == nullptr) {
     return MessageType::NONE;
@@ -204,7 +204,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Rtcm3Parser::ProcessObservation() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (rtcm_.obs.n == 0) {
     AWARN << "Obs is zero.";
@@ -279,7 +279,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Rtcm3Parser::ProcessEphemerides() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   apollo::drivers::gnss::GnssType gnss_type;
 
@@ -312,7 +312,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Rtcm3Parser::ProcessStationParameters() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // station pose/ant parameters, set pose.
 

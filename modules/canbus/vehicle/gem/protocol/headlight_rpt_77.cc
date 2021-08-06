@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace gem {
 using ::apollo::drivers::canbus::Byte;
 
 Headlightrpt77::Headlightrpt77() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 const int32_t Headlightrpt77::ID = 0x77;
 
 void Headlightrpt77::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis->mutable_gem()->mutable_headlight_rpt_77()->set_output_value(
       output_value(bytes, length));
@@ -52,7 +52,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': ''}
 Headlight_rpt_77::Output_valueType Headlightrpt77::output_value(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -69,7 +69,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': ''}
 Headlight_rpt_77::Manual_inputType Headlightrpt77::manual_input(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -86,7 +86,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': ''}
 Headlight_rpt_77::Commanded_valueType Headlightrpt77::commanded_value(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);

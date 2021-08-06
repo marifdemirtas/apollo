@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Brakecontrola4::ID = 0xA4;
 
 // public
 Brakecontrola4::Brakecontrola4() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Brakecontrola4::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(ChaoM) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,14 +41,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Brakecontrola4::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_brake_torque(data, brake_torque_);
   set_p_brake_enable_control(data, brake_enable_control_);
 }
 
 void Brakecontrola4::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(ChaoM) :  you should check this manually
   brake_torque_ = 0.0;
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Brakecontrola4* Brakecontrola4::set_brake_torque(double brake_torque) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   brake_torque_ = brake_torque;
   return this;
@@ -66,7 +66,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|100]', 'bit': 8,
 // 'type': 'double', 'order': 'intel', 'physical_unit': '%'}
 void Brakecontrola4::set_p_brake_torque(uint8_t* data, double brake_torque) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   brake_torque = ProtocolData::BoundedValue(0.0, 100.0, brake_torque);
   int x = static_cast<int>(brake_torque / 0.050000);
@@ -84,7 +84,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Brakecontrola4* Brakecontrola4::set_brake_enable_control(
     Brake_control_a4::Brake_enable_controlType brake_enable_control) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   brake_enable_control_ = brake_enable_control;
   return this;
@@ -98,7 +98,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Brakecontrola4::set_p_brake_enable_control(
     uint8_t* data,
     Brake_control_a4::Brake_enable_controlType brake_enable_control) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = brake_enable_control;
 

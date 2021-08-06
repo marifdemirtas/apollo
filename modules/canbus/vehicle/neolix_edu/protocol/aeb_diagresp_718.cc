@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace neolix_edu {
 using ::apollo::drivers::canbus::Byte;
 
 Aebdiagresp718::Aebdiagresp718() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 const int32_t Aebdiagresp718::ID = 0x718;
 
 void Aebdiagresp718::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis->mutable_neolix_edu()->mutable_aeb_diagresp_718()->set_aeb_diagresp(
       aeb_diagresp(bytes, length));
@@ -46,7 +46,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': 'bit'}
 bool Aebdiagresp718::aeb_diagresp(const std::uint8_t* bytes,
                                   int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,7 +31,7 @@ namespace drivers {
 namespace velodyne {
 
 bool CompensatorComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CompensatorConfig config;
   if (!GetProtoConfig(&config)) {
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool CompensatorComponent::Proc(
     const std::shared_ptr<PointCloud>& point_cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const auto start_time = Time::Now();
   std::shared_ptr<PointCloud> point_cloud_compensated =

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,19 +25,19 @@ using apollo::drivers::CompressedImage;
 using apollo::drivers::video::config::CameraH265Config;
 
 CameraDriver::CameraDriver(const CameraH265Config *h265_cfg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   config_ = *h265_cfg;
 }
 
 bool CameraDriver::Poll(std::shared_ptr<CompressedImage> h265) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return PollByFrame(h265);
 }
 
 bool CameraDriver::PollByFrame(std::shared_ptr<CompressedImage> h265Pb) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int ret = input_->GetFramePacket(h265Pb);
   if (ret < 0) {
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CameraDriver::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   input_.reset(new SocketInput());
   input_->Init(config_.udp_port());

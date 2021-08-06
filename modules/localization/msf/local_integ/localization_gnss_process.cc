@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -35,7 +35,7 @@ LocalizationGnssProcess::LocalizationGnssProcess()
     : gnss_solver_(new GnssSolver()),
       enable_ins_aid_rtk_(true),
       gnss_lever_arm_{
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 0.0, 0.0, 0.0},
       sins_align_finish_(false),
       double_antenna_solver_(new GnssSolver()),
@@ -45,7 +45,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 LocalizationGnssProcess::~LocalizationGnssProcess() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   map_gnss_eph_.clear();
 
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status LocalizationGnssProcess::Init(const LocalizationIntegParam &param) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // set launch parameter
   enable_ins_aid_rtk_ = param.enable_ins_aid_rtk;
@@ -73,7 +73,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void LocalizationGnssProcess::SetDefaultOption() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // set default process modes
   gnss_solver_->set_position_option(3);
@@ -88,7 +88,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationGnssProcess::RawObservationProcess(
     const drivers::gnss::EpochObservation &raw_obs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!raw_obs.has_receiver_id()) {
     AERROR << "Obs data being invalid if without receiver id!";
@@ -142,7 +142,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationGnssProcess::RawEphemerisProcess(
     const drivers::gnss::GnssEphemeris &msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!msg.has_gnss_type()) {
     return;
@@ -175,7 +175,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LocalizationGnssProcess::IntegSinsPvaProcess(const InsPva &sins_pva_msg,
                                                   const double variance[9][9]) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!sins_pva_msg.init_and_alignment) {
     return;
@@ -210,7 +210,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 LocalizationMeasureState LocalizationGnssProcess::GetResult(
     MeasureData *gnss_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(gnss_msg);
 
@@ -276,7 +276,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LocalizationGnssProcess::DuplicateEph(
     const drivers::gnss::GnssEphemeris &raw_eph) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   drivers::gnss::GnssType t_type = raw_eph.gnss_type();
   if (t_type != drivers::gnss::GnssType::GPS_SYS &&
@@ -308,7 +308,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 inline void LocalizationGnssProcess::LogPnt(const GnssPntResultMsg &rover_pnt,
                                             double ratio) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   char print_infor[256] = {'\0'};
   snprintf(print_infor, sizeof(print_infor),
@@ -324,7 +324,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool LocalizationGnssProcess::GnssPosition(EpochObservationMsg *raw_rover_obs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_NOTNULL(raw_rover_obs);
 

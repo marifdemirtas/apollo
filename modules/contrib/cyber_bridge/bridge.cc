@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /**
  * Copyright (c) 2019 LG Electronics, Inc.
  *

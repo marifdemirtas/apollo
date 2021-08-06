@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@
 #include "modules/perception/lidar/lib/ground_detector/ground_service_detector/proto/ground_service_detector_config.pb.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace lidar {
@@ -31,7 +31,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool GroundServiceDetector::Init(const GroundDetectorInitOptions& options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto config_manager = lib::ConfigManager::Instance();
 
@@ -61,7 +61,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool GroundServiceDetector::Detect(const GroundDetectorOptions& options,
                                    LidarFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (frame == nullptr || frame->world_cloud == nullptr) {
     AERROR << "Frame is nullptr.";

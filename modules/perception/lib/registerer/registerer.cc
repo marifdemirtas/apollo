@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace perception {
 namespace lib {
 
 BaseClassMap &GlobalFactoryMap() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   static BaseClassMap factory_map;
   return factory_map;
@@ -31,7 +31,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool GetRegisteredClasses(
     const std::string &base_class_name,
     std::vector<std::string> *registered_derived_classes_names) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (registered_derived_classes_names == nullptr) {
     AERROR << "registered_derived_classes_names is not available";

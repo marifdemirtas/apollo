@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /*****************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,15 +24,15 @@ namespace msf {
 namespace pyramid_map {
 
 NdtMapNodeConfig::NdtMapNodeConfig() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 NdtMapNodeConfig::~NdtMapNodeConfig() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 std::shared_ptr<BaseMapNodeConfig> NdtMapNodeConfig::Clone() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::shared_ptr<NdtMapNodeConfig> map_node_config(new NdtMapNodeConfig());
   map_node_config->node_index_ = node_index_;

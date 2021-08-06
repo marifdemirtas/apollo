@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,13 +28,13 @@ namespace devkit {
 using ::apollo::drivers::canbus::Byte;
 
 Ultrsensor2508::Ultrsensor2508() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 const int32_t Ultrsensor2508::ID = 0x508;
 
 void Ultrsensor2508::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis->mutable_devkit()
       ->mutable_ultr_sensor_2_508()
@@ -55,7 +55,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit': 23, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor2508::uiuss9_tof_indirect(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -74,7 +74,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor2508::uiuss8_tof_indirect(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -93,7 +93,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit': 55, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor2508::uiuss11_tof_indirect(const std::uint8_t* bytes,
                                             int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
@@ -112,7 +112,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'bit': 39, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor2508::uiuss10_tof_indirect(const std::uint8_t* bytes,
                                             int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);

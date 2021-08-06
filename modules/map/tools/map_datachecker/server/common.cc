@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace apollo {
 namespace hdmap {
 
 std::shared_ptr<JsonConf> ParseJson(std::string conf_path) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "parsing json config";
   boost::filesystem::path path(conf_path);

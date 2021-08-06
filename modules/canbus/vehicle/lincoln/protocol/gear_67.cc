@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -29,7 +29,7 @@ const int32_t Gear67::ID = 0x67;
 
 void Gear67::Parse(const std::uint8_t *bytes, int32_t length,
                    ChassisDetail *chassis_detail) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int32_t gear = gear_state(bytes, length);
   switch (gear) {
@@ -96,7 +96,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int32_t Gear67::gear_state(const std::uint8_t *bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte frame(bytes + 0);
   int32_t x = frame.get_byte(0, 3);
@@ -105,7 +105,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool Gear67::is_driver_override(const std::uint8_t *bytes,
                                 int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte frame(bytes + 0);
   return frame.is_bit_1(3);
@@ -113,7 +113,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int32_t Gear67::reported_gear_cmd(const std::uint8_t *bytes,
                                   int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte frame(bytes + 0);
   int32_t x = frame.get_byte(4, 3);
@@ -121,7 +121,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Gear67::is_canbus_fault(const std::uint8_t *bytes, int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte frame(bytes + 0);
   return frame.is_bit_1(7);

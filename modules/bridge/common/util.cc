@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -20,7 +20,7 @@ namespace apollo {
 namespace bridge {
 
 int GetProtoSize(const char *buf, size_t size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (size != sizeof(size_t)) {
     return 0;

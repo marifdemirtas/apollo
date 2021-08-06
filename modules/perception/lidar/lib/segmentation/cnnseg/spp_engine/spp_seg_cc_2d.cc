@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace lidar {
 void SppCCDetector::SetData(const float* const* prob_map,
                             const float* offset_map, float scale,
                             float objectness_threshold) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   prob_map_ = prob_map;
   offset_map_ = offset_map;
@@ -38,7 +38,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SppCCDetector::BuildNodes(int start_row_index, int end_row_index) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const float* offset_row_ptr = offset_map_ + start_row_index * cols_;
   const float* offset_col_ptr = offset_map_ + (rows_ + start_row_index) * cols_;
@@ -60,7 +60,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SppCCDetector::CleanNodes() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   memset(nodes_[0], 0, sizeof(Node) * rows_ * cols_);
   uint32_t node_idx = 0;
@@ -73,7 +73,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t SppCCDetector::Detect(SppLabelImage* labels) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Timer timer;
   if (!first_process_) {
@@ -103,7 +103,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppCCDetector::TraverseNodes() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (int row = 0; row < rows_; row++) {
     for (int col = 0; col < cols_; col++) {
@@ -116,7 +116,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppCCDetector::UnionNodes() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (int row = 0; row < rows_; ++row) {
     for (int col = 0; col < cols_; ++col) {
@@ -158,7 +158,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t SppCCDetector::ToLabelMap(SppLabelImage* labels) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint16_t id = 0;
   uint32_t pixel_id = 0;
@@ -185,7 +185,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppCCDetector::Traverse(SppCCDetector::Node* x) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::vector<SppCCDetector::Node*> p;
   p.clear();
@@ -208,7 +208,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 SppCCDetector::Node* SppCCDetector::DisjointSetFindLoop(Node* x) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Node* root = x;
   while (nodes_[0] + root->parent != root) {
@@ -224,7 +224,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 SppCCDetector::Node* SppCCDetector::DisjointSetFind(Node* x) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Node* y = nodes_[0] + x->parent;
   if (y == x || nodes_[0] + y->parent == y) {
@@ -237,7 +237,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SppCCDetector::DisjointSetUnion(Node* x, Node* y) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   x = DisjointSetFind(x);
   y = DisjointSetFind(y);

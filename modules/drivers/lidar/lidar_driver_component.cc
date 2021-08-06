@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -23,10 +23,10 @@ namespace drivers {
 namespace lidar {
 
 LidarDriverComponent::LidarDriverComponent() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 bool LidarDriverComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!GetProtoConfig(&conf_)) {
     AERROR << "load config error, file:" << config_file_path_;

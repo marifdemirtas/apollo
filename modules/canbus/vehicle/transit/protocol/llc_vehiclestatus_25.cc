@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace transit {
 using ::apollo::drivers::canbus::Byte;
 
 Llcvehiclestatus25::Llcvehiclestatus25() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 const int32_t Llcvehiclestatus25::ID = 0x25;
 
 void Llcvehiclestatus25::Parse(const std::uint8_t* bytes, int32_t length,
                                ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis->mutable_transit()
       ->mutable_llc_vehiclestatus_25()
@@ -48,7 +48,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'intel', 'physical_unit': 'Volt'}
 double Llcvehiclestatus25::llc_fbk_12voltage(const std::uint8_t* bytes,
                                              int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);

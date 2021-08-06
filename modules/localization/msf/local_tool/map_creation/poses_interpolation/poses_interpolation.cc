@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,14 +25,14 @@ namespace apollo {
 namespace localization {
 namespace msf {
 PosesInterpolation::PosesInterpolation() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 bool PosesInterpolation::Init(const std::string &input_poses_path,
                               const std::string &ref_timestamps_path,
                               const std::string &out_poses_path,
                               const std::string &extrinsic_path) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   this->input_poses_path_ = input_poses_path;
   this->ref_timestamps_path_ = ref_timestamps_path;
@@ -49,7 +49,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PosesInterpolation::DoInterpolation() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Load input poses
   ::apollo::common::EigenVector3dVec input_stds;
@@ -69,7 +69,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PosesInterpolation::LoadPCDTimestamp() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   FILE *file = fopen(ref_timestamps_path_.c_str(), "r");
   if (file) {
@@ -87,7 +87,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PosesInterpolation::WritePCDPoses() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::ofstream fout;
   fout.open(out_poses_path_.c_str(), std::ofstream::out);
@@ -124,7 +124,7 @@ void PosesInterpolation::PoseInterpolationByTime(
     const std::vector<unsigned int> &ref_indexes,
     std::vector<unsigned int> *out_indexes, std::vector<double> *out_timestamps,
     ::apollo::common::EigenAffine3dVec *out_poses) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   out_indexes->clear();
   out_timestamps->clear();

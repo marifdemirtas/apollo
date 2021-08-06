@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,11 +28,11 @@ const int32_t Steercommand112::ID = 0x112;
 
 // public
 Steercommand112::Steercommand112() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Steercommand112::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,14 +40,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steercommand112::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_steer_angle_en_ctrl(data, steer_angle_en_ctrl_);
   set_p_steer_angle_cmd(data, steer_angle_cmd_);
 }
 
 void Steercommand112::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // you should check this manually
   steer_angle_en_ctrl_ = Steer_command_112::STEER_ANGLE_EN_CTRL_DISABLE;
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Steercommand112* Steercommand112::set_steer_angle_en_ctrl(
     Steer_command_112::Steer_angle_en_ctrlType steer_angle_en_ctrl) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   steer_angle_en_ctrl_ = steer_angle_en_ctrl;
   return this;
@@ -70,7 +70,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Steercommand112::set_p_steer_angle_en_ctrl(
     uint8_t* data,
     Steer_command_112::Steer_angle_en_ctrlType steer_angle_en_ctrl) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = steer_angle_en_ctrl;
 
@@ -79,7 +79,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Steercommand112* Steercommand112::set_steer_angle_cmd(double steer_angle_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   steer_angle_cmd_ = steer_angle_cmd;
   return this;
@@ -91,7 +91,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'double', 'order': 'intel', 'physical_unit': 'radian'}
 void Steercommand112::set_p_steer_angle_cmd(uint8_t* data,
                                             double steer_angle_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   steer_angle_cmd = ProtocolData::BoundedValue(-0.524, 0.524, steer_angle_cmd);
   int x = static_cast<int>(steer_angle_cmd / 0.001000);

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ using apollo::control::ControlCommand;
 using apollo::monitor::SystemStatus;
 
 bool GuardianComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!GetProtoConfig(&guardian_conf_)) {
     AERROR << "Unable to load canbus conf file: " << ConfigFilePath();
@@ -67,7 +67,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool GuardianComponent::Proc() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   constexpr double kSecondsTillTimeout(2.5);
 
@@ -96,14 +96,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void GuardianComponent::PassThroughControlCommand() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(mutex_);
   guardian_cmd_.mutable_control_command()->CopyFrom(control_cmd_);
 }
 
 void GuardianComponent::TriggerSafetyMode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Safety state triggered, with system safety mode trigger time : "
         << system_status_.safety_mode_trigger_time();

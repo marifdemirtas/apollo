@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@
 #include "modules/bridge/common/util.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace bridge {
 
@@ -34,9 +34,9 @@ using apollo::localization::LocalizationEstimate;
 
 template <typename T>
 bool UDPBridgeSenderComponent<T>::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "UDP bridge sender init, startin...";
   apollo::bridge::UDPBridgeSenderRemoteInfo udp_bridge_remote;
@@ -55,7 +55,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <typename T>
 bool UDPBridgeSenderComponent<T>::Proc(const std::shared_ptr<T> &pb_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (remote_port_ == 0 || remote_ip_.empty()) {
     AERROR << "remote info is invalid!";

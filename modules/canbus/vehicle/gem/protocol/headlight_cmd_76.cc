@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Headlightcmd76::ID = 0x76;
 
 // public
 Headlightcmd76::Headlightcmd76() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Headlightcmd76::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,13 +41,13 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Headlightcmd76::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_headlight_cmd(data, headlight_cmd_);
 }
 
 void Headlightcmd76::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(QiL) :you should check this manually
   headlight_cmd_ = Headlight_cmd_76::HEADLIGHT_CMD_HEADLIGHTS_OFF;
@@ -55,7 +55,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Headlightcmd76* Headlightcmd76::set_headlight_cmd(
     Headlight_cmd_76::Headlight_cmdType headlight_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   headlight_cmd_ = headlight_cmd;
   return this;
@@ -68,7 +68,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': ''}
 void Headlightcmd76::set_p_headlight_cmd(
     uint8_t* data, Headlight_cmd_76::Headlight_cmdType headlight_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint8_t x = headlight_cmd;
 

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace neolix_edu {
 using ::apollo::drivers::canbus::Byte;
 
 Vcunm401::Vcunm401() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 const int32_t Vcunm401::ID = 0x401;
 
 void Vcunm401::Parse(const std::uint8_t* bytes, int32_t length,
                      ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis->mutable_neolix_edu()->mutable_vcu_nm_401()->set_vcu_sleepcommand(
       vcu_sleepcommand(bytes, length));
@@ -47,7 +47,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': 'bit'}
 bool Vcunm401::vcu_sleepcommand(const std::uint8_t* bytes,
                                 int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);

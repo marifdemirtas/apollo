@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ using ObjectPtr = std::shared_ptr<apollo::perception::base::Object>;
 
 bool ObjectSequence::AddTrackedFrameObjects(
     const std::vector<ObjectPtr>& objects, TimeStampKey timestamp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(mutex_);
   for (const auto& obj : objects) {
@@ -52,7 +52,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool ObjectSequence::GetTrackInTemporalWindow(TrackIdKey track_id,
                                               TrackedObjects* track,
                                               TimeStampKey window_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (track == nullptr) {
     return false;
@@ -73,7 +73,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ObjectSequence::RemoveStaleTracks(TimeStampKey current_stamp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto outer_iter = sequence_.begin(); outer_iter != sequence_.end();) {
     if (outer_iter->second.empty()) {

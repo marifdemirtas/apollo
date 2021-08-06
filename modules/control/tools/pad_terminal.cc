@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -146,7 +146,7 @@ class PadTerminal {
 }  // namespace
 
 int main(int argc, char **argv) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   apollo::cyber::Init("pad_terminal");
   FLAGS_alsologtostderr = true;

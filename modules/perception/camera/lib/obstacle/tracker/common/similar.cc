@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ namespace camera {
 
 bool CosineSimilar::Calc(CameraFrame *frame1, CameraFrame *frame2,
                          base::Blob<float> *sim) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto n = frame1->detected_objects.size();
   auto m = frame2->detected_objects.size();

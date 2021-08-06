@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Steeringcommand102::ID = 0x102;
 
 // public
 Steeringcommand102::Steeringcommand102() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Steeringcommand102::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steeringcommand102::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_steer_en_ctrl(data, steer_en_ctrl_);
   set_p_steer_angle_target(data, steer_angle_target_);
@@ -52,7 +52,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Steeringcommand102::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(All) :  you should check this manually
   steer_en_ctrl_ = Steering_command_102::STEER_EN_CTRL_DISABLE;
@@ -63,7 +63,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Steeringcommand102* Steeringcommand102::set_steer_en_ctrl(
     Steering_command_102::Steer_en_ctrlType steer_en_ctrl) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   steer_en_ctrl_ = steer_en_ctrl;
   return this;
@@ -75,7 +75,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|1]', 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 void Steeringcommand102::set_p_steer_en_ctrl(
     uint8_t* data, Steering_command_102::Steer_en_ctrlType steer_en_ctrl) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = steer_en_ctrl;
 
@@ -85,7 +85,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Steeringcommand102* Steeringcommand102::set_steer_angle_target(
     int steer_angle_target) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   steer_angle_target_ = steer_angle_target;
   return this;
@@ -97,7 +97,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'int'}
 void Steeringcommand102::set_p_steer_angle_target(uint8_t* data,
                                                   int steer_angle_target) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   steer_angle_target =
       ProtocolData::BoundedValue(-500, 500, steer_angle_target);
@@ -116,7 +116,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Steeringcommand102* Steeringcommand102::set_steer_angle_spd(
     int steer_angle_spd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   steer_angle_spd_ = steer_angle_spd;
   return this;
@@ -127,7 +127,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|250]', 'physical_unit': 'deg/s', 'precision': 1.0, 'type': 'int'}
 void Steeringcommand102::set_p_steer_angle_spd(uint8_t* data,
                                                int steer_angle_spd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   steer_angle_spd = ProtocolData::BoundedValue(0, 250, steer_angle_spd);
   int x = steer_angle_spd;
@@ -137,7 +137,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Steeringcommand102* Steeringcommand102::set_checksum_102(int checksum_102) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   checksum_102_ = checksum_102;
   return this;
@@ -147,7 +147,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'CheckSum_102', 'offset': 0.0, 'order': 'motorola', 'physical_range':
 // '[0|255]', 'physical_unit': '', 'precision': 1.0, 'type': 'int'}
 void Steeringcommand102::set_p_checksum_102(uint8_t* data, int checksum_102) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   checksum_102 = ProtocolData::BoundedValue(0, 255, checksum_102);
   int x = checksum_102;

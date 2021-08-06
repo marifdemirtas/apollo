@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -48,11 +48,11 @@ void SummaryMonitor::EscalateStatus(const ComponentStatus::Status new_status,
 // Set interval to 0, so it runs every time when ticking.
 SummaryMonitor::SummaryMonitor()
     : RecurrentRunner(FLAGS_summary_monitor_name, 0) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void SummaryMonitor::RunOnce(const double current_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto manager = MonitorManager::Instance();
   auto* status = manager->GetStatus();

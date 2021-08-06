@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
   /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -20,15 +20,15 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
 
 bool ObjectMaintainer::Add(int idx, base::ObjectPtr obj) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto obj_it = assigned_index_.find(idx);
   if (obj_it == assigned_index_.end()) {

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +29,13 @@ namespace neolix_edu {
 using ::apollo::drivers::canbus::Byte;
 
 Aebsystemstate11::Aebsystemstate11() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 const int32_t Aebsystemstate11::ID = 0x11;
 
 void Aebsystemstate11::Parse(const std::uint8_t* bytes, int32_t length,
                              ChassisDetail* chassis) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis->mutable_neolix_edu()->mutable_aeb_systemstate_11()->set_aeb_state(
       aeb_state(bytes, length));
@@ -76,7 +76,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 int Aebsystemstate11::aeb_state(const std::uint8_t* bytes,
                                 int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 2);
@@ -91,7 +91,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 bool Aebsystemstate11::aeb_brakestate(const std::uint8_t* bytes,
                                       int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
@@ -107,7 +107,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 int Aebsystemstate11::faultrank(const std::uint8_t* bytes,
                                 int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 3);
@@ -122,7 +122,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // ''}
 int Aebsystemstate11::currenttemperature(const std::uint8_t* bytes,
                                          int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -137,7 +137,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 bool Aebsystemstate11::pas_f1_stop(const std::uint8_t* bytes,
                                    int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 1);
@@ -152,7 +152,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 bool Aebsystemstate11::pas_f2_stop(const std::uint8_t* bytes,
                                    int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(1, 1);
@@ -167,7 +167,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 bool Aebsystemstate11::pas_f3_stop(const std::uint8_t* bytes,
                                    int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(2, 1);
@@ -182,7 +182,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 bool Aebsystemstate11::pas_f4_stop(const std::uint8_t* bytes,
                                    int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(3, 1);
@@ -197,7 +197,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 bool Aebsystemstate11::pas_b1_stop(const std::uint8_t* bytes,
                                    int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(4, 1);
@@ -212,7 +212,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 bool Aebsystemstate11::pas_b2_stop(const std::uint8_t* bytes,
                                    int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(5, 1);
@@ -227,7 +227,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 bool Aebsystemstate11::pas_b3_stop(const std::uint8_t* bytes,
                                    int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(6, 1);
@@ -242,7 +242,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 bool Aebsystemstate11::pas_b4_stop(const std::uint8_t* bytes,
                                    int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(7, 1);
@@ -256,7 +256,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|15]', 'bit': 51, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 int Aebsystemstate11::aeb_livecounter_rear(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 4);
@@ -270,7 +270,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'int', 'order': 'motorola', 'physical_unit': 'bit'}
 int Aebsystemstate11::aeb_cheksum(const std::uint8_t* bytes,
                                   int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);

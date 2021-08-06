@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,13 +21,13 @@
 #include "modules/perception/lidar/lib/scene_manager/scene_manager.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace lidar {
 
 bool ROIServiceFilter::Init(const ROIFilterInitOptions& options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   roi_service_ = std::dynamic_pointer_cast<ROIService>(
       SceneManager::Instance().Service("ROIService"));
@@ -40,7 +40,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ROIServiceFilter::Filter(const ROIFilterOptions& options,
                               LidarFrame* frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (frame == nullptr || frame->world_cloud == nullptr) {
     AERROR << "Frame is nullptr.";

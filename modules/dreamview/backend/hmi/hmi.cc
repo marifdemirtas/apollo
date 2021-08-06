@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -45,7 +45,7 @@ HMI::HMI(WebSocketHandler* websocket, MapService* map_service)
       monitor_log_buffer_(apollo::common::monitor::MonitorMessageItem::HMI),
       websocket_(websocket),
       map_service_(map_service) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (websocket_) {
     RegisterMessageHandlers();
@@ -53,15 +53,15 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HMI::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  hmi_worker_->Start(); }
 
 void HMI::Stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  hmi_worker_->Stop(); }
 
 void HMI::RegisterMessageHandlers() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Broadcast HMIStatus to clients when status changed.
   hmi_worker_->RegisterStatusUpdateHandler(
@@ -222,7 +222,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HMI::SendVehicleParam(WebSocketHandler::Connection* conn) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (websocket_ == nullptr) {
     return;
@@ -240,7 +240,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void HMI::SendStatus(WebSocketHandler::Connection* conn) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const auto status_json =
       JsonUtil::ProtoToTypedJson("HMIStatus", hmi_worker_->GetStatus());

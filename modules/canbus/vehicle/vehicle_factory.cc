@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,7 +32,7 @@ namespace apollo {
 namespace canbus {
 
 void VehicleFactory::RegisterVehicleFactory() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Register(apollo::common::LINCOLN_MKZ, []() -> AbstractVehicleFactory * {
     return new LincolnVehicleFactory();
@@ -68,7 +68,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::unique_ptr<AbstractVehicleFactory> VehicleFactory::CreateVehicle(
     const VehicleParameter &vehicle_parameter) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto abstract_factory = CreateObject(vehicle_parameter.brand());
   if (!abstract_factory) {

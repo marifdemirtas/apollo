@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace msf {
 
 bool FrameTransform::LatlonToUtmXY(double lon_rad, double lat_rad,
                                    UTMCoor *utm_xy) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   projPJ pj_latlon;
   projPJ pj_utm;
@@ -54,7 +54,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 bool FrameTransform::UtmXYToLatlon(double x, double y, int zone, bool southhemi,
                                    WGS84Corr *latlon) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   projPJ pj_latlon;
   projPJ pj_utm;
@@ -77,7 +77,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool FrameTransform::XYZToBlh(const Vector3d &xyz, Vector3d *blh) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   projPJ pj_xyz;
   projPJ pj_blh;
@@ -101,7 +101,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return true;
 }
 bool FrameTransform::BlhToXYZ(const Vector3d &blh, Vector3d *xyz) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   projPJ pj_xyz;
   projPJ pj_blh;

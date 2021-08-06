@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Ads1111::ID = 0x111;
 
 // public
 Ads1111::Ads1111() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Ads1111::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(ChaoMa) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Ads1111::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_ads_dectostop(data, ads_dectostop_);
   set_p_ads_mode(data, ads_mode_);
@@ -52,7 +52,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Ads1111::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(ChaoMa) :you should check this manually
   ads_dectostop_ = Ads1_111::ADS_DECTOSTOP_NO_DEMAND;
@@ -64,7 +64,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Ads1111* Ads1111::set_ads_dectostop(Ads1_111::Ads_dectostopType ads_dectostop) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ads_dectostop_ = ads_dectostop;
   return this;
@@ -77,7 +77,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Ads1111::set_p_ads_dectostop(uint8_t* data,
                                   Ads1_111::Ads_dectostopType ads_dectostop) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = ads_dectostop;
 
@@ -86,7 +86,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Ads1111* Ads1111::set_ads_mode(Ads1_111::Ads_modeType ads_mode) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ads_mode_ = ads_mode;
   return this;
@@ -99,7 +99,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_range': '[0|31]', 'bit': 7, 'type': 'enum', 'order': 'motorola',
 // 'physical_unit': ''}
 void Ads1111::set_p_ads_mode(uint8_t* data, Ads1_111::Ads_modeType ads_mode) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = ads_mode;
 
@@ -108,7 +108,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Ads1111* Ads1111::set_ads_taracce(double ads_taracce) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ads_taracce_ = ads_taracce;
   return this;
@@ -119,7 +119,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'is_signed_var': False, 'physical_range': '[-7|5.75]', 'bit': 15, 'type':
 // 'double', 'order': 'motorola', 'physical_unit': 'm/s2'}
 void Ads1111::set_p_ads_taracce(uint8_t* data, double ads_taracce) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ads_taracce = ProtocolData::BoundedValue(-7.0, 5.75, ads_taracce);
   int x = static_cast<int>((ads_taracce - -7.000000) / 0.050000);
@@ -130,7 +130,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Ads1111* Ads1111::set_ads_driveoff_req(
     Ads1_111::Ads_driveoff_reqType ads_driveoff_req) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ads_driveoff_req_ = ads_driveoff_req;
   return this;
@@ -143,7 +143,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Ads1111::set_p_ads_driveoff_req(
     uint8_t* data, Ads1_111::Ads_driveoff_reqType ads_driveoff_req) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = ads_driveoff_req;
 
@@ -152,7 +152,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Ads1111* Ads1111::set_ads_aeb_taracce(double ads_aeb_taracce) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ads_aeb_taracce_ = ads_aeb_taracce;
   return this;
@@ -163,7 +163,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'is_signed_var': False, 'physical_range': '[-16|16]', 'bit': 39, 'type':
 // 'double', 'order': 'motorola', 'physical_unit': 'm/s2'}
 void Ads1111::set_p_ads_aeb_taracce(uint8_t* data, double ads_aeb_taracce) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ads_aeb_taracce = ProtocolData::BoundedValue(-16.0, 16.0, ads_aeb_taracce);
   int x = static_cast<int>((ads_aeb_taracce - -16.000000) / 0.000488);
@@ -181,7 +181,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Ads1111* Ads1111::set_ads_aeb_tgtdecel_req(
     Ads1_111::Ads_aeb_tgtdecel_reqType ads_aeb_tgtdecel_req) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ads_aeb_tgtdecel_req_ = ads_aeb_tgtdecel_req;
   return this;
@@ -195,7 +195,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'physical_unit': ''}
 void Ads1111::set_p_ads_aeb_tgtdecel_req(
     uint8_t* data, Ads1_111::Ads_aeb_tgtdecel_reqType ads_aeb_tgtdecel_req) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = ads_aeb_tgtdecel_req;
 

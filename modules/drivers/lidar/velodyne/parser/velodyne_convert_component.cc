@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace drivers {
 namespace velodyne {
 
 bool VelodyneConvertComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Config velodyne_config;
   if (!GetProtoConfig(&velodyne_config)) {
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool VelodyneConvertComponent::Proc(
     const std::shared_ptr<VelodyneScan>& scan_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::shared_ptr<PointCloud> point_cloud_out = point_cloud_pool_->GetObject();
   if (point_cloud_out == nullptr) {

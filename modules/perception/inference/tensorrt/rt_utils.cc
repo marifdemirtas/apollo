@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,7 +29,7 @@ namespace inference {
 
 bool ReadProtoFromTextFile(const std::string &filename,
                            google::protobuf::Message *proto) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int fd = open(filename.c_str(), O_RDONLY);
   if (fd < 0) {
@@ -46,7 +46,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ReadProtoFromBinaryFile(const std::string &filename,
                              google::protobuf::Message *proto) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int fd = open(filename.c_str(), O_RDONLY);
   if (fd < 0) {
@@ -63,12 +63,12 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   return success;
 }
 bool loadNetParams(const std::string &param_file, NetParameter *param) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return ReadProtoFromTextFile(param_file, param);
 }
 std::string locateFile(const std::string &network, const std::string &input) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return network + "/" + input;
 }

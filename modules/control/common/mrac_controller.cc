@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -39,7 +39,7 @@ using Matrix = Eigen::MatrixXd;
 double MracController::Control(const double command, const Matrix state,
                                const double input_limit,
                                const double input_rate_limit) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // check if the current sampling time is valid and the reference/adaption
   // model well set up during the initialization
@@ -111,7 +111,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MracController::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // reset the overall states
   ResetStates();
@@ -124,7 +124,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MracController::ResetStates() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // reset the inputs and outputs of the closed-loop MRAC controller
   control_previous_ = 0.0;
@@ -138,7 +138,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MracController::ResetGains() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   gain_state_adaption_.setZero(model_order_, 2);
   gain_input_adaption_ = Matrix::Ones(1, 2);
@@ -149,7 +149,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MracController::Init(const MracConf &mrac_conf,
                           const LatencyParam &latency_param, const double dt) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   control_previous_ = 0.0;
   saturation_status_control_ = 0;
@@ -195,7 +195,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status MracController::SetReferenceModel(const MracConf &mrac_conf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const double Epsilon = 0.000001;
   if (((mrac_conf.reference_time_constant() < Epsilon && model_order_ == 1)) ||
@@ -221,7 +221,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status MracController::SetAdaptionModel(const MracConf &mrac_conf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const int p_size = mrac_conf.adaption_matrix_p_size();
   const int x_size = mrac_conf.adaption_state_gain_size();
@@ -255,7 +255,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status MracController::BuildReferenceModel() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (model_order_ > 2) {
     const auto error_msg =
@@ -277,7 +277,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Status MracController::BuildAdaptionModel() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (model_order_ > 2) {
     const auto error_msg =
@@ -303,7 +303,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool MracController::CheckLyapunovPD(const Matrix matrix_a,
                                      const Matrix matrix_p) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Matrix matrix_q = -matrix_p * matrix_a - matrix_a.transpose() * matrix_p;
   Eigen::LLT<Matrix> llt_matrix_q(matrix_q);
@@ -314,7 +314,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MracController::EstimateInitialGains(const LatencyParam &latency_param) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const double rise_time_estimate =
       latency_param.dead_time() + latency_param.rise_time();
@@ -371,7 +371,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MracController::UpdateReference() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Matrix matrix_i = Matrix::Identity(model_order_, model_order_);
   state_reference_.col(0) =
@@ -383,7 +383,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MracController::UpdateAdaption(Matrix *law_adp, const Matrix state_adp,
                                     const Matrix gain_adp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Matrix state_error = state_action_ - state_reference_;
   law_adp->col(0) =
@@ -398,7 +398,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MracController::AntiWindupCompensation(const double control_command,
                                             const double previous_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Matrix offset_windup = Matrix::Zero(model_order_, 1);
   offset_windup(0, 0) =
@@ -421,7 +421,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int MracController::BoundOutput(const double output_unbounded,
                                 const double previous_output, double *output) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int status = 0;
   if (output_unbounded > bound_command_ ||
@@ -453,7 +453,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MracController::SetInitialReferenceState(
     const Matrix &state_reference_init) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (state_reference_init.rows() != model_order_ ||
       state_reference_init.cols() != 1) {
@@ -467,7 +467,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MracController::SetInitialActionState(const Matrix &state_action_init) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (state_action_init.rows() != model_order_ ||
       state_action_init.cols() != 1) {
@@ -481,14 +481,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MracController::SetInitialCommand(const double command_init) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   input_desired_(0, 1) = command_init;
 }
 
 void MracController::SetInitialStateAdaptionGain(
     const Matrix &gain_state_adaption_init) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (gain_state_adaption_init.rows() != model_order_ ||
       gain_state_adaption_init.cols() != 1) {
@@ -504,20 +504,20 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void MracController::SetInitialInputAdaptionGain(
     const double gain_input_adaption_init) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   gain_input_adaption_(0, 1) = gain_input_adaption_init;
 }
 
 void MracController::SetInitialNonlinearAdaptionGain(
     const double gain_nonlinear_adaption_init) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   gain_nonlinear_adaption_(0, 1) = gain_nonlinear_adaption_init;
 }
 
 void MracController::SetStateAdaptionRate(const double ratio_state) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (ratio_state < 0.0) {
     AWARN << "failed to set the state adaption rate, due to new ratio < 0; the "
@@ -529,7 +529,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MracController::SetInputAdaptionRate(const double ratio_input) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (ratio_input < 0.0) {
     AWARN << "failed to set the input adaption rate, due to new ratio < 0; the "
@@ -541,7 +541,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void MracController::SetNonlinearAdaptionRate(const double ratio_nonlinear) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (ratio_nonlinear < 0.0) {
     AWARN << "failed to set the nonlinear adaption rate, due to new ratio < 0; "
@@ -553,51 +553,51 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double MracController::StateAdaptionRate() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return gamma_ratio_state_; }
 
 double MracController::InputAdaptionRate() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return gamma_ratio_input_; }
 
 double MracController::NonlinearAdaptionRate() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return gamma_ratio_nonlinear_;
 }
 
 int MracController::ReferenceSaturationStatus() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return saturation_status_reference_;
 }
 
 int MracController::ControlSaturationStatus() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return saturation_status_control_;
 }
 
 Matrix MracController::CurrentReferenceState() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return state_reference_;
 }
 
 Matrix MracController::CurrentStateAdaptionGain() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return gain_state_adaption_;
 }
 
 Matrix MracController::CurrentInputAdaptionGain() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return gain_input_adaption_;
 }
 
 Matrix MracController::CurrentNonlinearAdaptionGain() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return gain_nonlinear_adaption_;
 }

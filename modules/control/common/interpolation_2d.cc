@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,7 +31,7 @@ namespace apollo {
 namespace control {
 
 bool Interpolation2D::Init(const DataType &xyz) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (xyz.empty()) {
     AERROR << "empty input.";
@@ -44,7 +44,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 double Interpolation2D::Interpolate(const KeyType &xy) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   double max_x = xyz_.rbegin()->first;
   double min_x = xyz_.begin()->first;
@@ -74,7 +74,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 double Interpolation2D::InterpolateYz(const std::map<double, double> &yz_table,
                                       double y) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (yz_table.empty()) {
     AERROR << "Unable to interpolateYz because yz_table is empty.";
@@ -111,7 +111,7 @@ double Interpolation2D::InterpolateValue(const double value_before,
                                          const double dist_before,
                                          const double value_after,
                                          const double dist_after) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (dist_before < kDoubleEpsilon) {
     return value_before;

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace image_decompress {
 using apollo::drivers::Image;
 
 bool ImageDecompressComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!GetProtoConfig(&config_)) {
     AERROR << "Parse config file failed: " << ConfigFilePath();
@@ -40,7 +40,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ImageDecompressComponent::Proc(
     const std::shared_ptr<apollo::drivers::CompressedImage>& compressed_image) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto image = std::make_shared<Image>();
   image->mutable_header()->CopyFrom(compressed_image->header());

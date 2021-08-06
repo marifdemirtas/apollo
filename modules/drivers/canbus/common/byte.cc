@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -37,15 +37,15 @@ const uint8_t RANG_MASK_0_L[] = {0xFE, 0XFC, 0xF8, 0xF0,
 }  // namespace
 
 Byte::Byte(const uint8_t *value) : value_(const_cast<uint8_t *>(value)) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 Byte::Byte(const Byte &value) : value_(value.value_) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 std::string Byte::byte_to_hex(const uint8_t value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   static const char HEX[] = "0123456789ABCDEF";
   uint8_t high = static_cast<uint8_t>(value >> 4);
@@ -54,7 +54,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string Byte::byte_to_hex(const uint32_t value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint8_t high;
   uint8_t low;
@@ -73,13 +73,13 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string Byte::byte_to_binary(const uint8_t value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return std::bitset<8 * sizeof(uint8_t)>(value).to_string();
 }
 
 void Byte::set_bit_1(const int32_t pos) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   static const uint8_t BIT_MASK_1[] = {0x01, 0x02, 0x04, 0x08,
                                        0x10, 0x20, 0x40, 0x80};
@@ -89,7 +89,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Byte::set_bit_0(const int32_t pos) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   static const uint8_t BIT_MASK_0[] = {0xFE, 0xFD, 0xFB, 0xF7,
                                        0xEF, 0xDF, 0xBF, 0x7F};
@@ -99,13 +99,13 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool Byte::is_bit_1(const int32_t pos) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return pos >= 0 && pos < BYTE_LENGTH && ((*value_ >> pos) % 2 == 1);
 }
 
 void Byte::set_value(const uint8_t value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (value_ != nullptr) {
     *value_ = value;
@@ -113,18 +113,18 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Byte::set_value_high_4_bits(const uint8_t value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_value(value, 4, 4);
 }
 
 void Byte::set_value_low_4_bits(const uint8_t value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  set_value(value, 0, 4); }
 
 void Byte::set_value(const uint8_t value, const int32_t start_pos,
                      const int32_t length) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (start_pos > BYTE_LENGTH - 1 || start_pos < 0 || length < 1) {
     return;
@@ -143,19 +143,19 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 uint8_t Byte::get_byte() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return *value_; }
 
 uint8_t Byte::get_byte_high_4_bits() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return get_byte(4, 4); }
 
 uint8_t Byte::get_byte_low_4_bits() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return get_byte(0, 4); }
 
 uint8_t Byte::get_byte(const int32_t start_pos, const int32_t length) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (start_pos > BYTE_LENGTH - 1 || start_pos < 0 || length < 1) {
     return 0x00;
@@ -168,11 +168,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string Byte::to_hex_string() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return byte_to_hex(*value_); }
 
 std::string Byte::to_binary_string() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return byte_to_binary(*value_); }
 
 }  // namespace canbus

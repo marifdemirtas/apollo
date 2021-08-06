@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,13 +28,13 @@
 #include "modules/perception/common/sensor_manager/sensor_manager.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
 
 bool MultiCamerasProjection::Init(const MultiCamerasInitOption& options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (options.camera_names.empty()) {
     AERROR << "no cameras to be projected";
@@ -88,7 +88,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool MultiCamerasProjection::Project(const CarPose& pose,
                                      const ProjectOption& option,
                                      base::TrafficLight* light) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!HasCamera(option.camera_name)) {
     AERROR << "no camera: " << option.camera_name;
@@ -116,7 +116,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool MultiCamerasProjection::HasCamera(const std::string& camera_name) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto iter =
       std::find(camera_names_.begin(), camera_names_.end(), camera_name);
@@ -126,7 +126,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int MultiCamerasProjection::getImageWidth(
     const std::string& camera_name) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!HasCamera(camera_name)) {
     AERROR << "getImageWidth failed, camera_name: " << camera_name;
@@ -137,7 +137,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int MultiCamerasProjection::getImageHeight(
     const std::string& camera_name) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!HasCamera(camera_name)) {
     AERROR << "getImageHeight failed, camera_name: " << camera_name;
@@ -151,7 +151,7 @@ bool MultiCamerasProjection::BoundaryBasedProject(
     const Eigen::Matrix4d& c2w_pose,
     const std::vector<base::PointXYZID>& points,
     base::TrafficLight* light) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (camera_model.get() == nullptr) {
     AERROR << "camera_model is not available.";

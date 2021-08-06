@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +25,7 @@ namespace apollo {
 namespace hdmap {
 
 PoseCollectionAgent::PoseCollectionAgent(std::shared_ptr<JsonConf> sp_conf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   sp_pj_transformer_ = std::make_shared<PJTransformer>(50);
   sp_conf_ = sp_conf;
@@ -33,7 +33,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PoseCollectionAgent::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   sp_pose_collection_ = std::make_shared<PoseCollection>(sp_conf_);
 }
@@ -41,7 +41,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void PoseCollectionAgent::OnBestgnssposCallback(
     const std::shared_ptr<const apollo::drivers::gnss::GnssBestPose>
         &bestgnsspos) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (sp_pose_collection_ == nullptr) {
     sp_pose_collection_ = std::make_shared<PoseCollection>(sp_conf_);
@@ -85,7 +85,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::shared_ptr<std::vector<FramePose>> PoseCollectionAgent::GetPoses() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (sp_pose_collection_ == nullptr) {
     return nullptr;

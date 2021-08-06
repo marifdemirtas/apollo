@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace apollo {
 namespace hdmap {
 
 std::vector<std::string> GetFileLines(const std::string& path) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::ifstream file_handler(path);
   std::string line;

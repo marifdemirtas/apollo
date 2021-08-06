@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ namespace perception {
 namespace onboard {
 
 bool LidarOutputComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   writer_ =
       node_->CreateWriter<PerceptionObstacles>("/apollo/perception/obstacles");
@@ -31,7 +31,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LidarOutputComponent::Proc(
     const std::shared_ptr<SensorFrameMessage>& message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::shared_ptr<PerceptionObstacles> out_message(new PerceptionObstacles);
 

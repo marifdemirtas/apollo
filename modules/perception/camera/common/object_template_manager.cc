@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -51,12 +51,12 @@ std::vector<base::ObjectSubType> kTypeRefinedByRef = {
     base::ObjectSubType::TRICYCLIST};
 
 ObjectTemplateManager::ObjectTemplateManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 bool ObjectTemplateManager::Init(
     const ObjectTemplateManagerInitOptions &options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   lib::MutexLock lock(&mutex_);
   if (inited_) {
@@ -185,7 +185,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ObjectTemplateManager::LoadVehTemplates(const ObjectTemplate &tmplt) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::vector<std::tuple<float, float, float>> list_tpl;
   list_tpl.resize(0);
@@ -203,7 +203,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ObjectTemplateManager::LoadVehMinMidMaxTemplates(
     const base::ObjectSubType &type, const ObjectTemplate &tmplt) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::vector<std::tuple<float, float, float>> list_tpl;
   list_tpl.resize(0);
@@ -234,7 +234,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // util for tmplt search
 float ObjectTemplateManager::Get3dDimensionSimilarity(const float *hwl1,
                                                       const float *hwl2) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ACHECK(hwl1 != nullptr);
   ACHECK(hwl2 != nullptr);
@@ -256,7 +256,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // for general visual obj
 float ObjectTemplateManager::VehObjHwlBySearchTemplates(float *hwl, int *index,
                                                         bool *is_flip) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ACHECK(inited_);
   ACHECK(hwl != nullptr);

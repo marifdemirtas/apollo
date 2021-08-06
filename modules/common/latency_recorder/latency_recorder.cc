@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,7 +28,7 @@ namespace common {
 
 LatencyRecorder::LatencyRecorder(const std::string& module_name)
     : module_name_(module_name) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   records_.reset(new LatencyRecordMap);
 }
@@ -36,7 +36,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void LatencyRecorder::AppendLatencyRecord(const uint64_t message_id,
                                           const Time& begin_time,
                                           const Time& end_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(michael): ALERT for now for trouble shooting,
   // CHECK_LT(begin_time, end_time) in the future to enforce the validation
@@ -79,7 +79,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::shared_ptr<apollo::cyber::Writer<LatencyRecordMap>>
 LatencyRecorder::CreateWriter() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const std::string node_name_prefix = "latency_recorder";
   if (module_name_.empty()) {
@@ -101,7 +101,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void LatencyRecorder::PublishLatencyRecords(
     const std::shared_ptr<apollo::cyber::Writer<LatencyRecordMap>>& writer) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   records_->set_module_name(module_name_);
   apollo::common::util::FillHeader("LatencyRecorderMap", records_.get());

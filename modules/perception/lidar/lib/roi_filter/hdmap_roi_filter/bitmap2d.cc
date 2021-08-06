@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,56 +28,56 @@ static constexpr uint64_t kZeroLast = static_cast<uint64_t>(-1) - 1;
 // static
 inline Bitmap2D::DirectionMajor Bitmap2D::OppositeDirection(
     const Bitmap2D::DirectionMajor dir_major) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return static_cast<DirectionMajor>(static_cast<int>(dir_major) ^ 1);
 }
 
 inline bool Bitmap2D::CheckBit(const size_t loc, const uint64_t block) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return block & (static_cast<uint64_t>(1) << loc);
 }
 
 inline void Bitmap2D::SetBit(const size_t loc, uint64_t* block) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   (*block) |= (static_cast<uint64_t>(1) << loc);
 }
 
 inline void Bitmap2D::ResetBit(const size_t loc, uint64_t* block) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   (*block) &= (~(static_cast<uint64_t>(1) << loc));
 }
 
 inline void Bitmap2D::SetTailBits(const size_t tail_num, uint64_t* block) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   (*block) |= (~(static_cast<uint64_t>(-1) << tail_num));
 }
 
 inline void Bitmap2D::ResetTailBits(const size_t tail_num, uint64_t* block) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   (*block) &= (static_cast<uint64_t>(-1) << tail_num);
 }
 
 inline void Bitmap2D::SetHeadBits(const size_t tail_num, uint64_t* block) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   (*block) |= (static_cast<uint64_t>(-1) << tail_num);
 }
 
 inline void Bitmap2D::ResetHeadBits(const size_t tail_num, uint64_t* block) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   (*block) &= ~(static_cast<uint64_t>(-1) << tail_num);
 }
 
 inline void Bitmap2D::SetRangeBits(const size_t head, const size_t tail,
                                    uint64_t* block) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // note: it not work when head = 64
   (*block) |= ((static_cast<uint64_t>(-1) << tail) & (~(kZeroLast << head)));
@@ -85,7 +85,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 inline void Bitmap2D::ResetRangeBits(const size_t head, const size_t tail,
                                      uint64_t* block) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   (*block) &= ((~(static_cast<uint64_t>(-1) << tail)) | (kZeroLast << head));
 }
@@ -93,7 +93,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Bitmap2D::Init(const Eigen::Vector2d& min_range,
                     const Eigen::Vector2d& max_range,
                     const Eigen::Vector2d& cell_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   CHECK_GT(cell_size.x(), 0);
   CHECK_GT(cell_size.y(), 0);
@@ -113,7 +113,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Bitmap2D::SetUp(const DirectionMajor dir_major) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   dir_major_ = dir_major;
   op_dir_major_ = OppositeDirection(dir_major);
@@ -122,7 +122,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // point to bitmap index;
 inline Bitmap2D::Vec3ui Bitmap2D::RealToBitmap(const Eigen::Vector2d& p) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Vec2ui pix = ((p - min_range_).array() / cell_size_.array()).cast<size_t>();
   Vec2ui major_pix(pix[dir_major()], pix[op_dir_major()]);
@@ -135,14 +135,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // calc index by bitmap index;
 inline int Bitmap2D::Index(const Bitmap2D::Vec3ui& p) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return static_cast<int>(p.x() * map_size_[1] + p.y());
 }
 
 // range check
 bool Bitmap2D::IsExists(const Eigen::Vector2d& p) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return p.x() >= min_range_.x() && p.x() < max_range_.x() &&
          p.y() >= min_range_.y() && p.y() < max_range_.y();
@@ -150,7 +150,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // check
 bool Bitmap2D::Check(const Eigen::Vector2d& p) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const Vec3ui bit_p = RealToBitmap(p);
   const int idx = Index(bit_p);
@@ -159,7 +159,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // set and reset
 void Bitmap2D::Set(const Eigen::Vector2d& p) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const Vec3ui bit_p = RealToBitmap(p);
   const int idx = Index(bit_p);
@@ -167,7 +167,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Bitmap2D::Reset(const Eigen::Vector2d& p) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const Vec3ui bit_p = RealToBitmap(p);
   const int idx = Index(bit_p);
@@ -175,7 +175,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Bitmap2D::Set(const double x, const double min_y, const double max_y) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Eigen::Vector2d real_left, real_right;
   real_left[op_dir_major()] = min_y;
@@ -198,7 +198,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Bitmap2D::Reset(const double x, const double min_y, const double max_y) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Eigen::Vector2d real_left, real_right;
   real_left[op_dir_major()] = min_y;

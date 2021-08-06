@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,7 +29,7 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool MlfShapeFilter::Init(const MlfFilterInitOptions& options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -51,7 +51,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void MlfShapeFilter::UpdateWithObject(const MlfFilterOptions& options,
                                       const MlfTrackDataConstPtr& track_data,
                                       TrackedObjectPtr new_object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // compute tight object polygon
   auto& obj = new_object->object_ptr;
@@ -95,7 +95,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void MlfShapeFilter::UpdateWithoutObject(const MlfFilterOptions& options,
                                          double timestamp,
                                          MlfTrackDataPtr track_data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(.)
 }

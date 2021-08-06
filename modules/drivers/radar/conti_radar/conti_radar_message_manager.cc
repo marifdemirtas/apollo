@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -46,7 +46,7 @@ using apollo::drivers::canbus::SenderMessage;
 ContiRadarMessageManager::ContiRadarMessageManager(
     const std::shared_ptr<Writer<ContiRadar>> &writer)
     : conti_radar_writer_(writer) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AddRecvProtocolData<RadarState201, true>();
   AddRecvProtocolData<ClusterListStatus600, true>();
@@ -59,21 +59,21 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ContiRadarMessageManager::set_radar_conf(RadarConf radar_conf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   radar_config_.set_radar_conf(radar_conf);
 }
 
 void ContiRadarMessageManager::set_can_client(
     std::shared_ptr<CanClient> can_client) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   can_client_ = can_client;
 }
 
 ProtocolData<ContiRadar> *ContiRadarMessageManager::GetMutableProtocolDataById(
     const uint32_t message_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   uint32_t converted_message_id = message_id;
   if (protocol_data_map_.find(converted_message_id) ==
@@ -87,7 +87,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void ContiRadarMessageManager::Parse(const uint32_t message_id,
                                      const uint8_t *data, int32_t length) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ProtocolData<ContiRadar> *sensor_protocol_data =
       GetMutableProtocolDataById(message_id);

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -18,7 +18,7 @@
 #include <numeric>
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace radar {
@@ -27,23 +27,23 @@ double BaseMatcher::s_max_match_distance_ = 2.5;
 double BaseMatcher::s_bound_match_distance_ = 10.0;
 
 void BaseMatcher::SetMaxMatchDistance(double dist) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   s_max_match_distance_ = dist;
 }
 
 double BaseMatcher::GetMaxMatchDistance() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return s_max_match_distance_; }
 
 void BaseMatcher::SetBoundMatchDistance(double dist) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   s_bound_match_distance_ = dist;
 }
 
 double BaseMatcher::GetBoundMatchDistance() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return s_bound_match_distance_; }
 
 void BaseMatcher::IDMatch(const std::vector<RadarTrackPtr> &radar_tracks,
@@ -51,7 +51,7 @@ void BaseMatcher::IDMatch(const std::vector<RadarTrackPtr> &radar_tracks,
                           std::vector<TrackObjectPair> *assignments,
                           std::vector<size_t> *unassigned_tracks,
                           std::vector<size_t> *unassigned_objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   size_t num_track = radar_tracks.size();
   const auto &objects = radar_frame.objects;
@@ -101,7 +101,7 @@ bool BaseMatcher::RefinedTrack(const base::ObjectPtr &track_object,
                                double track_timestamp,
                                const base::ObjectPtr &radar_object,
                                double radar_timestamp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // This function is supposed to return true in the base class.
   // Specific actions can be overrided in derived classes.

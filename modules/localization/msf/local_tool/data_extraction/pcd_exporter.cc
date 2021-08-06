@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace localization {
 namespace msf {
 
 PCDExporter::PCDExporter(const std::string &pcd_folder) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pcd_folder_ = pcd_folder;
   std::string stamp_file = pcd_folder_ + "/pcd_timestamp.txt";
@@ -38,7 +38,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 PCDExporter::~PCDExporter() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (stamp_file_handle_ != nullptr) {
     fclose(stamp_file_handle_);
@@ -46,7 +46,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void PCDExporter::CompensatedPcdCallback(const std::string &msg_string) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Compensated pcd callback.";
   drivers::PointCloud msg;
@@ -67,7 +67,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void PCDExporter::WritePcdFile(const std::string &filename,
                                const drivers::PointCloud &msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pcl::PointCloud<velodyne::PointXYZIT> cloud;
   cloud.width = msg.width();

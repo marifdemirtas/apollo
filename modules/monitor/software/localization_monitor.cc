@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -41,11 +41,11 @@ using apollo::localization::MeasureState;
 LocalizationMonitor::LocalizationMonitor()
     : RecurrentRunner(FLAGS_localization_monitor_name,
                       FLAGS_localization_monitor_interval) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void LocalizationMonitor::RunOnce(const double current_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto manager = MonitorManager::Instance();
   auto* component = apollo::common::util::FindOrNull(

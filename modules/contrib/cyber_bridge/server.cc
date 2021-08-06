@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /**
  * Copyright (c) 2019 LG Electronics, Inc.
  *
@@ -27,18 +27,18 @@ Server::Server(Node* node)
       endpoint(boost::asio::ip::tcp::v4(), (uint16_t)FLAGS_port),
       acceptor(io, endpoint),
       socket(io) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   signals.add(SIGTERM);
   signals.add(SIGINT);
 }
 
 Server::~Server() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void Server::run() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   signals.async_wait(boost::bind(&Server::stop, shared_from_this(),
                                  boost::asio::placeholders::error,
@@ -50,7 +50,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Server::stop(const boost::system::error_code& ec, int signal_number) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (ec) {
     AERROR << "Error waiting on signals: " << ec.message();
@@ -62,7 +62,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Server::begin_accept() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   acceptor.async_accept(socket,
                         boost::bind(&Server::end_accept, shared_from_this(),
@@ -70,7 +70,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Server::end_accept(const boost::system::error_code& ec) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!acceptor.is_open()) {
     return;

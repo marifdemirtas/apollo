@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -38,7 +38,7 @@ namespace gnss {
 TcpStream::TcpStream(const char* address, uint16_t port, uint32_t timeout_usec,
                      bool auto_reconnect)
     : sockfd_(-1), errno_(0), auto_reconnect_(auto_reconnect) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   peer_addr_ = inet_addr(address);
   peer_port_ = htons(port);
@@ -46,11 +46,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 TcpStream::~TcpStream() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  this->close(); }
 
 void TcpStream::open() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (fd < 0) {
@@ -64,7 +64,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TcpStream::InitSocket() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (sockfd_ < 0) {
     return false;
@@ -130,7 +130,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TcpStream::close() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (sockfd_ > 0) {
     ::close(sockfd_);
@@ -140,7 +140,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TcpStream::Reconnect() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (auto_reconnect_) {
     Disconnect();
@@ -152,7 +152,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TcpStream::Connect() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (sockfd_ < 0) {
     this->open();
@@ -248,7 +248,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TcpStream::Disconnect() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (sockfd_ < 0) {
     // not open
@@ -260,7 +260,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t TcpStream::read(uint8_t* buffer, size_t max_length) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ssize_t ret = 0;
 
@@ -303,7 +303,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t TcpStream::write(const uint8_t* buffer, size_t length) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   size_t total_nsent = 0;
 
@@ -341,7 +341,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TcpStream::Readable(uint32_t timeout_us) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Setup a select call to block for serial data or a timeout
   timespec timeout_ts;
@@ -366,7 +366,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Stream* Stream::create_tcp(const char* address, uint16_t port,
                            uint32_t timeout_usec) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return new TcpStream(address, port, timeout_usec);
 }

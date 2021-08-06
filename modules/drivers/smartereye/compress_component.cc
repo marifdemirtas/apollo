@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,7 +29,7 @@ namespace drivers {
 namespace smartereye {
 
 bool CompressComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!GetProtoConfig(&config_)) {
     AERROR << "Parse config file failed: " << ConfigFilePath();
@@ -51,7 +51,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool CompressComponent::Proc(const std::shared_ptr<Image>& image) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ADEBUG << "procing compressed";
   auto compressed_image = image_pool_->GetObject();

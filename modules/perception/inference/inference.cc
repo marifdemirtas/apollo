@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,13 +22,13 @@ namespace perception {
 namespace inference {
 
 void Inference::set_max_batch_size(const int &batch_size) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   max_batch_size_ = batch_size;
 }
 
 void Inference::set_gpu_id(const int &gpu_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  gpu_id_ = gpu_id; }
 
 }  // namespace inference

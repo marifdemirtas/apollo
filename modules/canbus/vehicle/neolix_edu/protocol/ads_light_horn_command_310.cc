@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Adslighthorncommand310::ID = 0x310;
 
 // public
 Adslighthorncommand310::Adslighthorncommand310() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Adslighthorncommand310::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Adslighthorncommand310::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_turn_right_light_command(data, turn_right_light_command_);
   set_p_turn_left_light_command(data, turn_left_light_command_);
@@ -56,7 +56,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Adslighthorncommand310::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(All) :  you should check this manually
   turn_right_light_command_ = false;
@@ -69,7 +69,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adslighthorncommand310* Adslighthorncommand310::set_turn_right_light_command(
     bool turn_right_light_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   turn_right_light_command_ = turn_right_light_command;
   return this;
@@ -81,7 +81,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': 'bit'}
 void Adslighthorncommand310::set_p_turn_right_light_command(
     uint8_t* data, bool turn_right_light_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = turn_right_light_command;
 
@@ -91,7 +91,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adslighthorncommand310* Adslighthorncommand310::set_turn_left_light_command(
     bool turn_left_light_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   turn_left_light_command_ = turn_left_light_command;
   return this;
@@ -103,7 +103,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'order': 'motorola', 'physical_unit': 'bit'}
 void Adslighthorncommand310::set_p_turn_left_light_command(
     uint8_t* data, bool turn_left_light_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = turn_left_light_command;
 
@@ -113,7 +113,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adslighthorncommand310* Adslighthorncommand310::set_horn_command(
     bool horn_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   horn_command_ = horn_command;
   return this;
@@ -124,7 +124,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': 'bit'}
 void Adslighthorncommand310::set_p_horn_command(uint8_t* data,
                                                 bool horn_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = horn_command;
 
@@ -134,7 +134,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adslighthorncommand310* Adslighthorncommand310::set_beam_command(
     int beam_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   beam_command_ = beam_command;
   return this;
@@ -146,7 +146,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'motorola', 'physical_unit': 'bit'}
 void Adslighthorncommand310::set_p_beam_command(uint8_t* data,
                                                 int beam_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   beam_command = ProtocolData::BoundedValue(0, 1, beam_command);
   int x = beam_command;
@@ -157,7 +157,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adslighthorncommand310* Adslighthorncommand310::set_auto_drivercmd_alivecounter(
     int auto_drivercmd_alivecounter) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto_drivercmd_alivecounter_ = auto_drivercmd_alivecounter;
   return this;
@@ -168,7 +168,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|0]', 'bit': 51, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adslighthorncommand310::set_p_auto_drivercmd_alivecounter(
     uint8_t* data, int auto_drivercmd_alivecounter) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto_drivercmd_alivecounter =
       ProtocolData::BoundedValue(0, 15, auto_drivercmd_alivecounter);
@@ -180,7 +180,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Adslighthorncommand310* Adslighthorncommand310::set_auto_drivercmd_checksum(
     int auto_drivercmd_checksum) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto_drivercmd_checksum_ = auto_drivercmd_checksum;
   return this;
@@ -191,7 +191,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // '[0|0]', 'bit': 63, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adslighthorncommand310::set_p_auto_drivercmd_checksum(
     uint8_t* data, int auto_drivercmd_checksum) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto_drivercmd_checksum =
       ProtocolData::BoundedValue(0, 255, auto_drivercmd_checksum);

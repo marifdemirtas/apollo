@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -58,7 +58,7 @@ FrameHistory::FrameHistory()
 Frame::Frame(uint32_t sequence_num)
     : sequence_num_(sequence_num),
       monitor_logger_buffer_(common::monitor::MonitorMessageItem::PLANNING) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 Frame::Frame(uint32_t sequence_num, const LocalView &local_view,
@@ -71,7 +71,7 @@ Frame::Frame(uint32_t sequence_num, const LocalView &local_view,
       vehicle_state_(vehicle_state),
       reference_line_provider_(reference_line_provider),
       monitor_logger_buffer_(common::monitor::MonitorMessageItem::PLANNING) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 Frame::Frame(uint32_t sequence_num, const LocalView &local_view,
@@ -79,23 +79,23 @@ Frame::Frame(uint32_t sequence_num, const LocalView &local_view,
              const common::VehicleState &vehicle_state)
     : Frame(sequence_num, local_view, planning_start_point, vehicle_state,
             nullptr) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 const common::TrajectoryPoint &Frame::PlanningStartPoint() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return planning_start_point_;
 }
 
 const common::VehicleState &Frame::vehicle_state() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return vehicle_state_;
 }
 
 bool Frame::Rerouting(PlanningContext *planning_context) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (FLAGS_use_navigation_mode) {
     AERROR << "Rerouting not supported in navigation mode";
@@ -146,20 +146,20 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const std::list<ReferenceLineInfo> &Frame::reference_line_info() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return reference_line_info_;
 }
 
 std::list<ReferenceLineInfo> *Frame::mutable_reference_line_info() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return &reference_line_info_;
 }
 
 void Frame::UpdateReferenceLinePriority(
     const std::map<std::string, uint32_t> &id_to_priority) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (const auto &pair : id_to_priority) {
     const auto id = pair.first;
@@ -178,7 +178,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool Frame::CreateReferenceLineInfo(
     const std::list<ReferenceLine> &reference_lines,
     const std::list<hdmap::RouteSegments> &segments) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   reference_line_info_.clear();
   auto ref_line_iter = reference_lines.begin();
@@ -228,7 +228,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 const Obstacle *Frame::CreateStopObstacle(
     ReferenceLineInfo *const reference_line_info,
     const std::string &obstacle_id, const double obstacle_s) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (reference_line_info == nullptr) {
     AERROR << "reference_line_info nullptr";
@@ -253,7 +253,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 const Obstacle *Frame::CreateStopObstacle(const std::string &obstacle_id,
                                           const std::string &lane_id,
                                           const double lane_s) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!hdmap_) {
     AERROR << "Invalid HD Map.";
@@ -287,7 +287,7 @@ const Obstacle *Frame::CreateStaticObstacle(
     ReferenceLineInfo *const reference_line_info,
     const std::string &obstacle_id, const double obstacle_start_s,
     const double obstacle_end_s) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (reference_line_info == nullptr) {
     AERROR << "reference_line_info nullptr";
@@ -332,7 +332,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 const Obstacle *Frame::CreateStaticVirtualObstacle(const std::string &id,
                                                    const Box2d &box) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const auto *object = obstacles_.Find(id);
   if (object) {

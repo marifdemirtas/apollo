@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,24 +31,24 @@ using apollo::drivers::canbus::CanClientFactory;
 using apollo::guardian::GuardianCommand;
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace canbus {
 
 std::string CanbusComponent::Name() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return FLAGS_canbus_module_name; }
 
 CanbusComponent::CanbusComponent()
     : monitor_logger_buffer_(
           apollo::common::monitor::MonitorMessageItem::CANBUS) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 bool CanbusComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!GetProtoConfig(&canbus_conf_)) {
     AERROR << "Unable to load canbus conf file: " << ConfigFilePath();
@@ -178,7 +178,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CanbusComponent::Clear() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   can_sender_.Stop();
   can_receiver_.Stop();
@@ -188,7 +188,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CanbusComponent::PublishChassis() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Chassis chassis = vehicle_controller_->chassis();
   common::util::FillHeader(node_->Name(), &chassis);
@@ -197,7 +197,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CanbusComponent::PublishChassisDetail() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ChassisDetail chassis_detail;
   message_manager_->GetSensorData(&chassis_detail);
@@ -206,7 +206,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool CanbusComponent::Proc() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   PublishChassis();
   if (FLAGS_enable_chassis_detail_pub) {
@@ -216,7 +216,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CanbusComponent::OnControlCommand(const ControlCommand &control_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int64_t current_timestamp = Time::Now().ToMicrosecond();
   // if command coming too soon, just ignore it.
@@ -246,13 +246,13 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void CanbusComponent::OnGuardianCommand(
     const GuardianCommand &guardian_command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   OnControlCommand(guardian_command.control_command());
 }
 
 common::Status CanbusComponent::OnError(const std::string &error_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   monitor_logger_buffer_.ERROR(error_msg);
   return ::apollo::common::Status(ErrorCode::CANBUS_ERROR, error_msg);

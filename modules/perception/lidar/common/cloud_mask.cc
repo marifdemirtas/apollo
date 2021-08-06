@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ using base::AttributePointCloud;
 using base::PointF;
 
 size_t CloudMask::ValidIndicesCount() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   size_t count = 0;
   for (auto& i : mask_) {
@@ -37,7 +37,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void CloudMask::GetValidCloud(const AttributePointCloud<PointF>& source_cloud,
                               AttributePointCloud<PointF>* target_cloud) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (target_cloud == nullptr) {
     return;
@@ -53,7 +53,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CloudMask::GetValidIndices(base::PointIndices* indices) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   indices->indices.clear();
   indices->indices.reserve(mask_.size());
@@ -65,7 +65,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CloudMask::Flip() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto& i : mask_) {
     i = i > 0 ? 0 : 1;
@@ -73,7 +73,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CloudMask::AddIndices(const base::PointIndices& indices, int value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AddIndices(indices.indices, value);
 }
@@ -81,7 +81,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void CloudMask::AddIndicesOfIndices(
     const base::PointIndices& indices,
     const base::PointIndices& indices_of_indices, int value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto& id : indices_of_indices.indices) {
     mask_[indices.indices[id]] = value;
@@ -89,7 +89,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CloudMask::RemoveIndices(const base::PointIndices& indices) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   RemoveIndices(indices.indices);
 }
@@ -97,7 +97,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void CloudMask::RemoveIndicesOfIndices(
     const base::PointIndices& indices,
     const base::PointIndices& indices_of_indices) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto& id : indices_of_indices.indices) {
     mask_[indices.indices[id]] = 0;
@@ -105,7 +105,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CloudMask::GetValidMask(CloudMask* rhs) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (rhs == nullptr) {
     return;
@@ -119,7 +119,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CloudMask::ResetValue(int source_value, int target_value) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto& i : mask_) {
     if (i == source_value) {

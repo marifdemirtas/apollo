@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -28,42 +28,42 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Turnsignal68::ID = 0x68;
 
 uint32_t Turnsignal68::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   static const uint32_t PERIOD = 50 * 1000;
   return PERIOD;
 }
 
 int32_t Turnsignal68::turn_cmd() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return turn_cmd_; }
 
 void Turnsignal68::UpdateData(uint8_t *data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_turn_cmd_p(data, turn_cmd_);
 }
 
 void Turnsignal68::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  turn_cmd_ = 0; }
 
 Turnsignal68 *Turnsignal68::set_turn_none() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   turn_cmd_ = 0x00;
   return this;
 }
 
 Turnsignal68 *Turnsignal68::set_turn_left() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   turn_cmd_ = 0x01;
   return this;
 }
 
 Turnsignal68 *Turnsignal68::set_turn_right() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   turn_cmd_ = 0x02;
   return this;
@@ -72,7 +72,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // private
 void Turnsignal68::set_turn_cmd_p(uint8_t *data, int32_t turn_cmd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   turn_cmd = ProtocolData::BoundedValue(0, 3, turn_cmd);
   Byte frame(data + 0);

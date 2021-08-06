@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -18,7 +18,7 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace radar {
@@ -26,13 +26,13 @@ namespace radar {
 double AdaptiveKalmanFilter::s_q_matrix_ratio_ = 0.074;
 
 AdaptiveKalmanFilter::AdaptiveKalmanFilter() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  name_ = "AdaptiveKalmanFilter"; }
 AdaptiveKalmanFilter::~AdaptiveKalmanFilter() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 void AdaptiveKalmanFilter::Init(const base::Object& object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   belief_anchor_point_ = object.center;
   belief_velocity_ = object.velocity.cast<double>();
@@ -58,7 +58,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
   c_matrix_.setIdentity();
 }
 Eigen::VectorXd AdaptiveKalmanFilter::Predict(const double time_diff) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Eigen::VectorXd state;
   state.resize(4);
@@ -70,7 +70,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 Eigen::VectorXd AdaptiveKalmanFilter::UpdateWithObject(
     const base::Object& new_object, double time_diff) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // predict and then correct
   a_matrix_.setIdentity();
@@ -115,7 +115,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 void AdaptiveKalmanFilter::GetState(Eigen::Vector3d* anchor_point,
                                     Eigen::Vector3d* velocity) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (anchor_point == nullptr) {
     AERROR << "anchor_point is not available";

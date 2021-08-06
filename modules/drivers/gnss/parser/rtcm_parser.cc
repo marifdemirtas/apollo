@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -35,11 +35,11 @@ using ::apollo::drivers::gnss::GnssEphemeris;
 RtcmParser::RtcmParser(const config::Config& config,
                        const std::shared_ptr<apollo::cyber::Node>& node)
     : config_(config), node_(node) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 bool RtcmParser::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   rtcm_parser_.reset(new Rtcm3Parser(true));
 
@@ -57,7 +57,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RtcmParser::ParseRtcmData(const std::string& msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!init_flag_) {
     return;
@@ -77,7 +77,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RtcmParser::DispatchMessage(Parser::MessageType type, MessagePtr message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   switch (type) {
     case Parser::MessageType::EPHEMERIDES:
@@ -94,14 +94,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void RtcmParser::PublishEphemeris(const MessagePtr& message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto eph = std::make_shared<GnssEphemeris>(*As<GnssEphemeris>(message));
   gnssephemeris_writer_->Write(eph);
 }
 
 void RtcmParser::PublishObservation(const MessagePtr& message) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto observation =
       std::make_shared<EpochObservation>(*As<EpochObservation>(message));

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -37,7 +37,7 @@ namespace hdmap {
 
 ChannelChecker::ChannelChecker(const std::string& stop_flag_file)
     : stop_flag_file_(stop_flag_file) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   YAML::Node node = YAML::LoadFile(FLAGS_client_conf_yaml);
   std::string server_addr =
@@ -49,7 +49,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int ChannelChecker::SyncStart(const std::string& record_path) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!boost::filesystem::exists(record_path)) {
     AERROR << "record_path [" << record_path << "]does not exist";
@@ -64,7 +64,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int ChannelChecker::SyncStop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // stop client
   std::ofstream ofs(stop_flag_file_);
@@ -78,7 +78,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int ChannelChecker::PeriodicCheck() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int ret = 0;
   while (!boost::filesystem::exists(stop_flag_file_)) {
@@ -99,7 +99,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 int ChannelChecker::GrpcStub(ChannelVerifyRequest* request,
                              ChannelVerifyResponse* response) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   grpc::ClientContext context;
   grpc::Status status;
@@ -117,7 +117,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int ChannelChecker::Start(const std::string& record_path) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ChannelVerifyRequest request;
   request.set_path(record_path);
@@ -130,7 +130,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int ChannelChecker::Check() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ChannelVerifyRequest request;
   request.set_cmd(CmdType::CHECK);
@@ -145,7 +145,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int ChannelChecker::Stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ChannelVerifyRequest request;
   request.set_cmd(CmdType::STOP);
@@ -156,7 +156,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int ChannelChecker::ProcessAbnormal(ChannelVerifyResponse* response) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ErrorCode code = response->code();
   if (code == ErrorCode::ERROR_CHANNEL_VERIFY_RATES_ABNORMAL) {

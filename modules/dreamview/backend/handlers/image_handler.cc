@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -70,7 +70,7 @@ void ImageHandler::OnImage(
 }
 
 void ImageHandler::OnImageFront(const std::shared_ptr<Image> &image) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (FLAGS_use_navigation_mode) {
     // Navigation mode
@@ -79,7 +79,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void ImageHandler::OnImageShort(const std::shared_ptr<CompressedImage> &image) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!FLAGS_use_navigation_mode) {
     // Regular mode
@@ -89,7 +89,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 ImageHandler::ImageHandler()
     : requests_(0), node_(cyber::CreateNode("image_handler")) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   node_->CreateReader<Image>(
       FLAGS_image_front_topic,
@@ -103,7 +103,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool ImageHandler::handleGet(CivetServer *server, struct mg_connection *conn) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   requests_++;
 

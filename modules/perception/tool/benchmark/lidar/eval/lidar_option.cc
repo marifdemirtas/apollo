@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace perception {
 namespace benchmark {
 
 bool LidarOption::set_options() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto iter = _options.find("JACCARD");
   if (iter != _options.end()) {

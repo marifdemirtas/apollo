@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +31,7 @@ namespace {
 
 // Find the first existing file from a list of candidates: "file_a|file_b|...".
 std::string FindFirstExist(const std::string& dir, const std::string& files) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const std::vector<std::string> candidates = absl::StrSplit(files, '|');
   for (const auto& filename : candidates) {
@@ -49,7 +49,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }  // namespace
 
 std::string BaseMapFile() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (FLAGS_use_navigation_mode) {
     AWARN << "base_map file is not used when FLAGS_use_navigation_mode is true";
@@ -60,7 +60,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string SimMapFile() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (FLAGS_use_navigation_mode) {
     AWARN << "sim_map file is not used when FLAGS_use_navigation_mode is true";
@@ -69,7 +69,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string RoutingMapFile() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (FLAGS_use_navigation_mode) {
     AWARN << "routing_map file is not used when FLAGS_use_navigation_mode is "
@@ -79,7 +79,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::unique_ptr<HDMap> CreateMap(const std::string& map_file_path) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::unique_ptr<HDMap> hdmap(new HDMap());
   if (hdmap->LoadMapFromFile(map_file_path) != 0) {
@@ -91,7 +91,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::unique_ptr<HDMap> CreateMap(const MapMsg& map_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::unique_ptr<HDMap> hdmap(new HDMap());
   if (hdmap->LoadMapFromProto(map_msg.hdmap()) != 0) {
@@ -110,7 +110,7 @@ std::unique_ptr<HDMap> HDMapUtil::sim_map_ = nullptr;
 std::mutex HDMapUtil::sim_map_mutex_;
 
 const HDMap* HDMapUtil::BaseMapPtr(const MapMsg& map_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(base_map_mutex_);
   if (base_map_ != nullptr &&
@@ -125,7 +125,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const HDMap* HDMapUtil::BaseMapPtr() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(all) Those logics should be removed to planning
   /*if (FLAGS_use_navigation_mode) {
@@ -159,11 +159,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const HDMap& HDMapUtil::BaseMap() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return *CHECK_NOTNULL(BaseMapPtr()); }
 
 const HDMap* HDMapUtil::SimMapPtr() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (FLAGS_use_navigation_mode) {
     return BaseMapPtr();
@@ -177,11 +177,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 const HDMap& HDMapUtil::SimMap() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return *CHECK_NOTNULL(SimMapPtr()); }
 
 bool HDMapUtil::ReloadMaps() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   {
     std::lock_guard<std::mutex> lock(base_map_mutex_);

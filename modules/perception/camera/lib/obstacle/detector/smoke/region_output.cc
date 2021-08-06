@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@ namespace camera {
 
 void filter_bbox(const SmokeMinDims &min_dims,
                  std::vector<base::ObjectPtr> *objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int valid_obj_idx = 0;
   int total_obj_idx = 0;
@@ -51,7 +51,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void recover_smoke_bbox(int roi_w, int roi_h, int offset_y,
                   std::vector<base::ObjectPtr> *objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto &obj : *objects) {
     float xmin = obj->camera_supplement.box.xmin;
@@ -86,7 +86,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void fill_smoke_base(base::ObjectPtr obj, const float *bbox,
                      int width, int height) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   obj->camera_supplement.box.xmin = bbox[0]/width;
   obj->camera_supplement.box.ymin = bbox[1]/height;
@@ -96,7 +96,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void fill_smoke_bbox3d(bool with_box3d, base::ObjectPtr obj,
                        const float *bbox) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (with_box3d) {
     obj->camera_supplement.alpha = bbox[1];
@@ -111,7 +111,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 base::ObjectSubType get_smoke_object_subtype(int cls) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (cls == 0) {
     return base::ObjectSubType::CAR;
@@ -132,7 +132,7 @@ void get_smoke_objects_cpu(const SmokeBlobs &smoke_blobs,
                      base::Blob<bool> *overlapped, base::Blob<int> *idx_sm,
                      std::vector<base::ObjectPtr> *objects,
                      int width, int height) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const float* detect_result = smoke_blobs.det1_loc_blob->cpu_data();
   objects->clear();

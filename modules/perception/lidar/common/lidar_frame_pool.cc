@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace lidar {
 
 // @brief call pool instance once to initialize memory
 __attribute__((constructor)) void LidarFramePoolInitialize() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   LidarFramePool::Instance();
   AINFO << "Initialize lidar frame pool.";

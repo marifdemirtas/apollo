@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -206,7 +206,7 @@ YAML::Emitter& operator<<(YAML::Emitter& out, const Calibration& calibration) {
 }
 
 void Calibration::read(const std::string& calibration_file) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::ifstream fin(calibration_file.c_str());
 
@@ -231,7 +231,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Calibration::write(const std::string& calibration_file) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::ofstream fout(calibration_file.c_str());
   YAML::Emitter out;

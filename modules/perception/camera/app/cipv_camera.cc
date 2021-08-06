@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,11 +28,11 @@ namespace apollo {
 namespace perception {
 
 Cipv::Cipv() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 Cipv::~Cipv() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 bool Cipv::Init(const Eigen::Matrix3d &homography_im2car,
@@ -41,7 +41,7 @@ bool Cipv::Init(const Eigen::Matrix3d &homography_im2car,
                 const float max_vehicle_width_in_meter,
                 const float average_frame_rate, const bool image_based_cipv,
                 const int debug_devel) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   b_image_based_cipv_ = image_based_cipv;
   debug_level_ =
@@ -75,7 +75,7 @@ bool Cipv::DistanceFromPointToLineSegment(const Point2Df &point,
                                           const Point2Df &line_seg_start_point,
                                           const Point2Df &line_seg_end_point,
                                           float *distance) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   common::math::Vec2d p = {point(0), point(1)};
   common::math::LineSegment2d line_seg(
@@ -93,7 +93,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool Cipv::GetEgoLane(const std::vector<base::LaneLine> &lane_objects,
                       EgoLane *egolane_image, EgoLane *egolane_ground,
                       bool *b_left_valid, bool *b_right_valid) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   float x, y;
   for (size_t i = 0; i < lane_objects.size(); ++i) {
@@ -162,7 +162,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool Cipv::MakeVirtualLane(const LaneLineSimple &ref_lane_line,
                            const float yaw_rate, const float offset_distance,
                            LaneLineSimple *virtual_lane_line) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(techoe): Use union of lane line and yaw_rate path to define the
   // virtual lane
@@ -178,7 +178,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 float Cipv::VehicleDynamics(const uint32_t tick, const float yaw_rate,
                             const float velocity, const float time_unit,
                             float *x, float *y) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Option 1. Straight model;
   // *x = time_unit * velocity * static_cast<float>(tick);
@@ -203,7 +203,7 @@ float Cipv::VehicleDynamics(const uint32_t tick, const float yaw_rate,
                             const float half_vehicle_width, float *center_x,
                             float *center_y, float *left_x, float *left_y,
                             float *right_x, float *right_y) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Option 1. Straight model;
   // *x = time_unit * velocity * static_cast<float>(tick);
@@ -238,7 +238,7 @@ bool Cipv::MakeVirtualEgoLaneFromYawRate(const float yaw_rate,
                                          const float offset_distance,
                                          LaneLineSimple *left_lane_line,
                                          LaneLineSimple *right_lane_line) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   float center_x = 0.0f;
   float center_y = 0.0f;
@@ -265,7 +265,7 @@ bool Cipv::ElongateEgoLane(const std::vector<base::LaneLine> &lane_objects,
                            const bool b_left_valid, const bool b_right_valid,
                            const float yaw_rate, const float velocity,
                            EgoLane *egolane_image, EgoLane *egolane_ground) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   float offset_distance = half_virtual_egolane_width_in_meter_;
   // When left lane line is available
@@ -300,7 +300,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // Create virtual lane line
 bool Cipv::CreateVirtualEgoLane(const float yaw_rate, const float velocity,
                                 EgoLane *egolane_ground) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   float offset_distance = half_vehicle_width_in_meter_;
   // Generate new egolane using yaw-rate velocity
@@ -320,7 +320,7 @@ bool Cipv::FindClosestObjectImage(const std::shared_ptr<base::Object> &object,
                                   const EgoLane &egolane_image,
                                   LineSegment2Df *closted_object_edge,
                                   float *distance) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   float size_x = object->size(0);
   float size_y = object->size(1);
@@ -374,7 +374,7 @@ bool Cipv::FindClosestObjectGround(const std::shared_ptr<base::Object> &object,
                                    const Eigen::Affine3d world2camera,
                                    LineSegment2Df *closted_object_edge,
                                    float *distance) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (debug_level_ >= 2) {
     AINFO << "object->track_id = " << object->track_id;
@@ -531,7 +531,7 @@ bool Cipv::AreDistancesSane(const float distance_start_point_to_right_lane,
                             const float distance_start_point_to_left_lane,
                             const float distance_end_point_to_right_lane,
                             const float distance_end_point_to_left_lane) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   float distance = -1.0f;
   if (distance_start_point_to_right_lane > kMaxDistObjectToLaneInMeter) {
@@ -590,7 +590,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool Cipv::IsPointLeftOfLine(const Point2Df &point,
                              const Point2Df &line_seg_start_point,
                              const Point2Df &line_seg_end_point) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   float cross_product = ((line_seg_end_point(0) - line_seg_start_point(0)) *
                          (point(1) - line_seg_start_point(1))) -
@@ -620,7 +620,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool Cipv::IsObjectInTheLaneImage(const std::shared_ptr<base::Object> &object,
                                   const EgoLane &egolane_image,
                                   float *object_distance) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   LineSegment2Df closted_object_edge;
   bool b_left_lane_clear = false;
@@ -749,7 +749,7 @@ bool Cipv::IsObjectInTheLaneGround(const std::shared_ptr<base::Object> &object,
                                    const Eigen::Affine3d world2camera,
                                    const bool b_virtual,
                                    float *object_distance) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   LineSegment2Df closted_object_edge;
   bool b_left_lane_clear = false;
@@ -866,7 +866,7 @@ bool Cipv::IsObjectInTheLane(const std::shared_ptr<base::Object> &object,
                              const EgoLane &egolane_ground,
                              const Eigen::Affine3d world2camera,
                              const bool b_virtual, float *distance) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (b_image_based_cipv_) {
     return IsObjectInTheLaneImage(object, egolane_image, distance);
@@ -881,7 +881,7 @@ bool Cipv::DetermineCipv(const std::vector<base::LaneLine> &lane_objects,
                          const CipvOptions &options,
                          const Eigen::Affine3d &world2camera,
                          std::vector<std::shared_ptr<base::Object>> *objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (debug_level_ >= 3) {
     AINFO << "Cipv Got SensorObjects with size of " << objects->size();
@@ -972,7 +972,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool Cipv::TranformPoint(const Eigen::VectorXf &in,
                          const Eigen::Matrix4f &motion_matrix,
                          Eigen::Vector3d *out) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (in.rows() != motion_matrix.cols()) {
     AERROR << "Matrix mismatch";
@@ -990,7 +990,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool Cipv::CollectDrops(const base::MotionBufferPtr &motion_buffer,
                         const Eigen::Affine3d &world2camera,
                         std::vector<std::shared_ptr<base::Object>> *objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int motion_size = static_cast<int>(motion_buffer->size());
   if (debug_level_ >= 2) {
@@ -1112,7 +1112,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool Cipv::image2ground(const float image_x, const float image_y,
                         float *ground_x, float *ground_y) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Eigen::Vector3d p_homo;
 
@@ -1132,7 +1132,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool Cipv::ground2image(const float ground_x, const float ground_y,
                         float *image_x, float *image_y) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   Eigen::Vector3d p_homo_ground;
 
@@ -1151,7 +1151,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string Cipv::Name() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return "Cipv"; }
 
 // Register plugin.

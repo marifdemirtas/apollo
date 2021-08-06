@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -42,7 +42,7 @@ bool ContinuousToDiscrete(const Eigen::MatrixXd &m_a,
                           const Eigen::MatrixXd &m_d, const double ts,
                           Eigen::MatrixXd *ptr_a_d, Eigen::MatrixXd *ptr_b_d,
                           Eigen::MatrixXd *ptr_c_d, Eigen::MatrixXd *ptr_d_d) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (ts <= 0.0) {
     AERROR << "ContinuousToDiscrete : ts is less than or equal to zero";

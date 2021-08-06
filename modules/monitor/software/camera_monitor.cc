@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -47,7 +47,7 @@ using ReaderAndMessagePair = std::pair<std::shared_ptr<cyber::ReaderBase>,
                                        std::shared_ptr<drivers::Image>>;
 
 ReaderAndMessagePair CreateReaderAndLatestsMessage(const std::string& camera) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const auto reader =
       MonitorManager::Instance()->CreateReader<drivers::Image>(camera);
@@ -69,11 +69,11 @@ static const auto camera_topic_set = std::set<std::string>{
 CameraMonitor::CameraMonitor()
     : RecurrentRunner(FLAGS_camera_monitor_name,
                       FLAGS_camera_monitor_interval) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void CameraMonitor::RunOnce(const double current_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto* manager = MonitorManager::Instance();
   auto* component = apollo::common::util::FindOrNull(
@@ -87,7 +87,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void CameraMonitor::UpdateStatus(ComponentStatus* status) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   status->clear_status();
   std::string frame_id = "";

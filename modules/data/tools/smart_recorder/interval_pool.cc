@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,11 +27,11 @@ namespace apollo {
 namespace data {
 
 IntervalPool::IntervalPool() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void IntervalPool::AddInterval(const Interval& interval) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (pool_.empty() || interval.begin_time > pool_iter_->end_time) {
     pool_.push_back(interval);
@@ -45,7 +45,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void IntervalPool::AddInterval(const uint64_t begin_time,
                                const uint64_t end_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   struct Interval interval;
   interval.begin_time = begin_time;
@@ -54,7 +54,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void IntervalPool::ReorgIntervals() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Sort the intervals by begin_time ascending
   std::sort(pool_.begin(), pool_.end(),
@@ -66,7 +66,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool IntervalPool::MessageFallIntoRange(const uint64_t msg_time) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // For each message comes for checking, the logic is:
   // 1. Add end_time of any intervals whose begin_time is smaller
@@ -86,7 +86,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void IntervalPool::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pool_.clear();
   pool_iter_ = pool_.begin();
@@ -94,7 +94,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void IntervalPool::PrintIntervals() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto idx = 0;
   for (const auto& interval : pool_) {
@@ -108,7 +108,7 @@ void IntervalPool::LogIntervalEvent(const std::string& name,
                                     const uint64_t msg_time,
                                     const uint64_t backward_time,
                                     const uint64_t forward_time) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::ofstream logfile(interval_event_log_file_path_,
                         std::ios::out | std::ios::app);
@@ -124,7 +124,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Interval IntervalPool::GetNextInterval() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (pool_.empty()) {
     struct Interval interval;

@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -30,11 +30,11 @@ using apollo::perception::base::Blob;
 TorchDet::TorchDet(const std::string &net_file,
       const std::string &model_file, const std::vector<std::string> &outputs)
     : net_file_(net_file), model_file_(model_file), output_names_(outputs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 bool TorchDet::Init(const std::map<std::string, std::vector<int>> &shapes) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (gpu_id_ >= 0) {
     device_type_ = torch::kCUDA;
@@ -71,12 +71,12 @@ TorchDet::TorchDet(const std::string &net_file,
       model_file_(model_file),
       output_names_(outputs),
       input_names_(inputs) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 std::shared_ptr<Blob<float>> TorchDet::get_blob(
     const std::string &name) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto iter = blobs_.find(name);
   if (iter == blobs_.end()) {
@@ -86,7 +86,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TorchDet::Infer() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   torch::Device device(device_type_, device_id_);
   auto blob = blobs_[input_names_[0]];

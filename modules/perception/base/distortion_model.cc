@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace base {
 
 Eigen::Vector2f BrownCameraDistortionModel::Project(
     const Eigen::Vector3f& point3d) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (std::isless(point3d[2], 0.f)) {
     AERROR << "The input point (" << point3d
@@ -72,7 +72,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 std::shared_ptr<BaseCameraModel>
 BrownCameraDistortionModel::get_camera_model() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::shared_ptr<PinholeCameraModel> camera_model(new PinholeCameraModel());
   camera_model->set_width(width_);
@@ -84,7 +84,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool BrownCameraDistortionModel::set_params(size_t width, size_t height,
                                             const Eigen::VectorXf& params) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (params.size() != 14) {
     return false;

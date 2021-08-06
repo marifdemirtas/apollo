@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,7 +33,7 @@ using cyber::common::PathExists;
 
 bool ReadPoseFile(const std::string &filename, Eigen::Affine3d *pose,
                   int *frame_id, double *time_stamp) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (pose == nullptr || frame_id == nullptr || time_stamp == nullptr) {
     AERROR << "Nullptr error.";
@@ -61,7 +61,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool LoadBrownCameraIntrinsic(const std::string &yaml_file,
                               base::BrownCameraDistortionModel *model) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!PathExists(yaml_file) || model == nullptr) {
     return false;
@@ -100,7 +100,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool LoadOmnidirectionalCameraIntrinsics(
     const std::string &yaml_file,
     base::OmnidirectionalCameraDistortionModel *model) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!PathExists(yaml_file) || model == nullptr) {
     return false;
@@ -169,7 +169,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool GetFileList(const std::string &path, const std::string &suffix,
                  std::vector<std::string> *files) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!PathExists(path)) {
     AINFO << path << " not exist.";

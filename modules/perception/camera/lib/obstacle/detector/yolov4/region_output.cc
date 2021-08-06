@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -20,7 +20,7 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
@@ -28,7 +28,7 @@ namespace camera {
 void get_intersect_bbox(const NormalizedBBox &bbox1,
                         const NormalizedBBox &bbox2,
                         NormalizedBBox *intersect_bbox) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (bbox2.xmin > bbox1.xmax || bbox2.xmax < bbox1.xmin ||
       bbox2.ymin > bbox1.ymax || bbox2.ymax < bbox1.ymin) {
@@ -46,7 +46,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 float get_bbox_size(const NormalizedBBox &bbox) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (bbox.xmax < bbox.xmin || bbox.ymax < bbox.ymin) {
     // If bbox is invalid (e.g. xmax < xmin or ymax < ymin), return 0.
@@ -64,7 +64,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 float get_jaccard_overlap(const NormalizedBBox &bbox1,
                           const NormalizedBBox &bbox2) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   NormalizedBBox intersect_bbox;
   get_intersect_bbox(bbox1, bbox2, &intersect_bbox);
@@ -86,7 +86,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void get_max_score_index(const std::vector<float> &scores,
                          const float threshold, const int top_k,
                          std::vector<std::pair<float, int>> *score_index_vec) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Generate index score pairs.
   for (int i = 0; i < static_cast<int>(scores.size()); ++i) {
@@ -110,7 +110,7 @@ void apply_softnms_fast(const std::vector<NormalizedBBox> &bboxes,
                         const float nms_threshold, const int top_k,
                         std::vector<int> *indices, bool is_linear,
                         const float sigma) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Sanity check.
   CHECK_EQ(bboxes.size(), scores->size())
@@ -152,7 +152,7 @@ void apply_boxvoting_fast(std::vector<NormalizedBBox> *bboxes,
                           std::vector<float> *scores,
                           const float conf_threshold, const float nms_threshold,
                           const float sigma, std::vector<int> *indices) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (bboxes->size() == 0) {
     return;
@@ -224,7 +224,7 @@ void apply_nms_fast(const std::vector<NormalizedBBox> &bboxes,
                     const float score_threshold, const float nms_threshold,
                     const float eta, const int top_k,
                     std::vector<int> *indices) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Sanity check.
   CHECK_EQ(bboxes.size(), scores.size())
@@ -261,7 +261,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void filter_bbox(const MinDims &min_dims,
                  std::vector<base::ObjectPtr> *objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int valid_obj_idx = 0;
   int total_obj_idx = 0;
@@ -285,7 +285,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 void recover_bbox(int roi_w, int roi_h, int offset_y,
                   std::vector<base::ObjectPtr> *objects) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto &obj : *objects) {
     float xmin = obj->camera_supplement.box.xmin;
@@ -335,7 +335,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void fill_base(base::ObjectPtr obj, const float *bbox) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   obj->camera_supplement.box.xmin = bbox[0];
   obj->camera_supplement.box.ymin = bbox[1];
@@ -344,7 +344,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void fill_bbox3d(bool with_box3d, base::ObjectPtr obj, const float *bbox) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (with_box3d) {
     obj->camera_supplement.alpha = bbox[0];
@@ -355,7 +355,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void fill_frbox(bool with_frbox, base::ObjectPtr obj, const float *bbox) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (with_frbox) {
     obj->camera_supplement.front_box.xmin = bbox[0];
@@ -371,7 +371,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void fill_lights(bool with_lights, base::ObjectPtr obj, const float *bbox) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (with_lights) {
     obj->car_light.brake_visible = bbox[0];
@@ -384,7 +384,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void fill_ratios(bool with_ratios, base::ObjectPtr obj, const float *bbox) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (with_ratios) {
     // visible ratios of face a/b/c/d
@@ -403,7 +403,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void fill_area_id(bool with_flag, base::ObjectPtr obj, const float *data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (with_flag) {
     obj->camera_supplement.area_id = static_cast<int>(data[0]);
@@ -412,7 +412,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 int get_area_id(float visible_ratios[4]) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int area_id = 0;
   int max_face = 0;

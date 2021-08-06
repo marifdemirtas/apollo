@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -22,30 +22,30 @@ namespace localization {
 namespace msf {
 
 BaseMapMatrix::BaseMapMatrix() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 BaseMapMatrix::~BaseMapMatrix() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 BaseMapMatrix::BaseMapMatrix(const BaseMapMatrix& cells) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 unsigned int BaseMapMatrix::LoadBinary(unsigned char* buf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return 0; }
 
 unsigned int BaseMapMatrix::CreateBinary(unsigned char* buf,
                                          unsigned int buf_size) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return 0;
 }
 
 unsigned int BaseMapMatrix::GetBinarySize() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return 0; }
 
 }  // namespace msf

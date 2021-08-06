@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -24,7 +24,7 @@ namespace hesai {
 using apollo::cyber::Component;
 
 bool HesaiConvertComponent::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!GetProtoConfig(&conf_)) {
     AERROR << "load config error, file:" << config_file_path_;
@@ -47,7 +47,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool HesaiConvertComponent::Proc(const std::shared_ptr<HesaiScan>& scan) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return parser_->Parse(scan);
 }

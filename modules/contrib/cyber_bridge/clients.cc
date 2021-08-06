@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /**
  * Copyright (c) 2019 LG Electronics, Inc.
  *
@@ -14,25 +14,25 @@
 Clients::Clients() {}
 
 Clients::~Clients() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 void Clients::start(std::shared_ptr<Client> client) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   clients.insert(client);
   client->start();
 }
 
 void Clients::stop(std::shared_ptr<Client> client) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   clients.erase(client);
   client->stop();
 }
 
 void Clients::stop_all() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto& client : clients) {
     client->stop();

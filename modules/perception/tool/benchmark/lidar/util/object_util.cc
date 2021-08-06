@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +27,7 @@ namespace benchmark {
 
 bool get_bbox_vertices(const ObjectConstPtr object,
                        std::vector<Eigen::Vector3d>* vertices) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (object == nullptr) {
     return false;
@@ -61,7 +61,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool fill_objects_with_point_cloud(std::vector<ObjectPtr>* objects,
                                    const PointCloudConstPtr cloud) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (objects == nullptr || cloud == nullptr) {
     return false;
@@ -139,7 +139,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool fill_axis_align_box(ObjectPtr object) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (object->cloud == nullptr || object->cloud->size() == 0) {
     return false;

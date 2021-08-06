@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,14 +32,14 @@ namespace msf {
 // ===================MessageBuffer=======================
 template <class MessageType>
 MessageBuffer<MessageType>::MessageBuffer(int capacity) : capacity_(capacity) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pthread_mutex_init(&buffer_mutex_, nullptr);
 }
 
 template <class MessageType>
 MessageBuffer<MessageType>::~MessageBuffer() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pthread_mutex_destroy(&buffer_mutex_);
 }
@@ -47,7 +47,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 template <class MessageType>
 bool MessageBuffer<MessageType>::PushNewMessage(const double timestamp,
                                                 const MessageType &msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (capacity_ == 0) {
     AERROR << "The buffer capacity is 0.";
@@ -81,7 +81,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <class MessageType>
 bool MessageBuffer<MessageType>::PopOldestMessage(MessageType *msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (IsEmpty()) {
     AERROR << "The buffer is empty.";
@@ -100,7 +100,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 template <class MessageType>
 bool MessageBuffer<MessageType>::GetMessageBefore(const double timestamp,
                                                   MessageType *msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (IsEmpty()) {
     AERROR << "The buffer is empty.";
@@ -127,7 +127,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 template <class MessageType>
 bool MessageBuffer<MessageType>::GetMessage(const double timestamp,
                                             MessageType *msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pthread_mutex_lock(&buffer_mutex_);
   auto found_iter = msg_map_.find(timestamp);
@@ -142,7 +142,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <class MessageType>
 void MessageBuffer<MessageType>::Clear() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pthread_mutex_lock(&buffer_mutex_);
   msg_list_.clear();
@@ -152,7 +152,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <class MessageType>
 void MessageBuffer<MessageType>::SetCapacity(const unsigned int capacity) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   capacity_ = capacity;
 }
@@ -160,7 +160,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 template <class MessageType>
 void MessageBuffer<MessageType>::GetAllMessages(
     std::list<std::pair<double, MessageType>> *msg_list) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   pthread_mutex_lock(&buffer_mutex_);
   msg_list->clear();
@@ -170,7 +170,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <class MessageType>
 bool MessageBuffer<MessageType>::IsEmpty() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   bool flag = true;
   pthread_mutex_lock(&buffer_mutex_);
@@ -181,7 +181,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 template <class MessageType>
 unsigned int MessageBuffer<MessageType>::BufferSize() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   unsigned int size = 0;
   pthread_mutex_lock(&buffer_mutex_);
@@ -195,18 +195,18 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 template <class MessageType>
 IntepolationMessageBuffer<MessageType>::IntepolationMessageBuffer(int capacity)
     : MessageBuffer<MessageType>(capacity) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 template <class MessageType>
 IntepolationMessageBuffer<MessageType>::~IntepolationMessageBuffer() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 template <class MessageType>
 bool IntepolationMessageBuffer<MessageType>::QueryMessage(
     const double timestamp, MessageType *msg, double timeout_s) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::map<double, ListIterator> msg_map_tem;
   std::list<std::pair<double, MessageType>> msg_list_tem;
@@ -257,7 +257,7 @@ template <class MessageType>
 bool IntepolationMessageBuffer<MessageType>::WaitMessageBufferOk(
     const double timestamp, std::map<double, ListIterator> *msg_map,
     std::list<std::pair<double, MessageType>> *msg_list, double timeout_ms) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   boost::posix_time::ptime start_time =
       boost::posix_time::microsec_clock::local_time();
@@ -313,11 +313,11 @@ VisualizationManager::VisualizationManager()
       gnss_loc_info_buffer_(20),
       lidar_loc_info_buffer_(40),
       fusion_loc_info_buffer_(400) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 VisualizationManager::~VisualizationManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!(stop_visualization_.load())) {
     stop_visualization_ = true;
@@ -329,7 +329,7 @@ bool VisualizationManager::Init(const std::string &map_folder,
                                 const std::string &map_visual_folder,
                                 const Eigen::Affine3d &velodyne_extrinsic,
                                 const VisualMapParam &map_param) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "Get zone id.";
   unsigned int resolution_id = 0;
@@ -358,7 +358,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool VisualizationManager::Init(const VisualizationManagerParams &params) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   lidar_frame_buffer_.SetCapacity(params.lidar_frame_buffer_capacity);
   gnss_loc_info_buffer_.SetCapacity(params.gnss_loc_info_buffer_capacity);
@@ -370,7 +370,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VisualizationManager::AddLidarFrame(const LidarVisFrame &lidar_frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "AddLidarFrame.";
   static int id = 0;
@@ -381,7 +381,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void VisualizationManager::AddGNSSLocMessage(
     const LocalizationMsg &gnss_loc_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "AddGNSSLocMessage.";
   gnss_loc_info_buffer_.PushNewMessage(gnss_loc_msg.timestamp, gnss_loc_msg);
@@ -389,7 +389,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void VisualizationManager::AddLidarLocMessage(
     const LocalizationMsg &lidar_loc_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "AddLidarLocMessage.";
   lidar_loc_info_buffer_.PushNewMessage(lidar_loc_msg.timestamp, lidar_loc_msg);
@@ -397,7 +397,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void VisualizationManager::AddFusionLocMessage(
     const LocalizationMsg &fusion_loc_msg) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   AINFO << "AddFusionLocMessage.";
   fusion_loc_info_buffer_.PushNewMessage(fusion_loc_msg.timestamp,
@@ -405,20 +405,20 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void VisualizationManager::StartVisualization() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   visual_thread_ = std::thread(&VisualizationManager::DoVisualize, this);
 }
 
 void VisualizationManager::StopVisualization() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   stop_visualization_ = true;
   visual_thread_.join();
 }
 
 void VisualizationManager::DoVisualize() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   while (!(stop_visualization_.load())) {
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -498,7 +498,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 bool VisualizationManager::GetZoneIdFromMapFolder(
     const std::string &map_folder, const unsigned int resolution_id,
     int *zone_id) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   char buf[256];
   snprintf(buf, sizeof(buf), "/%03u", resolution_id);

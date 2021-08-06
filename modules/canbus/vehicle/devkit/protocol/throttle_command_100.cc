@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,11 +29,11 @@ const int32_t Throttlecommand100::ID = 0x100;
 
 // public
 Throttlecommand100::Throttlecommand100() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  Reset(); }
 
 uint32_t Throttlecommand100::GetPeriod() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,7 +41,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Throttlecommand100::UpdateData(uint8_t* data) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_p_throttle_acc(data, throttle_acc_);
   set_p_throttle_pedal_target(data, throttle_pedal_target_);
@@ -52,7 +52,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void Throttlecommand100::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(All) :  you should check this manually
   throttle_acc_ = 0.0;
@@ -62,7 +62,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Throttlecommand100* Throttlecommand100::set_throttle_acc(double throttle_acc) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   throttle_acc_ = throttle_acc;
   return this;
@@ -73,7 +73,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'm/s^2'}
 void Throttlecommand100::set_p_throttle_acc(uint8_t* data,
                                             double throttle_acc) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   throttle_acc = ProtocolData::BoundedValue(0.0, 10.0, throttle_acc);
   int x = throttle_acc / 0.010000;
@@ -90,7 +90,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Throttlecommand100* Throttlecommand100::set_checksum_100(int checksum_100) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   checksum_100_ = checksum_100;
   return this;
@@ -100,7 +100,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 63,
 // 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Throttlecommand100::set_p_checksum_100(uint8_t* data, int checksum_100) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   checksum_100 = ProtocolData::BoundedValue(0, 255, checksum_100);
   int x = checksum_100;
@@ -111,7 +111,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Throttlecommand100* Throttlecommand100::set_throttle_pedal_target(
     double throttle_pedal_target) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   throttle_pedal_target_ = throttle_pedal_target;
   return this;
@@ -122,7 +122,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // 31, 'type': 'double', 'order': 'motorola', 'physical_unit': '%'}
 void Throttlecommand100::set_p_throttle_pedal_target(
     uint8_t* data, double throttle_pedal_target) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   throttle_pedal_target =
       ProtocolData::BoundedValue(0.0, 100.0, throttle_pedal_target);
@@ -141,7 +141,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Throttlecommand100* Throttlecommand100::set_throttle_en_ctrl(
     Throttle_command_100::Throttle_en_ctrlType throttle_en_ctrl) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   throttle_en_ctrl_ = throttle_en_ctrl;
   return this;
@@ -154,7 +154,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 void Throttlecommand100::set_p_throttle_en_ctrl(
     uint8_t* data,
     Throttle_command_100::Throttle_en_ctrlType throttle_en_ctrl) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int x = throttle_en_ctrl;
 

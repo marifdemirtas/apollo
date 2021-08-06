@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +26,7 @@
 #include "modules/perception/inference/utils/gemm.h"
 
 namespace apollo {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 namespace perception {
 namespace camera {
@@ -34,7 +34,7 @@ namespace camera {
 using cyber::common::GetAbsolutePath;
 
 bool ProjectFeature::Init(const FeatureExtractorInitOptions &options) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::string efx_config = GetAbsolutePath(options.root_dir, options.conf_file);
   ACHECK(cyber::common::GetProtoFromFile(efx_config, &param_))
@@ -68,7 +68,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ProjectFeature::Extract(const FeatureExtractorOptions &options,
                              CameraFrame *frame) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   auto input_blob = inference_->get_blob(param_.input_blob());
   auto output_blob = inference_->get_blob(param_.feat_blob());
@@ -96,7 +96,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 std::string ProjectFeature::Name() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  return "ProjectFeature"; }
 
 REGISTER_FEATURE_EXTRACTOR(ProjectFeature);

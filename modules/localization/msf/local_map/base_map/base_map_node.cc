@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,11 +30,11 @@ using cyber::common::EnsureDirectory;
 
 BaseMapNode::BaseMapNode(BaseMapMatrix* matrix, CompressionStrategy* strategy)
     : map_matrix_(matrix), compression_strategy_(strategy) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 BaseMapNode::~BaseMapNode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (map_matrix_ != nullptr) {
     delete map_matrix_;
@@ -46,7 +46,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void BaseMapNode::Init(const BaseMapConfig* map_config,
                        const MapNodeIndex& index, bool create_map_cells) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   map_config_ = map_config;
   index_ = index;
@@ -60,14 +60,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMapNode::InitMapMatrix(const BaseMapConfig* map_config) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   map_config_ = map_config;
   map_matrix_->Init(map_config);
 }
 
 void BaseMapNode::Finalize() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (is_changed_) {
     Save();
@@ -76,7 +76,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void BaseMapNode::ResetMapNode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   is_changed_ = false;
   data_is_ready_ = false;
@@ -91,7 +91,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // }
 
 bool BaseMapNode::Save() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   SaveIntensityImage();
   char buf[1024];
@@ -144,7 +144,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BaseMapNode::Load() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   char buf[1024];
   std::string path = map_config_->map_folder_path_;
@@ -185,7 +185,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BaseMapNode::Load(const char* filename) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   data_is_ready_ = false;
   // char buf[1024];
@@ -204,7 +204,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int BaseMapNode::LoadBinary(FILE* file) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Load the header
   unsigned int header_size = GetHeaderBinarySize();
@@ -223,7 +223,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int BaseMapNode::CreateBinary(FILE* file) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   unsigned int buf_size = GetBinarySize();
   std::vector<unsigned char> buffer;
@@ -251,14 +251,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int BaseMapNode::GetBinarySize() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // It is uncompressed binary size.
   return GetBodyBinarySize() + GetHeaderBinarySize();
 }
 
 unsigned int BaseMapNode::LoadHeaderBinary(unsigned char* buf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   unsigned int target_size = GetHeaderBinarySize();
   unsigned int* p = reinterpret_cast<unsigned int*>(buf);
@@ -280,7 +280,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int BaseMapNode::CreateHeaderBinary(unsigned char* buf,
                                              unsigned int buf_size) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   unsigned int target_size = GetHeaderBinarySize();
   if (buf_size >= target_size) {
@@ -301,7 +301,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int BaseMapNode::GetHeaderBinarySize() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return static_cast<int>(sizeof(unsigned int)      // index_.resolution_id_
                           + sizeof(int)             // index_.zone_id_
@@ -323,7 +323,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // }
 
 unsigned int BaseMapNode::LoadBodyBinary(std::vector<unsigned char>* buf) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (compression_strategy_ == nullptr) {
     return map_matrix_->LoadBinary(&((*buf)[0]));
@@ -342,7 +342,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 unsigned int BaseMapNode::CreateBodyBinary(
     std::vector<unsigned char>* buf) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (compression_strategy_ == nullptr) {
     unsigned int body_size = GetBodyBinarySize();
@@ -362,7 +362,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 unsigned int BaseMapNode::GetBodyBinarySize() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return map_matrix_->GetBinarySize();
 }
@@ -370,7 +370,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // bool BaseMapNode::GetCoordinate(const idl::car::core::numerical::Vector2D&
 // coordinate,
 //         unsigned int& x, unsigned int& y) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 //     const idl::car::core::numerical::Vector2D& left_top_corner =
 //     GetLeftTopCorner(); int off_x = static_cast<int>((coordinate[0] -
@@ -390,7 +390,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool BaseMapNode::GetCoordinate(const Eigen::Vector2d& coordinate,
                                 unsigned int* x, unsigned int* y) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   const Eigen::Vector2d& left_top_corner = GetLeftTopCorner();
   int off_x = static_cast<int>((coordinate[0] - left_top_corner[0]) /
@@ -412,7 +412,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // bool BaseMapNode::GetCoordinate(const idl::car::core::numerical::Vector3D&
 // coordinate,
 //         unsigned int& x, unsigned int& y) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 //     idl::car::core::numerical::Vector2D coord2d;
 //     coord2d.init(coordinate.get_data());
@@ -445,7 +445,7 @@ Eigen::Vector2d BaseMapNode::GetCoordinate(unsigned int x,
 
 // idl::car::core::numerical::Vector2D BaseMapNode::GetLeftTopCorner(
 //     const BaseMapConfig& config, const MapNodeIndex& index) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
 //     idl::car::core::numerical::Vector2D coord;
 //     coord[0] = config.map_range_.get_min_x() +
@@ -474,7 +474,7 @@ Eigen::Vector2d BaseMapNode::GetLeftTopCorner(const BaseMapConfig& config,
 }
 
 bool BaseMapNode::SaveIntensityImage() const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   char buf[1024];
   std::string path = map_config_->map_folder_path_;
@@ -515,7 +515,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool BaseMapNode::SaveIntensityImage(const std::string& path) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   cv::Mat image;
   map_matrix_->GetIntensityImg(&image);

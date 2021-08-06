@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -47,7 +47,7 @@ ErrorCode TransitController::Init(
     const VehicleParameter& params,
     CanSender<::apollo::canbus::ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (is_initialized_) {
     AINFO << "TransitController has already been initialized.";
@@ -137,11 +137,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 TransitController::~TransitController() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 bool TransitController::Start() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!is_initialized_) {
     AERROR << "TransitController has NOT been initiated.";
@@ -154,7 +154,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TransitController::Stop() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!is_initialized_) {
     AERROR << "TransitController stops or starts improperly!";
@@ -169,7 +169,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 Chassis TransitController::chassis() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   chassis_.Clear();
 
@@ -258,14 +258,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TransitController::Emergency() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
 }
 
 ErrorCode TransitController::EnableAutoMode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
     AINFO << "Already in COMPLETE_AUTO_DRIVE mode";
@@ -299,7 +299,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ErrorCode TransitController::DisableAutoMode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   ResetProtocol();
   can_sender_->Update();
@@ -310,7 +310,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ErrorCode TransitController::EnableSteeringOnlyMode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_STEER_ONLY) {
@@ -333,7 +333,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ErrorCode TransitController::EnableSpeedOnlyMode() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_SPEED_ONLY) {
@@ -370,7 +370,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 // NEUTRAL, REVERSE, DRIVE
 void TransitController::Gear(Chassis::GearPosition gear_position) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -428,7 +428,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // acceleration_spd:60 ~ 100, suggest: 90
 // -> pedal
 void TransitController::Brake(double pedal) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // double real_value = params_.max_acc() * acceleration / 100;
   // TODO(QiL):  Update brake value based on mode
@@ -447,7 +447,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // drive with old acceleration
 // gas:0.00~99.99 unit:
 void TransitController::Throttle(double pedal) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -464,7 +464,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // drive with acceleration/deceleration
 // acc:-7.0 ~ 5.0, unit:m/s^2
 void TransitController::Acceleration(double acc) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
@@ -479,7 +479,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 void TransitController::Steer(double angle) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
@@ -498,7 +498,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void TransitController::Steer(double angle, double angle_spd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
@@ -517,7 +517,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TransitController::SetEpbBreak(const ControlCommand& command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (command.parking_brake()) {
     adc_motioncontrol1_10_->set_adc_cmd_parkingbrake(true);
@@ -527,7 +527,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TransitController::SetBeam(const ControlCommand& command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (command.signal().high_beam()) {
     adc_auxiliarycontrol_110_->set_adc_cmd_highbeam(true);
@@ -540,7 +540,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TransitController::SetHorn(const ControlCommand& command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (command.signal().horn()) {
     adc_auxiliarycontrol_110_->set_adc_cmd_horn(true);
@@ -550,7 +550,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TransitController::SetTurningSignal(const ControlCommand& command) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Set Turn Signal
   auto signal = command.signal().turn_signal();
@@ -567,20 +567,20 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TransitController::ResetProtocol() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   message_manager_->ResetSendMessages();
 }
 
 bool TransitController::CheckChassisError() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(QiL): re-design later
   return true;
 }
 
 void TransitController::SecurityDogThreadFunc() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
@@ -645,7 +645,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool TransitController::CheckResponse() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // TODO(Udelv): Add separate indicators
   ChassisDetail chassis_detail;
@@ -667,21 +667,21 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void TransitController::set_chassis_error_mask(const int32_t mask) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t TransitController::chassis_error_mask() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode TransitController::chassis_error_code() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
@@ -689,7 +689,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void TransitController::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
@@ -697,13 +697,13 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool TransitController::CheckSafetyError(
     const ::apollo::canbus::ChassisDetail& chassis_detail) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return true;
 }
 
 void TransitController::SetLimits() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   adc_motioncontrollimits1_12_->set_adc_cmd_throttlecommandlimit(100);
   adc_motioncontrollimits1_12_->set_adc_cmd_steerwheelanglelimit(1275);

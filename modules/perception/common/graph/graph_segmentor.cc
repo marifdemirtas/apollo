@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,14 +27,14 @@ namespace common {
 
 namespace {
 float GetThreshold(const size_t sz, const float c) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return c / static_cast<float>(sz);
 }
 }  // namespace
 
 void GraphSegmentor::Init(const float initial_threshold) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   initial_threshold_ = initial_threshold;
   thresholds_.reserve(kMaxVerticesNum);
@@ -48,7 +48,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 void GraphSegmentor::SegmentGraph(const int num_vertices, const int num_edges,
                                   Edge* edges, bool need_sort) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (edges == nullptr) {
     AERROR << "Input Null Edges.";

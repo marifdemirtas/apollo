@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -38,7 +38,7 @@ namespace drivers {
 namespace gnss {
 
 speed_t get_serial_baudrate(uint32_t rate) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   switch (rate) {
     case 9600:
@@ -108,7 +108,7 @@ SerialStream::SerialStream(const char* device_name, speed_t baud_rate,
       fd_(-1),
       errno_(0),
       is_open_(false) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (device_name_.empty()) {
     status_ = Stream::Status::ERROR;
@@ -116,11 +116,11 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 SerialStream::~SerialStream() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
  this->close(); }
 
 void SerialStream::open(void) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   int fd = 0;
   fd = ::open(device_name_.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
@@ -149,7 +149,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SerialStream::configure_port(int fd) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (fd < 0) {
     return false;
@@ -231,7 +231,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SerialStream::Connect() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!is_open_) {
     this->open();
@@ -252,7 +252,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SerialStream::close(void) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (is_open_) {
     ::close(fd_);
@@ -263,7 +263,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SerialStream::Disconnect() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!is_open_) {
     // not open
@@ -275,7 +275,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 void SerialStream::check_remove() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   char data = 0;
   ssize_t nsent = ::write(fd_, &data, 0);
@@ -293,7 +293,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t SerialStream::read(uint8_t* buffer, size_t max_length) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!is_open_) {
     if (!Connect()) {
@@ -352,7 +352,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 size_t SerialStream::write(const uint8_t* data, size_t length) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!is_open_) {
     if (!Connect()) {
@@ -407,7 +407,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SerialStream::wait_readable(uint32_t timeout_us) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Setup a select call to block for serial data or a timeout
   timespec timeout_ts;
@@ -431,7 +431,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool SerialStream::wait_writable(uint32_t timeout_us) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   // Setup a select call to block for serial data or a timeout
   timespec timeout_ts;
@@ -456,7 +456,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 Stream* Stream::create_serial(const char* device_name, uint32_t baud_rate,
                               uint32_t timeout_usec) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   speed_t baud = get_serial_baudrate(baud_rate);
   return baud == 0 ? nullptr

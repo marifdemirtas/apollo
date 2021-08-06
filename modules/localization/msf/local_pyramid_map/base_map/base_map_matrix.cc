@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -23,25 +23,25 @@ namespace msf {
 namespace pyramid_map {
 
 BaseMapMatrix::BaseMapMatrix() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 BaseMapMatrix::~BaseMapMatrix() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 BaseMapMatrix::BaseMapMatrix(const BaseMapMatrix& map_matrix) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 }
 
 bool BaseMapMatrix::GetIntensityImg(cv::Mat* intensity_img) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return false;
 }
 /**@brief get altitude image of node. */
 bool BaseMapMatrix::GetAltitudeImg(cv::Mat* altitude_img) const {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   return false;
 }

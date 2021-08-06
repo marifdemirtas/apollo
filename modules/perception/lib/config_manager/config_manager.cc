@@ -1,4 +1,4 @@
-#include <iostream>
+#include "modules/covlogger.h"
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +30,7 @@ using cyber::common::GetAbsolutePath;
 using cyber::common::GetProtoFromASCIIFile;
 
 ConfigManager::ConfigManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   work_root_ = FLAGS_work_root;
 
@@ -44,14 +44,14 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool ConfigManager::Init() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   MutexLock lock(&mutex_);
   return InitInternal();
 }
 
 bool ConfigManager::InitInternal() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (inited_) {
     return true;
@@ -120,7 +120,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool ConfigManager::Reset() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   MutexLock lock(&mutex_);
   inited_ = false;
@@ -129,7 +129,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 
 bool ConfigManager::GetModelConfig(const std::string &model_name,
                                    const ModelConfig **model_config) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   if (!inited_ && !Init()) {
     return false;
@@ -144,7 +144,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 ConfigManager::~ConfigManager() {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   for (auto iter = model_config_map_.begin(); iter != model_config_map_.end();
        ++iter) {
@@ -153,7 +153,7 @@ AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
 }
 
 bool ModelConfig::Reset(const ModelConfigProto &proto) {
-AINFO << "[ARIF_LOG] __PRETTY_FUNCTION__ called.";
+COVERAGE_LOG_TOKEN
 
   name_ = proto.name();
   version_ = proto.version();
