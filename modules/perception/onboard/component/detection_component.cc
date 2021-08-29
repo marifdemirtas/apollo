@@ -33,7 +33,7 @@ namespace onboard {
 std::atomic<uint32_t> DetectionComponent::seq_num_{0};
 
 bool DetectionComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   LidarDetectionComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
@@ -58,7 +58,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool DetectionComponent::Proc(
     const std::shared_ptr<drivers::PointCloud>& message) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << std::setprecision(16)
         << "Enter detection component, message timestamp: "
@@ -76,7 +76,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool DetectionComponent::InitAlgorithmPlugin() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ACHECK(common::SensorManager::Instance()->GetSensorInfo(sensor_name_,
                                                           &sensor_info_));
@@ -104,7 +104,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool DetectionComponent::InternalProc(
     const std::shared_ptr<const drivers::PointCloud>& in_message,
     const std::shared_ptr<LidarFrameMessage>& out_message) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   uint32_t seq_num = seq_num_.fetch_add(1);
   const double timestamp = in_message->measurement_time();

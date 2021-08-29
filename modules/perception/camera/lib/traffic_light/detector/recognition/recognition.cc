@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,8 +23,6 @@ namespace camera {
 
 bool TrafficLightRecognition::Init(
     const TrafficLightDetectorInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string proto_path =
       cyber::common::GetAbsolutePath(options.root_dir, options.conf_file);
 
@@ -51,8 +48,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool TrafficLightRecognition::Detect(const TrafficLightDetectorOptions& options,
                                      CameraFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<base::TrafficLightPtr> candidate(1);
 
   for (base::TrafficLightPtr light : frame->traffic_lights) {
@@ -83,8 +78,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string TrafficLightRecognition::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return "TrafficLightRecognition";
 }
 

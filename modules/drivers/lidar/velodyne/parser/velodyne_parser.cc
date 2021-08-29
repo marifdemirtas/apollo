@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -27,8 +26,6 @@ namespace velodyne {
 uint64_t VelodyneParser::GetGpsStamp(double current_packet_stamp,
                                      double *previous_packet_stamp,
                                      uint64_t *gps_base_usec) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (current_packet_stamp < *previous_packet_stamp) {
     // plus 3600 when large jump back, discard little jump back for wrong time
     // in lidar
@@ -58,8 +55,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PointXYZIT VelodyneParser::get_nan_point(uint64_t timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   PointXYZIT nan_point;
   nan_point.set_timestamp(timestamp);
   nan_point.set_x(nan);
@@ -70,14 +65,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 VelodyneParser::VelodyneParser(const Config &config)
-    : last_time_stamp_(0), config_(config), mode_(STRONGEST) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+    : last_time_stamp_(0), config_(config), mode_(STRONGEST) {}
 
 void VelodyneParser::init_angle_params(double view_direction,
                                        double view_width) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // converting angle parameters into the velodyne reference (rad)
   double tmp_min_angle = view_direction + view_width / 2;
   double tmp_max_angle = view_direction - view_width / 2;
@@ -99,8 +90,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 /** Set up for on-line operation. */
 void VelodyneParser::setup() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!config_.calibration_online()) {
     calibration_.read(config_.calibration_file());
 
@@ -117,8 +106,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool VelodyneParser::is_scan_valid(int rotation, float range) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // check range first
   if (range < config_.min_range() || range > config_.max_range()) {
     return false;
@@ -139,8 +126,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void VelodyneParser::ComputeCoords(const float &raw_distance,
                                    const LaserCorrection &corrections,
                                    const uint16_t rotation, PointXYZIT *point) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // ROS_ASSERT_MSG(rotation < 36000, "rotation must between 0 and 35999");
   assert(rotation <= 36000);
   double x = 0.0;
@@ -216,8 +201,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 VelodyneParser *VelodyneParserFactory::CreateParser(Config source_config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Config config = source_config;
   if (config.model() == VLP16) {
     config.set_calibration_online(false);

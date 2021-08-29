@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,19 +20,14 @@
 #include "modules/perception/common/graph/gated_hungarian_bigraph_matcher.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
 MultiHmBipartiteGraphMatcher::MultiHmBipartiteGraphMatcher() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   cost_matrix_ = optimizer_.mutable_global_costs();
 }
 
 MultiHmBipartiteGraphMatcher::~MultiHmBipartiteGraphMatcher() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   cost_matrix_ = nullptr;
 }
 
@@ -42,8 +36,6 @@ void MultiHmBipartiteGraphMatcher::Match(
     std::vector<NodeNodePair> *assignments,
     std::vector<size_t> *unassigned_rows,
     std::vector<size_t> *unassigned_cols) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   common::GatedHungarianMatcher<float>::OptimizeFlag opt_flag =
       common::GatedHungarianMatcher<float>::OptimizeFlag::OPTMIN;
   optimizer_.Match(options.cost_thresh, options.bound_value, opt_flag,

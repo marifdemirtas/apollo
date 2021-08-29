@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,8 +24,6 @@ namespace apollo {
 namespace control {
 
 double LeadlagController::Control(const double error, const double dt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // check if the c2d transform passed during the initilization
   if (!transfromc2d_enabled_) {
     TransformC2d(dt);
@@ -63,8 +60,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LeadlagController::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   previous_output_ = 0.0;
   previous_innerstate_ = 0.0;
   innerstate_ = 0.0;
@@ -72,8 +67,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LeadlagController::Init(const LeadlagConf &leadlag_conf, const double dt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   previous_output_ = 0.0;
   previous_innerstate_ = 0.0;
   innerstate_ = 0.0;
@@ -87,16 +80,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LeadlagController::SetLeadlag(const LeadlagConf &leadlag_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   alpha_ = leadlag_conf.alpha();
   beta_ = leadlag_conf.beta();
   tau_ = leadlag_conf.tau();
 }
 
 void LeadlagController::TransformC2d(const double dt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (dt <= 0.0) {
     AWARN << "dt <= 0, continuous-discrete transformation failed, dt: " << dt;
     transfromc2d_enabled_ = false;
@@ -121,8 +110,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int LeadlagController::InnerstateSaturationStatus() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return innerstate_saturation_status_;
 }
 

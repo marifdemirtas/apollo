@@ -146,7 +146,7 @@ class PadTerminal {
 }  // namespace
 
 int main(int argc, char **argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   apollo::cyber::Init("pad_terminal");
   FLAGS_alsologtostderr = true;

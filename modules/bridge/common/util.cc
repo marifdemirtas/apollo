@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -20,8 +19,6 @@ namespace apollo {
 namespace bridge {
 
 int GetProtoSize(const char *buf, size_t size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (size != sizeof(size_t)) {
     return 0;
   }

@@ -32,7 +32,7 @@ const int32_t Brake61::ID = 0x61;
 
 void Brake61::Parse(const std::uint8_t *bytes, int32_t length,
                     ChassisDetail *chassis_detail) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis_detail->mutable_brake()->set_brake_input(pedal_input(bytes, length));
   chassis_detail->mutable_brake()->set_brake_cmd(pedal_cmd(bytes, length));
@@ -65,7 +65,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Brake61::pedal_input(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   DCHECK_GE(length, 2);
   // Pedal Input from the physical pedal
@@ -73,7 +73,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Brake61::pedal_cmd(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   DCHECK_GE(length, 4);
   // Pedal Command from the command message
@@ -81,7 +81,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Brake61::pedal_output(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   DCHECK_GE(length, 6);
   // Pedal Output is the maximum of PI and PC
@@ -90,7 +90,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double Brake61::parse_two_frames(const std::uint8_t low_byte,
                                  const std::uint8_t high_byte) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame_high(&high_byte);
   int32_t high = frame_high.get_byte(0, 8);
@@ -104,7 +104,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Brake61::boo_input(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 6);
   // seems typo here
@@ -112,14 +112,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Brake61::boo_cmd(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 6);
   return frame.is_bit_1(1);
 }
 
 bool Brake61::boo_output(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 6);
   // seems typo here
@@ -128,7 +128,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Brake61::is_watchdog_counter_applying_brakes(const std::uint8_t *bytes,
                                                   int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 6);
   return frame.is_bit_1(3);
@@ -136,7 +136,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int32_t Brake61::watchdog_counter_source(const std::uint8_t *bytes,
                                          int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // see table for status code
   Byte frame(bytes + 6);
@@ -145,7 +145,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Brake61::is_enabled(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 7);
   return frame.is_bit_1(0);
@@ -153,7 +153,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Brake61::is_driver_override(const std::uint8_t *bytes,
                                  int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 7);
   return frame.is_bit_1(1);
@@ -161,7 +161,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Brake61::is_driver_activity(const std::uint8_t *bytes,
                                  int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 7);
   return frame.is_bit_1(2);
@@ -169,7 +169,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Brake61::is_watchdog_counter_fault(const std::uint8_t *bytes,
                                         int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 7);
   return frame.is_bit_1(3);
@@ -177,7 +177,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Brake61::is_channel_1_fault(const std::uint8_t *bytes,
                                  int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 7);
   return frame.is_bit_1(4);
@@ -185,7 +185,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Brake61::is_channel_2_fault(const std::uint8_t *bytes,
                                  int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 7);
   return frame.is_bit_1(5);
@@ -193,7 +193,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Brake61::is_boo_switch_fault(const std::uint8_t *bytes,
                                   int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 7);
   return frame.is_bit_1(6);
@@ -201,7 +201,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Brake61::is_connector_fault(const std::uint8_t *bytes,
                                  int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 7);
   return frame.is_bit_1(7);

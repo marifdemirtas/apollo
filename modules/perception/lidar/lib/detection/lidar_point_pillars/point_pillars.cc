@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -112,8 +111,6 @@ PointPillars::PointPillars(const bool reproduce_result_mode,
       backbone_torch_file_(backbone_torch_file),
       fpn_torch_file_(fpn_torch_file),
       bbox_head_torch_file_(bbox_head_torch_file) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (reproduce_result_mode_) {
     preprocess_points_ptr_.reset(new PreprocessPoints(
         kMaxNumPillars, kMaxNumPointsPerPillar, kNumPointFeature, kGridXSize,
@@ -143,8 +140,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PointPillars::~PointPillars() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   delete[] anchors_px_;
   delete[] anchors_py_;
   delete[] anchors_pz_;
@@ -200,8 +195,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PointPillars::DeviceMemoryMalloc() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   GPU_CHECK(cudaMalloc(reinterpret_cast<void**>(&dev_x_coors_),
                        kMaxNumPillars * sizeof(int)));
   GPU_CHECK(cudaMalloc(reinterpret_cast<void**>(&dev_y_coors_),
@@ -281,8 +274,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PointPillars::InitAnchors() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // allocate memory for anchors
   anchors_px_ = new float[kNumAnchor]();
   anchors_py_ = new float[kNumAnchor]();
@@ -311,8 +302,6 @@ void PointPillars::GenerateAnchors(float* anchors_px_, float* anchors_py_,
                                    float* anchors_pz_, float* anchors_dx_,
                                    float* anchors_dy_, float* anchors_dz_,
                                    float* anchors_ro_) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (int i = 0; i < kNumAnchor; ++i) {
     anchors_px_[i] = 0;
     anchors_py_[i] = 0;
@@ -371,8 +360,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PointPillars::PutAnchorsInDeviceMemory() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   GPU_CHECK(cudaMemcpy(dev_box_anchors_min_x_, box_anchors_min_x_,
                        kNumAnchor * sizeof(float), cudaMemcpyHostToDevice));
   GPU_CHECK(cudaMemcpy(dev_box_anchors_min_y_, box_anchors_min_y_,
@@ -404,8 +391,6 @@ void PointPillars::ConvertAnchors2BoxAnchors(float* anchors_px,
                                              float* box_anchors_min_y_,
                                              float* box_anchors_max_x_,
                                              float* box_anchors_max_y_) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // flipping box's dimension
   float* flipped_anchors_dx = new float[kNumAnchor]();
   float* flipped_anchors_dy = new float[kNumAnchor]();
@@ -461,8 +446,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PointPillars::InitTorch() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (gpu_id_ >= 0) {
     device_type_ = torch::kCUDA;
     device_id_ = gpu_id_;
@@ -481,8 +464,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PointPillars::InitTRT() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // create a TensorRT model from the onnx model and load it into an engine
   OnnxToTRTModel(pfe_onnx_file_, &pfe_engine_);
   OnnxToTRTModel(rpn_onnx_file_, &rpn_engine_);
@@ -501,8 +482,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PointPillars::OnnxToTRTModel(
     const std::string& model_file,  // name of the onnx model
     nvinfer1::ICudaEngine** engine_ptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int verbosity = static_cast<int>(nvinfer1::ILogger::Severity::kWARNING);
 
   // create the builder
@@ -537,8 +516,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PointPillars::PreprocessCPU(const float* in_points_array,
                                  const int in_num_points) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int x_coors[kMaxNumPillars] = {};
   int y_coors[kMaxNumPillars] = {};
   float num_points_per_pillar[kMaxNumPillars] = {};
@@ -589,8 +566,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PointPillars::PreprocessGPU(const float* in_points_array,
                                  const int in_num_points) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float* dev_points;
   GPU_CHECK(cudaMalloc(reinterpret_cast<void**>(&dev_points),
                        in_num_points * kNumPointFeature * sizeof(float)));
@@ -623,8 +598,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PointPillars::Preprocess(const float* in_points_array,
                               const int in_num_points) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (reproduce_result_mode_) {
     PreprocessCPU(in_points_array, in_num_points);
   } else {
@@ -636,8 +609,6 @@ void PointPillars::DoInference(const float* in_points_array,
                                const int in_num_points,
                                std::vector<float>* out_detections,
                                std::vector<int>* out_labels) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (device_id_ < 0) {
     AERROR << "Torch is not using GPU!";
     return;

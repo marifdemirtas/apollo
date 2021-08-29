@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +21,6 @@
 #include "modules/perception/proto/fused_classifier_config.pb.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
@@ -31,8 +29,6 @@ using apollo::cyber::common::GetAbsolutePath;
 using apollo::perception::base::ObjectType;
 
 bool FusedClassifier::Init(const ClassifierInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig(Name(), &model_config));
@@ -63,8 +59,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool FusedClassifier::Classify(const ClassifierOptions& options,
                                LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame == nullptr) {
     return false;
   }

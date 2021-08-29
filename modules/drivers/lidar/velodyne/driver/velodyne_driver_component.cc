@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -29,8 +28,6 @@ namespace drivers {
 namespace velodyne {
 
 bool VelodyneDriverComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   AINFO << "Velodyne driver component init";
   Config velodyne_config;
   if (!GetProtoConfig(&velodyne_config)) {
@@ -43,8 +40,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   VelodyneDriver *driver =
       VelodyneDriverFactory::CreateDriver(node, velodyne_config);
   if (driver == nullptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
     return false;
   }
   dvr_.reset(driver);

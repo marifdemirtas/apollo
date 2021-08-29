@@ -23,7 +23,7 @@ namespace msf {
 
 LosslessMapConfig::LosslessMapConfig(std::string map_version)
     : BaseMapConfig(map_version) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   map_layer_alt_thres_ = 10000.0;  // in meters
   map_cache_size_ = 50;            // 80
@@ -35,7 +35,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LosslessMapConfig::CreateXml(boost::property_tree::ptree* config) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   BaseMapConfig::CreateXml(config);
   config->put("map.map_config.coordinate_type", coordinate_type_);
@@ -47,7 +47,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LosslessMapConfig::LoadXml(const boost::property_tree::ptree& config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   BaseMapConfig::LoadXml(config);
   coordinate_type_ = config.get<std::string>("map.map_config.coordinate_type");

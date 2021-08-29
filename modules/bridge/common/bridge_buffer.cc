@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,23 +24,15 @@ namespace bridge {
 #define BRIDGE_IMPL(type) template class BridgeBuffer<type>
 
 template <typename T>
-BridgeBuffer<T>::BridgeBuffer() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+BridgeBuffer<T>::BridgeBuffer() {}
 
 template <typename T>
 BridgeBuffer<T>::BridgeBuffer(size_t size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   reset(size);
 }
 
 template <typename T>
 BridgeBuffer<T>::~BridgeBuffer() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lg(mutex_);
   if (buf_) {
     delete[] buf_;
@@ -53,15 +44,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 template <typename T>
 BridgeBuffer<T>::operator T *() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return buf_;
 }
 
 template <typename T>
 void BridgeBuffer<T>::reset(size_t size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lg(mutex_);
   if (capacity_ < size) {
     if (buf_) {
@@ -76,8 +63,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 template <typename T>
 void BridgeBuffer<T>::write(size_t index, const T *data, size_t size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lg(mutex_);
   reset(size + index);
   T *p = buf_ + index;

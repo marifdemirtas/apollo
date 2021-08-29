@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,30 +21,22 @@ namespace apollo {
 namespace perception {
 namespace radar {
 
-bool ContiArsDetector::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return true; }
+bool ContiArsDetector::Init() { return true; }
 
 bool ContiArsDetector::Detect(const drivers::ContiRadar& corrected_obstacles,
                               const DetectorOptions& options,
                               base::FramePtr radar_frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   RawObs2Frame(corrected_obstacles, options, radar_frame);
   radar_frame->timestamp = corrected_obstacles.header().timestamp_sec();
   radar_frame->sensor2world_pose = *(options.radar2world_pose);
   return true;
 }
 
-std::string ContiArsDetector::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return "ContiArsDetector"; }
+std::string ContiArsDetector::Name() const { return "ContiArsDetector"; }
 
 void ContiArsDetector::RawObs2Frame(
     const drivers::ContiRadar& corrected_obstacles,
     const DetectorOptions& options, base::FramePtr radar_frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const Eigen::Matrix4d& radar2world = *(options.radar2world_pose);
   const Eigen::Matrix4d& radar2novatel = *(options.radar2novatel_trans);
   const Eigen::Vector3f& angular_speed = options.car_angular_speed;

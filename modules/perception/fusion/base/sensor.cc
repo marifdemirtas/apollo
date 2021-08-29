@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,8 +25,6 @@ size_t Sensor::kMaxCachedFrameNum = 10;
 
 void Sensor::QueryLatestFrames(double timestamp,
                                std::vector<SensorFramePtr>* frames) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frames == nullptr) {
     AERROR << "frames are not available";
     return;
@@ -44,8 +41,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 SensorFramePtr Sensor::QueryLatestFrame(double timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   SensorFramePtr latest_frame = nullptr;
   for (size_t i = 0; i < frames_.size(); ++i) {
     if (frames_[i]->GetTimestamp() > latest_query_timestamp_ &&
@@ -58,8 +53,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Sensor::GetPose(double timestamp, Eigen::Affine3d* pose) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (pose == nullptr) {
     AERROR << "pose is not available";
     return false;
@@ -76,8 +69,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Sensor::AddFrame(const base::FrameConstPtr& frame_ptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   SensorFramePtr frame(new SensorFrame(frame_ptr));
   if (frames_.size() == kMaxCachedFrameNum) {
     frames_.pop_front();

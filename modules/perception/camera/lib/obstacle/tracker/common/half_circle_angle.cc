@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,8 +21,6 @@ namespace apollo {
 namespace perception {
 namespace camera {
 void HalfCircleAngle::SetDirection(float theta) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (theta_ > M_PI) {
     theta_ = theta;
   }
@@ -37,40 +34,26 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 HalfCircleAngle &HalfCircleAngle::operator=(const float &theta) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   theta_ = theta;
   return *this;
 }
 float HalfCircleAngle::operator+(const float &theta) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return theta_ + theta;
 }
 float HalfCircleAngle::operator*(const float &scale) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return theta_ * scale;
 }
 HalfCircleAngle &HalfCircleAngle::operator=(const HalfCircleAngle &theta) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   this->theta_ = theta.value();
   return *this;
 }
 bool HalfCircleAngle::operator==(const HalfCircleAngle &theta) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return Equal(theta_, theta.value(), 0.01f);
 }
 bool HalfCircleAngle::operator==(const float &theta) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return Equal(theta_, theta, 0.01f);
 }
-float HalfCircleAngle::value() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return theta_; }
+float HalfCircleAngle::value() const { return theta_; }
 }  // namespace camera
 }  // namespace perception
 }  // namespace apollo

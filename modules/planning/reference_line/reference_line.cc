@@ -217,6 +217,10 @@ common::FrenetFramePoint ReferenceLine::GetFrenetPoint(
 
 std::pair<std::array<double, 3>, std::array<double, 3>>
 ReferenceLine::ToFrenetFrame(const common::TrajectoryPoint& traj_point) const {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
   ACHECK(!reference_points_.empty());
 
   common::SLPoint sl_point;
@@ -236,6 +240,8 @@ ReferenceLine::ToFrenetFrame(const common::TrajectoryPoint& traj_point) const {
 }
 
 ReferencePoint ReferenceLine::GetNearestReferencePoint(const double s) const {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
   const auto& accumulated_s = map_path_.accumulated_s();
   if (s < accumulated_s.front() - 1e-2) {
     AWARN << "The requested s: " << s << " < 0.";
@@ -706,6 +712,8 @@ bool ReferenceLine::GetSLBoundary(const common::math::Box2d& box,
 
     // sl_point is outside of polygon; add to the vertex list
     if (v0.CrossProd(v1) < 0.0) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
       *sl_boundary->add_boundary_point() = sl_point_mid;
     }
   }

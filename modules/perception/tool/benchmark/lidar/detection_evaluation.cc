@@ -28,7 +28,7 @@ bool DetectionEvaluation::init(const std::string& clouds,
                                unsigned int eval_thread_num,
                                unsigned int eval_parrallel_num,
                                const std::string& reserve) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::vector<std::string> strs;
   strs.push_back(clouds);
@@ -65,7 +65,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void DetectionEvaluation::run_evaluation() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // sequential loading and accumulate
   while (true) {

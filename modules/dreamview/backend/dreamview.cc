@@ -32,23 +32,27 @@ using apollo::common::VehicleConfigHelper;
 using cyber::common::PathExists;
 
 Dreamview::~Dreamview() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Stop(); }
 
 void Dreamview::TerminateProfilingMode() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Stop();
   AWARN << "Profiling timer called shutdown!";
 }
 
 Status Dreamview::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   VehicleConfigHelper::Init();
 
   if (FLAGS_dreamview_profiling_mode &&
       FLAGS_dreamview_profiling_duration > 0.0) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     exit_timer_.reset(new cyber::Timer(
         FLAGS_dreamview_profiling_duration,
         [this]() { this->TerminateProfilingMode(); }, false));
@@ -112,7 +116,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status Dreamview::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   sim_world_updater_->Start();
   point_cloud_updater_->Start();
@@ -125,7 +129,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Dreamview::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   server_->close();
   sim_control_->Stop();

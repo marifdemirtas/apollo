@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,7 +24,6 @@
 #include "modules/perception/lidar/lib/ground_detector/spatio_temporal_ground_detector/proto/spatio_temporal_ground_detector_config.pb.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
@@ -33,8 +31,6 @@ using apollo::cyber::common::GetProtoFromFile;
 
 bool SpatioTemporalGroundDetector::Init(
     const GroundDetectorInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const lib::ModelConfig* model_config = nullptr;
   auto config_manager = lib::ConfigManager::Instance();
   ACHECK(config_manager->GetModelConfig("SpatioTemporalGroundDetector",
@@ -80,8 +76,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool SpatioTemporalGroundDetector::Detect(const GroundDetectorOptions& options,
                                           LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // check input
   if (frame == nullptr) {
     AERROR << "Input null frame ptr.";

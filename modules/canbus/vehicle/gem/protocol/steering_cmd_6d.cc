@@ -29,11 +29,11 @@ const int32_t Steeringcmd6d::ID = 0x6D;
 
 // public
 Steeringcmd6d::Steeringcmd6d() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Reset(); }
 
 uint32_t Steeringcmd6d::GetPeriod() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,14 +41,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Steeringcmd6d::UpdateData(uint8_t* data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   set_p_position_value(data, position_value_);
   set_p_speed_limit(data, speed_limit_);
 }
 
 void Steeringcmd6d::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(QiL) :you should check this manually
   position_value_ = 0.0;
@@ -56,7 +56,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Steeringcmd6d* Steeringcmd6d::set_position_value(double position_value) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   position_value_ = position_value;
   return this;
@@ -67,7 +67,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // '[-2147483.648|2147483.647]', 'bit': 7, 'type': 'double', 'order':
 // 'motorola', 'physical_unit': 'radians'}
 void Steeringcmd6d::set_p_position_value(uint8_t* data, double position_value) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   position_value =
       ProtocolData::BoundedValue(-2147483.648, 2147483.647, position_value);
@@ -95,7 +95,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Steeringcmd6d* Steeringcmd6d::set_speed_limit(double speed_limit) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   speed_limit_ = speed_limit;
   return this;
@@ -105,7 +105,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|65.535]', 'bit': 39,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad/s'}
 void Steeringcmd6d::set_p_speed_limit(uint8_t* data, double speed_limit) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   speed_limit = ProtocolData::BoundedValue(0.0, 65.535, speed_limit);
   int x = static_cast<int>(speed_limit / 0.001000);

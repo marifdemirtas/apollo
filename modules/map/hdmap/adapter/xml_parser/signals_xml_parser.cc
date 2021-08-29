@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,8 +23,6 @@ namespace adapter {
 Status SignalsXmlParser::ParseTrafficLights(
     const tinyxml2::XMLElement& xml_node,
     std::vector<TrafficLightInternal>* traffic_lights) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(traffic_lights);
   auto signal_node = xml_node.FirstChildElement("signal");
   while (signal_node) {
@@ -136,8 +133,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status SignalsXmlParser::ToPbSignalType(const std::string& xml_type,
                                         PbSignalType* signal_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(signal_type);
 
   std::string upper_str = UtilXmlParser::ToUpper(xml_type);
@@ -164,8 +159,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status SignalsXmlParser::ToPbSubSignalType(const std::string& xml_type,
                                            PbSubSignalType* sub_signal_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(sub_signal_type);
 
   std::string upper_str = UtilXmlParser::ToUpper(xml_type);
@@ -195,8 +188,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status SignalsXmlParser::to_pb_sign_info_type(const std::string& xml_type,
                                               PbSignInfoType* sign_info_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(sign_info_type);
 
   std::string upper_str = UtilXmlParser::ToUpper(xml_type);
@@ -212,8 +203,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status SignalsXmlParser::ToPbStopSignType(const std::string& xml_type,
                                           PbStopSignType* stop_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(stop_type);
 
   std::string upper_str = UtilXmlParser::ToUpper(xml_type);
@@ -240,8 +229,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status SignalsXmlParser::ParseStopSigns(
     const tinyxml2::XMLElement& xml_node,
     std::vector<StopSignInternal>* stop_signs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(stop_signs);
 
   auto signal_node = xml_node.FirstChildElement("signal");
@@ -304,8 +291,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status SignalsXmlParser::ParseYieldSigns(
     const tinyxml2::XMLElement& xml_node,
     std::vector<YieldSignInternal>* yield_signs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(yield_signs);
 
   auto signal_node = xml_node.FirstChildElement("signal");

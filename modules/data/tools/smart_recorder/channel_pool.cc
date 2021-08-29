@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,8 +24,6 @@ namespace apollo {
 namespace data {
 
 ChannelPool::ChannelPool() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   small_channels_ = {FLAGS_chassis_topic,
                      FLAGS_chassis_detail_topic,
                      FLAGS_control_command_topic,

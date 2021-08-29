@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -29,15 +28,11 @@ namespace conti_radar {
 using apollo::drivers::ContiRadarObs;
 using apollo::drivers::canbus::Byte;
 
-ClusterListStatus600::ClusterListStatus600() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+ClusterListStatus600::ClusterListStatus600() {}
 const uint32_t ClusterListStatus600::ID = 0x600;
 
 void ClusterListStatus600::Parse(const std::uint8_t* bytes, int32_t length,
                                  ContiRadar* conti_radar) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto status = conti_radar->mutable_cluster_list_status();
   status->set_near(near(bytes, length));
   status->set_far(far(bytes, length));
@@ -66,8 +61,6 @@ int ClusterListStatus600::far(const std::uint8_t* bytes, int32_t length) const {
 
 int ClusterListStatus600::meas_counter(const std::uint8_t* bytes,
                                        int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -82,8 +75,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int ClusterListStatus600::interface_version(const std::uint8_t* bytes,
                                             int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(4, 4);
 

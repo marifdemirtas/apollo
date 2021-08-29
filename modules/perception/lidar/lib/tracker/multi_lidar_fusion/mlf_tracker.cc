@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool MlfTracker::Init(const MlfTrackerInitOptions options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig(Name(), &model_config));
@@ -57,16 +54,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MlfTracker::InitializeTrack(MlfTrackDataPtr new_track_data,
                                  TrackedObjectPtr new_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   new_track_data->Reset(new_object, GetNextTrackId());
   new_track_data->is_current_state_predicted_ = false;
 }
 
 void MlfTracker::UpdateTrackDataWithObject(MlfTrackDataPtr track_data,
                                            TrackedObjectPtr new_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // 1. state filter and store belief in new_object
   for (auto& filter : filters_) {
     filter->UpdateWithObject(filter_options_, track_data, new_object);
@@ -78,8 +71,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MlfTracker::UpdateTrackDataWithoutObject(double timestamp,
                                               MlfTrackDataPtr track_data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto& filter : filters_) {
     filter->UpdateWithoutObject(filter_options_, timestamp, track_data);
   }

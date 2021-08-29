@@ -24,7 +24,11 @@ DEFINE_string(vehicle_data_path, "modules/calibration/data/mkz_example",
               "Vehicle data path.");
 
 int main(int argc, char **argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   FLAGS_logtostderr = true;
   google::InitGoogleLogging(argv[0]);

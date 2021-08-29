@@ -36,7 +36,9 @@ LocalizationIntegProcess::LocalizationIntegProcess()
       gnss_antenna_extrinsic_(TransformD::Identity()),
       integ_state_(IntegState::NOT_INIT),
       ins_pva_(),
-      pva_covariance_{0.0},
+      pva_covariance_{
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+0.0},
       corrected_imu_(),
       earth_param_(),
       keep_running_(false),
@@ -44,7 +46,7 @@ LocalizationIntegProcess::LocalizationIntegProcess()
       delay_output_counter_(0) {}
 
 LocalizationIntegProcess::~LocalizationIntegProcess() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   StopThreadLoop();
 
@@ -53,7 +55,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status LocalizationIntegProcess::Init(const LocalizationIntegParam &param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // sins init
   sins_->Init(param.is_ins_can_self_align);
@@ -86,7 +88,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LocalizationIntegProcess::RawImuProcess(const ImuData &imu_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   integ_state_ = IntegState::NOT_INIT;
   double cur_imu_time = imu_msg.measurement_time;
@@ -158,7 +160,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LocalizationIntegProcess::GetValidFromOK() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (integ_state_ != IntegState::OK) {
     return;
@@ -173,7 +175,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LocalizationIntegProcess::GetState(IntegState *state) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(state);
 
@@ -182,7 +184,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationIntegProcess::GetResult(IntegState *state,
                                          LocalizationEstimate *localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(state);
   CHECK_NOTNULL(localization);
@@ -262,7 +264,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationIntegProcess::GetResult(IntegState *state, InsPva *sins_pva,
                                          double pva_covariance[9][9]) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(state);
   CHECK_NOTNULL(sins_pva);
@@ -274,7 +276,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LocalizationIntegProcess::GetCorrectedImu(ImuData *imu_data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(imu_data);
 
@@ -283,7 +285,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationIntegProcess::GetEarthParameter(
     InertialParameter *earth_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(earth_param);
 
@@ -292,7 +294,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationIntegProcess::MeasureDataProcess(
     const MeasureData &measure_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   measure_data_queue_mutex_.lock();
   measure_data_queue_.push(measure_msg);
@@ -300,7 +302,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LocalizationIntegProcess::StartThreadLoop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   keep_running_ = true;
   measure_data_queue_size_ = 150;
@@ -308,7 +310,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LocalizationIntegProcess::StopThreadLoop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (keep_running_.load()) {
     keep_running_ = false;
@@ -316,7 +318,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LocalizationIntegProcess::MeasureDataThreadLoop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "Started measure data process thread";
   while (keep_running_.load()) {
@@ -354,7 +356,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationIntegProcess::MeasureDataProcessImpl(
     const MeasureData &measure_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   common::util::Timer timer;
   timer.Start();
@@ -370,7 +372,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LocalizationIntegProcess::CheckIntegMeasureData(
     const MeasureData &measure_data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (measure_data.measure_type == MeasureType::ODOMETER_VEL_ONLY) {
     AERROR << "receive a new odometry measurement!!!\n";
@@ -395,7 +397,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LocalizationIntegProcess::LoadGnssAntennaExtrinsic(
     const std::string &file_path, TransformD *extrinsic) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(extrinsic);
 

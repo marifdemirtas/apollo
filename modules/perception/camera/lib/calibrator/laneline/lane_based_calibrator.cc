@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,8 +24,6 @@ void GetYawVelocityInfo(const float &time_diff, const double cam_coord_cur[3],
                         const double cam_coord_pre[3],
                         const double cam_coord_pre_pre[3], float *yaw_rate,
                         float *velocity) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   assert(yaw_rate != nullptr);
   assert(velocity != nullptr);
   double time_diff_r = common::IRec(static_cast<double>(time_diff));
@@ -49,8 +46,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CalibratorParams::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // General
   min_nr_pts_laneline = 20;
   sampling_lane_point_rate = 0.05f;  // 0.05f
@@ -96,8 +91,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LaneBasedCalibrator::Init(const LocalCalibratorInitOptions &options,
                                const CalibratorParams *params) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ClearUp();
   image_width_ = options.image_width;
   image_height_ = options.image_height;
@@ -117,8 +110,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LaneBasedCalibrator::ClearUp() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   vp_buffer_.clear();
   pitch_histogram_.Clear();
   image_width_ = 0;
@@ -133,8 +124,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool LaneBasedCalibrator::Process(const EgoLane &lane, const float &velocity,
                                   const float &yaw_rate,
                                   const float &time_diff) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float distance_traveled_in_meter = velocity * time_diff;
   float vehicle_yaw_changed = yaw_rate * time_diff;
 
@@ -199,8 +188,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LaneBasedCalibrator::PushVanishingPoint(const VanishingPoint &v_point) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int nr_vps = static_cast<int>(vp_buffer_.size());
   if (nr_vps < kMaxNrHistoryFrames) {
     vp_buffer_.push_back(v_point);
@@ -211,8 +198,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool LaneBasedCalibrator::PopVanishingPoint(VanishingPoint *v_point) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float accumulated_distance = 0.0f;
   for (const auto &vp : vp_buffer_) {
     accumulated_distance += vp.distance_traveled;
@@ -227,15 +212,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool LaneBasedCalibrator::AddPitchToHistogram(float pitch) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return pitch_histogram_.Push(pitch);
 }
 
 bool LaneBasedCalibrator::GetPitchFromVanishingPoint(const VanishingPoint &vp,
                                                      float *pitch) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   assert(pitch != nullptr);
   const float cx = k_mat_[2];
   const float cy = k_mat_[5];
@@ -251,8 +232,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LaneBasedCalibrator::GetVanishingPoint(const EgoLane &lane,
                                             VanishingPoint *v_point) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   assert(v_point != nullptr);
   float line_seg_l[4] = {0};
   float line_seg_r[4] = {0};
@@ -278,8 +257,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int LaneBasedCalibrator::GetCenterIndex(const Eigen::Vector2f *points,
                                         int nr_pts) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   assert(points != nullptr);
   if (nr_pts <= 0) {
     return -1;
@@ -309,8 +286,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LaneBasedCalibrator::SelectTwoPointsFromLineForVanishingPoint(
     const LaneLine &line, float line_seg[4]) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int nr_pts = static_cast<int>(line.lane_point.size());
   if (nr_pts < params_.min_nr_pts_laneline) {
     return false;
@@ -346,8 +321,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool LaneBasedCalibrator::GetIntersectionFromTwoLineSegments(
     const float line_seg_l[4], const float line_seg_r[4],
     VanishingPoint *v_point) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   assert(v_point != nullptr);
   // ref: https://stackoverflow.com/questions/563198/...
   // how-do-you-detect-where-two-line-segments-intersect/1968345#1968345

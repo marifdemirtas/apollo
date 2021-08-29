@@ -20,6 +20,8 @@
 #include "modules/dreamview/backend/dreamview.h"
 
 int main(int argc, char *argv[]) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
   google::ParseCommandLineFlags(&argc, &argv, true);
   // Added by caros to improve dv performance
   apollo::cyber::GlobalData::Instance()->SetProcessGroup("dreamview_sched");

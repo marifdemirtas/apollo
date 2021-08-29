@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,14 +22,10 @@ namespace radar {
 double ContiArsTracker::s_tracking_time_win_ = 0.06;
 ContiArsTracker::ContiArsTracker()
     : BaseTracker(), matcher_(nullptr), track_manager_(nullptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   name_ = "ContiArsTracker";
 }
 
 ContiArsTracker::~ContiArsTracker() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (matcher_ != nullptr) {
     delete matcher_;
   }
@@ -40,8 +35,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool ContiArsTracker::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string model_name = name_;
   const lib::ModelConfig *model_config = nullptr;
   bool state = true;
@@ -95,16 +88,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool ContiArsTracker::Track(const base::Frame &detected_frame,
                             const TrackerOptions &options,
                             base::FramePtr tracked_frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   TrackObjects(detected_frame);
   CollectTrackedFrame(tracked_frame);
   return true;
 }
 
 void ContiArsTracker::TrackObjects(const base::Frame &radar_frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<TrackObjectPair> assignments;
   std::vector<size_t> unassigned_tracks;
   std::vector<size_t> unassigned_objects;
@@ -120,8 +109,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ContiArsTracker::UpdateAssignedTracks(
     const base::Frame &radar_frame, std::vector<TrackObjectPair> assignments) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto &radar_tracks = track_manager_->mutable_tracks();
   for (size_t i = 0; i < assignments.size(); ++i) {
     radar_tracks[assignments[i].first]->UpdataObsRadar(
@@ -132,8 +119,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ContiArsTracker::UpdateUnassignedTracks(
     const base::Frame &radar_frame,
     const std::vector<size_t> &unassigned_tracks) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double timestamp = radar_frame.timestamp;
   auto &radar_tracks = track_manager_->mutable_tracks();
   for (size_t i = 0; i < unassigned_tracks.size(); ++i) {
@@ -149,15 +134,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 
-void ContiArsTracker::DeleteLostTracks() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- track_manager_->RemoveLostTracks(); }
+void ContiArsTracker::DeleteLostTracks() { track_manager_->RemoveLostTracks(); }
 
 void ContiArsTracker::CreateNewTracks(
     const base::Frame &radar_frame,
     const std::vector<size_t> &unassigned_objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (size_t i = 0; i < unassigned_objects.size(); ++i) {
     RadarTrackPtr radar_track;
     radar_track.reset(new RadarTrack(radar_frame.objects[unassigned_objects[i]],
@@ -167,8 +148,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ContiArsTracker::CollectTrackedFrame(base::FramePtr tracked_frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (tracked_frame == nullptr) {
     AERROR << "tracked_frame is nullptr";
     return;

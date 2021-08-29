@@ -30,7 +30,7 @@ DEFINE_string(output_dir, "/tmp/", "output map directory");
 using apollo::hdmap::Map;
 
 static void ShiftMap(Map* map_pb) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (auto& lane : *(map_pb->mutable_lane())) {
     for (auto& segment : *(lane.mutable_central_curve()->mutable_segment())) {
@@ -67,7 +67,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 static void OutputMap(const Map& map_pb) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const std::string txt_file = FLAGS_output_dir + "/base_map.txt";
   const std::string bin_file = FLAGS_output_dir + "/base_map.bin";
@@ -76,7 +76,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int main(int32_t argc, char** argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   google::InitGoogleLogging(argv[0]);
   FLAGS_alsologtostderr = true;

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -36,8 +35,6 @@ using apollo::cyber::common::GetProtoFromFile;
 using Eigen::MatrixXf;
 
 bool NCutSegmentation::Init(const SegmentationInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string param_file;
   ACHECK(GetConfigs(&param_file));
   AINFO << "--    param_file: " << param_file;
@@ -130,8 +127,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool NCutSegmentation::Configure(std::string param_file) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   NCutSegmentationParam seg_param_;
   // get cnnseg params
   ACHECK(GetProtoFromFile(param_file, &seg_param_))
@@ -156,8 +151,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool NCutSegmentation::GetConfigs(std::string* param_file) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig("NCutSegmentation", &model_config))
@@ -180,8 +173,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool NCutSegmentation::Segment(const SegmentationOptions& options,
                                LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // check input
   if (frame == nullptr) {
     AERROR << "Input null frame ptr.";
@@ -409,8 +400,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 base::ObjectType NCutSegmentation::Label2Type(const std::string& label) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (label == "unknown") {
     return base::ObjectType::UNKNOWN;
   }
@@ -429,8 +418,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void NCutSegmentation::PartitionConnectedComponents(
     const base::PointFCloudPtr& in_cloud, float cell_size,
     std::vector<base::PointFCloudPtr>* out_clouds) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<base::PointFCloudPtr>& temp_clouds = *out_clouds;
   FloodFill FFfilter(grid_radius_, cell_size);
   std::vector<std::vector<int>> component_points;
@@ -448,8 +435,6 @@ void NCutSegmentation::ObstacleFilter(const base::PointFCloudPtr& in_cloud,
                                       bool filter_pedestrian_only,
                                       base::PointFCloudPtr* out_cloud,
                                       std::vector<base::ObjectPtr>* segments) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   FloodFill FFfilter(grid_radius_, cell_size);
   std::vector<std::vector<int>> component_points;
   std::vector<int> num_cells_per_components;
@@ -508,8 +493,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool NCutSegmentation::IsOutlier(const base::PointFCloudPtr& in_cloud) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t min_num_points = std::max(outlier_min_num_points_, 1);
   if (in_cloud->size() < min_num_points) {
     return true;
@@ -551,8 +534,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 #ifdef DEBUG_NCUT
 void NCutSegmentation::VisualizePointCloud(const base::PointFCloudPtr& cloud) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // _viewer->removePointCloud(_viewer_id, 0);
   _viewer->removeAllPointClouds(0);
   _viewer->removeAllShapes(0);
@@ -574,8 +555,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void NCutSegmentation::VisualizeSegments(
     const std::vector<base::ObjectPtr>& segments) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // _viewer->removePointCloud(_viewer_id, 0);
   unsigned int seed;
   _viewer->removeAllPointClouds(0);
@@ -605,8 +584,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void NCutSegmentation::VisualizeComponents(
     const base::PointFCloudPtr& cloud,
     const std::vector<std::vector<int>>& component_points) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // _viewer->removePointCloud(_viewer_id, 0);
   unsigned int seed;
   _viewer->removeAllPointClouds(0);

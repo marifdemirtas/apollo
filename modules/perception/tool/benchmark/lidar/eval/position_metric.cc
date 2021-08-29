@@ -28,7 +28,7 @@ namespace benchmark {
 
 void PositionMetric::cal_position_metric(const ObjectPtr& object,
                                          const PositionMetricOption& option) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (object->cloud->points.empty()) {
     return;
@@ -61,7 +61,7 @@ double DistanceBasedRangeInterface::_s_distance = 60.0;
 double DistanceBasedRangeInterface::_s_half_distance = 30.0;
 
 void DistanceBasedRangeInterface::set_distance(double distance) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   _s_distance = distance;
   _s_half_distance = 0.5 * distance;
@@ -69,7 +69,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 unsigned int DistanceBasedRangeInterface::get_index(
     const PositionMetric& position) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // unsigned int index = static_cast<unsigned int>(position.radial_distance /
   // 30.0);
@@ -82,11 +82,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 unsigned int DistanceBasedRangeInterface::get_dim() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  return 3; }
 
 std::string DistanceBasedRangeInterface::get_element(unsigned int index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (index >= get_dim()) {
     return "Total";
@@ -105,7 +105,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 unsigned int DistanceBasedRangeRadarInterface::get_index(
     const PositionMetric& position) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // unsigned int index = static_cast<unsigned int>(position.radial_distance /
   // 30.0);
@@ -126,12 +126,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 unsigned int DistanceBasedRangeRadarInterface::get_dim() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  return 5; }
 
 std::string DistanceBasedRangeRadarInterface::get_element(
     unsigned int index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (index >= get_dim()) {
     return "Total";
@@ -157,32 +157,32 @@ double ViewBasedRangeInterface::_s_front_view_distance = 60.0;
 double ViewBasedRangeInterface::_s_rear_view_distance = 60.0;
 
 void ViewBasedRangeInterface::set_front_view_angle(double angle) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   _s_front_view_angle = angle;
 }
 
 void ViewBasedRangeInterface::set_rear_view_angle(double angle) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   _s_rear_view_angle = angle;
 }
 
 void ViewBasedRangeInterface::set_front_view_distance(double distance) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   _s_front_view_distance = distance;
 }
 
 void ViewBasedRangeInterface::set_rear_view_distance(double distance) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   _s_rear_view_distance = distance;
 }
 
 unsigned int ViewBasedRangeInterface::get_index(
     const PositionMetric& position) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (position.radial_distance >= 60.0) {
     return 3;
@@ -210,11 +210,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 unsigned int ViewBasedRangeInterface::get_dim() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  return 4; }
 
 std::string ViewBasedRangeInterface::get_element(unsigned int index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (index >= get_dim()) {
     return "Total";
@@ -240,26 +240,26 @@ double BoxBasedRangeInterface::_s_rear_box_distance = 45.0;
 double BoxBasedRangeInterface::_s_side_box_distance = 10.0;
 
 void BoxBasedRangeInterface::set_front_box_distance(double distance) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   _s_front_box_distance = distance;
 }
 
 void BoxBasedRangeInterface::set_rear_box_distance(double distance) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   _s_rear_box_distance = distance;
 }
 
 void BoxBasedRangeInterface::set_side_box_distance(double distance) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   _s_side_box_distance = distance;
 }
 
 unsigned int BoxBasedRangeInterface::get_index(
     const PositionMetric& position) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (position.vertical_distance <= _s_front_box_distance &&
       position.vertical_distance >= -_s_rear_box_distance &&
@@ -271,11 +271,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 unsigned int BoxBasedRangeInterface::get_dim() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  return 2; }
 
 std::string BoxBasedRangeInterface::get_element(unsigned int index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (index >= get_dim()) {
     return "Total";
@@ -295,14 +295,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool RoiDistanceBasedRangeInterface::_s_ignore_roi_outside = false;
 
 void RoiDistanceBasedRangeInterface::set_ignore_roi_outside(bool ignore) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   _s_ignore_roi_outside = ignore;
 }
 
 unsigned int RoiDistanceBasedRangeInterface::get_index(
     const PositionMetric& position) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   unsigned int index =
       static_cast<unsigned int>(position.radial_distance / _s_half_distance);
@@ -318,14 +318,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 unsigned int RoiDistanceBasedRangeInterface::get_dim() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return _s_ignore_roi_outside ? 3 : 5;
 }
 
 std::string RoiDistanceBasedRangeInterface::get_element(
     unsigned int index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (index >= get_dim()) {
     return "Total";

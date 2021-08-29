@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,15 +23,12 @@
 #include "modules/perception/lidar/lib/scene_manager/ground_service/proto/ground_service_config.pb.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
 using cyber::common::GetAbsolutePath;
 
 void GroundServiceContent::GetCopy(SceneServiceContent* content) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   GroundServiceContent* ground_content =
       dynamic_cast<GroundServiceContent*>(content);
   if (ground_content == nullptr) {
@@ -52,8 +48,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void GroundServiceContent::SetContent(const SceneServiceContent& content) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const GroundServiceContent* ground_content =
       dynamic_cast<const GroundServiceContent*>(&content);
   if (ground_content == nullptr) {
@@ -79,8 +73,6 @@ uint32_t inline GetIndex(uint32_t r, uint32_t c, uint32_t cols) {
 
 bool GroundServiceContent::PointToGrid(const Eigen::Vector3d& world_point,
                                        uint32_t* grid_index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double x = world_point(0) - grid_center_(0);
   double y = world_point(1) - grid_center_(1);
   if (x < bound_x_min_ || x > bound_x_max_ || y < bound_y_min_ ||
@@ -98,8 +90,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 float GroundServiceContent::PointToPlaneDistance(
     const Eigen::Vector3d& world_point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   uint32_t grid_index = 0;
   if (!PointToGrid(world_point, &grid_index)) {
     return std::numeric_limits<float>::max();
@@ -126,8 +116,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool GroundServiceContent::Init(double roi_x, double roi_y, uint32_t rows,
                                 uint32_t cols) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   bound_x_min_ = -roi_x;
   bound_y_min_ = -roi_y;
   bound_x_max_ = roi_x;
@@ -144,8 +132,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool GroundService::Init(const SceneServiceInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   self_content_.reset(new GroundServiceContent);
   ground_content_ref_ =
       dynamic_cast<GroundServiceContent*>(self_content_.get());
@@ -181,8 +167,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 float GroundService::QueryPointToGroundDistance(
     const Eigen::Vector3d& world_point) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lock(mutex_);
   float distance =
       QueryPointToGroundDistance(world_point, *ground_content_ref_);
@@ -191,8 +175,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 float GroundService::QueryPointToGroundDistance(
     const Eigen::Vector3d& world_point, const GroundServiceContent& content) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return content.PointToPlaneDistance(world_point);
 }
 

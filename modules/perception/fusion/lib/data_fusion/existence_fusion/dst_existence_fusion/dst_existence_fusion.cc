@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -42,13 +41,9 @@ DstExistenceFusionOptions DstExistenceFusion::options_;
 DstExistenceFusion::DstExistenceFusion(TrackPtr track)
     : BaseExistenceFusion(track),
       fused_toic_(toic_name_),
-      fused_existence_(name_) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+      fused_existence_(name_) {}
 
 bool DstExistenceFusion::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   BaseInitOptions options;
   if (!GetFusionInitOptions("DstExistenceFusion", &options)) {
     AERROR << "GetFusionInitOptions failed ";
@@ -91,8 +86,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void DstExistenceFusion::UpdateWithMeasurement(
     const SensorObjectPtr measurement, double target_timestamp,
     double match_dist) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string sensor_id = measurement->GetSensorId();
   double timestamp = measurement->GetTimestamp();
   double max_match_distance = options_.track_object_max_match_distance_;
@@ -132,8 +125,6 @@ void DstExistenceFusion::UpdateWithoutMeasurement(const std::string &sensor_id,
                                                   double measurement_timestamp,
                                                   double target_timestamp,
                                                   double min_match_dist) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   SensorObjectConstPtr camera_object = nullptr;
   if (common::SensorManager::Instance()->IsCamera(sensor_id)) {
     camera_object = track_ref_->GetSensorObject(sensor_id);
@@ -180,8 +171,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 double DstExistenceFusion::ComputeDistDecay(base::ObjectConstPtr obj,
                                             const std::string &sensor_id,
                                             double timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double distance = (std::numeric_limits<float>::max)();
   double dist_decay = 1.0;
   Eigen::Affine3d sensor2world_pose;
@@ -211,8 +200,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double DstExistenceFusion::ComputeFeatureInfluence(
     const SensorObjectPtr measurement) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double velocity = measurement->GetBaseObject()->velocity.norm();
   auto sigmoid_fun = [](double velocity) {
     return 1.0 / (1.0 + exp(-velocity));
@@ -228,8 +215,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double DstExistenceFusion::GetExistReliability(
     const SensorObjectPtr measurement) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   bool unknown =
       (measurement->GetBaseObject()->type == base::ObjectType::UNKNOWN ||
        measurement->GetBaseObject()->type == base::ObjectType::UNKNOWN_MOVABLE);
@@ -246,8 +231,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double DstExistenceFusion::GetUnexistReliability(const std::string &sensor_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   common::SensorManager *sensor_manager = common::SensorManager::Instance();
   CHECK_NOTNULL(sensor_manager);
   if (sensor_manager->IsCamera(sensor_id)) {
@@ -262,8 +245,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void DstExistenceFusion::UpdateToicWithoutCameraMeasurement(
     const std::string &sensor_id, double measurement_timestamp,
     double min_match_dist) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double dist_score = min_match_dist;
   double in_view_ratio = 0.0;
   // 1.get camera intrinsic and pose
@@ -310,8 +291,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void DstExistenceFusion::UpdateToicWithCameraMeasurement(
     const SensorObjectPtr &camera_obj, double match_dist) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string sensor_id = camera_obj->GetSensorId();
   double timestamp = camera_obj->GetTimestamp();
   double in_view_ratio = 0.0;
@@ -361,13 +340,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   fused_toic_ = fused_toic_ + toic_evidence * toic_fused_w * in_view_ratio;
 }
 
-std::string DstExistenceFusion::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return name_; }
+std::string DstExistenceFusion::Name() const { return name_; }
 
 double DstExistenceFusion::GetExistenceProbability() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t toic_ind = DstManager::Instance()->FodSubsetToInd(
       fused_existence_.Name(), ExistenceDstMaps::EXIST);
   fused_existence_.ComputeProbability();
@@ -377,8 +352,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double DstExistenceFusion::GetToicProbability() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t toic_ind = DstManager::Instance()->FodSubsetToInd(fused_toic_.Name(),
                                                            ToicDstMaps::TOIC);
   fused_toic_.ComputeProbability();
@@ -387,8 +360,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void DstExistenceFusion::UpdateExistenceState() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double toic_p = GetToicProbability();
   track_ref_->SetToicProb(toic_p);
   double existence_p = GetExistenceProbability();

@@ -27,11 +27,11 @@ namespace data {
 using apollo::common::DriveEvent;
 
 DriveEventTrigger::DriveEventTrigger() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  trigger_name_ = "DriveEventTrigger"; }
 
 void DriveEventTrigger::Pull(const cyber::record::RecordMessage& msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!trigger_obj_->enabled()) {
     return;

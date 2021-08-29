@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -27,20 +26,14 @@ namespace planning {
 LearningData FeatureOutput::learning_data_;
 int FeatureOutput::learning_data_file_index_ = 0;
 
-void FeatureOutput::Close() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- Clear(); }
+void FeatureOutput::Close() { Clear(); }
 
 void FeatureOutput::Clear() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   learning_data_.Clear();
   learning_data_file_index_ = 0;
 }
 
 bool FeatureOutput::Ready() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Clear();
   return true;
 }
@@ -48,8 +41,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void FeatureOutput::InsertLearningDataFrame(
     const std::string& record_file,
     const LearningDataFrame& learning_data_frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   learning_data_.add_learning_data_frame()->CopyFrom(learning_data_frame);
 
   // write frames into a file
@@ -60,20 +51,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LearningDataFrame* FeatureOutput::GetLatestLearningDataFrame() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const int size = learning_data_.learning_data_frame_size();
   return size > 0 ? learning_data_.mutable_learning_data_frame(size - 1)
                   : nullptr;
 }
 
-void FeatureOutput::InsertPlanningResult() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+void FeatureOutput::InsertPlanningResult() {}
 
 void FeatureOutput::WriteLearningData(const std::string& record_file) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string src_file_name =
       record_file.substr(record_file.find_last_of("/") + 1);
   src_file_name = src_file_name.empty() ? "00000" : src_file_name;
@@ -88,8 +73,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void FeatureOutput::WriteRemainderiLearningData(
     const std::string& record_file) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (learning_data_.learning_data_frame_size() > 0) {
     WriteLearningData(record_file);
   }

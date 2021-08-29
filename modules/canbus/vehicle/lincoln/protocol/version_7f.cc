@@ -29,7 +29,7 @@ const int32_t Version7f::ID = 0x7f;
 
 void Version7f::Parse(const std::uint8_t *bytes, int32_t length,
                       ChassisDetail *chassis_detail) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   switch (module_name(bytes, length)) {
     case 0x01:
@@ -63,7 +63,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int32_t Version7f::module_name(const std::uint8_t *bytes,
                                int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 0);
   int32_t x = frame.get_byte(0, 8);
@@ -72,7 +72,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int32_t Version7f::major_version(const std::uint8_t *bytes,
                                  int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame_high(bytes + 3);
   int32_t high = frame_high.get_byte(0, 8);
@@ -84,7 +84,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int32_t Version7f::minor_version(const std::uint8_t *bytes,
                                  int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame_high(bytes + 5);
   int32_t high = frame_high.get_byte(0, 8);
@@ -96,7 +96,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int32_t Version7f::build_number(const std::uint8_t *bytes,
                                 int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame_high(bytes + 7);
   int32_t high = frame_high.get_byte(0, 8);

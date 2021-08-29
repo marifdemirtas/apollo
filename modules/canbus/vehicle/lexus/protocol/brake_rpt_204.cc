@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Brakerpt204::Brakerpt204() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Brakerpt204::ID = 0x204;
 
 void Brakerpt204::Parse(const std::uint8_t* bytes, int32_t length,
                         ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_lexus()->mutable_brake_rpt_204()->set_command_output_fault(
       command_output_fault(bytes, length));
@@ -64,7 +64,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // '[0|1]', 'bit': 2, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Brakerpt204::command_output_fault(const std::uint8_t* bytes,
                                        int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
@@ -78,7 +78,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Brakerpt204::vehicle_fault(const std::uint8_t* bytes,
                                 int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(6, 1);
@@ -92,7 +92,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Brakerpt204::pacmod_fault(const std::uint8_t* bytes,
                                int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
@@ -106,7 +106,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Brakerpt204::override_active(const std::uint8_t* bytes,
                                   int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
@@ -120,7 +120,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // '[0|1]', 'bit': 4, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Brakerpt204::output_reported_fault(const std::uint8_t* bytes,
                                         int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 1);
@@ -134,7 +134,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // '[0|1]', 'bit': 3, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Brakerpt204::input_output_fault(const std::uint8_t* bytes,
                                      int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
@@ -147,7 +147,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 bool Brakerpt204::enabled(const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
@@ -161,7 +161,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Brakerpt204::manual_input(const std::uint8_t* bytes,
                                  int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -180,7 +180,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Brakerpt204::commanded_value(const std::uint8_t* bytes,
                                     int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -199,7 +199,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Brakerpt204::output_value(const std::uint8_t* bytes,
                                  int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);

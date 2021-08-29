@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,8 +35,6 @@ using ObjectPtr = std::shared_ptr<apollo::perception::base::Object>;
 using apollo::perception::base::ObjectType;
 
 bool IsPtInRoi(const HdmapStructConstPtr roi, const PointD pt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (std::size_t j = 0; j < roi->road_polygons.size(); j++) {
     if (IsPointXYInPolygon2DXY(pt, roi->road_polygons[j])) {
       return true;
@@ -52,8 +49,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool IsObjectInRoi(const HdmapStructConstPtr roi, const ObjectConstPtr obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   PointD ct;
   ct.x = obj->center[0];
   ct.y = obj->center[1];
@@ -63,8 +58,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool IsObjectBboxInRoi(const HdmapStructConstPtr roi,
                        const ObjectConstPtr obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Vector3d bbox_center = obj->center;
   PointD ct;
   ct.x = bbox_center[0];
@@ -104,8 +97,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool ObjectInRoiCheck(const HdmapStructConstPtr roi,
                       const std::vector<ObjectPtr>& objects,
                       std::vector<ObjectPtr>* valid_objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (roi == nullptr ||
       (roi->road_polygons.empty() && roi->junction_polygons.empty())) {
     valid_objects->assign(objects.begin(), objects.end());

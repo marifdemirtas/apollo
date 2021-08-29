@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,8 +22,6 @@ namespace camera {
 
 bool CosineSimilar::Calc(CameraFrame *frame1, CameraFrame *frame2,
                          base::Blob<float> *sim) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto n = frame1->detected_objects.size();
   auto m = frame2->detected_objects.size();
   if ((n && m) == 0) {

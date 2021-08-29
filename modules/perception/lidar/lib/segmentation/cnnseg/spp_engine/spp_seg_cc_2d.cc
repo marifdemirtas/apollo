@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,8 +26,6 @@ namespace lidar {
 void SppCCDetector::SetData(const float* const* prob_map,
                             const float* offset_map, float scale,
                             float objectness_threshold) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   prob_map_ = prob_map;
   offset_map_ = offset_map;
   scale_ = scale;
@@ -38,8 +35,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SppCCDetector::BuildNodes(int start_row_index, int end_row_index) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const float* offset_row_ptr = offset_map_ + start_row_index * cols_;
   const float* offset_col_ptr = offset_map_ + (rows_ + start_row_index) * cols_;
   const float* prob_map_ptr = prob_map_[0] + start_row_index * cols_;
@@ -60,8 +55,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SppCCDetector::CleanNodes() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   memset(nodes_[0], 0, sizeof(Node) * rows_ * cols_);
   uint32_t node_idx = 0;
   for (int row = 0; row < rows_; ++row) {
@@ -73,8 +66,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t SppCCDetector::Detect(SppLabelImage* labels) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Timer timer;
   if (!first_process_) {
     worker_.Join();  // sync for cleaning nodes
@@ -103,8 +94,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SppCCDetector::TraverseNodes() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (int row = 0; row < rows_; row++) {
     for (int col = 0; col < cols_; col++) {
       Node& node = nodes_[row][col];
@@ -116,8 +105,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SppCCDetector::UnionNodes() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (int row = 0; row < rows_; ++row) {
     for (int col = 0; col < cols_; ++col) {
       Node* node = &nodes_[row][col];
@@ -158,8 +145,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t SppCCDetector::ToLabelMap(SppLabelImage* labels) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   uint16_t id = 0;
   uint32_t pixel_id = 0;
   labels->ResetClusters(kDefaultReserveSize);
@@ -185,8 +170,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SppCCDetector::Traverse(SppCCDetector::Node* x) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<SppCCDetector::Node*> p;
   p.clear();
   while (x->get_traversed() == 0) {
@@ -208,8 +191,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 SppCCDetector::Node* SppCCDetector::DisjointSetFindLoop(Node* x) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Node* root = x;
   while (nodes_[0] + root->parent != root) {
     root = nodes_[0] + root->parent;
@@ -224,8 +205,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 SppCCDetector::Node* SppCCDetector::DisjointSetFind(Node* x) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Node* y = nodes_[0] + x->parent;
   if (y == x || nodes_[0] + y->parent == y) {
     return y;
@@ -237,8 +216,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SppCCDetector::DisjointSetUnion(Node* x, Node* y) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   x = DisjointSetFind(x);
   y = DisjointSetFind(y);
   if (x == y) {

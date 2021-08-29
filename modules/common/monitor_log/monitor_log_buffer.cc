@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,13 +24,9 @@ namespace monitor {
 
 MonitorLogBuffer::MonitorLogBuffer(
     const MonitorMessageItem::MessageSource &source)
-    : source_(source) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+    : source_(source) {}
 
 void MonitorLogBuffer::Publish() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!monitor_msg_items_.empty()) {
     logger_->Publish(source_, monitor_msg_items_);
     monitor_msg_items_.clear();
@@ -39,14 +34,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 
-MonitorLogBuffer::~MonitorLogBuffer() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- Publish(); }
+MonitorLogBuffer::~MonitorLogBuffer() { Publish(); }
 
 void MonitorLogBuffer::AddMonitorMsgItem(
     const MonitorMessageItem::LogLevel log_level, const std::string &msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   level_ = log_level;
   monitor_msg_items_.push_back(std::make_pair(log_level, msg));
 }

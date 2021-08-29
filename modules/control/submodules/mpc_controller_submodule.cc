@@ -37,21 +37,21 @@ using apollo::planning::ADCTrajectory;
 
 MPCControllerSubmodule::MPCControllerSubmodule()
     : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 MPCControllerSubmodule::~MPCControllerSubmodule() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 std::string MPCControllerSubmodule::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return FLAGS_mpc_controller_submodule_name;
 }
 
 bool MPCControllerSubmodule::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   injector_ = std::make_shared<DependencyInjector>();
   // TODO(SHU): separate common_control conf from controller conf
@@ -73,7 +73,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool MPCControllerSubmodule::Proc(
     const std::shared_ptr<Preprocessor>& preprocessor_status) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const auto start_time = Clock::Now();
 
@@ -126,7 +126,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status MPCControllerSubmodule::ProduceControlCoreCommand(
     const LocalView& local_view, ControlCommand* control_core_command) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (local_view.chassis().driving_mode() == Chassis::COMPLETE_MANUAL) {
     mpc_controller_.Reset();

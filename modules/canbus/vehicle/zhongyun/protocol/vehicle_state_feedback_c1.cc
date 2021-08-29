@@ -29,13 +29,13 @@ namespace zhongyun {
 using ::apollo::drivers::canbus::Byte;
 
 Vehiclestatefeedbackc1::Vehiclestatefeedbackc1() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Vehiclestatefeedbackc1::ID = 0xC1;
 
 void Vehiclestatefeedbackc1::Parse(const std::uint8_t* bytes, int32_t length,
                                    ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_zhongyun()
       ->mutable_vehicle_state_feedback_c1()
@@ -61,7 +61,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Vehicle_state_feedback_c1::Parking_actualType
 Vehiclestatefeedbackc1::parking_actual(const std::uint8_t* bytes,
                                        int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
@@ -76,7 +76,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 40, 'type': 'double', 'order': 'intel', 'physical_unit': '%'}
 double Vehiclestatefeedbackc1::brake_torque_feedback(const std::uint8_t* bytes,
                                                      int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
@@ -98,7 +98,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Vehicle_state_feedback_c1::Gear_state_actualType
 Vehiclestatefeedbackc1::gear_state_actual(const std::uint8_t* bytes,
                                           int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -113,7 +113,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 16, 'type': 'double', 'order': 'intel', 'physical_unit': 'deg'}
 double Vehiclestatefeedbackc1::steering_actual(const std::uint8_t* bytes,
                                                int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -132,7 +132,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'double', 'order': 'intel', 'physical_unit': 'kph'}
 double Vehiclestatefeedbackc1::speed(const std::uint8_t* bytes,
                                      int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);

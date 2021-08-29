@@ -28,11 +28,11 @@ const int32_t Pcbcs202::ID = 0x202;
 
 // public
 Pcbcs202::Pcbcs202() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Reset(); }
 
 uint32_t Pcbcs202::GetPeriod() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,14 +40,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Pcbcs202::UpdateData(uint8_t* data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   set_p_pc_brkpedreq(data, pc_brkpedreq_);
   set_p_pc_brkpedenable(data, pc_brkpedenable_);
 }
 
 void Pcbcs202::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // you should check this manually
   pc_brkpedreq_ = 0.0;
@@ -55,7 +55,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Pcbcs202* Pcbcs202::set_pc_brkpedreq(double pc_brkpedreq) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pc_brkpedreq_ = pc_brkpedreq;
   return this;
@@ -66,7 +66,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_range': '[0|100]', 'bit': 1, 'type': 'double', 'order': 'motorola',
 // 'physical_unit': '%'}
 void Pcbcs202::set_p_pc_brkpedreq(uint8_t* data, double pc_brkpedreq) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pc_brkpedreq = ProtocolData::BoundedValue(0.0, 100.0, pc_brkpedreq);
   int x = static_cast<int>(pc_brkpedreq / 0.100000);
@@ -84,7 +84,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Pcbcs202* Pcbcs202::set_pc_brkpedenable(
     Pc_bcs_202::Pc_brkpedenableType pc_brkpedenable) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pc_brkpedenable_ = pc_brkpedenable;
   return this;
@@ -97,7 +97,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': ''}
 void Pcbcs202::set_p_pc_brkpedenable(
     uint8_t* data, Pc_bcs_202::Pc_brkpedenableType pc_brkpedenable) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int x = pc_brkpedenable;
 

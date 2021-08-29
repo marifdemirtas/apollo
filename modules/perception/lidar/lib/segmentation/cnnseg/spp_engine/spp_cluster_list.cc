@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,16 +23,12 @@ namespace perception {
 namespace lidar {
 
 void SppClusterList::Init(size_t size, const std::string& sensor_name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   sensor_name_ = sensor_name;
   clusters_.clear();
   SppClusterPool::Instance(sensor_name_).BatchGet(size, &clusters_);
 }
 
 void SppClusterList::resize(size_t size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (clusters_.size() < size) {
     SppClusterPool::Instance(sensor_name_)
         .BatchGet(size - clusters_.size(), &clusters_);
@@ -45,8 +40,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void SppClusterList::AddPointSample(size_t cluster_id,
                                     const base::PointF& point, float height,
                                     uint32_t point_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (clusters_.size() <= cluster_id) {
     resize(cluster_id + 1);
   }
@@ -54,8 +47,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SppClusterList::Merge(SppClusterList* rhs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   clusters_.reserve(clusters_.size() + rhs->clusters_.size());
   for (size_t i = 0; i < rhs->size(); ++i) {
     clusters_.push_back((*rhs)[static_cast<int>(i)]);
@@ -63,8 +54,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t SppClusterList::HeightCut(float max_gap, size_t start_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t size = clusters_.size();
   size_t count = 0;
   for (size_t i = start_id; i < size; ++i) {
@@ -79,8 +68,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SppClusterList::ComputeHeightAndSplitCluster(size_t id, float max_gap) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (id >= clusters_.size()) {
     return false;
   }
@@ -124,8 +111,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SppClusterList::RemoveEmptyClusters() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t current = 0;
   for (size_t i = 0; i < clusters_.size(); ++i) {
     if (clusters_[i]->points.size() > 0) {
@@ -139,8 +124,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SppClusterList::EraseCluster(size_t id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (clusters_.size() <= id) {
     return;
   }

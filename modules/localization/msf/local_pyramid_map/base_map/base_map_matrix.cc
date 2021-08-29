@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -22,27 +21,17 @@ namespace localization {
 namespace msf {
 namespace pyramid_map {
 
-BaseMapMatrix::BaseMapMatrix() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+BaseMapMatrix::BaseMapMatrix() {}
 
-BaseMapMatrix::~BaseMapMatrix() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+BaseMapMatrix::~BaseMapMatrix() {}
 
-BaseMapMatrix::BaseMapMatrix(const BaseMapMatrix& map_matrix) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+BaseMapMatrix::BaseMapMatrix(const BaseMapMatrix& map_matrix) {}
 
 bool BaseMapMatrix::GetIntensityImg(cv::Mat* intensity_img) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return false;
 }
 /**@brief get altitude image of node. */
 bool BaseMapMatrix::GetAltitudeImg(cv::Mat* altitude_img) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return false;
 }
 

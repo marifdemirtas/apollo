@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -21,32 +20,20 @@ namespace apollo {
 namespace localization {
 namespace msf {
 
-BaseMapMatrix::BaseMapMatrix() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+BaseMapMatrix::BaseMapMatrix() {}
 
-BaseMapMatrix::~BaseMapMatrix() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+BaseMapMatrix::~BaseMapMatrix() {}
 
-BaseMapMatrix::BaseMapMatrix(const BaseMapMatrix& cells) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+BaseMapMatrix::BaseMapMatrix(const BaseMapMatrix& cells) {}
 
-unsigned int BaseMapMatrix::LoadBinary(unsigned char* buf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return 0; }
+unsigned int BaseMapMatrix::LoadBinary(unsigned char* buf) { return 0; }
 
 unsigned int BaseMapMatrix::CreateBinary(unsigned char* buf,
                                          unsigned int buf_size) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return 0;
 }
 
-unsigned int BaseMapMatrix::GetBinarySize() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return 0; }
+unsigned int BaseMapMatrix::GetBinarySize() const { return 0; }
 
 }  // namespace msf
 }  // namespace localization

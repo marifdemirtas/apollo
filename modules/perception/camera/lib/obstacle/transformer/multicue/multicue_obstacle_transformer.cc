@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,8 +25,6 @@ namespace camera {
 
 bool MultiCueObstacleTransformer::Init(
     const ObstacleTransformerInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string transformer_config =
       cyber::common::GetAbsolutePath(options.root_dir, options.conf_file);
 
@@ -48,8 +45,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void MultiCueObstacleTransformer::SetObjMapperOptions(
     base::ObjectPtr obj, Eigen::Matrix3f camera_k_matrix, int width_image,
     int height_image, ObjMapperOptions *obj_mapper_options, float *theta_ray) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // prepare bbox2d
   float bbox2d[4] = {
       obj->camera_supplement.box.xmin, obj->camera_supplement.box.ymin,
@@ -102,8 +97,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int MultiCueObstacleTransformer::MatchTemplates(base::ObjectSubType sub_type,
                                                 float *dimension_hwl) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const TemplateMap &kMinTemplateHWL =
       object_template_manager_->MinTemplateHWL();
   const TemplateMap &kMidTemplateHWL =
@@ -176,8 +169,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void MultiCueObstacleTransformer::FillResults(
     float object_center[3], float dimension_hwl[3], float rotation_y,
     Eigen::Affine3d camera2world_pose, float theta_ray, base::ObjectPtr obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (obj == nullptr) {
     return;
   }
@@ -223,8 +214,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool MultiCueObstacleTransformer::Transform(
     const ObstacleTransformerOptions &options, CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame->detected_objects.empty()) {
     ADEBUG << "No object input to transformer.";
     return true;
@@ -279,8 +268,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string MultiCueObstacleTransformer::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return "MultiCueObstacleTransformer";
 }
 

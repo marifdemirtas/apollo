@@ -75,6 +75,8 @@ void GenerateLearningData() {
 }  // namespace apollo
 
 int main(int argc, char* argv[]) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
   google::ParseCommandLineFlags(&argc, &argv, true);
   apollo::planning::GenerateLearningData();
   return 0;

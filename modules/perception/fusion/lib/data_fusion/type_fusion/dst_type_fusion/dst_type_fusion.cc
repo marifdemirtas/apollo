@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -47,8 +46,6 @@ DstTypeFusionOptions DstTypeFusion::options_;
 
 DstTypeFusion::DstTypeFusion(TrackPtr track)
     : BaseTypeFusion(track), fused_dst_(name_) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Dst sensor_dst(name_);
   sensor_dst =
       TypeProbsToDst(track->GetFusedObject()->GetBaseObject()->type_probs);
@@ -68,8 +65,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool DstTypeFusion::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   BaseInitOptions options;
   if (!GetFusionInitOptions("DstTypeFusion", &options)) {
     AERROR << "GetFusionInitOptions failed ";
@@ -121,8 +116,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void DstTypeFusion::UpdateWithMeasurement(const SensorObjectPtr measurement,
                                           double target_timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Dst measurement_dst(name_);
   measurement_dst = TypeProbsToDst(measurement->GetBaseObject()->type_probs);
   ADEBUG << "type_probs: "
@@ -142,8 +135,6 @@ void DstTypeFusion::UpdateWithoutMeasurement(const std::string &sensor_id,
                                              double measurement_timestamp,
                                              double target_timestamp,
                                              double min_match_dist) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   common::SensorManager *sensor_manager = common::SensorManager::Instance();
   if (sensor_manager->IsCamera(sensor_id)) {
     // add the evidence of OTHERS_UNMOVABLE
@@ -207,14 +198,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 
-std::string DstTypeFusion::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return name_; }
+std::string DstTypeFusion::Name() const { return name_; }
 
 bool DstTypeFusion::TypToHyp(size_t object_type,
                              uint64_t *hypothesis_type) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto find_res = dst_maps_.typ_to_hyp_map_.find(object_type);
   if (find_res == dst_maps_.typ_to_hyp_map_.end()) {
     return false;
@@ -225,8 +212,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool DstTypeFusion::HypToTyp(uint64_t hypothesis_type,
                              size_t *object_type) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto find_res = dst_maps_.hyp_to_typ_map_.find(hypothesis_type);
   if (find_res == dst_maps_.hyp_to_typ_map_.end()) {
     return false;
@@ -236,8 +221,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Dst DstTypeFusion::TypeProbsToDst(const std::vector<float> &type_probs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Dst res_dst(name_);
   double type_probs_sum =
       std::accumulate(type_probs.begin(), type_probs.end(), 0.0);
@@ -273,8 +256,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double DstTypeFusion::GetReliability(const std::string &sensor_id) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto find_res = options_.sensor_reliability_.find(sensor_id);
   if (find_res == options_.sensor_reliability_.end()) {
     ADEBUG << "the sensor type: " << sensor_id
@@ -286,8 +267,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double DstTypeFusion::GetReliabilityForUnKnown(
     const std::string &sensor_id, double measurement_timestamp) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto find_res = options_.sensor_reliability_for_unknown_.find(sensor_id);
   if (find_res == options_.sensor_reliability_for_unknown_.end()) {
     ADEBUG << "the sensor type: " << sensor_id
@@ -306,8 +285,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void DstTypeFusion::UpdateTypeState() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const std::vector<double> &fused_dst_vec = fused_dst_.GetBbaVec();
   auto max_iter = std::max_element(fused_dst_vec.begin(), fused_dst_vec.end());
   size_t max_hyp_ind = max_iter - fused_dst_vec.begin();

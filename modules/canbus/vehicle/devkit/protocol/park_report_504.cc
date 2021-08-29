@@ -28,13 +28,13 @@ namespace devkit {
 using ::apollo::drivers::canbus::Byte;
 
 Parkreport504::Parkreport504() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Parkreport504::ID = 0x504;
 
 void Parkreport504::Parse(const std::uint8_t* bytes, int32_t length,
                           ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_devkit()->mutable_park_report_504()->set_parking_actual(
       parking_actual(bytes, length));
@@ -49,7 +49,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': ''}
 Park_report_504::Parking_actualType Parkreport504::parking_actual(
     const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
@@ -65,7 +65,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'motorola', 'physical_unit': ''}
 Park_report_504::Park_fltType Parkreport504::park_flt(const std::uint8_t* bytes,
                                                       int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);

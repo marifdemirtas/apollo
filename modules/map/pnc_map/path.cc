@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -50,8 +49,6 @@ const double kSampleDistance = 0.25;
 
 bool FindLaneSegment(const MapPathPoint& p1, const MapPathPoint& p2,
                      LaneSegment* const lane_segment) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto& wp1 : p1.lane_waypoints()) {
     for (const auto& wp2 : p2.lane_waypoints()) {
       if (wp1.lane->id().id() == wp2.lane->id().id() && wp1.s < wp2.s) {
@@ -66,8 +63,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }  // namespace
 
 std::string LaneWaypoint::DebugString() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (lane == nullptr) {
     return "(lane is null)";
   }
@@ -75,8 +70,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LaneBoundaryType::Type LeftBoundaryType(const LaneWaypoint& waypoint) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!waypoint.lane) {
     return LaneBoundaryType::UNKNOWN;
   }
@@ -94,8 +87,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LaneBoundaryType::Type RightBoundaryType(const LaneWaypoint& waypoint) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!waypoint.lane) {
     return LaneBoundaryType::UNKNOWN;
   }
@@ -113,8 +104,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LaneWaypoint LeftNeighborWaypoint(const LaneWaypoint& waypoint) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   LaneWaypoint neighbor;
   if (!waypoint.lane) {
     return neighbor;
@@ -144,8 +133,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LaneSegment::Join(std::vector<LaneSegment>* segments) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   static constexpr double kSegmentDelta = 0.5;
   std::size_t k = 0;
   std::size_t i = 0;
@@ -173,8 +160,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LaneWaypoint RightNeighborWaypoint(const LaneWaypoint& waypoint) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   LaneWaypoint neighbor;
   if (!waypoint.lane) {
     return neighbor;
@@ -203,8 +188,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string LaneSegment::DebugString() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (lane == nullptr) {
     return "(lane is null)";
   }
@@ -214,16 +197,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 std::vector<MapPathPoint> MapPathPoint::GetPointsFromSegment(
     const LaneSegment& segment) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return GetPointsFromLane(segment.lane, segment.start_s, segment.end_s);
 }
 
 std::vector<MapPathPoint> MapPathPoint::GetPointsFromLane(LaneInfoConstPtr lane,
                                                           const double start_s,
                                                           const double end_s) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<MapPathPoint> points;
   if (start_s >= end_s) {
     return points;
@@ -257,8 +236,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MapPathPoint::RemoveDuplicates(std::vector<MapPathPoint>* points) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   static constexpr double kDuplicatedPointsEpsilon = 1e-7;
   static constexpr double limit =
       kDuplicatedPointsEpsilon * kDuplicatedPointsEpsilon;
@@ -276,8 +253,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string MapPathPoint::DebugString() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return absl::StrCat(
       "x = ", x_, "  y = ", y_, "  heading = ", heading_,
       "  lwp = "
@@ -286,8 +261,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string Path::DebugString() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return absl::StrCat(
       "num_points = ", num_points_,
       "  points = "
@@ -302,30 +275,22 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string PathOverlap::DebugString() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return absl::StrCat(object_id, " ", start_s, " ", end_s);
 }
 
 Path::Path(const std::vector<MapPathPoint>& path_points)
     : path_points_(path_points) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
 }
 
 Path::Path(std::vector<MapPathPoint>&& path_points)
     : path_points_(std::move(path_points)) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
 }
 
 Path::Path(const std::vector<MapPathPoint>& path_points,
            const std::vector<LaneSegment>& lane_segments)
     : path_points_(path_points), lane_segments_(lane_segments) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
 }
 
@@ -333,8 +298,6 @@ Path::Path(std::vector<MapPathPoint>&& path_points,
            std::vector<LaneSegment>&& lane_segments)
     : path_points_(std::move(path_points)),
       lane_segments_(std::move(lane_segments)) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
 }
 
@@ -342,8 +305,6 @@ Path::Path(const std::vector<MapPathPoint>& path_points,
            const std::vector<LaneSegment>& lane_segments,
            const double max_approximation_error)
     : path_points_(path_points), lane_segments_(lane_segments) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
   if (max_approximation_error > 0.0) {
     use_path_approximation_ = true;
@@ -353,8 +314,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Path::Path(const std::vector<LaneSegment>& segments)
     : lane_segments_(segments) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto& segment : lane_segments_) {
     const auto points = MapPathPoint::GetPointsFromLane(
         segment.lane, segment.start_s, segment.end_s);
@@ -367,8 +326,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Path::Path(std::vector<LaneSegment>&& segments)
     : lane_segments_(std::move(segments)) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto& segment : lane_segments_) {
     const auto points = MapPathPoint::GetPointsFromLane(
         segment.lane, segment.start_s, segment.end_s);
@@ -384,8 +341,6 @@ Path::Path(std::vector<MapPathPoint>&& path_points,
            const double max_approximation_error)
     : path_points_(std::move(path_points)),
       lane_segments_(std::move(lane_segments)) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
   if (max_approximation_error > 0.0) {
     use_path_approximation_ = true;
@@ -394,8 +349,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Path::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   InitPoints();
   InitLaneSegments();
   InitPointIndex();
@@ -404,8 +357,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Path::InitPoints() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   num_points_ = static_cast<int>(path_points_.size());
   CHECK_GE(num_points_, 2);
 
@@ -441,8 +392,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Path::InitLaneSegments() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (lane_segments_.empty()) {
     for (int i = 0; i + 1 < num_points_; ++i) {
       LaneSegment lane_segment;
@@ -478,8 +427,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Path::InitWidth() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   lane_left_width_.clear();
   lane_left_width_.reserve(num_sample_points_);
   lane_right_width_.clear();
@@ -529,8 +476,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Path::InitPointIndex() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   last_point_index_.clear();
   last_point_index_.reserve(num_sample_points_);
   double s = 0.0;
@@ -548,8 +493,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void Path::GetAllOverlaps(GetOverlapFromLaneFunc GetOverlaps_from_lane,
                           std::vector<PathOverlap>* const overlaps) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (overlaps == nullptr) {
     return;
   }
@@ -609,8 +552,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 const PathOverlap* Path::NextLaneOverlap(double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto next = std::upper_bound(
       lane_overlaps_.begin(), lane_overlaps_.end(), s,
       [](double s, const PathOverlap& o) { return s < o.start_s; });
@@ -622,8 +563,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Path::InitOverlaps() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   GetAllOverlaps(std::bind(&LaneInfo::cross_lanes, _1), &lane_overlaps_);
   GetAllOverlaps(std::bind(&LaneInfo::signals, _1), &signal_overlaps_);
   GetAllOverlaps(std::bind(&LaneInfo::yield_signs, _1), &yield_sign_overlaps_);
@@ -639,8 +578,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 MapPathPoint Path::GetSmoothPoint(const InterpolatedIndex& index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(index.id, 0);
   CHECK_LT(index.id, num_points_);
 
@@ -674,14 +611,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 MapPathPoint Path::GetSmoothPoint(double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return GetSmoothPoint(GetIndexFromS(s));
 }
 
 double Path::GetSFromIndex(const InterpolatedIndex& index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (index.id < 0) {
     return 0.0;
   }
@@ -692,8 +625,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 InterpolatedIndex Path::GetIndexFromS(double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (s <= 0.0) {
     return {0, 0.0};
   }
@@ -722,8 +653,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 InterpolatedIndex Path::GetLaneIndexFromS(double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (s <= 0.0) {
     return {0, 0.0};
   }
@@ -749,8 +678,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 std::vector<hdmap::LaneSegment> Path::GetLaneSegments(
     const double start_s, const double end_s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<hdmap::LaneSegment> lanes;
   if (start_s + kMathEpsilon > end_s) {
     return lanes;
@@ -779,16 +706,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Path::GetNearestPoint(const Vec2d& point, double* accumulate_s,
                            double* lateral) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double distance = 0.0;
   return GetNearestPoint(point, accumulate_s, lateral, &distance);
 }
 
 bool Path::GetNearestPoint(const Vec2d& point, double* accumulate_s,
                            double* lateral, double* min_distance) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!GetProjection(point, accumulate_s, lateral, min_distance)) {
     return false;
   }
@@ -804,8 +727,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Path::GetProjection(const common::math::Vec2d& point, double* accumulate_s,
                          double* lateral) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double distance = 0.0;
   return GetProjection(point, accumulate_s, lateral, &distance);
 }
@@ -816,8 +737,6 @@ bool Path::GetProjectionWithHueristicParams(const Vec2d& point,
                                             double* accumulate_s,
                                             double* lateral,
                                             double* min_distance) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (segments_.empty()) {
     return false;
   }
@@ -867,8 +786,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Path::GetProjection(const Vec2d& point, double* accumulate_s,
                          double* lateral, double* min_distance) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (segments_.empty()) {
     return false;
   }
@@ -917,8 +834,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Path::GetHeadingAlongPath(const Vec2d& point, double* heading) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (heading == nullptr) {
     return false;
   }
@@ -932,21 +847,15 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Path::GetLaneLeftWidth(const double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return GetSample(lane_left_width_, s);
 }
 
 double Path::GetLaneRightWidth(const double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return GetSample(lane_right_width_, s);
 }
 
 bool Path::GetLaneWidth(const double s, double* lane_left_width,
                         double* lane_right_width) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(lane_left_width);
   CHECK_NOTNULL(lane_right_width);
 
@@ -959,21 +868,15 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Path::GetRoadLeftWidth(const double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return GetSample(road_left_width_, s);
 }
 
 double Path::GetRoadRightWidth(const double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return GetSample(road_right_width_, s);
 }
 
 bool Path::GetRoadWidth(const double s, double* road_left_width,
                         double* road_right_width) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(road_left_width);
   CHECK_NOTNULL(road_right_width);
 
@@ -988,8 +891,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double Path::GetSample(const std::vector<double>& samples,
                        const double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (samples.empty()) {
     return 0.0;
   }
@@ -1005,8 +906,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Path::IsOnPath(const Vec2d& point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double accumulate_s = 0.0;
   double lateral = 0.0;
   if (!GetProjection(point, &accumulate_s, &lateral)) {
@@ -1024,8 +923,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Path::OverlapWith(const common::math::Box2d& box, double width) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (use_path_approximation_) {
     return approximation_.OverlapWith(*this, box, width);
   }
@@ -1044,8 +941,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double PathApproximation::compute_max_error(const Path& path, const int s,
                                             const int t) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (s + 1 >= t) {
     return 0.0;
   }
@@ -1061,8 +956,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool PathApproximation::is_within_max_error(const Path& path, const int s,
                                             const int t) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (s + 1 >= t) {
     return true;
   }
@@ -1077,15 +970,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PathApproximation::Init(const Path& path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   InitDilute(path);
   InitProjections(path);
 }
 
 void PathApproximation::InitDilute(const Path& path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const int num_original_points = path.num_points();
   original_ids_.clear();
   int last_idx = 0;
@@ -1128,8 +1017,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PathApproximation::InitProjections(const Path& path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (num_points_ == 0) {
     return;
   }
@@ -1205,8 +1092,6 @@ bool PathApproximation::GetProjection(const Path& path,
                                       const common::math::Vec2d& point,
                                       double* accumulate_s, double* lateral,
                                       double* min_distance) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (num_points_ == 0) {
     return false;
   }
@@ -1340,8 +1225,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool PathApproximation::OverlapWith(const Path& path, const Box2d& box,
                                     double width) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (num_points_ == 0) {
     return false;
   }

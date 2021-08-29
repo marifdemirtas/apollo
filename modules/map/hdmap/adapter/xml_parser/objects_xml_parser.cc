@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,8 +25,6 @@ namespace adapter {
 
 Status ObjectsXmlParser::ParseCrosswalks(const tinyxml2::XMLElement& xml_node,
                                          std::vector<PbCrosswalk>* crosswalks) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(crosswalks);
   const tinyxml2::XMLElement* sub_node = xml_node.FirstChildElement("object");
   while (sub_node) {
@@ -62,8 +59,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status ObjectsXmlParser::ParseClearAreas(
     const tinyxml2::XMLElement& xml_node,
     std::vector<PbClearArea>* clear_areas) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(clear_areas);
   const tinyxml2::XMLElement* sub_node = xml_node.FirstChildElement("object");
   while (sub_node) {
@@ -101,8 +96,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status ObjectsXmlParser::ParseSpeedBumps(
     const tinyxml2::XMLElement& xml_node,
     std::vector<PbSpeedBump>* speed_bumps) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(speed_bumps);
   const tinyxml2::XMLElement* object_node =
       xml_node.FirstChildElement("object");
@@ -143,8 +136,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status ObjectsXmlParser::ParseStopLines(
     const tinyxml2::XMLElement& xml_node,
     std::vector<StopLineInternal>* stop_lines) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(stop_lines);
   const tinyxml2::XMLElement* object_node =
       xml_node.FirstChildElement("object");
@@ -181,8 +172,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status ObjectsXmlParser::ParseParkingSpaces(
     const tinyxml2::XMLElement& xml_node,
     std::vector<PbParkingSpace>* parking_spaces) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(parking_spaces);
   const tinyxml2::XMLElement* sub_node = xml_node.FirstChildElement("object");
   while (sub_node) {
@@ -225,8 +214,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status ObjectsXmlParser::ParsePNCJunctions(
     const tinyxml2::XMLElement& xml_node,
     std::vector<PbPNCJunction>* pnc_junctions) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(pnc_junctions);
 
   const tinyxml2::XMLElement* sub_node = xml_node.FirstChildElement("object");
@@ -266,8 +253,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status ObjectsXmlParser::ParsePassageGroup(const tinyxml2::XMLElement& xml_node,
                                            PbPNCJunction* pnc_junction) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(pnc_junction);
 
   auto sub_node = xml_node.FirstChildElement("passageGroup");
@@ -293,8 +278,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status ObjectsXmlParser::ParsePassage(const tinyxml2::XMLElement& xml_node,
                                       PbPassageGroup* passage_group) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(passage_group);
 
   auto sub_node = xml_node.FirstChildElement("passage");
@@ -343,8 +326,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status ObjectsXmlParser::ParsePassageIds(
     const tinyxml2::XMLElement& xml_node, const std::string& child_node_name,
     std::vector<std::string>* passage_node_ids) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(passage_node_ids);
 
   passage_node_ids->clear();
@@ -367,8 +348,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status ObjectsXmlParser::ToPassageType(const std::string& type,
                                        PbPassageType* passage_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(passage_type);
 
   std::string upper_str = UtilXmlParser::ToUpper(type);
@@ -386,8 +365,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status ObjectsXmlParser::ParseRSUs(
     const tinyxml2::XMLElement& xml_node,
     std::vector<RSUInternal>* rsus) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(rsus);
 
   auto rsu_node = xml_node.FirstChildElement("object");
@@ -427,8 +404,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status ObjectsXmlParser::ParseObjects(const tinyxml2::XMLElement& xml_node,
                                       ObjectInternal* objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(objects);
 
   // objects

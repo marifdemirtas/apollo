@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -20,7 +19,6 @@
 #include "modules/common/math/sin_table.h"
 
 namespace apollo {
-
 namespace common {
 namespace math {
 
@@ -46,27 +44,19 @@ float cos(Angle16 a) {
   return sin(b);
 }
 
-float tan(Angle16 a) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return sin(a) / cos(a); }
+float tan(Angle16 a) { return sin(a) / cos(a); }
 
 float sin(Angle8 a) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Angle16 b(static_cast<int16_t>(a.raw() << 8));
   return sin(b);
 }
 
 float cos(Angle8 a) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Angle16 b(static_cast<int16_t>(a.raw() << 8));
   return cos(b);
 }
 
 float tan(Angle8 a) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Angle16 b(static_cast<int16_t>(a.raw() << 8));
   return tan(b);
 }

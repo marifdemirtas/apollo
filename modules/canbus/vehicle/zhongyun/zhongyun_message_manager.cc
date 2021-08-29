@@ -32,7 +32,7 @@ namespace canbus {
 namespace zhongyun {
 
 ZhongyunMessageManager::ZhongyunMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Control Messages
   AddSendProtocolData<Brakecontrola4, true>();
@@ -49,7 +49,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 ZhongyunMessageManager::~ZhongyunMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 }  // namespace zhongyun

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -34,8 +33,6 @@ namespace can {
 using apollo::common::ErrorCode;
 
 bool EsdCanClient::Init(const CANCardParameter &parameter) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!parameter.has_channel_id()) {
     AERROR << "Init CAN failed: parameter does not have channel id. The "
               "parameter is "
@@ -56,16 +53,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 EsdCanClient::~EsdCanClient() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (dev_handler_) {
     Stop();
   }
 }
 
 ErrorCode EsdCanClient::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (is_started_) {
     return ErrorCode::OK;
   }
@@ -128,8 +121,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void EsdCanClient::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (is_started_) {
     is_started_ = false;
     int32_t ret = canClose(dev_handler_);
@@ -144,8 +135,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // Synchronous transmission of CAN messages
 ErrorCode EsdCanClient::Send(const std::vector<CanFrame> &frames,
                              int32_t *const frame_num) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(frame_num);
   CHECK_EQ(frames.size(), static_cast<size_t>(*frame_num));
 
@@ -172,8 +161,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // buf size must be 8 bytes, every time, we receive only one frame
 ErrorCode EsdCanClient::Receive(std::vector<CanFrame> *const frames,
                                 int32_t *const frame_num) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!is_started_) {
     AERROR << "Esd can client is not init! Please init first!";
     return ErrorCode::CAN_CLIENT_ERROR_RECV_FAILED;
@@ -216,8 +203,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 /************************************************************************/
 const int32_t ERROR_BUF_SIZE = 200;
 std::string EsdCanClient::GetErrorString(const NTCAN_RESULT ntstatus) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   struct ERR2STR {
     NTCAN_RESULT ntstatus;
     const char *str;

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ namespace msf {
 namespace pyramid_map {
 
 BaseMapConfig::BaseMapConfig(const std::string &map_version) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_version_ = map_version;
   coordinate_type_ = "UTM";
   map_resolutions_.push_back(0.125);
@@ -41,13 +38,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   map_folder_path_ = ".";
 }
 
-BaseMapConfig::~BaseMapConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+BaseMapConfig::~BaseMapConfig() {}
 
 bool BaseMapConfig::Save(const std::string &file_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   boost::property_tree::ptree config;
   bool success = CreateXml(&config);
   if (success) {
@@ -59,8 +52,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool BaseMapConfig::Load(const std::string &file_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   boost::property_tree::ptree config;
   boost::property_tree::read_xml(file_path, config);
   bool success = LoadXml(config);
@@ -73,8 +64,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool BaseMapConfig::CreateXml(boost::property_tree::ptree *config) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   config->put("map.map_config.version", map_version_);
   config->put("map.map_config.coordnate_type", coordinate_type_);
   config->put("map.map_config.node_size.x", map_node_size_x_);
@@ -107,8 +96,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool BaseMapConfig::LoadXml(const boost::property_tree::ptree &config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_resolutions_.clear();
   map_datasets_.clear();
   node_md5_map_.clear();
@@ -204,14 +191,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMapConfig::SetMapVersion(const std::string &map_version) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_version_ = map_version;
 }
 
 void BaseMapConfig::ResizeMapRange() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double min_x = 0;
   double min_y = 0;
   double max_x = 0;
@@ -243,15 +226,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMapConfig::SetSingleResolutions(float resolution) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_resolutions_.clear();
   map_resolutions_.push_back(resolution);
 }
 
 void BaseMapConfig::SetMultiResolutions() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_resolutions_.clear();
   map_resolutions_.push_back(0.03125);
   map_resolutions_.push_back(0.0625);
@@ -267,40 +246,28 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void BaseMapConfig::SetNodeMd5Map(
     const std::map<std::string, std::string> &node_md5_map) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   node_md5_map_ = node_md5_map;
 }
 
 void BaseMapConfig::AddNodeMd5(const std::string &node_path,
                                const std::string &md5) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   node_md5_map_[node_path] = md5;
 }
 
 void BaseMapConfig::SetMapNodeSize(unsigned int size_x, unsigned int size_y) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_node_size_x_ = size_x;
   map_node_size_y_ = size_y;
 }
 
 void BaseMapConfig::SetGroundHeightOffset(float map_ground_height_offset) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_ground_height_offset_ = map_ground_height_offset;
 }
 
 void BaseMapConfig::SetIsCompression(bool map_is_compression) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_is_compression_ = map_is_compression;
 }
 
 MapVersion BaseMapConfig::GetMapVersion() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (map_version_ == "lossy_full_alt" || map_version_ == "lossy_map") {
     return MapVersion::LOSSY_FULL_ALT_MAP;
   }

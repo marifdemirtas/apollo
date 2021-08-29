@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,17 +23,11 @@ namespace localization {
 namespace msf {
 namespace pyramid_map {
 
-BaseMapNodeConfig::BaseMapNodeConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+BaseMapNodeConfig::BaseMapNodeConfig() {}
 
-BaseMapNodeConfig::~BaseMapNodeConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+BaseMapNodeConfig::~BaseMapNodeConfig() {}
 
 std::shared_ptr<BaseMapNodeConfig> BaseMapNodeConfig::Clone() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::shared_ptr<BaseMapNodeConfig> map_node_config(new BaseMapNodeConfig());
   map_node_config->node_index_ = node_index_;
   map_node_config->map_version_ = map_version_;
@@ -47,8 +40,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 unsigned int BaseMapNodeConfig::LoadBinary(const unsigned char *buf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t binary_size = 0;
 
   // map_version
@@ -96,8 +87,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 unsigned int BaseMapNodeConfig::CreateBinary(unsigned char *buf,
                                              size_t buf_size) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   unsigned int target_size = GetBinarySize();
 
   if (buf_size < target_size) {
@@ -144,8 +133,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 unsigned int BaseMapNodeConfig::GetBinarySize() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t binary_size = 0;
 
   // map_version

@@ -36,7 +36,7 @@ namespace hdmap {
 
 apollo::common::PointENU SLToXYZ(const std::string& lane_id, const double s,
                                  const double l) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const auto lane_info = HDMapUtil::BaseMap().GetLaneById(MakeMapId(lane_id));
   ACHECK(lane_info);
@@ -45,7 +45,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void XYZToSL(const apollo::common::PointENU& point, std::string* lane_id,
              double* s, double* l) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ACHECK(lane_id);
   ACHECK(s);
@@ -58,7 +58,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double XYZDistance(const apollo::common::PointENU& p1,
                    const apollo::common::PointENU& p2) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const double x_diff = p1.x() - p2.x();
   const double y_diff = p1.y() - p2.y();
@@ -67,7 +67,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RefreshDefaultEndPoint() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   apollo::routing::POI old_poi;
   ACHECK(cyber::common::GetProtoFromASCIIFile(EndWayPointFile(), &old_poi));
@@ -117,7 +117,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }  // namespace apollo
 
 int main(int argc, char* argv[]) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   google::InitGoogleLogging(argv[0]);
   google::ParseCommandLineFlags(&argc, &argv, true);

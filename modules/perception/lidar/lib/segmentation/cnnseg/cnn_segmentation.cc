@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -42,8 +41,6 @@ using base::Object;
 using base::PointF;
 
 bool CNNSegmentation::Init(const SegmentationInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // get configs
   std::string param_file;
   std::string proto_file;
@@ -150,8 +147,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool CNNSegmentation::InitClusterAndBackgroundSegmentation() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // init ground detector
   ground_detector_ = BaseGroundDetectorRegisterer::GetInstanceByName(
       cnnseg_param_.ground_detector());
@@ -245,8 +240,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void CNNSegmentation::MapPointToGrid(
     const std::shared_ptr<AttributePointCloud<PointF>>& pc_ptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float inv_res_x = 0.5f * static_cast<float>(width_) / range_;
   // float inv_res_y = 0.5 * static_cast<float>(height_) / range_;
   point2grid_.assign(pc_ptr->size(), -1);
@@ -272,8 +265,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool CNNSegmentation::Segment(const SegmentationOptions& options,
                               LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // check input
   if (frame == nullptr) {
     AERROR << "Input null frame ptr.";
@@ -337,8 +328,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void CNNSegmentation::GetObjectsFromSppEngine(
     std::vector<std::shared_ptr<Object>>* objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Timer timer;
   spp_engine_.GetSppData().grid_indices = point2grid_.data();
   size_t num_foreground =
@@ -480,8 +469,6 @@ bool CNNSegmentation::GetConfigs(std::string* param_file,
                                  std::string* proto_file,
                                  std::string* weight_file,
                                  std::string* engine_file) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig("CNNSegmentation", &model_config))

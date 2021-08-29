@@ -35,7 +35,7 @@ using ::apollo::common::EigenVector3dVec;
 
 static bool LoadGnssAntennaExtrinsic(const std::string &file_path,
                                      Eigen::Vector3d *imu_ant_offset) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(imu_ant_offset);
 
@@ -60,7 +60,7 @@ static void PoseAndStdInterpolationByTime(
     const std::vector<double> &ref_timestamps,
     std::map<unsigned int, Eigen::Affine3d> *out_poses,
     std::map<unsigned int, Eigen::Vector3d> *out_stds) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   unsigned int index = 0;
   for (size_t i = 0; i < ref_timestamps.size(); ++i) {
@@ -105,6 +105,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
         (*out_stds)[static_cast<unsigned int>(i)] = std;
       }
     } else {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
       AERROR << "[ERROR] No more poses. Exit now.";
       break;
     }
@@ -112,7 +114,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int main(int argc, char **argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   boost::program_options::options_description boost_desc("Allowed options");
   boost_desc.add_options()("help", "produce help message")(

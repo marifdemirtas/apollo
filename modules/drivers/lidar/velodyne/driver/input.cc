@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -23,8 +22,6 @@ namespace velodyne {
 
 bool Input::exract_nmea_time_from_packet(NMEATimePtr nmea_time,
                                          const uint8_t* bytes) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   unsigned int gprmc_index = 206;
 
   int field_count = 0;

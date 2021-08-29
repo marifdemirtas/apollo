@@ -43,6 +43,10 @@ DEFINE_double(traffic_light_distance, 1000.0,
               "only retrieves traffic lights within this distance");
 
 class ManualTrafficLight final : public apollo::cyber::TimerComponent {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
  public:
   bool Init() {
     localization_reader_ = node_->CreateReader<LocalizationEstimate>(

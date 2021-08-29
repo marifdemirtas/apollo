@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,13 +26,9 @@ double Track::s_max_lidar_invisible_period_ = 0.25;   // in second
 double Track::s_max_radar_invisible_period_ = 0.50;   // in second
 double Track::s_max_camera_invisible_period_ = 0.75;  // in second
 
-Track::Track() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- fused_object_.reset(new FusedObject()); }
+Track::Track() { fused_object_.reset(new FusedObject()); }
 
 bool Track::Initialize(SensorObjectPtr obj, bool is_background) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Reset();
   int track_id = static_cast<int>(GenerateNewTrackId());
   is_background_ = is_background;
@@ -46,8 +41,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Track::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   fused_object_->GetBaseObject()->track_id = 0;
   lidar_objects_.clear();
   radar_objects_.clear();
@@ -61,8 +54,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 SensorObjectConstPtr Track::GetSensorObject(
     const std::string& sensor_id) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto lidar_it = lidar_objects_.find(sensor_id);
   if (lidar_it != lidar_objects_.end()) {
     return lidar_it->second;
@@ -82,27 +73,19 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 SensorObjectConstPtr Track::GetLatestLidarObject() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return GetLatestSensorObject(lidar_objects_);
 }
 
 SensorObjectConstPtr Track::GetLatestRadarObject() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return GetLatestSensorObject(radar_objects_);
 }
 
 SensorObjectConstPtr Track::GetLatestCameraObject() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return GetLatestSensorObject(camera_objects_);
 }
 
 SensorObjectConstPtr Track::GetLatestSensorObject(
     const SensorId2ObjectMap& objects) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   SensorObjectConstPtr obj = nullptr;
   for (auto it = objects.begin(); it != objects.end(); ++it) {
     if (obj == nullptr || obj->GetTimestamp() < it->second->GetTimestamp()) {
@@ -113,8 +96,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t Track::GenerateNewTrackId() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int ret_track_id = static_cast<int>(s_track_idx_);
   if (s_track_idx_ == std::numeric_limits<unsigned int>::max()) {
     s_track_idx_ = 1;
@@ -126,8 +107,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void Track::UpdateSensorObject(SensorId2ObjectMap* objects,
                                const SensorObjectPtr& obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string sensor_id = obj->GetSensorId();
   auto it = objects->find(sensor_id);
   if (it == objects->end()) {
@@ -138,8 +117,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Track::UpdateWithSensorObject(const SensorObjectPtr& obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string sensor_id = obj->GetSensorId();
   SensorId2ObjectMap* objects = nullptr;
   if (IsLidar(obj)) {
@@ -177,8 +154,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void Track::UpdateWithoutSensorObject(const std::string& sensor_id,
                                       double measurement_timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   UpdateSensorObjectWithoutMeasurement(&lidar_objects_, sensor_id,
                                        measurement_timestamp,
                                        s_max_lidar_invisible_period_);
@@ -198,8 +173,6 @@ void Track::UpdateSensorObjectWithoutMeasurement(SensorId2ObjectMap* objects,
                                                  const std::string& sensor_id,
                                                  double measurement_timestamp,
                                                  double max_invisible_period) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto it = objects->begin(); it != objects->end();) {
     double period = measurement_timestamp - it->second->GetTimestamp();
     if (it->first == sensor_id) {
@@ -221,8 +194,6 @@ void Track::UpdateSensorObjectWithMeasurement(SensorId2ObjectMap* objects,
                                               const std::string& sensor_id,
                                               double measurement_timestamp,
                                               double max_invisible_period) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto it = objects->begin(); it != objects->end();) {
     if (it->first != sensor_id) {
       double period = measurement_timestamp - it->second->GetTimestamp();
@@ -239,8 +210,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Track::UpdateSupplementState(const SensorObjectPtr& src_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::shared_ptr<base::Object> dst_obj = fused_object_->GetBaseObject();
   if (src_object != nullptr) {
     std::shared_ptr<const base::Object> src_obj = src_object->GetBaseObject();
@@ -265,8 +234,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Track::UpdateUnfusedState(const SensorObjectPtr& src_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::shared_ptr<base::Object> dst_obj = fused_object_->GetBaseObject();
   std::shared_ptr<const base::Object> src_obj = src_object->GetBaseObject();
   if (IsLidar(src_object)) {
@@ -280,15 +247,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Track::IsVisible(const std::string& sensor_id) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   SensorObjectConstPtr sensor_obj = GetSensorObject(sensor_id);
   return (sensor_obj != nullptr && sensor_obj->GetInvisiblePeriod() < 1.0e-6);
 }
 
 bool Track::IsLidarVisible() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto it = lidar_objects_.begin(); it != lidar_objects_.end(); ++it) {
     if (it->second->GetInvisiblePeriod() < 1.0e-6) {
       return true;
@@ -298,8 +261,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Track::IsRadarVisible() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto it = radar_objects_.begin(); it != radar_objects_.end(); ++it) {
     if (it->second->GetInvisiblePeriod() < 1.0e-6) {
       return true;
@@ -309,8 +270,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Track::IsCameraVisible() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto it = camera_objects_.begin(); it != camera_objects_.end(); ++it) {
     if (it->second->GetInvisiblePeriod() < 1.0e-6) {
       return true;
@@ -320,8 +279,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Track::UpdateWithSensorObjectForBackground(const SensorObjectPtr& obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::shared_ptr<base::Object> fused_base_object =
       fused_object_->GetBaseObject();
   std::shared_ptr<const base::Object> measurement_base_object =
@@ -332,13 +289,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Track::UpdateWithoutSensorObjectForBackground(
-    const std::string& sensor_id, double measurement_timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+    const std::string& sensor_id, double measurement_timestamp) {}
 
 std::string Track::DebugString() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::ostringstream oss;
   oss << "fusion_track[id: " << this->GetTrackId() << ", fused_object("
       << fused_object_->GetBaseObject()->ToString() << ")\n";

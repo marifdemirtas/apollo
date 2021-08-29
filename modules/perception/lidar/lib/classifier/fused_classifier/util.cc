@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -18,7 +17,6 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 namespace util {
@@ -27,8 +25,6 @@ using apollo::common::EigenMap;
 using apollo::perception::base::ObjectType;
 
 void FromStdToVector(const std::vector<float>& src_prob, Vectord* dst_prob) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   (*dst_prob)(0) = src_prob[0];
   for (size_t i = 3; i < static_cast<size_t>(ObjectType::MAX_OBJECT_TYPE);
        ++i) {
@@ -37,8 +33,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void FromEigenToVector(const Vectord& src_prob, std::vector<float>* dst_prob) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   dst_prob->assign(static_cast<int>(ObjectType::MAX_OBJECT_TYPE), 0);
   dst_prob->at(0) = static_cast<float>(src_prob(0));
   for (size_t i = 3; i < static_cast<size_t>(ObjectType::MAX_OBJECT_TYPE);
@@ -48,24 +42,18 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ToLog(Vectord* prob) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (size_t i = 0; i < VALID_OBJECT_TYPE; ++i) {
     (*prob)(i) = log((*prob)(i));
   }
 }
 
 void ToExp(Vectord* prob) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (size_t i = 0; i < VALID_OBJECT_TYPE; ++i) {
     (*prob)(i) = exp((*prob)(i));
   }
 }
 
 void ToExpStable(Vectord* prob) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double min_value = prob->minCoeff();
   for (size_t i = 0; i < VALID_OBJECT_TYPE; ++i) {
     (*prob)(i) = exp((*prob)(i)-min_value);
@@ -73,16 +61,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Normalize(Vectord* prob) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double sum = prob->sum();
   sum = sum < 1e-9 ? 1e-9 : sum;
   *prob /= sum;
 }
 
 void NormalizeRow(Matrixd* prob) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double sum = 0.0;
   for (size_t row = 0; row < VALID_OBJECT_TYPE; ++row) {
     sum = 0.0;
@@ -97,8 +81,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool LoadSingleMatrix(std::ifstream& fin, Matrixd* matrix) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (size_t row = 0; row < VALID_OBJECT_TYPE; ++row) {
     for (size_t col = 0; col < VALID_OBJECT_TYPE; ++col) {
       fin >> (*matrix)(row, col);
@@ -108,8 +90,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool LoadSingleMatrixFile(const std::string& filename, Matrixd* matrix) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (matrix == nullptr) {
     return false;
   }
@@ -125,8 +105,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LoadMultipleMatricesFile(const std::string& filename,
                               EigenMap<std::string, Matrixd>* matrices) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (matrices == nullptr) {
     return false;
   }

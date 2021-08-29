@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -19,13 +18,10 @@
 #include <limits>
 
 namespace apollo {
-
 namespace perception {
 namespace camera {
 
 void ObjMapperParams::set_default() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   nr_bins_z = 15;
   nr_bins_ry = 36;
   boundary_len = 20;
@@ -52,8 +48,6 @@ bool ObjMapper::SolveCenterFromNearestVerticalEdge(const float *bbox,
                                                    const float *hwl, float ry,
                                                    float *center,
                                                    float *center_2d) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   center[0] = center[1] = center[2] = 0.0f;
   float height_bbox = bbox[3] - bbox[1];
   float width_bbox = bbox[2] - bbox[0];
@@ -95,8 +89,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool ObjMapper::Solve3dBboxGivenOneFullBboxDimensionOrientation(
     const float *bbox, const float *hwl, float *ry, float *center) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const float PI = common::Constant<float>::PI();
   const float PI_HALF = PI / 2;
   const float small_angle_diff =
@@ -131,8 +123,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool ObjMapper::Solve3dBbox(const ObjMapperOptions &options, float center[3],
                             float hwl[3], float *ry) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // set default value for variance
   set_default_variance();
   float var_yaw = 0.0f;
@@ -232,8 +222,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ObjMapper::PostRefineOrientation(const float *bbox, const float *hwl,
                                       const float *center, float *ry) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const int kNrBinsRy = static_cast<int>(ry_score_.size());
   const float PI = common::Constant<float>::PI();
   const float PI_HALF = PI * 0.5f;
@@ -283,8 +271,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ObjMapper::GetCenter(const float *bbox, const float &z_ref,
                           const float &ry, const float *hwl, float *center,
                           float *x) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float x_target[2] = {(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2};
   const float kMinCost = params_.reproj_err;
   const float EPS_COST_DELTA = params_.eps_mapper;

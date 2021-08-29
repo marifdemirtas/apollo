@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -26,8 +25,6 @@ namespace drivers {
 namespace smartereye {
 
 SmartereyeComponent::~SmartereyeComponent() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (running_.load()) {
     running_.exchange(false);
     async_result_.wait();
@@ -35,8 +32,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SmartereyeComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   camera_config_ = std::make_shared<Config>();
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
                                                camera_config_.get())) {
@@ -66,8 +61,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SmartereyeComponent::run() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   running_.exchange(true);
   while (!cyber::IsShutdown()) {
     camera_device_->poll();
@@ -76,8 +69,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SmartereyeComponent::SetCallback() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CallbackFunc fun =
       std::bind(&SmartereyeComponent::Callback, this, std::placeholders::_1);
   camera_device_->SetCallback(fun);
@@ -86,8 +77,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SmartereyeComponent::Callback(RawImageFrame *rawFrame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (rawFrame->frameId == FrameId::Compound ||
       rawFrame->frameId == FrameId::LaneExt) {
     processFrame(rawFrame->frameId,
@@ -107,8 +96,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void SmartereyeComponent::processFrame(int frameId, char *image, char *extended,
                                        int64_t time, int width, int height) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   switch (frameId) {
     case FrameId::Compound: {
       FrameDataExtHead *header = reinterpret_cast<FrameDataExtHead *>(extended);
@@ -272,8 +259,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void SmartereyeComponent::processFrame(int frameId, char *image,
                                        uint32_t dataSize, int width, int height,
                                        int frameFormat) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   switch (frameId) {
     case FrameId::Lane: {
       AINFO << "case FrameId::Lane:";

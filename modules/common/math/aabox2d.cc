@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -35,8 +34,6 @@ AABox2d::AABox2d(const Vec2d &center, const double length, const double width)
       width_(width),
       half_length_(length / 2.0),
       half_width_(width / 2.0) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GT(length_, -kMathEpsilon);
   CHECK_GT(width_, -kMathEpsilon);
 }
@@ -44,13 +41,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 AABox2d::AABox2d(const Vec2d &one_corner, const Vec2d &opposite_corner)
     : AABox2d((one_corner + opposite_corner) / 2.0,
               std::abs(one_corner.x() - opposite_corner.x()),
-              std::abs(one_corner.y() - opposite_corner.y())) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+              std::abs(one_corner.y() - opposite_corner.y())) {}
 
 AABox2d::AABox2d(const std::vector<Vec2d> &points) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ACHECK(!points.empty());
   double min_x = points[0].x();
   double max_x = points[0].x();
@@ -71,8 +64,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void AABox2d::GetAllCorners(std::vector<Vec2d> *const corners) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(corners)->clear();
   corners->reserve(4);
   corners->emplace_back(center_.x() + half_length_, center_.y() - half_width_);
@@ -82,15 +73,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool AABox2d::IsPointIn(const Vec2d &point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return std::abs(point.x() - center_.x()) <= half_length_ + kMathEpsilon &&
          std::abs(point.y() - center_.y()) <= half_width_ + kMathEpsilon;
 }
 
 bool AABox2d::IsPointOnBoundary(const Vec2d &point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double dx = std::abs(point.x() - center_.x());
   const double dy = std::abs(point.y() - center_.y());
   return (std::abs(dx - half_length_) <= kMathEpsilon &&
@@ -100,8 +87,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double AABox2d::DistanceTo(const Vec2d &point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double dx = std::abs(point.x() - center_.x()) - half_length_;
   const double dy = std::abs(point.y() - center_.y()) - half_width_;
   if (dx <= 0.0) {
@@ -114,8 +99,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double AABox2d::DistanceTo(const AABox2d &box) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double dx =
       std::abs(box.center_x() - center_.x()) - box.half_length() - half_length_;
   const double dy =
@@ -130,21 +113,15 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool AABox2d::HasOverlap(const AABox2d &box) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return std::abs(box.center_x() - center_.x()) <=
              box.half_length() + half_length_ &&
          std::abs(box.center_y() - center_.y()) <=
              box.half_width() + half_width_;
 }
 
-void AABox2d::Shift(const Vec2d &shift_vec) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- center_ += shift_vec; }
+void AABox2d::Shift(const Vec2d &shift_vec) { center_ += shift_vec; }
 
 void AABox2d::MergeFrom(const AABox2d &other_box) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double x1 = std::min(min_x(), other_box.min_x());
   const double x2 = std::max(max_x(), other_box.max_x());
   const double y1 = std::min(min_y(), other_box.min_y());
@@ -157,8 +134,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void AABox2d::MergeFrom(const Vec2d &other_point) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double x1 = std::min(min_x(), other_point.x());
   const double x2 = std::max(max_x(), other_point.x());
   const double y1 = std::min(min_y(), other_point.y());
@@ -171,8 +146,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string AABox2d::DebugString() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return absl::StrCat("aabox2d ( center = ", center_.DebugString(),
                       "  length = ", length_, "  width = ", width_, " )");
 }

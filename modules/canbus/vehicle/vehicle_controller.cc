@@ -26,7 +26,7 @@ using common::ErrorCode;
 using control::ControlCommand;
 
 Chassis::DrivingMode VehicleController::driving_mode() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::lock_guard<std::mutex> lock(mode_mutex_);
   return driving_mode_;
@@ -34,7 +34,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void VehicleController::set_driving_mode(
     const Chassis::DrivingMode &driving_mode) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::lock_guard<std::mutex> lock(mode_mutex_);
   driving_mode_ = driving_mode;
@@ -42,7 +42,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 ErrorCode VehicleController::SetDrivingMode(
     const Chassis::DrivingMode &driving_mode) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (driving_mode == Chassis::EMERGENCY_MODE) {
     AINFO << "Can't set vehicle to EMERGENCY_MODE driving mode.";
@@ -99,7 +99,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 ErrorCode VehicleController::Update(const ControlCommand &control_command) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!is_initialized_) {
     AERROR << "Controller is not initialized.";

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,8 +26,6 @@ namespace perception {
 namespace camera {
 
 bool DataProvider::Init(const DataProvider::InitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   src_height_ = options.image_height;
   src_width_ = options.image_width;
   sensor_name_ = options.sensor_name;
@@ -118,8 +115,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool DataProvider::FillImageData(int rows, int cols, const uint8_t *data,
                                  const std::string &encoding) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (cudaSetDevice(device_id_) != cudaSuccess) {
     AERROR << "Failed to set device to: " << device_id_;
     return false;
@@ -200,8 +195,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 #if 0
 bool DataProvider::GetImageBlob(const DataProvider::ImageOptions &options,
                                 base::Blob<float> *blob) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   bool ret = GetImageBlob(options, &temp_uint8_);
   if (!ret) {
     return false;
@@ -226,8 +219,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool DataProvider::GetImageBlob(const DataProvider::ImageOptions &options,
                                 base::Blob<uint8_t> *blob) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   base::Image8U image;
   if (!GetImage(options, &image)) {
     return false;
@@ -252,8 +243,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool DataProvider::GetImage(const DataProvider::ImageOptions &options,
                             base::Image8U *image) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   AINFO << "GetImage ...";
   if (image == nullptr) {
     return false;
@@ -289,8 +278,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool DataProvider::to_gray_image() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!gray_ready_) {
     NppiSize roi;
     roi.height = src_height_;
@@ -316,8 +303,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool DataProvider::to_rgb_image() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!rgb_ready_) {
     NppiSize roi;
     roi.height = src_height_;
@@ -342,8 +327,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool DataProvider::to_bgr_image() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!bgr_ready_) {
     NppiSize roi;
     roi.height = src_height_;

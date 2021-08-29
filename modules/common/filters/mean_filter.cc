@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,16 +30,12 @@ using TimedValue = std::pair<uint8, double>;
 const uint8 kMaxWindowSize = std::numeric_limits<uint8>::max() / 2;
 
 MF::MeanFilter(const uint8 window_size) : window_size_(window_size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GT(window_size_, 0);
   CHECK_LE(window_size_, kMaxWindowSize);
   initialized_ = true;
 }
 
 double MF::GetMin() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (min_candidates_.empty()) {
     return std::numeric_limits<double>::infinity();
   } else {
@@ -49,8 +44,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double MF::GetMax() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (max_candidates_.empty()) {
     return -std::numeric_limits<double>::infinity();
   } else {
@@ -59,8 +52,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double MF::Update(const double measurement) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ACHECK(initialized_);
   CHECK_LE(values_.size(), window_size_);
   CHECK_LE(min_candidates_.size(), window_size_);
@@ -80,8 +71,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool MF::ShouldPopOldestCandidate(const uint8 old_time) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (old_time < window_size_) {
     CHECK_LE(time_, old_time + window_size_);
     return old_time + window_size_ == time_;
@@ -94,8 +83,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MF::RemoveEarliest() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_EQ(values_.size(), window_size_);
   double removed = values_.front();
   values_.pop_front();
@@ -109,8 +96,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MF::Insert(const double value) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   values_.push_back(value);
   sum_ += value;
   while (min_candidates_.size() > 0 && min_candidates_.back().second > value) {

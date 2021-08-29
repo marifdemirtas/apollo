@@ -20,20 +20,20 @@ namespace apollo {
 namespace hdmap {
 
 PoseCollection::PoseCollection(std::shared_ptr<JsonConf> sp_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   sp_conf_ = sp_conf;
   Reset();
 }
 
 void PoseCollection::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   sp_poses_ = std::make_shared<std::vector<FramePose>>();
 }
 
 void PoseCollection::Collect(const FramePose& pose) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (sp_poses_ == nullptr) {
     sp_poses_ = std::make_shared<std::vector<FramePose>>();
@@ -42,7 +42,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::shared_ptr<std::vector<FramePose>> PoseCollection::GetPoses() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return sp_poses_;
 }

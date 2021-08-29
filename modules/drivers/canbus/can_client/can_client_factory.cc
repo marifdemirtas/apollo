@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -33,13 +32,9 @@ namespace apollo {
 namespace drivers {
 namespace canbus {
 
-CanClientFactory::CanClientFactory() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+CanClientFactory::CanClientFactory() {}
 
 void CanClientFactory::RegisterCanClients() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   AINFO << "CanClientFactory::RegisterCanClients";
   Register(CANCardParameter::FAKE_CAN,
            []() -> CanClient* { return new can::FakeCanClient(); });
@@ -57,8 +52,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 std::unique_ptr<CanClient> CanClientFactory::CreateCANClient(
     const CANCardParameter& parameter) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto factory = CreateObject(parameter.brand());
   if (!factory) {
     AERROR << "Failed to create CAN client with parameter: "

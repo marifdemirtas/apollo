@@ -32,20 +32,19 @@ ABSL_FLAG(double, module_monitor_interval, 1.5,
           "Process status checking interval in seconds.");
 
 namespace apollo {
-
 namespace monitor {
 
 ModuleMonitor::ModuleMonitor()
     : RecurrentRunner(absl::GetFlag(FLAGS_module_monitor_name),
                       absl::GetFlag(FLAGS_module_monitor_interval)) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   node_manager_ =
       cyber::service_discovery::TopologyManager::Instance()->node_manager();
 }
 
 void ModuleMonitor::RunOnce(const double current_time) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto manager = MonitorManager::Instance();
   const auto& mode = manager->GetHMIMode();
@@ -67,7 +66,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ModuleMonitor::UpdateStatus(
     const apollo::dreamview::ModuleMonitorConfig& config,
     const std::string& module_name, ComponentStatus* status) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   status->clear_status();
 

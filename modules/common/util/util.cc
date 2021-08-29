@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -35,8 +34,6 @@ PointENU operator+(const PointENU enu, const math::Vec2d& xy) {
 PathPoint GetWeightedAverageOfTwoPathPoints(const PathPoint& p1,
                                             const PathPoint& p2,
                                             const double w1, const double w2) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   PathPoint p;
   p.set_x(p1.x() * w1 + p2.x() * w2);
   p.set_y(p1.y() * w1 + p2.y() * w2);

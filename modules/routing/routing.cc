@@ -47,6 +47,8 @@ apollo::common::Status Routing::Init() {
 }
 
 apollo::common::Status Routing::Start() {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
   if (!navigator_ptr_->IsReady()) {
     AERROR << "Navigator is not ready!";
     return apollo::common::Status(ErrorCode::ROUTING_ERROR,

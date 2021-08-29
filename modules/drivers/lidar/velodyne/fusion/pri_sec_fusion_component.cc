@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -27,8 +26,6 @@ namespace velodyne {
 using apollo::cyber::Time;
 
 bool PriSecFusionComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!GetProtoConfig(&conf_)) {
     AWARN << "Load config failed, config file" << ConfigFilePath();
     return false;
@@ -46,8 +43,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool PriSecFusionComponent::Proc(
     const std::shared_ptr<PointCloud>& point_cloud) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto target = std::make_shared<PointCloud>(*point_cloud);
   auto fusion_readers = readers_;
   auto start_time = Time::Now().ToSecond();
@@ -79,8 +74,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool PriSecFusionComponent::IsExpired(
     const std::shared_ptr<PointCloud>& target,
     const std::shared_ptr<PointCloud>& source) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto diff = target->measurement_time() - source->measurement_time();
   return diff * 1000 > conf_.max_interval_ms();
 }
@@ -88,8 +81,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool PriSecFusionComponent::QueryPoseAffine(const std::string& target_frame_id,
                                             const std::string& source_frame_id,
                                             Eigen::Affine3d* pose) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string err_string;
   if (!buffer_ptr_->canTransform(target_frame_id, source_frame_id,
                                  cyber::Time(0), 0.02f, &err_string)) {
@@ -120,8 +111,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PriSecFusionComponent::AppendPointCloud(
     std::shared_ptr<PointCloud> point_cloud,
     std::shared_ptr<PointCloud> point_cloud_add, const Eigen::Affine3d& pose) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (std::isnan(pose(0, 0))) {
     for (auto& point : point_cloud_add->point()) {
       PointXYZIT* point_new = point_cloud->add_point();
@@ -164,8 +153,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool PriSecFusionComponent::Fusion(std::shared_ptr<PointCloud> target,
                                    std::shared_ptr<PointCloud> source) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Affine3d pose;
   if (QueryPoseAffine(target->header().frame_id(), source->header().frame_id(),
                       &pose)) {

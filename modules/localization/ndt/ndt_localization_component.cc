@@ -30,11 +30,11 @@ using apollo::cyber::Clock;
 
 NDTLocalizationComponent::NDTLocalizationComponent()
     : localization_(new NDTLocalization()) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool NDTLocalizationComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   tf2_broadcaster_.reset(new apollo::transform::TransformBroadcaster(node_));
   if (!InitConfig()) {
@@ -51,7 +51,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool NDTLocalizationComponent::InitConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   localization_topic_ = FLAGS_localization_topic;
   lidar_topic_ = FLAGS_lidar_topic;
@@ -67,7 +67,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool NDTLocalizationComponent::InitIO() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   cyber::ReaderConfig reader_config;
   reader_config.channel_name = lidar_topic_;
@@ -102,7 +102,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool NDTLocalizationComponent::Proc(
     const std::shared_ptr<localization::Gps>& gps_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   localization_->OdometryCallback(gps_msg);
 
@@ -125,7 +125,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void NDTLocalizationComponent::LidarCallback(
     const std::shared_ptr<drivers::PointCloud>& lidar_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   localization_->LidarCallback(lidar_msg);
   // for test to output lidar pose
@@ -139,14 +139,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void NDTLocalizationComponent::OdometryStatusCallback(
     const std::shared_ptr<drivers::gnss::InsStat>& status_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   localization_->OdometryStatusCallback(status_msg);
 }
 
 void NDTLocalizationComponent::PublishPoseBroadcastTF(
     const LocalizationEstimate& localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // broadcast tf message
   apollo::transform::TransformStamped tf2_msg;
@@ -172,21 +172,21 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void NDTLocalizationComponent::PublishPoseBroadcastTopic(
     const LocalizationEstimate& localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   localization_talker_->Write(localization);
 }
 
 void NDTLocalizationComponent::PublishLidarPoseBroadcastTopic(
     const LocalizationEstimate& localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   lidar_pose_talker_->Write(localization);
 }
 
 void NDTLocalizationComponent::PublishLocalizationStatusTopic(
     const LocalizationStatus& localization_status) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   localization_status_talker_->Write(localization_status);
 }

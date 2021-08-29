@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,13 +30,9 @@ BaseMap::BaseMap(BaseMapConfig* map_config)
     : map_config_(map_config),
       map_node_cache_lvl1_(nullptr),
       map_node_cache_lvl2_(nullptr),
-      map_node_pool_(nullptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+      map_node_pool_(nullptr) {}
 
 BaseMap::~BaseMap() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (map_node_cache_lvl1_) {
     delete map_node_cache_lvl1_;
     map_node_cache_lvl1_ = nullptr;
@@ -49,8 +44,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMap::InitMapNodeCaches(int cacheL1_size, int cacheL2_size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   destroy_func_lvl1_ =
       std::bind(MapNodeCache<MapNodeIndex, BaseMapNode>::CacheL1Destroy,
                 std::placeholders::_1);
@@ -66,16 +59,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 BaseMapNode* BaseMap::GetMapNode(const MapNodeIndex& index) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   BaseMapNode* node = nullptr;
   map_node_cache_lvl1_->Get(index, &node);
   return node;
 }
 
 BaseMapNode* BaseMap::GetMapNodeSafe(const MapNodeIndex& index) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   BaseMapNode* node = nullptr;
   // try get from cacheL1
   if (map_node_cache_lvl1_->Get(index, &node)) {
@@ -106,14 +95,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 /**@brief Check if the map node in the cache. */
 bool BaseMap::IsMapNodeExist(const MapNodeIndex& index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return map_node_cache_lvl1_->IsExist(index);
 }
 
 bool BaseMap::SetMapFolderPath(const std::string folder_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_config_->map_folder_path_ = folder_path;
 
   // Try to load the config
@@ -127,16 +112,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMap::AddDataset(const std::string dataset_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_config_->map_datasets_.push_back(dataset_path);
   std::string config_path = map_config_->map_folder_path_ + "/config.xml";
   map_config_->Save(config_path);
 }
 
 void BaseMap::LoadMapNodes(std::set<MapNodeIndex>* map_ids) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_LE(map_ids->size(), map_node_cache_lvl1_->Capacity());
   // check in cacheL1
   typename std::set<MapNodeIndex>::iterator itr = map_ids->begin();
@@ -204,8 +185,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMap::PreloadMapNodes(std::set<MapNodeIndex>* map_ids) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   DCHECK_LE(map_ids->size(), map_node_cache_lvl2_->Capacity());
   // check in cacheL2
   typename std::set<MapNodeIndex>::iterator itr = map_ids->begin();
@@ -251,14 +230,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMap::AttachMapNodePool(BaseMapNodePool* map_node_pool) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_node_pool_ = map_node_pool;
 }
 
 void BaseMap::LoadMapNodeThreadSafety(MapNodeIndex index, bool is_reserved) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   BaseMapNode* map_node = nullptr;
   while (map_node == nullptr) {
     map_node = map_node_pool_->AllocMapNode();
@@ -293,8 +268,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void BaseMap::PreloadMapArea(const Eigen::Vector3d& location,
                              const Eigen::Vector3d& trans_diff,
                              unsigned int resolution_id, unsigned int zone_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(map_node_pool_);
 
   int x_direction = trans_diff[0] > 0 ? 1 : -1;
@@ -434,8 +407,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool BaseMap::LoadMapArea(const Eigen::Vector3d& seed_pt3d,
                           unsigned int resolution_id, unsigned int zone_id,
                           int filter_size_x, int filter_size_y) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(map_node_pool_);
   std::set<MapNodeIndex> map_ids;
   float map_pixel_resolution =

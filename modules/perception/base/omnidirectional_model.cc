@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,8 +28,6 @@ namespace base {
 
 Eigen::Vector2f OmnidirectionalCameraDistortionModel::Project(
     const Eigen::Vector3f& point3d) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (std::isgreater(point3d[2], 0.f)) {
     AERROR << "The input point (" << point3d
            << ") should be in front of the camera";
@@ -62,8 +59,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 std::shared_ptr<BaseCameraModel>
 OmnidirectionalCameraDistortionModel::get_camera_model() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::shared_ptr<PinholeCameraModel> camera_model(new PinholeCameraModel());
   camera_model->set_width(width_);
   camera_model->set_height(height_);
@@ -74,8 +69,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool OmnidirectionalCameraDistortionModel::set_params(
     size_t width, size_t height, const Eigen::VectorXf& params) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (params.size() < 9) {
     AINFO << "Missing cam2world and world2cam model.";
     return false;

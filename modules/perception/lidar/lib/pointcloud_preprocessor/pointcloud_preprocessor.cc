@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +25,6 @@
 #include "modules/perception/lidar/lib/pointcloud_preprocessor/proto/pointcloud_preprocessor_config.pb.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
@@ -36,8 +34,6 @@ const float PointCloudPreprocessor::kPointInfThreshold = 1e3;
 
 bool PointCloudPreprocessor::Init(
     const PointCloudPreprocessorInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig(Name(), &model_config));
@@ -71,8 +67,6 @@ bool PointCloudPreprocessor::Preprocess(
     const PointCloudPreprocessorOptions& options,
     const std::shared_ptr<apollo::drivers::PointCloud const>& message,
     LidarFrame* frame) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame == nullptr) {
     return false;
   }
@@ -124,8 +118,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool PointCloudPreprocessor::Preprocess(
     const PointCloudPreprocessorOptions& options, LidarFrame* frame) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame == nullptr || frame->cloud == nullptr) {
     return false;
   }
@@ -175,8 +167,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool PointCloudPreprocessor::TransformCloud(
     const base::PointFCloudPtr& local_cloud, const Eigen::Affine3d& pose,
     base::PointDCloudPtr world_cloud) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (local_cloud == nullptr) {
     return false;
   }

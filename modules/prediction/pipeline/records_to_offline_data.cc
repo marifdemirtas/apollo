@@ -31,6 +31,10 @@ namespace prediction {
 void GenerateDataForLearning() {
   apollo::hdmap::HDMapUtil::ReloadMaps();
   if (!FeatureOutput::Ready()) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     AERROR << "Feature output is not ready.";
     return;
   }
@@ -80,6 +84,8 @@ void GenerateDataForLearning() {
 }  // namespace apollo
 
 int main(int argc, char* argv[]) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
   google::ParseCommandLineFlags(&argc, &argv, true);
   apollo::prediction::GenerateDataForLearning();
   return 0;

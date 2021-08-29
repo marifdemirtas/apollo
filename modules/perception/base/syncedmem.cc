@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
 COPYRIGHT
 
@@ -76,8 +75,6 @@ SyncedMemory::SyncedMemory(bool use_cuda)
       cpu_malloc_use_cuda_(use_cuda),
       own_gpu_data_(false),
       device_(-1) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
 #if USE_GPU == 1
 #ifdef PERCEPTION_DEBUG
   BASE_CUDA_CHECK(cudaGetDevice(&device_));
@@ -94,8 +91,6 @@ SyncedMemory::SyncedMemory(size_t size, bool use_cuda)
       cpu_malloc_use_cuda_(use_cuda),
       own_gpu_data_(false),
       device_(-1) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
 #if USE_GPU == 1
 #ifdef PERCEPTION_DEBUG
   BASE_CUDA_CHECK(cudaGetDevice(&device_));
@@ -104,8 +99,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 SyncedMemory::~SyncedMemory() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   check_device();
   if (cpu_ptr_ && own_cpu_data_) {
     PerceptionFreeHost(cpu_ptr_, cpu_malloc_use_cuda_);
@@ -119,8 +112,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 inline void SyncedMemory::to_cpu() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   check_device();
   switch (head_) {
     case UNINITIALIZED:
@@ -152,8 +143,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 inline void SyncedMemory::to_gpu() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   check_device();
 #if USE_GPU == 1
   switch (head_) {
@@ -181,16 +170,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 const void* SyncedMemory::cpu_data() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   check_device();
   to_cpu();
   return (const void*)cpu_ptr_;
 }
 
 void SyncedMemory::set_cpu_data(void* data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   check_device();
   ACHECK(data);
   if (own_cpu_data_) {
@@ -202,8 +187,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 const void* SyncedMemory::gpu_data() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   check_device();
 #if USE_GPU == 1
   to_gpu();
@@ -215,8 +198,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SyncedMemory::set_gpu_data(void* data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   check_device();
 #if USE_GPU == 1
   ACHECK(data);
@@ -232,8 +213,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void* SyncedMemory::mutable_cpu_data() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   check_device();
   to_cpu();
   head_ = HEAD_AT_CPU;
@@ -241,8 +220,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void* SyncedMemory::mutable_gpu_data() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   check_device();
 #if USE_GPU == 1
   to_gpu();
@@ -256,8 +233,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 #if USE_GPU == 1
 void SyncedMemory::async_gpu_push(const cudaStream_t& stream) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   check_device();
   CHECK_EQ(head_, HEAD_AT_CPU);
   if (gpu_ptr_ == nullptr) {
@@ -272,8 +247,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 #endif
 
 void SyncedMemory::check_device() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
 #if USE_GPU == 1
 #ifdef PERCEPTION_DEBUG
   int device;

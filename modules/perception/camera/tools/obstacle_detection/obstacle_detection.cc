@@ -64,7 +64,7 @@ static const cv::Scalar kFaceColorMap[] = {
 };
 
 base::ObjectSubType GetObjectSubType(const std::string &type_name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (type_name == "car") {
     return base::ObjectSubType::CAR;
@@ -91,7 +91,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool LoadFromKitti(const std::string &kitti_path, CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   frame->detected_objects.clear();
   FILE *fp = fopen(kitti_path.c_str(), "r");
@@ -147,7 +147,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int main() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CameraFrame frame;
   DataProvider data_provider;
@@ -339,7 +341,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }  // namespace apollo
 
 int main(int argc, char *argv[]) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   google::SetUsageMessage(

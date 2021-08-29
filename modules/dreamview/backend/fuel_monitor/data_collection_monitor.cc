@@ -48,7 +48,7 @@ bool GetProtobufFloatByFieldName(const google::protobuf::Message& message,
                                  const google::protobuf::Descriptor* descriptor,
                                  const google::protobuf::Reflection* reflection,
                                  const std::string& field_name, float* value) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!descriptor) {
     AERROR << "Protobuf descriptor not found";
@@ -77,7 +77,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool IsCompliedWithCriterion(float actual_value,
                              const ComparisonOperator& comparison_operator,
                              float target_value) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   switch (comparison_operator) {
     case ComparisonOperator::EQUAL:
@@ -104,18 +104,18 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 DataCollectionMonitor::DataCollectionMonitor()
     : FuelMonitor(FLAGS_data_collection_monitor_name),
       node_(cyber::CreateNode("data_collection_monitor")) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   InitReaders();
   LoadConfiguration();
 }
 
 DataCollectionMonitor::~DataCollectionMonitor() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Stop(); }
 
 void DataCollectionMonitor::InitReaders() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   node_->CreateReader<Chassis>(FLAGS_chassis_topic,
                                [this](const std::shared_ptr<Chassis>& chassis) {
@@ -124,7 +124,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void DataCollectionMonitor::LoadConfiguration() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const std::string& vehicle_dir =
       VehicleManager::Instance()->GetVehicleDataPath();
@@ -147,7 +147,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void DataCollectionMonitor::ConstructCategories() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   scenario_to_categories_.clear();
 
@@ -163,7 +163,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void DataCollectionMonitor::ConstructCategoriesHelper(
     const std::string& scenario_name, const Scenario& scenario, int feature_idx,
     std::string current_category_name, const Category& current_category) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (feature_idx == scenario.feature_size()) {
     scenario_to_categories_[scenario_name].insert(
@@ -197,7 +197,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void DataCollectionMonitor::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!enabled_) {
     category_consecutive_frame_count_.clear();
@@ -209,14 +209,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void DataCollectionMonitor::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   enabled_ = false;
   AINFO << "DataCollectionMonitor stopped";
 }
 
 void DataCollectionMonitor::OnChassis(const std::shared_ptr<Chassis>& chassis) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!enabled_) {
     return;
@@ -269,7 +269,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool DataCollectionMonitor::IsCompliedWithCriteria(
     const std::shared_ptr<Chassis>& chassis, const Category& category) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const auto& vehicle_param = VehicleConfigHelper::GetConfig().vehicle_param();
   const auto* vehicle_param_descriptor = vehicle_param.GetDescriptor();
@@ -279,6 +279,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   const auto* chassis_reflection = chassis->GetReflection();
 
   for (const auto& range : category) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     for (const auto& criterion : range.criterion()) {
       float target_value;
       if (criterion.has_value()) {
@@ -308,7 +310,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 nlohmann::json DataCollectionMonitor::GetProgressAsJson() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   boost::unique_lock<boost::shared_mutex> reader_lock(mutex_);
   return current_progress_json_;

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -39,8 +38,6 @@ static const std::map<std::string,
 
 bool load_pcl_pcds(const std::string& filename, PointCloudPtr cloud_out,
                    const std::string& cloud_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto iter = s_load_method.find(cloud_type);
   if (iter == s_load_method.end()) {
     return false;
@@ -71,8 +68,6 @@ bool load_pcl_pcds_xyzit(const std::string& filename, PointCloudPtr cloud_out) {
 }
 
 bool load_pcl_pcds_xyzl(const std::string& filename, PointCloudPtr cloud_out) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   PointXYZLCloud org_cloud;
   if (pcl::io::loadPCDFile(filename, org_cloud) < 0) {
     std::cerr << "failed to load pcd file: " << filename << std::endl;
@@ -104,8 +99,6 @@ bool load_frame_objects(const std::string& filename,
                         std::vector<PointCloud>* left_lane_boundary,
                         std::vector<PointCloud>* right_lane_boundary,
                         PointCloud* cloud) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::fstream fin(filename.c_str());
   if (!fin.is_open()) {
     std::cerr << "frame objects file " << filename << " is not exist!"
@@ -285,8 +278,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool load_sensor2world_pose(const std::string& filename,
                             Eigen::Matrix4d* pose_out_pt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Matrix4d& pose_out = *pose_out_pt;
   std::ifstream ifs(filename.c_str());
   if (!ifs.is_open()) {
@@ -315,8 +306,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool save_frame_objects(const std::string& filename,
                         const std::vector<ObjectPtr>& objects, int frame_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::ofstream fout(filename.c_str());
   if (!fout.is_open()) {
     std::cout << "Failed to open " << filename << "\n";

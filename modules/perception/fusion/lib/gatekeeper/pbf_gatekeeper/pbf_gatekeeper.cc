@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,23 +22,16 @@
 #include "modules/perception/lib/config_manager/config_manager.h"
 
 namespace apollo {
-
 namespace perception {
 namespace fusion {
 
 using cyber::common::GetAbsolutePath;
 
-PbfGatekeeper::PbfGatekeeper() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+PbfGatekeeper::PbfGatekeeper() {}
 
-PbfGatekeeper::~PbfGatekeeper() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+PbfGatekeeper::~PbfGatekeeper() {}
 
 bool PbfGatekeeper::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   BaseInitOptions options;
   if (!GetFusionInitOptions("PbfGatekeeper", &options)) {
     return false;
@@ -71,13 +63,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   return true;
 }
 
-std::string PbfGatekeeper::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return "PbfGatekeeper"; }
+std::string PbfGatekeeper::Name() const { return "PbfGatekeeper"; }
 
 bool PbfGatekeeper::AbleToPublish(const TrackPtr &track) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   bool invisible_in_lidar = !(track->IsLidarVisible());
   bool invisible_in_radar = !(track->IsRadarVisible());
   bool invisible_in_camera = !(track->IsCameraVisible());
@@ -110,8 +98,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool PbfGatekeeper::LidarAbleToPublish(const TrackPtr &track) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   bool visible_in_lidar = track->IsLidarVisible();
   if (params_.publish_if_has_lidar && visible_in_lidar) {
     return true;
@@ -120,8 +106,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool PbfGatekeeper::RadarAbleToPublish(const TrackPtr &track, bool is_night) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   bool visible_in_radar = track->IsRadarVisible();
   SensorObjectConstPtr radar_object = track->GetLatestRadarObject();
   if (params_.publish_if_has_radar && visible_in_radar &&
@@ -189,8 +173,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool PbfGatekeeper::CameraAbleToPublish(const TrackPtr &track, bool is_night) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   bool visible_in_camera = track->IsCameraVisible();
   SensorId2ObjectMap &camera_objects = track->GetCameraObjects();
   auto iter = camera_objects.find("front_6mm");

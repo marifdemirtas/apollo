@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,8 +31,6 @@ namespace camera {
 using cyber::common::GetAbsolutePath;
 
 void YoloObstacleDetector::LoadInputShape(const yolo::ModelParam &model_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float offset_ratio = model_param.offset_ratio();
   float cropped_ratio = model_param.cropped_ratio();
   int resized_width = model_param.resized_width();
@@ -60,8 +57,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void YoloObstacleDetector::LoadParam(const yolo::YoloParam &yolo_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const auto &model_param = yolo_param.model_param();
   confidence_threshold_ = model_param.confidence_threshold();
   light_vis_conf_threshold_ = model_param.light_vis_conf_threshold();
@@ -85,8 +80,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool YoloObstacleDetector::InitNet(const yolo::YoloParam &yolo_param,
                                    const std::string &model_root) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const auto &model_param = yolo_param.model_param();
 
   std::string proto_file =
@@ -152,8 +145,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void YoloObstacleDetector::InitYoloBlob(const yolo::NetworkParam &net_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto obj_blob_scale1 = inference_->get_blob(net_param.det1_obj_blob());
   auto obj_blob_scale2 = inference_->get_blob(net_param.det2_obj_blob());
   auto obj_blob_scale3 = inference_->get_blob(net_param.det3_obj_blob());
@@ -258,8 +249,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool YoloObstacleDetector::Init(const ObstacleDetectorInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   gpu_id_ = options.gpu_id;
   BASE_CUDA_CHECK(cudaSetDevice(gpu_id_));
   BASE_CUDA_CHECK(cudaStreamCreate(&stream_));
@@ -306,8 +295,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool YoloObstacleDetector::InitFeatureExtractor(const std::string &root_dir) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   FeatureExtractorInitOptions feat_options;
   feat_options.conf_file = yolo_param_.model_param().feature_file();
   feat_options.root_dir = root_dir;
@@ -326,8 +313,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool YoloObstacleDetector::Detect(const ObstacleDetectorOptions &options,
                                   CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame == nullptr) {
     return false;
   }

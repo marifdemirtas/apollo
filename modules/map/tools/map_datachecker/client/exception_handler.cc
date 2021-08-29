@@ -24,7 +24,7 @@ namespace apollo {
 namespace hdmap {
 
 int ExceptionHandler::ExceptionHandlerFun(ErrorCode error_code) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int ret = 0;
   switch (error_code) {

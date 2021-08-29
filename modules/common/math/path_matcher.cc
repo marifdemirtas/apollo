@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -35,8 +34,6 @@ namespace math {
 
 PathPoint PathMatcher::MatchToPath(const std::vector<PathPoint>& reference_line,
                                    const double x, const double y) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GT(reference_line.size(), 0U);
 
   auto func_distance_square = [](const PathPoint& point, const double x,
@@ -72,8 +69,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 std::pair<double, double> PathMatcher::GetPathFrenetCoordinate(
     const std::vector<PathPoint>& reference_line, const double x,
     const double y) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto matched_path_point = MatchToPath(reference_line, x, y);
   double rtheta = matched_path_point.theta();
   double rx = matched_path_point.x();
@@ -90,8 +85,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 PathPoint PathMatcher::MatchToPath(const std::vector<PathPoint>& reference_line,
                                    const double s) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto comp = [](const PathPoint& point, const double s) {
     return point.s() < s;
   };
@@ -112,8 +105,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 PathPoint PathMatcher::FindProjectionPoint(const PathPoint& p0,
                                            const PathPoint& p1, const double x,
                                            const double y) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double v0x = x - p0.x();
   double v0y = y - p0.y();
 

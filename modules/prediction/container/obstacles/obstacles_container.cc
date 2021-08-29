@@ -148,6 +148,8 @@ void ObstaclesContainer::Insert(const ::google::protobuf::Message& message) {
   // Insert the Obstacles one by one
   for (const PerceptionObstacle& perception_obstacle :
        perception_obstacles.perception_obstacle()) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     ADEBUG << "Perception obstacle [" << perception_obstacle.id() << "] "
            << "was detected";
     InsertPerceptionObstacle(perception_obstacle, timestamp_);

@@ -105,6 +105,8 @@ class OfflineLidarObstaclePerception {
     std::string output_path = FLAGS_output_path;
     std::vector<std::string> pcd_file_names;
     if (!common::GetFileList(pcd_folder, ".pcd", &pcd_file_names)) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
       AERROR << "pcd_folder: " << pcd_folder << " get file list error.";
       return false;
     }
@@ -137,6 +139,8 @@ class OfflineLidarObstaclePerception {
         int idt = 0;
         if (common::ReadPoseFile(pose_file_name, &frame_->lidar2world_pose,
                                  &idt, &timestamp)) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
           AINFO << "[timestamp]: " << std::setprecision(16) << timestamp;
           frame_->timestamp = timestamp;
         } else {
@@ -331,7 +335,7 @@ class OfflineLidarObstaclePerception {
 }  // namespace apollo
 
 int main(int argc, char** argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   FLAGS_alsologtostderr = 1;
   google::ParseCommandLineFlags(&argc, &argv, true);

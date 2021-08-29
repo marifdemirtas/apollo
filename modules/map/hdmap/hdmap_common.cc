@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,8 +40,6 @@ constexpr double kDuplicatedPointsEpsilon = 1e-7;
 constexpr double kEpsilon = 0.1;
 
 void RemoveDuplicates(std::vector<Vec2d> *points) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   RETURN_IF_NULL(points);
 
   int count = 0;
@@ -56,8 +53,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PointsFromCurve(const Curve &input_curve, std::vector<Vec2d> *points) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   RETURN_IF_NULL(points);
   points->clear();
 
@@ -74,8 +69,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 apollo::common::math::Polygon2d ConvertToPolygon2d(const Polygon &polygon) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<Vec2d> points;
   points.reserve(polygon.point_size());
   for (const auto &point : polygon.point()) {
@@ -92,8 +85,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void SegmentsFromCurve(
     const Curve &curve,
     std::vector<apollo::common::math::LineSegment2d> *segments) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   RETURN_IF_NULL(segments);
 
   std::vector<Vec2d> points;
@@ -104,8 +95,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PointENU PointFromVec2d(const Vec2d &point) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   PointENU pt;
   pt.set_x(point.x());
   pt.set_y(point.y());
@@ -114,13 +103,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 }  // namespace
 
-LaneInfo::LaneInfo(const Lane &lane) : lane_(lane) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- Init(); }
+LaneInfo::LaneInfo(const Lane &lane) : lane_(lane) { Init(); }
 
 void LaneInfo::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   PointsFromCurve(lane_.central_curve(), &points_);
   CHECK_GE(points_.size(), 2U);
   segments_.clear();
@@ -198,8 +183,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LaneInfo::GetWidth(const double s, double *left_width,
                         double *right_width) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (left_width != nullptr) {
     *left_width = GetWidthFromSample(sampled_left_width_, s);
   }
@@ -209,8 +192,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double LaneInfo::Heading(const double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double kEpsilon = 0.001;
   if (s + kEpsilon < accumulated_s_.front()) {
     AERROR << "s:" << s << " should be >= " << accumulated_s_.front();
@@ -231,8 +212,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double LaneInfo::Curvature(const double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (points_.size() < 2U) {
     AERROR << "Not enough points to compute curvature.";
     return 0.0;
@@ -262,8 +241,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double LaneInfo::GetWidth(const double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double left_width = 0.0;
   double right_width = 0.0;
   GetWidth(s, &left_width, &right_width);
@@ -271,8 +248,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double LaneInfo::GetEffectiveWidth(const double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double left_width = 0.0;
   double right_width = 0.0;
   GetWidth(s, &left_width, &right_width);
@@ -281,8 +256,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LaneInfo::GetRoadWidth(const double s, double *left_width,
                             double *right_width) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (left_width != nullptr) {
     *left_width = GetWidthFromSample(sampled_left_road_width_, s);
   }
@@ -292,8 +265,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double LaneInfo::GetRoadWidth(const double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double left_width = 0.0;
   double right_width = 0.0;
   GetRoadWidth(s, &left_width, &right_width);
@@ -302,8 +273,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double LaneInfo::GetWidthFromSample(
     const std::vector<LaneInfo::SampledWidth> &samples, const double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (samples.empty()) {
     return 0.0;
   }
@@ -330,8 +299,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool LaneInfo::IsOnLane(const Vec2d &point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double accumulate_s = 0.0;
   double lateral = 0.0;
   if (!GetProjection(point, &accumulate_s, &lateral)) {
@@ -353,8 +320,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool LaneInfo::IsOnLane(const apollo::common::math::Box2d &box) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<Vec2d> corners;
   box.GetAllCorners(&corners);
   for (const auto &corner : corners) {
@@ -366,8 +331,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PointENU LaneInfo::GetSmoothPoint(double s) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   PointENU point;
   RETURN_VAL_IF(points_.size() < 2, point);
   if (s <= 0.0) {
@@ -393,8 +356,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double LaneInfo::DistanceTo(const Vec2d &point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const auto segment_box = lane_segment_kdtree_->GetNearestObject(point);
   RETURN_VAL_IF_NULL(segment_box, 0.0);
   return segment_box->DistanceTo(point);
@@ -402,8 +363,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double LaneInfo::DistanceTo(const Vec2d &point, Vec2d *map_point,
                             double *s_offset, int *s_offset_index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   RETURN_VAL_IF_NULL(map_point, 0.0);
   RETURN_VAL_IF_NULL(s_offset, 0.0);
   RETURN_VAL_IF_NULL(s_offset_index, 0.0);
@@ -419,8 +378,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PointENU LaneInfo::GetNearestPoint(const Vec2d &point, double *distance) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   PointENU empty_point;
   RETURN_VAL_IF_NULL(distance, empty_point);
 
@@ -435,8 +392,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LaneInfo::GetProjection(const Vec2d &point, double *accumulate_s,
                              double *lateral) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   RETURN_VAL_IF_NULL(accumulate_s, false);
   RETURN_VAL_IF_NULL(lateral, false);
 
@@ -480,14 +435,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LaneInfo::PostProcess(const HDMapImpl &map_instance) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   UpdateOverlaps(map_instance);
 }
 
 void LaneInfo::UpdateOverlaps(const HDMapImpl &map_instance) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto &overlap_id : overlap_ids_) {
     const auto &overlap_ptr =
         map_instance.GetOverlapById(MakeMapId(overlap_id));
@@ -536,8 +487,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LaneInfo::CreateKDTree() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   apollo::common::math::AABoxKDTreeParams params;
   params.max_leaf_dimension = 5.0;  // meters.
   params.max_leaf_size = 16;
@@ -553,14 +502,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 JunctionInfo::JunctionInfo(const Junction &junction) : junction_(junction) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
 }
 
 void JunctionInfo::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   polygon_ = ConvertToPolygon2d(junction_.polygon());
   CHECK_GT(polygon_.num_points(), 2);
 
@@ -570,14 +515,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void JunctionInfo::PostProcess(const HDMapImpl &map_instance) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   UpdateOverlaps(map_instance);
 }
 
 void JunctionInfo::UpdateOverlaps(const HDMapImpl &map_instance) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto &overlap_id : overlap_ids_) {
     const auto &overlap_ptr = map_instance.GetOverlapById(overlap_id);
     if (overlap_ptr == nullptr) {
@@ -597,13 +538,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 
-SignalInfo::SignalInfo(const Signal &signal) : signal_(signal) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- Init(); }
+SignalInfo::SignalInfo(const Signal &signal) : signal_(signal) { Init(); }
 
 void SignalInfo::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto &stop_line : signal_.stop_line()) {
     SegmentsFromCurve(stop_line, &segments_);
   }
@@ -618,27 +555,19 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 CrosswalkInfo::CrosswalkInfo(const Crosswalk &crosswalk)
     : crosswalk_(crosswalk) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
 }
 
 void CrosswalkInfo::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   polygon_ = ConvertToPolygon2d(crosswalk_.polygon());
   CHECK_GT(polygon_.num_points(), 2);
 }
 
 StopSignInfo::StopSignInfo(const StopSign &stop_sign) : stop_sign_(stop_sign) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   init();
 }
 
 void StopSignInfo::init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto &stop_line : stop_sign_.stop_line()) {
     SegmentsFromCurve(stop_line, &segments_);
   }
@@ -650,14 +579,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void StopSignInfo::PostProcess(const HDMapImpl &map_instance) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   UpdateOverlaps(map_instance);
 }
 
 void StopSignInfo::UpdateOverlaps(const HDMapImpl &map_instance) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto &overlap_id : overlap_ids_) {
     const auto &overlap_ptr = map_instance.GetOverlapById(overlap_id);
     if (overlap_ptr == nullptr) {
@@ -684,14 +609,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 YieldSignInfo::YieldSignInfo(const YieldSign &yield_sign)
     : yield_sign_(yield_sign) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
 }
 
 void YieldSignInfo::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto &stop_line : yield_sign_.stop_line()) {
     SegmentsFromCurve(stop_line, &segments_);
   }
@@ -701,41 +622,29 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 ClearAreaInfo::ClearAreaInfo(const ClearArea &clear_area)
     : clear_area_(clear_area) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
 }
 
 void ClearAreaInfo::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   polygon_ = ConvertToPolygon2d(clear_area_.polygon());
   CHECK_GT(polygon_.num_points(), 2);
 }
 
 SpeedBumpInfo::SpeedBumpInfo(const SpeedBump &speed_bump)
     : speed_bump_(speed_bump) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
 }
 
 void SpeedBumpInfo::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto &stop_line : speed_bump_.position()) {
     SegmentsFromCurve(stop_line, &segments_);
   }
   ACHECK(!segments_.empty());
 }
 
-OverlapInfo::OverlapInfo(const Overlap &overlap) : overlap_(overlap) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+OverlapInfo::OverlapInfo(const Overlap &overlap) : overlap_(overlap) {}
 
 const ObjectOverlapInfo *OverlapInfo::GetObjectOverlapInfo(const Id &id) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto &object : overlap_.object()) {
     if (object.id().id() == id.id()) {
       return &object;
@@ -745,8 +654,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 RoadInfo::RoadInfo(const Road &road) : road_(road) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto &section : road_.section()) {
     sections_.push_back(section);
     road_boundaries_.push_back(section.boundary());
@@ -754,35 +661,25 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 const std::vector<RoadBoundary> &RoadInfo::GetBoundaries() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return road_boundaries_;
 }
 
 ParkingSpaceInfo::ParkingSpaceInfo(const ParkingSpace &parking_space)
     : parking_space_(parking_space) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
 }
 
 void ParkingSpaceInfo::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   polygon_ = ConvertToPolygon2d(parking_space_.polygon());
   CHECK_GT(polygon_.num_points(), 2);
 }
 
 PNCJunctionInfo::PNCJunctionInfo(const PNCJunction &pnc_junction)
     : junction_(pnc_junction) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
 }
 
 void PNCJunctionInfo::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   polygon_ = ConvertToPolygon2d(junction_.polygon());
   CHECK_GT(polygon_.num_points(), 2);
 
@@ -791,9 +688,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 
-RSUInfo::RSUInfo(const RSU &rsu) : _rsu(rsu) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+RSUInfo::RSUInfo(const RSU &rsu) : _rsu(rsu) {}
 
 }  // namespace hdmap
 }  // namespace apollo

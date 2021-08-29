@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,8 +31,6 @@ using cyber::common::GetAbsolutePath;
 void ClassifyBySimple::Init(
     const traffic_light::recognition::ClassifyParam& model_config,
     const int gpu_id, const std::string work_root) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   AINFO << "Enter Classify init";
   net_inputs_.clear();
   net_outputs_.clear();
@@ -111,8 +108,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ClassifyBySimple::Perform(const CameraFrame* frame,
                                std::vector<base::TrafficLightPtr>* lights) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (cudaSetDevice(gpu_id_) != cudaSuccess) {
     AERROR << "Failed to set device to " << gpu_id_;
     return;
@@ -152,8 +147,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ClassifyBySimple::Prob2Color(const float* out_put_data, float threshold,
                                   base::TrafficLightPtr light) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int max_color_id = 0;
   std::vector<base::TLColor> status_map = {
       base::TLColor::TL_BLACK, base::TLColor::TL_RED, base::TLColor::TL_YELLOW,

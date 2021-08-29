@@ -84,6 +84,8 @@ bool DiscretePointsReferenceLineSmoother::Smooth(
   ReferencePoint::RemoveDuplicates(&ref_points);
 
   if (ref_points.size() < 2) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     AERROR << "Fail to generate smoothed reference line.";
     return false;
   }

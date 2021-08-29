@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,15 +22,12 @@
 #include "modules/perception/lidar/lib/ground_detector/ground_service_detector/proto/ground_service_detector_config.pb.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
 using cyber::common::GetAbsolutePath;
 
 bool GroundServiceDetector::Init(const GroundDetectorInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto config_manager = lib::ConfigManager::Instance();
 
   const lib::ModelConfig* model_config = nullptr;
@@ -60,8 +56,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool GroundServiceDetector::Detect(const GroundDetectorOptions& options,
                                    LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame == nullptr || frame->world_cloud == nullptr) {
     AERROR << "Frame is nullptr.";
     return false;

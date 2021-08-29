@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,14 +23,11 @@
 // TODO(Xun): code completion
 
 namespace apollo {
-
 namespace perception {
 namespace camera {
 
 bool LocationRefinerObstaclePostprocessor::Init(
     const ObstaclePostprocessorInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string postprocessor_config =
       cyber::common::GetAbsolutePath(options.root_dir, options.conf_file);
 
@@ -51,8 +47,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LocationRefinerObstaclePostprocessor::Process(
     const ObstaclePostprocessorOptions &options, CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame->detected_objects.empty() ||
       frame->calibration_service == nullptr ||
       !options.do_refinement_with_calibration_service) {
@@ -167,8 +161,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string LocationRefinerObstaclePostprocessor::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return "LocationRefinerObstaclePostprocessor";
 }
 

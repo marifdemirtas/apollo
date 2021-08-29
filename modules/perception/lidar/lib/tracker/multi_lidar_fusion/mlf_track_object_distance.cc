@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,7 +22,6 @@
 #include "modules/perception/lidar/lib/tracker/multi_lidar_fusion/proto/multi_lidar_fusion_config.pb.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
@@ -40,8 +38,6 @@ const std::vector<float> MlfTrackObjectDistance::kBackgroundDefaultWeight = {
 
 bool MlfTrackObjectDistance::Init(
     const MlfTrackObjectDistanceInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig(Name(), &model_config));
@@ -91,8 +87,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 float MlfTrackObjectDistance::ComputeDistance(
     const TrackedObjectConstPtr& object,
     const MlfTrackDataConstPtr& track) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   bool is_background = object->is_background;
   const TrackedObjectConstPtr latest_object = track->GetLatestObject().second;
   std::string key = latest_object->sensor_info.name + object->sensor_info.name;

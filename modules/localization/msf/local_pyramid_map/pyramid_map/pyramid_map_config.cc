@@ -25,15 +25,15 @@ namespace pyramid_map {
 
 PyramidMapConfig::PyramidMapConfig(const std::string& map_version)
     : BaseMapConfig(map_version) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 PyramidMapConfig::~PyramidMapConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool PyramidMapConfig::CreateXml(boost::property_tree::ptree* config) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   bool success = BaseMapConfig::CreateXml(config);
   if (success) {
@@ -57,7 +57,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool PyramidMapConfig::LoadXml(const boost::property_tree::ptree& config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   bool success = BaseMapConfig::LoadXml(config);
   if (success) {

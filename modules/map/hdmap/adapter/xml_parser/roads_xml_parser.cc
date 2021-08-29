@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,8 +22,6 @@ limitations under the License.
 
 namespace {
 bool IsRoadBelongToJunction(const std::string& road_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ACHECK(!road_id.empty());
   return road_id != "-1";
 }
@@ -36,8 +33,6 @@ namespace adapter {
 
 Status RoadsXmlParser::Parse(const tinyxml2::XMLElement& xml_node,
                              std::vector<RoadInternal>* roads) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(roads);
 
   auto road_node = xml_node.FirstChildElement("road");
@@ -88,8 +83,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void RoadsXmlParser::Parse_road_objects(const tinyxml2::XMLElement& xml_node,
                                         RoadInternal* road_info) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(road_info);
 
   // objects
@@ -112,8 +105,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void RoadsXmlParser::Parse_road_signals(const tinyxml2::XMLElement& xml_node,
                                         RoadInternal* road_info) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(road_info);
 
   // signals
@@ -130,8 +121,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status RoadsXmlParser::to_pb_road_type(const std::string& type,
                                        PbRoadType* pb_road_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(pb_road_type);
 
   std::string upper_type = UtilXmlParser::ToUpper(type);

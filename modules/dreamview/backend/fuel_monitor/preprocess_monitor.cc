@@ -42,7 +42,7 @@ using Json = nlohmann::json;
 PreprocessMonitor::PreprocessMonitor()
     : FuelMonitor(FLAGS_preprocess_monitor_name),
       node_(cyber::CreateNode("progress_monitor")) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   InitReaders();
   LoadConfiguration();
@@ -52,18 +52,18 @@ PreprocessMonitor::PreprocessMonitor(const std::string& task_name)
     : FuelMonitor(FLAGS_preprocess_monitor_name),
       task_name_(task_name),
       node_(cyber::CreateNode(task_name + "_progress_monitor")) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   InitReaders();
   LoadConfiguration();
 }
 
 PreprocessMonitor::~PreprocessMonitor() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Stop(); }
 
 void PreprocessMonitor::InitReaders() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   node_->CreateReader<Progress>(
       FLAGS_progress_topic, [this](const std::shared_ptr<Progress>& progress) {
@@ -72,7 +72,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PreprocessMonitor::LoadConfiguration() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!task_name_.empty()) {
     const std::string& vehicle_dir =
@@ -102,7 +102,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PreprocessMonitor::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!enabled_) {
     current_status_json_.clear();
@@ -112,11 +112,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PreprocessMonitor::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  enabled_ = false; }
 
 void PreprocessMonitor::OnProgress(const std::shared_ptr<Progress>& progress) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!enabled_) {
     return;
@@ -131,7 +131,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 nlohmann::json PreprocessMonitor::GetProgressAsJson() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   boost::unique_lock<boost::shared_mutex> reader_lock(mutex_);
   return current_status_json_;

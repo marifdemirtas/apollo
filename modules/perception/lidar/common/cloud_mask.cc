@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,8 +23,6 @@ using base::AttributePointCloud;
 using base::PointF;
 
 size_t CloudMask::ValidIndicesCount() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t count = 0;
   for (auto& i : mask_) {
     if (i > 0) {
@@ -37,8 +34,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void CloudMask::GetValidCloud(const AttributePointCloud<PointF>& source_cloud,
                               AttributePointCloud<PointF>* target_cloud) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (target_cloud == nullptr) {
     return;
   }
@@ -53,8 +48,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CloudMask::GetValidIndices(base::PointIndices* indices) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   indices->indices.clear();
   indices->indices.reserve(mask_.size());
   for (size_t i = 0; i < mask_.size(); ++i) {
@@ -65,48 +58,36 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CloudMask::Flip() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto& i : mask_) {
     i = i > 0 ? 0 : 1;
   }
 }
 
 void CloudMask::AddIndices(const base::PointIndices& indices, int value) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   AddIndices(indices.indices, value);
 }
 
 void CloudMask::AddIndicesOfIndices(
     const base::PointIndices& indices,
     const base::PointIndices& indices_of_indices, int value) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto& id : indices_of_indices.indices) {
     mask_[indices.indices[id]] = value;
   }
 }
 
 void CloudMask::RemoveIndices(const base::PointIndices& indices) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   RemoveIndices(indices.indices);
 }
 
 void CloudMask::RemoveIndicesOfIndices(
     const base::PointIndices& indices,
     const base::PointIndices& indices_of_indices) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto& id : indices_of_indices.indices) {
     mask_[indices.indices[id]] = 0;
   }
 }
 
 void CloudMask::GetValidMask(CloudMask* rhs) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (rhs == nullptr) {
     return;
   }
@@ -119,8 +100,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CloudMask::ResetValue(int source_value, int target_value) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto& i : mask_) {
     if (i == source_value) {
       i = target_value;

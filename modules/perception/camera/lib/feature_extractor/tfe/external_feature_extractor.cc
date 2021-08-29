@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +25,6 @@
 #include "modules/perception/inference/utils/resize.h"
 
 namespace apollo {
-
 namespace perception {
 namespace camera {
 
@@ -34,8 +32,6 @@ using cyber::common::GetAbsolutePath;
 
 bool ExternalFeatureExtractor::Init(
     const FeatureExtractorInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string efx_config = GetAbsolutePath(options.root_dir, options.conf_file);
   ACHECK(cyber::common::GetProtoFromFile(efx_config, &param_))
       << "Read config failed: " << efx_config;
@@ -70,8 +66,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 bool ExternalFeatureExtractor::InitFeatureExtractor(
     const std::string &root_dir) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   FeatureExtractorInitOptions feat_options;
   feat_options.conf_file = param_.feature_file();
   feat_options.root_dir = root_dir;
@@ -87,8 +81,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 bool ExternalFeatureExtractor::Extract(const FeatureExtractorOptions &options,
                                        CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int raw_height = frame->data_provider->src_height();
   int raw_width = frame->data_provider->src_width();
   auto input_blob = inference_->get_blob(param_.input_blob());
@@ -113,8 +105,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   return true;
 }
 std::string ExternalFeatureExtractor::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return "ExternalFeatureExtractor";
 }
 REGISTER_FEATURE_EXTRACTOR(ExternalFeatureExtractor);

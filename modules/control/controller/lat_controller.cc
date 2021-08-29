@@ -48,7 +48,7 @@ using apollo::cyber::Clock;
 namespace {
 
 std::string GetLogFileName() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   time_t raw_time;
   char name_buffer[80];
@@ -61,7 +61,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void WriteHeaders(std::ofstream &file_stream) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   file_stream << "current_lateral_error,"
               << "current_ref_heading,"
@@ -83,7 +83,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }  // namespace
 
 LatController::LatController() : name_("LQR-based Lateral Controller") {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (FLAGS_enable_csv_debug) {
     steer_log_file_.open(GetLogFileName());
@@ -95,11 +95,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LatController::~LatController() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  CloseLogFile(); }
 
 bool LatController::LoadControlConf(const ControlConf *control_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!control_conf) {
     AERROR << "[LatController] control_conf == nullptr";
@@ -159,7 +159,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LatController::ProcessLogs(const SimpleLateralDebug *debug,
                                 const canbus::Chassis *chassis) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const std::string log_str = absl::StrCat(
       debug->lateral_error(), ",", debug->ref_heading(), ",", debug->heading(),
@@ -179,7 +179,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LatController::LogInitParameters() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << name_ << " begin.";
   AINFO << "[LatController parameters]"
@@ -190,7 +190,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LatController::InitializeFilters(const ControlConf *control_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Low pass filter
   std::vector<double> den(3, 0.0);
@@ -206,7 +206,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LatController::Init(std::shared_ptr<DependencyInjector> injector,
                            const ControlConf *control_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   control_conf_ = control_conf;
   injector_ = injector;
@@ -298,7 +300,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LatController::CloseLogFile() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (FLAGS_enable_csv_debug && steer_log_file_.is_open()) {
     steer_log_file_.close();
@@ -307,7 +309,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LatController::LoadLatGainScheduler(
     const LatControllerConf &lat_controller_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const auto &lat_err_gain_scheduler =
       lat_controller_conf.lat_err_gain_scheduler();
@@ -332,11 +334,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LatController::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  CloseLogFile(); }
 
 std::string LatController::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  return name_; }
 
 Status LatController::ComputeControlCommand(
@@ -344,7 +346,7 @@ Status LatController::ComputeControlCommand(
     const canbus::Chassis *chassis,
     const planning::ADCTrajectory *planning_published_trajectory,
     ControlCommand *cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto vehicle_state = injector_->vehicle_state();
 
@@ -515,6 +517,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
                                   matrix_r_, lqr_eps_, lqr_max_iteration_,
                                   &matrix_k_);
   } else {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     common::math::SolveLQRProblem(matrix_adc_, matrix_bdc_, matrix_q_,
                                   matrix_r_, lqr_eps_, lqr_max_iteration_,
                                   &matrix_k_);
@@ -533,6 +537,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   double steer_angle_feedback_augment = 0.0;
   // Augment the feedback control on lateral error at the desired speed domain
   if (enable_leadlag_) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     if (FLAGS_enable_feedback_augment_on_high_speed ||
         std::fabs(vehicle_state->linear_velocity()) < low_speed_bound_) {
       steer_angle_feedback_augment =
@@ -674,7 +680,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status LatController::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   matrix_state_.setZero();
   if (enable_mrac_) {
@@ -684,7 +690,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LatController::UpdateState(SimpleLateralDebug *debug) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto vehicle_state = injector_->vehicle_state();
   if (FLAGS_use_navigation_mode) {
@@ -740,7 +746,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LatController::UpdateMatrix() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   double v;
   // At reverse driving, replace the lateral translational motion dynamics with
@@ -764,7 +770,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LatController::UpdateMatrixCompound() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Initialize preview matrix
   matrix_adc_.block(0, 0, basic_state_size_, basic_state_size_) = matrix_ad_;
@@ -779,7 +785,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double LatController::ComputeFeedForward(double ref_curvature) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const double kv =
       lr_ * mass_ / 2 / cf_ / wheelbase_ - lf_ * mass_ / 2 / cr_ / wheelbase_;
@@ -808,7 +814,7 @@ void LatController::ComputeLateralErrors(
     const double x, const double y, const double theta, const double linear_v,
     const double angular_v, const double linear_a,
     const TrajectoryAnalyzer &trajectory_analyzer, SimpleLateralDebug *debug) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   TrajectoryPoint target_point;
 
@@ -947,7 +953,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LatController::UpdateDrivingOrientation() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto vehicle_state = injector_->vehicle_state();
   driving_orientation_ = vehicle_state->heading();

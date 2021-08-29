@@ -67,7 +67,7 @@ const std::string planning_pad_channel = "/apollo/planning/pad";
 
 TeleopService::TeleopService(WebSocketHandler *websocket)
     : node_(cyber::CreateNode("teleop")), websocket_(websocket) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   RegisterMessageHandlers();
 
@@ -86,7 +86,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TeleopService::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO get topic names from proto
   // TODO update proto to get all modems' info combined with rank
@@ -133,7 +133,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TeleopService::RegisterMessageHandlers() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Send current teleop status to the new client.
   websocket_->RegisterConnectionReadyHandler(
@@ -265,7 +265,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TeleopService::SendStatus(WebSocketHandler::Connection *conn) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string to_send;
   {
@@ -277,7 +277,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void TeleopService::UpdateModem(const std::string &modem_id,
                                 const std::shared_ptr<ModemInfo> &modem_info) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO simplify data and only send necessary info for display
   // update modem_info_
@@ -305,7 +305,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // callback for messages that originate from the remote computer
 void TeleopService::UpdateCarDaemonRpt(
     const std::shared_ptr<DaemonRpt> &daemon_rpt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   {
     bool videoIsRunning = false;
@@ -389,7 +389,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // callback for messages that originate from this computer
 void TeleopService::UpdateOperatorDaemonRpt(
     const std::shared_ptr<DaemonRpt> &daemon_rpt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   {
     bool voipIsRunning = false;
@@ -433,7 +433,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TeleopService::SendVideoStreamCmd(bool start_stop) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   DaemonCmd msg;
   if (start_stop) {
@@ -457,7 +457,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TeleopService::SendAudioStreamCmd(bool start_stop) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   DaemonCmd msg;
   if (start_stop) {
@@ -474,7 +474,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TeleopService::SendMicStreamCmd(bool start_stop) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // by switching on or off the voip_encoder in the local console
   // we are controlling the mic
@@ -491,7 +491,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TeleopService::SendResumeCruiseCmd() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "Resume cruise";
   PadMessage pad_msg;
@@ -500,7 +500,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TeleopService::SendEstopCmd() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "Pull over";
   PadMessage pad_msg;
@@ -509,7 +509,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TeleopService::SendPullOverCmd() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "EStop";
   PadMessage pad_msg;
@@ -518,7 +518,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TeleopService::UpdatePlanning(const std::shared_ptr<ADCTrajectory> &msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   static int count = 0;
   ++count;

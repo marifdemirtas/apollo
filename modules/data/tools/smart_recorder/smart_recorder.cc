@@ -34,7 +34,7 @@ using apollo::data::RecordProcessor;
 using apollo::data::SmartRecordTrigger;
 
 int main(int argc, char** argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   if (FLAGS_restored_output_dir.empty()) {

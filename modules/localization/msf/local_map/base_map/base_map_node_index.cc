@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -23,13 +22,9 @@ namespace apollo {
 namespace localization {
 namespace msf {
 
-MapNodeIndex::MapNodeIndex() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+MapNodeIndex::MapNodeIndex() {}
 
 bool MapNodeIndex::operator<(const MapNodeIndex& index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Compare elements by priority.
   return std::forward_as_tuple(resolution_id_, zone_id_, m_, n_) <
          std::forward_as_tuple(index.resolution_id_, index.zone_id_, index.m_,
@@ -37,21 +32,15 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool MapNodeIndex::operator==(const MapNodeIndex& index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return resolution_id_ == index.resolution_id_ && zone_id_ == index.zone_id_ &&
          m_ == index.m_ && n_ == index.n_;
 }
 
 bool MapNodeIndex::operator!=(const MapNodeIndex& index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return !(*this == index);
 }
 
 std::string MapNodeIndex::ToString() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::ostringstream ss;
   ss << "Map node (Resolution ID: " << resolution_id_
      << " Zone ID: " << zone_id_ << " Easting: " << n_ << " Northing: " << m_
@@ -63,8 +52,6 @@ MapNodeIndex MapNodeIndex::GetMapNodeIndex(const BaseMapConfig& option,
                                            const Eigen::Vector3d& coordinate,
                                            unsigned int resolution_id,
                                            int zone_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   return GetMapNodeIndex(option, coord2d, resolution_id, zone_id);
 }
@@ -73,8 +60,6 @@ MapNodeIndex MapNodeIndex::GetMapNodeIndex(const BaseMapConfig& option,
                                            const Eigen::Vector2d& coordinate,
                                            unsigned int resolution_id,
                                            int zone_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   DCHECK_LT(resolution_id, option.map_resolutions_.size());
   MapNodeIndex index;
   index.resolution_id_ = resolution_id;
@@ -98,8 +83,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 unsigned int MapNodeIndex::GetMapIndexRangeEast(const BaseMapConfig& option,
                                                 unsigned int resolution_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return static_cast<unsigned int>(
       (option.map_range_.GetMaxX() - option.map_range_.GetMinX()) /
       (static_cast<float>(option.map_node_size_x_) *
@@ -108,8 +91,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 unsigned int MapNodeIndex::GetMapIndexRangeNorth(const BaseMapConfig& option,
                                                  unsigned int resolution_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return static_cast<unsigned int>(
       (option.map_range_.GetMaxY() - option.map_range_.GetMinY()) /
       (static_cast<float>(option.map_node_size_y_) *

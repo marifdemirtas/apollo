@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,8 +29,6 @@ void ConvertGround3ToGround4(const float &baseline,
                              const std::vector<float> &k_mat,
                              const std::vector<float> &ground3,
                              std::vector<float> *ground4) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GT(baseline, 0.0f);
   CHECK_EQ(k_mat.size(), 9U);
   CHECK_EQ(ground3.size(), 3U);
@@ -53,8 +50,6 @@ bool ConvertGround4ToGround3(const float &baseline,
                              const std::vector<float> &k_mat,
                              const std::vector<float> &ground4,
                              std::vector<float> *ground3) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GT(baseline, 0.0f);
   CHECK_EQ(k_mat.size(), 9U);
   CHECK_EQ(ground4.size(), 4U);
@@ -84,8 +79,6 @@ void GetGroundPlanePitchHeight(const float &baseline,
                                const std::vector<float> &k_mat,
                                const std::vector<float> &ground3, float *pitch,
                                float *cam_height) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GT(baseline, 0.0f);
   CHECK_EQ(k_mat.size(), 9U);
   CHECK_EQ(ground3.size(), 3U);
@@ -106,8 +99,6 @@ void GetGround3FromPitchHeight(const std::vector<float> &k_mat,
                                const float &baseline, const float &pitch,
                                const float &cam_height,
                                std::vector<float> *ground3) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_EQ(k_mat.size(), 9U);
   CHECK_GT(baseline, 0.0f);
   CHECK_GT(cam_height, 0.0f);
@@ -120,8 +111,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 GroundPlaneTracker::GroundPlaneTracker(int track_length) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (track_length <= 0) {
     AERROR << "track_length, " << track_length << ", should be positive";
   }
@@ -144,8 +133,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void GroundPlaneTracker::Push(const std::vector<float> &ph,
                               const float &inlier_ratio) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_EQ(ph.size(), 2U);
   int i = 0;
   int length = static_cast<int>(pitch_height_inlier_tracks_.size());
@@ -167,8 +154,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void GroundPlaneTracker::GetGround(float *pitch, float *cam_height) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(pitch);
   CHECK_NOTNULL(cam_height);
   int i = 0;
@@ -206,8 +191,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void GroundPlaneTracker::Restart() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   unsigned int track_length =
       static_cast<unsigned int>(pitch_height_inlier_tracks_.size() / 3);
   auto &data = pitch_height_inlier_tracks_;
@@ -221,8 +204,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CameraGroundPlaneParams::SetDefault() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   min_nr_samples = 6;   // 40
   nr_frames_track = 3;  // 2
   max_tilt_angle = common::IDegreeToRadians(10.0f);
@@ -237,8 +218,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool CameraGroundPlaneDetector::DetetGround(float pitch, float camera_height,
                                             float *vd, int count_vd,
                                             const std::vector<float> &plane) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ground_is_valid_ = false;
 
   std::vector<float> ground3(l_, l_ + 3);
@@ -259,8 +238,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
     std::vector<float> ph(2, 0);
     if (CameraGroundPlaneDetector::DetectGroundFromSamples(vd, count_vd,
                                                            &inlier_ratio)) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
       ADEBUG << "l: " << l_[0] << ", " << l_[1] << ", " << l_[2];
       ground3.assign(l_, l_ + 3);
       GetGroundPlanePitchHeight(baseline_, k_mat, ground3, &ph[0], &ph[1]);

@@ -29,11 +29,11 @@ const int32_t Parkingcontrola5::ID = 0xA5;
 
 // public
 Parkingcontrola5::Parkingcontrola5() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Reset(); }
 
 uint32_t Parkingcontrola5::GetPeriod() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(ChaoM) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,14 +41,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Parkingcontrola5::UpdateData(uint8_t* data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   set_p_parking_target(data, parking_target_);
   set_p_parking_enable_control(data, parking_enable_control_);
 }
 
 void Parkingcontrola5::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(ChaoM) :  you should check this manually
   parking_target_ = Parking_control_a5::PARKING_TARGET_RELEASE;
@@ -58,7 +58,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Parkingcontrola5* Parkingcontrola5::set_parking_target(
     Parking_control_a5::Parking_targetType parking_target) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   parking_target_ = parking_target;
   return this;
@@ -71,7 +71,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': ''}
 void Parkingcontrola5::set_p_parking_target(
     uint8_t* data, Parking_control_a5::Parking_targetType parking_target) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int x = parking_target;
 
@@ -81,7 +81,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Parkingcontrola5* Parkingcontrola5::set_parking_enable_control(
     Parking_control_a5::Parking_enable_controlType parking_enable_control) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   parking_enable_control_ = parking_enable_control;
   return this;
@@ -95,7 +95,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void Parkingcontrola5::set_p_parking_enable_control(
     uint8_t* data,
     Parking_control_a5::Parking_enable_controlType parking_enable_control) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int x = parking_enable_control;
 

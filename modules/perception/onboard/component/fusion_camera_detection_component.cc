@@ -41,7 +41,7 @@ using ::apollo::cyber::Clock;
 
 static void fill_lane_msg(const base::LaneLineCubicCurve &curve_coord,
                           apollo::perception::LaneMarker *lane_marker) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   lane_marker->set_c0_position(curve_coord.d);
   lane_marker->set_c1_heading_angle(curve_coord.c);
@@ -52,7 +52,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 static int GetGpuId(const camera::CameraPerceptionInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   camera::app::PerceptionParam perception_param;
   std::string work_root = camera::GetCyberWorkRoot();
@@ -75,7 +75,7 @@ bool SetCameraHeight(const std::string &sensor_name,
                      const std::string &lidar_sensor_name,
                      float default_camera_height,
                      float *camera_height) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   float base_h = default_camera_height;
   float camera_offset = 0.0f;
@@ -108,9 +108,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // @description: load camera extrinsics from yaml file
 bool LoadExtrinsics(const std::string &yaml_file,
                     Eigen::Matrix4d *camera_extrinsic) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!apollo::cyber::common::PathExists(yaml_file)) {
     AINFO << yaml_file << " does not exist!";
@@ -169,9 +171,9 @@ bool GetProjectMatrix(
     const EigenMap<std::string, Eigen::Matrix4d> &extrinsic_map,
     const EigenMap<std::string, Eigen::Matrix3f> &intrinsic_map,
     Eigen::Matrix3d *project_matrix, double *pitch_diff = nullptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(techoe): This condition should be removed.
   if (camera_names.size() != 2) {
@@ -196,11 +198,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 FusionCameraDetectionComponent::~FusionCameraDetectionComponent() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool FusionCameraDetectionComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (InitConfig() != cyber::SUCC) {
     AERROR << "InitConfig() failed.";
@@ -285,7 +287,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void FusionCameraDetectionComponent::OnReceiveImage(
     const std::shared_ptr<apollo::drivers::Image> &message,
     const std::string &camera_name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::lock_guard<std::mutex> lock(mutex_);
   const double msg_timestamp = message->measurement_time() + timestamp_offset_;
@@ -354,7 +356,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int FusionCameraDetectionComponent::InitConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // the macro READ_CONF would return cyber::FAIL if config not exists
   apollo::perception::onboard::FusionCameraDetection
@@ -462,7 +464,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int FusionCameraDetectionComponent::InitSensorInfo() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (camera_names_.size() != 2) {
     AERROR << "invalid camera_names_.size(): " << camera_names_.size();
@@ -514,7 +516,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int FusionCameraDetectionComponent::InitAlgorithmPlugin() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   camera_obstacle_pipeline_.reset(new camera::ObstacleCameraPerception);
   if (!camera_obstacle_pipeline_->Init(camera_perception_init_options_)) {
@@ -526,7 +528,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int FusionCameraDetectionComponent::InitCameraFrames() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (camera_names_.size() != 2) {
     AERROR << "invalid camera_names_.size(): " << camera_names_.size();
@@ -598,7 +600,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int FusionCameraDetectionComponent::InitProjectMatrix() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!GetProjectMatrix(camera_names_, extrinsic_map_, intrinsic_map_,
                         &project_matrix_, &pitch_diff_)) {
@@ -615,7 +617,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int FusionCameraDetectionComponent::InitCameraListeners() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (size_t i = 0; i < camera_names_.size(); ++i) {
     const std::string &camera_name = camera_names_[i];
@@ -633,7 +635,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int FusionCameraDetectionComponent::InitMotionService() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const std::string &channel_name_local = "/apollo/perception/motion_service";
   std::function<void(const MotionServiceMsgType &)> motion_service_callback =
@@ -643,7 +645,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
       node_->CreateReader(channel_name_local, motion_service_callback);
   // initialize motion buffer
   if (motion_buffer_ == nullptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
     motion_buffer_.reset(new base::MotionBuffer(motion_buffer_size_));
   } else {
@@ -693,7 +695,7 @@ void FusionCameraDetectionComponent::OnMotionService(
 }
 
 void FusionCameraDetectionComponent::SetCameraHeightAndPitch() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   camera_obstacle_pipeline_->SetCameraHeightAndPitch(
       camera_height_map_, name_camera_pitch_angle_diff_map_,
@@ -705,7 +707,7 @@ int FusionCameraDetectionComponent::InternalProc(
     const std::string &camera_name, apollo::common::ErrorCode *error_code,
     SensorFrameMessage *prefused_message,
     apollo::perception::PerceptionObstacles *out_message) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const double msg_timestamp =
       in_message->measurement_time() + timestamp_offset_;
@@ -880,7 +882,7 @@ int FusionCameraDetectionComponent::MakeProtobufMsg(
     const std::vector<base::LaneLine> &lane_objects,
     const apollo::common::ErrorCode error_code,
     apollo::perception::PerceptionObstacles *obstacles) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   double publish_time = Clock::NowInSeconds();
   apollo::common::Header *header = obstacles->mutable_header();
@@ -943,7 +945,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 int FusionCameraDetectionComponent::ConvertObjectToPb(
     const base::ObjectPtr &object_ptr,
     apollo::perception::PerceptionObstacle *pb_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!object_ptr || !pb_msg) {
     return cyber::FAIL;
@@ -1024,7 +1026,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 int FusionCameraDetectionComponent::ConvertObjectToCameraObstacle(
     const base::ObjectPtr &object_ptr,
     apollo::perception::camera::CameraObstacle *camera_obstacle) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (camera_obstacle == nullptr) {
     AERROR << "camera_obstacle is not available";
@@ -1062,7 +1064,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 int FusionCameraDetectionComponent::ConvertLaneToCameraLaneline(
     const base::LaneLine &lane_line,
     apollo::perception::camera::CameraLaneLine *camera_laneline) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (camera_laneline == nullptr) {
     AERROR << "camera_laneline is not available";
@@ -1142,7 +1144,7 @@ int FusionCameraDetectionComponent::MakeCameraDebugMsg(
     double msg_timestamp, const std::string &camera_name,
     const camera::CameraFrame &camera_frame,
     apollo::perception::camera::CameraDebug *camera_debug_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (camera_debug_msg == nullptr) {
     AERROR << "camera_debug_msg is not available";

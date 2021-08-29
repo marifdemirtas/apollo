@@ -43,7 +43,7 @@ DEFINE_int32(mean_g, 99, "image g");
 DEFINE_int32(mean_r, 96, "image r");
 
 int main(int argc, char **argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   google::ParseCommandLineFlags(&argc, &argv, true);
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ namespace camera {
 
 void ObstacleReference::Init(const omt::ReferenceParam &ref_param, float width,
                              float height) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ref_param_ = ref_param;
   img_width_ = width;
   img_height_ = height;
@@ -57,8 +54,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ObstacleReference::UpdateReference(const CameraFrame *frame,
                                         const EigenVector<Target> &targets) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string sensor = frame->data_provider->sensor_name();
   SyncGroundEstimator(sensor, frame->camera_k_matrix,
                       static_cast<int>(img_width_),
@@ -146,8 +141,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 void ObstacleReference::CorrectSize(CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const TemplateMap &kMinTemplateHWL =
       object_template_manager_->MinTemplateHWL();
   const TemplateMap &kMaxTemplateHWL =

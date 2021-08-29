@@ -25,12 +25,12 @@ namespace apollo {
 namespace dreamview {
 
 FuelMonitorManager::FuelMonitorManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void FuelMonitorManager::RegisterFuelMonitor(
     const std::string& mode, std::unique_ptr<FuelMonitor>&& fuel_monitor) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const auto& class_name = fuel_monitor->GetClassName();
   if (monitors_.find(mode) != monitors_.end() &&
@@ -43,7 +43,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void FuelMonitorManager::SetCurrentMode(const std::string& mode) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   current_mode_ = mode;
   if (monitors_.find(mode) != monitors_.end()) {
@@ -68,7 +68,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 FuelMonitorMap* FuelMonitorManager::GetCurrentMonitors() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   boost::unique_lock<boost::shared_mutex> reader_lock(mutex_);
   return current_monitors_;

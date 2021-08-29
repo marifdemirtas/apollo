@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,8 +32,6 @@ using cyber::common::PathExists;
 
 bool ReadPoseFile(const std::string &filename, Eigen::Affine3d *pose,
                   int *frame_id, double *time_stamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (pose == nullptr || frame_id == nullptr || time_stamp == nullptr) {
     AERROR << "Nullptr error.";
     return false;
@@ -61,8 +58,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LoadBrownCameraIntrinsic(const std::string &yaml_file,
                               base::BrownCameraDistortionModel *model) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!PathExists(yaml_file) || model == nullptr) {
     return false;
   }
@@ -100,8 +95,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool LoadOmnidirectionalCameraIntrinsics(
     const std::string &yaml_file,
     base::OmnidirectionalCameraDistortionModel *model) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!PathExists(yaml_file) || model == nullptr) {
     return false;
   }
@@ -169,8 +162,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool GetFileList(const std::string &path, const std::string &suffix,
                  std::vector<std::string> *files) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!PathExists(path)) {
     AINFO << path << " not exist.";
     return false;

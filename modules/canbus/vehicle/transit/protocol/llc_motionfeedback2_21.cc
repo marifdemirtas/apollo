@@ -29,13 +29,13 @@ namespace transit {
 using ::apollo::drivers::canbus::Byte;
 
 Llcmotionfeedback221::Llcmotionfeedback221() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Llcmotionfeedback221::ID = 0x21;
 
 void Llcmotionfeedback221::Parse(const std::uint8_t* bytes, int32_t length,
                                  ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_transit()
       ->mutable_llc_motionfeedback2_21()
@@ -61,7 +61,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'bit': 32, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s'}
 double Llcmotionfeedback221::llc_fbk_vehiclespeed(const std::uint8_t* bytes,
                                                   int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);
@@ -81,7 +81,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // '[0|3]', 'bit': 54, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
 int Llcmotionfeedback221::llc_motionfeedback2_counter(const std::uint8_t* bytes,
                                                       int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(6, 2);
@@ -96,7 +96,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'int', 'order': 'intel', 'physical_unit': ''}
 int Llcmotionfeedback221::llc_motionfeedback2_checksum(
     const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
@@ -112,7 +112,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': 'deg/s'}
 double Llcmotionfeedback221::llc_fbk_steeringrate(const std::uint8_t* bytes,
                                                   int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -135,7 +135,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'double', 'order': 'intel', 'physical_unit': 'deg'}
 double Llcmotionfeedback221::llc_fbk_steeringangle(const std::uint8_t* bytes,
                                                    int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);

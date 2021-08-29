@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -34,14 +33,10 @@ constexpr bool is_zero(T value) {
 }  // namespace
 
 Parser *Parser::CreateRtcmV3(bool is_base_station) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return new Rtcm3Parser(is_base_station);
 }
 
 Rtcm3Parser::Rtcm3Parser(bool is_base_station) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (1 != init_rtcm(&rtcm_)) {
     init_flag_ = true;
   } else {
@@ -54,8 +49,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Rtcm3Parser::SetStationPosition() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto iter = station_location_.find(rtcm_.staid);
   if (iter == station_location_.end()) {
     AWARN << "Station " << rtcm_.staid << " has no location info.";
@@ -70,8 +63,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void Rtcm3Parser::FillKepplerOrbit(
     const eph_t &eph, apollo::drivers::gnss::KepplerOrbit *keppler_orbit) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   keppler_orbit->set_week_num(eph.week);
 
   keppler_orbit->set_af0(eph.f0);
@@ -115,8 +106,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void Rtcm3Parser::FillGlonassOrbit(const geph_t &eph,
                                    apollo::drivers::gnss::GlonassOrbit *orbit) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   orbit->set_position_x(eph.pos[0]);
   orbit->set_position_y(eph.pos[1]);
   orbit->set_position_z(eph.pos[2]);
@@ -156,8 +145,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Rtcm3Parser::SetObservationTime() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int week = 0;
   double second = time2gpst(rtcm_.time, &week);
   observation_.set_gnss_time_type(apollo::drivers::gnss::GPS_TIME);
@@ -166,8 +153,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Parser::MessageType Rtcm3Parser::GetMessage(MessagePtr *message_ptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (data_ == nullptr) {
     return MessageType::NONE;
   }
@@ -204,8 +189,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Rtcm3Parser::ProcessObservation() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (rtcm_.obs.n == 0) {
     AWARN << "Obs is zero.";
   }
@@ -279,8 +262,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Rtcm3Parser::ProcessEphemerides() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   apollo::drivers::gnss::GnssType gnss_type;
 
   if (!gnss_sys(rtcm_.message_type, &gnss_type)) {
@@ -312,8 +293,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Rtcm3Parser::ProcessStationParameters() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // station pose/ant parameters, set pose.
 
   // update station location

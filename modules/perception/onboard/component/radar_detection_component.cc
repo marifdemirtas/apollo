@@ -27,7 +27,7 @@ namespace perception {
 namespace onboard {
 
 bool RadarDetectionComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   RadarComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
@@ -64,7 +64,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool RadarDetectionComponent::Proc(const std::shared_ptr<ContiRadar>& message) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "Enter radar preprocess, message timestamp: "
         << message->header().timestamp_sec() << " current timestamp "
@@ -80,7 +80,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool RadarDetectionComponent::InitAlgorithmPlugin() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "onboard radar_preprocessor: " << preprocessor_method_;
   if (FLAGS_obs_enable_hdmap_input) {
@@ -108,7 +108,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool RadarDetectionComponent::InternalProc(
     const std::shared_ptr<ContiRadar>& in_message,
     std::shared_ptr<SensorFrameMessage> out_message) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   PERF_FUNCTION_WITH_INDICATOR(radar_info_.name);
   ContiRadar raw_obstacles = *in_message;
@@ -207,7 +207,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool RadarDetectionComponent::GetCarLocalizationSpeed(
     double timestamp, Eigen::Vector3f* car_linear_speed,
     Eigen::Vector3f* car_angular_speed) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (car_linear_speed == nullptr) {
     AERROR << "car_linear_speed is not available";

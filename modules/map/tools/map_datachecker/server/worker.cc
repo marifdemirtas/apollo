@@ -29,14 +29,14 @@ namespace apollo {
 namespace hdmap {
 
 bool Mapdatachecker::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   grpc_address_ = FLAGS_map_datachecker_host + ":" + FLAGS_map_datachecker_port;
   return true;
 }
 
 bool Mapdatachecker::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "Mapdatachecker::Start";
   Init();
@@ -68,11 +68,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Mapdatachecker::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  return true; }
 
 void Mapdatachecker::Report() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 }  // namespace hdmap

@@ -37,11 +37,11 @@ using apollo::perception::PerceptionObstacles;
 RelativeMap::RelativeMap()
     : monitor_logger_buffer_(MonitorMessageItem::RELATIVE_MAP),
       vehicle_state_provider_(nullptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Status RelativeMap::Init(common::VehicleStateProvider* vehicle_state_provider) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   vehicle_state_provider_ = vehicle_state_provider;
   if (!FLAGS_use_navigation_mode) {
@@ -68,7 +68,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LogErrorStatus(MapMsg* map_msg, const std::string& error_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto* status = map_msg->mutable_header()->mutable_status();
   status->set_msg(error_msg);
@@ -76,14 +76,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 apollo::common::Status RelativeMap::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   monitor_logger_buffer_.INFO("RelativeMap started");
   return Status::OK();
 }
 
 bool RelativeMap::Process(MapMsg* const map_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -93,7 +93,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RelativeMap::OnNavigationInfo(const NavigationInfo& navigation_info) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -103,7 +105,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void RelativeMap::OnPerception(
     const PerceptionObstacles& perception_obstacles) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -112,7 +114,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RelativeMap::OnChassis(const Chassis& chassis) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -121,7 +123,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RelativeMap::OnLocalization(const LocalizationEstimate& localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
@@ -130,7 +132,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool RelativeMap::CreateMapFromNavigationLane(MapMsg* map_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(map_msg);
 
@@ -171,7 +173,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RelativeMap::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  monitor_logger_buffer_.INFO("RelativeMap stopped"); }
 
 }  // namespace relative_map

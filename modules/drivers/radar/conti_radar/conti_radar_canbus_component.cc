@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -45,16 +44,10 @@ using apollo::localization::LocalizationEstimate;
 
 ContiRadarCanbusComponent::ContiRadarCanbusComponent()
     : monitor_logger_buffer_(
-          apollo::common::monitor::MonitorMessageItem::CONTI_RADAR) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
-ContiRadarCanbusComponent::~ContiRadarCanbusComponent() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- Stop(); }
+          apollo::common::monitor::MonitorMessageItem::CONTI_RADAR) {}
+ContiRadarCanbusComponent::~ContiRadarCanbusComponent() { Stop(); }
 
 bool ContiRadarCanbusComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!GetProtoConfig(&conti_radar_conf_)) {
     return OnError("Unable to load canbus conf file: " + ConfigFilePath());
   }
@@ -100,8 +93,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 apollo::common::ErrorCode ContiRadarCanbusComponent::ConfigureRadar() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   RadarConfig200 radar_config;
   radar_config.set_radar_conf(conti_radar_conf_.radar_conf());
   SenderMessage<ContiRadar> sender_message(RadarConfig200::ID, &radar_config);
@@ -110,8 +101,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool ContiRadarCanbusComponent::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // 1. init and start the can card hardware
   if (can_client_->Start() != ErrorCode::OK) {
     return OnError("Failed to start can client");
@@ -134,8 +123,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ContiRadarCanbusComponent::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (start_success_) {
     can_receiver_.Stop();
     can_client_->Stop();
@@ -144,8 +131,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 // Send the error to monitor and return it
 bool ContiRadarCanbusComponent::OnError(const std::string& error_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   monitor_logger_buffer_.ERROR(error_msg);
   AERROR << error_msg;
   return false;
@@ -153,8 +138,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ContiRadarCanbusComponent::PoseCallback(
     const std::shared_ptr<LocalizationEstimate>& pose_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto send_interval = conti_radar_conf_.radar_conf().input_send_interval();
   uint64_t now_nsec = cyber::Time().Now().ToNanosecond();
   if (last_nsec_ != 0 && (now_nsec - last_nsec_) < send_interval) {

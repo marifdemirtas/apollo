@@ -28,13 +28,13 @@ namespace devkit {
 using ::apollo::drivers::canbus::Byte;
 
 Ultrsensor5511::Ultrsensor5511() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Ultrsensor5511::ID = 0x511;
 
 void Ultrsensor5511::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_devkit()->mutable_ultr_sensor_5_511()->set_uiuss7_tof_direct(
       uiuss7_tof_direct(bytes, length));
@@ -51,7 +51,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'bit': 55, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor5511::uiuss7_tof_direct(const std::uint8_t* bytes,
                                          int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
@@ -70,7 +70,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'bit': 39, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor5511::uiuss6_tof_direct(const std::uint8_t* bytes,
                                          int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -89,7 +89,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'bit': 23, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor5511::uiuss1_tof_direct(const std::uint8_t* bytes,
                                          int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -108,7 +108,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor5511::uiuss0_tof_direct(const std::uint8_t* bytes,
                                          int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);

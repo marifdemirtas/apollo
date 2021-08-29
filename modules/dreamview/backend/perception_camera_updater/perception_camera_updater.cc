@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -37,8 +36,6 @@ using apollo::transform::TransformStamped;
 namespace {
 void ConvertMatrixToArray(const Eigen::Matrix4d &matrix,
                           std::vector<double> *array) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double *pointer = matrix.data();
   for (int i = 0; i < matrix.size(); ++i) {
     array->push_back(pointer[i]);
@@ -66,18 +63,12 @@ void ConstructTransformationMatrix(const Quaternion &quaternion,
 PerceptionCameraUpdater::PerceptionCameraUpdater(WebSocketHandler *websocket)
     : websocket_(websocket),
       node_(cyber::CreateNode("perception_camera_updater")) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   InitReaders();
 }
 
-void PerceptionCameraUpdater::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- enabled_ = true; }
+void PerceptionCameraUpdater::Start() { enabled_ = true; }
 
 void PerceptionCameraUpdater::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (enabled_) {
     localization_queue_.clear();
     image_buffer_.clear();
@@ -89,8 +80,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PerceptionCameraUpdater::GetImageLocalization(
     std::vector<double> *localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (localization_queue_.empty()) {
     AERROR << "Localization queue is empty, cannot get localization for image,"
            << "image_timestamp: " << current_image_timestamp_;
@@ -129,8 +118,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool PerceptionCameraUpdater::QueryStaticTF(const std::string &frame_id,
                                             const std::string &child_frame_id,
                                             Eigen::Matrix4d *matrix) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   TransformStamped transform;
   if (tf_buffer_->GetLatestStaticTF(frame_id, child_frame_id, &transform)) {
     ConstructTransformationMatrix(transform.transform().rotation(),
@@ -142,8 +129,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PerceptionCameraUpdater::GetLocalization2CameraTF(
     std::vector<double> *localization2camera_tf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Matrix4d localization2camera_mat = Eigen::Matrix4d::Identity();
 
   // Since "/tf" topic has dynamic updates of world->novatel and
@@ -170,8 +155,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PerceptionCameraUpdater::OnImage(
     const std::shared_ptr<CompressedImage> &compressed_image) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!enabled_ ||
       compressed_image->format() == "h265" /* skip video format */) {
     return;
@@ -212,8 +195,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PerceptionCameraUpdater::OnLocalization(
     const std::shared_ptr<LocalizationEstimate> &localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!enabled_) {
     return;
   }
@@ -223,8 +204,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PerceptionCameraUpdater::InitReaders() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   node_->CreateReader<CompressedImage>(
       FLAGS_image_short_topic,
       [this](const std::shared_ptr<CompressedImage> &image) {
@@ -239,8 +218,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PerceptionCameraUpdater::GetUpdate(std::string *camera_update) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   {
     std::lock(image_mutex_, localization_mutex_);
     std::lock_guard<std::mutex> lock1(image_mutex_, std::adopt_lock);

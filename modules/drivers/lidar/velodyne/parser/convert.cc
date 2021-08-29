@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,8 +24,6 @@ using apollo::drivers::PointCloud;
 using apollo::drivers::velodyne::VelodyneScan;
 
 void Convert::init(const Config& velodyne_config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   config_ = velodyne_config;
   // we use Beijing time by default
 
@@ -42,8 +39,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void Convert::ConvertPacketsToPointcloud(
     const std::shared_ptr<VelodyneScan>& scan_msg,
     std::shared_ptr<PointCloud> point_cloud) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ADEBUG << "Convert scan msg seq " << scan_msg->header().sequence_num();
 
   parser_->GeneratePointcloud(scan_msg, point_cloud);

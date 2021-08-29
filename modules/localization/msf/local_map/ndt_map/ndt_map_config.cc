@@ -26,21 +26,27 @@ namespace msf {
 
 NdtMapConfig::NdtMapConfig(std::string map_version)
     : BaseMapConfig(map_version) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   map_is_compression_ = true;
   map_resolutions_z_.push_back(1.0f);
 }
 
 void NdtMapConfig::SetSingleResolutionZ(float resolution) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   map_resolutions_z_.clear();
   map_resolutions_z_.push_back(resolution);
 }
 
 void NdtMapConfig::SetMultiResolutionsZ() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   map_resolutions_z_.clear();
   map_resolutions_z_.push_back(0.03125);
@@ -56,7 +62,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void NdtMapConfig::CreateXml(boost::property_tree::ptree* config) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   BaseMapConfig::CreateXml(config);
   config->put("map.map_config.compression", map_is_compression_);
@@ -67,7 +75,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void NdtMapConfig::LoadXml(boost::property_tree::ptree* config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   BaseMapConfig::LoadXml(*config);
   map_is_compression_ = config->get<bool>("map.map_config.compression");

@@ -28,42 +28,42 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Turnsignal68::ID = 0x68;
 
 uint32_t Turnsignal68::GetPeriod() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   static const uint32_t PERIOD = 50 * 1000;
   return PERIOD;
 }
 
 int32_t Turnsignal68::turn_cmd() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  return turn_cmd_; }
 
 void Turnsignal68::UpdateData(uint8_t *data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   set_turn_cmd_p(data, turn_cmd_);
 }
 
 void Turnsignal68::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  turn_cmd_ = 0; }
 
 Turnsignal68 *Turnsignal68::set_turn_none() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   turn_cmd_ = 0x00;
   return this;
 }
 
 Turnsignal68 *Turnsignal68::set_turn_left() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   turn_cmd_ = 0x01;
   return this;
 }
 
 Turnsignal68 *Turnsignal68::set_turn_right() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   turn_cmd_ = 0x02;
   return this;
@@ -72,7 +72,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 // private
 void Turnsignal68::set_turn_cmd_p(uint8_t *data, int32_t turn_cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   turn_cmd = ProtocolData::BoundedValue(0, 3, turn_cmd);
   Byte frame(data + 0);

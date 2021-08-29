@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,8 +24,6 @@ namespace localization {
 namespace msf {
 
 BaseMapConfig::BaseMapConfig(std::string map_version) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_resolutions_.push_back(0.125);  // Resolution: 0.125m in level 2
   map_node_size_x_ = 1024;            // in pixels
   map_node_size_y_ = 1024;            // in pixels
@@ -37,8 +34,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool BaseMapConfig::Save(const std::string file_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   boost::property_tree::ptree config;
   CreateXml(&config);
   boost::property_tree::write_xml(file_path, config);
@@ -47,8 +42,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool BaseMapConfig::Load(const std::string file_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   boost::property_tree::ptree config;
   boost::property_tree::read_xml(file_path, config);
 
@@ -65,8 +58,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMapConfig::CreateXml(boost::property_tree::ptree* config) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   config->put("map.map_config.version", map_version_);
   config->put("map.map_config.node_size.x", map_node_size_x_);
   config->put("map.map_config.node_size.y", map_node_size_y_);
@@ -87,8 +78,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMapConfig::LoadXml(const boost::property_tree::ptree& config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_resolutions_.clear();
   map_datasets_.clear();
   map_node_size_x_ = config.get<unsigned int>("map.map_config.node_size.x");
@@ -117,8 +106,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMapConfig::ResizeMapRange() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double min_x = 0;
   double min_y = 0;
   double max_x = 0;
@@ -167,15 +154,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMapConfig::SetSingleResolutions(float resolution) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_resolutions_.clear();
   map_resolutions_.push_back(resolution);
 }
 
 void BaseMapConfig::SetMultiResolutions() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_resolutions_.clear();
   map_resolutions_.push_back(0.03125);
   map_resolutions_.push_back(0.0625);

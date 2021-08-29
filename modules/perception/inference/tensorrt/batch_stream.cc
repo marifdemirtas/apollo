@@ -29,7 +29,7 @@ namespace inference {
 
 BatchStream::BatchStream(int batchSize, int maxBatches, std::string dataPath)
     : mBatchSize(batchSize), mMaxBatches(maxBatches), mPath(dataPath) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   FILE *file = fopen((mPath + "Batch0").c_str(), "rb");
   if (file != nullptr) {
@@ -46,11 +46,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 BatchStream::BatchStream() : mPath("") {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void BatchStream::reset(int firstBatch) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (mPath != "") {
     mBatchCount = 0;
@@ -61,7 +61,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool BatchStream::next() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (mBatchCount == mMaxBatches) {
     return false;
@@ -87,7 +87,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BatchStream::skip(int skipCount) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (mBatchSize >= mDims.n() && mBatchSize % mDims.n() == 0 &&
       mFileBatchPos == mDims.n()) {
@@ -103,7 +103,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool BatchStream::update() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string inputFileName = absl::StrCat(mPath, "Batch", mFileCount++);
   FILE *file = fopen(inputFileName.c_str(), "rb");

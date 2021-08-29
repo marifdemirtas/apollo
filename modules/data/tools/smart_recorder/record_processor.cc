@@ -40,11 +40,11 @@ RecordProcessor::RecordProcessor(const std::string& source_record_dir,
                                  const std::string& restored_output_dir)
     : source_record_dir_(source_record_dir),
       restored_output_dir_(restored_output_dir) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool RecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Init input/output
   if (!DirectoryExists(source_record_dir_)) {
@@ -81,7 +81,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool RecordProcessor::InitTriggers(const SmartRecordTrigger& trigger_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   triggers_.push_back(std::unique_ptr<TriggerBase>(new DriveEventTrigger));
   triggers_.push_back(std::unique_ptr<TriggerBase>(new EmergencyModeTrigger));
@@ -100,7 +100,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool RecordProcessor::ShouldRestore(
     const cyber::record::RecordMessage& msg) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (const auto& trigger : triggers_) {
     if (trigger->ShouldRestore(msg)) {

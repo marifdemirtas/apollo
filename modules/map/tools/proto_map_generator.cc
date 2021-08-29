@@ -29,7 +29,7 @@ limitations under the License.
 DEFINE_string(output_dir, "/tmp", "output map directory");
 
 int main(int argc, char **argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   google::InitGoogleLogging(argv[0]);
   FLAGS_alsologtostderr = true;

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ namespace drivers {
 namespace velodyne {
 
 bool VelodyneConvertComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Config velodyne_config;
   if (!GetProtoConfig(&velodyne_config)) {
     AWARN << "Load config failed, config file" << config_file_path_;
@@ -56,8 +53,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool VelodyneConvertComponent::Proc(
     const std::shared_ptr<VelodyneScan>& scan_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::shared_ptr<PointCloud> point_cloud_out = point_cloud_pool_->GetObject();
   if (point_cloud_out == nullptr) {
     AWARN << "poin cloud pool return nullptr, will be create new.";

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ DEFINE_string(input_video, "", "The input video file");
 DEFINE_string(output_dir, "", "The directory to output decoded pictures.");
 
 int main(int argc, char** argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   google::ParseCommandLineFlags(&argc, &argv, true);
   AINFO << "input video: " << FLAGS_input_video
         << ". output dir: " << FLAGS_output_dir;

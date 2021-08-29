@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,21 +21,13 @@ namespace apollo {
 namespace perception {
 namespace lidar {
 const int TrackData::kMaxHistorySize = 40;
-TrackData::TrackData() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- Reset(); }
+TrackData::TrackData() { Reset(); }
 
-TrackData::TrackData(TrackedObjectPtr obj, int track_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+TrackData::TrackData(TrackedObjectPtr obj, int track_id) {}
 
-TrackData::~TrackData() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+TrackData::~TrackData() {}
 
 std::pair<double, TrackedObjectPtr> TrackData::GetHistoryObject(int idx) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (history_objects_.empty()) {
     AWARN << "no object in track";
     return std::pair<double, TrackedObjectPtr>(0.0, TrackedObjectPtr(nullptr));
@@ -64,8 +55,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 std::pair<double, TrackedObjectConstPtr> TrackData::GetHistoryObject(
     int idx) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (history_objects_.empty()) {
     AINFO << "no object in track";
     return std::pair<double, TrackedObjectPtr>(0.0, TrackedObjectPtr(nullptr));
@@ -92,8 +81,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TrackData::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   track_id_ = -1;
   age_ = 0;
   consecutive_invisible_count_ = 0;
@@ -110,16 +97,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TrackData::Reset(TrackedObjectPtr obj, double time, int track_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Reset();
   track_id_ = track_id;
   PushTrackedObjectToTrack(obj, time);
 }
 
 void TrackData::PushTrackedObjectToTrack(TrackedObjectPtr obj, double time) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (history_objects_.find(time) == history_objects_.end()) {
     history_objects_.insert(std::make_pair(time, obj));
     age_++;

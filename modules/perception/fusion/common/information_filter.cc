@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,14 +20,10 @@ namespace perception {
 namespace fusion {
 
 InformationFilter::InformationFilter()
-    : BaseFilter("InformationFilter"), last_observation_init_(false) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+    : BaseFilter("InformationFilter"), last_observation_init_(false) {}
 
 bool InformationFilter::Init(const Eigen::VectorXd &global_states,
                              const Eigen::MatrixXd &global_uncertainty) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (global_uncertainty.rows() != global_uncertainty.cols()) {
     return false;
   }
@@ -68,8 +63,6 @@ bool InformationFilter::SetLastObservation(
     const Eigen::MatrixXd &last_observation_uncertainty,
     const Eigen::MatrixXd &last_to_cur_transform_matrix,
     const Eigen::MatrixXd &last_to_cur_env_uncertainty) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!init_) {
     return false;
   }
@@ -105,8 +98,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool InformationFilter::Predict(const Eigen::MatrixXd &transform_matrix,
                                 const Eigen::MatrixXd &env_uncertainty) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!init_) {
     return false;
   }
@@ -134,8 +125,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool InformationFilter::Correct(
     const Eigen::VectorXd &cur_observation,
     const Eigen::MatrixXd &cur_observation_uncertainty) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!init_) {
     return false;
   }
@@ -188,8 +177,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 bool InformationFilter::SetControlMatrix(
     const Eigen::MatrixXd &control_matrix) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!init_) {
     return false;
   }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,8 +32,6 @@ using base::PointF;
 
 void GetBoundingBox2d(const std::shared_ptr<Object>& object,
                       PointCloud<PointD>* box, double expand) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   box->clear();
   box->resize(4);
 
@@ -63,8 +60,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ComputeObjectShapeFromPolygon(std::shared_ptr<Object> object,
                                    bool use_world_cloud) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const PointCloud<PointD>& polygon = object->polygon;
   const PointCloud<PointF>& cloud = object->lidar_supplement.cloud;
   const PointCloud<PointD>& world_cloud = object->lidar_supplement.cloud_world;

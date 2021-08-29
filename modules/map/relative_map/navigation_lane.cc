@@ -61,7 +61,7 @@ bool CreateSingleLaneMap(
     const perception::PerceptionObstacles &perception_obstacles,
     hdmap::Map *const hdmap,
     google::protobuf::Map<std::string, NavigationPath> *const navigation_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(hdmap);
   CHECK_NOTNULL(navigation_path);
@@ -141,25 +141,25 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 NavigationLane::NavigationLane(const NavigationLaneConfig &config)
     : config_(config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void NavigationLane::SetConfig(const NavigationLaneConfig &config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   config_ = config;
 }
 
 void NavigationLane::SetVehicleStateProvider(
     common::VehicleStateProvider *vehicle_state_provider) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   vehicle_state_provider_ = vehicle_state_provider;
 }
 
 void NavigationLane::UpdateNavigationInfo(
     const NavigationInfo &navigation_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   navigation_info_ = navigation_path;
   last_project_index_map_.clear();
@@ -171,7 +171,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool NavigationLane::GeneratePath() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   navigation_path_list_.clear();
   current_navi_path_tuple_ = std::make_tuple(-1, -1.0, -1.0, nullptr);
@@ -361,14 +361,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 double NavigationLane::EvaluateCubicPolynomial(const double c0, const double c1,
                                                const double c2, const double c3,
                                                const double x) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return ((c3 * x + c2) * x + c1) * x + c0;
 }
 
 void NavigationLane::MergeNavigationLineAndLaneMarker(
     const int line_index, common::Path *const path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(path);
 
@@ -424,7 +424,9 @@ common::PathPoint NavigationLane::GetPathPointByS(const common::Path &path,
                                                   const int start_index,
                                                   const double s,
                                                   int *const matched_index) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(matched_index);
   const int size = path.path_point_size();
@@ -460,7 +462,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool NavigationLane::ConvertNavigationLineToPath(const int line_index,
                                                  common::Path *const path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(path);
   if (!navigation_info_.navigation_path(line_index).has_path() ||
@@ -584,7 +586,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // project adc_state_ onto path
 ProjIndexPair NavigationLane::UpdateProjectionIndex(const common::Path &path,
                                                     const int line_index) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (path.path_point_size() < 2) {
     return std::make_pair(-1, std::numeric_limits<double>::max());
@@ -678,7 +680,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double NavigationLane::GetKappa(const double c1, const double c2,
                                 const double c3, const double x) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const double dy = 3 * c3 * x * x + 2 * c2 * x + c1;
   const double d2y = 6 * c3 * x + 2 * c2;
@@ -687,7 +689,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void NavigationLane::ConvertLaneMarkerToPath(
     const perception::LaneMarkers &lane_marker, common::Path *const path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(path);
 
@@ -758,7 +760,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool NavigationLane::CreateMap(const MapGenerationParam &map_config,
                                MapMsg *const map_msg) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto *navigation_path = map_msg->mutable_navigation_path();
   auto *hdmap = map_msg->mutable_hdmap();
@@ -848,7 +852,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void NavigationLane::UpdateStitchIndexInfo() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   stitch_index_map_.clear();
 

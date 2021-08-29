@@ -36,11 +36,11 @@ using apollo::drivers::gnss::SolutionType;
 
 GpsMonitor::GpsMonitor()
     : RecurrentRunner(FLAGS_gps_monitor_name, FLAGS_gps_monitor_interval) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void GpsMonitor::RunOnce(const double current_time) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto manager = MonitorManager::Instance();
   Component* component = apollo::common::util::FindOrNull(

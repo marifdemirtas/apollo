@@ -53,7 +53,7 @@ namespace canbus {
 namespace gem {
 
 GemMessageManager::GemMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Control Messages
   AddSendProtocolData<Accelcmd67, true>();
@@ -91,7 +91,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 GemMessageManager::~GemMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 }  // namespace gem

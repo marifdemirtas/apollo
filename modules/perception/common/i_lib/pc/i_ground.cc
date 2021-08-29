@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,8 +22,6 @@ namespace apollo {
 namespace perception {
 namespace common {
 void PlaneFitGroundDetectorParam::SetDefault() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   nr_points_max = 320000;  // assume max 320000 points
   nr_grids_fine = 256;     // must be 2 and above
   nr_grids_coarse = 16;    // must be 2 and above
@@ -50,8 +47,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool PlaneFitGroundDetectorParam::Validate() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (nr_grids_coarse < 2 || nr_grids_fine < 2 ||
       nr_grids_coarse > nr_grids_fine || nr_points_max == 0 ||
       nr_samples_min_threshold == 0 || nr_samples_max_threshold == 0 ||
@@ -67,8 +62,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int PlaneFitPointCandIndices::Prune(unsigned int min_nr_samples,
                                     unsigned int max_nr_samples) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   assert(min_nr_samples < max_nr_samples);
   unsigned int size = static_cast<unsigned int>(indices.size());
   unsigned int half = 0;
@@ -101,20 +94,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 PlaneFitGroundDetector::PlaneFitGroundDetector(
     const PlaneFitGroundDetectorParam &param)
     : BaseGroundDetector(param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   assert(Init());
 }
 
-PlaneFitGroundDetector::~PlaneFitGroundDetector() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- CleanUp(); }
+PlaneFitGroundDetector::~PlaneFitGroundDetector() { CleanUp(); }
 
 // Init the order lookup table
 void PlaneFitGroundDetector::InitOrderTable(const VoxelGridXY<float> *vg,
                                             std::pair<int, int> *order) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<std::pair<float, int>> map_dist;
   float cx = 0.f;
   float cy = 0.f;
@@ -143,8 +130,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool PlaneFitGroundDetector::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   unsigned int r = 0;
   unsigned int c = 0;
   unsigned int pr = 0;
@@ -277,8 +262,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PlaneFitGroundDetector::CleanUp() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (vg_fine_) {
     delete vg_fine_;
   }
@@ -305,8 +288,6 @@ int PlaneFitGroundDetector::CompareZ(const float *point_cloud,
                                      unsigned int nr_points,
                                      unsigned int nr_point_element,
                                      unsigned int nr_compares) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int pos = 0;
   int nr_candis = 0;
   unsigned int i = 0;
@@ -354,8 +335,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PlaneFitGroundDetector::ComputeAdaptiveThreshold() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   unsigned int r = 0;
   unsigned int c = 0;
   float dr = 0.0f;
@@ -408,8 +387,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PlaneFitGroundDetector::ComputeSignedGroundHeight(
     const float *point_cloud, float *height_above_ground,
     unsigned int nr_points, unsigned int nr_point_elements) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   unsigned int r = 0;
   unsigned int nm1 = param_.nr_grids_coarse - 1;
   for (r = 0; r < nr_points; ++r) {
@@ -435,8 +412,6 @@ void PlaneFitGroundDetector::ComputeSignedGroundHeightLine(
     const GroundPlaneLiDAR *cn, const GroundPlaneLiDAR *dn,
     float *height_above_ground, unsigned int r, unsigned int nr_points,
     unsigned int nr_point_elements) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   unsigned int i = 0;
   unsigned int c = 0;
   unsigned int id = 0;
@@ -569,8 +544,6 @@ int PlaneFitGroundDetector::FilterGrid(const Voxel<float> &vx,
                                        PlaneFitPointCandIndices *candi,
                                        unsigned int nr_points,
                                        unsigned int nr_point_element) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int pos = 0;
   int rseed = I_DEFAULT_SEED;
   int nr_candis = 0;
@@ -605,8 +578,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int PlaneFitGroundDetector::FilterLine(unsigned int r) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int nr_candis = 0;
   unsigned int c = 0;
   const float *point_cloud = vg_fine_->const_data();
@@ -624,8 +595,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int PlaneFitGroundDetector::Filter() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int nr_candis = 0;
   unsigned int i = 0;
   unsigned int r = 0;
@@ -648,8 +617,6 @@ int PlaneFitGroundDetector::FitGrid(const float *point_cloud,
                                     unsigned int nr_points,
                                     unsigned int nr_point_element,
                                     float dist_thre) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // initialize the best plane
   groundplane->ForceInvalid();
   // not enough samples, failed and return
@@ -765,8 +732,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int PlaneFitGroundDetector::FitLine(unsigned int r) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int nr_grids = 0;
   unsigned int c = 0;
   GroundPlaneLiDAR gp;
@@ -788,8 +753,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int PlaneFitGroundDetector::Fit() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int nr_grids = 0;
   for (unsigned int r = 0; r < param_.nr_grids_coarse; ++r) {
     nr_grids += FitLine(r);
@@ -802,8 +765,6 @@ int PlaneFitGroundDetector::FilterCandidates(
     int r, int c, const float *point_cloud, PlaneFitPointCandIndices *candi,
     std::vector<std::pair<int, int>> *neighbors,
     unsigned int nr_point_element) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float avg_z = 0.f;
   int count = 0;
   unsigned int i = 0;
@@ -842,8 +803,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 inline float calculate_two_angles(const GroundPlaneLiDAR &p1,
                                   const GroundPlaneLiDAR &p2) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float numerator = IDot3(p1.params, p2.params);
   float denominator = IL2Norm(p1.params, 3) * IL2Norm(p2.params, 3);
   return IAcos(numerator * IRec(denominator));
@@ -852,8 +811,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 int PlaneFitGroundDetector::FitGridWithNeighbors(
     int r, int c, const float *point_cloud, GroundPlaneLiDAR *groundplane,
     unsigned int nr_points, unsigned int nr_point_element, float dist_thre) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // initialize the best plane
   groundplane->ForceInvalid();
   // not enough samples, failed and return
@@ -1033,8 +990,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 float PlaneFitGroundDetector::CalculateAngleDist(
     const GroundPlaneLiDAR &plane,
     const std::vector<std::pair<int, int>> &neighbors) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float angle_dist = 0.0f;
   int count = 0;
   unsigned int j = 0;
@@ -1055,8 +1010,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int PlaneFitGroundDetector::FitInOrder() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int nr_grids = 0;
   unsigned int i = 0;
   unsigned int j = 0;
@@ -1080,8 +1033,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
       ground_planes_[r][c] = gp;
       nr_grids++;
     } else {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
       ground_planes_sphe_[r][c].ForceInvalid();
       ground_planes_[r][c].ForceInvalid();
     }
@@ -1092,8 +1043,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PlaneFitGroundDetector::GetNeighbors(
     int r, int c, int rows, int cols,
     std::vector<std::pair<int, int>> *neighbors) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int left = IMax(0, c - 1);
   int right = IMin(cols - 1, c + 1);
   int up = IMax(0, r - 1);
@@ -1113,8 +1062,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int PlaneFitGroundDetector::SmoothLine(unsigned int up, unsigned int r,
                                        unsigned int dn) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int nr_grids = 0;
   unsigned int c = 0;
   unsigned int nm1 = param_.nr_grids_coarse - 1;
@@ -1137,8 +1084,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
     IPlaneSpherToEucli(plane, &ground_planes_[r][0]);
   }
   for (c = 1; c < nm1; ++c) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
     if (/*!(*_vg_coarse)(r, c).empty()*/ true) {
       if (!ground_planes_sphe_[r][c].IsValid()) {
         nr_grids += CompleteGrid(
@@ -1175,8 +1120,6 @@ int PlaneFitGroundDetector::CompleteGrid(const GroundPlaneSpherical &lt,
                                          const GroundPlaneSpherical &up,
                                          const GroundPlaneSpherical &dn,
                                          GroundPlaneSpherical *gp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int supports[] = {0, 0, 0, 0};
   float weights[] = {0.f, 0.f, 0.f, 0.f};
   gp->ForceInvalid();
@@ -1216,8 +1159,6 @@ int PlaneFitGroundDetector::SmoothGrid(const GroundPlaneSpherical &g,
                                        const GroundPlaneSpherical &up,
                                        const GroundPlaneSpherical &dn,
                                        GroundPlaneSpherical *gp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int supports[] = {0, 0, 0, 0, 0};
   float weights[] = {0.f, 0.f, 0.f, 0.f, 0.f};
   gp->ForceInvalid();
@@ -1273,8 +1214,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int PlaneFitGroundDetector::Smooth() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int nr_grids = 0;
   unsigned int r = 0;
   unsigned int c = 0;
@@ -1297,8 +1236,6 @@ bool PlaneFitGroundDetector::Detect(const float *point_cloud,
                                     float *height_above_ground,
                                     unsigned int nr_points,
                                     unsigned int nr_point_elements) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   assert(point_cloud != nullptr);
   assert(height_above_ground != nullptr);
   assert(nr_points <= param_.nr_points_max);
@@ -1346,46 +1283,32 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   return true;
 }
 
-const char *PlaneFitGroundDetector::GetLabel() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return labels_; }
+const char *PlaneFitGroundDetector::GetLabel() const { return labels_; }
 
 const VoxelGridXY<float> *PlaneFitGroundDetector::GetGrid() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vg_coarse_;
 }
 
 const GroundPlaneLiDAR *PlaneFitGroundDetector::GetGroundPlane(int r,
                                                                int c) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   assert(r >= 0 && r < static_cast<int>(param_.nr_grids_coarse));
   assert(c >= 0 && c < static_cast<int>(param_.nr_grids_coarse));
   return ground_planes_ != nullptr ? ground_planes_[r] + c : nullptr;
 }
 
 unsigned int PlaneFitGroundDetector::GetGridDimX() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vg_coarse_->NrVoxelX();
 }
 
 unsigned int PlaneFitGroundDetector::GetGridDimY() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vg_coarse_->NrVoxelY();
 }
 
 float PlaneFitGroundDetector::GetUnknownHeight() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return std::numeric_limits<float>::max();
 }
 
 PlaneFitPointCandIndices **PlaneFitGroundDetector::GetCandis() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return local_candis_;
 }
 

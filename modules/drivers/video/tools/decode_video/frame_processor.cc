@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -32,8 +31,6 @@ namespace video {
 FrameProcessor::FrameProcessor(const std::string& input_video_file,
                                const std::string& output_jpg_dir)
     : output_jpg_dir_(output_jpg_dir) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::ifstream video_file(input_video_file, std::ios::binary);
   std::istreambuf_iterator<char> buf_begin(video_file), buf_end;
   while (buf_begin != buf_end) {
@@ -42,8 +39,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool FrameProcessor::ProcessStream() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (input_video_buffer_.empty()) {
     AERROR << "error: failed to read from input video file";
     return false;
@@ -104,8 +99,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string FrameProcessor::GetOutputFile(const int frame_num) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   static constexpr int kSuffixLen = 5;
   std::stringstream jpg_suffix;
   jpg_suffix.fill('0');
@@ -117,8 +110,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void FrameProcessor::WriteOutputJpgFile(
     const std::vector<uint8_t>& jpeg_buffer,
     const std::string& output_jpg_file) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::ofstream out(output_jpg_file, std::ios::binary);
   for (const uint8_t current : jpeg_buffer) {
     out << static_cast<char>(current);

@@ -110,6 +110,8 @@ Status OnLanePlanning::Init(const PlanningConfig& config) {
   // dispatch planner
   planner_ = planner_dispatcher_->DispatchPlanner(config_, injector_);
   if (!planner_) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     return Status(
         ErrorCode::PLANNING_ERROR,
         "planning is not initialized with config : " + config_.DebugString());
@@ -977,6 +979,8 @@ void OnLanePlanning::AddPartitionedTrajectory(
   // Draw fallback trajectory compared with the partitioned and potential
   // collision_point (line with only one point)
   if (open_space_debug.is_fallback_trajectory()) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     auto* collision_line = chart->add_line();
     collision_line->set_label("FutureCollisionPoint");
     auto* future_collision_point = collision_line->add_point();

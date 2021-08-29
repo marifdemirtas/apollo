@@ -28,7 +28,7 @@ namespace lidar {
 
 bool LidarObstacleDetection::Init(
     const LidarObstacleDetectionInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto& sensor_name = options.sensor_name;
   auto config_manager = lib::ConfigManager::Instance();
@@ -65,7 +65,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 LidarProcessResult LidarObstacleDetection::Process(
     const LidarObstacleDetectionOptions& options, LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   PointCloudPreprocessorOptions preprocessor_options;
   preprocessor_options.sensor2novatel_extrinsics =
@@ -81,7 +81,7 @@ LidarProcessResult LidarObstacleDetection::Process(
     const LidarObstacleDetectionOptions& options,
     const std::shared_ptr<apollo::drivers::PointCloud const>& message,
     LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const auto& sensor_name = options.sensor_name;
 
@@ -101,7 +101,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 LidarProcessResult LidarObstacleDetection::ProcessCommon(
     const LidarObstacleDetectionOptions& options, LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const auto& sensor_name = options.sensor_name;
 

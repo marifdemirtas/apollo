@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,8 +26,6 @@ namespace adapter {
 
 bool OpendriveAdapter::LoadData(const std::string& filename,
                                 apollo::hdmap::Map* pb_map) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(pb_map);
 
   tinyxml2::XMLDocument document;

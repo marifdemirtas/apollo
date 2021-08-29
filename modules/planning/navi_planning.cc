@@ -144,6 +144,8 @@ void NaviPlanning::RunOnce(const LocalView& local_view,
       ComputeVehicleConfigFromLocalization(*local_view_.localization_estimate);
 
   if (last_vehicle_config_.is_valid_ && vehicle_config.is_valid_) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     auto x_diff_map = vehicle_config.x_ - last_vehicle_config_.x_;
     auto y_diff_map = vehicle_config.y_ - last_vehicle_config_.y_;
 

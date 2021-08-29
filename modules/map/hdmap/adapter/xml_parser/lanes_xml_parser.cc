@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,12 +17,8 @@ limitations under the License.
 #include "modules/map/hdmap/adapter/xml_parser/util_xml_parser.h"
 
 namespace {
-double ToMPS(double speed) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return speed * 1000.0 / 3600.0; }
-bool IsReferenceLane(int lane_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return lane_id == 0; }
+double ToMPS(double speed) { return speed * 1000.0 / 3600.0; }
+bool IsReferenceLane(int lane_id) { return lane_id == 0; }
 };  // namespace
 
 namespace apollo {
@@ -33,8 +28,6 @@ namespace adapter {
 Status LanesXmlParser::Parse(const tinyxml2::XMLElement& xml_node,
                              const std::string& road_id,
                              std::vector<RoadSectionInternal>* sections) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(sections);
   const auto lanes_node = xml_node.FirstChildElement("lanes");
   CHECK_NOTNULL(lanes_node);
@@ -64,8 +57,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ParseSectionBoundary(
     const tinyxml2::XMLElement& xml_node, PbBoundaryPolygon* boundary) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(boundary);
 
   auto boundaries_node = xml_node.FirstChildElement("boundaries");
@@ -97,8 +88,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ToPbBoundaryType(const std::string& type,
                                         PbBoundaryEdgeType* boundary_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(boundary_type);
 
   std::string upper_type = UtilXmlParser::ToUpper(type);
@@ -116,8 +105,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ParseLaneSection(const tinyxml2::XMLElement& xml_node,
                                         std::vector<LaneInternal>* lanes) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(lanes);
 
   // left
@@ -176,8 +163,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ParseLane(const tinyxml2::XMLElement& xml_node,
                                  LaneInternal* lane_internal) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(lane_internal);
 
   PbLane* lane = &lane_internal->lane;
@@ -314,8 +299,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ParseDirection(const tinyxml2::XMLElement& xml_node,
                                       PbLane* lane) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(lane);
   std::string direction;
   int checker =
@@ -337,8 +320,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ParseCenterCurve(const tinyxml2::XMLElement& xml_node,
                                         PbLane* lane) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(lane);
   auto sub_node = xml_node.FirstChildElement("centerLine");
   if (!sub_node) {
@@ -360,8 +341,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ParseSpeed(const tinyxml2::XMLElement& xml_node,
                                   PbLane* lane) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double max_speed = 0.0;
   auto sub_node = xml_node.FirstChildElement("speed");
   if (sub_node) {
@@ -378,8 +357,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ParseSampleAssociates(
     const tinyxml2::XMLElement& xml_node, PbLane* lane) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(lane);
   auto sub_node = xml_node.FirstChildElement("sampleAssociates");
   if (sub_node == nullptr) {
@@ -420,8 +397,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ParseSingleSideRoadSampleAssociates(
     const tinyxml2::XMLElement& xml_node, bool bleft, PbLane* lane) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(lane);
 
   auto sub_node = xml_node.FirstChildElement(
@@ -457,8 +432,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ParseLeftRoadSampleAssociates(
     const tinyxml2::XMLElement& xml_node, PbLane* lane) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(lane);
 
   return ParseSingleSideRoadSampleAssociates(xml_node, true, lane);
@@ -466,8 +439,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ParseRightRoadSampleAssociates(
     const tinyxml2::XMLElement& xml_node, PbLane* lane) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(lane);
 
   return ParseSingleSideRoadSampleAssociates(xml_node, false, lane);
@@ -475,8 +446,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ParseRoadSampleAssociates(
     const tinyxml2::XMLElement& xml_node, PbLane* lane) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(lane);
 
   auto sub_node = xml_node.FirstChildElement("roadSampleAssociations");
@@ -520,8 +489,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status LanesXmlParser::ParseObjectOverlapGroup(
     const tinyxml2::XMLElement& xml_node,
     std::vector<OverlapWithLane>* object_overlaps) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(object_overlaps);
 
   auto object_overlap = xml_node.FirstChildElement("objectOverlapGroup");
@@ -571,8 +538,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status LanesXmlParser::ParseSignalOverlapGroup(
     const tinyxml2::XMLElement& xml_node,
     std::vector<OverlapWithLane>* signal_overlaps) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(signal_overlaps);
 
   auto signal_overlap = xml_node.FirstChildElement("signalOverlapGroup");
@@ -614,8 +579,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status LanesXmlParser::ParseJunctionOverlapGroup(
     const tinyxml2::XMLElement& xml_node,
     std::vector<OverlapWithLane>* junction_overlaps) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(junction_overlaps);
 
   auto overlap_group = xml_node.FirstChildElement("junctionOverlapGroup");
@@ -657,8 +620,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status LanesXmlParser::ParseLaneOverlapGroup(
     const tinyxml2::XMLElement& xml_node,
     std::vector<OverlapWithLane>* lane_overlaps) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(lane_overlaps);
 
   auto overlap_node = xml_node.FirstChildElement("laneOverlapGroup");
@@ -700,8 +661,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ToPbLaneType(const std::string& type,
                                     PbLaneType* lane_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(lane_type);
 
   std::string upper_str = UtilXmlParser::ToUpper(type);
@@ -728,8 +687,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ToPbTurnType(const std::string& type,
                                     PbTurnType* pb_turn_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(pb_turn_type);
 
   std::string upper_str = UtilXmlParser::ToUpper(type);
@@ -752,8 +709,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LanesXmlParser::ToPbDirection(const std::string& type,
                                      PbLaneDirection* pb_direction) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(pb_direction);
 
   std::string upper_str = UtilXmlParser::ToUpper(type);
@@ -774,8 +729,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LanesXmlParser::ParseLaneLink(const tinyxml2::XMLElement& xml_node,
                                    PbLane* lane) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(lane);
 
   const tinyxml2::XMLElement* sub_node =
@@ -846,8 +799,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status LanesXmlParser::ParseLaneBorderMark(
     const tinyxml2::XMLElement& xml_node,
     PbLaneBoundaryTypeType* boundary_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(boundary_type);
 
   std::string type;
@@ -872,8 +823,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status LanesXmlParser::ToPbLaneMarkType(const std::string& type,
                                         const std::string& color,
                                         PbLaneBoundaryTypeType* boundary_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(boundary_type);
 
   std::string upper_type = UtilXmlParser::ToUpper(type);
@@ -918,8 +867,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Status LanesXmlParser::ParseRegionOverlap(
     const tinyxml2::XMLElement& xml_node,
     std::vector<PbRegionOverlap>* region_overlaps) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(region_overlaps);
 
   auto region_overlap_node = xml_node.FirstChildElement("regionOverlap");

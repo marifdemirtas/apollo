@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -38,8 +37,6 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool ROIBoundaryFilter::Init(const ObjectFilterInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig(Name(), &model_config));
@@ -60,8 +57,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool ROIBoundaryFilter::Filter(const ObjectFilterOptions& options,
                                LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!frame) {
     AINFO << "Lidar frame is nullptr.";
     return false;
@@ -111,8 +106,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ROIBoundaryFilter::BuildWorldPolygons(const ObjectFilterOptions& options,
                                            const LidarFrame& frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const Eigen::Affine3d& pose = frame.lidar2world_pose;
   const std::vector<base::ObjectPtr>& objects = frame.segmented_objects;
   polygons_in_world_.clear();
@@ -138,8 +131,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ROIBoundaryFilter::FillObjectRoiFlag(const ObjectFilterOptions& options,
                                           LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto& objects = frame->segmented_objects;
   objects_cross_roi_.assign(objects.size(), false);
   for (size_t i = 0; i < objects.size(); ++i) {
@@ -163,8 +154,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ROIBoundaryFilter::FilterObjectsOutsideBoundary(
     const ObjectFilterOptions& options, LidarFrame* frame,
     std::vector<bool>* objects_valid_flag) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const EigenVector<base::RoadBoundary>& road_boundary =
       frame->hdmap_struct->road_boundary;
   auto& objects = frame->segmented_objects;
@@ -207,8 +196,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ROIBoundaryFilter::FilterObjectsInsideBoundary(
     const ObjectFilterOptions& options, LidarFrame* frame,
     std::vector<bool>* objects_valid_flag) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const EigenVector<base::RoadBoundary>& road_boundary =
       frame->hdmap_struct->road_boundary;
   auto& objects = frame->segmented_objects;
@@ -252,8 +239,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ROIBoundaryFilter::FilterObjectsByConfidence(
     const ObjectFilterOptions& options, LidarFrame* frame,
     std::vector<bool>* objects_valid_flag) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto& objects = frame->segmented_objects;
   for (size_t i = 0; i < objects.size(); ++i) {
     if (objects_cross_roi_[i] || !objects[i]->lidar_supplement.is_in_roi) {

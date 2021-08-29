@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,8 +24,6 @@ namespace perception {
 namespace lib {
 
 void Thread::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   pthread_attr_t attr;
   CHECK_EQ(pthread_attr_init(&attr), 0);
   CHECK_EQ(
@@ -45,8 +42,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Thread::Join() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ACHECK(joinable_) << "Thread is not joinable";
   int result = pthread_join(tid_, nullptr);
   CHECK_EQ(result, 0) << "Could not join thread (" << tid_ << ", "
@@ -55,8 +50,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Thread::IsAlive() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (tid_ == 0) {
     return false;
   }

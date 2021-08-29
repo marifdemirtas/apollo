@@ -25,8 +25,6 @@ namespace msf {
 namespace pyramid_map {
 
 NdtMapSingleCell::NdtMapSingleCell() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   intensity_ = 0.0;
   intensity_var_ = 0.0;
   road_pt_count_ = 0;
@@ -38,7 +36,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void NdtMapSingleCell::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   intensity_ = 0.0;
   intensity_var_ = 0.0;
@@ -51,7 +49,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t NdtMapSingleCell::LoadBinary(const unsigned char* buf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const float* f_buf = reinterpret_cast<const float*>(buf);
   intensity_ = *f_buf;
@@ -96,7 +94,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 size_t NdtMapSingleCell::CreateBinary(unsigned char* buf,
                                       size_t buf_size) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   size_t target_size = GetBinarySize();
   if (buf_size >= target_size) {
@@ -140,7 +138,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t NdtMapSingleCell::GetBinarySize() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   size_t sz = sizeof(float) * 2 + sizeof(unsigned int) * 2 + sizeof(float) * 3 +
               sizeof(float) * 9;
@@ -151,7 +149,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 NdtMapSingleCell& NdtMapSingleCell::operator=(const NdtMapSingleCell& ref) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   count_ = ref.count_;
   intensity_ = ref.intensity_;
@@ -166,7 +164,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void NdtMapSingleCell::Reduce(NdtMapSingleCell* cell,
                               const NdtMapSingleCell& cell_new) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   cell->MergeCell(cell_new);
 }
@@ -174,7 +172,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void NdtMapSingleCell::AddSample(const float intensity, const float altitude,
                                  const Eigen::Vector3f& centroid,
                                  bool is_road) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ++count_;
   float v1 = intensity - intensity_;
@@ -200,7 +198,7 @@ void NdtMapSingleCell::MergeCell(const float intensity,
                                  const unsigned int count,
                                  const Eigen::Vector3f& centroid,
                                  const Eigen::Matrix3f& centroid_cov) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   unsigned int new_count = count_ + count;
   float p0 = static_cast<float>(count_) / static_cast<float>(new_count);
@@ -220,7 +218,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void NdtMapSingleCell::MergeCell(const NdtMapSingleCell& cell_new) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   MergeCell(cell_new.intensity_, cell_new.intensity_var_,
             cell_new.road_pt_count_, cell_new.count_, cell_new.centroid_,
@@ -229,7 +227,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void NdtMapSingleCell::CentroidEigenSolver(
     const Eigen::Matrix3f& centroid_cov) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Contain more than five points, we calculate the eigen vector/value of cov.
   // [Magnusson 2009]
@@ -266,14 +264,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 NdtMapCells::NdtMapCells() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   max_altitude_index_ = static_cast<int>(-1e10);
   min_altitude_index_ = static_cast<int>(1e10);
 }
 
 void NdtMapCells::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   max_altitude_index_ = static_cast<int>(-1e10);
   min_altitude_index_ = static_cast<int>(1e10);
@@ -284,7 +282,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 int NdtMapCells::AddSample(const float intensity, const float altitude,
                            const float resolution,
                            const Eigen::Vector3f& centroid, bool is_road) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int altitude_index = CalAltitudeIndex(resolution, altitude);
   NdtMapSingleCell& cell = cells_[altitude_index];
@@ -307,7 +305,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t NdtMapCells::LoadBinary(const unsigned char* buf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const unsigned int* p = reinterpret_cast<const unsigned int*>(buf);
   unsigned int size = *p;
@@ -345,7 +343,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t NdtMapCells::CreateBinary(unsigned char* buf, size_t buf_size) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   size_t target_size = GetBinarySize();
   if (buf_size >= target_size) {
@@ -387,7 +385,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t NdtMapCells::GetBinarySize() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   size_t target_size = sizeof(unsigned int);
   for (auto it = cells_.begin(); it != cells_.end(); ++it) {
@@ -403,21 +401,21 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int NdtMapCells::CalAltitudeIndex(const float resolution,
                                   const float altitude) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return static_cast<int>(altitude / resolution);
 }
 
 float NdtMapCells::CalAltitude(const float resolution,
                                const int altitude_index) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return static_cast<float>(resolution *
                             (static_cast<float>(altitude_index) + 0.5));
 }
 
 void NdtMapCells::Reduce(NdtMapCells* cell, const NdtMapCells& cell_new) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Reduce cells
   for (auto it = cell_new.cells_.begin(); it != cell_new.cells_.end(); ++it) {
@@ -451,7 +449,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 NdtMapMatrix::NdtMapMatrix() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   rows_ = 0;
   cols_ = 0;
@@ -459,11 +457,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 NdtMapMatrix::~NdtMapMatrix() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 NdtMapMatrix::NdtMapMatrix(const NdtMapMatrix& cells) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Init(cells.rows_, cells.cols_);
   for (unsigned int y = 0; y < rows_; ++y) {
@@ -476,17 +474,17 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void NdtMapMatrix::Init(const BaseMapConfig& config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Init(config.map_node_size_y_, config.map_node_size_x_);
 }
 
 void NdtMapMatrix::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Reset(rows_, cols_); }
 
 void NdtMapMatrix::Init(unsigned int rows, unsigned int cols) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   map3d_cells_.reset(new NdtMapCells[rows * cols]);
   rows_ = rows;
@@ -494,7 +492,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void NdtMapMatrix::Reset(unsigned int rows, unsigned int cols) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   unsigned int length = rows * cols;
   for (unsigned int i = 0; i < length; ++i) {
@@ -503,7 +501,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t NdtMapMatrix::LoadBinary(const unsigned char* buf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const unsigned int* p = reinterpret_cast<const unsigned int*>(buf);
   rows_ = *p;
@@ -523,7 +521,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t NdtMapMatrix::CreateBinary(unsigned char* buf, size_t buf_size) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   size_t target_size = GetBinarySize();
   if (buf_size >= target_size) {
@@ -548,7 +546,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t NdtMapMatrix::GetBinarySize() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   size_t target_size = sizeof(unsigned int) * 2;
   for (unsigned int y = 0; y < rows_; ++y) {
@@ -561,7 +559,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void NdtMapMatrix::Reduce(NdtMapMatrix* cells, const NdtMapMatrix& cells_new) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (unsigned int y = 0; y < cells->GetRows(); ++y) {
     for (unsigned int x = 0; x < cells->GetCols(); ++x) {
@@ -573,7 +571,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool NdtMapMatrix::GetIntensityImg(cv::Mat* intensity_img) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   *intensity_img = cv::Mat(cv::Size(cols_, rows_), CV_8UC1);
   for (unsigned int y = 0; y < rows_; ++y) {

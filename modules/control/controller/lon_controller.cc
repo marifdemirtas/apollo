@@ -40,7 +40,7 @@ constexpr double GRA_ACC = 9.8;
 
 LonController::LonController()
     : name_(ControlConf_ControllerType_Name(ControlConf::LON_CONTROLLER)) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (FLAGS_enable_csv_debug) {
     time_t rawtime;
@@ -83,7 +83,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LonController::CloseLogFile() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (FLAGS_enable_csv_debug) {
     if (speed_log_file_ != nullptr) {
@@ -93,16 +93,16 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 void LonController::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  CloseLogFile(); }
 
 LonController::~LonController() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  CloseLogFile(); }
 
 Status LonController::Init(std::shared_ptr<DependencyInjector> injector,
                            const ControlConf *control_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   control_conf_ = control_conf;
   if (control_conf_ == nullptr) {
@@ -141,7 +141,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LonController::SetDigitalFilterPitchAngle(
     const LonControllerConf &lon_controller_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   double cutoff_freq =
       lon_controller_conf.pitch_angle_filter_conf().cutoff_freq();
@@ -151,7 +151,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LonController::LoadControlCalibrationTable(
     const LonControllerConf &lon_controller_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const auto &control_table = lon_controller_conf.calibration_table();
   AINFO << "Control calibration table loaded";
@@ -173,7 +173,7 @@ Status LonController::ComputeControlCommand(
     const canbus::Chassis *chassis,
     const planning::ADCTrajectory *planning_published_trajectory,
     control::ControlCommand *cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   localization_ = localization;
   chassis_ = chassis;
@@ -386,7 +386,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status LonController::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   speed_pid_controller_.Reset();
   station_pid_controller_.Reset();
@@ -394,13 +394,13 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string LonController::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  return name_; }
 
 void LonController::ComputeLongitudinalErrors(
     const TrajectoryAnalyzer *trajectory_analyzer, const double preview_time,
     const double ts, SimpleLongitudinalDebug *debug) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // the decomposed vehicle motion onto Frenet frame
   // s: longitudinal accumulated distance along reference trajectory
@@ -485,7 +485,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LonController::SetDigitalFilter(double ts, double cutoff_freq,
                                      common::DigitalFilter *digital_filter) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::vector<double> denominators;
   std::vector<double> numerators;
@@ -495,7 +495,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 // TODO(all): Refactor and simplify
 void LonController::GetPathRemain(SimpleLongitudinalDebug *debug) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int stop_index = 0;
   static constexpr double kSpeedThreshold = 1e-3;

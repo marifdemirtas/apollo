@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,8 +29,6 @@ ThreadPool::ThreadPool(int num_workers)
       num_available_workers_(num_workers),
       task_queue_(num_workers),
       started_(false) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   workers_.reserve(num_workers_);
   for (int idx = 0; idx < num_workers_; ++idx) {
     ThreadPoolWorker *worker = new ThreadPoolWorker(this);
@@ -40,8 +37,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 ThreadPool::~ThreadPool() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!started_) {
     return;
   }
@@ -57,29 +52,21 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ThreadPool::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (int idx = 0; idx < num_workers_; ++idx) {
     workers_[idx]->Start();
   }
   started_ = true;
 }
 
-void ThreadPool::Add(Closure *closure) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- task_queue_.Push(closure); }
+void ThreadPool::Add(Closure *closure) { task_queue_.Push(closure); }
 
 void ThreadPool::Add(const vector<Closure *> &closures) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (size_t idx = 0; idx < closures.size(); ++idx) {
     Add(closures[idx]);
   }
 }
 
 void ThreadPoolWorker::Run() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   while (true) {
     Closure *closure = nullptr;
     thread_pool_->task_queue_.Pop(&closure);

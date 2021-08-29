@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,18 +27,12 @@ namespace pyramid_map {
 
 BaseMapNodePool::BaseMapNodePool(unsigned int pool_size,
                                  unsigned int thread_size)
-    : pool_size_(pool_size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+    : pool_size_(pool_size) {}
 
-BaseMapNodePool::~BaseMapNodePool() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- Release(); }
+BaseMapNodePool::~BaseMapNodePool() { Release(); }
 
 void BaseMapNodePool::Initial(const BaseMapConfig* map_config,
                               bool is_fixed_size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   is_fixed_size_ = is_fixed_size;
   map_config_ = map_config;
   for (unsigned int i = 0; i < pool_size_; ++i) {
@@ -50,8 +43,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMapNodePool::Release() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (node_reset_workers_.valid()) {
     node_reset_workers_.get();
   }
@@ -69,8 +60,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 BaseMapNode* BaseMapNodePool::AllocMapNode() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (free_list_.empty()) {
     if (node_reset_workers_.valid()) {
       node_reset_workers_.wait();
@@ -95,15 +84,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMapNodePool::FreeMapNode(BaseMapNode* map_node) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   node_reset_workers_ =
       cyber::Async(&BaseMapNodePool::FreeMapNodeTask, this, map_node);
 }
 
 void BaseMapNodePool::FreeMapNodeTask(BaseMapNode* map_node) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   FinalizeMapNode(map_node);
   ResetMapNode(map_node);
   {
@@ -118,30 +103,22 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void BaseMapNodePool::InitNewMapNode(BaseMapNode* node) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   node->Init(map_config_);
 }
 
 void BaseMapNodePool::FinalizeMapNode(BaseMapNode* node) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (node != nullptr) {
     node->Finalize();
   }
 }
 
 void BaseMapNodePool::DellocMapNode(BaseMapNode* node) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (node != nullptr) {
     delete node;
   }
 }
 
 void BaseMapNodePool::ResetMapNode(BaseMapNode* node) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (node != nullptr) {
     node->ResetMapNode();
   }

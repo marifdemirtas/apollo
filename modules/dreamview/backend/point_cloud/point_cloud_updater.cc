@@ -45,17 +45,21 @@ PointCloudUpdater::PointCloudUpdater(WebSocketHandler *websocket,
       point_cloud_str_(""),
       future_ready_(true),
       simworld_updater_(simworld_updater) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   RegisterMessageHandlers();
 }
 
 PointCloudUpdater::~PointCloudUpdater() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Stop(); }
 
 void PointCloudUpdater::LoadLidarHeight(const std::string &file_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!cyber::common::PathExists(file_path)) {
     AWARN << "No such file: " << FLAGS_lidar_height_yaml
@@ -81,7 +85,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PointCloudUpdater::RegisterMessageHandlers() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Send current point_cloud status to the new client.
   websocket_->RegisterConnectionReadyHandler(
@@ -129,7 +135,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PointCloudUpdater::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   localization_reader_ = node_->CreateReader<LocalizationEstimate>(
       FLAGS_localization_topic,
@@ -146,7 +152,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PointCloudUpdater::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (enabled_) {
     async_future_.wait();
@@ -155,7 +161,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr PointCloudUpdater::ConvertPCLPointCloud(
     const std::shared_ptr<drivers::PointCloud> &point_cloud) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_ptr(
       new pcl::PointCloud<pcl::PointXYZ>);
@@ -181,7 +187,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PointCloudUpdater::UpdatePointCloud(
     const std::shared_ptr<drivers::PointCloud> &point_cloud) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!enabled_) {
     return;
@@ -195,6 +201,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_ptr;
   // Check if last filter process has finished before processing new data.
   if (enable_voxel_filter_) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     if (future_ready_) {
       future_ready_ = false;
       // transform from drivers::PointCloud to pcl::PointCloud
@@ -204,7 +212,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
       async_future_ = std::move(f);
     }
   } else {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
     pcl_ptr = ConvertPCLPointCloud(point_cloud);
     this->FilterPointCloud(pcl_ptr);
@@ -222,6 +232,8 @@ void PointCloudUpdater::FilterPointCloud(
       use per beam random sample for organized cloud(TODO)
   */
   if (enable_voxel_filter_) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     pcl::VoxelGrid<pcl::PointXYZ> voxel_grid;
     voxel_grid.setInputCloud(pcl_ptr);
     voxel_grid.setLeafSize(static_cast<float>(FLAGS_voxel_filter_size),
@@ -255,7 +267,7 @@ void PointCloudUpdater::FilterPointCloud(
 
 void PointCloudUpdater::UpdateLocalizationTime(
     const std::shared_ptr<LocalizationEstimate> &localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   last_localization_time_ = localization->header().timestamp_sec();
 }

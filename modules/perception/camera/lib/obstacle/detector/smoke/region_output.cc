@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -26,8 +25,6 @@ namespace camera {
 
 void filter_bbox(const SmokeMinDims &min_dims,
                  std::vector<base::ObjectPtr> *objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int valid_obj_idx = 0;
   int total_obj_idx = 0;
   while (total_obj_idx < static_cast<int>(objects->size())) {
@@ -51,8 +48,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void recover_smoke_bbox(int roi_w, int roi_h, int offset_y,
                   std::vector<base::ObjectPtr> *objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto &obj : *objects) {
     float xmin = obj->camera_supplement.box.xmin;
     float ymin = obj->camera_supplement.box.ymin;
@@ -86,8 +81,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void fill_smoke_base(base::ObjectPtr obj, const float *bbox,
                      int width, int height) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   obj->camera_supplement.box.xmin = bbox[0]/width;
   obj->camera_supplement.box.ymin = bbox[1]/height;
   obj->camera_supplement.box.xmax = bbox[2]/width;
@@ -96,8 +89,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void fill_smoke_bbox3d(bool with_box3d, base::ObjectPtr obj,
                        const float *bbox) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (with_box3d) {
     obj->camera_supplement.alpha = bbox[1];
     obj->size[2] = bbox[6];
@@ -111,8 +102,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 base::ObjectSubType get_smoke_object_subtype(int cls) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (cls == 0) {
     return base::ObjectSubType::CAR;
   } else if (cls == 1) {
@@ -132,8 +121,6 @@ void get_smoke_objects_cpu(const SmokeBlobs &smoke_blobs,
                      base::Blob<bool> *overlapped, base::Blob<int> *idx_sm,
                      std::vector<base::ObjectPtr> *objects,
                      int width, int height) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const float* detect_result = smoke_blobs.det1_loc_blob->cpu_data();
   objects->clear();
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,14 +21,11 @@
 #include "modules/perception/lidar/lib/segmentation/cnnseg/util.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
 bool FeatureGenerator::Init(const FeatureParam& feature_param,
                             base::Blob<float>* out_blob) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // set output feature blob
   out_blob_ = out_blob;
 
@@ -118,8 +114,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void FeatureGenerator::GenerateCPU(const base::PointFCloudPtr& pc_ptr,
                                    const std::vector<int>& point2grid) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // DO NOT remove this line!!!
   // Otherwise, the gpu_data will not be updated for the later frames.
   // It marks the head at cpu for blob.

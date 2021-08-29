@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,8 +26,6 @@ namespace inference {
 
 nvinfer1::DimsCHW ReshapeDims(const nvinfer1::DimsCHW &dims,
                               const nvinfer1::DimsCHW &inputDims) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   nvinfer1::DimsCHW outDims = inputDims;
   int count = inputDims.d[0] * inputDims.d[1] * inputDims.d[2];
   int constant = 1;
@@ -52,8 +49,6 @@ void ParseNetParam(const NetParameter &net_param,
                    TensorDimsMap *tensor_dims_map,
                    std::map<std::string, std::string> *tensor_modify_map,
                    std::vector<LayerParameter> *order) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (int i = 0; i < net_param.layer_size(); ++i) {
     LayerParameter tensorrt_layer_param = net_param.layer(i);
     if (tensorrt_layer_param.type() == "Input") {
@@ -96,8 +91,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool ParserConvParam(const ConvolutionParameter &conv, ConvParam *param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (conv.has_kernel_h() || conv.has_kernel_w()) {
     if (conv.kernel_size_size() != 0) {
       return false;
@@ -147,8 +140,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool modify_pool_param(PoolingParameter *pool_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (pool_param->has_kernel_size()) {
     pool_param->set_kernel_h(pool_param->kernel_size());
     pool_param->set_kernel_w(pool_param->kernel_size());

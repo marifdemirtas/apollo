@@ -29,13 +29,13 @@ namespace neolix_edu {
 using ::apollo::drivers::canbus::Byte;
 
 Pas1stdata311::Pas1stdata311() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Pas1stdata311::ID = 0x311;
 
 void Pas1stdata311::Parse(const std::uint8_t* bytes, int32_t length,
                           ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_neolix_edu()->mutable_pas_1st_data_311()->set_pasdistance4(
       pasdistance4(bytes, length));
@@ -61,7 +61,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'motorola', 'physical_unit': 'cm'}
 double Pas1stdata311::pasdistance4(const std::uint8_t* bytes,
                                    int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -76,7 +76,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'motorola', 'physical_unit': 'cm'}
 double Pas1stdata311::pasdistance3(const std::uint8_t* bytes,
                                    int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -91,7 +91,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': 'bit'}
 bool Pas1stdata311::pas_f1_status(const std::uint8_t* bytes,
                                   int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
@@ -106,7 +106,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': 'bit'}
 bool Pas1stdata311::pas_f2_status(const std::uint8_t* bytes,
                                   int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
@@ -121,7 +121,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': 'bit'}
 bool Pas1stdata311::pas_f3_status(const std::uint8_t* bytes,
                                   int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
@@ -136,7 +136,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': 'bit'}
 bool Pas1stdata311::pas_f4_status(const std::uint8_t* bytes,
                                   int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
@@ -151,7 +151,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'motorola', 'physical_unit': 'cm'}
 double Pas1stdata311::pasdistance2(const std::uint8_t* bytes,
                                    int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -165,7 +165,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Pas1stdata311::pasdistance1(const std::uint8_t* bytes,
                                    int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);

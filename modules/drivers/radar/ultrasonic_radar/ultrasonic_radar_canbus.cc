@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,26 +31,18 @@ namespace ultrasonic_radar {
 
 UltrasonicRadarCanbus::UltrasonicRadarCanbus()
     : monitor_logger_buffer_(
-          common::monitor::MonitorMessageItem::ULTRASONIC_RADAR) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+          common::monitor::MonitorMessageItem::ULTRASONIC_RADAR) {}
 
 UltrasonicRadarCanbus::~UltrasonicRadarCanbus() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   can_receiver_.Stop();
   can_client_->Stop();
 }
 
-std::string UltrasonicRadarCanbus::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return "ultrasonic_radar"; }
+std::string UltrasonicRadarCanbus::Name() const { return "ultrasonic_radar"; }
 
 apollo::common::Status UltrasonicRadarCanbus::Init(
     const std::string& config_path,
     const std::shared_ptr<::apollo::cyber::Writer<Ultrasonic>>& writer) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!cyber::common::GetProtoFromFile(config_path, &ultrasonic_radar_conf_)) {
     return OnError("Unable to load canbus conf file: " + config_path);
   }
@@ -90,8 +81,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 apollo::common::Status UltrasonicRadarCanbus::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // 1. init and start the can card hardware
   if (can_client_->Start() != ErrorCode::OK) {
     return OnError("Failed to start can client");
@@ -112,8 +101,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 // Send the error to monitor and return it
 Status UltrasonicRadarCanbus::OnError(const std::string& error_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   monitor_logger_buffer_.ERROR(error_msg);
   return Status(ErrorCode::CANBUS_ERROR, error_msg);
 }

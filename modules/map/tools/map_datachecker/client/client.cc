@@ -34,7 +34,9 @@ namespace apollo {
 namespace hdmap {
 
 Client::Client() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   YAML::Node node = YAML::LoadFile(FLAGS_client_conf_yaml);
   std::string bin_path = boost::filesystem::current_path().string();
@@ -50,7 +52,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int Client::Run() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string stage = FLAGS_stage;
   AINFO << "stage [" << stage << "]";
@@ -72,7 +74,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int Client::RecordCheckStage() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string cmd = FLAGS_cmd;
   ChannelChecker channel_checker(channel_checker_stop_flag_file_);
@@ -103,7 +105,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int Client::StaticAlignStage() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string cmd = FLAGS_cmd;
   AINFO << "cmd [" << cmd << "]";
@@ -132,7 +134,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int Client::EightRouteStage() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string cmd = FLAGS_cmd;
   AINFO << "cmd [" << cmd << "]";
@@ -161,7 +163,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int Client::DataCollectStage() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string cmd = FLAGS_cmd;
   AINFO << "cmd [" << cmd << "]";
@@ -230,7 +232,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int Client::LoopsCheckStage() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   LoopsChecker loops_checker(data_collect_time_flag_file_);
   bool reached = false;
@@ -253,7 +255,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int Client::CleanStage() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (boost::filesystem::exists(data_collect_time_flag_file_)) {
     boost::filesystem::remove(data_collect_time_flag_file_);

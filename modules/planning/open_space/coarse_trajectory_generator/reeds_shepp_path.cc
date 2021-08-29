@@ -697,6 +697,8 @@ void ReedShepp::LSL(const double x, const double y, const double phi,
   double t = polar.second;
   double v = 0.0;
   if (t >= 0.0) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     v = common::math::NormalizeAngle(phi - t);
     if (v >= 0.0) {
       param->flag = true;

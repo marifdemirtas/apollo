@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,13 +35,9 @@ namespace racobit_radar {
 
 RacobitRadarCanbusComponent::RacobitRadarCanbusComponent()
     : monitor_logger_buffer_(
-          common::monitor::MonitorMessageItem::RACOBIT_RADAR) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+          common::monitor::MonitorMessageItem::RACOBIT_RADAR) {}
 
 bool RacobitRadarCanbusComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!GetProtoConfig(&racobit_radar_conf_)) {
     return OnError("Unable to load canbus conf file: " + ConfigFilePath()).ok();
   }
@@ -105,8 +100,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 apollo::common::ErrorCode RacobitRadarCanbusComponent::ConfigureRadar() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   RadarConfig200 radar_config;
   radar_config.set_radar_conf(racobit_radar_conf_.radar_conf());
   SenderMessage<RacobitRadar> sender_message(RadarConfig200::ID, &radar_config);
@@ -115,8 +108,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 RacobitRadarCanbusComponent::~RacobitRadarCanbusComponent() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (start_success_) {
     can_receiver_.Stop();
     can_client_->Stop();
@@ -124,8 +115,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status RacobitRadarCanbusComponent::OnError(const std::string &error_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   monitor_logger_buffer_.ERROR(error_msg);
   return Status(ErrorCode::CANBUS_ERROR, error_msg);
 }

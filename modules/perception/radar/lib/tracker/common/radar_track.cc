@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -18,7 +17,6 @@
 #include "modules/perception/radar/lib/tracker/filter/adaptive_kalman_filter.h"
 
 namespace apollo {
-
 namespace perception {
 namespace radar {
 
@@ -30,8 +28,6 @@ std::string RadarTrack::s_chosen_filter_ =  // NOLINT
     "AdaptiveKalmanFilter";
 
 RadarTrack::RadarTrack(const base::ObjectPtr& obs, const double timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   s_current_idx_ %= MAX_RADAR_IDX;
   obs_id_ = s_current_idx_++;
   obs_radar_ = base::ObjectPool::Instance().Get();
@@ -50,8 +46,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void RadarTrack::UpdataObsRadar(const base::ObjectPtr& obs_radar,
                                 const double timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   *obs_radar_ = *obs_radar;
   *obs_ = *obs_radar;
   double time_diff = timestamp - timestamp_;
@@ -74,31 +68,19 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RadarTrack::SetObsRadarNullptr() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   obs_radar_ = nullptr;
   obs_ = nullptr;
 }
 
-base::ObjectPtr RadarTrack::GetObsRadar() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return obs_radar_; }
+base::ObjectPtr RadarTrack::GetObsRadar() { return obs_radar_; }
 
-base::ObjectPtr RadarTrack::GetObs() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return obs_; }
+base::ObjectPtr RadarTrack::GetObs() { return obs_; }
 
-int RadarTrack::GetObsId() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return obs_id_; }
+int RadarTrack::GetObsId() const { return obs_id_; }
 
-double RadarTrack::GetTimestamp() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return timestamp_; }
+double RadarTrack::GetTimestamp() { return timestamp_; }
 
-double RadarTrack::GetTrackingTime() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return tracking_time_; }
+double RadarTrack::GetTrackingTime() { return tracking_time_; }
 }  // namespace radar
 }  // namespace perception
 }  // namespace apollo

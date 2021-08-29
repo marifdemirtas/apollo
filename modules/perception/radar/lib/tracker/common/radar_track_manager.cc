@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,8 +20,6 @@ namespace perception {
 namespace radar {
 
 int RadarTrackManager::RemoveLostTracks() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t track_count = 0;
   for (size_t i = 0; i < tracks_.size(); ++i) {
     if (!tracks_[i]->IsDead()) {
@@ -38,9 +35,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   return static_cast<int>(track_count);
 }
 
-void RadarTrackManager::ClearTracks() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- tracks_.clear(); }
+void RadarTrackManager::ClearTracks() { tracks_.clear(); }
 
 }  // namespace radar
 }  // namespace perception

@@ -27,14 +27,14 @@ namespace canbus {
 
 std::unique_ptr<VehicleController>
 DevkitVehicleFactory::CreateVehicleController() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return std::unique_ptr<VehicleController>(new devkit::DevkitController());
 }
 
 std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>
 DevkitVehicleFactory::CreateMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>(
       new devkit::DevkitMessageManager());

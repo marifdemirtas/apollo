@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ using ObjectPtr = std::shared_ptr<apollo::perception::base::Object>;
 
 bool ObjectSequence::AddTrackedFrameObjects(
     const std::vector<ObjectPtr>& objects, TimeStampKey timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lock(mutex_);
   for (const auto& obj : objects) {
     TrackIdKey& track_id = obj->track_id;
@@ -52,8 +49,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool ObjectSequence::GetTrackInTemporalWindow(TrackIdKey track_id,
                                               TrackedObjects* track,
                                               TimeStampKey window_time) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (track == nullptr) {
     return false;
   }
@@ -73,8 +68,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ObjectSequence::RemoveStaleTracks(TimeStampKey current_stamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto outer_iter = sequence_.begin(); outer_iter != sequence_.end();) {
     if (outer_iter->second.empty()) {
       AERROR << "Found empty tracks";

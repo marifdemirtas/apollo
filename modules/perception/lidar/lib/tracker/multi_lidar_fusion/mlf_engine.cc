@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,8 +35,6 @@ using apollo::prediction::Feature;
 using cyber::common::GetAbsolutePath;
 
 bool MlfEngine::Init(const MultiTargetTrackerInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig(Name(), &model_config));
@@ -81,8 +78,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool MlfEngine::Track(const MultiTargetTrackerOptions& options,
                       LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // 0. modify objects timestamp if necessary
   if (use_frame_timestamp_) {
     for (auto& object : frame->segmented_objects) {
@@ -129,8 +124,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void MlfEngine::SplitAndTransformToTrackedObjects(
     const std::vector<base::ObjectPtr>& objects,
     const base::SensorInfo& sensor_info) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<TrackedObjectPtr> tracked_objects;
   TrackedObjectPool::Instance().BatchGet(objects.size(), &tracked_objects);
   foreground_objects_.clear();
@@ -158,8 +151,6 @@ void MlfEngine::TrackObjectMatchAndAssign(
     const MlfTrackObjectMatcherOptions& match_options,
     const std::vector<TrackedObjectPtr>& objects, const std::string& name,
     std::vector<MlfTrackDataPtr>* tracks) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<std::pair<size_t, size_t>> assignments;
   std::vector<size_t> unassigned_tracks;
   std::vector<size_t> unassigned_objects;
@@ -184,8 +175,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MlfEngine::TrackStateFilter(const std::vector<MlfTrackDataPtr>& tracks,
                                  double frame_timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<TrackedObjectPtr> objects;
   for (auto& track_data : tracks) {
     track_data->GetAndCleanCachedObjectsInTimeInterval(&objects);
@@ -200,8 +189,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void convertPoseToLoc(const Eigen::Affine3d& pose,
                       localization::LocalizationEstimate* localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ADEBUG << "translation x y z " << pose.translation()[0] << " "
          << pose.translation()[1] << " " << pose.translation()[2];
   localization->mutable_pose()->mutable_position()->set_x(
@@ -254,8 +241,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 //}
 
 void MlfEngine::CollectTrackedResult(LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto& tracked_objects = frame->tracked_objects;
   tracked_objects.clear();
   size_t num_objects =
@@ -320,8 +305,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MlfEngine::RemoveStaleTrackData(const std::string& name, double timestamp,
                                      std::vector<MlfTrackDataPtr>* tracks) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t pos = 0;
   for (size_t i = 0; i < tracks->size(); ++i) {
     if (tracks->at(i)->latest_visible_time_ + reserved_invisible_time_ >=

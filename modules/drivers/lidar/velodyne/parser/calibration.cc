@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -206,8 +205,6 @@ YAML::Emitter& operator<<(YAML::Emitter& out, const Calibration& calibration) {
 }
 
 void Calibration::read(const std::string& calibration_file) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::ifstream fin(calibration_file.c_str());
 
   if (!fin.is_open()) {
@@ -231,8 +228,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Calibration::write(const std::string& calibration_file) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::ofstream fout(calibration_file.c_str());
   YAML::Emitter out;
   out << *this;

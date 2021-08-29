@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -38,8 +37,6 @@ using apollo::prediction::SemanticMap;
 using IdObstacleListMap = std::unordered_map<int, std::list<Obstacle*>>;
 
 bool IsTrainable(const Feature& feature) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (feature.id() == FLAGS_ego_vehicle_id) {
     return false;
   }
@@ -51,8 +48,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void EvaluatorManager::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   semantic_map_.reset(new SemanticMap());
   semantic_map_->Init();
   evaluator_.reset(new SemanticLSTMEvaluator(semantic_map_.get()));
@@ -60,8 +55,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void EvaluatorManager::Run(ObstaclesContainer* obstacles_container) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   BuildObstacleIdHistoryMap(obstacles_container);
   semantic_map_->RunCurrFrame(obstacle_id_history_map_);
   AINFO << "starting evaluating objects in semantic map";
@@ -82,8 +75,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void EvaluatorManager::EvaluateObstacle(Obstacle* obstacle,
                                         ObstaclesContainer* obstacles_container,
                                         std::vector<Obstacle*> dynamic_env) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Select different evaluators depending on the obstacle's type.
   switch (obstacle->type()) {
     case PerceptionObstacle::VEHICLE: {
@@ -97,16 +88,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void EvaluatorManager::EvaluateObstacle(
     Obstacle* obstacle, ObstaclesContainer* obstacles_container) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<Obstacle*> dummy_dynamic_env;
   EvaluateObstacle(obstacle, obstacles_container, dummy_dynamic_env);
 }
 
 void EvaluatorManager::BuildObstacleIdHistoryMap(
     ObstaclesContainer* obstacles_container) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   obstacle_id_history_map_.clear();
   std::vector<int> obstacle_ids =
       obstacles_container->curr_frame_movable_obstacle_ids();

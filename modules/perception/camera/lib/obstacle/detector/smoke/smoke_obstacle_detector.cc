@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -33,8 +32,6 @@ using cyber::common::GetAbsolutePath;
 
 void SmokeObstacleDetector::LoadInputShape(
                             const smoke::ModelParam &model_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float offset_ratio = model_param.offset_ratio();
   float cropped_ratio = model_param.cropped_ratio();
   int resized_width = model_param.resized_width();
@@ -61,8 +58,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SmokeObstacleDetector::LoadParam(const smoke::SmokeParam &smoke_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const auto &model_param = smoke_param.model_param();
   confidence_threshold_ = model_param.confidence_threshold();
   light_vis_conf_threshold_ = model_param.light_vis_conf_threshold();
@@ -86,8 +81,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool SmokeObstacleDetector::InitNet(const smoke::SmokeParam &smoke_param,
                                    const std::string &model_root) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const auto &model_param = smoke_param.model_param();
 
   std::string proto_file =
@@ -140,8 +133,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void SmokeObstacleDetector::InitSmokeBlob(
                             const smoke::NetworkParam &net_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto obj_blob_scale1 = inference_->get_blob(net_param.det1_obj_blob());
   overlapped_.reset(
       new base::Blob<bool>(std::vector<int>{obj_k_, obj_k_}, true));
@@ -155,8 +146,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SmokeObstacleDetector::Init(const ObstacleDetectorInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   gpu_id_ = options.gpu_id;
   BASE_CUDA_CHECK(cudaSetDevice(gpu_id_));
   BASE_CUDA_CHECK(cudaStreamCreate(&stream_));
@@ -203,8 +192,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SmokeObstacleDetector::InitFeatureExtractor(const std::string &root_dir) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   FeatureExtractorInitOptions feature_options;
   feature_options.conf_file = smoke_param_.model_param().feature_file();
   feature_options.root_dir = root_dir;
@@ -223,8 +210,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool SmokeObstacleDetector::Detect(const ObstacleDetectorOptions &options,
                                   CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame == nullptr) {
     return false;
   }

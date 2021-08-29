@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -23,8 +22,6 @@ namespace velodyne {
 
 Velodyne16Parser::Velodyne16Parser(const Config& config)
     : VelodyneParser(config), previous_packet_stamp_(0), gps_base_usec_(0) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   inner_time_ = &velodyne::INNER_TIME_16;
   need_two_pt_correction_ = false;
 }
@@ -32,8 +29,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void Velodyne16Parser::GeneratePointcloud(
     const std::shared_ptr<VelodyneScan>& scan_msg,
     std::shared_ptr<PointCloud> out_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // allocate a point cloud with same time and frame ID as raw data
   out_msg->mutable_header()->set_frame_id(scan_msg->header().frame_id());
   out_msg->set_height(1);
@@ -59,8 +54,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 uint64_t Velodyne16Parser::GetTimestamp(double base_time, float time_offset,
                                         uint16_t block_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double t = base_time - time_offset;
   uint64_t timestamp = Velodyne16Parser::GetGpsStamp(t, &previous_packet_stamp_,
                                                      &gps_base_usec_);
@@ -74,8 +67,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  */
 void Velodyne16Parser::Unpack(const VelodynePacket& pkt,
                               std::shared_ptr<PointCloud> pc) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float azimuth_diff = 0.0f;
   float last_azimuth_diff = 0.0f;
   float azimuth_corrected_f = 0.0f;
@@ -167,8 +158,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Velodyne16Parser::Order(std::shared_ptr<PointCloud> cloud) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int width = 16;
   cloud->set_width(width);
   int height = cloud->point_size() / cloud->width();

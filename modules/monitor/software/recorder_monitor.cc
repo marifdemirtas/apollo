@@ -40,11 +40,11 @@ using apollo::data::SmartRecorderStatus;
 RecorderMonitor::RecorderMonitor()
     : RecurrentRunner(FLAGS_smart_recorder_monitor_name,
                       FLAGS_smart_recorder_monitor_interval) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void RecorderMonitor::RunOnce(const double current_time) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto manager = MonitorManager::Instance();
   auto* component = apollo::common::util::FindOrNull(
@@ -72,7 +72,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   // Translate SmartRecorderStatus to ComponentStatus. Note that ERROR and FATAL
   // will trigger safety mode in current settings.
   switch (status->recording_state()) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
     case RecordingState::RECORDING:
       SummaryMonitor::EscalateStatus(ComponentStatus::OK, "", component_status);

@@ -30,7 +30,7 @@ uint32_t FusionComponent::s_seq_num_ = 0;
 std::mutex FusionComponent::s_mutex_;
 
 bool FusionComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   FusionComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
@@ -56,7 +56,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool FusionComponent::Proc(const std::shared_ptr<SensorFrameMessage>& message) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (message->process_stage_ == ProcessStage::SENSOR_FUSION) {
     return true;
@@ -88,7 +88,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool FusionComponent::InitAlgorithmPlugin() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   fusion_.reset(new fusion::ObstacleMultiSensorFusion());
   fusion::ObstacleMultiSensorFusionParam param;
@@ -108,7 +108,7 @@ bool FusionComponent::InternalProc(
     const std::shared_ptr<SensorFrameMessage const>& in_message,
     std::shared_ptr<PerceptionObstacles> out_message,
     std::shared_ptr<SensorFrameMessage> viz_message) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   {
     std::unique_lock<std::mutex> lock(s_mutex_);

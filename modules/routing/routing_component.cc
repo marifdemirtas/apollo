@@ -25,7 +25,6 @@
 DECLARE_string(flagfile);
 
 namespace apollo {
-
 namespace routing {
 
 bool RoutingComponent::Init() {

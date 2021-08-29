@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Vehiclespeedrpt400::Vehiclespeedrpt400() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Vehiclespeedrpt400::ID = 0x400;
 
 void Vehiclespeedrpt400::Parse(const std::uint8_t* bytes, int32_t length,
                                ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_lexus()->mutable_vehicle_speed_rpt_400()->set_vehicle_speed(
       vehicle_speed(bytes, length));
@@ -49,7 +49,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'm/s'}
 double Vehiclespeedrpt400::vehicle_speed(const std::uint8_t* bytes,
                                          int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -74,7 +74,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Vehicle_speed_rpt_400::Vehicle_speed_validType
 Vehiclespeedrpt400::vehicle_speed_valid(const std::uint8_t* bytes,
                                         int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 1);

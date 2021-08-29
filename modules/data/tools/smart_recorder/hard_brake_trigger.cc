@@ -30,11 +30,11 @@ namespace data {
 using apollo::canbus::Chassis;
 
 HardBrakeTrigger::HardBrakeTrigger() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  trigger_name_ = "HardBrakeTrigger"; }
 
 void HardBrakeTrigger::Pull(const cyber::record::RecordMessage& msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!trigger_obj_->enabled()) {
     return;
@@ -60,7 +60,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool HardBrakeTrigger::IsNoisy(const float speed) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const float pre_speed_mps =
       (current_speed_queue_.empty() ? 0.0f : current_speed_queue_.back());
@@ -68,7 +68,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool HardBrakeTrigger::IsHardBrake() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (current_speed_queue_.size() < queue_size_ ||
       history_speed_queue_.size() < queue_size_) {
@@ -80,7 +80,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HardBrakeTrigger::EnqueueMessage(const float speed) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   current_speed_queue_.emplace_back(speed);
   current_total_ += speed;

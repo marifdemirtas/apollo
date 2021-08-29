@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -25,16 +24,10 @@ namespace apollo {
 namespace drivers {
 namespace lidar {
 
-LidarDriverFactory::LidarDriverFactory() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+LidarDriverFactory::LidarDriverFactory() {}
 LidarDriverFactory::LidarDriverFactory(
-    const apollo::drivers::lidar::config& config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+    const apollo::drivers::lidar::config& config) {}
 void LidarDriverFactory::RegisterLidarClients() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Register(LidarParameter::HESAI,
            [](const std::shared_ptr<::apollo::cyber::Node>& node,
               const apollo::drivers::lidar::config& config) -> LidarDriver* {
@@ -56,8 +49,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 std::unique_ptr<LidarDriver> LidarDriverFactory::CreateLidarDriver(
     const std::shared_ptr<::apollo::cyber::Node>& node,
     const apollo::drivers::lidar::config& parameter) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto factory = CreateObject(parameter.brand(), node, parameter);
   if (!factory) {
     AERROR << "Failed to create lidar with parameter: "

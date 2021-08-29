@@ -34,7 +34,7 @@ using apollo::common::Status;
 using apollo::cyber::Clock;
 
 void ControllerAgent::RegisterControllers(const ControlConf *control_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "Only support MPC controller or Lat + Lon controllers as of now";
   for (auto active_controller : control_conf->active_controllers()) {
@@ -61,7 +61,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status ControllerAgent::InitializeConf(const ControlConf *control_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!control_conf) {
     AERROR << "control_conf is null";
@@ -84,7 +84,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status ControllerAgent::Init(std::shared_ptr<DependencyInjector> injector,
                              const ControlConf *control_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   injector_ = injector;
   RegisterControllers(control_conf);
@@ -107,7 +107,7 @@ Status ControllerAgent::ComputeControlCommand(
     const localization::LocalizationEstimate *localization,
     const canbus::Chassis *chassis, const planning::ADCTrajectory *trajectory,
     control::ControlCommand *cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (auto &controller : controller_list_) {
     ADEBUG << "controller:" << controller->Name() << " processing ...";
@@ -124,7 +124,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status ControllerAgent::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (auto &controller : controller_list_) {
     ADEBUG << "controller:" << controller->Name() << " reset...";

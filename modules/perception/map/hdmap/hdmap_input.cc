@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -45,20 +44,14 @@ using base::PointDCloudPtr;
 using base::RoadBoundary;
 // HDMapInput
 
-HDMapInput::HDMapInput() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+HDMapInput::HDMapInput() {}
 
 bool HDMapInput::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   lib::MutexLock lock(&mutex_);
   return InitInternal();
 }
 
 bool HDMapInput::InitInternal() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (inited_) {
     return true;
   }
@@ -70,16 +63,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool HDMapInput::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   lib::MutexLock lock(&mutex_);
   inited_ = false;
   return InitInternal();
 }
 
 bool HDMapInput::InitHDMap() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   hdmap_.reset(new apollo::hdmap::HDMap());
   const std::string model_name = "HDMapInput";
   const lib::ModelConfig* model_config = nullptr;
@@ -117,8 +106,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool HDMapInput::GetRoiHDMapStruct(
     const base::PointD& pointd, const double distance,
     std::shared_ptr<base::HdmapStruct> hdmap_struct_ptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   lib::MutexLock lock(&mutex_);
   if (hdmap_.get() == nullptr) {
     AERROR << "hdmap is not available";
@@ -162,8 +149,6 @@ void HDMapInput::MergeBoundaryJunction(
     EigenVector<base::RoadBoundary>* road_boundaries_ptr,
     EigenVector<base::PointCloud<base::PointD>>* road_polygons_ptr,
     EigenVector<base::PointCloud<base::PointD>>* junction_polygons_ptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const int boundary_size = static_cast<int>(boundary.size());
   const int junctions_size = static_cast<int>(junctions.size());
   const int polygon_size = boundary_size;
@@ -248,8 +233,6 @@ bool HDMapInput::GetRoadBoundaryFilteredByJunctions(
     const EigenVector<base::RoadBoundary>& road_boundaries,
     const EigenVector<base::PointCloud<base::PointD>>& junctions,
     EigenVector<base::RoadBoundary>* flt_road_boundaries_ptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (size_t n_rd = 0; n_rd < road_boundaries.size(); ++n_rd) {
     const base::RoadBoundary& temp_road_boundary = road_boundaries[n_rd];
     EigenVector<base::PointCloud<base::PointD>> temp_left_boundary_vec;
@@ -280,8 +263,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void HDMapInput::DownsamplePoints(const base::PointDCloudPtr& raw_cloud_ptr,
                                   base::PointCloud<base::PointD>* polygon_ptr,
                                   size_t min_points_num_for_sample) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   constexpr double kDoubleEpsilon = std::numeric_limits<double>::epsilon();
   const PointDCloud& raw_cloud = *raw_cloud_ptr;
   unsigned int spt = 0;
@@ -332,8 +313,6 @@ void HDMapInput::SplitBoundary(
     const base::PointCloud<base::PointD>& boundary_line,
     const EigenVector<base::PointCloud<base::PointD>>& junctions,
     EigenVector<base::PointCloud<base::PointD>>* boundary_line_vec_ptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<bool> boundary_flag(boundary_line.size());
   for (size_t npt = 0; npt < boundary_line.size(); ++npt) {
     const PointD& pointd = boundary_line[npt];
@@ -377,8 +356,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool HDMapInput::GetNearestLaneDirection(const base::PointD& pointd,
                                          Eigen::Vector3d* lane_direction) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // if (hdmap_ == nullptr) {
   //   return false;
   // }
@@ -409,8 +386,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool HDMapInput::GetSignalsFromHDMap(
     const Eigen::Vector3d& pointd, double forward_distance,
     std::vector<apollo::hdmap::Signal>* signals) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   apollo::common::PointENU point;
   point.set_x(pointd(0));
   point.set_y(pointd(1));
@@ -435,8 +410,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool HDMapInput::GetSignals(const Eigen::Vector3d& pointd,
                             double forward_distance,
                             std::vector<apollo::hdmap::Signal>* signals) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   lib::MutexLock lock(&mutex_);
   if (hdmap_.get() == nullptr) {
     AERROR << "hdmap is not available";

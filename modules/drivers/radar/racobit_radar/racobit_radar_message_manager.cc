@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -41,8 +40,6 @@ namespace racobit_radar {
 RacobitRadarMessageManager::RacobitRadarMessageManager(
     std::shared_ptr<cyber::Writer<RacobitRadar>> writer)
     : writer_(std::move(writer)) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   AddRecvProtocolData<RadarState201, true>();
   AddRecvProtocolData<ClusterListStatus600, true>();
   AddRecvProtocolData<ClusterGeneralInfo701, true>();
@@ -54,23 +51,17 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RacobitRadarMessageManager::set_radar_conf(RadarConf radar_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   radar_config_.set_radar_conf(radar_conf);
 }
 
 void RacobitRadarMessageManager::set_can_client(
     std::shared_ptr<CanClient> can_client) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   can_client_ = can_client;
 }
 
 ProtocolData<RacobitRadar>
     *RacobitRadarMessageManager::GetMutableProtocolDataById(
         const uint32_t message_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   uint32_t converted_message_id = message_id;
   if (protocol_data_map_.find(converted_message_id) ==
       protocol_data_map_.end()) {
@@ -83,8 +74,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void RacobitRadarMessageManager::Parse(const uint32_t message_id,
                                        const uint8_t *data, int32_t length) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ProtocolData<RacobitRadar> *sensor_protocol_data =
       GetMutableProtocolDataById(message_id);
   if (sensor_protocol_data == nullptr) {

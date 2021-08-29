@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,8 +35,6 @@ int KalmanMotionFusion::s_eval_window_ = 3;
 size_t KalmanMotionFusion::s_history_size_maximum_ = 20;
 
 bool KalmanMotionFusion::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (track_ref_ == nullptr) {
     return false;
   }
@@ -50,8 +47,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool KalmanMotionFusion::InitFilter(const SensorObjectConstPtr& sensor_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const std::vector<bool> gain_break_down = {0, 0, 0, 0, 1, 1};
   const std::vector<bool> value_break_down = {0, 0, 1, 1, 0, 0};
   const float gain_break_down_threshold = 2.0f;
@@ -107,8 +102,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void KalmanMotionFusion::GetStates(Eigen::Vector3d* anchor_point,
                                    Eigen::Vector3d* velocity) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   *anchor_point = fused_anchor_point_;
   *velocity = fused_velocity_;
 }
@@ -116,8 +109,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void KalmanMotionFusion::UpdateWithoutMeasurement(const std::string& sensor_id,
                                                   double measurement_timestamp,
                                                   double target_timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   SensorObjectConstPtr lidar_ptr = track_ref_->GetLatestLidarObject();
   SensorObjectConstPtr radar_ptr = track_ref_->GetLatestRadarObject();
   SensorObjectConstPtr camera_ptr = track_ref_->GetLatestCameraObject();
@@ -142,8 +133,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void KalmanMotionFusion::UpdateWithMeasurement(
     const SensorObjectConstPtr& measurement, double target_timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   fused_anchor_point_ =
       measurement->GetBaseObject()->anchor_point.cast<double>();
   fused_velocity_ = measurement->GetBaseObject()->velocity.cast<double>();
@@ -229,8 +218,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void KalmanMotionFusion::MotionFusionWithoutMeasurement(
     const double time_diff) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::MatrixXd transform_matrix;
   Eigen::MatrixXd env_uncertainty;
   transform_matrix.setIdentity(6, 6);
@@ -242,8 +229,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void KalmanMotionFusion::MotionFusionWithMeasurement(
     const SensorObjectConstPtr& measurement, double time_diff) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // we use kalman filter to update our tracker.
   // The pipeline is detailed as follows:
   // 1) compute the time diff to predict the tracker
@@ -349,8 +334,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void KalmanMotionFusion::UpdateMotionState() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   base::ObjectPtr obj = track_ref_->GetFusedObject()->GetBaseObject();
   obj->anchor_point = fused_anchor_point_.cast<double>();
   // it seems that it is the only place to update the FusedObject's `center`
@@ -374,8 +357,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Eigen::VectorXd KalmanMotionFusion::ComputeAccelerationMeasurement(
     const base::SensorType& sensor_type, const Eigen::Vector3d& velocity,
     const double& timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Vector3d acceleration_measurement = Eigen::Vector3d::Zero();
   if (common::SensorManager::Instance()->IsCamera(sensor_type)) {
     acceleration_measurement(0) = kalman_filter_.GetStates()(4);
@@ -397,8 +378,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void KalmanMotionFusion::RewardRMatrix(const base::SensorType& sensor_type,
                                        const bool& converged,
                                        Eigen::MatrixXd* r_matrix) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   common::SensorManager* sensor_manager = common::SensorManager::Instance();
   const float converged_scale = 0.01f;
   const float unconverged_scale = 1000.0f;
@@ -426,8 +405,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Eigen::Vector4d KalmanMotionFusion::ComputePseudoMeasurement(
     const Eigen::Vector4d& measurement, const base::SensorType& sensor_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // What is a pseudo-lidar estimation? if given lidar estimation could trace
   // a good radar estimation within a short window, then project radar
   // estimation on given lidar one. otherwise, use original lidar estimation.
@@ -451,8 +428,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Eigen::Vector4d KalmanMotionFusion::ComputePseudoLidarMeasurement(
     const Eigen::Vector4d& measurement) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Initialize status variables
   int trace_count = 0;
   const float velocity_angle_change_thresh_ = static_cast<float>(M_PI / 20.0);
@@ -528,8 +503,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Eigen::Vector4d KalmanMotionFusion::ComputePseudoCameraMeasurement(
     const Eigen::Vector4d& measurement) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Initialize status variables
   int trace_count = 0;
   const float velocity_angle_change_thresh_ = static_cast<float>(M_PI / 10.0);
@@ -605,8 +578,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Eigen::Vector4d KalmanMotionFusion::ComputePseudoRadarMeasurement(
     const Eigen::Vector4d& measurement) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Initialize status variables
   int lidar_trace_count = 0;
   int camera_trace_count = 0;
@@ -721,8 +692,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void KalmanMotionFusion::UpdateSensorHistory(
     const base::SensorType& sensor_type, const Eigen::Vector3d& velocity,
     const double& timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int lidar_history_length =
       GetSensorHistoryLength(base::SensorType::VELODYNE_64);
   int radar_history_length =
@@ -741,8 +710,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int KalmanMotionFusion::GetSensorHistoryLength(
     const base::SensorType& sensor_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int sensor_history_length = 0;
   for (size_t i = 0; i < history_sensor_type_.size(); ++i) {
     if (history_sensor_type_[i] == sensor_type) {
@@ -754,8 +721,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int KalmanMotionFusion::GetSensorHistoryIndex(
     const base::SensorType& sensor_type, const int& trace_length) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int history_index = 0;
   int history_count = 0;
   for (size_t i = 1; i <= history_sensor_type_.size(); ++i) {

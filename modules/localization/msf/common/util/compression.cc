@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,20 +29,14 @@ namespace msf {
 const unsigned int ZlibStrategy::zlib_chunk = 16384;
 
 int ZlibStrategy::Encode(BufferStr* buf, BufferStr* buf_compressed) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return ZlibCompress(buf, buf_compressed);
 }
 
 int ZlibStrategy::Decode(BufferStr* buf, BufferStr* buf_uncompressed) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return ZlibUncompress(buf, buf_uncompressed);
 }
 
 int ZlibStrategy::ZlibCompress(BufferStr* src, BufferStr* dst) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   dst->resize(zlib_chunk * 2);
   int ret, flush;
   unsigned have;
@@ -101,8 +94,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int ZlibStrategy::ZlibUncompress(BufferStr* src, BufferStr* dst) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   dst->resize(zlib_chunk * 2);
   int ret;
   unsigned have;

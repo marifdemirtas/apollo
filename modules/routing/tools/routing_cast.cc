@@ -27,8 +27,6 @@ DEFINE_string(routing_dump_file, "/tmp/routing.pb.txt",
 using apollo::cyber::Rate;
 
 int main(int argc, char *argv[]) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   google::ParseCommandLineFlags(&argc, &argv, true);
   apollo::cyber::Init(argv[0]);
 

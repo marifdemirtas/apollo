@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -20,29 +19,19 @@ namespace apollo {
 namespace perception {
 namespace base {
 
-Polynomial::Polynomial() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- coeff_[0] = 0.0; }
-Polynomial::~Polynomial() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+Polynomial::Polynomial() { coeff_[0] = 0.0; }
+Polynomial::~Polynomial() {}
 
 const std::map<uint32_t, double>& Polynomial::getCoeff() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return coeff_;
 }
 
 double& Polynomial::operator[](const uint32_t& order) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   initialized_ = false;
   return coeff_[order];
 }
 
 double Polynomial::operator()(const double& x) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!initialized_) {
     index_gap_.resize(coeff_.size() - 1, 0);
     auto it = coeff_.begin();

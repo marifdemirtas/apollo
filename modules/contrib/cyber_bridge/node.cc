@@ -21,15 +21,15 @@
 using apollo::cyber::message::PyMessageWrap;
 
 Node::Node() : node(apollo::cyber::CreateNode("bridge")) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Node::~Node() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Node::remove(std::shared_ptr<Client> client) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (auto it = writers.begin(); it != writers.end(); /* empty */) {
     if (it->second.clients.find(client) != it->second.clients.end()) {
@@ -66,7 +66,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void Node::add_reader(const std::string& channel, const std::string& type,
                       std::shared_ptr<Client> client) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto rit = readers.find(channel);
   if (rit != readers.end()) {
@@ -101,7 +101,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void Node::add_writer(const std::string& channel, const std::string& type,
                       std::shared_ptr<Client> client) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto wit = writers.find(channel);
   if (wit != writers.end()) {
@@ -133,7 +133,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Node::publish(const std::string& channel, const std::string& data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto writer = writers.find(channel);
   if (writer == writers.end()) {

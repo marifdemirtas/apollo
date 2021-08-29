@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -39,8 +38,6 @@ using Matrix = Eigen::MatrixXd;
 double MracController::Control(const double command, const Matrix state,
                                const double input_limit,
                                const double input_rate_limit) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // check if the current sampling time is valid and the reference/adaption
   // model well set up during the initialization
   if (ts_ <= 0.0 || !reference_model_enabled_ || !adaption_model_enabled_) {
@@ -111,8 +108,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MracController::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // reset the overall states
   ResetStates();
   // reset the adaptive gains
@@ -124,8 +119,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MracController::ResetStates() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // reset the inputs and outputs of the closed-loop MRAC controller
   control_previous_ = 0.0;
   input_desired_.setZero(1, 2);
@@ -138,8 +131,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MracController::ResetGains() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   gain_state_adaption_.setZero(model_order_, 2);
   gain_input_adaption_ = Matrix::Ones(1, 2);
   gain_nonlinear_adaption_.setZero(1, 2);
@@ -149,8 +140,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MracController::Init(const MracConf &mrac_conf,
                           const LatencyParam &latency_param, const double dt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   control_previous_ = 0.0;
   saturation_status_control_ = 0;
   saturation_status_reference_ = 0;
@@ -195,8 +184,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status MracController::SetReferenceModel(const MracConf &mrac_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double Epsilon = 0.000001;
   if (((mrac_conf.reference_time_constant() < Epsilon && model_order_ == 1)) ||
       ((mrac_conf.reference_natural_frequency() < Epsilon &&
@@ -221,8 +208,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status MracController::SetAdaptionModel(const MracConf &mrac_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const int p_size = mrac_conf.adaption_matrix_p_size();
   const int x_size = mrac_conf.adaption_state_gain_size();
   const int aw_size = mrac_conf.anti_windup_compensation_gain_size();
@@ -255,8 +240,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status MracController::BuildReferenceModel() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (model_order_ > 2) {
     const auto error_msg =
         absl::StrCat("mrac controller error: reference model order ",
@@ -277,8 +260,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status MracController::BuildAdaptionModel() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (model_order_ > 2) {
     const auto error_msg =
         absl::StrCat("mrac controller error: adaption model order ",
@@ -303,8 +284,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool MracController::CheckLyapunovPD(const Matrix matrix_a,
                                      const Matrix matrix_p) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Matrix matrix_q = -matrix_p * matrix_a - matrix_a.transpose() * matrix_p;
   Eigen::LLT<Matrix> llt_matrix_q(matrix_q);
   // if matrix Q is not symmetric or the Cholesky decomposition (LLT) failed
@@ -314,8 +293,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MracController::EstimateInitialGains(const LatencyParam &latency_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double rise_time_estimate =
       latency_param.dead_time() + latency_param.rise_time();
   const double settling_time_estimate =
@@ -371,8 +348,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MracController::UpdateReference() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Matrix matrix_i = Matrix::Identity(model_order_, model_order_);
   state_reference_.col(0) =
       (matrix_i - ts_ * 0.5 * matrix_a_reference_).inverse() *
@@ -383,8 +358,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MracController::UpdateAdaption(Matrix *law_adp, const Matrix state_adp,
                                     const Matrix gain_adp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Matrix state_error = state_action_ - state_reference_;
   law_adp->col(0) =
       law_adp->col(1) -
@@ -398,8 +371,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MracController::AntiWindupCompensation(const double control_command,
                                             const double previous_command) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Matrix offset_windup = Matrix::Zero(model_order_, 1);
   offset_windup(0, 0) =
       ((control_command > bound_command_) ? bound_command_ - control_command
@@ -421,8 +392,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int MracController::BoundOutput(const double output_unbounded,
                                 const double previous_output, double *output) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int status = 0;
   if (output_unbounded > bound_command_ ||
       output_unbounded > previous_output + bound_command_rate_ * ts_) {
@@ -453,8 +422,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MracController::SetInitialReferenceState(
     const Matrix &state_reference_init) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (state_reference_init.rows() != model_order_ ||
       state_reference_init.cols() != 1) {
     AWARN << "failed to set the initial reference states, due to the given "
@@ -467,8 +434,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MracController::SetInitialActionState(const Matrix &state_action_init) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (state_action_init.rows() != model_order_ ||
       state_action_init.cols() != 1) {
     AWARN << "failed to set the initial action states, due to the given "
@@ -481,15 +446,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MracController::SetInitialCommand(const double command_init) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   input_desired_(0, 1) = command_init;
 }
 
 void MracController::SetInitialStateAdaptionGain(
     const Matrix &gain_state_adaption_init) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (gain_state_adaption_init.rows() != model_order_ ||
       gain_state_adaption_init.cols() != 1) {
     AWARN << "failed to set the initial state adaption gains, due to the given "
@@ -504,21 +465,15 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MracController::SetInitialInputAdaptionGain(
     const double gain_input_adaption_init) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   gain_input_adaption_(0, 1) = gain_input_adaption_init;
 }
 
 void MracController::SetInitialNonlinearAdaptionGain(
     const double gain_nonlinear_adaption_init) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   gain_nonlinear_adaption_(0, 1) = gain_nonlinear_adaption_init;
 }
 
 void MracController::SetStateAdaptionRate(const double ratio_state) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (ratio_state < 0.0) {
     AWARN << "failed to set the state adaption rate, due to new ratio < 0; the "
              "current ratio is still: "
@@ -529,8 +484,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MracController::SetInputAdaptionRate(const double ratio_input) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (ratio_input < 0.0) {
     AWARN << "failed to set the input adaption rate, due to new ratio < 0; the "
              "current ratio is still: "
@@ -541,8 +494,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MracController::SetNonlinearAdaptionRate(const double ratio_nonlinear) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (ratio_nonlinear < 0.0) {
     AWARN << "failed to set the nonlinear adaption rate, due to new ratio < 0; "
              "the current ratio is still: "
@@ -552,53 +503,35 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 
-double MracController::StateAdaptionRate() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return gamma_ratio_state_; }
+double MracController::StateAdaptionRate() const { return gamma_ratio_state_; }
 
-double MracController::InputAdaptionRate() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return gamma_ratio_input_; }
+double MracController::InputAdaptionRate() const { return gamma_ratio_input_; }
 
 double MracController::NonlinearAdaptionRate() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return gamma_ratio_nonlinear_;
 }
 
 int MracController::ReferenceSaturationStatus() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return saturation_status_reference_;
 }
 
 int MracController::ControlSaturationStatus() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return saturation_status_control_;
 }
 
 Matrix MracController::CurrentReferenceState() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return state_reference_;
 }
 
 Matrix MracController::CurrentStateAdaptionGain() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return gain_state_adaption_;
 }
 
 Matrix MracController::CurrentInputAdaptionGain() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return gain_input_adaption_;
 }
 
 Matrix MracController::CurrentNonlinearAdaptionGain() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return gain_nonlinear_adaption_;
 }
 

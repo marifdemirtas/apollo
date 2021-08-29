@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -31,9 +30,7 @@ HoughTransfer::HoughTransfer()
       vote_reserve_size_(10),
       vote_map_(),
       query_map_(),
-      distribute_map_() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+      distribute_map_() {}
 
 // step1
 // @brief: initiate
@@ -41,8 +38,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 //             d_r, d_theta: discretization step of r and theta
 //                           in polar coordinates
 bool HoughTransfer::Init(int img_w, int img_h, float d_r, float d_theta) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   img_w_ = img_w;
   img_h_ = img_h;
   d_r_ = d_r;
@@ -95,8 +90,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 //                              length,vote_num,pts in HoughLine
 bool HoughTransfer::ImageVote(const std::vector<int>& image,
                               bool with_distribute) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (image.size() != query_map_.size()) {
     return false;
   }
@@ -116,16 +109,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 //             with_distribute: flag to control whether to calculate element
 //                              length,vote_num,pts in HoughLine
 void HoughTransfer::PointVote(int x, int y, bool with_distribute) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const int pos = y * img_w_ + x;
   PointVote(pos, with_distribute);
 }
 
 // @paramas[IN] pos: pos = y*img_w +x
 void HoughTransfer::PointVote(int pos, bool with_distribute) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (int theta_idx = 0; theta_idx < theta_size_; ++theta_idx) {
     ++vote_map_[query_map_[pos][theta_idx]];
     if (with_distribute) {
@@ -144,8 +133,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool HoughTransfer::GetLines(int min_pt_num, int r_neibor, int theta_neibor,
                              bool with_distribute,
                              std::vector<HoughLine>* lines) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!lines) {
     return false;
   }
@@ -169,8 +156,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 unsigned int HoughTransfer::MemoryConsume() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   unsigned int size = 0;
   if (is_prepared()) {
     size +=
@@ -193,16 +178,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // when we use hough with with_distribute mode in large image long time,
 // memory consume maybe too large, so use this func to free no used cache.
 void HoughTransfer::FreeCache() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto& distribute : distribute_map_) {
     distribute.shrink_to_fit();
   }
 }
 
 void HoughTransfer::ResetMaps(bool with_distribute) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   memset(vote_map_.data(), 0, vote_map_.size() * sizeof(vote_map_[0]));
   if (with_distribute) {
     for (auto& distribute : distribute_map_) {
@@ -212,8 +193,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HoughTransfer::ClearWithShrink() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   vote_map_.clear();
   vote_map_.shrink_to_fit();
   query_map_.clear();
@@ -224,8 +203,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool HoughTransfer::CheckPrepared() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (static_cast<int>(vote_map_.size()) != r_size_ * theta_size_) {
     return false;
   }
@@ -244,8 +221,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void HoughTransfer::GetMaxVotes(int min_pt_num, int r_neibor, int theta_neibor,
                                 int r_step, int theta_step,
                                 std::set<int>* max_vote_lines) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (int i = r_neibor; i < r_size_ - r_neibor; i += r_step) {
     for (int j = theta_neibor; j < theta_size_ - theta_neibor;
          j += theta_step) {
@@ -269,8 +244,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool HoughTransfer::VotePosToHoughLine(int vote_pos, bool with_distribute,
                                        HoughLine* out_line) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!out_line) {
     return false;
   }

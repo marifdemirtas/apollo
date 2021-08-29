@@ -29,13 +29,13 @@ namespace neolix_edu {
 using ::apollo::drivers::canbus::Byte;
 
 Vcuvehicleinforesponse502::Vcuvehicleinforesponse502() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Vcuvehicleinforesponse502::ID = 0x502;
 
 void Vcuvehicleinforesponse502::Parse(const std::uint8_t* bytes, int32_t length,
                                       ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_neolix_edu()
       ->mutable_vcu_vehicle_info_response_502()
@@ -67,7 +67,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': ''}
 int Vcuvehicleinforesponse502::vehicle_softwareversion_indicati(
     const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -91,7 +91,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehicleinforesponse502::project(const std::uint8_t* bytes,
                                        int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 4);
@@ -105,7 +105,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehicleinforesponse502::manufacturer(const std::uint8_t* bytes,
                                             int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(4, 4);
@@ -119,7 +119,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehicleinforesponse502::year(const std::uint8_t* bytes,
                                     int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -133,7 +133,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehicleinforesponse502::month(const std::uint8_t* bytes,
                                      int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(4, 4);
@@ -147,7 +147,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehicleinforesponse502::day(const std::uint8_t* bytes,
                                    int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 4);
@@ -167,7 +167,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // ''}
 int Vcuvehicleinforesponse502::vehicle_serial_number(const std::uint8_t* bytes,
                                                      int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 7);

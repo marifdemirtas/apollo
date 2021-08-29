@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -20,15 +19,12 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-
 namespace perception {
 namespace camera {
 
 void get_intersect_bbox(const NormalizedBBox &bbox1,
                         const NormalizedBBox &bbox2,
                         NormalizedBBox *intersect_bbox) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (bbox2.xmin > bbox1.xmax || bbox2.xmax < bbox1.xmin ||
       bbox2.ymin > bbox1.ymax || bbox2.ymax < bbox1.ymin) {
     // Return [0, 0, 0, 0] if there is no intersection.
@@ -45,8 +41,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 float get_bbox_size(const NormalizedBBox &bbox) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (bbox.xmax < bbox.xmin || bbox.ymax < bbox.ymin) {
     // If bbox is invalid (e.g. xmax < xmin or ymax < ymin), return 0.
     return 0;
@@ -63,8 +57,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 float get_jaccard_overlap(const NormalizedBBox &bbox1,
                           const NormalizedBBox &bbox2) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   NormalizedBBox intersect_bbox;
   get_intersect_bbox(bbox1, bbox2, &intersect_bbox);
   float intersect_width = 0.f;
@@ -85,8 +77,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void get_max_score_index(const std::vector<float> &scores,
                          const float threshold, const int top_k,
                          std::vector<std::pair<float, int>> *score_index_vec) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Generate index score pairs.
   for (int i = 0; i < static_cast<int>(scores.size()); ++i) {
     if (scores[i] > threshold) {
@@ -109,8 +99,6 @@ void apply_softnms_fast(const std::vector<NormalizedBBox> &bboxes,
                         const float nms_threshold, const int top_k,
                         std::vector<int> *indices, bool is_linear,
                         const float sigma) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Sanity check.
   CHECK_EQ(bboxes.size(), scores->size())
       << "bboxes and scores have different size.";
@@ -151,8 +139,6 @@ void apply_boxvoting_fast(std::vector<NormalizedBBox> *bboxes,
                           std::vector<float> *scores,
                           const float conf_threshold, const float nms_threshold,
                           const float sigma, std::vector<int> *indices) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (bboxes->size() == 0) {
     return;
   }
@@ -223,8 +209,6 @@ void apply_nms_fast(const std::vector<NormalizedBBox> &bboxes,
                     const float score_threshold, const float nms_threshold,
                     const float eta, const int top_k,
                     std::vector<int> *indices) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Sanity check.
   CHECK_EQ(bboxes.size(), scores.size())
       << "bboxes and scores have different size.";
@@ -260,8 +244,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void filter_bbox(const MinDims &min_dims,
                  std::vector<base::ObjectPtr> *objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int valid_obj_idx = 0;
   int total_obj_idx = 0;
   while (total_obj_idx < static_cast<int>(objects->size())) {
@@ -284,8 +266,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 void recover_bbox(int roi_w, int roi_h, int offset_y,
                   std::vector<base::ObjectPtr> *objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto &obj : *objects) {
     float xmin = obj->camera_supplement.box.xmin;
     float ymin = obj->camera_supplement.box.ymin;
@@ -334,8 +314,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void fill_base(base::ObjectPtr obj, const float *bbox) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   obj->camera_supplement.box.xmin = bbox[0];
   obj->camera_supplement.box.ymin = bbox[1];
   obj->camera_supplement.box.xmax = bbox[2];
@@ -343,8 +321,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void fill_bbox3d(bool with_box3d, base::ObjectPtr obj, const float *bbox) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (with_box3d) {
     obj->camera_supplement.alpha = bbox[0];
     obj->size[2] = bbox[1];
@@ -354,8 +330,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void fill_frbox(bool with_frbox, base::ObjectPtr obj, const float *bbox) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (with_frbox) {
     obj->camera_supplement.front_box.xmin = bbox[0];
     obj->camera_supplement.front_box.ymin = bbox[1];
@@ -370,8 +344,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void fill_lights(bool with_lights, base::ObjectPtr obj, const float *bbox) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (with_lights) {
     obj->car_light.brake_visible = bbox[0];
     obj->car_light.brake_switch_on = bbox[1];
@@ -383,8 +355,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void fill_ratios(bool with_ratios, base::ObjectPtr obj, const float *bbox) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (with_ratios) {
     // visible ratios of face a/b/c/d
     obj->camera_supplement.visible_ratios[0] = bbox[0];
@@ -402,8 +372,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void fill_area_id(bool with_flag, base::ObjectPtr obj, const float *data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (with_flag) {
     obj->camera_supplement.area_id = static_cast<int>(data[0]);
     // obj->camera_supplement.area_id_prob = data[1];
@@ -411,8 +379,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int get_area_id(float visible_ratios[4]) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int area_id = 0;
   int max_face = 0;
   for (int i = 1; i < 4; i++) {

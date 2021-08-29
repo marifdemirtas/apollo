@@ -26,15 +26,15 @@ namespace msf {
 namespace pyramid_map {
 
 PyramidMapMatrix::PyramidMapMatrix() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Clear(); }
 
 PyramidMapMatrix::~PyramidMapMatrix() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Clear(); }
 
 PyramidMapMatrix::PyramidMapMatrix(const PyramidMapMatrix& map_matrix) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Clear();
   resolution_num_ = map_matrix.resolution_num_;
@@ -61,7 +61,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PyramidMapMatrix::Init(const BaseMapConfig& config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const PyramidMapConfig* pconfig =
       dynamic_cast<const PyramidMapConfig*>(&config);
@@ -74,7 +74,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PyramidMapMatrix::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (unsigned int i = 0; i < resolution_num_; i++) {
     Reset(i);
@@ -87,7 +87,7 @@ void PyramidMapMatrix::Init(unsigned int rows, unsigned int cols,
                             bool has_ground_altitude, bool has_count,
                             bool has_ground_count, unsigned int resolution_num,
                             unsigned int ratio) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Clear();
 
@@ -195,7 +195,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PyramidMapMatrix::Reset(unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (level >= resolution_num_) {
     AERROR << "PyramidMapMatrix: [reset] The level id is illegal.";
@@ -227,7 +227,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PyramidMapMatrix::ResetCells(unsigned int start_id, unsigned int end_id,
                                   unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (level >= resolution_num_) {
     AERROR << "PyramidMapMatrix: [ResetCells] The level id is illegal.";
@@ -265,13 +265,13 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PyramidMapMatrix::ResetCell(unsigned int id, unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ResetCells(id, id, level);
 }
 
 void PyramidMapMatrix::Clear() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   resolution_num_ = 1;
   ratio_ = 2;
@@ -297,14 +297,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool PyramidMapMatrix::GetIntensityImg(cv::Mat* intensity_img) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return GetIntensityImg(0, intensity_img);
 }
 
 bool PyramidMapMatrix::GetIntensityImg(unsigned int level,
                                        cv::Mat* intensity_img) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_intensity_ || resolution_num_ < 1) {
     AERROR << "PyramidMapMatrix: [GetIntensityImg] No intensity data.";
@@ -335,14 +335,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool PyramidMapMatrix::GetAltitudeImg(cv::Mat* altitude_img) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return GetAltitudeImg(0, altitude_img);
 }
 
 bool PyramidMapMatrix::GetAltitudeImg(unsigned int level,
                                       cv::Mat* altitude_img) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_altitude_ || resolution_num_ < 1) {
     AERROR << "PyramidMapMatrix: [GetAltitudeImg] No altitude data.";
@@ -393,7 +393,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PyramidMapMatrix::BottomUpSafe() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_count_) {
     AERROR << "PyramidMapMatrix: [bottom_up] Has no count.";
@@ -433,7 +433,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PyramidMapMatrix::BottomUpBase() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (unsigned int i = 1; i < resolution_num_; ++i) {
     const unsigned int& row = rows_mr_[i];
@@ -464,7 +464,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 PyramidMapMatrix& PyramidMapMatrix::operator=(
     const PyramidMapMatrix& map_matrix) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Clear();
   resolution_num_ = map_matrix.resolution_num_;
@@ -494,7 +494,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 const float* PyramidMapMatrix::GetIntensitySafe(unsigned int row,
                                                 unsigned int col,
                                                 unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_intensity_) {
     AERROR << "PyramidMapMatrix: [GetIntensitySafe] Has no intensity.";
@@ -512,7 +512,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 const float* PyramidMapMatrix::GetIntensityVarSafe(unsigned int row,
                                                    unsigned int col,
                                                    unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_intensity_var_) {
     AERROR << "PyramidMapMatrix: [GetIntensityVarSafe] Has no intensity_var.";
@@ -530,7 +530,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 const float* PyramidMapMatrix::GetAltitudeSafe(unsigned int row,
                                                unsigned int col,
                                                unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_altitude_) {
     AERROR << "PyramidMapMatrix: [GetAltitudeSafe] Has no altitude.";
@@ -548,7 +548,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 const float* PyramidMapMatrix::GetAltitudeVarSafe(unsigned int row,
                                                   unsigned int col,
                                                   unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_altitude_var_) {
     AERROR << "PyramidMapMatrix: [GetAltitudeVarSafe] Has no altitude_var.";
@@ -566,7 +566,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 const float* PyramidMapMatrix::GetGroundAltitudeSafe(unsigned int row,
                                                      unsigned int col,
                                                      unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_ground_altitude_) {
     AERROR
@@ -585,7 +585,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 const unsigned int* PyramidMapMatrix::GetCountSafe(unsigned int row,
                                                    unsigned int col,
                                                    unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_count_) {
     AERROR << "PyramidMapMatrix: [GetCountSafe] Has no count.";
@@ -602,7 +602,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 const unsigned int* PyramidMapMatrix::GetGroundCountSafe(
     unsigned int row, unsigned int col, unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_ground_count_) {
     AERROR << "PyramidMapMatrix: [GetGroundCountSafe] Has no ground_count.";
@@ -624,7 +624,7 @@ void PyramidMapMatrix::GetMapCellSafe(float** intensity, float** intensity_var,
                                       unsigned int** ground_count,
                                       unsigned int row, unsigned int col,
                                       unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!CheckLegalityForGetData(row, col, level)) {
     AERROR << "PyramidMapMatrix: [GetMapCellSafe] Params is illegal.";
@@ -661,7 +661,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 FloatMatrix* PyramidMapMatrix::GetIntensityMatrixSafe(unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_intensity_) {
     AERROR << "PyramidMapMatrix: [GetIntensityMatrixSafe] Has no intensity.";
@@ -678,7 +678,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 FloatMatrix* PyramidMapMatrix::GetIntensityVarMatrixSafe(unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_intensity_var_) {
     AERROR << "PyramidMapMatrix: [GetIntensityVarMatrixSafe] Has no "
@@ -696,7 +696,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 FloatMatrix* PyramidMapMatrix::GetAltitudeMatrixSafe(unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_altitude_) {
     AERROR << "PyramidMapMatrix: [GetAltitudeMatrixSafe] Has no altitude.";
@@ -713,7 +713,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 FloatMatrix* PyramidMapMatrix::GetAltitudeVarMatrixSafe(unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_altitude_var_) {
     AERROR
@@ -731,7 +731,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 FloatMatrix* PyramidMapMatrix::GetGroundAltitudeMatrixSafe(unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_ground_altitude_) {
     AERROR << "PyramidMapMatrix: [GetGroundAltitudeMatrixSafe] Has no "
@@ -749,7 +749,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 UIntMatrix* PyramidMapMatrix::GetCountMatrixSafe(unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_count_) {
     AERROR << "PyramidMapMatrix: [GetCountMatrixSafe] Has no count.";
@@ -765,7 +765,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 UIntMatrix* PyramidMapMatrix::GetGroundCountMatrixSafe(unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_ground_count_) {
     AERROR
@@ -784,7 +784,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 const FloatMatrix* PyramidMapMatrix::GetIntensityMatrixSafe(
     unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_intensity_) {
     AERROR << "PyramidMapMatrix: [GetIntensityMatrixSafe] Has no intensity.";
@@ -802,7 +802,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 const FloatMatrix* PyramidMapMatrix::GetIntensityVarMatrixSafe(
     unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_intensity_var_) {
     AERROR << "PyramidMapMatrix: [GetIntensityVarMatrixSafe] Has no "
@@ -821,7 +821,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 const FloatMatrix* PyramidMapMatrix::GetAltitudeMatrixSafe(
     unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_altitude_) {
     AERROR << "PyramidMapMatrix: [GetAltitudeMatrixSafe] Has no altitude.";
@@ -839,7 +839,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 const FloatMatrix* PyramidMapMatrix::GetAltitudeVarMatrixSafe(
     unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_altitude_var_) {
     AERROR
@@ -858,7 +858,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 const FloatMatrix* PyramidMapMatrix::GetGroundAltitudeMatrixSafe(
     unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_ground_altitude_) {
     AERROR << "PyramidMapMatrix: [GetGroundAltitudeMatrixSafe] Has no "
@@ -877,7 +877,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 const UIntMatrix* PyramidMapMatrix::GetCountMatrixSafe(
     unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_count_) {
     AERROR << "PyramidMapMatrix: [GetCountMatrixSafe] Has no count.";
@@ -894,7 +894,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 const UIntMatrix* PyramidMapMatrix::GetGroundCountMatrixSafe(
     unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_ground_count_) {
     AERROR
@@ -914,7 +914,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PyramidMapMatrix::SetIntensityMatrix(const float* input, unsigned int size,
                                           unsigned int start_index,
                                           unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_intensity_) {
     AERROR << "PyramidMapMatrix: [SetIntensityMatrix] Has no intensity.";
@@ -933,7 +933,7 @@ void PyramidMapMatrix::SetIntensityVarMatrix(const float* input,
                                              unsigned int size,
                                              unsigned int start_index,
                                              unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_intensity_var_) {
     AERROR
@@ -952,7 +952,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PyramidMapMatrix::SetAltitudeMatrix(const float* input, unsigned int size,
                                          unsigned int start_index,
                                          unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_altitude_) {
     AERROR << "PyramidMapMatrix: [SetAltitudeMatrix] Has no altitude.";
@@ -971,7 +971,7 @@ void PyramidMapMatrix::SetAltitudeVarMatrix(const float* input,
                                             unsigned int size,
                                             unsigned int start_index,
                                             unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_altitude_var_) {
     AERROR << "PyramidMapMatrix: [SetAltitudeVarMatrix] Has no altitude_var.";
@@ -990,7 +990,7 @@ void PyramidMapMatrix::SetGroundAltitudeMatrix(const float* input,
                                                unsigned int size,
                                                unsigned int start_index,
                                                unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_ground_altitude_) {
     AERROR << "PyramidMapMatrix: [SetGroundAltitudeMatrix] Has no "
@@ -1010,7 +1010,7 @@ void PyramidMapMatrix::SetCountMatrix(const unsigned int* input,
                                       unsigned int size,
                                       unsigned int start_index,
                                       unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_count_) {
     AERROR << "PyramidMapMatrix: [SetCountMatrix] Has no count.";
@@ -1029,7 +1029,7 @@ void PyramidMapMatrix::SetGroundCountMatrix(const unsigned int* input,
                                             unsigned int size,
                                             unsigned int start_index,
                                             unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_ground_count_) {
     AERROR << "PyramidMapMatrix: [SetGroundCountMatrix] Has no ground count.";
@@ -1049,7 +1049,7 @@ void PyramidMapMatrix::SetFloatMatrixRoi(const FloatMatrix* source_matrix,
                                          const Rect2D<unsigned int>& target_roi,
                                          unsigned int type,
                                          unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (source_matrix == nullptr) {
     AERROR << "PyramidMapMatrix: [SetFloatMatrixRoi] Source matrix is nullptr.";
@@ -1141,7 +1141,7 @@ void PyramidMapMatrix::SetUintMatrixRoi(const UIntMatrix* source_matrix,
                                         const Rect2D<unsigned int>& source_roi,
                                         const Rect2D<unsigned int>& target_roi,
                                         unsigned int type, unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (source_matrix == nullptr) {
     AERROR << "PyramidMapMatrix: [SetUintMatrixRoi] Source matrix is nullptr.";
@@ -1202,7 +1202,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PyramidMapMatrix::SetIntensitySafe(float intensity, unsigned int row,
                                         unsigned int col, unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_intensity_) {
     AERROR << "PyramidMapMatrix: [SetIntensitySafe] Has no intensity.";
@@ -1220,7 +1220,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PyramidMapMatrix::SetIntensityVarSafe(float intensity_var,
                                            unsigned int row, unsigned int col,
                                            unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_intensity_var_) {
     AERROR << "PyramidMapMatrix: [SetIntensityVarSafe] Has no intensity_var.";
@@ -1237,7 +1237,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PyramidMapMatrix::SetAltitudeSafe(float altitude, unsigned int row,
                                        unsigned int col, unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_altitude_) {
     AERROR << "PyramidMapMatrix: [SetAltitudeSafe] Has no altitude.";
@@ -1255,7 +1255,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PyramidMapMatrix::SetAltitudeVarSafe(float altitude_var, unsigned int row,
                                           unsigned int col,
                                           unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_altitude_var_) {
     AERROR << "PyramidMapMatrix: [SetAltitudeVarSafe] Has no altitude var.";
@@ -1273,7 +1273,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PyramidMapMatrix::SetGroundAltitudeSafe(float ground_altitude,
                                              unsigned int row, unsigned int col,
                                              unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_ground_altitude_) {
     AERROR
@@ -1291,7 +1291,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PyramidMapMatrix::SetCountSafe(unsigned int count, unsigned int row,
                                     unsigned int col, unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_count_) {
     AERROR << "PyramidMapMatrix: [SetCountSafe] Has no count.";
@@ -1309,7 +1309,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PyramidMapMatrix::SetGroundCountSafe(unsigned int ground_count,
                                           unsigned int row, unsigned int col,
                                           unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_ground_count_) {
     AERROR << "PyramidMapMatrix: [SetGroundCountSafe] Has no ground count.";
@@ -1327,7 +1327,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PyramidMapMatrix::SetValueSafe(unsigned char intensity, float altitude,
                                     unsigned int row, unsigned int col,
                                     unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_intensity_) {
     AERROR << "PyramidMapMatrix: [SetValueSafe] Has no intensity.";
@@ -1353,7 +1353,7 @@ void PyramidMapMatrix::MergeCellSafe(
     const float* altitude_var, const float* ground_altitude,
     const unsigned int* count, const unsigned int* ground_count,
     unsigned int row, unsigned int col, unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!CheckLegalityForGetData(row, col, level)) {
     AERROR << "PyramidMapMatrix: [MergeCellSafe] Params is illegal.";
@@ -1421,7 +1421,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool PyramidMapMatrix::CheckLegalityForGetData(unsigned int row,
                                                unsigned int col,
                                                unsigned int level) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (level >= resolution_num_) {
     AERROR << "PyramidMapMatrix: [CheckLegalityForGetData] The level id is "
@@ -1445,7 +1445,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool PyramidMapMatrix::CheckLegalityForSetData(unsigned int level,
                                                unsigned int start_id,
                                                unsigned int size) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (level >= resolution_num_) {
     AERROR << "PyramidMapMatrix: [CheckLegalityForSetData] The level id is "
@@ -1466,7 +1466,7 @@ bool PyramidMapMatrix::CheckLegalityForSetDataRoi(
     unsigned int level, unsigned int source_matrix_rows,
     unsigned int source_matrix_cols, const Rect2D<unsigned int>& source_roi,
     const Rect2D<unsigned int>& target_roi) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (level >= resolution_num_) {
     AERROR << "PyramidMapMatrix: [CheckLegalityForSetDataRoi] The level id "
@@ -1507,7 +1507,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PyramidMapMatrix::AddSampleSafe(float intensity, float altitude,
                                      unsigned int row, unsigned int col,
                                      unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!CheckLegalityForGetData(row, col, level)) {
     AERROR << "PyramidMapMatrix: [AddSampleSafe] Params is illegal.";
@@ -1554,7 +1554,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PyramidMapMatrix::AddGroundSample(float ground_altitude, unsigned int row,
                                        unsigned int col, unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!CheckLegalityForGetData(row, col, level)) {
     AERROR << "PyramidMapMatrix: [AddGroundSample] Params is illegal.";
@@ -1575,7 +1575,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double PyramidMapMatrix::ComputeMeanIntensity(unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!has_count_) {
     AERROR << "PyramidMapMatrix: [ComputeMeanIntensity] Has no count.";
@@ -1611,7 +1611,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PyramidMapMatrix::Reduce(std::shared_ptr<PyramidMapMatrix> cells,
                               const PyramidMapMatrix& new_cells,
                               unsigned int level, unsigned int new_level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (level >= cells->resolution_num_) {
     AERROR << "PyramidMapMatrix: [Reduce] The level id is illegal.";

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,8 +24,6 @@ namespace planning {
 // this sanity check will move to the very beginning of planning
 bool DecisionData::IsValidTrajectoryPoint(
     const common::TrajectoryPoint& point) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return !((!point.has_path_point()) || std::isnan(point.path_point().x()) ||
            std::isnan(point.path_point().y()) ||
            std::isnan(point.path_point().z()) ||
@@ -38,8 +35,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool DecisionData::IsValidTrajectory(const prediction::Trajectory& trajectory) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto& point : trajectory.trajectory_point()) {
     if (!IsValidTrajectoryPoint(point)) {
       AERROR << " TrajectoryPoint: " << trajectory.ShortDebugString()
@@ -54,8 +49,6 @@ DecisionData::DecisionData(
     const prediction::PredictionObstacles& prediction_obstacles,
     const ReferenceLine& reference_line)
     : reference_line_(reference_line) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto& prediction_obstacle :
        prediction_obstacles.prediction_obstacle()) {
     const std::string perception_id =
@@ -89,16 +82,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Obstacle* DecisionData::GetObstacleById(const std::string& id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lock(mutex_);
   return common::util::FindPtrOrNull(obstacle_map_, id);
 }
 
 std::vector<Obstacle*> DecisionData::GetObstacleByType(
     const VirtualObjectType& type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lock(transaction_mutex_);
 
   std::unordered_set<std::string> ids = GetObstacleIdByType(type);
@@ -118,47 +107,33 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 std::unordered_set<std::string> DecisionData::GetObstacleIdByType(
     const VirtualObjectType& type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lock(mutex_);
   return common::util::FindWithDefault(virtual_obstacle_id_map_, type, {});
 }
 
 const std::vector<Obstacle*>& DecisionData::GetStaticObstacle() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return static_obstacle_;
 }
 
 const std::vector<Obstacle*>& DecisionData::GetDynamicObstacle() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return dynamic_obstacle_;
 }
 
 const std::vector<Obstacle*>& DecisionData::GetVirtualObstacle() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return virtual_obstacle_;
 }
 
 const std::vector<Obstacle*>& DecisionData::GetPracticalObstacle() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return practical_obstacle_;
 }
 
 const std::vector<Obstacle*>& DecisionData::GetAllObstacle() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return all_obstacle_;
 }
 
 bool DecisionData::CreateVirtualObstacle(const ReferencePoint& point,
                                          const VirtualObjectType& type,
                                          std::string* const id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // should build different box by type;
   common::SLPoint sl_point;
   if (!reference_line_.XYToSL(point, &sl_point)) {
@@ -179,8 +154,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool DecisionData::CreateVirtualObstacle(const double point_s,
                                          const VirtualObjectType& type,
                                          std::string* const id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // should build different box by type;
   const double box_center_s = point_s + FLAGS_virtual_stop_wall_length / 2.0;
   auto box_center = reference_line_.GetReferencePoint(box_center_s);
@@ -196,8 +169,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool DecisionData::CreateVirtualObstacle(
     const common::math::Box2d& obstacle_box, const VirtualObjectType& type,
     std::string* const id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> transaction_lock(transaction_mutex_);
   std::lock_guard<std::mutex> lock(mutex_);
 

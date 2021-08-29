@@ -45,7 +45,7 @@ namespace canbus {
 namespace neolix_edu {
 
 Neolix_eduMessageManager::Neolix_eduMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Control Messages
   AddSendProtocolData<Adsbrakecommand46, true>();
@@ -74,7 +74,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Neolix_eduMessageManager::~Neolix_eduMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 }  // namespace neolix_edu

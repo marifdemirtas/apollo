@@ -27,7 +27,7 @@ namespace canbus {
 
 std::unique_ptr<VehicleController>
 Neolix_eduVehicleFactory::CreateVehicleController() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return std::unique_ptr<VehicleController>(
       new neolix_edu::Neolix_eduController());
@@ -35,7 +35,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>
 Neolix_eduVehicleFactory::CreateMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>(
       new neolix_edu::Neolix_eduMessageManager());

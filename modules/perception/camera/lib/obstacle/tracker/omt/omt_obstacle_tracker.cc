@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,8 +32,6 @@ namespace camera {
 using cyber::common::GetAbsolutePath;
 
 bool OMTObstacleTracker::Init(const ObstacleTrackerInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string omt_config = GetAbsolutePath(options.root_dir, options.conf_file);
   if (!cyber::common::GetProtoFromFile(omt_config, &omt_param_)) {
     AERROR << "Read config failed: " << omt_config;
@@ -78,14 +75,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   return true;
 }
 
-std::string OMTObstacleTracker::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return "OMTObstacleTracker"; }
+std::string OMTObstacleTracker::Name() const { return "OMTObstacleTracker"; }
 
 // @description combine targets using iou after association
 bool OMTObstacleTracker::CombineDuplicateTargets() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<Hypothesis> score_list;
   Hypothesis hypo;
   for (size_t i = 0; i < targets_.size(); ++i) {
@@ -172,8 +165,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void OMTObstacleTracker::GenerateHypothesis(const TrackObjectPtrs &objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<Hypothesis> score_list;
   Hypothesis hypo;
   for (size_t i = 0; i < targets_.size(); ++i) {
@@ -230,8 +221,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 float OMTObstacleTracker::ScoreMotion(const Target &target,
                                       TrackObjectPtr track_obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Vector4d x = target.image_center.get_state();
   float target_centerx = static_cast<float>(x[0]);
   float target_centery = static_cast<float>(x[1]);
@@ -244,8 +233,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 float OMTObstacleTracker::ScoreShape(const Target &target,
                                      TrackObjectPtr track_obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Vector2d shape = target.image_wh.get_state();
   base::RectF rect(track_obj->projected_box);
   float s = static_cast<float>((shape[1] - rect.height) *
@@ -255,8 +242,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 float OMTObstacleTracker::ScoreAppearance(const Target &target,
                                           TrackObjectPtr track_obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float energy = 0.0f;
   int count = 0;
   auto sensor_name = track_obj->indicator.sensor_name;
@@ -277,8 +262,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // [new]
 float OMTObstacleTracker::ScoreOverlap(const Target &target,
                                        TrackObjectPtr track_obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Vector4d center = target.image_center.get_state();
   Eigen::VectorXd wh = target.image_wh.get_state();
   base::BBox2DF box_target;
@@ -296,8 +279,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ProjectBox(const base::BBox2DF &box_origin,
                 const Eigen::Matrix3d &transform,
                 base::BBox2DF *box_projected) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Vector3d point;
   //  top left
   point << box_origin.xmin, box_origin.ymin, 1;
@@ -313,8 +294,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool OMTObstacleTracker::Predict(const ObstacleTrackerOptions &options,
                                  CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto &target : targets_) {
     target.Predict(frame);
     auto obj = target.latest_object;
@@ -324,8 +303,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int OMTObstacleTracker::CreateNewTarget(const TrackObjectPtrs &objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const TemplateMap &kMinTemplateHWL =
       object_template_manager_->MinTemplateHWL();
   std::vector<base::RectF> target_rects;
@@ -379,8 +356,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 bool OMTObstacleTracker::Associate2D(const ObstacleTrackerOptions &options,
                                      CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   inference::CudaUtil::set_device_id(gpu_id_);
   frame_list_.Add(frame);
   for (int t = 0; t < frame_list_.Size(); t++) {
@@ -444,8 +419,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void OMTObstacleTracker::ClearTargets() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int left = 0;
   int end = static_cast<int>(targets_.size() - 1);
   while (left <= end) {
@@ -466,8 +439,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool OMTObstacleTracker::Associate3D(const ObstacleTrackerOptions &options,
                                      CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   reference_.UpdateReference(frame, targets_);
   frame->tracked_objects.clear();
   TrackObjectPtrs track_objects;
@@ -515,8 +486,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool OMTObstacleTracker::Track(const ObstacleTrackerOptions &options,
                                CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return true;
 }
 

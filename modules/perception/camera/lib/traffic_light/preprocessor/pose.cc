@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,20 +21,14 @@ namespace perception {
 namespace camera {
 
 bool CarPose::Init(double ts, const Eigen::Matrix4d &pose) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   timestamp_ = ts;
   pose_ = pose;
   return true;
 }
 
-const Eigen::Matrix4d CarPose::getCarPose() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return pose_; }
+const Eigen::Matrix4d CarPose::getCarPose() const { return pose_; }
 
 const Eigen::Vector3d CarPose::getCarPosition() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Vector3d p;
   p[0] = pose_(0, 3);
   p[1] = pose_(1, 3);
@@ -46,15 +39,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void CarPose::SetCameraPose(const std::string &camera_name,
                             const Eigen::Matrix4d &c2w_pose) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   c2w_poses_[camera_name] = c2w_pose;
 }
 
 bool CarPose::GetCameraPose(const std::string &camera_name,
                             Eigen::Matrix4d *c2w_pose) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (c2w_pose == nullptr) {
     AERROR << "c2w_pose is not available";
     return false;
@@ -72,8 +61,6 @@ std::ostream &operator<<(std::ostream &os, const CarPose &pose) {
   return os;
 }
 void CarPose::ClearCameraPose(const std::string &camera_name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto it = c2w_poses_.find(camera_name);
   if (it != c2w_poses_.end()) {
     c2w_poses_.erase(it);

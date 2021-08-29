@@ -39,7 +39,7 @@ namespace apollo {
 namespace monitor {
 
 bool Monitor::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   MonitorManager::Instance()->Init(node_);
 
@@ -78,7 +78,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Monitor::Proc() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const double current_time = apollo::cyber::Clock::NowInSeconds();
   if (!MonitorManager::Instance()->StartFrame(current_time)) {

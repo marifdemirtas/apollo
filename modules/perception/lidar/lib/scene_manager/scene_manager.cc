@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,15 +22,12 @@
 #include "modules/perception/proto/perception_config_schema.pb.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
 using cyber::common::GetAbsolutePath;
 
 bool SceneManager::InitInternal(const SceneManagerInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (initialized_) {
     return true;
   }
@@ -66,16 +62,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SceneManager::Init(const SceneManagerInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lock(mutex_);
   bool status = InitInternal(options);
   return status;
 }
 
 bool SceneManager::Reset(const SceneManagerInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lock(mutex_);
   initialized_ = false;
   bool status = InitInternal(options);
@@ -83,8 +75,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 SceneServicePtr SceneManager::Service(const std::string& name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto iter = services_.find(name);
   if (iter == services_.end()) {
     return nullptr;

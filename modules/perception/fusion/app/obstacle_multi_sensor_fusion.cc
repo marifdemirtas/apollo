@@ -22,7 +22,7 @@ namespace fusion {
 
 bool ObstacleMultiSensorFusion::Init(
     const ObstacleMultiSensorFusionParam& param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (fusion_ != nullptr) {
     AINFO << "Already inited";
@@ -33,6 +33,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   FusionInitOptions init_options;
   init_options.main_sensors = param.main_sensors;
   if (fusion_ == nullptr || !fusion_->Init(init_options)) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     AINFO << "Failed to Get Instance or Initialize " << param.fusion_method;
     return false;
   }
@@ -41,7 +43,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool ObstacleMultiSensorFusion::Process(const base::FrameConstPtr& frame,
                                         std::vector<base::ObjectPtr>* objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   FusionOptions options;
   return fusion_->Fuse(options, frame, objects);

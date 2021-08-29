@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -27,8 +26,6 @@ namespace apollo {
 namespace control {
 
 double PIDICController::Control(const double error, const double dt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (dt <= 0) {
     AWARN << "dt <= 0, will use the last output";
     return previous_output_;
@@ -73,8 +70,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int PIDICController::OutputSaturationStatus() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return output_saturation_status_;
 }
 

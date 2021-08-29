@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -34,21 +33,15 @@ namespace common {
 namespace math {
 
 Polygon2d::Polygon2d(const Box2d &box) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   box.GetAllCorners(&points_);
   BuildFromPoints();
 }
 
 Polygon2d::Polygon2d(std::vector<Vec2d> points) : points_(std::move(points)) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   BuildFromPoints();
 }
 
 double Polygon2d::DistanceTo(const Vec2d &point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   if (IsPointIn(point)) {
     return 0.0;
@@ -61,8 +54,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Polygon2d::DistanceSquareTo(const Vec2d &point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   if (IsPointIn(point)) {
     return 0.0;
@@ -76,8 +67,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Polygon2d::DistanceTo(const LineSegment2d &line_segment) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (line_segment.length() <= kMathEpsilon) {
     return DistanceTo(line_segment.start());
   }
@@ -101,15 +90,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Polygon2d::DistanceTo(const Box2d &box) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   return DistanceTo(Polygon2d(box));
 }
 
 double Polygon2d::DistanceTo(const Polygon2d &polygon) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   CHECK_GE(polygon.num_points(), 3);
 
@@ -127,8 +112,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Polygon2d::DistanceToBoundary(const Vec2d &point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double distance = std::numeric_limits<double>::infinity();
   for (int i = 0; i < num_points_; ++i) {
     distance = std::min(distance, line_segments_[i].DistanceTo(point));
@@ -137,8 +120,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Polygon2d::IsPointOnBoundary(const Vec2d &point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   return std::any_of(
       line_segments_.begin(), line_segments_.end(),
@@ -146,8 +127,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Polygon2d::IsPointIn(const Vec2d &point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   if (IsPointOnBoundary(point)) {
     return true;
@@ -167,8 +146,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Polygon2d::HasOverlap(const Polygon2d &polygon) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   if (polygon.max_x() < min_x() || polygon.min_x() > max_x() ||
       polygon.max_y() < min_y() || polygon.min_y() > max_y()) {
@@ -178,8 +155,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Polygon2d::Contains(const LineSegment2d &line_segment) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (line_segment.length() <= kMathEpsilon) {
     return IsPointIn(line_segment.start());
   }
@@ -202,8 +177,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Polygon2d::Contains(const Polygon2d &polygon) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   if (area_ < polygon.area() - kMathEpsilon) {
     return false;
@@ -218,17 +191,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
                      });
 }
 
-int Polygon2d::Next(int at) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return at >= num_points_ - 1 ? 0 : at + 1; }
+int Polygon2d::Next(int at) const { return at >= num_points_ - 1 ? 0 : at + 1; }
 
-int Polygon2d::Prev(int at) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return at == 0 ? num_points_ - 1 : at - 1; }
+int Polygon2d::Prev(int at) const { return at == 0 ? num_points_ - 1 : at - 1; }
 
 void Polygon2d::BuildFromPoints() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   num_points_ = static_cast<int>(points_.size());
   CHECK_GE(num_points_, 3);
 
@@ -275,8 +242,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Polygon2d::ComputeConvexHull(const std::vector<Vec2d> &points,
                                   Polygon2d *const polygon) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(polygon);
   const int n = static_cast<int>(points.size());
   if (n < 3) {
@@ -330,8 +295,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Polygon2d::ClipConvexHull(const LineSegment2d &line_segment,
                                std::vector<Vec2d> *const points) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (line_segment.length() <= kMathEpsilon) {
     return true;
   }
@@ -371,8 +334,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Polygon2d::ComputeOverlap(const Polygon2d &other_polygon,
                                Polygon2d *const overlap_polygon) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   CHECK_NOTNULL(overlap_polygon);
   ACHECK(is_convex_ && other_polygon.is_convex());
@@ -386,8 +347,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Polygon2d::ComputeIoU(const Polygon2d &other_polygon) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Polygon2d overlap_polygon;
   if (!ComputeOverlap(other_polygon, &overlap_polygon)) {
     return 0.0;
@@ -398,8 +357,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Polygon2d::HasOverlap(const LineSegment2d &line_segment) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   if ((line_segment.start().x() < min_x_ && line_segment.end().x() < min_x_) ||
       (line_segment.start().x() > max_x_ && line_segment.end().x() > max_x_) ||
@@ -414,8 +371,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Polygon2d::GetOverlap(const LineSegment2d &line_segment,
                            Vec2d *const first, Vec2d *const last) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   CHECK_NOTNULL(first);
   CHECK_NOTNULL(last);
@@ -457,22 +412,16 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Polygon2d::GetAllVertices(std::vector<Vec2d> *const vertices) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (vertices == nullptr) {
     return;
   }
   *vertices = points_;
 }
 
-std::vector<Vec2d> Polygon2d::GetAllVertices() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return points_; }
+std::vector<Vec2d> Polygon2d::GetAllVertices() const { return points_; }
 
 std::vector<LineSegment2d> Polygon2d::GetAllOverlaps(
     const LineSegment2d &line_segment) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
 
   if (line_segment.length() <= kMathEpsilon) {
@@ -527,8 +476,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void Polygon2d::ExtremePoints(const double heading, Vec2d *const first,
                               Vec2d *const last) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   CHECK_NOTNULL(first);
   CHECK_NOTNULL(last);
@@ -550,14 +497,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 AABox2d Polygon2d::AABoundingBox() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return AABox2d({min_x_, min_y_}, {max_x_, max_y_});
 }
 
 Box2d Polygon2d::BoundingBoxWithHeading(const double heading) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   const Vec2d direction_vec = Vec2d::CreateUnitVec2d(heading);
   Vec2d px1;
@@ -577,8 +520,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Box2d Polygon2d::MinAreaBoundingBox() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GE(points_.size(), 3U);
   if (!is_convex_) {
     Polygon2d convex_polygon;
@@ -638,8 +579,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Polygon2d Polygon2d::ExpandByDistance(const double distance) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!is_convex_) {
     Polygon2d convex_polygon;
     ComputeConvexHull(points_, &convex_polygon);
@@ -670,8 +609,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string Polygon2d::DebugString() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return absl::StrCat("polygon2d (  num_points = ", num_points_, "  points = (",
                       absl::StrJoin(points_, " ", util::DebugStringFormatter()),
                       " )  ", is_convex_ ? "convex" : "non-convex",

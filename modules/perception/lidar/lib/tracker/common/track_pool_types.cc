@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,8 +22,6 @@ namespace lidar {
 
 // @brief call pool instance once to initialize memory
 __attribute__((constructor)) void TrackPoolInitialize() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   TrackedObjectPool::Instance();
   TrackDataPool::Instance();
   MlfTrackDataPool::Instance();

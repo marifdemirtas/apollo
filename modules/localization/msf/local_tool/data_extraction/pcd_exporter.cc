@@ -27,7 +27,7 @@ namespace localization {
 namespace msf {
 
 PCDExporter::PCDExporter(const std::string &pcd_folder) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pcd_folder_ = pcd_folder;
   std::string stamp_file = pcd_folder_ + "/pcd_timestamp.txt";
@@ -38,7 +38,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PCDExporter::~PCDExporter() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (stamp_file_handle_ != nullptr) {
     fclose(stamp_file_handle_);
@@ -46,7 +46,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PCDExporter::CompensatedPcdCallback(const std::string &msg_string) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "Compensated pcd callback.";
   drivers::PointCloud msg;
@@ -67,7 +67,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void PCDExporter::WritePcdFile(const std::string &filename,
                                const drivers::PointCloud &msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pcl::PointCloud<velodyne::PointXYZIT> cloud;
   cloud.width = msg.width();

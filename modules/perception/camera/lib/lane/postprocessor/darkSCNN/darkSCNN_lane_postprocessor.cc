@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +26,6 @@
 #include "modules/perception/camera/common/timer.h"
 
 namespace apollo {
-
 namespace perception {
 namespace camera {
 
@@ -78,8 +76,6 @@ T GetPolyValue(T a, T b, T c, T d, T x) {
 
 bool DarkSCNNLanePostprocessor::Init(
     const LanePostprocessorInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Read detector config parameter
   darkSCNN::DarkSCNNParam darkscnn_param;
   const std::string& proto_path =
@@ -122,8 +118,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool DarkSCNNLanePostprocessor::Process2D(
     const LanePostprocessorOptions& options, CameraFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ADEBUG << "Begin to Process2D.";
   frame->lane_objects.clear();
   auto start = std::chrono::high_resolution_clock::now();
@@ -412,16 +406,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // Produce laneline output in camera coordinates (optional)
 bool DarkSCNNLanePostprocessor::Process3D(
     const LanePostprocessorOptions& options, CameraFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ConvertImagePoint2Camera(frame);
   PolyFitCameraLaneline(frame);
   return true;
 }
 
 void DarkSCNNLanePostprocessor::ConvertImagePoint2Camera(CameraFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float pitch_angle = frame->calibration_service->QueryPitchAngle();
   float camera_ground_height =
       frame->calibration_service->QueryCameraToGroundHeight();
@@ -450,8 +440,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 // @brief: Fit camera lane line using polynomial
 void DarkSCNNLanePostprocessor::PolyFitCameraLaneline(CameraFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<base::LaneLine>& lane_objects = frame->lane_objects;
   int laneline_num = static_cast<int>(lane_objects.size());
   for (int line_index = 0; line_index < laneline_num; ++line_index) {
@@ -488,8 +476,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string DarkSCNNLanePostprocessor::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return "DarkSCNNLanePostprocessor";
 }
 

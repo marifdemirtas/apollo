@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,19 +23,13 @@ namespace perception {
 namespace camera {
 
 bool Equal(double x, double target, double eps) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return std::abs(x - target) < eps;
 }
 bool Equal(float x, float target, float eps) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return std::abs(x - target) < eps;
 }
 
 bool LoadAnchors(const std::string &path, std::vector<float> *anchors) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int num_anchors = 0;
   std::ifstream ifs(path, std::ifstream::in);
   ifs >> num_anchors;
@@ -58,8 +51,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LoadTypes(const std::string &path,
                std::vector<base::ObjectSubType> *types) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::ifstream ifs(path, std::ifstream::in);
   if (!ifs.good()) {
     AERROR << "Type_list not found: " << path;
@@ -80,8 +71,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   return true;
 }
 bool LoadExpand(const std::string &path, std::vector<float> *expands) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::ifstream ifs(path, std::ifstream::in);
   if (!ifs.good()) {
     AERROR << "expand_list not found: " << path;
@@ -99,8 +88,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool ResizeCPU(const base::Blob<uint8_t> &src_blob,
                std::shared_ptr<base::Blob<float>> dst_blob, int stepwidth,
                int start_axis) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int width = dst_blob->shape(2);
   int height = dst_blob->shape(1);
   int channel = dst_blob->shape(3);
@@ -169,8 +156,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string GetCyberWorkRoot() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string work_root = cyber::common::GetEnv("MODULE_PATH");
   if (work_root.empty()) {
     work_root = cyber::common::GetEnv("CYBER_PATH");
@@ -179,8 +164,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void FillObjectPolygonFromBBox3D(base::Object *object_ptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!object_ptr) {
     return;
   }

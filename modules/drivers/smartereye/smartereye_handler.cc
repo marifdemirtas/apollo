@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -32,28 +31,20 @@ namespace smartereye {
 
 SmartereyeHandler::SmartereyeHandler(std::string name)
     : mName(name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   pCallbackFunc = nullptr;
 }
 
 SmartereyeHandler::~SmartereyeHandler() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   pCallbackFunc = nullptr;
 }
 
 bool SmartereyeHandler::SetCallback(CallbackFunc ptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   pCallbackFunc = ptr;
 
   return true;
 }
 
 void SmartereyeHandler::handleRawFrame(const RawImageFrame *rawFrame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   pCallbackFunc(const_cast<RawImageFrame *>(rawFrame));
 }
 

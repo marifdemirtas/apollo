@@ -25,7 +25,7 @@ namespace apollo {
 namespace hdmap {
 
 PJTransformer::PJTransformer(int zone_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // init projPJ
   std::stringstream stream;
@@ -44,7 +44,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 PJTransformer::~PJTransformer() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (pj_latlong_) {
     pj_free(pj_latlong_);
@@ -57,7 +57,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 int PJTransformer::LatlongToUtm(int64_t point_count, int point_offset,
                                 double *x, double *y, double *z) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!pj_latlong_ || !pj_utm_) {
     AERROR << "pj_latlong_:" << pj_latlong_ << "pj_utm_:" << pj_utm_

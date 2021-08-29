@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ namespace lidar {
 using apollo::cyber::common::GetAbsolutePath;
 
 bool ObjectFilterBank::Init(const ObjectFilterInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig(Name(), &model_config));
@@ -63,8 +60,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool ObjectFilterBank::Filter(const ObjectFilterOptions& options,
                               LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t object_number = frame->segmented_objects.size();
   for (auto& filter : filter_bank_) {
     if (!filter->Filter(options, frame)) {

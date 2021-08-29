@@ -41,7 +41,7 @@ using cyber::record::RecordViewer;
 using cyber::record::RecordWriter;
 
 bool PostRecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!DirectoryExists(source_record_dir_)) {
     AERROR << "source record dir does not exist: " << source_record_dir_;
@@ -61,7 +61,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool PostRecordProcessor::Process() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // First scan, get intervals
   for (const std::string& record : source_record_files_) {
@@ -102,7 +102,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string PostRecordProcessor::GetDefaultOutputFile() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string src_file_name = source_record_files_.front();
   const std::string record_flag(".record");
@@ -112,7 +112,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PostRecordProcessor::LoadSourceRecords() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   DIR* dirp = opendir(source_record_dir_.c_str());
   if (dirp == nullptr) {

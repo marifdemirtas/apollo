@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -33,8 +32,6 @@ using apollo::cyber::common::GetAbsolutePath;
 using apollo::cyber::common::GetProtoFromFile;
 
 bool DarkSCNNLaneDetector::Init(const LaneDetectorInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string proto_path = GetAbsolutePath(options.root_dir, options.conf_file);
   if (!GetProtoFromFile(proto_path, &darkscnn_param_)) {
     AINFO << "load proto param failed, root dir: " << options.root_dir;
@@ -170,8 +167,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool DarkSCNNLaneDetector::Detect(const LaneDetectorOptions &options,
                                   CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame == nullptr) {
     AINFO << "camera frame is empty.";
     return false;
@@ -301,8 +296,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string DarkSCNNLaneDetector::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return "DarkSCNNLaneDetector";
 }
 

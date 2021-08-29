@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -23,13 +22,9 @@ namespace apollo {
 namespace monitor {
 
 RecurrentRunner::RecurrentRunner(const std::string &name, const double interval)
-    : name_(name), interval_(interval) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+    : name_(name), interval_(interval) {}
 
 void RecurrentRunner::Tick(const double current_time) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (next_round_ <= current_time) {
     ++round_count_;
     AINFO_EVERY(100) << name_ << " is running round #" << round_count_;

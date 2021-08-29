@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -19,14 +18,11 @@
 #include "cyber/common/file.h"
 
 namespace apollo {
-
 namespace perception {
 namespace camera {
 
 bool TrackingFeatureExtractor::Init(
     const FeatureExtractorInitOptions &init_options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   //  setup bottom and top
   int feat_height = init_options.feat_blob->shape(2);
   int feat_width = init_options.feat_blob->shape(3);
@@ -68,8 +64,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void TrackingFeatureExtractor::init_roipooling(
     const FeatureExtractorInitOptions &options,
     const tracking_feature::ROIPoolingParam &param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int feat_channel = options.feat_blob->shape(1);
   feat_height_ = options.feat_blob->shape(2);
   feat_width_ = options.feat_blob->shape(3);
@@ -91,8 +85,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool TrackingFeatureExtractor::Extract(const FeatureExtractorOptions &options,
                                        CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame == nullptr) {
     return false;
   }

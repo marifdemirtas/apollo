@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -30,14 +29,10 @@ std::map<int, std::vector<size_t>> Visibility::s_lut_{
 };
 
 void Visibility::set_car_pos(const Eigen::Vector3d& car_pos) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   car_pos_ = car_pos;
 }
 
 void Visibility::fill_objects(std::vector<ObjectPtr>* objs, float thresh) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto get_interval = [](float num, float thresh) -> int {
     if (num < -thresh) {
       return -1;
@@ -119,8 +114,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 float Visibility::calculate(std::vector<ObjectPtr>* objs, float thresh) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (points_.empty()) {
     return 0.0;
   }
@@ -208,8 +201,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Visibility::reset_state() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   latest_query_point_ = VisPoint(0, 0);
   latest_query_segments_cache_.clear();
   points_.clear();
@@ -219,8 +210,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Visibility::add_region() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   VisPoint a(half_length_, half_width_);
   VisPoint b(half_length_, -half_width_);
   VisPoint c(-half_length_, -half_width_);
@@ -233,8 +222,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Visibility::add_segment(const VisPoint& a, const VisPoint& b, int idx) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (compute_orientation(VisPoint(0, 0), a, b) == Orientation::collinear) {
     return;
   }
@@ -270,8 +257,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Visibility::query_segments(const VisPoint& p) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (p == latest_query_point_) {
     return;
   }
@@ -287,8 +272,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void Visibility::update_candidate_segment(const VisPoint& p,
                                           UpdateOperation op) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   query_segments(p);
 
   auto func = (op == UpdateOperation::add
@@ -310,8 +293,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 float Visibility::calculate_area(const VisPoint& a, const VisPoint& b) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float dot = a.dot(b);
   float area = static_cast<float>(
       sqrt(a.length_squared() * b.length_squared() - dot * dot) / 2);
@@ -320,8 +301,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 float Visibility::calculate_visual_angle(const VisPoint& a, const VisPoint& b) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float cos_theta = static_cast<float>(
       a.dot(b) / sqrt(a.length_squared() * b.length_squared()));
   float theta =

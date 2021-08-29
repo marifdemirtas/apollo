@@ -35,7 +35,7 @@ namespace canbus {
 namespace transit {
 
 TransitMessageManager::TransitMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Control Messages
   AddSendProtocolData<Adcauxiliarycontrol110, true>();
@@ -55,7 +55,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 TransitMessageManager::~TransitMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 }  // namespace transit

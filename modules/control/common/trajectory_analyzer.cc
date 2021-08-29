@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -39,16 +38,12 @@ namespace {
 // Squared distance from the point to (x, y).
 double PointDistanceSquare(const TrajectoryPoint &point, const double x,
                            const double y) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double dx = point.path_point().x() - x;
   const double dy = point.path_point().y() - y;
   return dx * dx + dy * dy;
 }
 
 PathPoint TrajectoryPointToPathPoint(const TrajectoryPoint &point) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (point.has_path_point()) {
     return point.path_point();
   } else {
@@ -60,8 +55,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 TrajectoryAnalyzer::TrajectoryAnalyzer(
     const planning::ADCTrajectory *planning_published_trajectory) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   header_time_ = planning_published_trajectory->header().timestamp_sec();
   seq_num_ = planning_published_trajectory->header().sequence_num();
 
@@ -74,8 +67,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 PathPoint TrajectoryAnalyzer::QueryMatchedPathPoint(const double x,
                                                     const double y) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GT(trajectory_points_.size(), 0U);
 
   double d_min = PointDistanceSquare(trajectory_points_.front(), x, y);
@@ -117,8 +108,6 @@ void TrajectoryAnalyzer::ToTrajectoryFrame(const double x, const double y,
                                            double *ptr_s, double *ptr_s_dot,
                                            double *ptr_d,
                                            double *ptr_d_dot) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double dx = x - ref_point.x();
   double dy = y - ref_point.y();
 
@@ -160,15 +149,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 TrajectoryPoint TrajectoryAnalyzer::QueryNearestPointByAbsoluteTime(
     const double t) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return QueryNearestPointByRelativeTime(t - header_time_);
 }
 
 TrajectoryPoint TrajectoryAnalyzer::QueryNearestPointByRelativeTime(
     const double t) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto func_comp = [](const TrajectoryPoint &point,
                       const double relative_time) {
     return point.relative_time() < relative_time;
@@ -198,8 +183,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 TrajectoryPoint TrajectoryAnalyzer::QueryNearestPointByPosition(
     const double x, const double y) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double d_min = PointDistanceSquare(trajectory_points_.front(), x, y);
   size_t index_min = 0;
 
@@ -215,8 +198,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 const std::vector<TrajectoryPoint> &TrajectoryAnalyzer::trajectory_points()
     const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return trajectory_points_;
 }
 
@@ -224,8 +205,6 @@ PathPoint TrajectoryAnalyzer::FindMinDistancePoint(const TrajectoryPoint &p0,
                                                    const TrajectoryPoint &p1,
                                                    const double x,
                                                    const double y) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // given the fact that the discretized trajectory is dense enough,
   // we assume linear trajectory between consecutive trajectory points.
   auto dist_square = [&p0, &p1, &x, &y](const double s) {
@@ -258,8 +237,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void TrajectoryAnalyzer::TrajectoryTransformToCOM(
     const double rear_to_com_distance) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GT(trajectory_points_.size(), 0U);
   for (size_t i = 0; i < trajectory_points_.size(); ++i) {
     auto com = ComputeCOMPosition(rear_to_com_distance,
@@ -271,8 +248,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 common::math::Vec2d TrajectoryAnalyzer::ComputeCOMPosition(
     const double rear_to_com_distance, const PathPoint &path_point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Initialize the vector for coordinate transformation of the position
   // reference point
   Eigen::Vector3d v;

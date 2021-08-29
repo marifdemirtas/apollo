@@ -24,29 +24,29 @@ namespace msf {
 namespace pyramid_map {
 // =================PyramidMapMatrixHandlerSelector=================
 NdtMapMatrixHandlerSelector::NdtMapMatrixHandlerSelector() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 NdtMapMatrixHandlerSelector::~NdtMapMatrixHandlerSelector() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 BaseMapMatrixHandler* NdtMapMatrixHandlerSelector::AllocNdtMapMatrixHandler() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return new NdtMapMatrixHandler();
 }
 
 NdtMapMatrixHandler::NdtMapMatrixHandler() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 NdtMapMatrixHandler::~NdtMapMatrixHandler() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 size_t NdtMapMatrixHandler::LoadBinary(const unsigned char* buf,
                                        std::shared_ptr<BaseMapMatrix> matrix) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!matrix) {
     return 0;
@@ -63,7 +63,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 size_t NdtMapMatrixHandler::CreateBinary(
     const std::shared_ptr<BaseMapMatrix> matrix, unsigned char* buf,
     size_t buf_size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!matrix) {
     return 0;
@@ -75,7 +75,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 /**@brief Get the binary size of the object. */
 size_t NdtMapMatrixHandler::GetBinarySize(
     const std::shared_ptr<BaseMapMatrix> matrix) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const std::shared_ptr<NdtMapMatrix> ndt_matrix =
       std::dynamic_pointer_cast<NdtMapMatrix>(matrix);

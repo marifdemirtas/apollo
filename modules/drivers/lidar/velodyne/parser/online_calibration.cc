@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -25,8 +24,6 @@ using apollo::drivers::velodyne::VelodynePacket;
 using apollo::drivers::velodyne::VelodyneScan;
 
 int OnlineCalibration::decode(const std::shared_ptr<VelodyneScan>& scan_msgs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (inited_) {
     return 0;
   }
@@ -123,8 +120,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void OnlineCalibration::get_unit_index() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int size = static_cast<int>(status_values_.size());
   // simple check only for value, maybe need more check fro status type
   int start_index = 0;
@@ -143,8 +138,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void OnlineCalibration::dump(const std::string& file_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!inited_) {
     AERROR << "Please decode calibraion info first";
     return;

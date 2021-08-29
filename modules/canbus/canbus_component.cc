@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,22 +30,15 @@ using apollo::drivers::canbus::CanClientFactory;
 using apollo::guardian::GuardianCommand;
 
 namespace apollo {
-
 namespace canbus {
 
-std::string CanbusComponent::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return FLAGS_canbus_module_name; }
+std::string CanbusComponent::Name() const { return FLAGS_canbus_module_name; }
 
 CanbusComponent::CanbusComponent()
     : monitor_logger_buffer_(
-          apollo::common::monitor::MonitorMessageItem::CANBUS) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+          apollo::common::monitor::MonitorMessageItem::CANBUS) {}
 
 bool CanbusComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!GetProtoConfig(&canbus_conf_)) {
     AERROR << "Unable to load canbus conf file: " << ConfigFilePath();
     return false;
@@ -175,8 +167,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CanbusComponent::Clear() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   can_sender_.Stop();
   can_receiver_.Stop();
   can_client_->Stop();
@@ -185,8 +175,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CanbusComponent::PublishChassis() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Chassis chassis = vehicle_controller_->chassis();
   common::util::FillHeader(node_->Name(), &chassis);
   chassis_writer_->Write(chassis);
@@ -194,8 +182,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CanbusComponent::PublishChassisDetail() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ChassisDetail chassis_detail;
   message_manager_->GetSensorData(&chassis_detail);
   ADEBUG << chassis_detail.ShortDebugString();
@@ -203,8 +189,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool CanbusComponent::Proc() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   PublishChassis();
   if (FLAGS_enable_chassis_detail_pub) {
     PublishChassisDetail();
@@ -213,8 +197,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CanbusComponent::OnControlCommand(const ControlCommand &control_command) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int64_t current_timestamp = Time::Now().ToMicrosecond();
   // if command coming too soon, just ignore it.
   if (current_timestamp - last_timestamp_ < FLAGS_min_cmd_interval * 1000) {
@@ -243,14 +225,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void CanbusComponent::OnGuardianCommand(
     const GuardianCommand &guardian_command) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   OnControlCommand(guardian_command.control_command());
 }
 
 common::Status CanbusComponent::OnError(const std::string &error_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   monitor_logger_buffer_.ERROR(error_msg);
   return ::apollo::common::Status(ErrorCode::CANBUS_ERROR, error_msg);
 }

@@ -92,7 +92,7 @@ namespace {
 double CalculateAcceleration(
     const Point3D &acceleration, const Point3D &velocity,
     const apollo::canbus::Chassis_GearPosition &gear_location) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Calculates the dot product of acceleration and velocity. The sign
   // of this projection indicates whether this is acceleration or
@@ -116,7 +116,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Object::DisengageType DeduceDisengageType(const Chassis &chassis) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (chassis.error_code() != Chassis::NO_ERROR) {
     return Object::DISENGAGE_CHASSIS_ERROR;
@@ -141,7 +141,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void SetObstacleType(const PerceptionObstacle::Type obstacle_type,
                      const PerceptionObstacle::SubType obstacle_subtype,
                      Object *world_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (world_object == nullptr) {
     return;
@@ -174,7 +174,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SetStopReason(const StopReasonCode &reason_code, Decision *decision) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   switch (reason_code) {
     case StopReasonCode::STOP_REASON_HEAD_VEHICLE:
@@ -214,7 +214,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void UpdateTurnSignal(const apollo::common::VehicleSignal &signal,
                       Object *auto_driving_car) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (signal.turn_signal() == apollo::common::VehicleSignal::TURN_LEFT) {
     auto_driving_car->set_current_signal("LEFT");
@@ -229,7 +229,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void DownsampleCurve(Curve *curve) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (curve->segment().empty()) {
     return;
@@ -249,7 +249,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 inline double SecToMs(const double sec) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  return sec * 1000.0; }
 
 }  // namespace
@@ -262,7 +262,7 @@ SimulationWorldService::SimulationWorldService(const MapService *map_service,
       map_service_(map_service),
       monitor_logger_buffer_(MonitorMessageItem::SIMULATOR),
       ready_to_push_(false) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   InitReaders();
   InitWriters();
@@ -280,7 +280,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SimulationWorldService::InitReaders() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   routing_request_reader_ =
       node_->CreateReader<RoutingRequest>(FLAGS_routing_request_topic);
@@ -334,7 +334,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SimulationWorldService::InitWriters() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   navigation_writer_ =
       node_->CreateWriter<NavigationInfo>(FLAGS_navigation_topic);
@@ -361,7 +361,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SimulationWorldService::Update() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (to_clear_) {
     // Clears received data.
@@ -419,7 +419,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SimulationWorldService::UpdateDelays() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto *delays = world_.mutable_delay();
   delays->set_chassis(SecToMs(chassis_reader_->GetDelaySec()));
@@ -434,7 +434,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SimulationWorldService::UpdateLatencies() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   UpdateLatency("chassis", chassis_reader_.get());
   UpdateLatency("localization", localization_reader_.get());
@@ -447,7 +447,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void SimulationWorldService::GetWireFormatString(
     double radius, std::string *sim_world,
     std::string *sim_world_with_planning_data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   PopulateMapInfo(radius);
 
@@ -458,7 +458,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Json SimulationWorldService::GetUpdateAsJson(double radius) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string sim_world_json_string;
   MessageToJsonString(world_, &sim_world_json_string);
@@ -473,7 +473,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void SimulationWorldService::GetMapElementIds(double radius,
                                               MapElementIds *ids) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Gather required map element ids based on current location.
   apollo::common::PointENU point;
@@ -484,7 +484,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SimulationWorldService::PopulateMapInfo(double radius) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   world_.clear_map_element_ids();
   GetMapElementIds(radius, world_.mutable_map_element_ids());
@@ -493,7 +493,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 const Map &SimulationWorldService::GetRelativeMap() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return relative_map_;
 }
@@ -611,7 +611,7 @@ void SimulationWorldService::UpdateSimulationWorld(
 
 Object &SimulationWorldService::CreateWorldObjectIfAbsent(
     const PerceptionObstacle &obstacle) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const std::string id = std::to_string(obstacle.id());
   // Create a new world object and put it into object map if the id does not
@@ -629,7 +629,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void SimulationWorldService::CreateWorldObjectFromSensorMeasurement(
     const SensorMeasurement &sensor, Object *world_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   world_object->set_id(std::to_string(sensor.id()));
   world_object->set_position_x(sensor.position().x());
@@ -643,7 +643,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void SimulationWorldService::SetObstacleInfo(const PerceptionObstacle &obstacle,
                                              Object *world_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (world_object == nullptr) {
     return;
@@ -669,7 +669,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void SimulationWorldService::SetObstaclePolygon(
     const PerceptionObstacle &obstacle, Object *world_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (world_object == nullptr) {
     return;
@@ -692,7 +692,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void SimulationWorldService::SetObstacleSensorMeasurements(
     const PerceptionObstacle &obstacle, Object *world_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (world_object == nullptr) {
     return;
@@ -707,7 +707,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void SimulationWorldService::SetObstacleSource(
     const apollo::perception::PerceptionObstacle &obstacle,
     Object *world_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (world_object == nullptr || !obstacle.has_source()) {
     return;
@@ -750,7 +750,7 @@ void SimulationWorldService::UpdateSimulationWorld(
 
 void SimulationWorldService::UpdatePlanningTrajectory(
     const ADCTrajectory &trajectory) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Collect trajectory
   world_.clear_planning_trajectory();
@@ -778,7 +778,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string formatDoubleToString(const double data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::stringstream ss;
   ss << std::fixed << std::setprecision(2) << data;
@@ -786,7 +786,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SimulationWorldService::UpdateRSSInfo(const ADCTrajectory &trajectory) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (trajectory.has_rss_info()) {
     if (trajectory.rss_info().is_rss_safe()) {
@@ -821,7 +821,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void SimulationWorldService::UpdateMainStopDecision(
     const apollo::planning::MainDecision &main_decision,
     double update_timestamp_sec, Object *world_main_decision) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   apollo::common::math::Vec2d stop_pt;
   double stop_heading = 0.0;
@@ -861,7 +861,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool SimulationWorldService::LocateMarker(
     const apollo::planning::ObjectDecisionType &decision,
     Decision *world_decision) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   apollo::common::PointENU fence_point;
   double heading;
@@ -894,7 +894,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void SimulationWorldService::FindNudgeRegion(
     const apollo::planning::ObjectDecisionType &decision,
     const Object &world_obj, Decision *world_decision) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::vector<apollo::common::math::Vec2d> points;
   for (auto &polygon_pt : world_obj.polygon_point()) {
@@ -915,7 +915,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void SimulationWorldService::UpdateDecision(const DecisionResult &decision_res,
                                             double header_time) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Update turn signal.
   UpdateTurnSignal(decision_res.vehicle_signal(),
@@ -1000,7 +1000,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void SimulationWorldService::DownsamplePath(const common::Path &path,
                                             common::Path *downsampled_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto sampled_indices = DownsampleByAngle(path.path_point(), kAngleThreshold);
 
@@ -1012,7 +1012,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SimulationWorldService::UpdatePlanningData(const PlanningData &data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto *planning_data = world_.mutable_planning_data();
 
@@ -1163,7 +1163,7 @@ void SimulationWorldService::UpdateSimulationWorld(
 
 void SimulationWorldService::CreatePredictionTrajectory(
     const PredictionObstacle &obstacle, Object *world_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (const auto &traj : obstacle.trajectory()) {
     Prediction *prediction = world_object->add_prediction();
@@ -1266,7 +1266,7 @@ void SimulationWorldService::UpdateSimulationWorld(
 }
 
 Json SimulationWorldService::GetRoutePathAsJson() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Json response;
   response["routePath"] = Json::array();
@@ -1291,7 +1291,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void SimulationWorldService::ReadRoutingFromFile(
     const std::string &routing_response_file) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto routing_response = std::make_shared<RoutingResponse>();
   if (!GetProtoFromFile(routing_response_file, routing_response.get())) {
@@ -1403,7 +1403,7 @@ void SimulationWorldService::UpdateSimulationWorld(
 }
 
 void SimulationWorldService::UpdateMonitorMessages() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::list<std::shared_ptr<MonitorMessage>> monitor_msgs;
   {
@@ -1418,7 +1418,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SimulationWorldService::DumpMessages() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   DumpMessageFromReader(chassis_reader_.get());
   DumpMessageFromReader(prediction_obstacle_reader_.get());
@@ -1436,7 +1436,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void SimulationWorldService::PublishNavigationInfo(
     const std::shared_ptr<NavigationInfo> &navigation_info) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   FillHeader(FLAGS_dreamview_module_name, navigation_info.get());
   navigation_writer_->Write(navigation_info);
@@ -1444,14 +1444,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void SimulationWorldService::PublishRoutingRequest(
     const std::shared_ptr<RoutingRequest> &routing_request) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   FillHeader(FLAGS_dreamview_module_name, routing_request.get());
   routing_request_writer_->Write(routing_request);
 }
 
 void SimulationWorldService::PublishTask(const std::shared_ptr<Task> &task) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   FillHeader(FLAGS_dreamview_module_name, task.get());
   task_writer_->Write(task);
@@ -1460,7 +1460,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void SimulationWorldService::PublishMonitorMessage(
     apollo::common::monitor::MonitorMessageItem::LogLevel log_level,
     const std::string &msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   monitor_logger_buffer_.AddMonitorMsgItem(log_level, msg);
   monitor_logger_buffer_.Publish();

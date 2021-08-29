@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -38,8 +37,6 @@ using apollo::canbus::Chassis;
 
 void switch_stream_status(const apollo::drivers::gnss::Stream::Status &status,
                           StreamStatus_Type *report_status_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   switch (status) {
     case apollo::drivers::gnss::Stream::Status::CONNECTED:
       *report_status_type = StreamStatus::CONNECTED;
@@ -56,8 +53,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 std::string getLocalTimeFileStr(const std::string &gpsbin_folder) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   time_t it = std::time(0);
   char local_time_char[64];
   std::tm time_tm;
@@ -74,8 +69,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Stream *create_stream(const config::Stream &sd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   switch (sd.type_case()) {
     case config::Stream::kSerial:
       if (!sd.serial().has_device()) {
@@ -147,15 +140,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 RawStream::RawStream(const config::Config &config,
                      const std::shared_ptr<apollo::cyber::Node> &node)
     : config_(config), node_(node) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   data_parser_ptr_.reset(new DataParser(config_, node_));
   rtcm_parser_ptr_.reset(new RtcmParser(config_, node_));
 }
 
 RawStream::~RawStream() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   this->Logout();
   this->Disconnect();
   if (gpsbin_stream_ != nullptr) {
@@ -170,8 +159,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool RawStream::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(data_parser_ptr_);
   CHECK_NOTNULL(rtcm_parser_ptr_);
   if (!data_parser_ptr_->Init()) {
@@ -315,8 +302,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RawStream::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   data_thread_ptr_.reset(new std::thread(&RawStream::DataSpin, this));
   rtk_thread_ptr_.reset(new std::thread(&RawStream::RtkSpin, this));
   if (config_.has_wheel_parameters()) {
@@ -327,8 +312,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RawStream::OnWheelVelocityTimer() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (chassis_ptr_ == nullptr) {
     AINFO << "No chassis message received";
     return;
@@ -344,8 +327,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool RawStream::Connect() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (data_stream_) {
     if (data_stream_->get_status() != Stream::Status::CONNECTED) {
       if (!data_stream_->Connect()) {
@@ -396,8 +377,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool RawStream::Disconnect() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (data_stream_) {
     if (data_stream_->get_status() == Stream::Status::CONNECTED) {
       if (!data_stream_->Disconnect()) {
@@ -436,8 +415,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool RawStream::Login() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<std::string> login_data;
   for (const auto &login_command : config_.login_commands()) {
     data_stream_->write(login_command);
@@ -457,8 +434,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool RawStream::Logout() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto &logout_command : config_.logout_commands()) {
     data_stream_->write(logout_command);
     AINFO << "Logout command: " << logout_command;
@@ -467,8 +442,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RawStream::StreamStatusCheck() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   bool status_report = false;
   StreamStatus_Type report_stream_status;
 
@@ -503,8 +476,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RawStream::DataSpin() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   common::util::FillHeader("gnss", &stream_status_);
   stream_writer_->Write(stream_status_);
   while (cyber::OK()) {
@@ -527,8 +498,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RawStream::RtkSpin() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (in_rtk_stream_ == nullptr) {
     return;
   }
@@ -553,8 +522,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RawStream::PublishRtkData(const size_t length) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::shared_ptr<RawData> rtk_msg = std::make_shared<RawData>();
   CHECK_NOTNULL(rtk_msg);
   rtk_msg->set_data(reinterpret_cast<const char *>(buffer_rtk_), length);
@@ -563,8 +530,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RawStream::PushGpgga(const size_t length) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!in_rtk_stream_) {
     return;
   }
@@ -584,8 +549,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RawStream::GpsbinCallback(const std::shared_ptr<RawData const> &raw_data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (gpsbin_stream_ == nullptr) {
     return;
   }

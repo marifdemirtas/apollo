@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -22,12 +21,8 @@ namespace apollo {
 namespace drivers {
 namespace lidar {
 
-LidarDriverComponent::LidarDriverComponent() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+LidarDriverComponent::LidarDriverComponent() {}
 bool LidarDriverComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!GetProtoConfig(&conf_)) {
     AERROR << "load config error, file:" << config_file_path_;
     return false;

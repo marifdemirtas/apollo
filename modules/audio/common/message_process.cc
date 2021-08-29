@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -30,8 +29,6 @@ void MessageProcess::OnMicrophone(
     MovingDetection* moving_detection,
     SirenDetection* siren_detection,
     AudioDetection* audio_detection) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   audio_info->Insert(audio_data);
   auto direction_result =
       direction_detection->EstimateSoundSource(

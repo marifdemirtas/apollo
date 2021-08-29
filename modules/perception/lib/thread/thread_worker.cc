@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,14 +20,10 @@ namespace perception {
 namespace lib {
 
 void ThreadWorker::Bind(const std::function<bool()> &func) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   work_func_ = func;
 }
 
 void ThreadWorker::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (thread_ptr_ == nullptr) {
     thread_ptr_.reset(new std::thread(&ThreadWorker::Core, this));
   }
@@ -38,8 +33,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ThreadWorker::WakeUp() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   {
     std::lock_guard<std::mutex> lock(mutex_);
     work_flag_ = true;
@@ -48,15 +41,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ThreadWorker::Join() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::unique_lock<std::mutex> lock(mutex_);
   condition_.wait(lock, [&]() { return !work_flag_; });
 }
 
 void ThreadWorker::Release() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (thread_ptr_ == nullptr) {
     return;
   }
@@ -71,8 +60,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ThreadWorker::Core() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   while (true) {
     {
       std::unique_lock<std::mutex> lock(mutex_);

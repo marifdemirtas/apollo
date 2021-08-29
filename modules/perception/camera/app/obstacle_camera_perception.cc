@@ -38,9 +38,9 @@ using cyber::common::GetAbsolutePath;
 
 bool ObstacleCameraPerception::Init(
     const CameraPerceptionInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
-  AINFO << "[COV_LOG] Arif called ObstacleCameraPerception::Init";
+  AINFO << "Arif called ObstacleCameraPerception::Init";
   std::string work_root = "";
   if (options.use_cyber_work_root) {
     work_root = GetCyberWorkRoot();
@@ -187,9 +187,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ObstacleCameraPerception::InitLane(
     const std::string &work_root,
     const app::PerceptionParam &perception_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
-  AINFO << "[COV_LOG] Arif called ObstacleCameraPerception::InitLane";
+  AINFO << "Arif called ObstacleCameraPerception::InitLane";
   // Init lane
   CHECK_GT(perception_param.lane_param_size(), 0)
       << "Failed to include lane_param";
@@ -258,7 +258,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ObstacleCameraPerception::InitCalibrationService(
     const std::string &work_root, const base::BaseCameraModelPtr model,
     const app::PerceptionParam &perception_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Init calibration service
   ACHECK(perception_param.has_calibration_service_param())
@@ -291,7 +291,7 @@ void ObstacleCameraPerception::SetCameraHeightAndPitch(
     const std::map<std::string, float> &name_camera_ground_height_map,
     const std::map<std::string, float> &name_camera_pitch_angle_diff_map,
     const float &pitch_angle_calibrator_working_sensor) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (calibration_service_ == nullptr) {
     AERROR << "Calibraion service is not available";
@@ -304,7 +304,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ObstacleCameraPerception::SetIm2CarHomography(
     Eigen::Matrix3d homography_im2car) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (calibration_service_ == nullptr) {
     AERROR << "Calibraion service is not available";
@@ -315,16 +315,16 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool ObstacleCameraPerception::GetCalibrationService(
     BaseCalibrationService **calibration_service) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
-  AINFO << "[COV_LOG] Arif called ObstacleCameraPerception::GetCalibrationService";
+  AINFO << "Arif called ObstacleCameraPerception::GetCalibrationService";
   *calibration_service = calibration_service_.get();
   return true;
 }
 
 bool ObstacleCameraPerception::Perception(
     const CameraPerceptionOptions &options, CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   PERF_FUNCTION();
   inference::CudaUtil::set_device_id(perception_param_.gpu_id());

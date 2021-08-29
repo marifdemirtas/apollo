@@ -37,11 +37,11 @@ LocalizationIntegImpl::LocalizationIntegImpl()
       imu_altitude_from_lidar_localization_available_(false),
       enable_lidar_localization_(true),
       gnss_antenna_extrinsic_(Eigen::Affine3d::Identity()) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 LocalizationIntegImpl::~LocalizationIntegImpl() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   delete republish_process_;
   delete lidar_process_;
@@ -50,7 +50,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status LocalizationIntegImpl::Init(const LocalizationIntegParam& params) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   enable_lidar_localization_ = params.enable_lidar_localization;
   if (params.enable_lidar_localization) {
@@ -101,13 +101,13 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LocalizationIntegImpl::PcdProcess(const LidarFrame& lidar_frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   PcdProcessImpl(lidar_frame);
 }
 
 void LocalizationIntegImpl::PcdProcessImpl(const LidarFrame& pcd_data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // lidar -> republish -> integ
   lidar_process_->PcdProcess(pcd_data);
@@ -134,13 +134,13 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LocalizationIntegImpl::RawImuProcessRfu(const ImuData& imu_data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ImuProcessImpl(imu_data);
 }
 
 void LocalizationIntegImpl::ImuProcessImpl(const ImuData& imu_data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // imu -> lidar
   // imu -> integ -> republish -> lidar -> publish
@@ -247,7 +247,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationIntegImpl::RawObservationProcess(
     const drivers::gnss::EpochObservation& raw_obs_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (is_use_gnss_bestpose_) {
     return;
@@ -258,7 +258,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationIntegImpl::RawEphemerisProcess(
     const drivers::gnss::GnssEphemeris& gnss_orbit_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (is_use_gnss_bestpose_) {
     return;
@@ -269,7 +269,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationIntegImpl::GnssBestPoseProcess(
     const drivers::gnss::GnssBestPose& bestgnsspos_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!is_use_gnss_bestpose_) {
     return;
@@ -280,7 +280,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationIntegImpl::RawObservationProcessImpl(
     const drivers::gnss::EpochObservation& raw_obs_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   gnss_process_->RawObservationProcess(raw_obs_msg);
 
@@ -302,14 +302,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationIntegImpl::RawEphemerisProcessImpl(
     const drivers::gnss::GnssEphemeris& gnss_orbit_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   gnss_process_->RawEphemerisProcess(gnss_orbit_msg);
 }
 
 void LocalizationIntegImpl::GnssBestPoseProcessImpl(
     const drivers::gnss::GnssBestPose& bestgnsspos_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   MeasureData measure;
   if (republish_process_->NovatelBestgnssposProcess(bestgnsspos_msg,
@@ -328,14 +328,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationIntegImpl::GnssHeadingProcess(
     const drivers::gnss::Heading& gnssheading_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   GnssHeadingProcessImpl(gnssheading_msg);
 }
 
 void LocalizationIntegImpl::GnssHeadingProcessImpl(
     const drivers::gnss::Heading& gnssheading_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   MeasureData measure;
   int heading_status = 0;
@@ -347,7 +347,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationIntegImpl::TransferGnssMeasureToLocalization(
     const MeasureData& measure, LocalizationEstimate* localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(localization);
 
@@ -383,6 +383,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   position_std_dev->set_z(-1.0);
 
   if (measure.is_have_variance) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     position_std_dev->set_x(measure.variance[0][0]);
     position_std_dev->set_y(measure.variance[1][1]);
     position_std_dev->set_z(measure.variance[2][2]);
@@ -397,21 +399,21 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 const LocalizationResult& LocalizationIntegImpl::GetLastestLidarLocalization()
     const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return lastest_lidar_localization_;
 }
 
 const LocalizationResult& LocalizationIntegImpl::GetLastestIntegLocalization()
     const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return lastest_integ_localization_;
 }
 
 const LocalizationResult& LocalizationIntegImpl::GetLastestGnssLocalization()
     const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return lastest_gnss_localization_;
 }

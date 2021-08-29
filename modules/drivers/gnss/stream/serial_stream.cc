@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -38,8 +37,6 @@ namespace drivers {
 namespace gnss {
 
 speed_t get_serial_baudrate(uint32_t rate) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   switch (rate) {
     case 9600:
       return B9600;
@@ -108,20 +105,14 @@ SerialStream::SerialStream(const char* device_name, speed_t baud_rate,
       fd_(-1),
       errno_(0),
       is_open_(false) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (device_name_.empty()) {
     status_ = Stream::Status::ERROR;
   }
 }
 
-SerialStream::~SerialStream() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- this->close(); }
+SerialStream::~SerialStream() { this->close(); }
 
 void SerialStream::open(void) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int fd = 0;
   fd = ::open(device_name_.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
   if (fd == -1) {
@@ -149,8 +140,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SerialStream::configure_port(int fd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (fd < 0) {
     return false;
   }
@@ -231,8 +220,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SerialStream::Connect() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!is_open_) {
     this->open();
     if (!is_open_) {
@@ -252,8 +239,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SerialStream::close(void) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (is_open_) {
     ::close(fd_);
     fd_ = -1;
@@ -263,8 +248,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SerialStream::Disconnect() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!is_open_) {
     // not open
     return false;
@@ -275,8 +258,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void SerialStream::check_remove() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   char data = 0;
   ssize_t nsent = ::write(fd_, &data, 0);
   if (nsent < 0) {
@@ -293,8 +274,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t SerialStream::read(uint8_t* buffer, size_t max_length) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!is_open_) {
     if (!Connect()) {
       return 0;
@@ -352,8 +331,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t SerialStream::write(const uint8_t* data, size_t length) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!is_open_) {
     if (!Connect()) {
       return 0;
@@ -407,8 +384,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SerialStream::wait_readable(uint32_t timeout_us) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Setup a select call to block for serial data or a timeout
   timespec timeout_ts;
   fd_set readfds;
@@ -431,8 +406,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SerialStream::wait_writable(uint32_t timeout_us) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Setup a select call to block for serial data or a timeout
   timespec timeout_ts;
   fd_set writefds;
@@ -456,8 +429,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Stream* Stream::create_serial(const char* device_name, uint32_t baud_rate,
                               uint32_t timeout_usec) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   speed_t baud = get_serial_baudrate(baud_rate);
   return baud == 0 ? nullptr
                    : new SerialStream(device_name, baud, timeout_usec);

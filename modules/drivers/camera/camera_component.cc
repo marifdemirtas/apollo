@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -22,8 +21,6 @@ namespace drivers {
 namespace camera {
 
 bool CameraComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   camera_config_ = std::make_shared<Config>();
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
                                                camera_config_.get())) {
@@ -85,8 +82,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CameraComponent::run() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   running_.exchange(true);
   while (!cyber::IsShutdown()) {
     if (!camera_device_->wait_for_device()) {
@@ -116,8 +111,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 CameraComponent::~CameraComponent() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (running_.load()) {
     running_.exchange(false);
     async_result_.wait();

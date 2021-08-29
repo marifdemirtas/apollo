@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -50,14 +49,10 @@ std::vector<base::ObjectSubType> kTypeRefinedByRef = {
     base::ObjectSubType::CYCLIST,    base::ObjectSubType::MOTORCYCLIST,
     base::ObjectSubType::TRICYCLIST};
 
-ObjectTemplateManager::ObjectTemplateManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+ObjectTemplateManager::ObjectTemplateManager() {}
 
 bool ObjectTemplateManager::Init(
     const ObjectTemplateManagerInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   lib::MutexLock lock(&mutex_);
   if (inited_) {
     return true;
@@ -185,8 +180,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ObjectTemplateManager::LoadVehTemplates(const ObjectTemplate &tmplt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<std::tuple<float, float, float>> list_tpl;
   list_tpl.resize(0);
   for (int i = 0; i < tmplt.dim_size(); ++i) {
@@ -203,8 +196,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ObjectTemplateManager::LoadVehMinMidMaxTemplates(
     const base::ObjectSubType &type, const ObjectTemplate &tmplt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<std::tuple<float, float, float>> list_tpl;
   list_tpl.resize(0);
   for (int i = 0; i < tmplt.dim_size(); ++i) {
@@ -234,8 +225,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // util for tmplt search
 float ObjectTemplateManager::Get3dDimensionSimilarity(const float *hwl1,
                                                       const float *hwl2) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ACHECK(hwl1 != nullptr);
   ACHECK(hwl2 != nullptr);
 
@@ -256,8 +245,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // for general visual obj
 float ObjectTemplateManager::VehObjHwlBySearchTemplates(float *hwl, int *index,
                                                         bool *is_flip) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ACHECK(inited_);
   ACHECK(hwl != nullptr);
 

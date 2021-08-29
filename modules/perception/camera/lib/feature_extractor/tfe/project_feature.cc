@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,15 +25,12 @@
 #include "modules/perception/inference/utils/gemm.h"
 
 namespace apollo {
-
 namespace perception {
 namespace camera {
 
 using cyber::common::GetAbsolutePath;
 
 bool ProjectFeature::Init(const FeatureExtractorInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string efx_config = GetAbsolutePath(options.root_dir, options.conf_file);
   ACHECK(cyber::common::GetProtoFromFile(efx_config, &param_))
       << "Read config failed: " << efx_config;
@@ -67,8 +63,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool ProjectFeature::Extract(const FeatureExtractorOptions &options,
                              CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto input_blob = inference_->get_blob(param_.input_blob());
   auto output_blob = inference_->get_blob(param_.feat_blob());
   if (frame->detected_objects.empty()) {
@@ -94,9 +88,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   return true;
 }
 
-std::string ProjectFeature::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return "ProjectFeature"; }
+std::string ProjectFeature::Name() const { return "ProjectFeature"; }
 
 REGISTER_FEATURE_EXTRACTOR(ProjectFeature);
 }  // namespace camera

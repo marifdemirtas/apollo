@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -22,8 +21,6 @@ namespace apollo {
 namespace hdmap {
 
 std::shared_ptr<JsonConf> ParseJson(std::string conf_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   AINFO << "parsing json config";
   boost::filesystem::path path(conf_path);
   if (!boost::filesystem::exists(path)) {

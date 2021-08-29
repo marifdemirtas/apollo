@@ -32,17 +32,17 @@ namespace localization {
 namespace msf {
 
 OnlineVisualizerComponent::OnlineVisualizerComponent() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 OnlineVisualizerComponent::~OnlineVisualizerComponent() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   VisualizationManager::GetInstance().StopVisualization();
 }
 
 bool OnlineVisualizerComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!InitConfig()) {
     AERROR << "InitParams failed.";
@@ -60,7 +60,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool OnlineVisualizerComponent::InitConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   map_folder_ = FLAGS_map_dir + "/" + FLAGS_local_map_name;
   map_visual_folder_ = FLAGS_map_visual_dir;
@@ -105,7 +105,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool OnlineVisualizerComponent::InitIO() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Lidar localization
   std::function<void(const std::shared_ptr<LocalizationEstimate> &)>
@@ -144,7 +144,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool OnlineVisualizerComponent::Proc(
     const std::shared_ptr<drivers::PointCloud> &msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   LidarVisFrame lidar_vis_frame;
   lidar_vis_frame.timestamp = cyber::Time(msg->measurement_time()).ToSecond();
@@ -162,7 +162,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void OnlineVisualizerComponent::OnLidarLocalization(
     const std::shared_ptr<LocalizationEstimate> &msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   LocalizationMsg lidar_loc_msg;
 
@@ -191,7 +191,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void OnlineVisualizerComponent::OnGNSSLocalization(
     const std::shared_ptr<LocalizationEstimate> &msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   LocalizationMsg gnss_loc_msg;
 
@@ -220,7 +220,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void OnlineVisualizerComponent::OnFusionLocalization(
     const std::shared_ptr<LocalizationEstimate> &msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   LocalizationMsg fusion_loc_msg;
 
@@ -251,7 +251,7 @@ void OnlineVisualizerComponent::ParsePointCloudMessage(
     const std::shared_ptr<drivers::PointCloud> &msg,
     ::apollo::common::EigenVector3dVec *pt3ds,
     std::vector<unsigned char> *intensities) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(pt3ds);
   CHECK_NOTNULL(intensities);

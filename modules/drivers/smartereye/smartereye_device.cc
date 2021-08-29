@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,17 +27,11 @@ namespace apollo {
 namespace drivers {
 namespace smartereye {
 
-SmartereyeDevice::SmartereyeDevice() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+SmartereyeDevice::SmartereyeDevice() {}
 
-SmartereyeDevice::~SmartereyeDevice() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- uninit(); }
+SmartereyeDevice::~SmartereyeDevice() { uninit(); }
 
 bool SmartereyeDevice::init(const std::shared_ptr<Config>& camera_config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   pcamera_ = StereoCamera::connect("192.168.1.251");
   pcameraHandler_ = new SmartereyeHandler("camera A");
   pcamera_->enableTasks(TaskId::ObstacleTask | TaskId::DisplayTask);
@@ -48,16 +41,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SmartereyeDevice::SetCallback(CallbackFunc ptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   pcameraHandler_->SetCallback(ptr);
 
   return true;
 }
 
 int SmartereyeDevice::poll() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   pcamera_->requestFrame(pcameraHandler_, FrameId::Compound);
   is_capturing_ = true;
 
@@ -65,8 +54,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int SmartereyeDevice::uninit() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!inited_) {
     return 1;
   }
@@ -78,13 +65,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   return 1;
 }
 
-bool SmartereyeDevice::is_capturing() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return is_capturing_; }
+bool SmartereyeDevice::is_capturing() { return is_capturing_; }
 
 bool SmartereyeDevice::wait_for_device() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (is_capturing_) {
     ADEBUG << "is capturing";
     return true;

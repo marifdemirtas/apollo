@@ -28,13 +28,13 @@ namespace devkit {
 using ::apollo::drivers::canbus::Byte;
 
 Brakereport501::Brakereport501() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Brakereport501::ID = 0x501;
 
 void Brakereport501::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_devkit()->mutable_brake_report_501()->set_brake_pedal_actual(
       brake_pedal_actual(bytes, length));
@@ -53,7 +53,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 31, 'type': 'double', 'order': 'motorola', 'physical_unit': '%'}
 double Brakereport501::brake_pedal_actual(const std::uint8_t* bytes,
                                           int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -74,7 +74,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'motorola', 'physical_unit': ''}
 Brake_report_501::Brake_flt2Type Brakereport501::brake_flt2(
     const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -91,7 +91,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'motorola', 'physical_unit': ''}
 Brake_report_501::Brake_flt1Type Brakereport501::brake_flt1(
     const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -108,7 +108,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'bit': 1, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Brake_report_501::Brake_en_stateType Brakereport501::brake_en_state(
     const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 2);

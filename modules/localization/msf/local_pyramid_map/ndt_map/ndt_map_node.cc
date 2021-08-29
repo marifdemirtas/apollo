@@ -26,14 +26,14 @@ namespace msf {
 namespace pyramid_map {
 
 NdtMapNode::NdtMapNode() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 NdtMapNode::~NdtMapNode() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void NdtMapNode::Init(const BaseMapConfig* map_config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   map_config_ = map_config;
 
@@ -55,7 +55,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 void NdtMapNode::Init(const BaseMapConfig* map_config,
                       const MapNodeIndex& index, bool create_map_cells) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   map_config_ = map_config;
 
@@ -83,7 +83,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Eigen::Vector3d NdtMapNode::GetCoordinate3D(unsigned int x, unsigned int y,
                                             int altitude_index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const Eigen::Vector2d& left_top_corner = GetLeftTopCorner();
   Eigen::Vector2d coord_2d;
@@ -105,7 +105,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 Eigen::Vector3d NdtMapNode::GetCoordinateCenter3D(unsigned int x,
                                                   unsigned int y,
                                                   int altitude_index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const Eigen::Vector2d& left_top_corner = GetLeftTopCorner();
   Eigen::Vector2d coord_2d;
@@ -125,7 +125,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void NdtMapNode::Reduce(NdtMapNode* map_node, const NdtMapNode& map_node_new) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   assert(map_node->index_.m_ == map_node_new.index_.m_);
   assert(map_node->index_.n_ == map_node_new.index_.n_);

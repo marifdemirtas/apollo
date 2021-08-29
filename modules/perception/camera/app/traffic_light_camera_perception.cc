@@ -32,9 +32,9 @@ using cyber::common::GetAbsolutePath;
 
 bool TrafficLightCameraPerception::Init(
     const CameraPerceptionInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
-  AINFO << "[COV_LOG] Arif called TrafficLightCameraPerception::Init";
+  AINFO << "Arif called TrafficLightCameraPerception::Init";
   std::string work_root = "";
   if (options.use_cyber_work_root) {
     work_root = GetCyberWorkRoot();
@@ -94,9 +94,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool TrafficLightCameraPerception::Perception(
     const CameraPerceptionOptions &options, CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
-  AINFO << "[COV_LOG] Arif called TrafficLightCameraPerception::Perception";
+  AINFO << "Arif called TrafficLightCameraPerception::Perception";
   PERF_FUNCTION();
   PERF_BLOCK_START();
   TrafficLightDetectorOptions detector_options;

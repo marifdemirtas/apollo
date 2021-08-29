@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -21,8 +20,6 @@ namespace drivers {
 namespace hesai {
 
 bool HesaiComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!GetProtoConfig(&hesai_conf_)) {
     AERROR << "load config error, file:" << config_file_path_;
     return false;

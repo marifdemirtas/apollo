@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -91,8 +90,6 @@ class SqliteWraper {
 }  // namespace
 
 bool KVDB::Put(std::string_view key, std::string_view value) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   SqliteWraper sqlite;
   return sqlite.SQL(
       absl::StrCat("INSERT OR REPLACE INTO key_value (key, value) VALUES ('",
@@ -100,16 +97,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool KVDB::Delete(std::string_view key) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   SqliteWraper sqlite;
   return sqlite.SQL(
       absl::StrCat("DELETE FROM key_value WHERE key='", key, "';"));
 }
 
 std::optional<std::string> KVDB::Get(std::string_view key) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   SqliteWraper sqlite;
   std::string value;
   const bool ret = sqlite.SQL(

@@ -28,11 +28,11 @@ const int32_t Controlcommand115::ID = 0x115;
 
 // public
 Controlcommand115::Controlcommand115() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Reset(); }
 
 uint32_t Controlcommand115::GetPeriod() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,13 +40,13 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Controlcommand115::UpdateData(uint8_t* data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   set_p_ctrl_cmd(data, ctrl_cmd_);
 }
 
 void Controlcommand115::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // you should check this manually
   ctrl_cmd_ = Control_command_115::CTRL_CMD_OUT_OF_CONTROL;
@@ -54,7 +54,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Controlcommand115* Controlcommand115::set_ctrl_cmd(
     Control_command_115::Ctrl_cmdType ctrl_cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ctrl_cmd_ = ctrl_cmd;
   return this;
@@ -67,7 +67,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': ''}
 void Controlcommand115::set_p_ctrl_cmd(
     uint8_t* data, Control_command_115::Ctrl_cmdType ctrl_cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int x = ctrl_cmd;
 

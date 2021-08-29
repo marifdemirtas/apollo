@@ -36,7 +36,7 @@ namespace canbus {
 namespace ch {
 
 ChMessageManager::ChMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Control Messages
   AddSendProtocolData<Brakecommand111, true>();
@@ -58,7 +58,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 ChMessageManager::~ChMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 }  // namespace ch

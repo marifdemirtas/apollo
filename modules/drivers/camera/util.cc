@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,8 +24,6 @@ namespace drivers {
 namespace camera {
 
 void print_m256(__m256i a) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   unsigned char snoop[32];
   bool dst_align = Aligned(reinterpret_cast<void*>(snoop));
   if (dst_align)
@@ -38,8 +35,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 void print_m256_i32(const __m256i a) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   unsigned int snoop[8];
   bool dst_align = Aligned(reinterpret_cast<void*>(snoop));
   if (dst_align)
@@ -52,8 +47,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void print_m256_i16(const __m256i a) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   uint16_t snoop[16];
   bool dst_align = Aligned(reinterpret_cast<void*>(snoop));
   if (dst_align)
@@ -68,8 +61,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 template <bool align>
 SIMD_INLINE void yuv_separate_avx2(uint8_t* y, __m256i* y0, __m256i* y1,
                                    __m256i* u0, __m256i* v0) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   __m256i yuv_m256[4];
 
   if (align) {
@@ -140,10 +131,6 @@ void yuv2rgb_avx2(uint8_t* yuv, uint8_t* rgb) {
 }
 
 void yuyv2rgb_avx(unsigned char* YUV, unsigned char* RGB, int NumPixels) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   assert(NumPixels == (1920 * 1080));
   bool align = Aligned(YUV) & Aligned(RGB);
   uint8_t* yuv_offset = YUV;

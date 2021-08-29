@@ -46,9 +46,9 @@ bool GetNavigationPathFromFile(const std::string& filename,
 void CheckConfig(const apollo::relative_map::NavigatorConfig& navigator_config);
 
 int main(int argc, char** argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   // Init the cyber framework
@@ -86,9 +86,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
     auto* navigation_path = navigation_info.add_navigation_path();
     if (!GetNavigationPathFromFile(filename, navigator_config,
                                    navigation_path)) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
       AWARN << "Failed to load file: " << filename;
       continue;
@@ -212,9 +212,9 @@ bool GetNavigationPathFromFile(const std::string& filename,
 
 void CheckConfig(
     const apollo::relative_map::NavigatorConfig& navigator_config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ACHECK(navigator_config.has_sample_param());
   const auto& sample_param = navigator_config.sample_param();

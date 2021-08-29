@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,8 +28,6 @@ namespace inference {
 
 bool ReadProtoFromTextFile(const std::string &filename,
                            google::protobuf::Message *proto) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int fd = open(filename.c_str(), O_RDONLY);
   if (fd < 0) {
     AERROR << "cannot open file " << filename;
@@ -46,8 +43,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool ReadProtoFromBinaryFile(const std::string &filename,
                              google::protobuf::Message *proto) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int fd = open(filename.c_str(), O_RDONLY);
   if (fd < 0) {
     AERROR << "cannot open file " << filename;
@@ -63,13 +58,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   return success;
 }
 bool loadNetParams(const std::string &param_file, NetParameter *param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return ReadProtoFromTextFile(param_file, param);
 }
 std::string locateFile(const std::string &network, const std::string &input) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return network + "/" + input;
 }
 }  // namespace inference

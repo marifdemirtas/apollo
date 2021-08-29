@@ -27,22 +27,16 @@ namespace pyramid_map {
 
 NdtMapConfig::NdtMapConfig(std::string map_version)
     : BaseMapConfig(map_version) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_is_compression_ = true;
   map_resolutions_z_.push_back(1.0f);
 }
 
 void NdtMapConfig::SetSingleResolutionZ(float resolution) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_resolutions_z_.clear();
   map_resolutions_z_.push_back(resolution);
 }
 
 void NdtMapConfig::SetMultiResolutionsZ() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   map_resolutions_z_.clear();
   map_resolutions_z_.push_back(0.03125);
   map_resolutions_z_.push_back(0.0625);
@@ -57,8 +51,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool NdtMapConfig::CreateXml(boost::property_tree::ptree* config) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   BaseMapConfig::CreateXml(config);
   config->put("map.map_config.compression", map_is_compression_);
   for (size_t i = 0; i < map_resolutions_.size(); ++i) {
@@ -69,8 +61,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool NdtMapConfig::LoadXml(boost::property_tree::ptree* config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   BaseMapConfig::LoadXml(*config);
   map_is_compression_ = config->get<bool>("map.map_config.compression");
   map_resolutions_z_.clear();

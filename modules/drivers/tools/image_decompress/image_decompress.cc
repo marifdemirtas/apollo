@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,8 +26,6 @@ namespace image_decompress {
 using apollo::drivers::Image;
 
 bool ImageDecompressComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!GetProtoConfig(&config_)) {
     AERROR << "Parse config file failed: " << ConfigFilePath();
     return false;
@@ -40,8 +37,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool ImageDecompressComponent::Proc(
     const std::shared_ptr<apollo::drivers::CompressedImage>& compressed_image) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto image = std::make_shared<Image>();
   image->mutable_header()->CopyFrom(compressed_image->header());
   if (compressed_image->has_measurement_time()) {

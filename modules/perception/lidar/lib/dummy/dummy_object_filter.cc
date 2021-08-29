@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -18,20 +17,15 @@
 #include "modules/perception/lidar/lib/dummy/dummy_object_filter.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
 bool DummyObjectFilter::Init(const ObjectFilterInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return true;
 }
 
 bool DummyObjectFilter::Filter(const ObjectFilterOptions& options,
                                LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return true;
 }
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -33,8 +32,6 @@ namespace velodyne {
 uint64_t VelodyneDriver::sync_counter = 0;
 
 VelodyneDriver::~VelodyneDriver() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (poll_thread_.joinable()) {
     poll_thread_.join();
   }
@@ -44,8 +41,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool VelodyneDriver::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double frequency = (config_.rpm() / 60.0);  // expected Hz rate
 
   // default number of packets for each scan is a single revolution
@@ -70,8 +65,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void VelodyneDriver::SetBaseTimeFromNmeaTime(NMEATimePtr nmea_time,
                                              uint64_t* basetime) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   struct tm time;
   std::memset(&time, 0, sizeof(tm));
   time.tm_year = nmea_time->year + (2000 - 1900);
@@ -91,8 +84,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool VelodyneDriver::SetBaseTime() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   NMEATimePtr nmea_time(new NMEATime);
   while (true) {
     int rc = input_->get_positioning_data_packet(nmea_time);
@@ -114,8 +105,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  *  @returns true unless end of file reached
  */
 bool VelodyneDriver::Poll(const std::shared_ptr<VelodyneScan>& scan) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Allocate a new shared pointer for zero-copy sharing with other nodelets.
   if (basetime_ == 0) {
     // waiting for positioning data
@@ -153,8 +142,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int VelodyneDriver::PollStandard(std::shared_ptr<VelodyneScan> scan) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Since the velodyne delivers data at a very high rate, keep reading and
   // publishing scans as fast as possible.
   while ((config_.use_poll_sync() &&
@@ -186,8 +173,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void VelodyneDriver::PollPositioningPacket(void) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   while (!cyber::IsShutdown()) {
     NMEATimePtr nmea_time(new NMEATime);
     bool ret = true;
@@ -226,8 +211,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void VelodyneDriver::UpdateGpsTopHour(uint32_t current_time) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (last_gps_time_ == 0) {
     last_gps_time_ = current_time;
     return;
@@ -304,8 +287,6 @@ VelodyneDriver* VelodyneDriverFactory::CreateDriver(
 }
 
 void VelodyneDriver::DevicePoll() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   while (!apollo::cyber::IsShutdown()) {
     // poll device until end of file
     std::shared_ptr<VelodyneScan> scan = std::make_shared<VelodyneScan>();

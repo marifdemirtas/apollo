@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -26,8 +25,6 @@ namespace control {
 const double kDoubleEpsilon = 1e-6;
 
 bool Interpolation1D::Init(const DataType& xy) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (xy.empty()) {
     AERROR << "empty input.";
     return false;
@@ -56,8 +53,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Interpolation1D::Interpolate(double x) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (x < x_min_) {
     return y_start_;
   }
@@ -69,8 +64,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Interpolation1D::ScaledValue(double x) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (std::fabs(x_max_ - x_min_) < kDoubleEpsilon) {
     return x_min_;
   }
@@ -79,8 +72,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Eigen::RowVectorXd Interpolation1D::ScaledValues(
     Eigen::VectorXd const& x_vec) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return x_vec.unaryExpr([this](double x) { return ScaledValue(x); })
       .transpose();
 }

@@ -230,6 +230,8 @@ void AddObstacle(ObstacleContainer* obstacles_ptr,
 
 double InterpolateUsingLinearApproximation(const double p0, const double p1,
                                            const double w) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
   return p0 * (1.0 - w) + p1 * w;
 }
 
@@ -261,6 +263,8 @@ bool DistanceSmoothing(
     Eigen::MatrixXd* control_result_ds_, Eigen::MatrixXd* time_result_ds_,
     Eigen::MatrixXd* dual_l_result_ds_, Eigen::MatrixXd* dual_n_result_ds_,
     double& dual_time, double& ipopt_time) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
   // load Warm Start result(horizon is the "N", not the size of step points)
   size_t horizon_ = hybrid_a_star_result->x.size() - 1;
   // nominal sampling time

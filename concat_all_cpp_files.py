@@ -20,7 +20,7 @@ def create_concat_cyber():
                 shutil.copyfileobj(fd, wfd)
 
 def get_files():
-    with open('cpp_modules_list_wo_test.txt', 'r') as f:
+    with open('cpp_modules_list_final.txt', 'r') as f:
         files = [d[:-1] for d in f.readlines()]
         return files
 
@@ -49,10 +49,10 @@ def add_logging():
             if search_start == -1:
                 search_start = full_text.find(func)
                 if search_start == -1:
-                    print("Cannot find:", func)
                     continue
             replace_start = full_text.find('{', search_start) + 1
-            full_text = full_text[:replace_start] + '\nstd::cerr << "Arif called __PRETTY_FUNCTION__";\n' + full_text[replace_start:]
+            
+            full_text = full_text[:replace_start] + '\nAINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;\n' + full_text[replace_start:]
     with open('all_module_cpp_files_concat_logged.cc','w') as wfd:
         wfd.write(full_text)
 
@@ -67,6 +67,18 @@ def read():
             f, c = fc.split(start_token_content)
             with open(f, 'w') as fd:
                 fd.write('#include <iostream>\n' + c)
+
+def fix():
+    files = get_files()
+    print()
+    with open('all_module_cpp_files_concat.cc','r') as wfd:
+        file_contents = wfd.read().split(start_token_file)[1:]
+        for i, fc in enumerate(file_contents):
+            if i % 60 == 0:
+                print("%5 gone")
+            f, c = fc.split(start_token_content)
+            with open(f, 'w') as fd:
+                fd.write(c)
 
 def add_build_statement():
     offset = len('deps = [\n')
@@ -88,6 +100,8 @@ def add_build_statement():
 '''
 Read symbols, find those with function, find the next {, replace it with { + logging
 '''
+#fix()
+#create_concat()
 #add_logging()
 read()
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,16 +29,12 @@ namespace can {
 using apollo::common::ErrorCode;
 
 HermesCanClient::~HermesCanClient() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (dev_handler_) {
     Stop();
   }
 }
 
 bool HermesCanClient::Init(const CANCardParameter &parameter) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!parameter.has_channel_id()) {
     AERROR << "Init CAN failed: parameter does not have channel id. The "
               "parameter is "
@@ -58,8 +53,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 ErrorCode HermesCanClient::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (is_init_) {
     return ErrorCode::OK;
   }
@@ -95,8 +88,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HermesCanClient::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (is_init_) {
     is_init_ = false;
     int32_t ret = bcan_close(dev_handler_);
@@ -109,8 +100,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // Synchronous transmission of CAN messages
 apollo::common::ErrorCode HermesCanClient::Send(
     const std::vector<CanFrame> &frames, int32_t *const frame_num) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   /*
   typedef struct bcan_msg {
       uint32_t bcan_msg_id;        // source CAN node id
@@ -156,8 +145,6 @@ const int RX_TIMEOUT = -7;
 
 apollo::common::ErrorCode HermesCanClient::Receive(
     std::vector<CanFrame> *const frames, int32_t *const frame_num) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!is_init_) {
     AERROR << "Hermes can client is not init! Please init first!";
     return ErrorCode::CAN_CLIENT_ERROR_RECV_FAILED;
@@ -196,13 +183,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   return ErrorCode::OK;
 }
 
-std::string HermesCanClient::GetErrorString(int32_t ntstatus) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return ""; }
+std::string HermesCanClient::GetErrorString(int32_t ntstatus) { return ""; }
 
-void HermesCanClient::SetInited(bool init) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- is_init_ = init; }
+void HermesCanClient::SetInited(bool init) { is_init_ = init; }
 
 }  // namespace can
 }  // namespace canbus

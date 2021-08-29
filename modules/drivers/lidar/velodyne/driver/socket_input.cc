@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -49,18 +48,12 @@ namespace velodyne {
  *  @param private_nh private node handle for driver
  *  @param udp_port UDP port number to connect
  */
-SocketInput::SocketInput() : sockfd_(-1), port_(0) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+SocketInput::SocketInput() : sockfd_(-1), port_(0) {}
 
 /** @brief destructor */
-SocketInput::~SocketInput(void) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- (void)close(sockfd_); }
+SocketInput::~SocketInput(void) { (void)close(sockfd_); }
 
 void SocketInput::init(const int &port) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (sockfd_ != -1) {
     (void)close(sockfd_);
   }
@@ -98,8 +91,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 /** @brief Get one velodyne packet. */
 int SocketInput::get_firing_data_packet(VelodynePacket *pkt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // double time1 = ros::Time::now().toSec();
   double time1 = apollo::cyber::Time().Now().ToSecond();
   while (true) {
@@ -135,8 +126,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int SocketInput::get_positioning_data_packet(NMEATimePtr nmea_time) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   while (true) {
     if (!input_available(POLL_TIMEOUT)) {
       return 1;
@@ -172,8 +161,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SocketInput::input_available(int timeout) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   struct pollfd fds[1];
   fds[0].fd = sockfd_;
   fds[0].events = POLLIN;

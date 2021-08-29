@@ -23,7 +23,7 @@ namespace hdmap {
 
 StaticAlign::StaticAlign(std::shared_ptr<JsonConf> sp_conf)
     : Alignment(sp_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   sp_conf_ = sp_conf;
   static_align_detect_method_ = StaticAlignDetectMethod::DYNAMIC_CENTROID;
@@ -31,7 +31,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void StaticAlign::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   progress_ = 0.0;
   last_progress_ = 0.0;
@@ -45,7 +45,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool StaticAlign::IsStaticPose(const FramePose& pose) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (dynamic_centroid_.count == 0) {
     return true;
@@ -65,7 +65,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void StaticAlign::UpdateDynamicCentroid(const FramePose& pose) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int count = dynamic_centroid_.count;
   if (count == 0) {
@@ -88,7 +88,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double StaticAlign::GetCentroidTimeDuring() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (dynamic_centroid_.start_time > 0 && dynamic_centroid_.end_time > 0) {
     return dynamic_centroid_.end_time - dynamic_centroid_.start_time;
@@ -97,14 +97,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void StaticAlign::UpdateGoodPoseInfo(const FramePose& pose) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   UpdateDynamicCentroid(pose);
 }
 
 double StaticAlign::StaticAlignDynamicCentroid(
     const std::vector<FramePose>& poses) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int start_index = TimeToIndex(poses, start_time_);
   AINFO << "start_index:" << start_index << ",pose size:" << poses.size();
@@ -132,7 +132,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double StaticAlign::StaticAlignRansac(const std::vector<FramePose>& poses) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(yuanyijun): implementation of selecting an center by RANSAC
   return 0.0;
@@ -140,7 +140,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double StaticAlign::GetStaticAlignProgress(
     const std::vector<FramePose>& poses) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   double progress = 0.0;
   switch (static_align_detect_method_) {
@@ -158,7 +158,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 ErrorCode StaticAlign::Process(const std::vector<FramePose>& poses) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "[StaticAlign::process] begin";
   size_t size = poses.size();

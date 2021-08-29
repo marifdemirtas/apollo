@@ -27,24 +27,24 @@ namespace msf {
 using cyber::record::RecordReader;
 
 CyberRecordReader::CyberRecordReader() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 CyberRecordReader::~CyberRecordReader() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void CyberRecordReader::Subscribe(
     const std::string &topic,
     const std::function<void(const std::string &)> call_back) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   call_back_map_[topic] = call_back;
   topics_.push_back(topic);
 }
 
 void CyberRecordReader::Read(const std::string &file_name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   RecordReader reader(file_name);
   cyber::record::RecordMessage message;
@@ -57,7 +57,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CyberRecordReader::Read(const std::vector<std::string> &file_names) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (const std::string &file_name : file_names) {
     Read(file_name);

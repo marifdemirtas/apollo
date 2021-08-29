@@ -32,7 +32,7 @@ DEFINE_string(navigation_dummy_file,
               "Used for sending navigation result to relative_map node.");
 
 int main(int argc, char** argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   google::ParseCommandLineFlags(&argc, &argv, true);
   // Init the cyber framework

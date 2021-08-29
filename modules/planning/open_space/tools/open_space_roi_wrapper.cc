@@ -398,6 +398,8 @@ class OpenSpaceROITest {
     target_lane_id.set_id(parking_id);
     auto nearby_lane = map_ptr->GetLaneById(nearby_lane_id);
     if (nearby_lane == nullptr) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
       std::cout << "No such lane found " << lane_id << std::endl;
       return false;
     }

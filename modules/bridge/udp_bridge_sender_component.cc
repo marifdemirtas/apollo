@@ -22,7 +22,6 @@
 #include "modules/bridge/common/util.h"
 
 namespace apollo {
-
 namespace bridge {
 
 #define BRIDGE_IMPL(pb_msg) template class UDPBridgeSenderComponent<pb_msg>
@@ -33,9 +32,13 @@ using apollo::localization::LocalizationEstimate;
 
 template <typename T>
 bool UDPBridgeSenderComponent<T>::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "UDP bridge sender init, startin...";
   apollo::bridge::UDPBridgeSenderRemoteInfo udp_bridge_remote;
@@ -54,7 +57,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 template <typename T>
 bool UDPBridgeSenderComponent<T>::Proc(const std::shared_ptr<T> &pb_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (remote_port_ == 0 || remote_ip_.empty()) {
     AERROR << "remote info is invalid!";

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,15 +21,11 @@ namespace perception {
 namespace lidar {
 
 bool DummyClassifier::Init(const ClassifierInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return true;
 }
 
 bool DummyClassifier::Classify(const ClassifierOptions& options,
                                LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return true;
 }
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -38,8 +37,6 @@ const size_t kBufferSize = 20480000;
 
 void FileUtility::ComputeFileMd5(const std::string &file_path,
                                  unsigned char res[kUcharMd5Length]) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<unsigned char> buf(kBufferSize);
   unsigned char *buf_pt = &buf[0];
 
@@ -69,8 +66,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void FileUtility::ComputeFileMd5(const std::string &file_path,
                                  char res[kCharMd5Lenth]) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<unsigned char> buf(kBufferSize);
   unsigned char *buf_pt = &buf[0];
 
@@ -100,8 +95,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void FileUtility::ComputeBinaryMd5(const unsigned char *binary, size_t size,
                                    unsigned char res[kUcharMd5Length]) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   MD5 md5;
   md5.init();
   md5.update(binary, static_cast<unsigned int>(size));
@@ -113,8 +106,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void FileUtility::ComputeBinaryMd5(const unsigned char *binary, size_t size,
                                    char res[kCharMd5Lenth]) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   unsigned char md[kUcharMd5Length] = {"\0"};
   char buf[kCharMd5Lenth] = {'\0'};
   char tmp[3] = {'\0'};

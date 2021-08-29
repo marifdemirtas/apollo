@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -35,8 +34,6 @@ namespace {
 double PtSegDistance(double query_x, double query_y, double start_x,
                      double start_y, double end_x, double end_y,
                      double length) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double x0 = query_x - start_x;
   const double y0 = query_y - start_y;
   const double dx = end_x - start_x;
@@ -63,8 +60,6 @@ Box2d::Box2d(const Vec2d &center, const double heading, const double length,
       heading_(heading),
       cos_heading_(cos(heading)),
       sin_heading_(sin(heading)) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GT(length_, -kMathEpsilon);
   CHECK_GT(width_, -kMathEpsilon);
   InitCorners();
@@ -79,16 +74,12 @@ Box2d::Box2d(const LineSegment2d &axis, const double width)
       heading_(axis.heading()),
       cos_heading_(axis.cos_heading()),
       sin_heading_(axis.sin_heading()) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GT(length_, -kMathEpsilon);
   CHECK_GT(width_, -kMathEpsilon);
   InitCorners();
 }
 
 void Box2d::InitCorners() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double dx1 = cos_heading_ * half_length_;
   const double dy1 = sin_heading_ * half_length_;
   const double dx2 = sin_heading_ * half_width_;
@@ -116,16 +107,12 @@ Box2d::Box2d(const AABox2d &aabox)
       heading_(0.0),
       cos_heading_(1.0),
       sin_heading_(0.0) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GT(length_, -kMathEpsilon);
   CHECK_GT(width_, -kMathEpsilon);
 }
 
 Box2d Box2d::CreateAABox(const Vec2d &one_corner,
                          const Vec2d &opposite_corner) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double x1 = std::min(one_corner.x(), opposite_corner.x());
   const double x2 = std::max(one_corner.x(), opposite_corner.x());
   const double y1 = std::min(one_corner.y(), opposite_corner.y());
@@ -134,21 +121,15 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Box2d::GetAllCorners(std::vector<Vec2d> *const corners) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (corners == nullptr) {
     return;
   }
   *corners = corners_;
 }
 
-std::vector<Vec2d> Box2d::GetAllCorners() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return corners_; }
+std::vector<Vec2d> Box2d::GetAllCorners() const { return corners_; }
 
 bool Box2d::IsPointIn(const Vec2d &point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double x0 = point.x() - center_.x();
   const double y0 = point.y() - center_.y();
   const double dx = std::abs(x0 * cos_heading_ + y0 * sin_heading_);
@@ -157,8 +138,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Box2d::IsPointOnBoundary(const Vec2d &point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double x0 = point.x() - center_.x();
   const double y0 = point.y() - center_.y();
   const double dx = std::abs(x0 * cos_heading_ + y0 * sin_heading_);
@@ -170,8 +149,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Box2d::DistanceTo(const Vec2d &point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double x0 = point.x() - center_.x();
   const double y0 = point.y() - center_.y();
   const double dx =
@@ -188,8 +165,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Box2d::HasOverlap(const LineSegment2d &line_segment) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (line_segment.length() <= kMathEpsilon) {
     return IsPointIn(line_segment.start());
   }
@@ -203,8 +178,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Box2d::DistanceTo(const LineSegment2d &line_segment) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (line_segment.length() <= kMathEpsilon) {
     return DistanceTo(line_segment.start());
   }
@@ -299,14 +272,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Box2d::DistanceTo(const Box2d &box) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return Polygon2d(box).DistanceTo(*this);
 }
 
 bool Box2d::HasOverlap(const Box2d &box) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (box.max_x() < min_x() || box.min_x() > max_x() || box.max_y() < min_y() ||
       box.min_y() > max_y()) {
     return false;
@@ -343,8 +312,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 AABox2d Box2d::GetAABox() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double dx1 = std::abs(cos_heading_ * half_length_);
   const double dy1 = std::abs(sin_heading_ * half_length_);
   const double dx2 = std::abs(sin_heading_ * half_width_);
@@ -353,8 +320,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Box2d::RotateFromCenter(const double rotate_angle) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   heading_ = NormalizeAngle(heading_ + rotate_angle);
   cos_heading_ = std::cos(heading_);
   sin_heading_ = std::sin(heading_);
@@ -362,31 +327,23 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Box2d::Shift(const Vec2d &shift_vec) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   center_ += shift_vec;
   InitCorners();
 }
 
 void Box2d::LongitudinalExtend(const double extension_length) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   length_ += extension_length;
   half_length_ += extension_length / 2.0;
   InitCorners();
 }
 
 void Box2d::LateralExtend(const double extension_length) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   width_ += extension_length;
   half_width_ += extension_length / 2.0;
   InitCorners();
 }
 
 std::string Box2d::DebugString() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return absl::StrCat("box2d ( center = ", center_.DebugString(),
                       "  heading = ", heading_, "  length = ", length_,
                       "  width = ", width_, " )");

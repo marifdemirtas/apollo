@@ -44,6 +44,8 @@ PiecewiseJerkPathOptimizer::PiecewiseJerkPathOptimizer(
     const TaskConfig& config,
     const std::shared_ptr<DependencyInjector>& injector)
     : PathOptimizer(config, injector) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
   ACHECK(config_.has_piecewise_jerk_path_optimizer_config());
 }
 

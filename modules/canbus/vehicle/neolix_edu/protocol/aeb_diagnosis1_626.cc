@@ -29,13 +29,13 @@ namespace neolix_edu {
 using ::apollo::drivers::canbus::Byte;
 
 Aebdiagnosis1626::Aebdiagnosis1626() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Aebdiagnosis1626::ID = 0x626;
 
 void Aebdiagnosis1626::Parse(const std::uint8_t* bytes, int32_t length,
                              ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_neolix_edu()
       ->mutable_aeb_diagnosis1_626()
@@ -51,7 +51,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': 'bit'}
 double Aebdiagnosis1626::aeb_softwareversion(const std::uint8_t* bytes,
                                              int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
@@ -66,7 +66,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': 'bit'}
 double Aebdiagnosis1626::aeb_hardwareversion(const std::uint8_t* bytes,
                                              int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);

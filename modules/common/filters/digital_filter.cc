@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,43 +31,31 @@ namespace common {
 
 DigitalFilter::DigitalFilter(const std::vector<double> &denominators,
                              const std::vector<double> &numerators) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   set_coefficients(denominators, numerators);
 }
 
 void DigitalFilter::set_denominators(const std::vector<double> &denominators) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   denominators_ = denominators;
   y_values_.resize(denominators_.size(), 0.0);
 }
 
 void DigitalFilter::set_numerators(const std::vector<double> &numerators) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   numerators_ = numerators;
   x_values_.resize(numerators_.size(), 0.0);
 }
 
 void DigitalFilter::set_coefficients(const std::vector<double> &denominators,
                                      const std::vector<double> &numerators) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   set_denominators(denominators);
   set_numerators(numerators);
 }
 
 void DigitalFilter::set_dead_zone(const double deadzone) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   dead_zone_ = std::fabs(deadzone);
   AINFO << "Setting digital filter dead zone = " << dead_zone_;
 }
 
 double DigitalFilter::Filter(const double x_insert) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (denominators_.empty() || numerators_.empty()) {
     AERROR << "Empty denominators or numerators";
     return 0.0;
@@ -93,15 +80,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void DigitalFilter::reset_values() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::fill(x_values_.begin(), x_values_.end(), 0.0);
   std::fill(y_values_.begin(), y_values_.end(), 0.0);
 }
 
 double DigitalFilter::UpdateLast(const double input) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double diff = std::fabs(input - last_);
   if (diff < dead_zone_) {
     return last_;
@@ -114,8 +97,6 @@ double DigitalFilter::Compute(const std::deque<double> &values,
                               const std::vector<double> &coefficients,
                               const std::size_t coeff_start,
                               const std::size_t coeff_end) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ACHECK(coeff_start <= coeff_end && coeff_end < coefficients.size());
   ACHECK((coeff_end - coeff_start + 1) == values.size());
 
@@ -129,30 +110,20 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 const std::vector<double> &DigitalFilter::denominators() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return denominators_;
 }
 
 const std::vector<double> &DigitalFilter::numerators() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return numerators_;
 }
 
-double DigitalFilter::dead_zone() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return dead_zone_; }
+double DigitalFilter::dead_zone() const { return dead_zone_; }
 
 const std::deque<double> &DigitalFilter::inputs_queue() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return x_values_;
 }
 
 const std::deque<double> &DigitalFilter::outputs_queue() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return y_values_;
 }
 

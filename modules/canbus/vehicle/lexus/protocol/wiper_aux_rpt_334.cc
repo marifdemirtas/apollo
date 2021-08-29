@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Wiperauxrpt334::Wiperauxrpt334() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Wiperauxrpt334::ID = 0x334;
 
 void Wiperauxrpt334::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_lexus()
       ->mutable_wiper_aux_rpt_334()
@@ -74,7 +74,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // '[0|1]', 'bit': 13, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::spray_empty_is_valid(const std::uint8_t* bytes,
                                           int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(5, 1);
@@ -88,7 +88,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::spray_empty(const std::uint8_t* bytes,
                                  int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
@@ -102,7 +102,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // '[0|1]', 'bit': 12, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::spray_near_empty_is_valid(const std::uint8_t* bytes,
                                                int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(4, 1);
@@ -116,7 +116,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::spray_near_empty(const std::uint8_t* bytes,
                                       int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 1);
@@ -130,7 +130,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // '[0|1]', 'bit': 11, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::rear_spraying_is_valid(const std::uint8_t* bytes,
                                             int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(3, 1);
@@ -144,7 +144,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::rear_spraying(const std::uint8_t* bytes,
                                    int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
@@ -158,7 +158,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // '[0|1]', 'bit': 10, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::rear_wiping_is_valid(const std::uint8_t* bytes,
                                           int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(2, 1);
@@ -172,7 +172,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::rear_wiping(const std::uint8_t* bytes,
                                  int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
@@ -186,7 +186,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // '[0|1]', 'bit': 9, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::front_spraying_is_valid(const std::uint8_t* bytes,
                                              int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(1, 1);
@@ -200,7 +200,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::front_spraying(const std::uint8_t* bytes,
                                     int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
@@ -214,7 +214,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // '[0|1]', 'bit': 8, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::front_wiping_is_valid(const std::uint8_t* bytes,
                                            int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 1);
@@ -228,7 +228,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Wiperauxrpt334::front_wiping(const std::uint8_t* bytes,
                                   int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);

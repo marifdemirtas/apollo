@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,8 +23,6 @@ namespace apollo {
 namespace data {
 
 bool TriggerBase::Init(const SmartRecordTrigger& trigger_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   LockTrigger(trigger_conf);
   if (trigger_obj_ == nullptr) {
     AERROR << "failed to lock trigger " << GetTriggerName();
@@ -35,15 +32,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 uint64_t TriggerBase::SecondsToNanoSeconds(const double seconds) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   static constexpr uint64_t kSecondsToNanoSecondsFactor = 1000000000UL;
   return static_cast<uint64_t>(kSecondsToNanoSecondsFactor * seconds);
 }
 
 void TriggerBase::LockTrigger(const SmartRecordTrigger& trigger_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto& trigger : trigger_conf.triggers()) {
     if (trigger.trigger_name() == trigger_name_) {
       trigger_obj_.reset(new Trigger(trigger));
@@ -55,8 +48,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 uint64_t TriggerBase::GetValidValueInRange(const double desired_value,
                                            const double min_limit,
                                            const double max_limit) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return SecondsToNanoSeconds(desired_value < min_limit
                                   ? min_limit
                                   : desired_value > max_limit ? max_limit
@@ -64,8 +55,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TriggerBase::TriggerIt(const uint64_t msg_time) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   static constexpr float kMaxBackwardTime = 30.0;
   static constexpr float kMaxForwardTime = 15.0;
   static constexpr uint64_t kZero = 0.0;

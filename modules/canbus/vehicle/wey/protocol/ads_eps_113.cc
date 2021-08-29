@@ -29,11 +29,11 @@ const int32_t Adseps113::ID = 0x113;
 
 // public
 Adseps113::Adseps113() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Reset(); }
 
 uint32_t Adseps113::GetPeriod() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(ChaoMa) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,14 +41,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Adseps113::UpdateData(uint8_t* data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   set_p_ads_epsmode(data, ads_epsmode_);
   set_p_ads_reqepstargetangle(data, ads_reqepstargetangle_);
 }
 
 void Adseps113::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(ChaoMa) :you should check this manually
   ads_epsmode_ = Ads_eps_113::ADS_EPSMODE_DISABLE;
@@ -57,7 +57,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Adseps113* Adseps113::set_ads_epsmode(
     Ads_eps_113::Ads_epsmodeType ads_epsmode) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ads_epsmode_ = ads_epsmode;
   return this;
@@ -69,7 +69,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Adseps113::set_p_ads_epsmode(uint8_t* data,
                                   Ads_eps_113::Ads_epsmodeType ads_epsmode) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int x = ads_epsmode;
 
@@ -78,7 +78,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Adseps113* Adseps113::set_ads_reqepstargetangle(double ads_reqepstargetangle) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ads_reqepstargetangle_ = ads_reqepstargetangle;
   return this;
@@ -90,7 +90,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'deg'}
 void Adseps113::set_p_ads_reqepstargetangle(uint8_t* data,
                                             double ads_reqepstargetangle) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ads_reqepstargetangle =
       ProtocolData::BoundedValue(-800.0, 838.3, ads_reqepstargetangle);

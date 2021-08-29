@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -41,8 +40,6 @@ namespace drivers {
 namespace hesai {
 
 int TcpCmdClient::BuildCmdHeader(const Command& cmd, unsigned char* buffer) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int index = 0;
   buffer[index++] = 0x47;
   buffer[index++] = 0x74;
@@ -56,8 +53,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool TcpCmdClient::GetCalibration(std::string* content) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lck(mutex_);
   if (!Open()) {
     return false;
@@ -86,8 +81,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void TcpCmdClient::ParseHeader(const unsigned char* buffer, const int len,
                                CommandHeader* header) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int index = 0;
   header->cmd = buffer[index++];
   header->ret_code = buffer[index++];
@@ -97,8 +90,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool TcpCmdClient::WriteCmd(const Command& cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   unsigned char buffer[128];
   int size = BuildCmdHeader(cmd, buffer);
   int ret = write(socket_fd_, buffer, size);
@@ -121,8 +112,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool TcpCmdClient::ReadCmd(Command* feedback) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (feedback == nullptr) {
     return false;
   }
@@ -165,8 +154,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int TcpCmdClient::Read(unsigned char* buffer, int n) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int nleft = -1, nread = -1;
   unsigned char* ptr = buffer;
   nleft = n;
@@ -188,8 +175,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TcpCmdClient::Close() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (socket_fd_ >= 0) {
     close(socket_fd_);
     socket_fd_ = -1;
@@ -197,8 +182,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool TcpCmdClient::Open() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int sockfd = -1;
   struct sockaddr_in servaddr;
   bzero(&servaddr, sizeof(servaddr));

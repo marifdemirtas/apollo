@@ -26,11 +26,11 @@ namespace inference {
 CaffeNet::CaffeNet(const std::string &net_file, const std::string &model_file,
                    const std::vector<std::string> &outputs)
     : net_file_(net_file), model_file_(model_file), output_names_(outputs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool CaffeNet::Init(const std::map<std::string, std::vector<int>> &shapes) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (gpu_id_ >= 0) {
     caffe::Caffe::SetDevice(gpu_id_);
@@ -81,12 +81,12 @@ CaffeNet::CaffeNet(const std::string &net_file, const std::string &model_file,
       model_file_(model_file),
       output_names_(outputs),
       input_names_(inputs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 std::shared_ptr<apollo::perception::base::Blob<float>> CaffeNet::get_blob(
     const std::string &name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto iter = blobs_.find(name);
   if (iter == blobs_.end()) {
@@ -96,7 +96,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool CaffeNet::reshape() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (auto name : input_names_) {
     auto blob = this->get_blob(name);
@@ -113,7 +113,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CaffeNet::Infer() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (gpu_id_ >= 0) {
     caffe::Caffe::SetDevice(gpu_id_);
@@ -146,7 +146,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool CaffeNet::shape(const std::string &name, std::vector<int> *res) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto blob = net_->blob_by_name(name);
   if (blob == nullptr) {

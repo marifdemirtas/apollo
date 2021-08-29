@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,20 +25,14 @@ namespace perception {
 namespace inference {
 
 inline std::string get_dtype(const base::Blob<double> &blob) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return "float64";
 }
 
 inline std::string get_dtype(const base::Blob<float> &blob) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return "float32";
 }
 
 size_t BinaryReadString(FILE *fp, char *name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t len = 0;
   size_t nmemb = fread(&len, sizeof(len), 1, fp);
   if (nmemb != 1 || len == 0) {
@@ -53,8 +46,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t BinaryWriteString(FILE *fp, const std::string &str) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t len = str.length();
   fwrite(&len, sizeof(len), 1, fp);
   fwrite(str.c_str(), sizeof(str[0]), len, fp);
@@ -63,8 +54,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 template <typename Dtype>
 std::shared_ptr<base::Blob<Dtype>> BinaryReadBlob(FILE *fp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int ndim;
   std::shared_ptr<base::Blob<Dtype>> blob(new base::Blob<Dtype>());
   char dtype[kMaxStrLen];
@@ -99,8 +88,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 template <typename Dtype>
 void BinaryWriteBlob(FILE *fp, const base::Blob<Dtype> &blob) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int ndim, dim;
   // write dtype
   BinaryWriteString(fp, get_dtype(blob));
@@ -127,10 +114,6 @@ template void BinaryWriteBlob(FILE *fp, const base::Blob<double> &blob);
 template <typename Dtype>
 std::map<std::string, std::shared_ptr<base::Blob<Dtype>>> BinaryReadFile(
     const char *file_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   char name[kMaxStrLen];
   std::map<std::string, std::shared_ptr<base::Blob<Dtype>>> data_dict;
 
@@ -153,12 +136,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 template <typename Btype>
 bool BinaryWriteFile(const char *file_path,
                      const std::map<std::string, Btype> &data_dict) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   FILE *fp = fopen(file_path, "wb");
   if (NULL == fp) {
     AERROR << "Failed opening Binaryary file: " << file_path;

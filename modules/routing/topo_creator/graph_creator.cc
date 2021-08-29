@@ -219,7 +219,9 @@ bool GraphCreator::IsValidUTurn(const hdmap::Lane& lane, const double radius) {
   Vec2d q3 = ((p2 + p3) / 2);                  // middle of p2 -- p3
   Vec2d q4 = (p3 - p2).rotate(M_PI / 2) + q3;  // perpendicular to p2-p3
   const double s1 = CrossProd(q3, q1, q2);
-  if (std::fabs(s1) < kMathEpsilon) {  // q3 is the circle center
+  if (std::fabs(s1) < kMathEpsilon) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+  // q3 is the circle center
     return q3.DistanceTo(p1) >= radius;
   }
   const double s2 = CrossProd(q4, q1, q2);

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,8 +25,6 @@ namespace perception {
 namespace camera {
 
 KalmanFilterConstVelocity::KalmanFilterConstVelocity() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // other value should be changed in predict
   state_transition_matrix_.setIdentity();
   measure_matrix_ << 1, 0, 0, 0, 0, 1, 0, 0;
@@ -38,15 +35,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void KalmanFilterConstVelocity::Init(Eigen::VectorXd x) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   state_ << x(0), x(1), 0, 0;
   inited_ = true;
 }
 
 void KalmanFilterConstVelocity::Predict(float delta_t) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (inited_) {
     state_transition_matrix_(0, 2) = delta_t;
     state_transition_matrix_(1, 3) = delta_t;
@@ -58,14 +51,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 void KalmanFilterConstVelocity::MagicVelocity(const Eigen::VectorXd &vel) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   state_(2) = vel(0);
   state_(3) = vel(1);
 }
 void KalmanFilterConstVelocity::Correct(const Eigen::VectorXd &z) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (inited_) {
     Eigen::Vector2d measure;
     measure << z[0], z[1];
@@ -88,19 +77,13 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 
-Eigen::Vector4d KalmanFilterConstVelocity::get_state() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return state_; }
+Eigen::Vector4d KalmanFilterConstVelocity::get_state() const { return state_; }
 void KalmanFilterConstVelocity::MagicPosition(const Eigen::VectorXd &pos) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   state_(0) = pos(0);
   state_(1) = pos(1);
 }
 
 void ExtendedKalmanFilter::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // other value should be changed in predict
   state_transition_matrix_.setIdentity();
   measure_matrix_ << 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1;
@@ -111,16 +94,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ExtendedKalmanFilter::Init(Eigen::VectorXd x) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Init();
   state_ << x(0), x(1), 0, x(2);
   inited_ = true;
 }
 
 void ExtendedKalmanFilter::Predict(float delta_t) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (inited_) {
     float sin_theta = static_cast<float>(std::sin(state_(3)));
     float cos_theta = static_cast<float>(std::cos(state_(3)));
@@ -140,8 +119,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ExtendedKalmanFilter::Correct(const Eigen::VectorXd &z) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (inited_) {
     Eigen::Vector3d measure;
     measure << z[0], z[1], z[2];
@@ -158,20 +135,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 
-Eigen::Vector4d ExtendedKalmanFilter::get_state() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return state_; }
+Eigen::Vector4d ExtendedKalmanFilter::get_state() const { return state_; }
 
 void MeanFilter::SetWindow(int window) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   window_ = window;
   index_ = 0;
 }
 
 void MeanFilter::AddMeasure(const Eigen::VectorXd &z) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (measures_.size() < static_cast<unsigned int>(window_)) {
     measures_.push_back(z);
   } else {
@@ -198,24 +169,16 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 
-const Eigen::VectorXd &MeanFilter::get_state() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return state_; }
+const Eigen::VectorXd &MeanFilter::get_state() const { return state_; }
 
-const Eigen::MatrixXd &MeanFilter::get_variance() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return variance_; }
+const Eigen::MatrixXd &MeanFilter::get_variance() const { return variance_; }
 
 void FirstOrderRCLowPassFilter::SetAlpha(float alpha) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   alpha_ = alpha;
   inited_ = false;
 }
 
 void FirstOrderRCLowPassFilter::AddMeasure(const Eigen::VectorXd &z) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (inited_) {
     state_ = z + alpha_ * (state_ - z);
   } else {
@@ -224,9 +187,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 
-Eigen::VectorXd FirstOrderRCLowPassFilter::get_state() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return state_; }
+Eigen::VectorXd FirstOrderRCLowPassFilter::get_state() const { return state_; }
 
 struct {
   bool operator()(Eigen::VectorXd a, Eigen::VectorXd b) const {
@@ -235,15 +196,11 @@ struct {
 } customLess;
 
 void MaxNMeanFilter::SetWindow(int window) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   window_ = window;
   index_ = 0;
 }
 
 void MaxNMeanFilter::AddMeasure(const Eigen::VectorXd &z) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   measures_.push_back(z);
   std::sort(measures_.begin(), measures_.end(), customLess);
   if (measures_.size() > static_cast<unsigned int>(window_)) {
@@ -252,8 +209,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Eigen::VectorXd MaxNMeanFilter::get_state() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::VectorXd x = measures_[0];
   for (size_t i = 1; i < measures_.size(); ++i) {
     x += measures_[i];
@@ -261,9 +216,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   x = x / static_cast<double>(measures_.size());
   return x;
 }
-void MaxNMeanFilter::Clear() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- measures_.clear(); }
+void MaxNMeanFilter::Clear() { measures_.clear(); }
 }  // namespace camera
 }  // namespace perception
 }  // namespace apollo

@@ -32,7 +32,7 @@ namespace apollo {
 namespace canbus {
 
 void VehicleFactory::RegisterVehicleFactory() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Register(apollo::common::LINCOLN_MKZ, []() -> AbstractVehicleFactory * {
     return new LincolnVehicleFactory();
@@ -68,7 +68,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 std::unique_ptr<AbstractVehicleFactory> VehicleFactory::CreateVehicle(
     const VehicleParameter &vehicle_parameter) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto abstract_factory = CreateObject(vehicle_parameter.brand());
   if (!abstract_factory) {

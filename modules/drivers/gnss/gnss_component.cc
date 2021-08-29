@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -24,13 +23,9 @@ using apollo::cyber::proto::RoleAttributes;
 
 GnssDriverComponent::GnssDriverComponent()
     : monitor_logger_buffer_(
-          apollo::common::monitor::MonitorMessageItem::GNSS) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+          apollo::common::monitor::MonitorMessageItem::GNSS) {}
 
 bool GnssDriverComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   config::Config gnss_config;
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
                                                &gnss_config)) {

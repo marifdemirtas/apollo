@@ -29,11 +29,11 @@ const int32_t Headlightcmd76::ID = 0x76;
 
 // public
 Headlightcmd76::Headlightcmd76() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Reset(); }
 
 uint32_t Headlightcmd76::GetPeriod() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,13 +41,13 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Headlightcmd76::UpdateData(uint8_t* data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   set_p_headlight_cmd(data, headlight_cmd_);
 }
 
 void Headlightcmd76::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(QiL) :you should check this manually
   headlight_cmd_ = Headlight_cmd_76::HEADLIGHT_CMD_HEADLIGHTS_OFF;
@@ -55,7 +55,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Headlightcmd76* Headlightcmd76::set_headlight_cmd(
     Headlight_cmd_76::Headlight_cmdType headlight_cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   headlight_cmd_ = headlight_cmd;
   return this;
@@ -68,7 +68,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'order': 'motorola', 'physical_unit': ''}
 void Headlightcmd76::set_p_headlight_cmd(
     uint8_t* data, Headlight_cmd_76::Headlight_cmdType headlight_cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   uint8_t x = headlight_cmd;
 

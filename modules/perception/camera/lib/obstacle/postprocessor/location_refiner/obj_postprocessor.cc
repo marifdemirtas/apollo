@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -20,13 +19,10 @@
 
 // TODO(Xun & Yucheng): code completion
 namespace apollo {
-
 namespace perception {
 namespace camera {
 
 void ObjPostProcessorParams::set_default() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   max_nr_iter = 5;
   sampling_ratio_low = 0.1f;
   weight_iou = 3.0f;
@@ -40,8 +36,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool ObjPostProcessor::PostProcessObjWithGround(
     const ObjPostProcessorOptions &options, float center[3], float hwl[3],
     float *ry) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   memcpy(hwl, options.hwl, sizeof(float) * 3);
   float bbox[4] = {0};
   memcpy(bbox, options.bbox, sizeof(float) * 4);
@@ -65,8 +59,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool ObjPostProcessor::PostProcessObjWithDispmap(
     const ObjPostProcessorOptions &options, float center[3], float hwl[3],
     float *ry) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return true;
 }
 
@@ -74,8 +66,6 @@ bool ObjPostProcessor::AdjustCenterWithGround(const float *bbox,
                                               const float *hwl, float ry,
                                               const float *plane,
                                               float *center) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float iou_ini = GetProjectionScore(ry, bbox, hwl, center);
   if (iou_ini < params_.iou_good) {  // ini pos is not good enough
     return false;
@@ -136,8 +126,6 @@ bool ObjPostProcessor::PostRefineCenterWithGroundBoundary(
     const float *bbox, const float *hwl, float ry, const float *plane,
     const std::vector<LineSegment2D<float>> &line_seg_limits, float *center,
     bool check_lowerbound) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   bool truncated_on_bottom =
       bbox[3] >= static_cast<float>(height_) -
                      (bbox[3] - bbox[1]) * params_.sampling_ratio_low;
@@ -179,8 +167,6 @@ int ObjPostProcessor::GetDepthXPair(const float *bbox, const float *hwl,
                                     const float *center, float ry,
                                     float *depth_pts, int *x_pts,
                                     float *pts_c) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int y_min = height_;
   float w_half = hwl[1] / 2;
   float l_half = hwl[2] / 2;

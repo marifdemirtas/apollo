@@ -30,7 +30,7 @@ namespace hdmap {
 
 MapDataCheckerCyberNode::MapDataCheckerCyberNode(
     std::shared_ptr<MapDataCheckerAgent> agent, bool *init_success) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!agent) {
     AFATAL << "MapDataCheckerAgent pointer is nullptr";
@@ -54,7 +54,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int MapDataCheckerCyberNode::CreateChannelSubscriber() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "create bestgnsspos reader, topic: " << FLAGS_topic_bestgnsspos;
   bestgnsspos_reader_ = node_->CreateReader<GnssBestPose_t>(

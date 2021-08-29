@@ -35,7 +35,7 @@ namespace localization {
 namespace msf {
 
 MapNodeIndex GetMapIndexFromMapFolder(const std::string& map_folder) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   MapNodeIndex index;
   char buf[100];
@@ -52,7 +52,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool GetAllMapIndex(const std::string& src_map_folder,
                     const std::string& dst_map_folder,
                     std::list<MapNodeIndex>* buf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string src_map_path = src_map_folder + "/map";
   std::string dst_map_path = dst_map_folder + "/map";
@@ -95,7 +95,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }  // namespace apollo
 
 int main(int argc, char** argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   boost::program_options::options_description boost_desc("Allowed options");
   boost_desc.add_options()("help", "produce help message")(

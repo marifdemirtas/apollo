@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -32,14 +31,10 @@ ObstacleDetector::ObstacleDetector(const std::string &net_file,
                                    const std::vector<std::string> &outputs):
                                    net_file_(net_file),
                                    model_file_(model_file),
-                                   output_names_(outputs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+                                   output_names_(outputs) {}
 
 bool ObstacleDetector::Init(const std::map<std::string,
                             std::vector<int>> &shapes) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (gpu_id_ >= 0) {
     device_type_ = torch::kCUDA;
     device_id_ = gpu_id_;
@@ -94,14 +89,10 @@ ObstacleDetector::ObstacleDetector(const std::string &net_file,
                    const std::vector<std::string> &outputs,
                    const std::vector<std::string> &inputs):
                    net_file_(net_file), model_file_(model_file),
-                   output_names_(outputs), input_names_(inputs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+                   output_names_(outputs), input_names_(inputs) {}
 
 std::shared_ptr<Blob<float>> ObstacleDetector::get_blob(
     const std::string &name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto iter = blobs_.find(name);
   if (iter == blobs_.end()) {
     return nullptr;
@@ -110,8 +101,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ObstacleDetector::Infer() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   torch::Device device(device_type_, device_id_);
   auto blob = blobs_[input_names_[0]];
   auto input_K = blobs_[input_names_[1]];

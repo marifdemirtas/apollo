@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,8 +30,6 @@ namespace apollo {
 namespace control {
 
 bool Interpolation2D::Init(const DataType &xyz) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (xyz.empty()) {
     AERROR << "empty input.";
     return false;
@@ -44,8 +41,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Interpolation2D::Interpolate(const KeyType &xy) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double max_x = xyz_.rbegin()->first;
   double min_x = xyz_.begin()->first;
   if (xy.first >= max_x - kDoubleEpsilon) {
@@ -74,8 +69,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double Interpolation2D::InterpolateYz(const std::map<double, double> &yz_table,
                                       double y) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (yz_table.empty()) {
     AERROR << "Unable to interpolateYz because yz_table is empty.";
     return y;
@@ -111,8 +104,6 @@ double Interpolation2D::InterpolateValue(const double value_before,
                                          const double dist_before,
                                          const double value_after,
                                          const double dist_after) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (dist_before < kDoubleEpsilon) {
     return value_before;
   }

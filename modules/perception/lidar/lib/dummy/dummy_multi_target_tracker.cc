@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -20,21 +19,16 @@
 #include "modules/perception/common/point_cloud_processing/common.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
 bool DummyMultiTargetTracker::Init(
     const MultiTargetTrackerInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return true;
 }
 
 bool DummyMultiTargetTracker::Track(const MultiTargetTrackerOptions& options,
                                     LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame == nullptr) {
     return false;
   }

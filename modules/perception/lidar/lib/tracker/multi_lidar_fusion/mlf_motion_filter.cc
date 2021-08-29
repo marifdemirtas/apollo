@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,15 +26,12 @@
 #include "modules/perception/lidar/lib/tracker/multi_lidar_fusion/proto/multi_lidar_fusion_config.pb.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
 using cyber::common::GetAbsolutePath;
 
 bool MlfMotionFilter::Init(const MlfFilterInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig(Name(), &model_config));
@@ -70,8 +66,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void MlfMotionFilter::UpdateWithObject(const MlfFilterOptions& options,
                                        const MlfTrackDataConstPtr& track_data,
                                        TrackedObjectPtr new_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (track_data->age_ == 0) {
     InitializeTrackState(new_object);
     return;
@@ -110,13 +104,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MlfMotionFilter::UpdateWithoutObject(const MlfFilterOptions& options,
                                           double timestamp,
-                                          MlfTrackDataPtr track_data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+                                          MlfTrackDataPtr track_data) {}
 
 void MlfMotionFilter::InitializeTrackState(TrackedObjectPtr new_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   new_object->boostup_need_history_size =
       static_cast<int>(boostup_history_size_minimum_);
   new_object->convergence_confidence = use_convergence_boostup_ ? 0.0 : 1.0;
@@ -149,8 +139,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void MlfMotionFilter::KalmanFilterUpdateWithPartialObservation(
     const MlfTrackDataConstPtr& track_data,
     const TrackedObjectConstPtr& latest_object, TrackedObjectPtr new_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double range = new_object->object_ptr->center.norm();
 
   const Eigen::Vector4d& last_state = latest_object->state;
@@ -245,8 +233,6 @@ void MlfMotionFilter::StateGainAdjustment(
     const MlfTrackDataConstPtr& track_data,
     const TrackedObjectConstPtr& latest_object,
     const TrackedObjectConstPtr& new_object, Eigen::Vector4d* gain) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // 1 quality penalize and gain break down
   if (use_adaptive_) {
     *gain *= new_object->update_quality;
@@ -270,23 +256,17 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MlfMotionFilter::StateToBelief(TrackedObjectPtr object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   object->belief_velocity << object->state.head<2>(), 0;
   object->belief_acceleration << object->state.tail<2>(), 0;
 }
 
 void MlfMotionFilter::BeliefToOutput(TrackedObjectPtr object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   object->output_velocity = object->belief_velocity;
   object->output_velocity_uncertainty =
       object->belief_velocity_online_covariance;
 }
 
 void MlfMotionFilter::ClipingState(TrackedObjectPtr object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (object->state.head<2>().norm() < noise_maximum_) {
     object->state.setZero();
     object->belief_velocity_gain.setZero();
@@ -297,8 +277,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MlfMotionFilter::OnlineCovarianceEstimation(
     const MlfTrackDataConstPtr& track_data, TrackedObjectPtr object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   object->belief_velocity_online_covariance = Eigen::Matrix3d::Zero();
   size_t evaluate_window =
       std::min(track_data->history_objects_.size(),
@@ -336,8 +314,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void MlfMotionFilter::ConvergenceEstimationAndBoostUp(
     const MlfTrackDataConstPtr& track_data,
     const TrackedObjectConstPtr& latest_object, TrackedObjectPtr new_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   new_object->boostup_need_history_size =
       latest_object->boostup_need_history_size;
   new_object->converged = latest_object->converged;
@@ -367,8 +343,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void MlfMotionFilter::ComputeConvergenceConfidence(
     const MlfTrackDataConstPtr& track_data, TrackedObjectPtr new_object,
     bool velocity_source_is_belief) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Compute convergence score list
   std::vector<double> convergence_score_list;
   int boostup_need_history_size = new_object->boostup_need_history_size;
@@ -429,8 +403,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MlfMotionFilter::BoostupState(const MlfTrackDataConstPtr& track_data,
                                    TrackedObjectPtr new_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Compute min & max boosted velocity
   Eigen::Vector3d& new_obj_belief_velocity = new_object->belief_velocity;
   Eigen::Vector3d min_boosted_velocity = new_obj_belief_velocity;
@@ -496,8 +468,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MlfMotionFilter::UpdateConverged(const MlfTrackDataConstPtr& track_data,
                                       TrackedObjectPtr object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (object->convergence_confidence > converged_confidence_minimum_) {
     // set converged true
     object->converged = true;

@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,8 +26,6 @@ limitations under the License.
 namespace {
 
 std::string CreateOverlapId() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   static int count = 0;
   ++count;
   return absl::StrCat("overlap_", count);
@@ -43,8 +40,6 @@ namespace adapter {
 using apollo::common::util::PairHash;
 
 void ProtoOrganizer::GetRoadElements(std::vector<RoadInternal>* roads) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto& road_internal : *roads) {
     // lanes
     for (auto& section_internal : road_internal.sections) {
@@ -115,8 +110,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ProtoOrganizer::GetJunctionElements(
     const std::vector<JunctionInternal>& junctions) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto& junction_internal : junctions) {
     std::string junction_id = junction_internal.junction.id().id();
     proto_data_.pb_junctions[junction_id] = junction_internal.junction;
@@ -126,8 +119,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ProtoOrganizer::GetLaneObjectOverlapElements(
     const std::string& lane_id,
     const std::vector<OverlapWithLane>& overlap_with_lanes) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto& overlap_object : overlap_with_lanes) {
     std::string object_id = overlap_object.object_id;
     if (proto_data_.pb_crosswalks.count(object_id) <= 0 &&
@@ -192,8 +183,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ProtoOrganizer::GetObjectElements(const ObjectInternal& objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto& rsu_internal : objects.rsus) {
     const std::string& rsu_id = rsu_internal.rsu.id().id();
     proto_data_.pb_rsus[rsu_id] = rsu_internal.rsu;
@@ -203,8 +192,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ProtoOrganizer::GetLaneSignalOverlapElements(
     const std::string& lane_id,
     const std::vector<OverlapWithLane>& overlap_with_lanes) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto& overlap_signal : overlap_with_lanes) {
     std::string object_id = overlap_signal.object_id;
     if (proto_data_.pb_signals.count(object_id) <= 0 &&
@@ -251,8 +238,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ProtoOrganizer::GetLaneJunctionOverlapElements(
     const std::string& lane_id,
     const std::vector<OverlapWithLane>& overlap_with_lanes) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto& overlap_junction : overlap_with_lanes) {
     std::string object_id = overlap_junction.object_id;
     if (proto_data_.pb_junctions.count(object_id) <= 0) {
@@ -286,8 +271,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ProtoOrganizer::GetLaneLaneOverlapElements(
     const std::unordered_map<std::pair<std::string, std::string>,
                              OverlapWithLane, PairHash>& lane_lane_overlaps) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::unordered_set<std::string> close_set;
   for (auto& overlap_lane_pair : lane_lane_overlaps) {
     auto& lane_id = overlap_lane_pair.first.first;
@@ -339,8 +322,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ProtoOrganizer::GetJunctionObjectOverlapElements(
     const std::vector<JunctionInternal>& junctions) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto& junction_internal : junctions) {
     const auto& junction_id = junction_internal.junction.id().id();
     for (auto& overlap_junction : junction_internal.overlap_with_junctions) {
@@ -385,8 +366,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ProtoOrganizer::GetOverlapElements(
     const std::vector<RoadInternal>& roads,
     const std::vector<JunctionInternal>& junctions) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::unordered_map<std::pair<std::string, std::string>, OverlapWithLane,
                      PairHash>
       lane_lane_overlaps;
@@ -412,8 +391,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ProtoOrganizer::OutputData(apollo::hdmap::Map* pb_map) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto& road_pair : proto_data_.pb_roads) {
     *(pb_map->add_road()) = road_pair.second;
   }

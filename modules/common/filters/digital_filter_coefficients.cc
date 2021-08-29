@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -26,8 +25,6 @@ namespace common {
 void LpfCoefficients(const double ts, const double cutoff_freq,
                      std::vector<double> *denominators,
                      std::vector<double> *numerators) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   denominators->clear();
   numerators->clear();
   denominators->reserve(3);
@@ -53,8 +50,6 @@ void LpFirstOrderCoefficients(const double ts, const double settling_time,
                               const double dead_time,
                               std::vector<double> *denominators,
                               std::vector<double> *numerators) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // sanity check
   if (ts <= 0.0 || settling_time < 0.0 || dead_time < 0.0) {
     AERROR << "time cannot be negative";

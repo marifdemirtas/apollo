@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -27,8 +26,6 @@ using apollo::drivers::PointXYZIT;
 Hesai40Parser::Hesai40Parser(const std::shared_ptr<Node> &node,
                              const Config &conf)
     : Parser(node, conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // init the block time offset, us
   block_offset_[9] = 55.56 * 0.0 + 28.58;
   block_offset_[8] = 55.56 * 1.0 + 28.58;
@@ -90,14 +87,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 
-Hesai40Parser::~Hesai40Parser() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+Hesai40Parser::~Hesai40Parser() {}
 
 void Hesai40Parser::ParseRawPacket(const uint8_t *buf, const int len,
                                    bool *is_end) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // PrintMem(buf, len);
   if (len != PACKET_SIZE && len != PACKET_SIZE_WITH_UDPSEQ) {
     AWARN << "packet size:" << len << " mismatch internal size:" << PACKET_SIZE;
@@ -184,8 +177,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Hesai40Parser::CalcPointXYZIT(Hesai40Packet *pkt, int blockid) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Hesai40PBlock *block = &pkt->blocks[blockid];
   double unix_second = static_cast<double>(mktime(&pkt->t) + tz_second_);
   double timestamp = unix_second + (static_cast<double>(pkt->usec)) / 1000000.0;

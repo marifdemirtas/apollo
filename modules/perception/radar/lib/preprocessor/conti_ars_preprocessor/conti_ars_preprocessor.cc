@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,8 +24,6 @@ int ContiArsPreprocessor::current_idx_ = 0;
 std::unordered_map<int, int> ContiArsPreprocessor::local2global_;
 
 bool ContiArsPreprocessor::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string model_name = "ContiArsPreprocessor";
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(lib::ConfigManager::Instance()->GetModelConfig(model_name,
@@ -39,8 +36,6 @@ bool ContiArsPreprocessor::Preprocess(
     const drivers::ContiRadar& raw_obstacles,
     const PreprocessorOptions& options,
     drivers::ContiRadar* corrected_obstacles) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   PERF_FUNCTION();
   SkipObjects(raw_obstacles, corrected_obstacles);
   ExpandIds(corrected_obstacles);
@@ -49,16 +44,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string ContiArsPreprocessor::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return "ContiArsPreprocessor";
 }
 
 void ContiArsPreprocessor::SkipObjects(
     const drivers::ContiRadar& raw_obstacles,
     drivers::ContiRadar* corrected_obstacles) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   corrected_obstacles->mutable_header()->CopyFrom(raw_obstacles.header());
   double timestamp = raw_obstacles.header().timestamp_sec() - 1e-6;
   for (const auto& contiobs : raw_obstacles.contiobs()) {
@@ -76,8 +67,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ContiArsPreprocessor::ExpandIds(drivers::ContiRadar* corrected_obstacles) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (int iobj = 0; iobj < corrected_obstacles->contiobs_size(); ++iobj) {
     const auto& contiobs = corrected_obstacles->contiobs(iobj);
     int id = contiobs.obstacle_id();
@@ -100,16 +89,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ContiArsPreprocessor::CorrectTime(
     drivers::ContiRadar* corrected_obstacles) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double correct_timestamp =
       corrected_obstacles->header().timestamp_sec() - delay_time_;
   corrected_obstacles->mutable_header()->set_timestamp_sec(correct_timestamp);
 }
 
 int ContiArsPreprocessor::GetNextId() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ++current_idx_;
   if (MAX_RADAR_IDX == current_idx_) {
     current_idx_ = 1;

@@ -29,13 +29,13 @@ namespace lexus {
 using ::apollo::drivers::canbus::Byte;
 
 Brakemotorrpt1401::Brakemotorrpt1401() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Brakemotorrpt1401::ID = 0x401;
 
 void Brakemotorrpt1401::Parse(const std::uint8_t* bytes, int32_t length,
                               ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_lexus()->mutable_brake_motor_rpt_1_401()->set_motor_current(
       motor_current(bytes, length));
@@ -48,7 +48,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'amps'}
 double Brakemotorrpt1401::motor_current(const std::uint8_t* bytes,
                                         int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -78,7 +78,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'motorola', 'physical_unit': 'radians'}
 double Brakemotorrpt1401::shaft_position(const std::uint8_t* bytes,
                                          int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);

@@ -77,7 +77,7 @@ constexpr char kNavigationModeName[] = "Navigation";
 
 // Convert a string to be title-like. E.g.: "hello_world" -> "Hello World".
 std::string TitleCase(std::string_view origin) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::vector<std::string> parts = absl::StrSplit(origin, '_');
   for (auto& part : parts) {
@@ -92,7 +92,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 // List subdirs and return a dict of {subdir_title: subdir_path}.
 Map<std::string, std::string> ListDirAsDict(const std::string& dir) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Map<std::string, std::string> result;
   const auto subdirs = cyber::common::ListSubPaths(dir);
@@ -107,7 +107,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // List files by pattern and return a dict of {file_title: file_path}.
 Map<std::string, std::string> ListFilesAsDict(std::string_view dir,
                                               std::string_view extension) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Map<std::string, std::string> result;
   const std::string pattern = absl::StrCat(dir, "/*", extension);
@@ -136,7 +136,7 @@ void SetGlobalFlag(std::string_view flag_name, const ValueType& value,
 }
 
 void System(std::string_view cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const int ret = std::system(cmd.data());
   if (ret == 0) {
@@ -150,13 +150,13 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 HMIWorker::HMIWorker(const std::shared_ptr<Node>& node)
     : config_(LoadConfig()), node_(node) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   InitStatus();
 }
 
 void HMIWorker::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   InitReadersAndWriters();
   RegisterStatusUpdateHandler(
@@ -170,7 +170,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMIWorker::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   stop_ = true;
   if (thread_future_.valid()) {
@@ -179,7 +179,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 HMIConfig HMIWorker::LoadConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   HMIConfig config;
   // Get available modes, maps and vehicles by listing data directory.
@@ -195,7 +195,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 HMIMode HMIWorker::LoadMode(const std::string& mode_config_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   HMIMode mode;
   ACHECK(cyber::common::GetProtoFromFile(mode_config_path, &mode))
@@ -237,7 +237,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMIWorker::InitStatus() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   static constexpr char kDockerImageEnv[] = "DOCKER_IMG";
   status_.set_docker_image(cyber::common::GetEnv(kDockerImageEnv));
@@ -285,6 +285,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   const std::string cached_mode =
       KVDB::Get(FLAGS_current_mode_db_key).value_or("");
   if (FLAGS_use_navigation_mode && ContainsKey(modes, kNavigationModeName)) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     ChangeMode(kNavigationModeName);
   } else if (ContainsKey(modes, cached_mode)) {
     ChangeMode(cached_mode);
@@ -296,7 +298,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMIWorker::InitReadersAndWriters() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   status_writer_ = node_->CreateWriter<HMIStatus>(FLAGS_hmi_status_topic);
   pad_writer_ = node_->CreateWriter<control::PadMessage>(FLAGS_pad_topic);
@@ -375,7 +377,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool HMIWorker::Trigger(const HMIAction action) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "HMIAction " << HMIAction_Name(action) << " was triggered!";
   switch (action) {
@@ -399,7 +401,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool HMIWorker::Trigger(const HMIAction action, const std::string& value) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "HMIAction " << HMIAction_Name(action) << "(" << value
         << ") was triggered!";
@@ -431,7 +433,7 @@ void HMIWorker::SubmitAudioEvent(const uint64_t event_time_ms,
                                  const int moving_result,
                                  const int audio_direction,
                                  const bool is_siren_on) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::shared_ptr<AudioEvent> audio_event = std::make_shared<AudioEvent>();
   apollo::common::util::FillHeader("HMI", audio_event.get());
@@ -469,7 +471,7 @@ void HMIWorker::SubmitDriveEvent(const uint64_t event_time_ms,
                                  const std::string& event_msg,
                                  const std::vector<std::string>& event_types,
                                  const bool is_reportable) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::shared_ptr<DriveEvent> drive_event = std::make_shared<DriveEvent>();
   apollo::common::util::FillHeader("HMI", drive_event.get());
@@ -492,7 +494,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMIWorker::SensorCalibrationPreprocess(const std::string& task_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string start_command = absl::StrCat(
       "nohup bash /apollo/scripts/extract_data.sh -t ", task_type, " &");
@@ -500,7 +502,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMIWorker::VehicleCalibrationPreprocess() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string start_command = absl::StrCat(
       "nohup bash /apollo/modules/tools/vehicle_calibration/preprocess.sh "
@@ -510,7 +512,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool HMIWorker::ChangeDrivingMode(const Chassis::DrivingMode mode) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Always reset to MANUAL mode before changing to other mode.
   const std::string mode_name = Chassis::DrivingMode_Name(mode);
@@ -555,7 +557,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMIWorker::ChangeMap(const std::string& map_name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const std::string* map_dir = FindOrNull(config_.maps(), map_name);
   if (map_dir == nullptr) {
@@ -578,7 +580,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMIWorker::ChangeVehicle(const std::string& vehicle_name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const std::string* vehicle_dir = FindOrNull(config_.vehicles(), vehicle_name);
   if (vehicle_dir == nullptr) {
@@ -609,7 +611,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMIWorker::ChangeMode(const std::string& mode_name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!ContainsKey(config_.modes(), mode_name)) {
     AERROR << "Cannot change to unknown mode " << mode_name;
@@ -653,7 +655,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMIWorker::StartModule(const std::string& module) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const Module* module_conf = FindOrNull(current_mode_.modules(), module);
   if (module_conf != nullptr) {
@@ -678,7 +682,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMIWorker::StopModule(const std::string& module) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const Module* module_conf = FindOrNull(current_mode_.modules(), module);
   if (module_conf != nullptr) {
@@ -689,14 +693,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 HMIStatus HMIWorker::GetStatus() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   RLock rlock(status_mutex_);
   return status_;
 }
 
 void HMIWorker::SetupMode() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (const auto& iter : current_mode_.modules()) {
     System(iter.second.start_command());
@@ -704,7 +708,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMIWorker::ResetMode() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (const auto& iter : current_mode_.modules()) {
     System(iter.second.stop_command());
@@ -713,7 +717,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMIWorker::StatusUpdateThreadLoop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   constexpr int kLoopIntervalMs = 200;
   while (!stop_) {
@@ -744,14 +748,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMIWorker::ResetComponentStatusTimer() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   last_status_received_s_ = Clock::NowInSeconds();
   last_status_fingerprint_ = 0;
 }
 
 void HMIWorker::UpdateComponentStatus() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   constexpr double kSecondsTillTimeout(2.5);
   const double now = Clock::NowInSeconds();

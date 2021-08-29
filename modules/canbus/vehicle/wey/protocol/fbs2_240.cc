@@ -29,13 +29,13 @@ namespace wey {
 using ::apollo::drivers::canbus::Byte;
 
 Fbs2240::Fbs2240() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Fbs2240::ID = 0x240;
 
 void Fbs2240::Parse(const std::uint8_t* bytes, int32_t length,
                     ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_wey()->mutable_fbs2_240()->set_flwheeldirection(
       flwheeldirection(bytes, length));
@@ -62,7 +62,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'bit': 57, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Fbs2_240::FlwheeldirectionType Fbs2240::flwheeldirection(
     const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 2);
@@ -77,7 +77,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'is_signed_var': False, 'physical_range': '[0|299.98125]', 'bit': 7,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'Km/h'}
 double Fbs2240::frwheelspd(const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -99,7 +99,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'bit': 9, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Fbs2_240::RlwheeldrivedirectionType Fbs2240::rlwheeldrivedirection(
     const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 2);
@@ -114,7 +114,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_range': '[0|299.98125]', 'bit': 23, 'type': 'double',
 // 'order': 'motorola', 'physical_unit': 'Km/h'}
 double Fbs2240::rlwheelspd(const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -136,7 +136,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': ''}
 Fbs2_240::RrwheeldirectionType Fbs2240::rrwheeldirection(
     const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 2);
@@ -151,7 +151,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_range': '[0|299.98125]', 'bit': 39, 'type': 'double',
 // 'order': 'motorola', 'physical_unit': 'Km/h'}
 double Fbs2240::rrwheelspd(const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -170,7 +170,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'is_signed_var': False, 'physical_range': '[0|299.98125]', 'bit': 55,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'Km/h'}
 double Fbs2240::vehiclespd(const std::uint8_t* bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);

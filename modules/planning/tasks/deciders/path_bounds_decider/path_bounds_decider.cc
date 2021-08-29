@@ -1904,6 +1904,8 @@ bool PathBoundsDecider::CheckLaneBoundaryType(
   }
   if (lane_boundary_type == hdmap::LaneBoundaryType::SOLID_YELLOW ||
       lane_boundary_type == hdmap::LaneBoundaryType::SOLID_WHITE) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     return false;
   }
   return true;

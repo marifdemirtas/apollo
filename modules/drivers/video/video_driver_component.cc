@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,8 +25,6 @@ namespace video {
 using cyber::common::EnsureDirectory;
 
 bool CompCameraH265Compressed::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   AINFO << "Initialize video driver component.";
 
   CameraH265Config video_config;
@@ -67,8 +64,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CompCameraH265Compressed::VideoPoll() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::ofstream fout;
   if (camera_deivce_->Record()) {
     char name[256];

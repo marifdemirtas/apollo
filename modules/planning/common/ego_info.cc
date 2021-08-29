@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -31,15 +30,11 @@ using apollo::common::math::Box2d;
 using apollo::common::math::Vec2d;
 
 EgoInfo::EgoInfo() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ego_vehicle_config_ = common::VehicleConfigHelper::GetConfig();
 }
 
 bool EgoInfo::Update(const common::TrajectoryPoint& start_point,
                      const common::VehicleState& vehicle_state) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   set_start_point(start_point);
   set_vehicle_state(vehicle_state);
   CalculateEgoBox(vehicle_state);
@@ -47,8 +42,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void EgoInfo::CalculateEgoBox(const common::VehicleState& vehicle_state) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const auto& param = ego_vehicle_config_.vehicle_param();
   ADEBUG << "param: " << param.DebugString();
 
@@ -64,8 +57,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void EgoInfo::Clear() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   start_point_.Clear();
   vehicle_state_.Clear();
   front_clear_distance_ = FLAGS_default_front_clear_distance;
@@ -77,8 +68,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 2. the road is not necessaries straight
 void EgoInfo::CalculateFrontObstacleClearDistance(
     const std::vector<const Obstacle*>& obstacles) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Vec2d position(vehicle_state_.x(), vehicle_state_.y());
 
   const auto& param = ego_vehicle_config_.vehicle_param();

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -30,19 +29,13 @@ using apollo::drivers::PointCloud;
 Parser::Parser(const std::shared_ptr<::apollo::cyber::Node>& node,
                const Config& conf)
     : node_(node), conf_(conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   tz_second_ = conf_.time_zone() * 3600;
   start_angle_ = static_cast<int>(conf_.start_angle() * 100);
 }
 
-Parser::~Parser() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- Stop(); }
+Parser::~Parser() { Stop(); }
 
 bool Parser::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (inited_) {
     return true;
   }
@@ -97,8 +90,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Parser::ResetRawPointCloud() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // raw_pointcloud_out_ = raw_pointcloud_pool_->GetObject();
   // if (raw_pointcloud_out_ == nullptr) {
   // raw_pointcloud_out_ = std::make_shared<PointCloud>();
@@ -115,8 +106,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Parser::Parse(const std::shared_ptr<HesaiScan>& scan) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ResetRawPointCloud();
   bool is_end = false;
   for (int i = 0; i < scan->firing_pkts_size(); ++i) {
@@ -130,8 +119,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Parser::Parse(const uint8_t* data, int size, bool* is_end) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   bool t_is_end = false;
   ParseRawPacket(data, size, &t_is_end);
   ++packet_nums_;
@@ -145,8 +132,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Parser::CheckIsEnd(bool is_end) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (packet_nums_ >= max_packets_) {
     AWARN << "over max packets, packets:" << packet_nums_
           << ", max packets:" << max_packets_;
@@ -161,8 +146,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Parser::PublishRawPointCloud(int seq) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int size = raw_pointcloud_out_->point_size();
   if (size == 0) {
     AWARN << "All points size is NAN! Please check hesai:" << conf_.model();
@@ -187,8 +170,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Parser::LoadCalibrationThread() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   TcpCmdClient tcp_cmd(conf_.ip(), conf_.tcp_cmd_port());
   std::string content;
   AINFO << "start LoadCalibrationThread";
@@ -212,8 +193,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Parser::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   running_.store(false);
   if (online_calibration_thread_.joinable()) {
     online_calibration_thread_.join();
@@ -221,8 +200,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Parser::LoadCalibration(const char* path_file) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string path(path_file);
   std::string content;
   if (!apollo::cyber::common::GetContent(path, &content)) {
@@ -233,8 +210,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Parser::LoadCalibration(const std::string& content) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   AINFO << "parse calibration content:" << content;
   std::istringstream ifs(content);
   std::string line;
@@ -288,8 +263,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Parser::CheckPktTime(double time_sec) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double now = apollo::cyber::Time().Now().ToSecond();
   double diff = std::abs(now - time_sec);
   if (diff > 0.1) {

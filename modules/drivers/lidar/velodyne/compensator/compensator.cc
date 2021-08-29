@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -27,8 +26,6 @@ namespace velodyne {
 
 bool Compensator::QueryPoseAffineFromTF2(const uint64_t& timestamp, void* pose,
                                          const std::string& child_frame_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   cyber::Time query_time(timestamp);
   std::string err_string;
   if (!tf2_buffer_ptr_->canTransform(
@@ -64,8 +61,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool Compensator::MotionCompensation(
     const std::shared_ptr<const PointCloud>& msg,
     std::shared_ptr<PointCloud> msg_compensated) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (msg->height() == 0 || msg->width() == 0) {
     AERROR << "PointCloud width & height should not be 0";
     return false;
@@ -113,8 +108,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 inline void Compensator::GetTimestampInterval(
     const std::shared_ptr<const PointCloud>& msg, uint64_t* timestamp_min,
     uint64_t* timestamp_max) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   *timestamp_max = 0;
   *timestamp_min = std::numeric_limits<uint64_t>::max();
 
@@ -135,8 +128,6 @@ void Compensator::MotionCompensation(
     std::shared_ptr<PointCloud> msg_compensated, const uint64_t timestamp_min,
     const uint64_t timestamp_max, const Eigen::Affine3d& pose_min_time,
     const Eigen::Affine3d& pose_max_time) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   using std::abs;
   using std::acos;
   using std::sin;

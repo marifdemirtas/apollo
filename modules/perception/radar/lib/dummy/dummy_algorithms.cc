@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -17,15 +16,12 @@
 #include "modules/perception/radar/lib/dummy/dummy_algorithms.h"
 
 namespace apollo {
-
 namespace perception {
 namespace radar {
 
 void DummyDetector::ContiObs2Frame(
     const drivers::ContiRadar& corrected_obstacles,
     base::FramePtr radar_frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (const auto& radar_obs : corrected_obstacles.contiobs()) {
     base::ObjectPtr radar_object(new base::Object);
     radar_object->id = radar_obs.obstacle_id();
@@ -77,14 +73,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   }
 }
 
-bool DummyPreprocessor::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return true; }
+bool DummyPreprocessor::Init() { return true; }
 bool DummyPreprocessor::Preprocess(const drivers::ContiRadar& raw_obstacles,
                                    const PreprocessorOptions& options,
                                    drivers::ContiRadar* corrected_obstacles) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (corrected_obstacles == nullptr) {
     AERROR << "corrected_obstacles is not available";
     return false;
@@ -92,37 +84,23 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   *corrected_obstacles = raw_obstacles;
   return true;
 }
-std::string DummyPreprocessor::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return "DummyPreprocessor"; }
+std::string DummyPreprocessor::Name() const { return "DummyPreprocessor"; }
 
-bool DummyDetector::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return true; }
+bool DummyDetector::Init() { return true; }
 bool DummyDetector::Detect(const drivers::ContiRadar& corrected_obstacles,
                            const DetectorOptions& options,
                            base::FramePtr detected_frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ContiObs2Frame(corrected_obstacles, detected_frame);
   return true;
 }
-std::string DummyDetector::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return "DummyDetector"; }
+std::string DummyDetector::Name() const { return "DummyDetector"; }
 
-bool DummyRoiFilter::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return true; }
+bool DummyRoiFilter::Init() { return true; }
 bool DummyRoiFilter::RoiFilter(const RoiFilterOptions& options,
                                base::FramePtr radar_frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return true;
 }
-std::string DummyRoiFilter::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return "DummyRoiFilter"; }
+std::string DummyRoiFilter::Name() const { return "DummyRoiFilter"; }
 
 PERCEPTION_REGISTER_PREPROCESSOR(DummyPreprocessor);
 PERCEPTION_REGISTER_ROI_FILTER(DummyRoiFilter);

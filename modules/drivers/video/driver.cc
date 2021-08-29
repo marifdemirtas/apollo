@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,20 +24,14 @@ using apollo::drivers::CompressedImage;
 using apollo::drivers::video::config::CameraH265Config;
 
 CameraDriver::CameraDriver(const CameraH265Config *h265_cfg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   config_ = *h265_cfg;
 }
 
 bool CameraDriver::Poll(std::shared_ptr<CompressedImage> h265) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return PollByFrame(h265);
 }
 
 bool CameraDriver::PollByFrame(std::shared_ptr<CompressedImage> h265Pb) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int ret = input_->GetFramePacket(h265Pb);
   if (ret < 0) {
     return false;
@@ -56,8 +49,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CameraDriver::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   input_.reset(new SocketInput());
   input_->Init(config_.udp_port());
 }

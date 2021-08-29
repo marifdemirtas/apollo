@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -21,15 +20,12 @@
 #include "modules/perception/lidar/lib/scene_manager/roi_service/proto/roi_service.pb.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
 using cyber::common::GetAbsolutePath;
 
 void ROIServiceContent::GetCopy(SceneServiceContent* content) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ROIServiceContent* roi_content = dynamic_cast<ROIServiceContent*>(content);
   if (roi_content == nullptr) {
     return;
@@ -44,8 +40,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ROIServiceContent::SetContent(const SceneServiceContent& content) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const ROIServiceContent* roi_content =
       dynamic_cast<const ROIServiceContent*>(&content);
   if (roi_content == nullptr) {
@@ -64,14 +58,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 inline bool ROIServiceContent::CheckBit(const size_t loc,
                                         const uint64_t block) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return block & (static_cast<uint64_t>(1) << loc);
 }
 
 bool ROIServiceContent::Check(const Eigen::Vector3d& world_point) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!service_ready_) {
     return false;
   }
@@ -92,8 +82,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool ROIService::Init(const SceneServiceInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   self_content_.reset(new ROIServiceContent);
   roi_content_ref_ = dynamic_cast<ROIServiceContent*>(self_content_.get());
   auto config_manager = lib::ConfigManager::Instance();
@@ -113,8 +101,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool ROIService::QueryIsPointInROI(const Eigen::Vector3d& world_point) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lock(mutex_);
   bool status = QueryIsPointInROI(world_point, *roi_content_ref_);
   return status;
@@ -122,8 +108,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool ROIService::QueryIsPointInROI(const Eigen::Vector3d& world_point,
                                    const ROIServiceContent& content) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return content.Check(world_point);
 }
 

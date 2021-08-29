@@ -60,7 +60,7 @@ using cyber::record::RecordReader;
 using cyber::record::RecordViewer;
 
 std::string GetNextRecordFileName(const std::string& record_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   static constexpr int kSuffixLen = 5;
   const std::string kInitialSequence = "00000";
@@ -77,7 +77,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool IsRecordValid(const std::string& record_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!PathExists(record_path)) {
     return false;
@@ -98,7 +98,7 @@ RealtimeRecordProcessor::RealtimeRecordProcessor(
     const std::string& source_record_dir,
     const std::string& restored_output_dir)
     : RecordProcessor(source_record_dir, restored_output_dir) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   default_output_filename_ = restored_output_dir_;
   default_output_filename_.erase(
@@ -110,7 +110,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool RealtimeRecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Init input/output, for realtime processor create both
   // input and output dir if they do not exist
@@ -154,7 +154,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool RealtimeRecordProcessor::Process() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Recorder goes first
   recorder_->Start();
@@ -198,7 +198,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RealtimeRecordProcessor::MonitorStatus() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int status_counter = 0;
   while (!cyber::IsShutdown()) {
@@ -224,7 +224,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void RealtimeRecordProcessor::PublishStatus(const RecordingState state,
                                             const std::string& message) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   SmartRecorderStatus status;
   Header* status_headerpb = status.mutable_header();
@@ -237,7 +237,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool RealtimeRecordProcessor::GetNextValidRecord(
     std::string* record_path) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   *record_path = absl::StrCat(source_record_dir_, "/", default_output_filename_,
                               ".", GetNextRecordFileName(*record_path));
@@ -249,7 +249,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RealtimeRecordProcessor::RestoreMessage(const uint64_t message_time) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Check and restore messages, logic is:
   // 1. If new events got triggered, restore reader proceeds all the way to the

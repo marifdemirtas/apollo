@@ -29,11 +29,11 @@ namespace localization {
 using apollo::cyber::Clock;
 
 MSFLocalizationComponent::MSFLocalizationComponent() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool MSFLocalizationComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   publisher_.reset(new LocalizationMsgPublisher(this->node_));
 
@@ -51,7 +51,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool MSFLocalizationComponent::InitConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   lidar_topic_ = FLAGS_lidar_topic;
   bestgnsspos_topic_ = FLAGS_gnss_best_pose_topic;
@@ -71,7 +71,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool MSFLocalizationComponent::InitIO() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   cyber::ReaderConfig reader_config;
   reader_config.channel_name = lidar_topic_;
@@ -111,7 +111,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool MSFLocalizationComponent::Proc(
     const std::shared_ptr<drivers::gnss::Imu>& imu_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   localization_.OnRawImuCache(imu_msg);
   return true;
@@ -120,11 +120,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 LocalizationMsgPublisher::LocalizationMsgPublisher(
     const std::shared_ptr<cyber::Node>& node)
     : node_(node), tf2_broadcaster_(node) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool LocalizationMsgPublisher::InitConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   localization_topic_ = FLAGS_localization_topic;
   broadcast_tf_frame_id_ = FLAGS_broadcast_tf_frame_id;
@@ -137,7 +137,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool LocalizationMsgPublisher::InitIO() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   localization_talker_ =
       node_->CreateWriter<LocalizationEstimate>(localization_topic_);
@@ -155,7 +155,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationMsgPublisher::PublishPoseBroadcastTF(
     const LocalizationEstimate& localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // broadcast tf message
   apollo::transform::TransformStamped tf2_msg;
@@ -181,7 +181,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationMsgPublisher::PublishPoseBroadcastTopic(
     const LocalizationEstimate& localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   double cur_system_time = localization.header().timestamp_sec();
   if (pre_system_time_ > 0.0 && cur_system_time - pre_system_time_ > 0.02) {
@@ -205,21 +205,21 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LocalizationMsgPublisher::PublishLocalizationMsfGnss(
     const LocalizationEstimate& localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   gnss_local_talker_->Write(localization);
 }
 
 void LocalizationMsgPublisher::PublishLocalizationMsfLidar(
     const LocalizationEstimate& localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   lidar_local_talker_->Write(localization);
 }
 
 void LocalizationMsgPublisher::PublishLocalizationStatus(
     const LocalizationStatus& localization_status) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   localization_status_talker_->Write(localization_status);
 }

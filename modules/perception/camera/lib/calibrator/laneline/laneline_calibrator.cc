@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,8 +22,6 @@ namespace perception {
 namespace camera {
 
 bool LaneLineCalibrator::Init(const CalibratorInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   LocalCalibratorInitOptions local_options;
   local_options.cx = options.cx;
   local_options.cy = options.cy;
@@ -38,8 +35,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LaneLineCalibrator::Calibrate(const CalibratorOptions &options,
                                    float *pitch_angle) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (pitch_angle == nullptr) {
     AERROR << "pitch_angle is not available";
     return false;
@@ -104,8 +99,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LaneLineCalibrator::LoadEgoLaneline(
     const std::vector<base::LaneLine> &lane_objects, EgoLane *ego_lane) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (ego_lane == nullptr) {
     AERROR << "ego_lane is not available";
     return false;

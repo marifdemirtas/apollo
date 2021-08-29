@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -22,8 +21,6 @@ namespace drivers {
 namespace hesai {
 
 bool HesaiDriver::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (node_ == nullptr) {
     AERROR << "node is nullptr";
     return false;
@@ -76,8 +73,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HesaiDriver::PollThread() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   AINFO << "Poll thread start";
   while (running_) {
     auto start = std::chrono::steady_clock::now();
@@ -102,8 +97,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HesaiDriver::ProcessGps(const HesaiPacket& pkt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (pkt.size != GPS_PACKET_SIZE) {
     return;
   }
@@ -156,8 +149,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HesaiDriver::ProcessThread() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::shared_ptr<HesaiPacket> pkt = nullptr;
   bool is_end = false;
   int seq = 0;

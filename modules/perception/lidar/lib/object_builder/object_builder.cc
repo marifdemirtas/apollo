@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -37,15 +36,11 @@ using PointFCloud = apollo::perception::base::PointCloud<PointF>;
 using PolygonDType = apollo::perception::base::PointCloud<PointD>;
 
 bool ObjectBuilder::Init(const ObjectBuilderInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return true;
 }
 
 bool ObjectBuilder::Build(const ObjectBuilderOptions& options,
                           LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame == nullptr) {
     return false;
   }
@@ -62,8 +57,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ObjectBuilder::ComputePolygon2D(ObjectPtr object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Vector3f min_pt;
   Eigen::Vector3f max_pt;
   PointFCloud& cloud = object->lidar_supplement.cloud;
@@ -78,8 +71,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ObjectBuilder::ComputeOtherObjectInformation(ObjectPtr object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   object->anchor_point = object->center;
   double timestamp = 0.0;
   size_t num_point = object->lidar_supplement.cloud.size();
@@ -93,8 +84,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ObjectBuilder::ComputePolygonSizeCenter(ObjectPtr object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (object->lidar_supplement.cloud.size() < 4u) {
     return;
   }
@@ -124,8 +113,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ObjectBuilder::SetDefaultValue(const Eigen::Vector3f& min_pt_in,
                                     const Eigen::Vector3f& max_pt_in,
                                     ObjectPtr object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Vector3f min_pt = min_pt_in;
   Eigen::Vector3f max_pt = max_pt_in;
   // handle degeneration case
@@ -173,8 +160,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool ObjectBuilder::LinePerturbation(PointFCloud* cloud) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (cloud->size() >= 3) {
     int start_point = 0;
     int end_point = 1;
@@ -198,8 +183,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void ObjectBuilder::GetMinMax3D(const PointFCloud& cloud,
                                 Eigen::Vector3f* min_pt,
                                 Eigen::Vector3f* max_pt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   (*min_pt)[0] = (*min_pt)[1] = (*min_pt)[2] =
       std::numeric_limits<float>::max();
   (*max_pt)[0] = (*max_pt)[1] = (*max_pt)[2] =

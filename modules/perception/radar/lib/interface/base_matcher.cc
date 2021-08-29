@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -18,7 +17,6 @@
 #include <numeric>
 
 namespace apollo {
-
 namespace perception {
 namespace radar {
 
@@ -26,32 +24,22 @@ double BaseMatcher::s_max_match_distance_ = 2.5;
 double BaseMatcher::s_bound_match_distance_ = 10.0;
 
 void BaseMatcher::SetMaxMatchDistance(double dist) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   s_max_match_distance_ = dist;
 }
 
-double BaseMatcher::GetMaxMatchDistance() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return s_max_match_distance_; }
+double BaseMatcher::GetMaxMatchDistance() { return s_max_match_distance_; }
 
 void BaseMatcher::SetBoundMatchDistance(double dist) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   s_bound_match_distance_ = dist;
 }
 
-double BaseMatcher::GetBoundMatchDistance() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return s_bound_match_distance_; }
+double BaseMatcher::GetBoundMatchDistance() { return s_bound_match_distance_; }
 
 void BaseMatcher::IDMatch(const std::vector<RadarTrackPtr> &radar_tracks,
                           const base::Frame &radar_frame,
                           std::vector<TrackObjectPair> *assignments,
                           std::vector<size_t> *unassigned_tracks,
                           std::vector<size_t> *unassigned_objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t num_track = radar_tracks.size();
   const auto &objects = radar_frame.objects;
   double object_timestamp = radar_frame.timestamp;
@@ -100,8 +88,6 @@ bool BaseMatcher::RefinedTrack(const base::ObjectPtr &track_object,
                                double track_timestamp,
                                const base::ObjectPtr &radar_object,
                                double radar_timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // This function is supposed to return true in the base class.
   // Specific actions can be overrided in derived classes.
   return true;

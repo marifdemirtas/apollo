@@ -27,7 +27,9 @@ DEFINE_double(qz, 0, "quaternion z");
 DEFINE_double(qw, 0, "quaternion w");
 
 int main(int32_t argc, char** argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   google::InitGoogleLogging(argv[0]);
   FLAGS_alsologtostderr = true;

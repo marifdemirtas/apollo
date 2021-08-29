@@ -64,11 +64,11 @@ LocalizationLidarProcess::LocalizationLidarProcess()
       out_map_count_(0),
       forecast_integ_state_(ForecastState::NOT_VALID),
       forecast_timer_(-1) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 LocalizationLidarProcess::~LocalizationLidarProcess() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   delete locator_;
   locator_ = nullptr;
@@ -78,7 +78,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status LocalizationLidarProcess::Init(const LocalizationIntegParam& params) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // initial_success_ = false;
   map_path_ = params.map_path;
@@ -159,7 +159,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 double LocalizationLidarProcess::ComputeDeltaYawLimit(
     const int64_t index_cur, const int64_t index_stable, const double limit_min,
     const double limit_max) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (index_cur > index_stable) {
     return limit_min;
@@ -171,7 +171,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LocalizationLidarProcess::PcdProcess(const LidarFrame& lidar_frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!CheckState()) {
     AERROR << "PcdProcess: Receive an invalid lidar msg!";
@@ -219,7 +219,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void LocalizationLidarProcess::GetResult(int* lidar_status,
                                          TransformD* location,
                                          Matrix3D* covariance) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(lidar_status);
   CHECK_NOTNULL(location);
@@ -231,7 +231,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int LocalizationLidarProcess::GetResult(LocalizationEstimate* lidar_local_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (lidar_local_msg == nullptr) {
     return static_cast<int>(LidarState::NOT_VALID);
@@ -279,13 +279,13 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void LocalizationLidarProcess::IntegPvaProcess(const InsPva& sins_pva_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pose_forecastor_->PushInspvaData(sins_pva_msg);
 }
 
 void LocalizationLidarProcess::RawImuProcess(const ImuData& imu_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pose_forecastor_->PushImuData(imu_msg);
 }
@@ -293,7 +293,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool LocalizationLidarProcess::GetPredictPose(const double lidar_time,
                                               TransformD* predict_pose,
                                               ForecastState* forecast_state) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(predict_pose);
   CHECK_NOTNULL(forecast_state);
@@ -360,11 +360,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool LocalizationLidarProcess::CheckState() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  return true; }
 
 void LocalizationLidarProcess::UpdateState(const int ret, const double time) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (ret == 0) {  // OK
     double location_score = 0.0;
@@ -435,7 +435,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LocalizationLidarProcess::LoadLidarExtrinsic(const std::string& file_path,
                                                   TransformD* lidar_extrinsic) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(lidar_extrinsic);
 
@@ -464,7 +464,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LocalizationLidarProcess::LoadLidarHeight(const std::string& file_path,
                                                LidarHeight* height) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(height);
 

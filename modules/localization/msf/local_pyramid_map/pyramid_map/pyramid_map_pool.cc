@@ -24,15 +24,15 @@ namespace pyramid_map {
 PyramidMapNodePool::PyramidMapNodePool(unsigned int pool_size,
                                        unsigned int thread_size)
     : BaseMapNodePool(pool_size, thread_size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 PyramidMapNodePool::~PyramidMapNodePool() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 BaseMapNode* PyramidMapNodePool::AllocNewMapNode() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return new PyramidMapNode();
 }

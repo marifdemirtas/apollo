@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -21,40 +20,24 @@ namespace perception {
 namespace benchmark {
 
 /**LidarSupplement implementation*/
-LidarSupplement::LidarSupplement() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+LidarSupplement::LidarSupplement() {}
 
-LidarSupplement::~LidarSupplement() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+LidarSupplement::~LidarSupplement() {}
 
-LidarSupplement::LidarSupplement(const LidarSupplement& rhs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+LidarSupplement::LidarSupplement(const LidarSupplement& rhs) {}
 
 LidarSupplement& LidarSupplement::operator=(const LidarSupplement& rhs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return (*this);
 }
 
-void LidarSupplement::clone(const LidarSupplement& rhs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+void LidarSupplement::clone(const LidarSupplement& rhs) {}
 
 /**RadarSupplement implementation*/
-RadarSupplement::RadarSupplement() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+RadarSupplement::RadarSupplement() {}
 
-RadarSupplement::~RadarSupplement() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+RadarSupplement::~RadarSupplement() {}
 
 RadarSupplement::RadarSupplement(const RadarSupplement& rhs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   range = rhs.range;
   angle = rhs.angle;
   relative_radial_velocity = rhs.relative_radial_velocity;
@@ -62,8 +45,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 RadarSupplement& RadarSupplement::operator=(const RadarSupplement& rhs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   range = rhs.range;
   angle = rhs.angle;
   relative_radial_velocity = rhs.relative_radial_velocity;
@@ -72,8 +53,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void RadarSupplement::clone(const RadarSupplement& rhs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   range = rhs.range;
   angle = rhs.angle;
   relative_radial_velocity = rhs.relative_radial_velocity;
@@ -81,32 +60,22 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 /**CameraSupplement implementation*/
-CameraSupplement::CameraSupplement() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+CameraSupplement::CameraSupplement() {}
 
-CameraSupplement::~CameraSupplement() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+CameraSupplement::~CameraSupplement() {}
 
 CameraSupplement::CameraSupplement(const CameraSupplement& rhs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;
 }
 
 CameraSupplement& CameraSupplement::operator=(const CameraSupplement& rhs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;
   return (*this);
 }
 
 void CameraSupplement::clone(const CameraSupplement& rhs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   upper_left = rhs.upper_left;
   lower_right = rhs.lower_right;
 }

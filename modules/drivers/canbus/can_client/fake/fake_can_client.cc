@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -27,22 +26,14 @@ namespace can {
 
 using apollo::common::ErrorCode;
 
-bool FakeCanClient::Init(const CANCardParameter &param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return true; }
+bool FakeCanClient::Init(const CANCardParameter &param) { return true; }
 
-ErrorCode FakeCanClient::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return ErrorCode::OK; }
+ErrorCode FakeCanClient::Start() { return ErrorCode::OK; }
 
-void FakeCanClient::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+void FakeCanClient::Stop() {}
 
 ErrorCode FakeCanClient::Send(const std::vector<CanFrame> &frames,
                               int32_t *const frame_num) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame_num == nullptr) {
     AERROR << "frame_num pointer is null";
     return ErrorCode::CAN_CLIENT_ERROR_BASE;
@@ -63,8 +54,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 ErrorCode FakeCanClient::Receive(std::vector<CanFrame> *const frames,
                                  int32_t *const frame_num) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame_num == nullptr || frames == nullptr) {
     AERROR << "frames or frame_num pointer is null";
     return ErrorCode::CAN_CLIENT_ERROR_BASE;
@@ -85,8 +74,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string FakeCanClient::GetErrorString(const int32_t /*status*/) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return "";
 }
 

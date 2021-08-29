@@ -28,11 +28,11 @@ const int32_t Pcepb203::ID = 0x203;
 
 // public
 Pcepb203::Pcepb203() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Reset(); }
 
 uint32_t Pcepb203::GetPeriod() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,14 +40,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Pcepb203::UpdateData(uint8_t* data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   set_p_pc_epbreq(data, pc_epbreq_);
   set_p_pc_epbenable(data, pc_epbenable_);
 }
 
 void Pcepb203::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // you should check this manually
   pc_epbreq_ = Pc_epb_203::PC_EPBREQ_INVALID;
@@ -55,7 +55,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Pcepb203* Pcepb203::set_pc_epbreq(Pc_epb_203::Pc_epbreqType pc_epbreq) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pc_epbreq_ = pc_epbreq;
   return this;
@@ -68,7 +68,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'motorola', 'physical_unit': ''}
 void Pcepb203::set_p_pc_epbreq(uint8_t* data,
                                Pc_epb_203::Pc_epbreqType pc_epbreq) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int x = pc_epbreq;
 
@@ -78,7 +78,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Pcepb203* Pcepb203::set_pc_epbenable(
     Pc_epb_203::Pc_epbenableType pc_epbenable) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pc_epbenable_ = pc_epbenable;
   return this;
@@ -91,7 +91,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': ''}
 void Pcepb203::set_p_pc_epbenable(uint8_t* data,
                                   Pc_epb_203::Pc_epbenableType pc_epbenable) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int x = pc_epbenable;
 

@@ -44,7 +44,7 @@ typedef apollo::localization::msf::FeatureXYPlane::PointCloudPtrT
 
 bool ParseCommandLine(int argc, char* argv[],
                       boost::program_options::variables_map* vm) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   boost::program_options::options_description desc("Allowd options");
   desc.add_options()("help", "product help message")(
@@ -99,7 +99,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void VarianceOnline(double* mean, double* var, unsigned int* N, double x) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ++(*N);
   double value = (x - (*mean)) / (*N);
@@ -113,7 +113,7 @@ using ::apollo::common::EigenAffine3dVec;
 using ::apollo::common::EigenVector3dVec;
 
 int main(int argc, char** argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   FeatureXYPlane plane_extractor;
 
@@ -192,6 +192,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   apollo::cyber::common::EnsureDirectory(map_folder_path);
   map.SetMapFolderPath(map_folder_path);
   for (size_t i = 0; i < pcd_folder_paths.size(); ++i) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     map.AddDataset(pcd_folder_paths[i]);
   }
   if (strcasecmp(map_resolution_type.c_str(), "single") == 0) {
@@ -254,6 +256,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
             loss_less_config.max_intensity_var_value_);
     fprintf(file, "PCD folders: \n");
     for (unsigned int trial = 0; trial < num_trials; ++trial) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
       fprintf(file, "%s\n", pcd_folder_paths[trial].c_str());
     }
     fclose(file);
@@ -285,6 +295,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
       unsigned int row = 0;
       unsigned int col = 0;
       for (size_t i = 0; i < velodyne_frame.pt3ds.size(); ++i) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
         Eigen::Vector3d& pt3d_local = velodyne_frame.pt3ds[i];
         unsigned char intensity = velodyne_frame.intensities[i];
         Eigen::Vector3d pt3d_global = velodyne_frame.pose * pt3d_local;
@@ -299,6 +311,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
       }
 
       if (use_plane_inliers_only) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
         PclPointCloudPtrT pcl_pc = PclPointCloudPtrT(new PclPointCloudT);
         pcl_pc->resize(velodyne_frame.pt3ds.size());
         for (size_t i = 0; i < velodyne_frame.pt3ds.size(); ++i) {
@@ -342,6 +358,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   double var_height_diff = 0;
   unsigned int count_height_diff = 0;
   for (unsigned int trial = 0; trial < num_trials; ++trial) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     for (unsigned int i = 0; i < ieout_poses[trial].size(); ++i) {
       const Eigen::Affine3d& ieout_pose = ieout_poses[trial][i];
       const Eigen::Vector3d& pt3d = ieout_pose.translation();

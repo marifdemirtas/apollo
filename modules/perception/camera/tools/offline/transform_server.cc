@@ -26,7 +26,7 @@ namespace camera {
 
 bool TransformServer::Init(const std::vector<std::string> &camera_names,
                            const std::string &params_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const std::string params_dir = params_path;
   // 1. Init lidar height
@@ -105,7 +105,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool TransformServer::LoadFromFile(const std::string &tf_input,
                                    float frequency) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (frequency <= 0) {
     AERROR << "Error frequency value:" << frequency;
@@ -133,10 +133,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool TransformServer::QueryPos(double timestamp, Eigen::Affine3d *pose) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (auto &&tf : tf_) {
     if (Equal(timestamp, tf.timestamp, error_limit_)) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
       Eigen::Quaterniond rotation(tf.qw, tf.qx, tf.qy, tf.qz);
       pose->linear() = rotation.matrix();
       pose->translation() << tf.tx, tf.ty, tf.tz;
@@ -150,7 +152,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool TransformServer::AddTransform(const std::string &child_frame_id,
                                    const std::string &frame_id,
                                    const Eigen::Affine3d &transform) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   vertices_.insert(child_frame_id);
   vertices_.insert(frame_id);
@@ -183,7 +185,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool TransformServer::QueryTransform(const std::string &child_frame_id,
                                      const std::string &frame_id,
                                      Eigen::Affine3d *transform) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   *transform = Eigen::Affine3d::Identity();
 
@@ -209,7 +211,7 @@ bool TransformServer::FindTransform(const std::string &child_frame_id,
                                     const std::string &frame_id,
                                     Eigen::Affine3d *transform,
                                     std::map<std::string, bool> *visited) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Eigen::Affine3d loc_transform = Eigen::Affine3d::Identity();
 
@@ -246,7 +248,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TransformServer::print() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (auto item : edges_) {
     AINFO << "----------------" << std::endl;

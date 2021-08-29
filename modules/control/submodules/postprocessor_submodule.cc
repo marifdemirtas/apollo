@@ -38,13 +38,13 @@ using apollo::common::Status;
 using apollo::cyber::Clock;
 
 std::string PostprocessorSubmodule::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return FLAGS_postprocessor_submodule_name;
 }
 
 bool PostprocessorSubmodule::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ACHECK(cyber::common::GetProtoFromFile(FLAGS_control_common_conf_file,
                                          &control_common_conf_))
@@ -59,7 +59,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool PostprocessorSubmodule::Proc(
     const std::shared_ptr<ControlCommand>& control_core_command) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const auto start_time = Clock::Instance()->Now();
   ControlCommand control_command;

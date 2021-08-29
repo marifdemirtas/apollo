@@ -33,7 +33,7 @@ namespace monitor {
 namespace {
 
 bool IsSafe(const std::string& name, const ComponentStatus& status) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (status.status() == ComponentStatus::ERROR ||
       status.status() == ComponentStatus::FATAL) {
@@ -48,11 +48,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 FunctionalSafetyMonitor::FunctionalSafetyMonitor()
     : RecurrentRunner(FLAGS_functional_safety_monitor_name, 0) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void FunctionalSafetyMonitor::RunOnce(const double current_time) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto* system_status = MonitorManager::Instance()->GetStatus();
   // Everything looks good or has been handled properly.
@@ -83,7 +83,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool FunctionalSafetyMonitor::CheckSafety() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // We only check safety in self driving mode.
   auto manager = MonitorManager::Instance();

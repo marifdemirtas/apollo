@@ -46,7 +46,7 @@ namespace canbus {
 namespace lincoln {
 
 LincolnMessageManager::LincolnMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(Authors): verify which one is recv/sent
   AddSendProtocolData<Brake60, true>();
@@ -76,7 +76,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 LincolnMessageManager::~LincolnMessageManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 }  // namespace lincoln

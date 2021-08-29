@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -27,8 +26,6 @@ using apollo::drivers::PointXYZIT;
 Hesai64Parser::Hesai64Parser(const std::shared_ptr<Node> &node,
                              const Config &conf)
     : Parser(node, conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // init the block time offset, us
   block_offset_[5] = 55.56 * 0.0 + 42.58;
   block_offset_[4] = 55.56 * 1.0 + 42.58;
@@ -112,14 +109,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   max_packets_ = HESAI64_MAX_PACKETS;
 }
 
-Hesai64Parser::~Hesai64Parser() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+Hesai64Parser::~Hesai64Parser() {}
 
 void Hesai64Parser::ParseRawPacket(const uint8_t *buf, const int len,
                                    bool *is_end) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (len != PACKET_SIZE_L64 && len != PACKET_SIZE_L64_WITH_UDPSEQ) {
     AWARN << "packet size:" << len
           << " mismatch internal size:" << PACKET_SIZE_L64;
@@ -204,8 +197,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void Hesai64Parser::CalcPointXYZIT(Hesai64Packet *pkt, int blockid,
                                    uint8_t chLaserNumber) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Hesai64Block *block = &pkt->blocks[blockid];
   struct tm tTm;
   // UTC's year only include 0 - 99 year , which indicate 2000 to 2099.

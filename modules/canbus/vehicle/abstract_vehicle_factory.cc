@@ -22,7 +22,7 @@ namespace canbus {
 
 void AbstractVehicleFactory::SetVehicleParameter(
     const VehicleParameter &vehicle_parameter) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   vehicle_parameter_ = vehicle_parameter;
 }

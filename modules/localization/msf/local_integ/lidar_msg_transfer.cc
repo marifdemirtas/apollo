@@ -30,7 +30,7 @@ namespace msf {
 
 void LidarMsgTransfer::Transfer(const drivers::PointCloud &msg,
                                 LidarFrame *lidar_frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(lidar_frame);
 

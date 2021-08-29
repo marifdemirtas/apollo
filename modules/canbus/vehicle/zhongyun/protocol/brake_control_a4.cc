@@ -29,11 +29,11 @@ const int32_t Brakecontrola4::ID = 0xA4;
 
 // public
 Brakecontrola4::Brakecontrola4() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Reset(); }
 
 uint32_t Brakecontrola4::GetPeriod() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(ChaoM) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,14 +41,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Brakecontrola4::UpdateData(uint8_t* data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   set_p_brake_torque(data, brake_torque_);
   set_p_brake_enable_control(data, brake_enable_control_);
 }
 
 void Brakecontrola4::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(ChaoM) :  you should check this manually
   brake_torque_ = 0.0;
@@ -56,7 +56,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Brakecontrola4* Brakecontrola4::set_brake_torque(double brake_torque) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   brake_torque_ = brake_torque;
   return this;
@@ -66,7 +66,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|100]', 'bit': 8,
 // 'type': 'double', 'order': 'intel', 'physical_unit': '%'}
 void Brakecontrola4::set_p_brake_torque(uint8_t* data, double brake_torque) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   brake_torque = ProtocolData::BoundedValue(0.0, 100.0, brake_torque);
   int x = static_cast<int>(brake_torque / 0.050000);
@@ -84,7 +84,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Brakecontrola4* Brakecontrola4::set_brake_enable_control(
     Brake_control_a4::Brake_enable_controlType brake_enable_control) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   brake_enable_control_ = brake_enable_control;
   return this;
@@ -98,7 +98,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void Brakecontrola4::set_p_brake_enable_control(
     uint8_t* data,
     Brake_control_a4::Brake_enable_controlType brake_enable_control) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int x = brake_enable_control;
 

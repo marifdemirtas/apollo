@@ -25,17 +25,17 @@ namespace msf {
 namespace pyramid_map {
 
 PyramidMap::PyramidMap(PyramidMapConfig* config) : BaseMap(config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 PyramidMap::~PyramidMap() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 float PyramidMap::GetIntensitySafe(const Eigen::Vector3d& coordinate,
                                    int zone_id, unsigned int resolution_id,
                                    unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
@@ -46,7 +46,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 float PyramidMap::GetIntensityVarSafe(const Eigen::Vector3d& coordinate,
                                       int zone_id, unsigned int resolution_id,
                                       unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
@@ -57,7 +57,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 float PyramidMap::GetAltitudeSafe(const Eigen::Vector3d& coordinate,
                                   int zone_id, unsigned int resolution_id,
                                   unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
@@ -68,7 +68,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 float PyramidMap::GetAltitudeVarSafe(const Eigen::Vector3d& coordinate,
                                      int zone_id, unsigned int resolution_id,
                                      unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
@@ -79,7 +79,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 float PyramidMap::GetGroundAltitudeSafe(const Eigen::Vector3d& coordinate,
                                         int zone_id, unsigned int resolution_id,
                                         unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
@@ -90,7 +90,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 unsigned int PyramidMap::GetCountSafe(const Eigen::Vector3d& coordinate,
                                       int zone_id, unsigned int resolution_id,
                                       unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
@@ -102,7 +102,7 @@ unsigned int PyramidMap::GetGroundCountSafe(const Eigen::Vector3d& coordinate,
                                             int zone_id,
                                             unsigned int resolution_id,
                                             unsigned int level) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);

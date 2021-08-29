@@ -24,15 +24,15 @@ namespace msf {
 namespace pyramid_map {
 
 PyramidMapNodeConfig::PyramidMapNodeConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 PyramidMapNodeConfig::~PyramidMapNodeConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 std::shared_ptr<BaseMapNodeConfig> PyramidMapNodeConfig::Clone() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::shared_ptr<PyramidMapNodeConfig> map_node_config(
       new PyramidMapNodeConfig());

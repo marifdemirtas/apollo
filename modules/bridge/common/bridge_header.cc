@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -20,12 +19,9 @@
 #include <cstring>
 
 namespace apollo {
-
 namespace bridge {
 
 bool BridgeHeader::Serialize(char *buf, size_t size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!buf || size == 0) {
     return false;
   }
@@ -45,8 +41,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool BridgeHeader::Diserialize(const char *buf, size_t buf_size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const char *cursor = buf;
 
   int i = static_cast<int>(buf_size);
@@ -72,8 +66,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool BridgeHeader::IsAvailable(const char *buf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!buf) {
     return false;
   }
@@ -84,8 +76,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 char *BridgeHeader::SerializeHeaderFlag(char *buf, size_t size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!buf || size == 0) {
     return nullptr;
   }
@@ -94,8 +84,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 char *BridgeHeader::SerializeHeaderSize(char *buf, size_t size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   hsize header_size = GetHeaderSize();
   return SerializeBasicType<hsize, sizeof(hsize)>(&header_size, buf, size);
 }

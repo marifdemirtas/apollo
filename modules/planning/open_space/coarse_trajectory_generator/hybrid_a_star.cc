@@ -189,6 +189,10 @@ std::shared_ptr<Node3d> HybridAStar::Next_node_generator(
       intermediate_x.back() < XYbounds_[0] ||
       intermediate_y.back() > XYbounds_[3] ||
       intermediate_y.back() < XYbounds_[2]) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     return nullptr;
   }
   std::shared_ptr<Node3d> next_node = std::shared_ptr<Node3d>(
@@ -693,6 +697,8 @@ bool HybridAStar::Plan(
   double heuristic_time = 0.0;
   double rs_time = 0.0;
   while (!open_pq_.empty()) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     // take out the lowest cost neighboring node
     const std::string current_id = open_pq_.top().first;
     open_pq_.pop();

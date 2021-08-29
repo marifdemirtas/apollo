@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ namespace apollo {
 namespace hdmap {
 
 std::vector<std::string> GetFileLines(const std::string& path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::ifstream file_handler(path);
   std::string line;
   std::vector<std::string> lines;

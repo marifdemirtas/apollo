@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -24,8 +23,6 @@ namespace hesai {
 using apollo::cyber::Component;
 
 bool HesaiConvertComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!GetProtoConfig(&conf_)) {
     AERROR << "load config error, file:" << config_file_path_;
     return false;
@@ -47,8 +44,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool HesaiConvertComponent::Proc(const std::shared_ptr<HesaiScan>& scan) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return parser_->Parse(scan);
 }
 

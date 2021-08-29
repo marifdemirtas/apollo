@@ -306,6 +306,8 @@ void OpenSpaceTrajectoryPartition::InterpolateTrajectory(
 }
 
 void OpenSpaceTrajectoryPartition::UpdateVehicleInfo() {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
   const common::VehicleState& vehicle_state = frame_->vehicle_state();
   ego_theta_ = vehicle_state.heading();
   ego_x_ = vehicle_state.x();

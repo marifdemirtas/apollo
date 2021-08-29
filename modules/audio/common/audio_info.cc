@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -30,8 +29,6 @@ using apollo::drivers::microphone::config::ChannelType;
 using apollo::drivers::microphone::config::MicrophoneConfig;
 
 void AudioInfo::Insert(const AudioData& audio_data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::size_t index = 0;
   for (const auto& channel_data : audio_data.channel_data()) {
     if (channel_data.channel_type() == ChannelType::RAW) {
@@ -44,8 +41,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void AudioInfo::InsertChannelData(const std::size_t index,
                                   const ChannelData& channel_data,
                                   const MicrophoneConfig& microphone_config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   while (index >= signals_.size()) {
     signals_.push_back(std::deque<double>());
   }
@@ -64,8 +59,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 std::vector<std::vector<double>> AudioInfo::GetSignals(
     const int signal_length) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<std::vector<double>> signals;
   for (std::size_t i = 0; i < signals_.size(); ++i) {
     int start_index = static_cast<int>(signals_[i].size()) - signal_length;

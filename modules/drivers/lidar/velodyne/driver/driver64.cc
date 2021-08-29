@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -27,16 +26,12 @@ namespace apollo {
 namespace drivers {
 namespace velodyne {
 Velodyne64Driver::~Velodyne64Driver() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (poll_thread_.joinable()) {
     poll_thread_.join();
   }
 }
 
 bool Velodyne64Driver::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const double frequency = config_.rpm() / 60.0;  // expected Hz rate
 
   // default number of packets for each scan is a single revolution
@@ -61,8 +56,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  *  @returns true unless end of file reached
  */
 bool Velodyne64Driver::Poll(const std::shared_ptr<VelodyneScan>& scan) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Allocate a new shared pointer for zero-copy sharing with other nodelets.
   int poll_result =
       config_.use_sensor_sync() ? PollStandardSync(scan) : PollStandard(scan);
@@ -88,8 +81,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Velodyne64Driver::CheckAngle(const VelodynePacket& packet) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // check the angle in every packet
   // for each model of velodyne 64 the data struct is same , so we don't need to
   // check the lidar model
@@ -109,8 +100,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int Velodyne64Driver::PollStandardSync(std::shared_ptr<VelodyneScan> scan) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Since the velodyne delivers data at a very high rate, keep
   // reading and publishing scans as fast as possible.
   while (true) {
@@ -142,8 +131,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Velodyne64Driver::DevicePoll() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   while (!apollo::cyber::IsShutdown()) {
     // poll device until end of file
     std::shared_ptr<VelodyneScan> scan = std::make_shared<VelodyneScan>();

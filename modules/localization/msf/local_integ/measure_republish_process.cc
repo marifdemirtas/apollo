@@ -43,15 +43,15 @@ MeasureRepublishProcess::MeasureRepublishProcess()
       is_trans_gpstime_to_utctime_(true),
       map_height_time_(0.0),
       gnss_mode_(GnssMode::NOVATEL) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 MeasureRepublishProcess::~MeasureRepublishProcess() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Status MeasureRepublishProcess::Init(const LocalizationIntegParam& params) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   local_utm_zone_id_ = params.utm_zone_id;
   is_trans_gpstime_to_utctime_ = params.is_trans_gpstime_to_utctime;
@@ -138,7 +138,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool MeasureRepublishProcess::NovatelBestgnssposProcess(
     const GnssBestPose& bestgnsspos_msg, MeasureData* measure) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (gnss_mode_ != GnssMode::NOVATEL) {
     return false;
@@ -192,7 +192,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MeasureRepublishProcess::GnssLocalProcess(
     const MeasureData& gnss_local_msg, MeasureData* measure) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (gnss_mode_ != GnssMode::SELF) {
     return;
@@ -231,6 +231,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   bool is_sins_align = IsSinsAlign();
 
   if (is_sins_align) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     measure_data.measure_type = MeasureType::GNSS_POS_ONLY;
     height_mutex_.lock();
     if ((measure_data.time - 1.0 < map_height_time_)) {
@@ -331,7 +333,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MeasureRepublishProcess::IntegPvaProcess(const InsPva& inspva_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const InsPva& integ_pva = inspva_msg;
 
@@ -346,7 +348,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool MeasureRepublishProcess::LidarLocalProcess(
     const LocalizationEstimate& lidar_local_msg, MeasureData* measure) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(measure);
 
@@ -411,7 +413,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool MeasureRepublishProcess::IsSinsAlign() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::lock_guard<std::mutex> lock(integ_pva_mutex_);
   return !integ_pva_list_.empty() && integ_pva_list_.back().init_and_alignment;
@@ -419,7 +423,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MeasureRepublishProcess::TransferXYZFromBestgnsspose(
     const GnssBestPose& bestgnsspos_msg, MeasureData* measure) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(measure);
 
@@ -452,7 +456,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MeasureRepublishProcess::TransferFirstMeasureFromBestgnsspose(
     const GnssBestPose& bestgnsspos_msg, MeasureData* measure) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(measure);
 
@@ -471,7 +475,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool MeasureRepublishProcess::CalculateVelFromBestgnsspose(
     const GnssBestPose& bestgnsspos_msg, MeasureData* measure) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   CHECK_NOTNULL(measure);
 
@@ -557,7 +561,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool MeasureRepublishProcess::GnssHeadingProcess(
     const drivers::gnss::Heading& heading_msg, MeasureData* measure_data,
     int* status) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if ((imu_gnssant_extrinsic_.ant_num == 1)) {
     return false;
@@ -659,7 +663,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool MeasureRepublishProcess::LoadImuGnssAntennaExtrinsic(
     std::string file_path, VehicleGnssAntExtrinsic* extrinsic) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   YAML::Node confige = YAML::LoadFile(file_path);
   if (confige["leverarm"]) {
@@ -715,7 +719,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool MeasureRepublishProcess::CheckBestgnssPoseXYStd(
     const GnssBestPose& bestgnsspos_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // check the standard deviation of xy
   if ((bestgnsspos_msg.longitude_std_dev() > GNSS_XY_STD_THRESHOLD) ||
@@ -730,7 +734,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool MeasureRepublishProcess::CheckBestgnssposeStatus(
     const GnssBestPose& bestgnsspos_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int gnss_solution_status = static_cast<int>(bestgnsspos_msg.sol_status());
   int gnss_position_type = static_cast<int>(bestgnsspos_msg.sol_type());

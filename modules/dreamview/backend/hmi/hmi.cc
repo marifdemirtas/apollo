@@ -45,7 +45,7 @@ HMI::HMI(WebSocketHandler* websocket, MapService* map_service)
       monitor_log_buffer_(apollo::common::monitor::MonitorMessageItem::HMI),
       websocket_(websocket),
       map_service_(map_service) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (websocket_) {
     RegisterMessageHandlers();
@@ -53,15 +53,15 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMI::Start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  hmi_worker_->Start(); }
 
 void HMI::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  hmi_worker_->Stop(); }
 
 void HMI::RegisterMessageHandlers() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Broadcast HMIStatus to clients when status changed.
   hmi_worker_->RegisterStatusUpdateHandler(
@@ -73,6 +73,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
         websocket_->BroadcastData(
             JsonUtil::ProtoToTypedJson("HMIStatus", *status).dump());
         if (status->current_map().empty()) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
           monitor_log_buffer_.WARN("You haven't selected a map yet!");
         }
         if (status->current_vehicle().empty()) {
@@ -94,6 +96,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
         // Run HMIWorker::Trigger(action, value) if "value" field is provided.
         std::string action;
         if (!JsonUtil::GetString(json, "action", &action)) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
           AERROR << "Truncated HMIAction request.";
           return;
         }
@@ -139,6 +143,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
             JsonUtil::GetNumber(json, "moving_result", &moving_result) &&
             JsonUtil::GetNumber(json, "audio_direction", &audio_direction) &&
             JsonUtil::GetBoolean(json, "is_siren_on", &is_siren_on)) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
           hmi_worker_->SubmitAudioEvent(event_time_ms, obstacle_id, audio_type,
                                         moving_result, audio_direction,
                                         is_siren_on);
@@ -162,6 +168,8 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
             JsonUtil::GetString(json, "event_msg", &event_msg) &&
             JsonUtil::GetStringVector(json, "event_type", &event_types) &&
             JsonUtil::GetBoolean(json, "is_reportable", &is_reportable)) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
           hmi_worker_->SubmitDriveEvent(event_time_ms, event_msg, event_types,
                                         is_reportable);
           monitor_log_buffer_.INFO("Drive event added.");
@@ -222,7 +230,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMI::SendVehicleParam(WebSocketHandler::Connection* conn) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (websocket_ == nullptr) {
     return;
@@ -240,7 +248,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void HMI::SendStatus(WebSocketHandler::Connection* conn) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const auto status_json =
       JsonUtil::ProtoToTypedJson("HMIStatus", hmi_worker_->GetStatus());

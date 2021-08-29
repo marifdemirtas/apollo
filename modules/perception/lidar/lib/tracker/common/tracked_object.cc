@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -31,8 +30,6 @@ using PointFCloud = apollo::perception::base::AttributePointCloud<base::PointF>;
 
 TrackedObject::TrackedObject(base::ObjectPtr obj_ptr,
                              const Eigen::Affine3d& pose) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   AttachObject(obj_ptr, pose);
 }
 
@@ -40,8 +37,6 @@ void TrackedObject::AttachObject(base::ObjectPtr obj_ptr,
                                  const Eigen::Affine3d& pose,
                                  const Eigen::Vector3d& global_to_local_offset,
                                  const base::SensorInfo& sensor) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (obj_ptr) {
     // all state of input obj_ptr will not change except cloud world
     object_ptr = obj_ptr;
@@ -96,8 +91,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TrackedObject::TransformObjectCloudToWorld() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const base::PointFCloud& cloud = (object_ptr->lidar_supplement).cloud;
   base::PointDCloud& cloud_world = (object_ptr->lidar_supplement).cloud_world;
   cloud_world.clear();
@@ -115,8 +108,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TrackedObject::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   object_ptr.reset();
   sensor_to_local_pose = Eigen::Affine3d::Identity();
 
@@ -179,15 +170,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void TrackedObject::Reset(base::ObjectPtr obj_ptr, const Eigen::Affine3d& pose,
                           const Eigen::Vector3d& global_to_local_offset,
                           const base::SensorInfo& sensor) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Reset();
   AttachObject(obj_ptr, pose, global_to_local_offset, sensor);
 }
 
 void TrackedObject::CopyFrom(TrackedObjectPtr rhs, bool is_deep) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   *this = *rhs;
   if (is_deep) {
     object_ptr = base::ObjectPool::Instance().Get();
@@ -198,8 +185,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 float TrackedObject::GetVelThreshold(base::ObjectPtr obj) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (obj->type == base::ObjectType::VEHICLE) {
     return 0.99f;
   }
@@ -207,8 +192,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TrackedObject::ToObject(base::ObjectPtr obj) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   *obj = *object_ptr;
   // obj id keep default
   // obj polygon calculate outside, because
@@ -247,8 +230,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string TrackedObject::ToString() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // std::string txt;
   // return txt;
   std::ostringstream oos;
@@ -261,8 +242,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TrackedObject::ComputeShapeFeatures() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Compute object's shape feature
   // 1. check whether shape feature is ready
   // 2. compute object's shape feature

@@ -496,6 +496,8 @@ bool PathAssessmentDecider::IsCollidingWithStaticObstacles(
   for (const auto* obstacle : indexed_obstacles.Items()) {
     // Filter out unrelated obstacles.
     if (!IsWithinPathDeciderScopeObstacle(*obstacle)) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
       continue;
     }
     // Ignore too small obstacles.

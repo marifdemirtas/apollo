@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,25 +24,16 @@
 #include "modules/perception/common/geometry/basic.h"
 
 namespace apollo {
-
 namespace perception {
 namespace camera {
 
 int Target::global_track_id = 0;
-int Target::Size() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return static_cast<int>(tracked_objects.size()); }
+int Target::Size() const { return static_cast<int>(tracked_objects.size()); }
 
-void Target::Clear() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- tracked_objects.clear(); }
+void Target::Clear() { tracked_objects.clear(); }
 
-TrackObjectPtr Target::operator[](int index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return get_object(index); }
+TrackObjectPtr Target::operator[](int index) const { return get_object(index); }
 TrackObjectPtr Target::get_object(int index) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_GT(static_cast<int>(tracked_objects.size()), 0);
   CHECK_LT(index, static_cast<int>(tracked_objects.size()));
   CHECK_GE(index, -static_cast<int>(tracked_objects.size()));
@@ -51,8 +41,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
                          tracked_objects.size()];
 }
 void Target::Add(TrackObjectPtr object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (tracked_objects.empty()) {
     start_ts = object->timestamp;
     id = Target::global_track_id++;
@@ -66,8 +54,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   tracked_objects.push_back(object);
 }
 void Target::RemoveOld(int frame_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t index = 0;
   while (index < tracked_objects.size() &&
          tracked_objects[index]->indicator.frame_id < frame_id) {
@@ -77,8 +63,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
                         tracked_objects.begin() + index);
 }
 void Target::Init(const omt::TargetParam &param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   target_param_ = param;
   id = -1;
   lost_age = 0;
@@ -116,13 +100,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   // Init object template
   object_template_manager_ = ObjectTemplateManager::Instance();
 }
-Target::Target(const omt::TargetParam &param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- Init(param); }
+Target::Target(const omt::TargetParam &param) { Init(param); }
 
 void Target::Predict(CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto delta_t =
       static_cast<float>(frame->timestamp - latest_object->timestamp);
   if (delta_t < 0) {
@@ -148,8 +128,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Target::Update2D(CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // measurements
   auto obj = latest_object->object;
   float width = static_cast<float>(frame->data_provider->src_width());
@@ -181,8 +159,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Target::Update3D(CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto object = latest_object->object;
   if (!isLost()) {
     Eigen::Vector2d z;
@@ -330,8 +306,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Target::UpdateType(CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto object = latest_object->object;
   if (!isLost()) {
     base::RectF rect(object->camera_supplement.box);
@@ -372,8 +346,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Target::ClappingTrackVelocity(const base::ObjectPtr &obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // check angle between velocity and heading(orientation)
   if (obj->type == base::ObjectType::VEHICLE) {
     Eigen::Vector3f obj_dir = obj->direction;
@@ -414,8 +386,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  * 3. check velocity theta's variance
  */
 bool Target::CheckStatic() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (static_cast<int>(history_world_states_.size()) <
       target_param_.min_cached_world_state_history_size()) {
     return false;
@@ -516,13 +486,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool Target::isTracked() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return Size() >= target_param_.tracked_life();
 }
-bool Target::isLost() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return lost_age > 0; }
+bool Target::isLost() const { return lost_age > 0; }
 
 }  // namespace camera
 }  // namespace perception

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,8 +28,6 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool MlfShapeFilter::Init(const MlfFilterInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig(Name(), &model_config));
@@ -51,8 +48,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void MlfShapeFilter::UpdateWithObject(const MlfFilterOptions& options,
                                       const MlfTrackDataConstPtr& track_data,
                                       TrackedObjectPtr new_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // compute tight object polygon
   auto& obj = new_object->object_ptr;
   if (new_object->is_background) {
@@ -95,8 +90,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void MlfShapeFilter::UpdateWithoutObject(const MlfFilterOptions& options,
                                          double timestamp,
                                          MlfTrackDataPtr track_data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // TODO(.)
 }
 

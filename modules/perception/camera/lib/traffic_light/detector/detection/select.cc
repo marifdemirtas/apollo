@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -19,13 +18,10 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-
 namespace perception {
 namespace camera {
 
 bool Select::Init(int rows, int cols) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (rows < 0 || cols < 0) {
     return false;
   }
@@ -37,8 +33,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double Select::Calc2dGaussianScore(base::Point2DI p1, base::Point2DI p2,
                                    float sigma1, float sigma2) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return std::exp(-0.5 * (static_cast<float>((p1.x - p2.x) * (p1.x - p2.x)) /
                               (sigma1 * sigma1) +
                           (static_cast<float>((p1.y - p2.y) * (p1.y - p2.y)) /
@@ -48,8 +42,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void Select::SelectTrafficLights(
     const std::vector<base::TrafficLightPtr> &refined_bboxes,
     std::vector<base::TrafficLightPtr> *hdmap_bboxes) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::vector<std::pair<size_t, size_t>> assignments;
   munkres_.costs()->Resize(hdmap_bboxes->size(), refined_bboxes.size());
 

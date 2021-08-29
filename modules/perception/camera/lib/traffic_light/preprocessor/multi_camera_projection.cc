@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,13 +27,10 @@
 #include "modules/perception/common/sensor_manager/sensor_manager.h"
 
 namespace apollo {
-
 namespace perception {
 namespace camera {
 
 bool MultiCamerasProjection::Init(const MultiCamerasInitOption& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (options.camera_names.empty()) {
     AERROR << "no cameras to be projected";
     return false;
@@ -87,8 +83,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool MultiCamerasProjection::Project(const CarPose& pose,
                                      const ProjectOption& option,
                                      base::TrafficLight* light) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!HasCamera(option.camera_name)) {
     AERROR << "no camera: " << option.camera_name;
     return false;
@@ -115,8 +109,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool MultiCamerasProjection::HasCamera(const std::string& camera_name) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto iter =
       std::find(camera_names_.begin(), camera_names_.end(), camera_name);
   return iter != camera_names_.end() &&
@@ -125,8 +117,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int MultiCamerasProjection::getImageWidth(
     const std::string& camera_name) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!HasCamera(camera_name)) {
     AERROR << "getImageWidth failed, camera_name: " << camera_name;
     return -1;
@@ -136,8 +126,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int MultiCamerasProjection::getImageHeight(
     const std::string& camera_name) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!HasCamera(camera_name)) {
     AERROR << "getImageHeight failed, camera_name: " << camera_name;
     return -1;
@@ -150,8 +138,6 @@ bool MultiCamerasProjection::BoundaryBasedProject(
     const Eigen::Matrix4d& c2w_pose,
     const std::vector<base::PointXYZID>& points,
     base::TrafficLight* light) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (camera_model.get() == nullptr) {
     AERROR << "camera_model is not available.";
     return false;

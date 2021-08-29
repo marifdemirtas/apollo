@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ using ::apollo::cyber::Node;
 
 Parser* ParserFactory::CreateParser(const std::shared_ptr<Node>& node,
                                     const Config& conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (conf.model() == HESAI40P) {
     return new Hesai40Parser(node, conf);
   } else if (conf.model() == HESAI64) {

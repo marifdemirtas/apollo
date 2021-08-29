@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -38,20 +37,14 @@ namespace gnss {
 TcpStream::TcpStream(const char* address, uint16_t port, uint32_t timeout_usec,
                      bool auto_reconnect)
     : sockfd_(-1), errno_(0), auto_reconnect_(auto_reconnect) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   peer_addr_ = inet_addr(address);
   peer_port_ = htons(port);
   timeout_usec_ = timeout_usec;
 }
 
-TcpStream::~TcpStream() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- this->close(); }
+TcpStream::~TcpStream() { this->close(); }
 
 void TcpStream::open() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (fd < 0) {
     // error
@@ -64,8 +57,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool TcpStream::InitSocket() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (sockfd_ < 0) {
     return false;
   }
@@ -130,8 +121,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void TcpStream::close() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (sockfd_ > 0) {
     ::close(sockfd_);
     sockfd_ = -1;
@@ -140,8 +129,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool TcpStream::Reconnect() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (auto_reconnect_) {
     Disconnect();
     if (Connect()) {
@@ -152,8 +139,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool TcpStream::Connect() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (sockfd_ < 0) {
     this->open();
     if (sockfd_ < 0) {
@@ -248,8 +233,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool TcpStream::Disconnect() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (sockfd_ < 0) {
     // not open
     return false;
@@ -260,8 +243,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t TcpStream::read(uint8_t* buffer, size_t max_length) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ssize_t ret = 0;
 
   if (status_ != Stream::Status::CONNECTED) {
@@ -303,8 +284,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 size_t TcpStream::write(const uint8_t* buffer, size_t length) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   size_t total_nsent = 0;
 
   if (status_ != Stream::Status::CONNECTED) {
@@ -341,8 +320,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool TcpStream::Readable(uint32_t timeout_us) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Setup a select call to block for serial data or a timeout
   timespec timeout_ts;
   fd_set readfds;
@@ -366,8 +343,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Stream* Stream::create_tcp(const char* address, uint16_t port,
                            uint32_t timeout_usec) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return new TcpStream(address, port, timeout_usec);
 }
 

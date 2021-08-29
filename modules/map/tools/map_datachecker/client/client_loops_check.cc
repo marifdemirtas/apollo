@@ -28,7 +28,7 @@ namespace hdmap {
 
 LoopsChecker::LoopsChecker(const std::string& time_flag_file)
     : time_flag_file_(time_flag_file) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   YAML::Node node = YAML::LoadFile(FLAGS_client_conf_yaml);
   std::string server_addr =
@@ -40,7 +40,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int LoopsChecker::SyncStart(bool* reached) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::vector<std::pair<double, double>> time_ranges = GetTimeRanges();
   size_t pair_count = time_ranges.size();
@@ -58,7 +58,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int LoopsChecker::PeriodicCheck(bool* reached) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int ret = 0;
   while (true) {
@@ -87,13 +87,15 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::vector<std::pair<double, double>> LoopsChecker::GetTimeRanges() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::vector<std::pair<double, double>> result;
   std::vector<std::pair<double, double>> empty;
   std::vector<std::string> lines = GetFileLines(time_flag_file_);
   size_t record_count = lines.size();
   if (record_count == 0 || (record_count & 1) != 0) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     AINFO << "record_count should be even number";
     fprintf(USER_STREAM,
             "The command start and stop should be appear in pairs\n");
@@ -128,7 +130,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int LoopsChecker::GrpcStub(LoopsVerifyRequest* request,
                            LoopsVerifyResponse* response) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   grpc::ClientContext context;
   grpc::Status status;
@@ -147,7 +149,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 int LoopsChecker::Start(
     const std::vector<std::pair<double, double>>& time_ranges) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   LoopsVerifyRequest request;
   request.set_cmd(CmdType::START);
@@ -162,7 +164,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   return GrpcStub(&request, &response);
 }
 int LoopsChecker::Check(double* progress, bool* reached) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   LoopsVerifyRequest request;
   request.set_cmd(CmdType::CHECK);
@@ -178,7 +180,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 int LoopsChecker::Stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   LoopsVerifyRequest request;
   request.set_cmd(CmdType::STOP);

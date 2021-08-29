@@ -57,7 +57,9 @@ using apollo::hdmap::MapPathPoint;
 using apollo::hdmap::PncMap;
 using apollo::hdmap::RouteSegments;
 
-ReferenceLineProvider::~ReferenceLineProvider() {}
+ReferenceLineProvider::~ReferenceLineProvider() {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+}
 
 ReferenceLineProvider::ReferenceLineProvider(
     const common::VehicleStateProvider *vehicle_state_provider,
@@ -800,6 +802,8 @@ AnchorPoint ReferenceLineProvider::GetAnchorPoint(
   bool is_lane_width_safe = true;
 
   if (safe_lane_width < kEpislon) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     ADEBUG << "lane width [" << left_width + right_width << "] "
            << "is smaller than adc width [" << adc_width << "]";
     effective_width = kEpislon;
@@ -818,6 +822,8 @@ AnchorPoint ReferenceLineProvider::GetAnchorPoint(
     }
   }
   if (hdmap::LeftBoundaryType(waypoint) == hdmap::LaneBoundaryType::CURB) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     safe_lane_width -= smoother_config_.curb_shift();
     if (safe_lane_width < kEpislon) {
       ADEBUG << "lane width smaller than adc width and left curb shift";

@@ -44,7 +44,7 @@ using apollo::cyber::common::GetAbsolutePath;
 using cyber::common::EnsureDirectory;
 
 bool LaneCameraPerception::Init(const CameraPerceptionInitOptions &options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string work_root = "";
   if (options.use_cyber_work_root) {
@@ -73,7 +73,9 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void LaneCameraPerception::InitLane(
     const std::string &work_root, base::BaseCameraModelPtr &model,
     const app::PerceptionParam &perception_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Init lane
   CHECK_GT(perception_param.lane_param_size(), 0)
@@ -145,7 +147,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void LaneCameraPerception::InitCalibrationService(
     const std::string &work_root, const base::BaseCameraModelPtr model,
     const app::PerceptionParam &perception_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Init calibration service
   ACHECK(perception_param.has_calibration_service_param())
@@ -177,9 +179,9 @@ void LaneCameraPerception::SetCameraHeightAndPitch(
     const std::map<std::string, float> name_camera_ground_height_map,
     const std::map<std::string, float> name_camera_pitch_angle_diff_map,
     const float &pitch_angle_calibrator_working_sensor) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (calibration_service_ == nullptr) {
     AERROR << "Calibraion service is not available";
@@ -192,7 +194,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void LaneCameraPerception::SetIm2CarHomography(
     Eigen::Matrix3d homography_im2car) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (calibration_service_ == nullptr) {
     AERROR << "Calibraion service is not available";
@@ -203,7 +205,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LaneCameraPerception::GetCalibrationService(
     BaseCalibrationService **calibration_service) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   *calibration_service = calibration_service_.get();
   return true;
@@ -211,7 +213,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LaneCameraPerception::Perception(const CameraPerceptionOptions &options,
                                       CameraFrame *frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   PERF_FUNCTION();
   inference::CudaUtil::set_device_id(perception_param_.gpu_id());

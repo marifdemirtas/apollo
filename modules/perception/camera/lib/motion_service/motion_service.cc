@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -32,8 +31,6 @@ namespace perception {
 namespace camera {
 
 bool MotionService::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   AINFO << "start to init MotionService.";
   // node_.reset(new cyber::Node("MotionService"));
   vehicle_planemotion_ = new PlaneMotion(motion_buffer_size_);
@@ -85,8 +82,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // On receiving image input, just need to record its timestamp
 void MotionService::OnReceiveImage(const ImageMsgType &message,
                                    const std::string &camera_name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lock(mutex_);
   const double curr_timestamp = message->measurement_time() + timestamp_offset_;
   ADEBUG << "image received: camera_name: " << camera_name
@@ -97,8 +92,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // On reveiving localization input, register it to camera timestamp,
 // compute motion between camera time stamps
 void MotionService::OnLocalization(const LocalizationMsgType &message) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lock(mutex_);
   ADEBUG << "localization received: localization ts: "
          << message->measurement_time();
@@ -168,8 +161,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // pubulish vehicle status buffer to output channel
 // which is at camera timestamp
 void MotionService::PublishEvent(const double timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // protobuf msg
   std::shared_ptr<apollo::perception::Motion_Service> motion_service_msg(
       new (std::nothrow) apollo::perception::Motion_Service);
@@ -192,8 +183,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // convert vehicle status buffer to output message
 void MotionService::ConvertVehicleMotionToMsgOut(
     base::VehicleStatus vs, apollo::perception::VehicleStatus *v_status_msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   v_status_msg->set_roll_rate(vs.roll_rate);
   v_status_msg->set_pitch_rate(vs.pitch_rate);
   v_status_msg->set_yaw_rate(vs.yaw_rate);
@@ -224,15 +213,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 // load vehicle status buffer from vehicle_planemotion_
 base::MotionBuffer MotionService::GetMotionBuffer() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::lock_guard<std::mutex> lock(motion_mutex_);
   return vehicle_planemotion_->get_buffer();
 }
 
 double MotionService::GetLatestTimestamp() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // std::lock_guard<std::mutex> lock(image_mutex_);
   return pre_camera_timestamp_;
 }
@@ -240,8 +225,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // retrieve vehiclestattus at the closeset cameratimestamp
 bool MotionService::GetMotionInformation(double timestamp,
                                          base::VehicleStatus *vs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_planemotion_->find_motion_with_timestamp(timestamp, vs);
 }
 

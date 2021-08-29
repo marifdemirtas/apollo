@@ -24,15 +24,15 @@ namespace msf {
 namespace pyramid_map {
 
 NdtMapNodeConfig::NdtMapNodeConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 NdtMapNodeConfig::~NdtMapNodeConfig() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 std::shared_ptr<BaseMapNodeConfig> NdtMapNodeConfig::Clone() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::shared_ptr<NdtMapNodeConfig> map_node_config(new NdtMapNodeConfig());
   map_node_config->node_index_ = node_index_;

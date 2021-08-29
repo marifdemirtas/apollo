@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -17,7 +16,6 @@
 #include "modules/perception/camera/lib/dummy/dummy_algorithms.h"
 
 namespace apollo {
-
 namespace perception {
 namespace camera {
 

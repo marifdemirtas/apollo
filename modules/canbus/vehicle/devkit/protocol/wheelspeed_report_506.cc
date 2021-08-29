@@ -28,13 +28,13 @@ namespace devkit {
 using ::apollo::drivers::canbus::Byte;
 
 Wheelspeedreport506::Wheelspeedreport506() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Wheelspeedreport506::ID = 0x506;
 
 void Wheelspeedreport506::Parse(const std::uint8_t* bytes, int32_t length,
                                 ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_devkit()->mutable_wheelspeed_report_506()->set_rr(
       rr(bytes, length));
@@ -51,7 +51,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'double', 'order': 'motorola', 'physical_unit': 'm/s'}
 double Wheelspeedreport506::rr(const std::uint8_t* bytes,
                                int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
@@ -70,7 +70,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'double', 'order': 'motorola', 'physical_unit': 'm/s'}
 double Wheelspeedreport506::rl(const std::uint8_t* bytes,
                                int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
@@ -89,7 +89,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'double', 'order': 'motorola', 'physical_unit': 'm/s'}
 double Wheelspeedreport506::fr(const std::uint8_t* bytes,
                                int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -108,7 +108,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'double', 'order': 'motorola', 'physical_unit': 'm/s'}
 double Wheelspeedreport506::fl(const std::uint8_t* bytes,
                                int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);

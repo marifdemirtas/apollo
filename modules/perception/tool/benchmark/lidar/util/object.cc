@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,8 +25,6 @@ namespace perception {
 namespace benchmark {
 
 Object::Object() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   direction = Eigen::Vector3d(1, 0, 0);
   center = Eigen::Vector3d::Zero();
   velocity = Eigen::Vector3d::Zero();
@@ -39,8 +36,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Object::Object(const Object& rhs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   id = rhs.id;
   cloud = rhs.cloud;
   indices = rhs.indices;
@@ -74,8 +69,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Object& Object::operator=(const Object& rhs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   id = rhs.id;
   cloud = rhs.cloud;
   indices = rhs.indices;
@@ -110,8 +103,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Object::clone(const Object& rhs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   id = rhs.id;
   pcl::copyPointCloud<Point, Point>(*(rhs.cloud), *cloud);
   indices->indices = rhs.indices->indices;
@@ -159,8 +150,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string Object::to_string() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::ostringstream oss;
   oss << "Object[id: " << id << ", track_id: " << track_id
       << ", cloud_size: " << cloud->size()
@@ -180,8 +169,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string get_object_name(ObjectType obj_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string obj_name;
   switch (obj_type) {
     case UNKNOWN:
@@ -210,8 +197,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string get_sensor_name(SensorType sensor_type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::string sensor_name;
   switch (sensor_type) {
     case VELODYNE_64:
@@ -234,8 +219,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string SensorObjects::to_string() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   std::ostringstream oss;
   oss << "SensorObjects[sensor_type: " << get_sensor_name(type)
       << ", name: " << name << ", timestamp:" << FORMAT_TIMESTAMP(timestamp)
@@ -249,8 +232,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 ObjectType translate_string_to_type(const std::string& str) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (str == "bigMot" || str == "smallMot" || str == "vehicle" ||
       str == "midMot" || str == "5") {
     return VEHICLE;
@@ -265,8 +246,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 unsigned int translate_type_to_index(const ObjectType& type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (type <= UNKNOWN) {
     return 0;
   } else if (type < MAX_OBJECT_TYPE) {
@@ -277,8 +256,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string translate_type_index_to_string(unsigned int index) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   switch (index) {
     case 0:
       return "others";
@@ -294,8 +271,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 SensorType translate_string_to_sensor_type(const std::string& str) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (str == "velodyne_64") {
     return VELODYNE_64;
   } else if (str == "velodyne_16") {
@@ -310,8 +285,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string translate_type_to_string(ObjectType type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   switch (type) {
     case UNKNOWN:
     case UNKNOWN_MOVABLE:
@@ -330,8 +303,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string translate_sensor_type_to_string(const SensorType& type) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   switch (type) {
     case VELODYNE_64:
       return "velodyne_64";

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,8 +21,6 @@ namespace fusion {
 
 // class DummyFusionSystem implementation
 bool DummyFusionSystem::Init(const FusionInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   main_sensors_ = options.main_sensors;
   return true;
 }
@@ -31,8 +28,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool DummyFusionSystem::Fuse(const FusionOptions& options,
                              const base::FrameConstPtr& sensor_frame,
                              std::vector<base::ObjectPtr>* fused_objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (fused_objects == nullptr) {
     return false;
   }
@@ -51,38 +46,28 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 // class DummyDataAssociation implementation
-bool DummyDataAssociation::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return true; }
+bool DummyDataAssociation::Init() { return true; }
 
 bool DummyDataAssociation::Associate(const AssociationOptions& options,
                                      SensorFramePtr sensor_measurements,
                                      ScenePtr scene,
                                      AssociationResult* association_result) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return true;
 }
 
 // class DummyTracker implementation
 bool DummyTracker::Init(TrackPtr track, SensorObjectPtr measurement) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return true;
 }
 
 void DummyTracker::UpdateWithMeasurement(const TrackerOptions& options,
                                          const SensorObjectPtr measurement,
-                                         double target_timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+                                         double target_timestamp) {}
 
 void DummyTracker::UpdateWithoutMeasurement(const TrackerOptions& options,
                                             const std::string& sensor_id,
                                             double measurement_timestamp,
-                                            double target_timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+                                            double target_timestamp) {}
 
 FUSION_REGISTER_FUSIONSYSTEM(DummyFusionSystem);
 

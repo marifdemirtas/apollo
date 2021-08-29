@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,8 +29,6 @@ using cyber::common::GetAbsolutePath;
 using cyber::common::GetProtoFromASCIIFile;
 
 ConfigManager::ConfigManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   work_root_ = FLAGS_work_root;
 
   // For start at arbitrary path
@@ -44,15 +41,11 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool ConfigManager::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   MutexLock lock(&mutex_);
   return InitInternal();
 }
 
 bool ConfigManager::InitInternal() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (inited_) {
     return true;
   }
@@ -120,8 +113,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool ConfigManager::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   MutexLock lock(&mutex_);
   inited_ = false;
   return InitInternal();
@@ -129,8 +120,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool ConfigManager::GetModelConfig(const std::string &model_name,
                                    const ModelConfig **model_config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!inited_ && !Init()) {
     return false;
   }
@@ -144,8 +133,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 ConfigManager::~ConfigManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (auto iter = model_config_map_.begin(); iter != model_config_map_.end();
        ++iter) {
     delete iter->second;
@@ -153,8 +140,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool ModelConfig::Reset(const ModelConfigProto &proto) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   name_ = proto.name();
   version_ = proto.version();
 

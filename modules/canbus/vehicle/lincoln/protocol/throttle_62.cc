@@ -30,14 +30,14 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Throttle62::ID = 0x62;
 
 uint32_t Throttle62::GetPeriod() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   static const uint32_t PERIOD = 10 * 1000;
   return PERIOD;
 }
 
 void Throttle62::UpdateData(uint8_t *data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   set_pedal_p(data, pedal_cmd_);
   set_enable_p(data, pedal_enable_);
@@ -47,7 +47,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Throttle62::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pedal_cmd_ = 0.0;
   pedal_enable_ = false;
@@ -57,21 +57,21 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Throttle62 *Throttle62::set_pedal(double pedal) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pedal_cmd_ = pedal;
   return this;
 }
 
 Throttle62 *Throttle62::set_enable() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pedal_enable_ = true;
   return this;
 }
 
 Throttle62 *Throttle62::set_disable() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   pedal_enable_ = false;
   return this;
@@ -80,7 +80,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // private
 
 void Throttle62::set_pedal_p(uint8_t *data, double pedal) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // change from [0-100] to [0.00-1.00]
   // and a rough mapping
@@ -100,7 +100,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Throttle62::set_enable_p(uint8_t *bytes, bool enable) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 3);
   if (enable) {
@@ -111,7 +111,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Throttle62::set_clear_driver_override_flag_p(uint8_t *bytes, bool clear) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 3);
   if (clear) {
@@ -122,7 +122,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Throttle62::set_ignore_driver_override_p(uint8_t *bytes, bool ignore) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 3);
   if (ignore) {
@@ -133,7 +133,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Throttle62::set_watchdog_counter_p(uint8_t *data, int32_t count) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   count = ProtocolData::BoundedValue(0, 255, count);
   Byte frame(data + 7);

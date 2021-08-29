@@ -33,7 +33,7 @@ namespace dreamview {
 using cyber::common::GetProtoFromFile;
 
 VehicleManager::VehicleManager() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ACHECK(GetProtoFromFile(FLAGS_vehicle_data_config_filename, &vehicle_data_))
       << "Unable to parse VehicleData config file "
@@ -41,13 +41,13 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 const std::string &VehicleManager::GetVehicleDataPath() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return vehicle_data_path_;
 }
 
 bool VehicleManager::UseVehicle(const std::string &vehicle_data_path) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!cyber::common::DirectoryExists(vehicle_data_path)) {
     AERROR << "Cannot find vehicle data: " << vehicle_data_path;

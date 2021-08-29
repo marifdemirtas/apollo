@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -33,8 +32,6 @@ namespace common {
 Status VehicleStateProvider::Update(
     const localization::LocalizationEstimate &localization,
     const canbus::Chassis &chassis) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   original_localization_ = localization;
   if (!ConstructExceptLinearVelocity(localization)) {
     std::string msg = absl::StrCat(
@@ -85,8 +82,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool VehicleStateProvider::ConstructExceptLinearVelocity(
     const localization::LocalizationEstimate &localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!localization.has_pose()) {
     AERROR << "Invalid localization input.";
     return false;
@@ -163,116 +158,78 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double VehicleStateProvider::x() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.x();
 }
 
 double VehicleStateProvider::y() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.y();
 }
 
 double VehicleStateProvider::z() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.z();
 }
 
 double VehicleStateProvider::roll() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.roll();
 }
 
 double VehicleStateProvider::pitch() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.pitch();
 }
 
 double VehicleStateProvider::yaw() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.yaw();
 }
 
 double VehicleStateProvider::heading() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.heading();
 }
 
 double VehicleStateProvider::kappa() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.kappa();
 }
 
 double VehicleStateProvider::linear_velocity() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.linear_velocity();
 }
 
 double VehicleStateProvider::angular_velocity() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.angular_velocity();
 }
 
 double VehicleStateProvider::linear_acceleration() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.linear_acceleration();
 }
 
 double VehicleStateProvider::gear() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.gear();
 }
 
 double VehicleStateProvider::steering_percentage() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.steering_percentage();
 }
 
 double VehicleStateProvider::timestamp() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.timestamp();
 }
 
 const localization::Pose &VehicleStateProvider::pose() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_.pose();
 }
 
 const localization::Pose &VehicleStateProvider::original_pose() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return original_localization_.pose();
 }
 
 void VehicleStateProvider::set_linear_velocity(const double linear_velocity) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   vehicle_state_.set_linear_velocity(linear_velocity);
 }
 
 const VehicleState &VehicleStateProvider::vehicle_state() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return vehicle_state_;
 }
 
 math::Vec2d VehicleStateProvider::EstimateFuturePosition(const double t) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Eigen::Vector3d vec_distance(0.0, 0.0, 0.0);
   double v = vehicle_state_.linear_velocity();
   // Predict distance travel vector
@@ -306,8 +263,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 math::Vec2d VehicleStateProvider::ComputeCOMPosition(
     const double rear_to_com_distance) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // set length as distance between rear wheel and center of mass.
   Eigen::Vector3d v;
   if ((FLAGS_state_transform_to_com_reverse &&

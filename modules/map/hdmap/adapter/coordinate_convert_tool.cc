@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,13 +21,9 @@ namespace hdmap {
 namespace adapter {
 
 CoordinateConvertTool::CoordinateConvertTool()
-    : pj_from_(nullptr), pj_to_(nullptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+    : pj_from_(nullptr), pj_to_(nullptr) {}
 
 CoordinateConvertTool::~CoordinateConvertTool() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (pj_from_) {
     pj_free(pj_from_);
     pj_from_ = nullptr;
@@ -41,16 +36,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 CoordinateConvertTool* CoordinateConvertTool::GetInstance() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   static CoordinateConvertTool instance;
   return &instance;
 }
 
 Status CoordinateConvertTool::SetConvertParam(const std::string& source_param,
                                               const std::string& dst_param) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   source_convert_param_ = source_param;
   dst_convert_param_ = dst_param;
   if (pj_from_) {
@@ -83,8 +74,6 @@ Status CoordinateConvertTool::CoordiateConvert(const double longitude,
                                                const double height_ellipsoid,
                                                double* utm_x, double* utm_y,
                                                double* utm_z) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CHECK_NOTNULL(utm_x);
   CHECK_NOTNULL(utm_y);
   CHECK_NOTNULL(utm_z);

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,8 +31,6 @@ namespace perception {
 namespace camera {
 
 bool UndistortionHandler::set_device(int device) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   device_ = device;
   auto code = cudaSetDevice(device_);
   if (code != cudaSuccess) {
@@ -49,8 +46,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
  * Note: returns OK if already been inited.
  */
 bool UndistortionHandler::Init(const std::string &sensor_name, int device) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (inited_) {
     return true;
   }
@@ -91,8 +86,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool UndistortionHandler::Handle(const base::Image8U &src_img,
                                  base::Image8U *dst_img) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!inited_) {
     return false;
   }
@@ -138,8 +131,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool UndistortionHandler::Release(void) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   inited_ = false;
   return true;
 }
@@ -149,8 +140,6 @@ void UndistortionHandler::InitUndistortRectifyMap(
     const Eigen::Matrix<float, 5, 1> distortion, const Eigen::Matrix3f &R,
     const Eigen::Matrix3f &new_camera_model, int width, int height,
     base::Blob<float> *d_mapx, base::Blob<float> *d_mapy) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float fx = camera_model(0, 0);
   float fy = camera_model(1, 1);
   float cx = camera_model(0, 2);

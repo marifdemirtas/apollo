@@ -34,21 +34,21 @@ using apollo::cyber::Clock;
 
 LatLonControllerSubmodule::LatLonControllerSubmodule()
     : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 LatLonControllerSubmodule::~LatLonControllerSubmodule() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 std::string LatLonControllerSubmodule::Name() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return FLAGS_lat_lon_controller_submodule_name;
 }
 
 bool LatLonControllerSubmodule::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   injector_ = std::make_shared<DependencyInjector>();
   // lateral controller initialization
@@ -85,7 +85,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool LatLonControllerSubmodule::Proc(
     const std::shared_ptr<Preprocessor>& preprocessor_status) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const auto start_time = Clock::Now();
   ControlCommand control_core_command;
@@ -137,7 +137,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status LatLonControllerSubmodule::ProduceControlCoreCommand(
     const LocalView& local_view, ControlCommand* control_core_command) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::lock_guard<std::mutex> lock(mutex_);
   if (local_view.chassis().driving_mode() == Chassis::COMPLETE_MANUAL) {

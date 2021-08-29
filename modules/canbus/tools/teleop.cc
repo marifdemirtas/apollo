@@ -47,6 +47,7 @@ DEFINE_bool(
 
 namespace {
 
+
 using apollo::canbus::Chassis;
 using apollo::common::VehicleSignal;
 using apollo::control::ControlCommand;
@@ -459,7 +460,7 @@ class Teleop {
 }  // namespace
 
 int main(int32_t argc, char **argv) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   apollo::cyber::Init(argv[0]);
   FLAGS_alsologtostderr = true;

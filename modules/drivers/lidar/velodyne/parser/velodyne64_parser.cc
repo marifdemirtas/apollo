@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -23,8 +22,6 @@ namespace velodyne {
 
 Velodyne64Parser::Velodyne64Parser(const Config& config)
     : VelodyneParser(config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (int i = 0; i < 4; i++) {
     gps_base_usec_[i] = 0;
     previous_packet_stamp_[i] = 0;
@@ -47,8 +44,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Velodyne64Parser::setup() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   VelodyneParser::setup();
   if (!config_.calibration_online() && config_.organized()) {
     InitOffsets();
@@ -56,8 +51,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Velodyne64Parser::SetBaseTimeFromPackets(const VelodynePacket& pkt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // const RawPacket* raw = (const RawPacket*)&pkt.data[0];
   const RawPacket* raw = (const RawPacket*)pkt.data().c_str();
   StatusType status_type = StatusType(raw->status_type);
@@ -124,8 +117,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Velodyne64Parser::CheckGpsStatus(const VelodynePacket& pkt) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // const RawPacket* raw = (const RawPacket*)&pkt.data[0];
   const RawPacket* raw = (const RawPacket*)pkt.data().c_str();
   StatusType status_type = StatusType(raw->status_type);
@@ -142,8 +133,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Velodyne64Parser::InitOffsets() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int width = 64;
   // pre compute col offsets
   for (int i = 0; i < width; ++i) {
@@ -160,8 +149,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void Velodyne64Parser::GeneratePointcloud(
     const std::shared_ptr<VelodyneScan>& scan_msg,
     std::shared_ptr<PointCloud> pointcloud) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (config_.calibration_online() && !calibration_.initialized_) {
     if (online_calibration_.decode(scan_msg) == -1) {
       return;
@@ -212,8 +199,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 uint64_t Velodyne64Parser::GetTimestamp(double base_time, float time_offset,
                                         uint16_t block_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double t = base_time - time_offset;
   double timestamp = 0.0;
   int index = 0;
@@ -237,8 +222,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 int Velodyne64Parser::IntensityCompensate(const LaserCorrection& corrections,
                                           const uint16_t raw_distance,
                                           int intensity) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   float tmp = 1.0f - static_cast<float>(raw_distance) / 65535.0f;
   intensity +=
       static_cast<int>(corrections.focal_slope *
@@ -256,8 +239,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void Velodyne64Parser::Unpack(const VelodynePacket& pkt,
                               std::shared_ptr<PointCloud> pc) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   ADEBUG << "Received packet, time: " << pkt.stamp();
 
   // const RawPacket* raw = (const RawPacket*)&pkt.data[0];
@@ -324,8 +305,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Velodyne64Parser::Order(std::shared_ptr<PointCloud> cloud) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int height = 64;
   cloud->set_height(height);
   int width = cloud->point_size() / cloud->height();

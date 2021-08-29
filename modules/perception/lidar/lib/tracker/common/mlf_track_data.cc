@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -20,15 +19,12 @@
 #include "modules/perception/lidar/lib/tracker/common/track_pool_types.h"
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
 const double MlfTrackData::kMaxHistoryTime = 2.0;
 
 void MlfTrackData::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   TrackData::Reset();
   duration_ = 0.0;
   consecutive_invisible_time_ = 0.0;
@@ -43,16 +39,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MlfTrackData::Reset(TrackedObjectPtr obj, int track_id) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   Reset();
   track_id_ = track_id;
   PushTrackedObjectToCache(obj);
 }
 
 void MlfTrackData::PushTrackedObjectToTrack(TrackedObjectPtr obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double timestamp = obj->object_ptr->latest_tracked_time;
   if (history_objects_.find(timestamp) == history_objects_.end()) {
     auto pair = std::make_pair(timestamp, obj);
@@ -87,8 +79,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MlfTrackData::PushTrackedObjectToCache(TrackedObjectPtr obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   double timestamp = obj->object_ptr->latest_tracked_time;
   if (cached_objects_.find(timestamp) == cached_objects_.end()) {
     cached_objects_.insert(std::make_pair(timestamp, obj));
@@ -101,8 +91,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool MlfTrackData::ToObject(const Eigen::Vector3d& local_to_global_offset,
                             double timestamp, base::ObjectPtr object) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (history_objects_.empty()) {
     return false;
   }
@@ -144,8 +132,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MlfTrackData::PredictState(double timestamp) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (history_objects_.empty()) {
     return;
   }
@@ -175,8 +161,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MlfTrackData::GetAndCleanCachedObjectsInTimeInterval(
     std::vector<TrackedObjectPtr>* objects) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   objects->clear();
   auto iter = cached_objects_.begin();
   while (iter != cached_objects_.end()) {
@@ -205,12 +189,8 @@ void RemoveStaleDataFromMap(double timestamp,
 }
 
 void MlfTrackData::RemoveStaleHistory(double timestamp) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   RemoveStaleDataFromMap(timestamp, &history_objects_);
   for (auto& map : sensor_history_objects_) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
     RemoveStaleDataFromMap(timestamp, &map.second);
   }
 }

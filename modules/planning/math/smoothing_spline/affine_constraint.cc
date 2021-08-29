@@ -39,6 +39,8 @@ AffineConstraint::AffineConstraint(const Eigen::MatrixXd& constraint_matrix,
 }
 
 void AffineConstraint::SetIsEquality(const double is_equality) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
   is_equality_ = is_equality;
 }
 

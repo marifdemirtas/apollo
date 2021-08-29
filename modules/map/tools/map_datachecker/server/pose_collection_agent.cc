@@ -25,7 +25,7 @@ namespace apollo {
 namespace hdmap {
 
 PoseCollectionAgent::PoseCollectionAgent(std::shared_ptr<JsonConf> sp_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   sp_pj_transformer_ = std::make_shared<PJTransformer>(50);
   sp_conf_ = sp_conf;
@@ -33,7 +33,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void PoseCollectionAgent::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   sp_pose_collection_ = std::make_shared<PoseCollection>(sp_conf_);
 }
@@ -41,7 +41,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void PoseCollectionAgent::OnBestgnssposCallback(
     const std::shared_ptr<const apollo::drivers::gnss::GnssBestPose>
         &bestgnsspos) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (sp_pose_collection_ == nullptr) {
     sp_pose_collection_ = std::make_shared<PoseCollection>(sp_conf_);
@@ -85,7 +85,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::shared_ptr<std::vector<FramePose>> PoseCollectionAgent::GetPoses() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (sp_pose_collection_ == nullptr) {
     return nullptr;

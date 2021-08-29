@@ -14,25 +14,25 @@
 Clients::Clients() {}
 
 Clients::~Clients() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Clients::start(std::shared_ptr<Client> client) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   clients.insert(client);
   client->start();
 }
 
 void Clients::stop(std::shared_ptr<Client> client) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   clients.erase(client);
   client->stop();
 }
 
 void Clients::stop_all() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (auto& client : clients) {
     client->stop();

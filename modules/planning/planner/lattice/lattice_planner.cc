@@ -96,6 +96,8 @@ void ComputeInitFrenetState(const PathPoint& matched_point,
 Status LatticePlanner::Plan(const TrajectoryPoint& planning_start_point,
                             Frame* frame,
                             ADCTrajectory* ptr_computed_trajectory) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
   size_t success_line_count = 0;
   size_t index = 0;
   for (auto& reference_line_info : *frame->mutable_reference_line_info()) {
@@ -178,6 +180,8 @@ Status LatticePlanner::PlanOnReferenceLine(
 
   PlanningTarget planning_target = reference_line_info->planning_target();
   if (planning_target.has_stop_point()) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     ADEBUG << "Planning target stop s: " << planning_target.stop_point().s()
            << "Current ego s: " << init_s[0];
   }

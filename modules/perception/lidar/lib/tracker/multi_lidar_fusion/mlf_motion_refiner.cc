@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,8 +31,6 @@ namespace lidar {
 using cyber::common::GetAbsolutePath;
 
 bool MlfMotionRefiner::Init(const MlfMotionRefinerInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
   ACHECK(config_manager->GetModelConfig(Name(), &model_config));
@@ -53,8 +50,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool MlfMotionRefiner::Refine(const MlfTrackDataConstPtr& track_data,
                               TrackedObjectPtr new_object) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto latest_object_pair = track_data->GetLatestObject();
   const TrackedObjectConstPtr& latest_object = latest_object_pair.second;
 
@@ -101,8 +96,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 bool MlfMotionRefiner::CheckStaticHypothesisByState(
     const TrackedObjectConstPtr& latest_object,
     const TrackedObjectConstPtr& new_object) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Check whether track is static or not
   // evaluate speed noise level, the less the level is the
   // greater the probability of noise is
@@ -155,8 +148,6 @@ bool MlfMotionRefiner::CheckStaticHypothesisByVelocityAngleChange(
     const TrackedObjectConstPtr& latest_object,
     const TrackedObjectConstPtr& new_object,
     double reasonable_angle_change_maximum) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // note reasonable_angle_change_maximum should be within [0, M_PI]
   // believe angle change is obvious if one of estimation pair is
   // extrodinary small

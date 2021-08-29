@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,8 +30,6 @@ namespace drivers {
 namespace velodyne {
 
 bool CompensatorComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   CompensatorConfig config;
   if (!GetProtoConfig(&config)) {
     AWARN << "Load config failed, config file" << ConfigFilePath();
@@ -56,8 +53,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool CompensatorComponent::Proc(
     const std::shared_ptr<PointCloud>& point_cloud) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const auto start_time = Time::Now();
   std::shared_ptr<PointCloud> point_cloud_compensated =
       compensator_pool_->GetObject();

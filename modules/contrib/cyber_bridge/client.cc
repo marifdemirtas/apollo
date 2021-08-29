@@ -28,19 +28,17 @@ enum {
 
 Client::Client(Node* node, Clients* clients, boost::asio::ip::tcp::socket s)
     : node(*node), clients(*clients), socket(std::move(s)) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto endpoint = socket.remote_endpoint();
   AINFO << "Client [" << endpoint.address() << ":" << endpoint.port()
         << "] connected";
 }
 
 Client::~Client() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Client::start() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   socket.async_read_some(
       boost::asio::buffer(temp, sizeof(temp)),
@@ -50,12 +48,12 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Client::stop() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  socket.close(); }
 
 void Client::handle_read(const boost::system::error_code& ec,
                          std::size_t size) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!ec) {
     ADEBUG << "Received " << size << " bytes";
@@ -105,7 +103,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Client::handle_write(const boost::system::error_code& ec) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (ec) {
     if (ec != boost::asio::error::operation_aborted) {
@@ -129,7 +127,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 // [1] [count] [string] ... [string]
 void Client::handle_register_desc() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (sizeof(uint8_t) + sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_register_desc too short";
@@ -176,7 +174,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 // [2] [channel] [type]
 void Client::handle_add_reader() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_add_reader too short header";
@@ -216,7 +214,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 // [3] [channel] [type]
 void Client::handle_add_writer() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     ADEBUG << "handle_new_writer too short header";
@@ -256,7 +254,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 // [4] [channel] [message]
 void Client::handle_publish() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (sizeof(uint8_t) + 2 * sizeof(uint32_t) > buffer.size()) {
     return;
@@ -291,7 +289,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void fill_data(std::vector<uint8_t>* data, const std::string& channel,
                const std::string& msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   data->reserve(data->size() + sizeof(uint8_t) + sizeof(uint32_t) +
                 channel.size() + sizeof(uint32_t) + msg.size());
@@ -315,7 +313,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Client::publish(const std::string& channel, const std::string& msg) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::lock_guard<std::mutex> lock(publish_mutex);
   if (writing.empty()) {
@@ -333,7 +331,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 uint32_t Client::get32le(size_t offset) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   return buffer[offset + 0] | (buffer[offset + 1] << 8) |
          (buffer[offset + 2] << 16) | (buffer[offset + 3] << 24);

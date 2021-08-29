@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -27,8 +26,6 @@ namespace common {
 namespace monitor {
 
 MonitorLogger::MonitorLogger() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   const std::string node_name =
       absl::StrCat("monitor_logger", Time::Now().ToNanosecond());
   node_ = cyber::CreateNode(node_name);
@@ -40,8 +37,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void MonitorLogger::Publish(const MonitorMessageItem::MessageSource &source,
                             const std::vector<MessageItem> &messages) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // compose a monitor message
   if (messages.empty()) {
     return;
@@ -60,8 +55,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void MonitorLogger::DoPublish(MonitorMessage *message) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   RETURN_IF_NULL(monitor_msg_writer_);
   common::util::FillHeader("monitor", message);
   monitor_msg_writer_->Write(*message);

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -22,7 +21,6 @@
 #include "cyber/common/log.h"
 
 namespace apollo {
-
 namespace perception {
 namespace inference {
 
@@ -30,13 +28,9 @@ using apollo::perception::base::Blob;
 
 TorchNet::TorchNet(const std::string &net_file, const std::string &model_file,
                    const std::vector<std::string> &outputs)
-    : net_file_(net_file), model_file_(model_file), output_names_(outputs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+    : net_file_(net_file), model_file_(model_file), output_names_(outputs) {}
 
 bool TorchNet::Init(const std::map<std::string, std::vector<int>> &shapes) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (gpu_id_ >= 0) {
     device_type_ = torch::kCUDA;
     device_id_ = gpu_id_;
@@ -70,13 +64,9 @@ TorchNet::TorchNet(const std::string &net_file, const std::string &model_file,
     : net_file_(net_file),
       model_file_(model_file),
       output_names_(outputs),
-      input_names_(inputs) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+      input_names_(inputs) {}
 
 std::shared_ptr<Blob<float>> TorchNet::get_blob(const std::string &name) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto iter = blobs_.find(name);
   if (iter == blobs_.end()) {
     return nullptr;
@@ -85,14 +75,10 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool TorchNet::reshape() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   return true;
 }
 
 void TorchNet::Infer() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   torch::Device device(device_type_, device_id_);
   auto blob = blobs_[input_names_[0]];
 

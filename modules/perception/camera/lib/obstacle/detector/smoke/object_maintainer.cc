@@ -1,4 +1,3 @@
-#include <iostream>
   /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -24,8 +23,6 @@ namespace perception {
 namespace camera {
 
 bool SmokeObjectMaintainer::Add(int idx, base::ObjectPtr obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   auto obj_it = assigned_index_.find(idx);
   if (obj_it == assigned_index_.end()) {
     assigned_index_[idx] = obj;

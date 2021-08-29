@@ -23,13 +23,13 @@ namespace apollo {
 namespace hdmap {
 
 EightRoute::EightRoute(std::shared_ptr<JsonConf> sp_conf) : Alignment(sp_conf) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Reset();
 }
 
 void EightRoute::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   progress_ = 0.0;
   last_progress_ = 0;
@@ -37,7 +37,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool EightRoute::IsEightRoutePose(const std::vector<FramePose>& poses,
                                   int pose_index) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (poses.empty() || pose_index <= 0 ||
       pose_index >= static_cast<int>(poses.size())) {
@@ -72,7 +72,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double EightRoute::GetGoodPoseDuring() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (sp_good_pose_info_ == nullptr || sp_good_pose_info_->start_time < 0 ||
       sp_good_pose_info_->end_time < 0) {
@@ -82,7 +82,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double EightRoute::GetEightRouteProgress(const std::vector<FramePose>& poses) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int size = static_cast<int>(poses.size());
   int start_index = TimeToIndex(poses, start_time_);
@@ -145,7 +145,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 ErrorCode EightRoute::Process(const std::vector<FramePose>& poses) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   AINFO << "[EightRoute::process] begin";
   size_t size = poses.size();
@@ -170,7 +170,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double EightRoute::GetProgress() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  return progress_; }
 
 }  // namespace hdmap

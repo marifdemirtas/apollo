@@ -38,11 +38,11 @@ using apollo::planning::ADCTrajectory;
 
 ControlComponent::ControlComponent()
     : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool ControlComponent::Init() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   injector_ = std::make_shared<DependencyInjector>();
   init_time_ = Clock::Now();
@@ -127,7 +127,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ControlComponent::OnPad(const std::shared_ptr<PadMessage> &pad) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::lock_guard<std::mutex> lock(mutex_);
   pad_msg_.CopyFrom(*pad);
@@ -136,7 +136,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ControlComponent::OnChassis(const std::shared_ptr<Chassis> &chassis) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ADEBUG << "Received chassis data: run chassis callback.";
   std::lock_guard<std::mutex> lock(mutex_);
@@ -145,7 +145,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ControlComponent::OnPlanning(
     const std::shared_ptr<ADCTrajectory> &trajectory) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ADEBUG << "Received chassis data: run trajectory callback.";
   std::lock_guard<std::mutex> lock(mutex_);
@@ -154,7 +154,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ControlComponent::OnLocalization(
     const std::shared_ptr<LocalizationEstimate> &localization) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ADEBUG << "Received control data: run localization message callback.";
   std::lock_guard<std::mutex> lock(mutex_);
@@ -163,7 +163,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 void ControlComponent::OnMonitor(
     const common::monitor::MonitorMessage &monitor_message) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (const auto &item : monitor_message.item()) {
     if (item.log_level() == common::monitor::MonitorMessageItem::FATAL) {
@@ -175,7 +175,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Status ControlComponent::ProduceControlCommand(
     ControlCommand *control_command) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Status status = CheckInput(&local_view_);
   // check data
@@ -294,7 +294,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool ControlComponent::Proc() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const auto start_time = Clock::Now();
 
@@ -437,7 +437,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status ControlComponent::CheckInput(LocalView *local_view) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ADEBUG << "Received localization:"
          << local_view->localization().ShortDebugString();
@@ -470,7 +470,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 Status ControlComponent::CheckTimestamp(const LocalView &local_view) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!control_conf_.enable_input_timestamp_check() ||
       control_conf_.is_control_test_mode()) {

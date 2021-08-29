@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,8 +21,6 @@ namespace common {
 
 void ConnectedComponentAnalysis(const std::vector<std::vector<int>>& graph,
                                 std::vector<std::vector<int>>* components) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (components == nullptr) {
     AERROR << "components is not available";
     return;

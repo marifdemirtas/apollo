@@ -70,7 +70,7 @@ void ImageHandler::OnImage(
 }
 
 void ImageHandler::OnImageFront(const std::shared_ptr<Image> &image) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (FLAGS_use_navigation_mode) {
     // Navigation mode
@@ -79,7 +79,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void ImageHandler::OnImageShort(const std::shared_ptr<CompressedImage> &image) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!FLAGS_use_navigation_mode) {
     // Regular mode
@@ -89,7 +89,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 ImageHandler::ImageHandler()
     : requests_(0), node_(cyber::CreateNode("image_handler")) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   node_->CreateReader<Image>(
       FLAGS_image_front_topic,
@@ -103,7 +103,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool ImageHandler::handleGet(CivetServer *server, struct mg_connection *conn) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   requests_++;
 

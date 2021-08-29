@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -20,22 +19,16 @@ namespace drivers {
 
 namespace robosense {
 Input::Input(const uint16_t &msop_port, const uint16_t &difop_port) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   this->msop_fd_ = setUpSocket(msop_port);
   this->difop_fd_ = setUpSocket(difop_port);
 }
 
 Input::~Input() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   close(this->msop_fd_);
   close(this->difop_fd_);
 }
 
 int Input::setUpSocket(uint16_t port) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   int sock_fd = socket(PF_INET, SOCK_DGRAM, 0);
   if (sock_fd < 0) {
     std::cerr << "socket: " << std::strerror(errno) << std::endl;
@@ -63,8 +56,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 InputState Input::getPacket(uint8_t *pkt, uint32_t timeout) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   InputState res = InputState(0);
   if (pkt == NULL) {
     return INPUT_ERROR;

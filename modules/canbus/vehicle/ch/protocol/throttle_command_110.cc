@@ -28,11 +28,11 @@ const int32_t Throttlecommand110::ID = 0x110;
 
 // public
 Throttlecommand110::Throttlecommand110() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Reset(); }
 
 uint32_t Throttlecommand110::GetPeriod() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -40,14 +40,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Throttlecommand110::UpdateData(uint8_t* data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   set_p_throttle_pedal_en_ctrl(data, throttle_pedal_en_ctrl_);
   set_p_throttle_pedal_cmd(data, throttle_pedal_cmd_);
 }
 
 void Throttlecommand110::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // you should check this manually
   throttle_pedal_en_ctrl_ =
@@ -57,7 +57,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Throttlecommand110* Throttlecommand110::set_throttle_pedal_en_ctrl(
     Throttle_command_110::Throttle_pedal_en_ctrlType throttle_pedal_en_ctrl) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   throttle_pedal_en_ctrl_ = throttle_pedal_en_ctrl;
   return this;
@@ -71,7 +71,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 void Throttlecommand110::set_p_throttle_pedal_en_ctrl(
     uint8_t* data,
     Throttle_command_110::Throttle_pedal_en_ctrlType throttle_pedal_en_ctrl) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   int x = throttle_pedal_en_ctrl;
 
@@ -81,7 +81,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 Throttlecommand110* Throttlecommand110::set_throttle_pedal_cmd(
     int throttle_pedal_cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   throttle_pedal_cmd_ = throttle_pedal_cmd;
   return this;
@@ -93,7 +93,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'order': 'intel', 'physical_unit': '%'}
 void Throttlecommand110::set_p_throttle_pedal_cmd(uint8_t* data,
                                                   int throttle_pedal_cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   throttle_pedal_cmd = ProtocolData::BoundedValue(0, 100, throttle_pedal_cmd);
   int x = throttle_pedal_cmd;

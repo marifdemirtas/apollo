@@ -28,14 +28,14 @@ namespace apollo {
 namespace data {
 
 SmallTopicsTrigger::SmallTopicsTrigger() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   trigger_name_ = "SmallTopicsTrigger";
 }
 
 bool SmallTopicsTrigger::ShouldRestore(
     const cyber::record::RecordMessage& msg) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const std::set<std::string>& small_channels =
       ChannelPool::Instance()->GetSmallChannels();

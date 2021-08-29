@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,29 +26,21 @@ namespace fusion {
 // SensorObject implementations
 SensorObject::SensorObject(
     const std::shared_ptr<const base::Object>& object_ptr)
-    : object_(object_ptr), frame_header_(nullptr) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+    : object_(object_ptr), frame_header_(nullptr) {}
 
 SensorObject::SensorObject(
     const std::shared_ptr<const base::Object>& object_ptr,
     const std::shared_ptr<const SensorFrameHeader>& frame_header)
-    : object_(object_ptr), frame_header_(frame_header) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+    : object_(object_ptr), frame_header_(frame_header) {}
 
 SensorObject::SensorObject(
     const std::shared_ptr<const base::Object>& object_ptr,
     const std::shared_ptr<SensorFrame>& frame_ptr)
     : object_(object_ptr),
       frame_header_((frame_ptr == nullptr) ? nullptr : frame_ptr->GetHeader()) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
 }
 
 double SensorObject::GetTimestamp() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame_header_ == nullptr) {
     return 0.0;
   }
@@ -58,8 +49,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 bool SensorObject::GetRelatedFramePose(Eigen::Affine3d* pose) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (pose == nullptr) {
     AERROR << "pose is not available";
     return false;
@@ -73,8 +62,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 std::string SensorObject::GetSensorId() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame_header_ == nullptr) {
     return std::string("");
   }
@@ -83,8 +70,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 base::SensorType SensorObject::GetSensorType() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (frame_header_ == nullptr) {
     return base::SensorType::UNKNOWN_SENSOR_TYPE;
   }
@@ -94,29 +79,21 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 // FusedObject implementations
 FusedObject::FusedObject() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   base::ObjectPool& object_pool = base::ObjectPool::Instance();
   object_ = object_pool.Get();
 }
 
 bool IsLidar(const SensorObjectConstPtr& obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   base::SensorType type = obj->GetSensorType();
   return common::SensorManager::Instance()->IsLidar(type);
 }
 
 bool IsRadar(const SensorObjectConstPtr& obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   base::SensorType type = obj->GetSensorType();
   return common::SensorManager::Instance()->IsRadar(type);
 }
 
 bool IsCamera(const SensorObjectConstPtr& obj) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   base::SensorType type = obj->GetSensorType();
   return common::SensorManager::Instance()->IsCamera(type);
 }

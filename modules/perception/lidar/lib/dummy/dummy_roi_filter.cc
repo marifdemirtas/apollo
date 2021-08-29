@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -19,18 +18,13 @@
 #include <numeric>
 
 namespace apollo {
-
 namespace perception {
 namespace lidar {
 
-bool DummyROIFilter::Init(const ROIFilterInitOptions& options) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
- return true; }
+bool DummyROIFilter::Init(const ROIFilterInitOptions& options) { return true; }
 
 bool DummyROIFilter::Filter(const ROIFilterOptions& options,
                             LidarFrame* frame) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (!frame) {
     return false;
   }

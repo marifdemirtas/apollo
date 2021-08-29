@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ namespace base {
 bool DownSamplePointCloudBeams(base::PointFCloudPtr cloud_ptr,
                                base::PointFCloudPtr out_cloud_ptr,
                                int downsample_factor) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   if (downsample_factor <= 0) {
     return false;
   }
@@ -47,8 +44,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void GetPointCloudCentroid(const PointFCloud& cloud, PointF* centroid) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   for (size_t i = 0; i < cloud.size(); ++i) {
     centroid->x += cloud[i].x;
     centroid->y += cloud[i].y;
@@ -60,8 +55,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void CloudDemean(PointFCloud* pc) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Demean by using centroid.
   PointF centroid;
   GetPointCloudCentroid(*pc, &centroid);
@@ -73,8 +66,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double OrientCloud(const PointFCloud& pc, PointFCloud* pc_out, bool demean) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
   // Approach#1:
   // Find car dominant direction on XY plane.
   /*Eigen::VectorXf coeff;
@@ -92,8 +83,6 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
   transform.rotate(Eigen::AngleAxisf(-theta, Eigen::Vector3f(0, 0, 1)));
   pc.TransformPointCloud(transform, pc_out, true);
   if (demean) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-
     CloudDemean(pc_out);
   }
   return theta;

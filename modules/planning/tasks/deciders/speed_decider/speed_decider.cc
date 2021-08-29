@@ -462,6 +462,8 @@ bool SpeedDecider::CreateOvertakeDecision(
   const double main_stop_s =
       reference_line_info_->path_decision()->stop_reference_line_s();
   if (main_stop_s < reference_line_fence_s) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     ADEBUG << "Overtake reference_s is further away, ignore.";
     return false;
   }

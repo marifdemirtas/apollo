@@ -27,13 +27,13 @@ namespace ge3 {
 using ::apollo::drivers::canbus::Byte;
 
 Scueps311::Scueps311() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Scueps311::ID = 0x311;
 
 void Scueps311::Parse(const std::uint8_t* bytes, int32_t length,
                       ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_ge3()->mutable_scu_eps_311()->set_eps_intidx(
       eps_intidx(bytes, length));
@@ -57,7 +57,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Scu_eps_311::Eps_intidxType Scueps311::eps_intidx(const std::uint8_t* bytes,
                                                   int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 3);
@@ -72,7 +72,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'motorola', 'physical_unit': 'deg/s'}
 double Scueps311::eps_steeranglespd(const std::uint8_t* bytes,
                                     int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
@@ -87,7 +87,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'double', 'order': 'motorola', 'physical_unit': 'deg'}
 double Scueps311::eps_steerangle(const std::uint8_t* bytes,
                                  int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
@@ -108,7 +108,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': ''}
 Scu_eps_311::Eps_faultstType Scueps311::eps_faultst(const std::uint8_t* bytes,
                                                     int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(7, 1);
@@ -125,7 +125,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Scu_eps_311::Eps_drvmodeType Scueps311::eps_drvmode(const std::uint8_t* bytes,
                                                     int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 2);

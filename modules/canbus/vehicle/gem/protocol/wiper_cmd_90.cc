@@ -29,11 +29,11 @@ const int32_t Wipercmd90::ID = 0x90;
 
 // public
 Wipercmd90::Wipercmd90() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
  Reset(); }
 
 uint32_t Wipercmd90::GetPeriod() const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
@@ -41,20 +41,20 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 void Wipercmd90::UpdateData(uint8_t* data) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   set_p_wiper_cmd(data, wiper_cmd_);
 }
 
 void Wipercmd90::Reset() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // TODO(QiL) :you should check this manually
   wiper_cmd_ = Wiper_cmd_90::WIPER_CMD_WIPERS_OFF;
 }
 
 Wipercmd90* Wipercmd90::set_wiper_cmd(Wiper_cmd_90::Wiper_cmdType wiper_cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   wiper_cmd_ = wiper_cmd;
   return this;
@@ -69,7 +69,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'physical_unit': ''}
 void Wipercmd90::set_p_wiper_cmd(uint8_t* data,
                                  Wiper_cmd_90::Wiper_cmdType wiper_cmd) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   uint8_t x = wiper_cmd;
 

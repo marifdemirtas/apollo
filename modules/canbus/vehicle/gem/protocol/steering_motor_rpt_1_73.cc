@@ -29,13 +29,13 @@ namespace gem {
 using ::apollo::drivers::canbus::Byte;
 
 Steeringmotorrpt173::Steeringmotorrpt173() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 const int32_t Steeringmotorrpt173::ID = 0x73;
 
 void Steeringmotorrpt173::Parse(const std::uint8_t* bytes, int32_t length,
                                 ChassisDetail* chassis) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   chassis->mutable_gem()->mutable_steering_motor_rpt_1_73()->set_motor_current(
       motor_current(bytes, length));
@@ -48,7 +48,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'amps'}
 double Steeringmotorrpt173::motor_current(const std::uint8_t* bytes,
                                           int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
@@ -78,7 +78,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 // 'motorola', 'physical_unit': 'amps'}
 double Steeringmotorrpt173::shaft_position(const std::uint8_t* bytes,
                                            int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);

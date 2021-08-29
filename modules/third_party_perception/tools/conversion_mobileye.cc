@@ -117,6 +117,8 @@ PerceptionObstacles MobileyeToPerceptionObstacles(
   for (int index = 0; index < mobileye.details_738().num_obstacles() &&
                       index < mobileye.details_739_size();
        ++index) {
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+
     auto* mob = obstacles.add_perception_obstacle();
     const auto& data_739 = mobileye.details_739(index);
     int mob_id = data_739.obstacle_id() + FLAGS_mobileye_id_offset;

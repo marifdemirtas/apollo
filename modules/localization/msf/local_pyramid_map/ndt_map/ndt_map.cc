@@ -22,13 +22,9 @@ namespace localization {
 namespace msf {
 namespace pyramid_map {
 
-NdtMap::NdtMap(NdtMapConfig* config) : BaseMap(config) {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+NdtMap::NdtMap(NdtMapConfig* config) : BaseMap(config) {}
 
-NdtMap::~NdtMap() {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
-}
+NdtMap::~NdtMap() {}
 
 }  // namespace pyramid_map
 }  // namespace msf

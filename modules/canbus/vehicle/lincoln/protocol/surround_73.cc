@@ -29,7 +29,7 @@ const int32_t Surround73::ID = 0x73;
 
 void Surround73::Parse(const std::uint8_t *bytes, int32_t length,
                        ChassisDetail *chassis_detail) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // sonar left
   chassis_detail->mutable_surround()->set_cross_traffic_alert_left(
@@ -80,7 +80,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Surround73::is_cross_traffic_alert_left(const std::uint8_t *bytes,
                                              int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 0);
   return frame.is_bit_1(0);
@@ -88,7 +88,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Surround73::is_cross_traffic_alert_left_enabled(const std::uint8_t *bytes,
                                                      int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 0);
   return frame.is_bit_1(1);
@@ -96,7 +96,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Surround73::is_blind_spot_left_alert(const std::uint8_t *bytes,
                                           int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 0);
   return frame.is_bit_1(2);
@@ -104,7 +104,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Surround73::is_blind_spot_left_alert_enabled(const std::uint8_t *bytes,
                                                   int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 0);
   return frame.is_bit_1(3);
@@ -112,7 +112,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Surround73::is_cross_traffic_alert_right(const std::uint8_t *bytes,
                                               int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 0);
   return frame.is_bit_1(4);
@@ -120,7 +120,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Surround73::is_cross_traffic_alert_right_enabled(const std::uint8_t *bytes,
                                                       int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 0);
   return frame.is_bit_1(5);
@@ -128,7 +128,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Surround73::is_blind_spot_right_alert(const std::uint8_t *bytes,
                                            int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 0);
   return frame.is_bit_1(6);
@@ -136,14 +136,14 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Surround73::is_blind_spot_right_alert_enabled(const std::uint8_t *bytes,
                                                    int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 0);
   return frame.is_bit_1(7);
 }
 
 double Surround73::sonar00(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 1);
   int32_t x = frame.get_byte(0, 3);
@@ -151,7 +151,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Surround73::sonar01(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 1);
   int32_t x = frame.get_byte(4, 7);
@@ -159,7 +159,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Surround73::sonar02(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 2);
   int32_t x = frame.get_byte(0, 3);
@@ -167,7 +167,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Surround73::sonar03(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 2);
   int32_t x = frame.get_byte(4, 7);
@@ -175,7 +175,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Surround73::sonar04(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 3);
   int32_t x = frame.get_byte(0, 3);
@@ -183,7 +183,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Surround73::sonar05(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 3);
   int32_t x = frame.get_byte(4, 7);
@@ -191,7 +191,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Surround73::sonar06(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 4);
   int32_t x = frame.get_byte(0, 3);
@@ -199,7 +199,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Surround73::sonar07(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 4);
   int32_t x = frame.get_byte(4, 7);
@@ -207,7 +207,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Surround73::sonar08(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 5);
   int32_t x = frame.get_byte(0, 3);
@@ -215,7 +215,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Surround73::sonar09(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 5);
   int32_t x = frame.get_byte(4, 7);
@@ -223,7 +223,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Surround73::sonar10(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 6);
   int32_t x = frame.get_byte(0, 3);
@@ -231,7 +231,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 }
 
 double Surround73::sonar11(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 6);
   int32_t x = frame.get_byte(4, 7);
@@ -240,21 +240,21 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 bool Surround73::sonar_enabled(const std::uint8_t *bytes,
                                int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 7);
   return frame.is_bit_1(6);
 }
 
 bool Surround73::sonar_fault(const std::uint8_t *bytes, int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + 7);
   return frame.is_bit_1(7);
 }
 
 double Surround73::sonar_range(const std::int32_t x) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (x == 0x0) {
     return 100.0;  // If nothing detected, set test range to 100.0m.
@@ -264,7 +264,7 @@ std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
 
 double Surround73::sonars(const std::uint8_t *bytes, std::uint8_t sonar_number,
                           int32_t length) const {
-std::cerr << "[COV_LOG] Arif called __PRETTY_FUNCTION__";
+AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   Byte frame(bytes + sonar_number / 2 + 1);
   int32_t start = (sonar_number % 2) * length;
