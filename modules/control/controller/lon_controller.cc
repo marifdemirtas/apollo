@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -40,8 +39,6 @@ constexpr double GRA_ACC = 9.8;
 
 LonController::LonController()
     : name_(ControlConf_ControllerType_Name(ControlConf::LON_CONTROLLER)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (FLAGS_enable_csv_debug) {
     time_t rawtime;
     char name_buffer[80];
@@ -51,7 +48,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     strftime(name_buffer, 80, "/tmp/speed_log__%F_%H%M%S.csv", &time_tm);
     speed_log_file_ = fopen(name_buffer, "w");
     if (speed_log_file_ == nullptr) {
-      AERROR << "Fail to open file:" << name_buffer;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to open file:" << name_buffer;
       FLAGS_enable_csv_debug = false;
     }
     if (speed_log_file_ != nullptr) {
@@ -78,13 +76,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
       fflush(speed_log_file_);
     }
-    AINFO << name_ << " used.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << name_ << " used.";
+   }
 }
 
 void LonController::CloseLogFile() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (FLAGS_enable_csv_debug) {
     if (speed_log_file_ != nullptr) {
       fclose(speed_log_file_);
@@ -92,22 +89,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
   }
 }
-void LonController::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- CloseLogFile(); }
+void LonController::Stop() { CloseLogFile(); }
 
-LonController::~LonController() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- CloseLogFile(); }
+LonController::~LonController() { CloseLogFile(); }
 
 Status LonController::Init(std::shared_ptr<DependencyInjector> injector,
                            const ControlConf *control_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   control_conf_ = control_conf;
   if (control_conf_ == nullptr) {
     controller_initialized_ = false;
-    AERROR << "get_longitudinal_param() nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "get_longitudinal_param() nullptr";
     return Status(ErrorCode::CONTROL_INIT_ERROR,
                   "Failed to load LonController conf");
   }
@@ -141,8 +133,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LonController::SetDigitalFilterPitchAngle(
     const LonControllerConf &lon_controller_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double cutoff_freq =
       lon_controller_conf.pitch_angle_filter_conf().cutoff_freq();
   double ts = lon_controller_conf.ts();
@@ -151,12 +141,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LonController::LoadControlCalibrationTable(
     const LonControllerConf &lon_controller_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto &control_table = lon_controller_conf.calibration_table();
-  AINFO << "Control calibration table loaded";
-  AINFO << "Control calibration table size is "
-        << control_table.calibration_size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Control calibration table loaded";
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Control calibration table size is "
+         << control_table.calibration_size();
   Interpolation2D::DataType xyz;
   for (const auto &calibration : control_table.calibration()) {
     xyz.push_back(std::make_tuple(calibration.speed(),
@@ -173,14 +163,13 @@ Status LonController::ComputeControlCommand(
     const canbus::Chassis *chassis,
     const planning::ADCTrajectory *planning_published_trajectory,
     control::ControlCommand *cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_ = localization;
   chassis_ = chassis;
 
   trajectory_message_ = planning_published_trajectory;
   if (!control_interpolation_) {
-    AERROR << "Fail to initialize calibration table.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to initialize calibration table.";
     return Status(ErrorCode::CONTROL_COMPUTE_ERROR,
                   "Fail to initialize calibration table.");
   }
@@ -206,7 +195,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (preview_time < 0.0) {
     const auto error_msg =
         absl::StrCat("Preview time set as: ", preview_time, " less than 0");
-    AERROR << error_msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_msg;
     return Status(ErrorCode::CONTROL_COMPUTE_ERROR, error_msg);
   }
   ComputeLongitudinalErrors(trajectory_analyzer_.get(), preview_time, ts,
@@ -303,8 +293,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                        -lon_controller_conf.standstill_acceleration())
             : std::min(acceleration_cmd,
                        lon_controller_conf.standstill_acceleration());
-    ADEBUG << "Stop location reached";
-    debug->set_is_full_stop(true);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Stop location reached";
+     debug->set_is_full_stop(true);
   }
 
   double throttle_lowerbound =
@@ -386,22 +377,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Status LonController::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   speed_pid_controller_.Reset();
   station_pid_controller_.Reset();
   return Status::OK();
 }
 
-std::string LonController::Name() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return name_; }
+std::string LonController::Name() const { return name_; }
 
 void LonController::ComputeLongitudinalErrors(
     const TrajectoryAnalyzer *trajectory_analyzer, const double preview_time,
     const double ts, SimpleLongitudinalDebug *debug) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // the decomposed vehicle motion onto Frenet frame
   // s: longitudinal accumulated distance along reference trajectory
   // s_dot: longitudinal velocity along reference trajectory
@@ -444,10 +429,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   debug->mutable_preview_reference_point()->mutable_path_point()->set_y(
       preview_point.path_point().y());
 
-  ADEBUG << "matched point:" << matched_point.DebugString();
-  ADEBUG << "reference point:" << reference_point.DebugString();
-  ADEBUG << "preview point:" << preview_point.DebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "matched point:" << matched_point.DebugString();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "reference point:" << reference_point.DebugString();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "preview point:" << preview_point.DebugString();
+ 
   double heading_error = common::math::NormalizeAngle(vehicle_state->heading() -
                                                       matched_point.theta());
   double lon_speed = vehicle_state->linear_velocity() * std::cos(heading_error);
@@ -485,8 +473,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LonController::SetDigitalFilter(double ts, double cutoff_freq,
                                      common::DigitalFilter *digital_filter) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::vector<double> denominators;
   std::vector<double> numerators;
   common::LpfCoefficients(ts, cutoff_freq, &denominators, &numerators);
@@ -495,8 +481,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 // TODO(all): Refactor and simplify
 void LonController::GetPathRemain(SimpleLongitudinalDebug *debug) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int stop_index = 0;
   static constexpr double kSpeedThreshold = 1e-3;
   static constexpr double kForwardAccThreshold = -1e-2;
@@ -530,10 +514,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     --stop_index;
     if (fabs(trajectory_message_->trajectory_point(stop_index).v()) <
         kParkingSpeed) {
-      ADEBUG << "the last point is selected as parking point";
-    } else {
-      ADEBUG << "the last point found in path and speed > speed_deadzone";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "the last point is selected as parking point";
+     } else {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "the last point found in path and speed > speed_deadzone";
+     }
   }
   debug->set_path_remain(
       trajectory_message_->trajectory_point(stop_index).path_point().s() -

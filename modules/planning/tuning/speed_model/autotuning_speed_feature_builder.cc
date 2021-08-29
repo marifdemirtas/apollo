@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -35,7 +34,8 @@ Status AutotuningSpeedFeatureBuilder::BuildFeature(
     autotuning::TrajectoryFeature* const input_feature) const {
   if (input_feature == nullptr) {
     const std::string msg = "input trajectory feature is empty";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -45,7 +45,8 @@ Status AutotuningSpeedFeatureBuilder::BuildFeature(
     const std::string msg = absl::StrCat(
         "raw and input feature size mismatch. raw: ",
         raw_feature.point_feature_size(), "; input: ", n);
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 

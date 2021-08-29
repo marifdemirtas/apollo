@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -41,28 +40,27 @@ using cyber::record::RecordViewer;
 using cyber::record::RecordWriter;
 
 bool PostRecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!DirectoryExists(source_record_dir_)) {
-    AERROR << "source record dir does not exist: " << source_record_dir_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "source record dir does not exist: " << source_record_dir_;
     return false;
   }
   LoadSourceRecords();
   if (source_record_files_.empty()) {
-    AERROR << "source record dir does not have any records: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "source record dir does not have any records: "
            << source_record_dir_;
     return false;
   }
   if (!RecordProcessor::Init(trigger_conf)) {
-    AERROR << "base init failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "base init failed";
     return false;
   }
   return true;
 }
 
 bool PostRecordProcessor::Process() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // First scan, get intervals
   for (const std::string& record : source_record_files_) {
     const auto reader = std::make_shared<RecordReader>(
@@ -70,8 +68,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     RecordViewer viewer(reader, 0,
                         std::numeric_limits<uint64_t>::max(),
                         ChannelPool::Instance()->GetAllChannels());
-    AINFO << record << ":" << viewer.begin_time() << " - " << viewer.end_time();
-    for (const auto& msg : viewer) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << record << ":" << viewer.begin_time() << " - " << viewer.end_time();
+     for (const auto& msg : viewer) {
       for (const auto& trigger : triggers_) {
         trigger->Pull(msg);
       }
@@ -102,8 +101,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 std::string PostRecordProcessor::GetDefaultOutputFile() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string src_file_name = source_record_files_.front();
   const std::string record_flag(".record");
   src_file_name.resize(src_file_name.size() - src_file_name.find(record_flag) +
@@ -112,11 +109,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void PostRecordProcessor::LoadSourceRecords() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   DIR* dirp = opendir(source_record_dir_.c_str());
   if (dirp == nullptr) {
-    AERROR << "failed to open source dir: " << source_record_dir_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to open source dir: " << source_record_dir_;
     return;
   }
   struct dirent* dp = nullptr;

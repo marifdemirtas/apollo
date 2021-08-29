@@ -45,15 +45,18 @@ bool ObjectFilterBank::Init(const ObjectFilterInitOptions& options) {
     BaseObjectFilter* filter =
         BaseObjectFilterRegisterer::GetInstanceByName(name);
     if (!filter) {
-      AINFO << "Failed to find object filter: " << name << ", skipped";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to find object filter: " << name << ", skipped";
       continue;
     }
     if (!filter->Init()) {
-      AINFO << "Failed to init object filter: " << name << ", skipped";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to init object filter: " << name << ", skipped";
       continue;
     }
     filter_bank_.push_back(filter);
-    AINFO << "Filter bank add filter: " << name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Filter bank add filter: " << name;
   }
   return true;
 }
@@ -63,10 +66,12 @@ bool ObjectFilterBank::Filter(const ObjectFilterOptions& options,
   size_t object_number = frame->segmented_objects.size();
   for (auto& filter : filter_bank_) {
     if (!filter->Filter(options, frame)) {
-      AINFO << "Failed to filter objects in: " << filter->Name();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to filter objects in: " << filter->Name();
     }
   }
-  AINFO << "Object filter bank, filtered objects size: from " << object_number
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Object filter bank, filtered objects size: from " << object_number
         << " to " << frame->segmented_objects.size();
   return true;
 }

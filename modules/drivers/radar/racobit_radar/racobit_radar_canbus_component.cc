@@ -42,8 +42,10 @@ bool RacobitRadarCanbusComponent::Init() {
     return OnError("Unable to load canbus conf file: " + ConfigFilePath()).ok();
   }
 
-  AINFO << "The canbus conf file is loaded: " << ConfigFilePath();
-  ADEBUG << "Canbus_conf:" << racobit_radar_conf_.ShortDebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The canbus conf file is loaded: " << ConfigFilePath();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Canbus_conf:" << racobit_radar_conf_.ShortDebugString();
   racobit_radar_writer_ =
       node_->CreateWriter<RacobitRadar>(FLAGS_racobit_radar_topic);
   if (!cyber::common::GetProtoFromFile(ConfigFilePath(),
@@ -51,8 +53,10 @@ bool RacobitRadarCanbusComponent::Init() {
     return OnError("Unable to load canbus conf file: " + ConfigFilePath()).ok();
   }
 
-  AINFO << "The canbus conf file is loaded: " << ConfigFilePath();
-  ADEBUG << "Canbus_conf:" << racobit_radar_conf_.ShortDebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The canbus conf file is loaded: " << ConfigFilePath();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Canbus_conf:" << racobit_radar_conf_.ShortDebugString();
 
   auto can_factory = CanClientFactory::Instance();
   can_factory->RegisterCanClients();
@@ -61,7 +65,8 @@ bool RacobitRadarCanbusComponent::Init() {
   if (!can_client_) {
     return OnError("Failed to create can client.").ok();
   }
-  AINFO << "Can client is successfully created.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Can client is successfully created.";
 
   sensor_message_manager_ = std::unique_ptr<RacobitRadarMessageManager>(
       new RacobitRadarMessageManager(racobit_radar_writer_));
@@ -70,7 +75,8 @@ bool RacobitRadarCanbusComponent::Init() {
   }
   sensor_message_manager_->set_radar_conf(racobit_radar_conf_.radar_conf());
   sensor_message_manager_->set_can_client(can_client_);
-  AINFO << "Sensor message manager is successfully created.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Sensor message manager is successfully created.";
 
   if (can_receiver_.Init(
           can_client_.get(), sensor_message_manager_.get(),
@@ -78,22 +84,26 @@ bool RacobitRadarCanbusComponent::Init() {
       ErrorCode::OK) {
     return OnError("Failed to init can receiver.").ok();
   }
-  AINFO << "The can receiver is successfully initialized.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The can receiver is successfully initialized.";
 
   if (can_client_->Start() != ErrorCode::OK) {
     return OnError("Failed to start can client").ok();
   }
 
-  AINFO << "Can client is started.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Can client is started.";
   if (ConfigureRadar() != ErrorCode::OK) {
     return OnError("Failed to configure radar.").ok();
   }
-  AINFO << "The radar is successfully configured.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The radar is successfully configured.";
 
   if (can_receiver_.Start() != ErrorCode::OK) {
     return OnError("Failed to start can receiver.").ok();
   }
-  AINFO << "Can receiver is started.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Can receiver is started.";
   monitor_logger_buffer_.INFO("Canbus is started.");
 
   return true;

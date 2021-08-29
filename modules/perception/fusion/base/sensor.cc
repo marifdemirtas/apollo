@@ -26,7 +26,8 @@ size_t Sensor::kMaxCachedFrameNum = 10;
 void Sensor::QueryLatestFrames(double timestamp,
                                std::vector<SensorFramePtr>* frames) {
   if (frames == nullptr) {
-    AERROR << "frames are not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "frames are not available";
     return;
   }
 
@@ -54,7 +55,8 @@ SensorFramePtr Sensor::QueryLatestFrame(double timestamp) {
 
 bool Sensor::GetPose(double timestamp, Eigen::Affine3d* pose) const {
   if (pose == nullptr) {
-    AERROR << "pose is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "pose is not available";
     return false;
   }
   for (int i = static_cast<int>(frames_.size()) - 1; i >= 0; --i) {

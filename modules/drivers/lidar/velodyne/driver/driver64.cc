@@ -37,13 +37,15 @@ bool Velodyne64Driver::Init() {
   // default number of packets for each scan is a single revolution
   // (fractions rounded up)
   config_.set_npackets(static_cast<int>(ceil(packet_rate_ / frequency)));
-  AINFO << "publishing " << config_.npackets() << " packets per scan";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "publishing " << config_.npackets() << " packets per scan";
 
   input_.reset(new SocketInput());
   input_->init(config_.firing_data_port());
 
   if (node_ == NULL) {
-    AERROR << "node is NULL";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "node is NULL";
     return false;
   }
   writer_ = node_->CreateWriter<VelodyneScan>(config_.scan_channel());
@@ -65,12 +67,14 @@ bool Velodyne64Driver::Poll(const std::shared_ptr<VelodyneScan>& scan) {
   }
 
   if (scan->firing_pkts().empty()) {
-    AINFO << "Get an empty scan from port: " << config_.firing_data_port();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Get an empty scan from port: " << config_.firing_data_port();
     return false;
   }
 
   // publish message using time of last packet read
-  ADEBUG << "Publishing a full Velodyne scan.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Publishing a full Velodyne scan.";
   scan->mutable_header()->set_timestamp_sec(cyber::Time().Now().ToSecond());
   scan->mutable_header()->set_frame_id(config_.frame_id());
   scan->set_model(config_.model());
@@ -143,7 +147,8 @@ void Velodyne64Driver::DevicePoll() {
     }
   }
 
-  AERROR << "CompVelodyneDriver thread exit";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "CompVelodyneDriver thread exit";
 }
 
 }  // namespace velodyne

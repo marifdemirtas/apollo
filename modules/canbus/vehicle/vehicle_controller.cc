@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -26,36 +25,33 @@ using common::ErrorCode;
 using control::ControlCommand;
 
 Chassis::DrivingMode VehicleController::driving_mode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(mode_mutex_);
   return driving_mode_;
 }
 
 void VehicleController::set_driving_mode(
     const Chassis::DrivingMode &driving_mode) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(mode_mutex_);
   driving_mode_ = driving_mode;
 }
 
 ErrorCode VehicleController::SetDrivingMode(
     const Chassis::DrivingMode &driving_mode) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode == Chassis::EMERGENCY_MODE) {
-    AINFO << "Can't set vehicle to EMERGENCY_MODE driving mode.";
-    return ErrorCode::CANBUS_ERROR;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Can't set vehicle to EMERGENCY_MODE driving mode.";
+     return ErrorCode::CANBUS_ERROR;
   }
 
   // vehicle in emergency mode only response to manual mode to reset.
   if (this->driving_mode() == Chassis::EMERGENCY_MODE &&
       driving_mode != Chassis::COMPLETE_MANUAL) {
-    AINFO
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO
         << "Vehicle in EMERGENCY_MODE, only response to COMPLETE_MANUAL mode.";
-    AINFO << "Only response to RESET ACTION.";
-    return ErrorCode::CANBUS_ERROR;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Only response to RESET ACTION.";
+     return ErrorCode::CANBUS_ERROR;
   }
 
   // if current mode is same as previous, no need to set.
@@ -66,28 +62,32 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   switch (driving_mode) {
     case Chassis::COMPLETE_AUTO_DRIVE: {
       if (EnableAutoMode() != ErrorCode::OK) {
-        AERROR << "Failed to enable auto mode.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to enable auto mode.";
         return ErrorCode::CANBUS_ERROR;
       }
       break;
     }
     case Chassis::COMPLETE_MANUAL: {
       if (DisableAutoMode() != ErrorCode::OK) {
-        AERROR << "Failed to disable auto mode.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to disable auto mode.";
         return ErrorCode::CANBUS_ERROR;
       }
       break;
     }
     case Chassis::AUTO_STEER_ONLY: {
       if (EnableSteeringOnlyMode() != ErrorCode::OK) {
-        AERROR << "Failed to enable steer only mode.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to enable steer only mode.";
         return ErrorCode::CANBUS_ERROR;
       }
       break;
     }
     case Chassis::AUTO_SPEED_ONLY: {
       if (EnableSpeedOnlyMode() != ErrorCode::OK) {
-        AERROR << "Failed to enable speed only mode";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to enable speed only mode";
         return ErrorCode::CANBUS_ERROR;
       }
       break;
@@ -99,17 +99,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 ErrorCode VehicleController::Update(const ControlCommand &control_command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "Controller is not initialized.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Controller is not initialized.";
     return ErrorCode::CANBUS_ERROR;
   }
 
   // Execute action to transform driving mode
   if (control_command.has_pad_msg() && control_command.pad_msg().has_action()) {
-    AINFO << "Canbus received pad msg: "
-          << control_command.pad_msg().ShortDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Canbus received pad msg: "
+           << control_command.pad_msg().ShortDebugString();
     Chassis::DrivingMode mode = Chassis::COMPLETE_MANUAL;
     switch (control_command.pad_msg().action()) {
       case control::DrivingAction::START: {
@@ -122,13 +122,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         break;
       }
       default: {
-        AERROR << "No response for this action.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No response for this action.";
         break;
       }
     }
     auto error_code = SetDrivingMode(mode);
     if (error_code != ErrorCode::OK) {
-      AERROR << "Failed to set driving mode.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to set driving mode.";
     }
   }
 

@@ -35,17 +35,21 @@ void FakeCanClient::Stop() {}
 ErrorCode FakeCanClient::Send(const std::vector<CanFrame> &frames,
                               int32_t *const frame_num) {
   if (frame_num == nullptr) {
-    AERROR << "frame_num pointer is null";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "frame_num pointer is null";
     return ErrorCode::CAN_CLIENT_ERROR_BASE;
   }
 
   if (static_cast<size_t>(*frame_num) != frames.size()) {
-    AERROR << "frame num is incorrect.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "frame num is incorrect.";
     return ErrorCode::CAN_CLIENT_ERROR_FRAME_NUM;
   }
   for (size_t i = 0; i < frames.size(); ++i) {
-    ADEBUG << "send frame i:" << i;
-    ADEBUG << frames[i].CanFrameString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "send frame i:" << i;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << frames[i].CanFrameString();
     frame_info_ << frames[i].CanFrameString();
   }
   ++send_counter_;
@@ -55,7 +59,8 @@ ErrorCode FakeCanClient::Send(const std::vector<CanFrame> &frames,
 ErrorCode FakeCanClient::Receive(std::vector<CanFrame> *const frames,
                                  int32_t *const frame_num) {
   if (frame_num == nullptr || frames == nullptr) {
-    AERROR << "frames or frame_num pointer is null";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "frames or frame_num pointer is null";
     return ErrorCode::CAN_CLIENT_ERROR_BASE;
   }
   frames->resize(*frame_num);
@@ -66,7 +71,8 @@ ErrorCode FakeCanClient::Receive(std::vector<CanFrame> *const frames,
     }
     (*frames)[i].id = static_cast<uint32_t>(i);
     (*frames)[i].len = MOCK_LEN;
-    ADEBUG << (*frames)[i].CanFrameString() << "frame_num[" << i << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << (*frames)[i].CanFrameString() << "frame_num[" << i << "]";
   }
   std::this_thread::sleep_for(std::chrono::milliseconds(10));
   ++recv_counter_;

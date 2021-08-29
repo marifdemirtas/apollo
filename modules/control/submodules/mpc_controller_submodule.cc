@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -36,23 +35,15 @@ using apollo::localization::LocalizationEstimate;
 using apollo::planning::ADCTrajectory;
 
 MPCControllerSubmodule::MPCControllerSubmodule()
-    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {}
 
-MPCControllerSubmodule::~MPCControllerSubmodule() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+MPCControllerSubmodule::~MPCControllerSubmodule() {}
 
 std::string MPCControllerSubmodule::Name() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return FLAGS_mpc_controller_submodule_name;
 }
 
 bool MPCControllerSubmodule::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   injector_ = std::make_shared<DependencyInjector>();
   // TODO(SHU): separate common_control conf from controller conf
   ACHECK(cyber::common::GetProtoFromFile(FLAGS_mpc_controller_conf_file,
@@ -73,8 +64,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool MPCControllerSubmodule::Proc(
     const std::shared_ptr<Preprocessor>& preprocessor_status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto start_time = Clock::Now();
 
   ControlCommand control_core_command;
@@ -83,20 +72,23 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     control_core_command.mutable_pad_msg()->CopyFrom(
         preprocessor_status->local_view().pad_msg());
   }
-  ADEBUG << "MPC controller submodule started ....";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "MPC controller submodule started ....";
+ 
   // skip produce control command when estop for MPC controller
   StatusPb pre_status = preprocessor_status->header().status();
   if (pre_status.error_code() != ErrorCode::OK) {
     control_core_command.mutable_header()->mutable_status()->CopyFrom(
         pre_status);
-    AERROR << "Error in preprocessor submodule.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Error in preprocessor submodule.";
     return false;
   }
 
   Status status = ProduceControlCoreCommand(preprocessor_status->local_view(),
                                             &control_core_command);
-  AERROR_IF(!status.ok()) << "Failed to produce control command:"
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_IF(!status.ok()) << "Failed to produce control command:"
                           << status.error_message();
 
   control_core_command.mutable_header()->set_lidar_timestamp(
@@ -126,19 +118,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Status MPCControllerSubmodule::ProduceControlCoreCommand(
     const LocalView& local_view, ControlCommand* control_core_command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (local_view.chassis().driving_mode() == Chassis::COMPLETE_MANUAL) {
     mpc_controller_.Reset();
-    AINFO_EVERY(100) << "Reset Controllers in Manual Mode";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO_EVERY(100) << "Reset Controllers in Manual Mode";
   }
 
   Status status = mpc_controller_.ComputeControlCommand(
       &local_view.localization(), &local_view.chassis(),
       &local_view.trajectory(), control_core_command);
 
-  ADEBUG << "MPC controller submodule finished.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "MPC controller submodule finished.";
+ 
   return status;
 }
 

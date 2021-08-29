@@ -138,7 +138,8 @@ std::vector<TrajectoryPoint> TrajectoryStitcher::ComputeStitchingTrajectory(
   size_t prev_trajectory_size = prev_trajectory->NumOfPoints();
 
   if (prev_trajectory_size == 0) {
-    ADEBUG << "Projected trajectory at time [" << prev_trajectory->header_time()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Projected trajectory at time [" << prev_trajectory->header_time()
            << "] size is zero! Previous planning not exist or failed. Use "
               "origin car status instead.";
     *replan_reason = "replan for empty previous trajectory.";
@@ -186,7 +187,8 @@ std::vector<TrajectoryPoint> TrajectoryStitcher::ComputeStitchingTrajectory(
     auto lon_diff = time_matched_point.path_point().s() - frenet_sd.first;
     auto lat_diff = frenet_sd.second;
 
-    ADEBUG << "Control lateral diff: " << lat_diff
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Control lateral diff: " << lat_diff
            << ", longitudinal diff: " << lon_diff;
 
     if (std::fabs(lat_diff) > FLAGS_replan_lateral_distance_threshold) {
@@ -194,7 +196,8 @@ std::vector<TrajectoryPoint> TrajectoryStitcher::ComputeStitchingTrajectory(
           "the distance between matched point and actual position is too "
           "large. Replan is triggered. lat_diff = ",
           lat_diff);
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       *replan_reason = msg;
       return ComputeReinitStitchingTrajectory(planning_cycle_time,
                                               vehicle_state);
@@ -205,13 +208,15 @@ std::vector<TrajectoryPoint> TrajectoryStitcher::ComputeStitchingTrajectory(
           "the distance between matched point and actual position is too "
           "large. Replan is triggered. lon_diff = ",
           lon_diff);
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       *replan_reason = msg;
       return ComputeReinitStitchingTrajectory(planning_cycle_time,
                                               vehicle_state);
     }
   } else {
-    ADEBUG << "replan according to certain amount of lat and lon offset is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "replan according to certain amount of lat and lon offset is "
               "disabled";
   }
 
@@ -220,8 +225,10 @@ std::vector<TrajectoryPoint> TrajectoryStitcher::ComputeStitchingTrajectory(
   size_t forward_time_index =
       prev_trajectory->QueryLowerBoundPoint(forward_rel_time);
 
-  ADEBUG << "Position matched index:\t" << position_matched_index;
-  ADEBUG << "Time matched index:\t" << time_matched_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Position matched index:\t" << position_matched_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Time matched index:\t" << time_matched_index;
 
   auto matched_index = std::min(time_matched_index, position_matched_index);
 
@@ -229,7 +236,8 @@ std::vector<TrajectoryPoint> TrajectoryStitcher::ComputeStitchingTrajectory(
       prev_trajectory->begin() +
           std::max(0, static_cast<int>(matched_index - preserved_points_num)),
       prev_trajectory->begin() + forward_time_index + 1);
-  ADEBUG << "stitching_trajectory size: " << stitching_trajectory.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stitching_trajectory size: " << stitching_trajectory.size();
 
   const double zero_s = stitching_trajectory.back().path_point().s();
   for (auto& tp : stitching_trajectory) {

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -60,26 +59,18 @@ const double kTrajectoryApproximationMaxError = 2.0;
 
 }  // namespace
 
-PncMap::PncMap(const HDMap *hdmap) : hdmap_(hdmap) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+PncMap::PncMap(const HDMap *hdmap) : hdmap_(hdmap) {}
 
-const hdmap::HDMap *PncMap::hdmap() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return hdmap_; }
+const hdmap::HDMap *PncMap::hdmap() const { return hdmap_; }
 
 LaneWaypoint PncMap::ToLaneWaypoint(
     const routing::LaneWaypoint &waypoint) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto lane = hdmap_->GetLaneById(hdmap::MakeMapId(waypoint.id()));
   ACHECK(lane) << "Invalid lane id: " << waypoint.id();
   return LaneWaypoint(lane, waypoint.s());
 }
 
 double PncMap::LookForwardDistance(double velocity) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto forward_distance = velocity * FLAGS_look_forward_time_sec;
 
   return forward_distance > FLAGS_look_forward_short_distance
@@ -88,16 +79,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 LaneSegment PncMap::ToLaneSegment(const routing::LaneSegment &segment) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto lane = hdmap_->GetLaneById(hdmap::MakeMapId(segment.id()));
   ACHECK(lane) << "Invalid lane id: " << segment.id();
   return LaneSegment(lane, segment.start_s(), segment.end_s());
 }
 
 void PncMap::UpdateNextRoutingWaypointIndex(int cur_index) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (cur_index < 0) {
     next_routing_waypoint_index_ = 0;
     return;
@@ -140,16 +127,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 std::vector<routing::LaneWaypoint> PncMap::FutureRouteWaypoints() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto &waypoints = routing_.routing_request().waypoint();
   return std::vector<routing::LaneWaypoint>(
       waypoints.begin() + next_routing_waypoint_index_, waypoints.end());
 }
 
 void PncMap::UpdateRoutingRange(int adc_index) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Track routing range.
   range_lane_ids_.clear();
   range_start_ = std::max(0, adc_index - 1);
@@ -165,10 +148,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool PncMap::UpdateVehicleState(const VehicleState &vehicle_state) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!ValidateRouting(routing_)) {
-    AERROR << "The routing is invalid when updating vehicle state.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The routing is invalid when updating vehicle state.";
     return false;
   }
   if (!adc_state_.has_x() ||
@@ -183,7 +165,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   adc_state_ = vehicle_state;
   if (!GetNearestPointFromRouting(vehicle_state, &adc_waypoint_)) {
-    AERROR << "Failed to get waypoint from routing with point: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get waypoint from routing with point: "
            << "(" << vehicle_state.x() << ", " << vehicle_state.y() << ", "
            << vehicle_state.z() << ").";
     return false;
@@ -191,7 +174,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   int route_index = GetWaypointIndex(adc_waypoint_);
   if (route_index < 0 ||
       route_index >= static_cast<int>(route_indices_.size())) {
-    AERROR << "Cannot find waypoint: " << adc_waypoint_.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot find waypoint: " << adc_waypoint_.DebugString();
     return false;
   }
 
@@ -201,7 +185,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   UpdateRoutingRange(adc_route_index_);
 
   if (routing_waypoint_index_.empty()) {
-    AERROR << "No routing waypoint index.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No routing waypoint index.";
     return false;
   }
 
@@ -212,25 +197,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool PncMap::IsNewRouting(const routing::RoutingResponse &routing) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return IsNewRouting(routing_, routing);
 }
 
 bool PncMap::IsNewRouting(const routing::RoutingResponse &prev,
                           const routing::RoutingResponse &routing) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!ValidateRouting(routing)) {
-    ADEBUG << "The provided routing is invalid.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "The provided routing is invalid.";
+     return false;
   }
   return !common::util::IsProtoEqual(prev, routing);
 }
 
 bool PncMap::UpdateRoutingResponse(const routing::RoutingResponse &routing) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   range_lane_ids_.clear();
   route_indices_.clear();
   all_lane_ids_.clear();
@@ -246,7 +226,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         route_indices_.back().segment =
             ToLaneSegment(passage.segment(lane_index));
         if (route_indices_.back().segment.lane == nullptr) {
-          AERROR << "Failed to get lane segment from passage.";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get lane segment from passage.";
           return false;
         }
         route_indices_.back().index = {road_index, passage_index, lane_index};
@@ -263,7 +244,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   routing_waypoint_index_.clear();
   const auto &request_waypoints = routing.routing_request().waypoint();
   if (request_waypoints.empty()) {
-    AERROR << "Invalid routing: no request waypoints.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid routing: no request waypoints.";
     return false;
   }
   int i = 0;
@@ -285,27 +267,26 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 const routing::RoutingResponse &PncMap::routing_response() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return routing_;
 }
 
 bool PncMap::ValidateRouting(const RoutingResponse &routing) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const int num_road = routing.road_size();
   if (num_road == 0) {
-    AERROR << "Route is empty.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Route is empty.";
     return false;
   }
   if (!routing.has_routing_request() ||
       routing.routing_request().waypoint_size() < 2) {
-    AERROR << "Routing does not have request.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Routing does not have request.";
     return false;
   }
   for (const auto &waypoint : routing.routing_request().waypoint()) {
     if (!waypoint.has_id() || !waypoint.has_s()) {
-      AERROR << "Routing waypoint has no lane_id or s.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Routing waypoint has no lane_id or s.";
       return false;
     }
   }
@@ -314,8 +295,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 int PncMap::SearchForwardWaypointIndex(int start,
                                        const LaneWaypoint &waypoint) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int i = std::max(start, 0);
   while (
       i < static_cast<int>(route_indices_.size()) &&
@@ -327,8 +306,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 int PncMap::SearchBackwardWaypointIndex(int start,
                                         const LaneWaypoint &waypoint) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int i = std::min(static_cast<int>(route_indices_.size() - 1), start);
   while (i >= 0 && !RouteSegments::WithinLaneSegment(route_indices_[i].segment,
                                                      waypoint)) {
@@ -338,8 +315,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int PncMap::NextWaypointIndex(int index) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (index >= static_cast<int>(route_indices_.size() - 1)) {
     return static_cast<int>(route_indices_.size()) - 1;
   } else if (index < 0) {
@@ -350,8 +325,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int PncMap::GetWaypointIndex(const LaneWaypoint &waypoint) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int forward_index = SearchForwardWaypointIndex(adc_route_index_, waypoint);
   if (forward_index >= static_cast<int>(route_indices_.size())) {
     return SearchBackwardWaypointIndex(adc_route_index_, waypoint);
@@ -371,14 +344,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool PncMap::PassageToSegments(routing::Passage passage,
                                RouteSegments *segments) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(segments);
   segments->clear();
   for (const auto &lane : passage.segment()) {
     auto lane_ptr = hdmap_->GetLaneById(hdmap::MakeMapId(lane.id()));
     if (!lane_ptr) {
-      AERROR << "Failed to find lane: " << lane.id();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find lane: " << lane.id();
       return false;
     }
     segments->emplace_back(lane_ptr, std::max(0.0, lane.start_s()),
@@ -389,8 +361,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 std::vector<int> PncMap::GetNeighborPassages(const routing::RoadSegment &road,
                                              int start_passage) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_GE(start_passage, 0);
   CHECK_LE(start_passage, road.passage_size());
   std::vector<int> result;
@@ -404,14 +374,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
   RouteSegments source_segments;
   if (!PassageToSegments(source_passage, &source_segments)) {
-    AERROR << "Failed to convert passage to segments";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to convert passage to segments";
     return result;
   }
   if (next_routing_waypoint_index_ < routing_waypoint_index_.size() &&
       source_segments.IsWaypointOnSegment(
           routing_waypoint_index_[next_routing_waypoint_index_].waypoint)) {
-    ADEBUG << "Need to pass next waypoint[" << next_routing_waypoint_index_
-           << "] before change lane";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Need to pass next waypoint[" << next_routing_waypoint_index_
+            << "] before change lane";
     return result;
   }
   std::unordered_set<std::string> neighbor_lanes;
@@ -447,8 +419,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 bool PncMap::GetRouteSegments(const VehicleState &vehicle_state,
                               std::list<RouteSegments> *const route_segments) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double look_forward_distance =
       LookForwardDistance(vehicle_state.linear_velocity());
   double look_backward_distance = FLAGS_look_backward_distance;
@@ -460,17 +430,17 @@ bool PncMap::GetRouteSegments(const VehicleState &vehicle_state,
                               const double backward_length,
                               const double forward_length,
                               std::list<RouteSegments> *const route_segments) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!UpdateVehicleState(vehicle_state)) {
-    AERROR << "Failed to update vehicle state in pnc_map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to update vehicle state in pnc_map.";
     return false;
   }
   // Vehicle has to be this close to lane center before considering change
   // lane
   if (!adc_waypoint_.lane || adc_route_index_ < 0 ||
       adc_route_index_ >= static_cast<int>(route_indices_.size())) {
-    AERROR << "Invalid vehicle state in pnc_map, update vehicle state first.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid vehicle state in pnc_map, update vehicle state first.";
     return false;
   }
   const auto &route_index = route_indices_[adc_route_index_].index;
@@ -483,8 +453,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     const auto &passage = road.passage(index);
     RouteSegments segments;
     if (!PassageToSegments(passage, &segments)) {
-      ADEBUG << "Failed to convert passage to lane segments.";
-      continue;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Failed to convert passage to lane segments.";
+       continue;
     }
     const PointENU nearest_point =
         index == passage_index
@@ -493,14 +464,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     common::SLPoint sl;
     LaneWaypoint segment_waypoint;
     if (!segments.GetProjection(nearest_point, &sl, &segment_waypoint)) {
-      ADEBUG << "Failed to get projection from point: "
-             << nearest_point.ShortDebugString();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Failed to get projection from point: "
+              << nearest_point.ShortDebugString();
       continue;
     }
     if (index != passage_index) {
       if (!segments.CanDriveFrom(adc_waypoint_)) {
-        ADEBUG << "You cannot drive from current waypoint to passage: "
-               << index;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "You cannot drive from current waypoint to passage: "
+                << index;
         continue;
       }
     }
@@ -508,7 +481,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     const auto last_waypoint = segments.LastWaypoint();
     if (!ExtendSegments(segments, sl.s() - backward_length,
                         sl.s() + forward_length, &route_segments->back())) {
-      AERROR << "Failed to extend segments with s=" << sl.s()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to extend segments with s=" << sl.s()
              << ", backward: " << backward_length
              << ", forward: " << forward_length;
       return false;
@@ -535,8 +509,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool PncMap::GetNearestPointFromRouting(const VehicleState &state,
                                         LaneWaypoint *waypoint) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const double kMaxDistance = 10.0;  // meters.
   const double kHeadingBuffer = M_PI / 10.0;
   waypoint->lane = nullptr;
@@ -545,13 +517,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const int status =
       hdmap_->GetLanesWithHeading(point, kMaxDistance, state.heading(),
                                   M_PI / 2.0 + kHeadingBuffer, &lanes);
-  ADEBUG << "lanes:" << lanes.size();
-  if (status < 0) {
-    AERROR << "Failed to get lane from point: " << point.ShortDebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "lanes:" << lanes.size();
+   if (status < 0) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get lane from point: " << point.ShortDebugString();
     return false;
   }
   if (lanes.empty()) {
-    AERROR << "No valid lane found within " << kMaxDistance
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No valid lane found within " << kMaxDistance
            << " meters with heading " << state.heading();
     return false;
   }
@@ -577,7 +552,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       double s = 0.0;
       double l = 0.0;
       if (!lane->GetProjection({point.x(), point.y()}, &s, &l)) {
-        AERROR << "fail to get projection";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to get projection";
         return false;
       }
       // Use large epsilon to allow projection diff
@@ -594,24 +570,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       double s = 0.0;
       double l = 0.0;
       if (!lane->GetProjection({map_point.x(), map_point.y()}, &s, &l)) {
-        AERROR << "Failed to get projection for map_point: "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get projection for map_point: "
                << map_point.DebugString();
         return false;
       }
       waypoint->lane = lane;
       waypoint->s = s;
     }
-    ADEBUG << "distance" << distance;
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "distance" << distance;
+   }
   if (waypoint->lane == nullptr) {
-    AERROR << "Failed to find nearest point: " << point.ShortDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find nearest point: " << point.ShortDebugString();
   }
   return waypoint->lane != nullptr;
 }
 
 LaneInfoConstPtr PncMap::GetRouteSuccessor(LaneInfoConstPtr lane) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (lane->lane().successor_id().empty()) {
     return nullptr;
   }
@@ -626,8 +603,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 LaneInfoConstPtr PncMap::GetRoutePredecessor(LaneInfoConstPtr lane) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (lane->lane().predecessor_id().empty()) {
     return nullptr;
   }
@@ -652,12 +627,11 @@ bool PncMap::ExtendSegments(const RouteSegments &segments,
                             const common::PointENU &point, double look_backward,
                             double look_forward,
                             RouteSegments *extended_segments) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   common::SLPoint sl;
   LaneWaypoint waypoint;
   if (!segments.GetProjection(point, &sl, &waypoint)) {
-    AERROR << "point: " << point.ShortDebugString() << " is not on segment";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "point: " << point.ShortDebugString() << " is not on segment";
     return false;
   }
   return ExtendSegments(segments, sl.s() - look_backward, sl.s() + look_forward,
@@ -667,17 +641,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool PncMap::ExtendSegments(const RouteSegments &segments, double start_s,
                             double end_s,
                             RouteSegments *const truncated_segments) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (segments.empty()) {
-    AERROR << "The input segments is empty";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The input segments is empty";
     return false;
   }
   CHECK_NOTNULL(truncated_segments);
   truncated_segments->SetProperties(segments);
 
   if (start_s >= end_s) {
-    AERROR << "start_s(" << start_s << " >= end_s(" << end_s << ")";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "start_s(" << start_s << " >= end_s(" << end_s << ")";
     return false;
   }
   std::unordered_set<std::string> unique_lanes;
@@ -767,8 +741,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void PncMap::AppendLaneToPoints(LaneInfoConstPtr lane, const double start_s,
                                 const double end_s,
                                 std::vector<MapPathPoint> *const points) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (points == nullptr || start_s >= end_s) {
     return;
   }

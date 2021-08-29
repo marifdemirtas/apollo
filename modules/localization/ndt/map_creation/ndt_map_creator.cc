@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -34,8 +33,6 @@ using ::apollo::common::EigenAffine3dVec;
 using ::apollo::common::EigenVector3dVec;
 
 int main(int argc, char** argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   boost::program_options::options_description boost_desc("Allowed options");
   boost_desc.add_options()("help", "produce help message")(
       "pcd_folders", boost::program_options::value<std::vector<std::string>>(),
@@ -124,13 +121,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 
   if (!apollo::localization::msf::system::IsExists(map_base_folder)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     if (apollo::localization::msf::system::CreateDirectory(map_base_folder)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
       std::cerr << "Create map directory failed." << std::endl;
     }
   }

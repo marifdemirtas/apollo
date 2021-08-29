@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -37,8 +36,6 @@ namespace hdmap {
 
 ChannelChecker::ChannelChecker(const std::string& stop_flag_file)
     : stop_flag_file_(stop_flag_file) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   YAML::Node node = YAML::LoadFile(FLAGS_client_conf_yaml);
   std::string server_addr =
       node["grpc_host_port"]["grpc_host"].as<std::string>() + ":" +
@@ -49,27 +46,26 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int ChannelChecker::SyncStart(const std::string& record_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!boost::filesystem::exists(record_path)) {
-    AERROR << "record_path [" << record_path << "]does not exist";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "record_path [" << record_path << "]does not exist";
     return -1;
   }
   int ret = Start(record_path);
   if (ret != 0) {
-    AERROR << "start check channel failed, record_path [" << record_path << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "start check channel failed, record_path [" << record_path << "]";
     return -1;
   }
   return PeriodicCheck();
 }
 
 int ChannelChecker::SyncStop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // stop client
   std::ofstream ofs(stop_flag_file_);
   if (!ofs) {
-    AERROR << "Create Flag File [" << stop_flag_file_ << "] Failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Create Flag File [" << stop_flag_file_ << "] Failed";
     return -1;
   }
   ofs.close();
@@ -78,34 +74,34 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int ChannelChecker::PeriodicCheck() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int ret = 0;
   while (!boost::filesystem::exists(stop_flag_file_)) {
     ret = Check();
     if (ret != 0) {
       break;
     }
-    AINFO << "channel checker sleep " << check_period_ << " seconds";
-    std::this_thread::sleep_for(std::chrono::seconds(check_period_));
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "channel checker sleep " << check_period_ << " seconds";
+     std::this_thread::sleep_for(std::chrono::seconds(check_period_));
   }
   if (ret == 0) {
-    AINFO << "detected stop flag file, periodically checking will exit";
-  } else {
-    AINFO << "periodically checking will exit because of some errors";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "detected stop flag file, periodically checking will exit";
+   } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "periodically checking will exit because of some errors";
+   }
   return ret;
 }
 
 int ChannelChecker::GrpcStub(ChannelVerifyRequest* request,
                              ChannelVerifyResponse* response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   grpc::ClientContext context;
   grpc::Status status;
   status = service_stub_->ServiceChannelVerify(&context, *request, response);
   if (status.error_code() == grpc::StatusCode::UNAVAILABLE) {
-    AERROR << "FATAL Error. Map grpc service is UNAVAILABLE.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "FATAL Error. Map grpc service is UNAVAILABLE.";
     fprintf(USER_STREAM, "You should start server first\n");
     return -1;
   }
@@ -117,25 +113,23 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int ChannelChecker::Start(const std::string& record_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ChannelVerifyRequest request;
   request.set_path(record_path);
   request.set_cmd(CmdType::START);
-  AINFO << "channel check request: "
-        << "record_path: [" << request.path() << "], "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "channel check request: "
+         << "record_path: [" << request.path() << "], "
         << "cmd: [" << request.cmd() << "]";
   ChannelVerifyResponse response;
   return GrpcStub(&request, &response);
 }
 
 int ChannelChecker::Check() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ChannelVerifyRequest request;
   request.set_cmd(CmdType::CHECK);
-  AINFO << "channel check request: "
-        << "cmd: [" << request.cmd() << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "channel check request: "
+         << "cmd: [" << request.cmd() << "]";
   ChannelVerifyResponse response;
   int ret = GrpcStub(&request, &response);
   if (ret != 0) {
@@ -145,19 +139,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int ChannelChecker::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ChannelVerifyRequest request;
   request.set_cmd(CmdType::STOP);
-  AINFO << "channel check request: "
-        << "cmd: [" << request.cmd() << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "channel check request: "
+         << "cmd: [" << request.cmd() << "]";
   ChannelVerifyResponse response;
   return GrpcStub(&request, &response);
 }
 
 int ChannelChecker::ProcessAbnormal(ChannelVerifyResponse* response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ErrorCode code = response->code();
   if (code == ErrorCode::ERROR_CHANNEL_VERIFY_RATES_ABNORMAL) {
     if (response->has_result()) {
@@ -174,7 +165,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         }
       }
     } else {
-      AERROR << "response content from server is inconsistent";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "response content from server is inconsistent";
       return -1;
     }
   } else if (code == ErrorCode::ERROR_CHANNEL_VERIFY_TOPIC_LACK) {
@@ -185,7 +177,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         fprintf(USER_STREAM, "-%s:\n", topics.topic_lack(i).c_str());
       }
     } else {
-      AERROR << "response content from server is inconsistent";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "response content from server is inconsistent";
       return -1;
     }
   }

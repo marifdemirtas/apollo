@@ -57,7 +57,8 @@ void PathDecision::SetSTBoundary(const std::string &id,
   auto *obstacle = obstacles_.Find(id);
 
   if (!obstacle) {
-    AERROR << "Failed to find obstacle : " << id;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find obstacle : " << id;
     return;
   } else {
     obstacle->set_path_st_boundary(boundary);
@@ -69,7 +70,8 @@ bool PathDecision::AddLateralDecision(const std::string &tag,
                                       const ObjectDecisionType &decision) {
   auto *obstacle = obstacles_.Find(object_id);
   if (!obstacle) {
-    AERROR << "failed to find obstacle";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to find obstacle";
     return false;
   }
   obstacle->AddLateralDecision(tag, decision);
@@ -88,7 +90,8 @@ bool PathDecision::AddLongitudinalDecision(const std::string &tag,
                                            const ObjectDecisionType &decision) {
   auto *obstacle = obstacles_.Find(object_id);
   if (!obstacle) {
-    AERROR << "failed to find obstacle";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to find obstacle";
     return false;
   }
   obstacle->AddLongitudinalDecision(tag, decision);
@@ -105,7 +108,8 @@ bool PathDecision::MergeWithMainStop(const ObjectStop &obj_stop,
 
   double stop_line_s = stop_line_sl.s();
   if (stop_line_s < 0.0 || stop_line_s > reference_line.Length()) {
-    AERROR << "Ignore object:" << obj_id << " fence route_s[" << stop_line_s
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ignore object:" << obj_id << " fence route_s[" << stop_line_s
            << "] not in range[0, " << reference_line.Length() << "]";
     return false;
   }
@@ -117,7 +121,8 @@ bool PathDecision::MergeWithMainStop(const ObjectStop &obj_stop,
                        vehicle_config.vehicle_param().front_edge_to_center());
 
   if (stop_line_s >= stop_reference_line_s_) {
-    ADEBUG << "stop point is farther than current main stop point.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop point is farther than current main stop point.";
     return false;
   }
 
@@ -129,7 +134,8 @@ bool PathDecision::MergeWithMainStop(const ObjectStop &obj_stop,
   main_stop_.set_stop_heading(obj_stop.stop_heading());
   stop_reference_line_s_ = stop_line_s;
 
-  ADEBUG << " main stop obstacle id:" << obj_id
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " main stop obstacle id:" << obj_id
          << " stop_line_s:" << stop_line_s << " stop_point: ("
          << obj_stop.stop_point().x() << obj_stop.stop_point().y()
          << " ) stop_heading: " << obj_stop.stop_heading();

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,8 +32,6 @@ namespace localization {
 namespace ndt {
 
 void NDTLocalization::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   tf_buffer_ = apollo::transform::Buffer::Instance();
   tf_buffer_->Init();
 
@@ -52,19 +49,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::string map_path_ =
       FLAGS_map_dir + "/" + FLAGS_ndt_map_dir + "/" + FLAGS_local_map_name;
-  AINFO << "map folder: " << map_path_;
-  velodyne_extrinsic_ = Eigen::Affine3d::Identity();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "map folder: " << map_path_;
+   velodyne_extrinsic_ = Eigen::Affine3d::Identity();
   bool success =
       LoadLidarExtrinsic(lidar_extrinsics_file, &velodyne_extrinsic_);
   if (!success) {
-    AERROR << "LocalizationLidar: Fail to access the lidar"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "LocalizationLidar: Fail to access the lidar"
               " extrinsic file: "
            << lidar_extrinsics_file;
     return;
   }
   Eigen::Quaterniond ext_quat(velodyne_extrinsic_.linear());
-  AINFO << "lidar extrinsics: " << velodyne_extrinsic_.translation().x() << ", "
-        << velodyne_extrinsic_.translation().y() << ", "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lidar extrinsics: " << velodyne_extrinsic_.translation().x() << ", "
+         << velodyne_extrinsic_.translation().y() << ", "
         << velodyne_extrinsic_.translation().z() << ", " << ext_quat.x() << ", "
         << ext_quat.y() << ", " << ext_quat.z() << ", " << ext_quat.w();
 
@@ -83,8 +83,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       AWARN << "Can't load utm zone id from map folder, use default value.";
     }
   }
-  AINFO << "utm zone id: " << zone_id_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "utm zone id: " << zone_id_;
+ 
   lidar_locator_.SetMapFolderPath(map_path_);
   lidar_locator_.SetVelodyneExtrinsic(velodyne_extrinsic_);
   lidar_locator_.SetLidarHeight(lidar_height_.height);
@@ -99,17 +100,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // receive odometry message
 void NDTLocalization::OdometryCallback(
     const std::shared_ptr<localization::Gps>& odometry_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double odometry_time = odometry_msg->header().timestamp_sec();
   static double pre_odometry_time = odometry_time;
   double time_delay = odometry_time - pre_odometry_time;
   if (time_delay > 0.1) {
-    AINFO << "Odometry message loss more than 10ms, the pre time and cur time: "
-          << pre_odometry_time << ", " << odometry_time;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Odometry message loss more than 10ms, the pre time and cur time: "
+           << pre_odometry_time << ", " << odometry_time;
   } else if (time_delay < 0.0) {
-    AINFO << "Odometry message's time is earlier than last one, "
-          << "the pre time and cur time: " << pre_odometry_time << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Odometry message's time is earlier than last one, "
+           << "the pre time and cur time: " << pre_odometry_time << ", "
           << odometry_time;
   }
   pre_odometry_time = odometry_time;
@@ -129,8 +130,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     odometry_pose.linear() = tmp_quat.toRotationMatrix();
   }
   if (ZeroOdometry(odometry_pose)) {
-    AINFO << "Detect Zero Odometry";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Detect Zero Odometry";
+     return;
   }
 
   TimeStampPose timestamp_pose;
@@ -148,8 +150,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 
   if (ndt_debug_log_flag_) {
-    AINFO << "NDTLocalization Debug Log: odometry msg: "
-          << std::setprecision(15) << "time: " << odometry_time << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "NDTLocalization Debug Log: odometry msg: "
+           << std::setprecision(15) << "time: " << odometry_time << ", "
           << "x: " << odometry_msg->localization().position().x() << ", "
           << "y: " << odometry_msg->localization().position().y() << ", "
           << "z: " << odometry_msg->localization().position().z() << ", "
@@ -175,8 +178,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // receive lidar pointcloud message
 void NDTLocalization::LidarCallback(
     const std::shared_ptr<drivers::PointCloud>& lidar_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   static unsigned int frame_idx = 0;
   LidarFrame lidar_frame;
   LidarMsgTransfer(lidar_msg, &lidar_frame);
@@ -185,13 +186,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   Eigen::Affine3d odometry_pose = Eigen::Affine3d::Identity();
   if (!QueryPoseFromBuffer(time_stamp, &odometry_pose)) {
     if (!QueryPoseFromTF(time_stamp, &odometry_pose)) {
-      AERROR << "Can not query forecast pose";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can not query forecast pose";
       return;
     }
-    AINFO << "Query pose from TF";
-  } else {
-    AINFO << "Query pose from buffer";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Query pose from TF";
+   } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Query pose from buffer";
+   }
   if (!lidar_locator_.IsInitialized()) {
     lidar_locator_.Init(odometry_pose, resolution_id_, zone_id_);
     return;
@@ -208,8 +212,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
   if (ndt_debug_log_flag_) {
     Eigen::Quaterniond tmp_quat(lidar_pose_.linear());
-    AINFO << "NDTLocalization Debug Log: lidar pose: " << std::setprecision(15)
-          << "time: " << time_stamp << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "NDTLocalization Debug Log: lidar pose: " << std::setprecision(15)
+           << "time: " << time_stamp << ", "
           << "x: " << lidar_pose_.translation()[0] << ", "
           << "y: " << lidar_pose_.translation()[1] << ", "
           << "z: " << lidar_pose_.translation()[2] << ", "
@@ -219,8 +224,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           << "qw: " << tmp_quat.w();
 
     Eigen::Quaterniond qbn(odometry_pose.linear());
-    AINFO << "NDTLocalization Debug Log: odometry for lidar pose: "
-          << std::setprecision(15) << "time: " << time_stamp << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "NDTLocalization Debug Log: odometry for lidar pose: "
+           << std::setprecision(15) << "time: " << time_stamp << ", "
           << "x: " << odometry_pose.translation()[0] << ", "
           << "y: " << odometry_pose.translation()[1] << ", "
           << "z: " << odometry_pose.translation()[2] << ", "
@@ -233,8 +239,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void NDTLocalization::OdometryStatusCallback(
     const std::shared_ptr<drivers::gnss::InsStat>& status_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::unique_lock<std::mutex> lock(odometry_status_list_mutex_);
   if (odometry_status_list_.size() < odometry_status_list_max_size_) {
     odometry_status_list_.push_back(*status_msg);
@@ -246,33 +250,23 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // output localization result
 void NDTLocalization::GetLocalization(
     LocalizationEstimate* localization) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   *localization = localization_result_;
 }
 
 void NDTLocalization::GetLidarLocalization(
     LocalizationEstimate* localization) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   *localization = lidar_localization_result_;
 }
 
 void NDTLocalization::GetLocalizationStatus(
     LocalizationStatus* localization_status) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   *localization_status = localization_status_;
 }
 
-bool NDTLocalization::IsServiceStarted() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return is_service_started_; }
+bool NDTLocalization::IsServiceStarted() { return is_service_started_; }
 
 void NDTLocalization::FillLocalizationMsgHeader(
     LocalizationEstimate* localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto* header = localization->mutable_header();
   double timestamp = apollo::cyber::Clock::NowInSeconds();
   header->set_module_name(module_name_);
@@ -284,8 +278,6 @@ void NDTLocalization::ComposeLocalizationEstimate(
     const Eigen::Affine3d& pose,
     const std::shared_ptr<localization::Gps>& odometry_msg,
     LocalizationEstimate* localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization->Clear();
   FillLocalizationMsgHeader(localization);
 
@@ -335,8 +327,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void NDTLocalization::ComposeLidarResult(double time_stamp,
                                          const Eigen::Affine3d& pose,
                                          LocalizationEstimate* localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization->Clear();
   FillLocalizationMsgHeader(localization);
 
@@ -362,15 +352,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool NDTLocalization::QueryPoseFromTF(double time, Eigen::Affine3d* pose) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cyber::Time query_time(time);
   const float time_out = 0.01f;
   std::string err_msg = "";
   bool can_transform = tf_buffer_->canTransform(
       tf_target_frame_id_, tf_source_frame_id_, query_time, time_out, &err_msg);
   if (!can_transform) {
-    AERROR << "Can not transform: " << err_msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can not transform: " << err_msg;
     return false;
   }
   apollo::transform::TransformStamped query_transform;
@@ -378,7 +367,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     query_transform = tf_buffer_->lookupTransform(
         tf_target_frame_id_, tf_source_frame_id_, query_time);
   } catch (tf2::TransformException ex) {
-    AERROR << ex.what();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << ex.what();
     return false;
   }
   pose->translation()[0] = query_transform.transform().translation().x();
@@ -395,8 +385,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void NDTLocalization::ComposeLocalizationStatus(
     const drivers::gnss::InsStat& status,
     LocalizationStatus* localization_status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   apollo::common::Header* header = localization_status->mutable_header();
   double timestamp = apollo::cyber::Clock::NowInSeconds();
   header->set_timestamp_sec(timestamp);
@@ -429,8 +417,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool NDTLocalization::QueryPoseFromBuffer(double time, Eigen::Affine3d* pose) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(pose);
 
   TimeStampPose pre_pose;
@@ -440,7 +426,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     TimeStampPose timestamp_pose = odometry_buffer_.back();
     // check abnormal timestamp
     if (time > timestamp_pose.timestamp) {
-      AERROR << "query time is newer than latest odometry time, it doesn't "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "query time is newer than latest odometry time, it doesn't "
                 "make sense!";
       return false;
     }
@@ -452,8 +439,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       }
     }
     if (iter == odometry_buffer_.crend()) {
-      AINFO << "Cannot find matching pose from odometry buffer";
-      return false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Cannot find matching pose from odometry buffer";
+       return false;
     }
     pre_pose = *iter;
     next_pose = *(--iter);
@@ -487,8 +475,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool NDTLocalization::ZeroOdometry(const Eigen::Affine3d& pose) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double x = pose.translation().x();
   double y = pose.translation().y();
   double z = pose.translation().z();
@@ -501,8 +487,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void NDTLocalization::LidarMsgTransfer(
     const std::shared_ptr<drivers::PointCloud>& msg, LidarFrame* lidar_frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(lidar_frame);
 
   if (msg->height() > 1 && msg->width() > 1) {
@@ -528,8 +512,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       }
     }
   } else {
-    AINFO << "Receiving un-organized-point-cloud, width " << msg->width()
-          << " height " << msg->height() << "size " << msg->point_size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Receiving un-organized-point-cloud, width " << msg->width()
+           << " height " << msg->height() << "size " << msg->point_size();
     for (int i = 0; i < msg->point_size(); ++i) {
       Eigen::Vector3f pt3d;
       pt3d[0] = msg->point(i).x();
@@ -554,8 +539,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   lidar_frame->measurement_time =
       cyber::Time(msg->measurement_time()).ToSecond();
   if (ndt_debug_log_flag_) {
-    AINFO << std::setprecision(15)
-          << "NDTLocalization Debug Log: velodyne msg. "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << std::setprecision(15)
+           << "NDTLocalization Debug Log: velodyne msg. "
           << "[time:" << lidar_frame->measurement_time
           << "][height:" << msg->height() << "][width:" << msg->width()
           << "][point_cnt:" << msg->point_size() << "]";
@@ -564,8 +550,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool NDTLocalization::LoadLidarExtrinsic(const std::string& file_path,
                                          Eigen::Affine3d* lidar_extrinsic) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(lidar_extrinsic);
 
   YAML::Node config = YAML::LoadFile(file_path);
@@ -593,8 +577,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool NDTLocalization::LoadLidarHeight(const std::string& file_path,
                                       LidarHeight* height) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(height);
 
   if (!cyber::common::PathExists(file_path)) {
@@ -615,8 +597,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool NDTLocalization::LoadZoneIdFromFolder(const std::string& folder_path,
                                            int* zone_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string map_zone_id_folder;
   if (cyber::common::DirectoryExists(folder_path + "/map/000/north")) {
     map_zone_id_folder = folder_path + "/map/000/north";
@@ -636,8 +616,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool NDTLocalization::FindNearestOdometryStatus(
     const double odometry_timestamp, drivers::gnss::InsStat* status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(status);
 
   std::unique_lock<std::mutex> lock(odometry_status_list_mutex_);

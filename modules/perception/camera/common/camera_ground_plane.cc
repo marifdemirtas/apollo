@@ -60,7 +60,8 @@ bool ConvertGround4ToGround3(const float &baseline,
   float norm = common::ISqrt(common::ISquaresum3(p));
   common::IScale4(p, common::IRec(norm));
   if (p[0] > 1e-3) {
-    AERROR << "Have roll in the ground plane: " << p[0];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Have roll in the ground plane: " << p[0];
     ground3->assign(3, 0.f);
     return false;
   }
@@ -112,7 +113,8 @@ void GetGround3FromPitchHeight(const std::vector<float> &k_mat,
 
 GroundPlaneTracker::GroundPlaneTracker(int track_length) {
   if (track_length <= 0) {
-    AERROR << "track_length, " << track_length << ", should be positive";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "track_length, " << track_length << ", should be positive";
   }
   pitch_height_inlier_tracks_.resize(track_length * 3);
   const_weight_temporal_.resize(track_length, 0.0f);
@@ -228,7 +230,8 @@ bool CameraGroundPlaneDetector::DetetGround(float pitch, float camera_height,
     //    l_);
     ConvertGround4ToGround3(baseline_, k_mat, plane, &ground3);
     FillGroundModel(ground3);
-    AINFO << "set ground plane from outside: " << plane[0] << ", " << plane[1]
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "set ground plane from outside: " << plane[0] << ", " << plane[1]
           << ", " << plane[2] << ", " << plane[3];
     ground_is_valid_ = true;
     return true;
@@ -238,10 +241,12 @@ bool CameraGroundPlaneDetector::DetetGround(float pitch, float camera_height,
     std::vector<float> ph(2, 0);
     if (CameraGroundPlaneDetector::DetectGroundFromSamples(vd, count_vd,
                                                            &inlier_ratio)) {
-      ADEBUG << "l: " << l_[0] << ", " << l_[1] << ", " << l_[2];
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "l: " << l_[0] << ", " << l_[1] << ", " << l_[2];
       ground3.assign(l_, l_ + 3);
       GetGroundPlanePitchHeight(baseline_, k_mat, ground3, &ph[0], &ph[1]);
-      ADEBUG << "ph: " << ph[0] << ", " << ph[1];
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ph: " << ph[0] << ", " << ph[1];
       success = fabs(ph[0]) < params_.max_tilt_angle &&
                 ph[1] < params_.max_camera_ground_height;
       if (success) {
@@ -249,13 +254,16 @@ bool CameraGroundPlaneDetector::DetetGround(float pitch, float camera_height,
         ground_plane_tracker_->GetGround(&ph[0], &ph[1]);
         GetGround3FromPitchHeight(k_mat, baseline_, ph[0], ph[1], &ground3);
         FillGroundModel(ground3);
-        ADEBUG << "l tracked: " << l_[0] << ", " << l_[1] << ", " << l_[2];
-        ADEBUG << "ph tracked: " << ph[0] << ", " << ph[1];
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "l tracked: " << l_[0] << ", " << l_[1] << ", " << l_[2];
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ph tracked: " << ph[0] << ", " << ph[1];
       }
     }
 
     if (success) {
-      ADEBUG << "succeed with inlier ratio: " << inlier_ratio;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "succeed with inlier ratio: " << inlier_ratio;
       ground_is_valid_ = true;
       return true;
     }
@@ -281,11 +289,13 @@ bool CameraGroundPlaneDetector::DetetGround(float pitch, float camera_height,
 bool CameraGroundPlaneDetector::DetectGroundFromSamples(float *vd, int count_vd,
                                                         float *inlier_ratio) {
   if (vd == nullptr) {
-    AERROR << "vd is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "vd is nullptr";
     return false;
   }
   if (inlier_ratio == nullptr) {
-    AERROR << "inlier_ratio is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "inlier_ratio is nullptr";
     return false;
   }
   *inlier_ratio = 0.0f;

@@ -57,7 +57,8 @@ void BaseMatcher::IDMatch(const std::vector<RadarTrackPtr> &radar_tracks,
     const auto &track_object = radar_tracks[i]->GetObsRadar();
     double track_timestamp = radar_tracks[i]->GetTimestamp();
     if (track_object.get() == nullptr) {
-      AERROR << "track_object is not available";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "track_object is not available";
       continue;
     }
     int track_object_track_id = track_object->track_id;

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -98,14 +97,16 @@ void ObstaclesPrioritizer::AssignIgnoreLevel() {
       container_manager_->GetContainer<ObstaclesContainer>(
           AdapterConfig::PERCEPTION_OBSTACLES);
   if (obstacles_container == nullptr) {
-    AERROR << "Obstacles container pointer is a null pointer.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacles container pointer is a null pointer.";
     return;
   }
 
   Obstacle* ego_obstacle_ptr =
       obstacles_container->GetObstacle(FLAGS_ego_vehicle_id);
   if (ego_obstacle_ptr == nullptr) {
-    AERROR << "Ego obstacle nullptr found";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ego obstacle nullptr found";
     return;
   }
 
@@ -113,8 +114,9 @@ void ObstaclesPrioritizer::AssignIgnoreLevel() {
   double ego_theta = ego_feature.theta();
   double ego_x = ego_feature.position().x();
   double ego_y = ego_feature.position().y();
-  ADEBUG << "Get pose (" << ego_x << ", " << ego_y << ", " << ego_theta << ")";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Get pose (" << ego_x << ", " << ego_y << ", " << ego_theta << ")";
+ 
   // Build rectangular scan_area
   Box2d scan_box({ego_x + FLAGS_scan_length / 2.0 * std::cos(ego_theta),
                   ego_y + FLAGS_scan_length / 2.0 * std::sin(ego_theta)},
@@ -125,11 +127,13 @@ void ObstaclesPrioritizer::AssignIgnoreLevel() {
   for (const int obstacle_id : obstacle_ids) {
     Obstacle* obstacle_ptr = obstacles_container->GetObstacle(obstacle_id);
     if (obstacle_ptr == nullptr) {
-      AERROR << "Null obstacle pointer found.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null obstacle pointer found.";
       continue;
     }
     if (obstacle_ptr->history_size() == 0) {
-      AERROR << "Obstacle [" << obstacle_ptr->id() << "] has no feature.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle_ptr->id() << "] has no feature.";
       continue;
     }
     Feature* latest_feature_ptr = obstacle_ptr->mutable_latest_feature();
@@ -175,17 +179,20 @@ void ObstaclesPrioritizer::AssignCautionLevel() {
       container_manager_->GetContainer<ObstaclesContainer>(
           AdapterConfig::PERCEPTION_OBSTACLES);
   if (obstacles_container == nullptr) {
-    AERROR << "Obstacles container pointer is a null pointer.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacles container pointer is a null pointer.";
     return;
   }
   Obstacle* ego_vehicle =
       obstacles_container->GetObstacle(FLAGS_ego_vehicle_id);
   if (ego_vehicle == nullptr) {
-    AERROR << "Ego vehicle not found";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ego vehicle not found";
     return;
   }
   if (ego_vehicle->history_size() == 0) {
-    AERROR << "Ego vehicle has no history";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ego vehicle has no history";
     return;
   }
   auto storytelling_container =
@@ -218,7 +225,8 @@ void ObstaclesPrioritizer::AssignCautionLevelInJunction(
   for (const int obstacle_id : obstacle_ids) {
     Obstacle* obstacle_ptr = obstacles_container->GetObstacle(obstacle_id);
     if (obstacle_ptr == nullptr) {
-      AERROR << "Null obstacle pointer found.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null obstacle pointer found.";
       continue;
     }
     if (obstacle_ptr->IsInJunction(junction_id)) {
@@ -241,7 +249,8 @@ void ObstaclesPrioritizer::AssignCautionLevelCruiseKeepLane(
     Obstacle* obstacle_ptr =
         obstacles_container->GetObstacle(nearest_front_obstacle_id);
     if (obstacle_ptr == nullptr) {
-      AERROR << "Obstacle [" << nearest_front_obstacle_id << "] Not found";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << nearest_front_obstacle_id << "] Not found";
       continue;
     }
     SetCautionIfCloseToEgo(ego_vehicle, FLAGS_caution_distance_threshold,
@@ -266,7 +275,8 @@ void ObstaclesPrioritizer::AssignCautionLevelCruiseChangeLane(
       Obstacle* obstacle_ptr =
           obstacles_container->GetObstacle(nearest_front_obstacle_id);
       if (obstacle_ptr == nullptr) {
-        AERROR << "Obstacle [" << nearest_front_obstacle_id << "] Not found";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << nearest_front_obstacle_id << "] Not found";
         continue;
       }
       SetCautionIfCloseToEgo(ego_vehicle, FLAGS_caution_distance_threshold,
@@ -303,7 +313,8 @@ void ObstaclesPrioritizer::AssignCautionLevelByEgoReferenceLine(
       container_manager_->GetContainer<ADCTrajectoryContainer>(
           AdapterConfig::PLANNING_TRAJECTORY);
   if (adc_trajectory_container == nullptr) {
-    AERROR << "adc_trajectory_container is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "adc_trajectory_container is nullptr";
     return;
   }
   const std::vector<std::string>& lane_ids =
@@ -323,7 +334,8 @@ void ObstaclesPrioritizer::AssignCautionLevelByEgoReferenceLine(
     std::shared_ptr<const LaneInfo> lane_info_ptr =
         PredictionMap::LaneById(lane_id);
     if (lane_info_ptr == nullptr) {
-      AERROR << "Null lane info pointer found.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null lane info pointer found.";
       continue;
     }
     double s = 0.0;
@@ -359,7 +371,8 @@ void ObstaclesPrioritizer::AssignCautionLevelByEgoReferenceLine(
     std::shared_ptr<const LaneInfo> lane_info_ptr =
         PredictionMap::LaneById(lane_id);
     if (lane_info_ptr == nullptr) {
-      AERROR << "Null lane info pointer found.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null lane info pointer found.";
       continue;
     }
     accumulated_s += lane_info_ptr->total_length();
@@ -381,18 +394,21 @@ void ObstaclesPrioritizer::AssignCautionLevelPedestrianByEgoReferenceLine(
       container_manager_->GetContainer<ADCTrajectoryContainer>(
           AdapterConfig::PLANNING_TRAJECTORY);
   if (adc_trajectory_container == nullptr) {
-    AERROR << "adc_trajectory_container is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "adc_trajectory_container is nullptr";
     return;
   }
   for (const int obstacle_id :
        obstacles_container->curr_frame_movable_obstacle_ids()) {
     Obstacle* obstacle_ptr = obstacles_container->GetObstacle(obstacle_id);
     if (obstacle_ptr == nullptr) {
-      AERROR << "Null obstacle pointer found.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null obstacle pointer found.";
       continue;
     }
     if (obstacle_ptr->history_size() == 0) {
-      AERROR << "Obstacle [" << obstacle_ptr->id() << "] has no feature.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle_ptr->id() << "] has no feature.";
       continue;
     }
     Feature* latest_feature_ptr = obstacle_ptr->mutable_latest_feature();
@@ -417,7 +433,8 @@ void ObstaclesPrioritizer::AssignCautionLevelPedestrianByEgoReferenceLine(
       std::shared_ptr<const LaneInfo> lane_info_ptr =
           PredictionMap::LaneById(lane_id);
       if (lane_info_ptr == nullptr) {
-        AERROR << "Null lane info pointer found.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null lane info pointer found.";
         continue;
       }
       double start_s = 0.0;
@@ -474,7 +491,8 @@ void ObstaclesPrioritizer::RankingCautionLevelObstacles(
   for (const int obstacle_id : obstacle_ids) {
     Obstacle* obstacle_ptr = obstacles_container->GetObstacle(obstacle_id);
     if (obstacle_ptr == nullptr) {
-      AERROR << "Obstacle [" << obstacle_id << "] Not found";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle_id << "] Not found";
       continue;
     }
     if (!obstacle_ptr->IsCaution()) {
@@ -576,7 +594,8 @@ void ObstaclesPrioritizer::SetCautionBackward(
       }
       Obstacle* obstacle_ptr = obstacles_container->GetObstacle(obstacle_id);
       if (obstacle_ptr == nullptr) {
-        AERROR << "Obstacle [" << obstacle_id << "] Not found";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle_id << "] Not found";
         continue;
       }
       SetCautionIfCloseToEgo(ego_vehicle, FLAGS_caution_distance_threshold,

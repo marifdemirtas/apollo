@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -53,25 +52,33 @@ class PadTerminal {
     terminal_thread_.reset(new std::thread([this] { terminal_thread_func(); }));
   }
   void help() {
-    AINFO << "COMMAND:\n";
-    AINFO << "\t0: reset to manual drive mode.";
-    AINFO << "\t1: auto drive mode.";
-    AINFO << "\tctrl + c: exit.";
-    AINFO << "\tother: print help.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "COMMAND:\n";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\t0: reset to manual drive mode.";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\t1: auto drive mode.";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\tctrl + c: exit.";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\tother: print help.";
+   }
   void send(int cmd_type) {
     PadMessage pad;
     if (cmd_type == RESET_COMMAND) {
       pad.set_action(DrivingAction::RESET);
-      AINFO << "sending reset action command.";
-    } else if (cmd_type == AUTO_DRIVE_COMMAND) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sending reset action command.";
+     } else if (cmd_type == AUTO_DRIVE_COMMAND) {
       pad.set_action(DrivingAction::START);
-      AINFO << "sending start action command.";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sending start action command.";
+     }
     apollo::common::util::FillHeader("terminal", &pad);
     pad_writer_->Write(pad);
-    AINFO << "send pad_message OK";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "send pad_message OK";
+   }
 
   void on_chassis(const Chassis &chassis) {
     static bool is_first_emergency_mode = true;
@@ -84,8 +91,9 @@ class PadTerminal {
       if (is_first_emergency_mode) {
         count_start = Clock::Now().ToNanosecond() / 1e3;
         is_first_emergency_mode = false;
-        AINFO << "detect emergency mode.";
-      } else {
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "detect emergency mode.";
+       } else {
         int64_t diff =
             Clock::Now().ToNanosecond() / 1e3 - count_start;
         if (diff > EMERGENCY_MODE_HOLD_TIME) {
@@ -93,8 +101,9 @@ class PadTerminal {
           waiting_reset = true;
           // send a reset command to control
           send(RESET_COMMAND);
-          AINFO << "trigger to reset emergency mode to manual mode.";
-        } else {
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "trigger to reset emergency mode to manual mode.";
+         } else {
           // nothing to do
         }
       }
@@ -102,8 +111,9 @@ class PadTerminal {
       if (waiting_reset) {
         is_first_emergency_mode = true;
         waiting_reset = false;
-        AINFO << "emergency mode reset to manual ok.";
-      }
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "emergency mode reset to manual ok.";
+       }
     }
   }
 
@@ -146,8 +156,6 @@ class PadTerminal {
 }  // namespace
 
 int main(int argc, char **argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   apollo::cyber::Init("pad_terminal");
   FLAGS_alsologtostderr = true;
   FLAGS_v = 3;

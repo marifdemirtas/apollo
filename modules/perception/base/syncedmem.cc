@@ -117,7 +117,8 @@ inline void SyncedMemory::to_cpu() {
     case UNINITIALIZED:
       PerceptionMallocHost(&cpu_ptr_, size_, cpu_malloc_use_cuda_);
       if (cpu_ptr_ == nullptr) {
-        AERROR << "cpu_ptr_ is null";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "cpu_ptr_ is null";
         return;
       }
       memset(cpu_ptr_, 0, size_);

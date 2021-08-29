@@ -228,7 +228,8 @@ using apollo::common::TrajectoryPoint;
 void TranslatePoint(const double translate_x, const double translate_y,
                     TrajectoryPoint* point) {
   if (point == nullptr || !point->has_path_point()) {
-    AERROR << "Point is nullptr or has NO path_point.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Point is nullptr or has NO path_point.";
     return;
   }
   const double original_x = point->path_point().x();

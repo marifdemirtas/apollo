@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -36,8 +35,6 @@ namespace hdmap {
 
 apollo::common::PointENU SLToXYZ(const std::string& lane_id, const double s,
                                  const double l) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto lane_info = HDMapUtil::BaseMap().GetLaneById(MakeMapId(lane_id));
   ACHECK(lane_info);
   return lane_info->GetSmoothPoint(s);
@@ -45,8 +42,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void XYZToSL(const apollo::common::PointENU& point, std::string* lane_id,
              double* s, double* l) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ACHECK(lane_id);
   ACHECK(s);
   ACHECK(l);
@@ -58,8 +53,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 double XYZDistance(const apollo::common::PointENU& p1,
                    const apollo::common::PointENU& p2) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const double x_diff = p1.x() - p2.x();
   const double y_diff = p1.y() - p2.y();
   const double z_diff = p1.z() - p2.z();
@@ -67,8 +60,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void RefreshDefaultEndPoint() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   apollo::routing::POI old_poi;
   ACHECK(cyber::common::GetProtoFromASCIIFile(EndWayPointFile(), &old_poi));
 
@@ -76,8 +67,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   for (const auto& old_landmark : old_poi.landmark()) {
     apollo::routing::Landmark* new_landmark = new_poi.add_landmark();
     new_landmark->set_name(old_landmark.name());
-    AINFO << "Refreshed point of interest: " << old_landmark.name();
-    // Read xyz from old point.
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Refreshed point of interest: " << old_landmark.name();
+     // Read xyz from old point.
     for (const auto& old_end_point : old_landmark.waypoint()) {
       apollo::common::PointENU old_xyz;
       old_xyz.set_x(old_end_point.pose().x());
@@ -103,8 +95,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       pose->set_z(new_xyz.z());
       *new_landmark->add_waypoint() = new_end_point;
 
-      AINFO << "\n ============ from ============ \n"
-            << old_end_point.DebugString()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\n ============ from ============ \n"
+             << old_end_point.DebugString()
             << "\n ============ to ============ \n"
             << new_end_point.DebugString() << "XYZ distance is "
             << XYZDistance(old_xyz, new_xyz);
@@ -117,8 +110,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }  // namespace apollo
 
 int main(int argc, char* argv[]) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::InitGoogleLogging(argv[0]);
   google::ParseCommandLineFlags(&argc, &argv, true);
   FLAGS_logtostderr = true;

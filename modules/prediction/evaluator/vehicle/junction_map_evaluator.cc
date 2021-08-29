@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -50,7 +49,8 @@ bool JunctionMapEvaluator::Evaluate(Obstacle* obstacle_ptr,
   CHECK_NOTNULL(obstacle_ptr);
   int id = obstacle_ptr->id();
   if (!obstacle_ptr->latest_feature().IsInitialized()) {
-    AERROR << "Obstacle [" << id << "] has no latest feature.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no latest feature.";
     return false;
   }
   Feature* latest_feature_ptr = obstacle_ptr->mutable_latest_feature();
@@ -59,19 +59,22 @@ bool JunctionMapEvaluator::Evaluate(Obstacle* obstacle_ptr,
   // Assume obstacle is NOT closed to any junction exit
   if (!latest_feature_ptr->has_junction_feature() ||
       latest_feature_ptr->junction_feature().junction_exit_size() < 2) {
-    ADEBUG << "Obstacle [" << id << "] has less than two junction_exits.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] has less than two junction_exits.";
+     return false;
   }
   // Extract features of junction_exit_mask
   std::vector<double> feature_values;
   if (!ExtractFeatureValues(obstacle_ptr, &feature_values)) {
-    ADEBUG << "Obstacle [" << id << "] failed to extract junction exit mask";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] failed to extract junction exit mask";
+     return false;
   }
 
   if (!FLAGS_enable_semantic_map) {
-    ADEBUG << "Not enable semantic map, exit junction_map_evaluator.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Not enable semantic map, exit junction_map_evaluator.";
+     return false;
   }
   cv::Mat feature_map;
   if (!semantic_map_->GetMapById(id, &feature_map)) {
@@ -129,7 +132,8 @@ bool JunctionMapEvaluator::Evaluate(Obstacle* obstacle_ptr,
       latest_feature_ptr->mutable_lane()->mutable_lane_graph();
   CHECK_NOTNULL(lane_graph_ptr);
   if (lane_graph_ptr->lane_sequence().empty()) {
-    AERROR << "Obstacle [" << id << "] has no lane sequences.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no lane sequences.";
     return false;
   }
   for (int i = 0; i < lane_graph_ptr->lane_sequence_size(); ++i) {
@@ -152,13 +156,15 @@ bool JunctionMapEvaluator::ExtractFeatureValues(
   feature_values->resize(JUNCTION_FEATURE_SIZE, 0.0);
   Feature* feature_ptr = obstacle_ptr->mutable_latest_feature();
   if (!feature_ptr->has_position()) {
-    ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no position.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no position.";
+     return false;
   }
   double heading = std::atan2(feature_ptr->raw_velocity().y(),
                               feature_ptr->raw_velocity().x());
   if (!feature_ptr->has_junction_feature()) {
-    AERROR << "Obstacle [" << obstacle_ptr->id()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle_ptr->id()
            << "] has no junction_feature.";
     return false;
   }
@@ -181,8 +187,9 @@ bool JunctionMapEvaluator::ExtractFeatureValues(
 
 void JunctionMapEvaluator::LoadModel() {
   if (FLAGS_use_cuda && torch::cuda::is_available()) {
-    ADEBUG << "CUDA is available";
-    device_ = torch::Device(torch::kCUDA);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "CUDA is available";
+     device_ = torch::Device(torch::kCUDA);
   }
   torch::set_num_threads(1);
   torch_model_ =

@@ -25,14 +25,16 @@ namespace video {
 using cyber::common::EnsureDirectory;
 
 bool CompCameraH265Compressed::Init() {
-  AINFO << "Initialize video driver component.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Initialize video driver component.";
 
   CameraH265Config video_config;
   if (!GetProtoConfig(&video_config)) {
     return false;
   }
 
-  AINFO << "Velodyne config: " << video_config.DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Velodyne config: " << video_config.DebugString();
 
   camera_deivce_.reset(new CameraDriver(&video_config));
   camera_deivce_->Init();
@@ -41,12 +43,14 @@ bool CompCameraH265Compressed::Init() {
     // Use current directory to save record file if H265_SAVE_FOLDER environment
     // is not set.
     record_folder_ = cyber::common::GetEnv("H265_SAVE_FOLDER", ".");
-    AINFO << "Record folder: " << record_folder_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Record folder: " << record_folder_;
 
     struct stat st;
     if (stat(record_folder_.c_str(), &st) < 0) {
       bool ret = EnsureDirectory(record_folder_);
-      AINFO_IF(ret) << "Record folder is created successfully.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO_IF(ret) << "Record folder is created successfully.";
     }
   }
   pb_image_.reset(new CompressedImage);
@@ -69,19 +73,23 @@ void CompCameraH265Compressed::VideoPoll() {
     char name[256];
     snprintf(name, sizeof(name), "%s/encode_%d.h265", record_folder_.c_str(),
              camera_deivce_->Port());
-    AINFO << "Output file: " << name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Output file: " << name;
     fout.open(name, std::ios::binary);
     if (!fout.good()) {
-      AERROR << "Failed to open output file: " << name;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to open output file: " << name;
     }
   }
   int poll_failure_number = 0;
   while (!apollo::cyber::IsShutdown()) {
     if (!camera_deivce_->Poll(pb_image_)) {
-      AERROR << "H265 poll failed on port: " << camera_deivce_->Port();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "H265 poll failed on port: " << camera_deivce_->Port();
       static constexpr int kTolerance = 256;
       if (++poll_failure_number > kTolerance) {
-        AERROR << "H265 poll keep failing for " << kTolerance << " times, Exit";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "H265 poll keep failing for " << kTolerance << " times, Exit";
         break;
       }
       continue;
@@ -89,7 +97,8 @@ void CompCameraH265Compressed::VideoPoll() {
     poll_failure_number = 0;
     pb_image_->mutable_header()->set_timestamp_sec(
         cyber::Time::Now().ToSecond());
-    AINFO << "Send compressed image.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Send compressed image.";
     writer_->Write(pb_image_);
 
     if (camera_deivce_->Record()) {

@@ -132,7 +132,8 @@ void Hesai64Parser::ParseRawPacket(const uint8_t *buf, const int len,
   index += HEAD_SIZE;
 
   if (packet.header.sob != 0xEEFF) {
-    AERROR << "error start of packet!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error start of packet!";
     return;
   }
 

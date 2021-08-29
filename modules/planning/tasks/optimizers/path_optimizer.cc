@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -47,7 +46,8 @@ Status PathOptimizer::Execute(Frame* frame,
   RecordDebugInfo(reference_line_info->path_data());
   if (ret != Status::OK()) {
     reference_line_info->SetDrivable(false);
-    AERROR << "Reference Line " << reference_line_info->Lanes().Id()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Reference Line " << reference_line_info->Lanes().Id()
            << " is not drivable after " << Name();
   }
   return ret;

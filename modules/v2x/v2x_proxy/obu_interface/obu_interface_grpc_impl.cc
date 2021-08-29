@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -40,8 +39,9 @@ ObuInterFaceGrpcImpl::ObuInterFaceGrpcImpl()
     : grpc_client_(new GrpcClientImpl(grpc::CreateChannel(
           FLAGS_grpc_client_host + ":" + FLAGS_grpc_client_port,
           grpc::InsecureChannelCredentials()))) {
-  AINFO << "ObuInterFaceGrpcImpl Start Construct.";
-  cli_init_ = grpc_client_->InitFlag();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ObuInterFaceGrpcImpl Start Construct.";
+   cli_init_ = grpc_client_->InitFlag();
   grpc_server_.reset(new GrpcServerImpl());
   srv_init_ = grpc_server_->InitFlag();
   CHECK(InitialClient());
@@ -58,8 +58,9 @@ ObuInterFaceGrpcImpl::~ObuInterFaceGrpcImpl() {
   if (!!thread_grpc_ && thread_grpc_->joinable()) {
     thread_grpc_->join();
   }
-  AINFO << "close obu interface success";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "close obu interface success";
+ }
 
 bool ObuInterFaceGrpcImpl::InitialClient() { return cli_init_; }
 
@@ -87,8 +88,9 @@ void ObuInterFaceGrpcImpl::ThreadRunServer() {
   server_ = std::move(tmp);
   auto end = std::chrono::steady_clock::now();
   std::chrono::duration<double> time_used = end - start;
-  AINFO << "ObuInterFaceGrpcImpl grpc server has listening on : "
-        << server_address << " time used : " << time_used.count();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ObuInterFaceGrpcImpl grpc server has listening on : "
+         << server_address << " time used : " << time_used.count();
   condition_.wait(lck, [&]() { return exit_flag_; });
 }
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -54,15 +53,17 @@ ThirdPartyPerceptionMobileye::ThirdPartyPerceptionMobileye(
 }
 
 void ThirdPartyPerceptionMobileye::OnMobileye(const Mobileye& message) {
-  ADEBUG << "Received mobileye data: run mobileye callback.";
-  std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received mobileye data: run mobileye callback.";
+   std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
   eye_obstacles_ = conversion_mobileye::MobileyeToPerceptionObstacles(
       message, localization_, chassis_);
 }
 
 void ThirdPartyPerceptionMobileye::OnDelphiESR(const DelphiESR& message) {
-  ADEBUG << "Received delphi esr data: run delphi esr callback.";
-  std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received delphi esr data: run delphi esr callback.";
+   std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
   last_radar_obstacles_.CopyFrom(current_radar_obstacles_);
   current_radar_obstacles_ = conversion_radar::DelphiToRadarObstacles(
       message, localization_, last_radar_obstacles_);
@@ -75,8 +76,9 @@ void ThirdPartyPerceptionMobileye::OnDelphiESR(const DelphiESR& message) {
 }
 
 void ThirdPartyPerceptionMobileye::OnContiRadar(const ContiRadar& message) {
-  ADEBUG << "Received delphi esr data: run continental radar callback.";
-  std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received delphi esr data: run continental radar callback.";
+   std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
   last_radar_obstacles_.CopyFrom(current_radar_obstacles_);
   current_radar_obstacles_ = conversion_radar::ContiToRadarObstacles(
       message, localization_, last_radar_obstacles_, chassis_);
@@ -90,8 +92,9 @@ void ThirdPartyPerceptionMobileye::OnContiRadar(const ContiRadar& message) {
 
 bool ThirdPartyPerceptionMobileye::Process(
     PerceptionObstacles* const response) {
-  ADEBUG << "Timer is triggered: publish PerceptionObstacles";
-  CHECK_NOTNULL(response);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Timer is triggered: publish PerceptionObstacles";
+   CHECK_NOTNULL(response);
 
   std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
 

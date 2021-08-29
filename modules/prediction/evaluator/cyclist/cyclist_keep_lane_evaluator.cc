@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,7 +31,8 @@ bool CyclistKeepLaneEvaluator::Evaluate(
 
   int id = obstacle_ptr->id();
   if (!obstacle_ptr->latest_feature().IsInitialized()) {
-    AERROR << "Obstacle [" << id << "] has no latest feature.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no latest feature.";
     return false;
   }
 
@@ -41,15 +41,17 @@ bool CyclistKeepLaneEvaluator::Evaluate(
   if (!latest_feature_ptr->has_lane() ||
       !latest_feature_ptr->lane().has_lane_graph() ||
       !latest_feature_ptr->lane().has_lane_feature()) {
-    ADEBUG << "Obstacle [" << id << "] has no lane graph.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] has no lane graph.";
+     return false;
   }
 
   LaneGraph* lane_graph_ptr =
       latest_feature_ptr->mutable_lane()->mutable_lane_graph();
   CHECK_NOTNULL(lane_graph_ptr);
   if (lane_graph_ptr->lane_sequence().empty()) {
-    AERROR << "Obstacle [" << id << "] has no lane sequences.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no lane sequences.";
     return false;
   }
 

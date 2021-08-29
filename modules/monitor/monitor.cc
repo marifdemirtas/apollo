@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -39,8 +38,6 @@ namespace apollo {
 namespace monitor {
 
 bool Monitor::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   MonitorManager::Instance()->Init(node_);
 
   // Only the one CAN card corresponding to current mode will take effect.
@@ -78,8 +75,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool Monitor::Proc() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const double current_time = apollo::cyber::Clock::NowInSeconds();
   if (!MonitorManager::Instance()->StartFrame(current_time)) {
     return false;

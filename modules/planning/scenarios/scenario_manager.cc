@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -211,8 +210,9 @@ ScenarioConfig::ScenarioType ScenarioManager::SelectPullOverScenario(
   const double adc_front_edge_s = reference_line_info.AdcSlBoundary().end_s();
 
   const double adc_distance_to_dest = dest_sl.s() - adc_front_edge_s;
-  ADEBUG << "adc_distance_to_dest[" << adc_distance_to_dest
-         << "] destination_s[" << dest_sl.s() << "] adc_front_edge_s["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc_distance_to_dest[" << adc_distance_to_dest
+          << "] destination_s[" << dest_sl.s() << "] adc_front_edge_s["
          << adc_front_edge_s << "]";
 
   bool pull_over_scenario =
@@ -262,13 +262,15 @@ ScenarioConfig::ScenarioType ScenarioManager::SelectPullOverScenario(
       std::vector<hdmap::LaneInfoConstPtr> lanes;
       reference_line.GetLaneFromS(check_s, &lanes);
       if (lanes.empty()) {
-        ADEBUG << "check_s[" << check_s << "] can't find a lane";
-        continue;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "check_s[" << check_s << "] can't find a lane";
+         continue;
       }
       const hdmap::LaneInfoConstPtr lane = lanes[0];
       const std::string lane_id = lane->lane().id().id();
-      ADEBUG << "check_s[" << check_s << "] lane[" << lane_id << "]";
-
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "check_s[" << check_s << "] lane[" << lane_id << "]";
+ 
       // check neighbor lanes type: NONE/CITY_DRIVING/BIKING/SIDEWALK/PARKING
       bool rightmost_driving_lane = true;
       for (const auto& neighbor_lane_id :
@@ -277,14 +279,16 @@ ScenarioConfig::ScenarioType ScenarioManager::SelectPullOverScenario(
         CHECK_NOTNULL(hdmap_ptr);
         const auto neighbor_lane = hdmap_ptr->GetLaneById(neighbor_lane_id);
         if (neighbor_lane == nullptr) {
-          ADEBUG << "Failed to find neighbor lane[" << neighbor_lane_id.id()
-                 << "]";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Failed to find neighbor lane[" << neighbor_lane_id.id()
+                  << "]";
           continue;
         }
         const auto& lane_type = neighbor_lane->lane().type();
         if (lane_type == hdmap::Lane::CITY_DRIVING) {
-          ADEBUG << "lane[" << lane_id << "]'s right neighbor forward lane["
-                 << neighbor_lane_id.id() << "] type["
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "lane[" << lane_id << "]'s right neighbor forward lane["
+                  << neighbor_lane_id.id() << "] type["
                  << Lane_LaneType_Name(lane_type) << "] can't pull over";
           rightmost_driving_lane = false;
           break;
@@ -436,8 +440,9 @@ ScenarioConfig::ScenarioType ScenarioManager::SelectStopSignScenario(
   const double adc_front_edge_s = reference_line_info.AdcSlBoundary().end_s();
   const double adc_distance_to_stop_sign =
       stop_sign_overlap.start_s - adc_front_edge_s;
-  ADEBUG << "adc_distance_to_stop_sign[" << adc_distance_to_stop_sign
-         << "] stop_sign[" << stop_sign_overlap.object_id
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc_distance_to_stop_sign[" << adc_distance_to_stop_sign
+          << "] stop_sign[" << stop_sign_overlap.object_id
          << "] stop_sign_overlap_start_s[" << stop_sign_overlap.start_s << "]";
 
   const bool stop_sign_scenario =
@@ -513,8 +518,9 @@ ScenarioConfig::ScenarioType ScenarioManager::SelectTrafficLightScenario(
   for (const auto& traffic_light_overlap : next_traffic_lights) {
     const double adc_distance_to_traffic_light =
         traffic_light_overlap.start_s - adc_front_edge_s;
-    ADEBUG << "traffic_light[" << traffic_light_overlap.object_id
-           << "] start_s[" << traffic_light_overlap.start_s
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "traffic_light[" << traffic_light_overlap.object_id
+            << "] start_s[" << traffic_light_overlap.start_s
            << "] adc_distance_to_traffic_light["
            << adc_distance_to_traffic_light << "]";
 
@@ -528,8 +534,9 @@ ScenarioConfig::ScenarioType ScenarioManager::SelectTrafficLightScenario(
 
     const auto& signal_color =
         frame.GetSignal(traffic_light_overlap.object_id).color();
-    ADEBUG << "traffic_light_id[" << traffic_light_overlap.object_id
-           << "] start_s[" << traffic_light_overlap.start_s << "] color["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "traffic_light_id[" << traffic_light_overlap.object_id
+            << "] start_s[" << traffic_light_overlap.start_s << "] color["
            << signal_color << "]";
 
     if (signal_color != perception::TrafficLight::GREEN) {
@@ -622,8 +629,9 @@ ScenarioConfig::ScenarioType ScenarioManager::SelectYieldSignScenario(
   const double adc_front_edge_s = reference_line_info.AdcSlBoundary().end_s();
   const double adc_distance_to_yield_sign =
       yield_sign_overlap.start_s - adc_front_edge_s;
-  ADEBUG << "adc_distance_to_yield_sign[" << adc_distance_to_yield_sign
-         << "] yield_sign[" << yield_sign_overlap.object_id
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc_distance_to_yield_sign[" << adc_distance_to_yield_sign
+          << "] yield_sign[" << yield_sign_overlap.object_id
          << "] yield_sign_overlap_start_s[" << yield_sign_overlap.start_s
          << "]";
 
@@ -676,8 +684,9 @@ ScenarioConfig::ScenarioType ScenarioManager::SelectBareIntersectionScenario(
   const double adc_front_edge_s = reference_line_info.AdcSlBoundary().end_s();
   const double adc_distance_to_pnc_junction =
       pnc_junction_overlap.start_s - adc_front_edge_s;
-  ADEBUG << "adc_distance_to_pnc_junction[" << adc_distance_to_pnc_junction
-         << "] pnc_junction[" << pnc_junction_overlap.object_id
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc_distance_to_pnc_junction[" << adc_distance_to_pnc_junction
+          << "] pnc_junction[" << pnc_junction_overlap.object_id
          << "] pnc_junction_overlap_start_s[" << pnc_junction_overlap.start_s
          << "]";
 
@@ -761,8 +770,9 @@ ScenarioConfig::ScenarioType ScenarioManager::SelectParkAndGoScenario(
   const double adc_front_edge_s = reference_line_info.AdcSlBoundary().end_s();
 
   const double adc_distance_to_dest = dest_sl.s() - adc_front_edge_s;
-  ADEBUG << "adc_distance_to_dest:" << adc_distance_to_dest;
-  // if vehicle is static, far enough to destination and (off-lane or not on
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc_distance_to_dest:" << adc_distance_to_dest;
+   // if vehicle is static, far enough to destination and (off-lane or not on
   // city_driving lane)
   if (std::fabs(adc_speed) < max_abs_speed_when_stopped &&
       adc_distance_to_dest > scenario_config.min_dist_to_dest() &&
@@ -824,8 +834,9 @@ void ScenarioManager::ScenarioDispatch(const Frame& frame) {
     scenario_type = ScenarioDispatchNonLearning(frame);
   }
 
-  ADEBUG << "select scenario: "
-         << ScenarioConfig::ScenarioType_Name(scenario_type);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "select scenario: "
+          << ScenarioConfig::ScenarioType_Name(scenario_type);
 
   // update PlanningContext
   UpdatePlanningContext(frame, scenario_type);
@@ -978,8 +989,9 @@ void ScenarioManager::UpdatePlanningContextBareIntersectionScenario(
   if (map_itr != first_encountered_overlap_map_.end()) {
     bare_intersection->set_current_pnc_junction_overlap_id(
         map_itr->second.object_id);
-    ADEBUG << "Update PlanningContext with first_encountered pnc_junction["
-           << map_itr->second.object_id << "] start_s["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Update PlanningContext with first_encountered pnc_junction["
+            << map_itr->second.object_id << "] start_s["
            << map_itr->second.start_s << "]";
   }
 }
@@ -1018,8 +1030,9 @@ void ScenarioManager::UpdatePlanningContextStopSignScenario(
         ->mutable_planning_status()
         ->mutable_stop_sign()
         ->set_current_stop_sign_overlap_id(map_itr->second.object_id);
-    ADEBUG << "Update PlanningContext with first_encountered stop sign["
-           << map_itr->second.object_id << "] start_s["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Update PlanningContext with first_encountered stop sign["
+            << map_itr->second.object_id << "] start_s["
            << map_itr->second.start_s << "]";
   }
 }
@@ -1084,8 +1097,9 @@ void ScenarioManager::UpdatePlanningContextTrafficLightScenario(
           ->mutable_traffic_light()
           ->add_current_traffic_light_overlap_id(
               traffic_light_overlap.object_id);
-      ADEBUG << "Update PlanningContext with first_encountered traffic_light["
-             << traffic_light_overlap.object_id << "] start_s["
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Update PlanningContext with first_encountered traffic_light["
+              << traffic_light_overlap.object_id << "] start_s["
              << traffic_light_overlap.start_s << "]";
     }
   }
@@ -1150,8 +1164,9 @@ void ScenarioManager::UpdatePlanningContextYieldSignScenario(
           ->mutable_planning_status()
           ->mutable_yield_sign()
           ->add_current_yield_sign_overlap_id(yield_sign_overlap.object_id);
-      ADEBUG << "Update PlanningContext with first_encountered yield_sign["
-             << yield_sign_overlap.object_id << "] start_s["
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Update PlanningContext with first_encountered yield_sign["
+              << yield_sign_overlap.object_id << "] start_s["
              << yield_sign_overlap.start_s << "]";
     }
   }

@@ -1,4 +1,3 @@
-#include <iostream>
 /*****************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -78,8 +77,9 @@ void YieldSign::MakeDecisions(Frame* const frame,
     }
 
     // build stop decision
-    ADEBUG << "BuildStopDecision: yield_sign[" << yield_sign_overlap.object_id
-           << "] start_s[" << yield_sign_overlap.start_s << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "BuildStopDecision: yield_sign[" << yield_sign_overlap.object_id
+            << "] start_s[" << yield_sign_overlap.start_s << "]";
     const std::string virtual_obstacle_id =
         YIELD_SIGN_VO_ID_PREFIX + yield_sign_overlap.object_id;
     const std::vector<std::string> wait_for_obstacle_ids(

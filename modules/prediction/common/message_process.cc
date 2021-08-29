@@ -59,7 +59,8 @@ bool MessageProcess::Init(ContainerManager* container_manager,
   InitPredictors(predictor_manager, prediction_conf);
 
   if (!FLAGS_use_navigation_mode && !PredictionMap::Ready()) {
-    AERROR << "Map cannot be loaded.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Map cannot be loaded.";
     return false;
   }
 
@@ -70,11 +71,13 @@ bool MessageProcess::InitContainers(ContainerManager* container_manager) {
   common::adapter::AdapterManagerConfig adapter_conf;
   if (!cyber::common::GetProtoFromFile(FLAGS_prediction_adapter_config_filename,
                                        &adapter_conf)) {
-    AERROR << "Unable to load adapter conf file: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to load adapter conf file: "
            << FLAGS_prediction_adapter_config_filename;
     return false;
   }
-  ADEBUG << "Adapter config file is loaded into: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Adapter config file is loaded into: "
          << adapter_conf.ShortDebugString();
 
   container_manager->Init(adapter_conf);
@@ -97,7 +100,8 @@ void MessageProcess::ContainerProcess(
     const std::shared_ptr<ContainerManager>& container_manager,
     const perception::PerceptionObstacles& perception_obstacles,
     ScenarioManager* scenario_manager) {
-  ADEBUG << "Received a perception message ["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received a perception message ["
          << perception_obstacles.ShortDebugString() << "].";
 
   // Get obstacles_container
@@ -131,7 +135,8 @@ void MessageProcess::ContainerProcess(
     double perception_obs_timestamp = ptr_ego_vehicle->timestamp();
     if (perception_obstacles.has_header() &&
         perception_obstacles.header().has_timestamp_sec()) {
-      ADEBUG << "Correcting " << std::fixed << std::setprecision(6)
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Correcting " << std::fixed << std::setprecision(6)
              << ptr_ego_vehicle->timestamp() << " to " << std::fixed
              << std::setprecision(6)
              << perception_obstacles.header().timestamp_sec();
@@ -141,7 +146,8 @@ void MessageProcess::ContainerProcess(
                                                       perception_obs_timestamp);
     double x = ptr_ego_vehicle->position().x();
     double y = ptr_ego_vehicle->position().y();
-    ADEBUG << "Get ADC position [" << std::fixed << std::setprecision(6) << x
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Get ADC position [" << std::fixed << std::setprecision(6) << x
            << ", " << std::fixed << std::setprecision(6) << y << "].";
     ptr_ego_trajectory_container->SetPosition({x, y});
   }
@@ -198,11 +204,13 @@ void MessageProcess::OnPerception(
          ptr_obstacles_container->curr_frame_movable_obstacle_ids()) {
       Obstacle* obstacle_ptr = ptr_obstacles_container->GetObstacle(id);
       if (obstacle_ptr == nullptr) {
-        AERROR << "Null obstacle found.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null obstacle found.";
         continue;
       }
       if (!obstacle_ptr->latest_feature().IsInitialized()) {
-        AERROR << "Obstacle [" << id << "] has no latest feature.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no latest feature.";
         continue;
       }
       // TODO(all): the adc trajectory should be part of features for learning
@@ -212,7 +220,8 @@ void MessageProcess::OnPerception(
           ptr_ego_trajectory_container->adc_trajectory().trajectory_point();
       */
       FeatureOutput::InsertFeatureProto(obstacle_ptr->latest_feature());
-      ADEBUG << "Insert feature into feature output";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Insert feature into feature output";
     }
     // Not doing evaluation on offline mode
     return;
@@ -241,7 +250,8 @@ void MessageProcess::OnLocalization(
   ACHECK(ptr_ego_pose_container != nullptr);
   ptr_ego_pose_container->Insert(localization);
 
-  ADEBUG << "Received a localization message ["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received a localization message ["
          << localization.ShortDebugString() << "].";
 }
 
@@ -253,7 +263,8 @@ void MessageProcess::OnPlanning(ContainerManager* container_manager,
   ACHECK(ptr_ego_trajectory_container != nullptr);
   ptr_ego_trajectory_container->Insert(adc_trajectory);
 
-  ADEBUG << "Received a planning message [" << adc_trajectory.ShortDebugString()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received a planning message [" << adc_trajectory.ShortDebugString()
          << "].";
 
   auto ptr_storytelling_container =
@@ -273,7 +284,8 @@ void MessageProcess::OnStoryTelling(ContainerManager* container_manager,
   CHECK_NOTNULL(ptr_storytelling_container);
   ptr_storytelling_container->Insert(story);
 
-  ADEBUG << "Received a storytelling message [" << story.ShortDebugString()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received a storytelling message [" << story.ShortDebugString()
          << "].";
 }
 
@@ -305,7 +317,8 @@ void MessageProcess::ProcessOfflineData(
           writer.WriteMessage<PredictionObstacles>(
               prediction_conf.topic_conf().perception_obstacle_topic(),
               prediction_obstacles, message.time);
-          AINFO << "Generated a new prediction message.";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Generated a new prediction message.";
         }
       }
     } else if (message.channel_name ==

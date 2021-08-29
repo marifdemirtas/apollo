@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -50,14 +49,16 @@ V2xProxy::~V2xProxy() {
 V2xProxy::V2xProxy(std::shared_ptr<::apollo::hdmap::HDMap> hdmap)
     : node_(::apollo::cyber::CreateNode("v2x_proxy")), exit_(false) {
   if (node_ == nullptr) {
-    AFATAL << "Create v2x proxy node failed.";
-    exit(1);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "Create v2x proxy node failed.";
+     exit(1);
   }
   internal_ = std::make_shared<InternalData>();
   hdmap_ = std::make_shared<::apollo::hdmap::HDMap>();
   const auto hdmap_file = apollo::hdmap::BaseMapFile();
   if (0 != hdmap_->LoadMapFromFile(hdmap_file)) {
-    AERROR << "Failed to load hadmap file: " << hdmap_file;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load hadmap file: " << hdmap_file;
     return;
   }
   ::apollo::cyber::TimerOption v2x_car_status_timer_option;
@@ -131,8 +132,9 @@ void V2xProxy::RecvOsPlanning() {
       AWARN << "V2X Traffic Light is too old!";
       last_os_light_ = nullptr;
     } else {
-      ADEBUG << "V2X Traffic Light is on time.";
-      last_os_light = std::make_shared<OSLight>();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "V2X Traffic Light is on time.";
+       last_os_light = std::make_shared<OSLight>();
       last_os_light->CopyFrom(*last_os_light_);
     }
   }

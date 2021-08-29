@@ -31,7 +31,8 @@ bool Compensator::QueryPoseAffineFromTF2(const uint64_t& timestamp, void* pose,
   if (!tf2_buffer_ptr_->canTransform(
           config_.world_frame_id(), child_frame_id, query_time,
           config_.transform_query_timeout(), &err_string)) {
-    AERROR << "Can not find transform. " << timestamp
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can not find transform. " << timestamp
            << " frame_id:" << child_frame_id << " Error info: " << err_string;
     return false;
   }
@@ -42,7 +43,8 @@ bool Compensator::QueryPoseAffineFromTF2(const uint64_t& timestamp, void* pose,
     stamped_transform = tf2_buffer_ptr_->lookupTransform(
         config_.world_frame_id(), child_frame_id, query_time);
   } catch (tf2::TransformException& ex) {
-    AERROR << ex.what();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << ex.what();
     return false;
   }
 
@@ -62,7 +64,8 @@ bool Compensator::MotionCompensation(
     const std::shared_ptr<const PointCloud>& msg,
     std::shared_ptr<PointCloud> msg_compensated) {
   if (msg->height() == 0 || msg->width() == 0) {
-    AERROR << "PointCloud width & height should not be 0";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PointCloud width & height should not be 0";
     return false;
   }
   uint64_t start = cyber::Time::Now().ToNanosecond();
@@ -84,7 +87,8 @@ bool Compensator::MotionCompensation(
   msg_compensated->set_is_dense(msg->is_dense());
 
   uint64_t new_time = cyber::Time().Now().ToNanosecond();
-  AINFO << "compenstator new msg diff:" << new_time - start
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "compenstator new msg diff:" << new_time - start
         << ";meta:" << msg->header().lidar_timestamp();
   msg_compensated->mutable_point()->Reserve(240000);
 
@@ -92,13 +96,15 @@ bool Compensator::MotionCompensation(
   if (QueryPoseAffineFromTF2(timestamp_min, &pose_min_time, frame_id) &&
       QueryPoseAffineFromTF2(timestamp_max, &pose_max_time, frame_id)) {
     uint64_t tf_time = cyber::Time().Now().ToNanosecond();
-    AINFO << "compenstator tf msg diff:" << tf_time - new_time
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "compenstator tf msg diff:" << tf_time - new_time
           << ";meta:" << msg->header().lidar_timestamp();
     MotionCompensation(msg, msg_compensated, timestamp_min, timestamp_max,
                        pose_min_time, pose_max_time);
     uint64_t com_time = cyber::Time().Now().ToNanosecond();
     msg_compensated->set_width(msg_compensated->point_size() / msg->height());
-    AINFO << "compenstator com msg diff:" << com_time - tf_time
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "compenstator com msg diff:" << com_time - tf_time
           << ";meta:" << msg->header().lidar_timestamp();
     return true;
   }
@@ -164,8 +170,7 @@ void Compensator::MotionCompensation(
         auto* point_new = msg_compensated->add_point();
         point_new->CopyFrom(point);
         // } else {
-        //   AERROR << "nan point do not need motion compensation";
-        // }
+                // }
         continue;
       }
       float y_scalar = point.y();
@@ -197,7 +202,8 @@ void Compensator::MotionCompensation(
   for (auto& point : msg->point()) {
     float x_scalar = point.x();
     if (std::isnan(x_scalar)) {
-      AERROR << "nan point do not need motion compensation";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "nan point do not need motion compensation";
       continue;
     }
     float y_scalar = point.y();

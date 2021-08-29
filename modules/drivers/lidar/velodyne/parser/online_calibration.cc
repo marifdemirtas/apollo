@@ -29,7 +29,8 @@ int OnlineCalibration::decode(const std::shared_ptr<VelodyneScan>& scan_msgs) {
   }
   for (auto& packet : scan_msgs->firing_pkts()) {
     if (packet.data().size() < 1206) {
-      AERROR << "Ivalid packet data size, expect 1206, actually "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ivalid packet data size, expect 1206, actually "
              << packet.data().size();
       return -1;
     }
@@ -40,21 +41,24 @@ int OnlineCalibration::decode(const std::shared_ptr<VelodyneScan>& scan_msgs) {
   }
   // read calibration when get 2s packet
   if (status_types_.size() < 5789 * 2) {
-    AINFO << "Wait for more scan msgs";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Wait for more scan msgs";
     return -1;
   }
   get_unit_index();
   int unit_size = static_cast<int>(unit_indexs_.size());
   if (unit_size < 2) {
     // can not find two unit# index, may be lost packet
-    AINFO << "unit count less than 2, maybe lost packets";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "unit count less than 2, maybe lost packets";
     return -1;
   }
 
   if (unit_indexs_[unit_size - 1] - unit_indexs_[unit_size - 2] !=
       65 * 64) {  // 64 lasers
     // lost packet
-    AERROR << "two unit distance is wrong";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "two unit distance is wrong";
     return -1;
   }
 
@@ -139,7 +143,8 @@ void OnlineCalibration::get_unit_index() {
 
 void OnlineCalibration::dump(const std::string& file_path) {
   if (!inited_) {
-    AERROR << "Please decode calibraion info first";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Please decode calibraion info first";
     return;
   }
   std::ofstream ofs(file_path.c_str(), std::ios::out);

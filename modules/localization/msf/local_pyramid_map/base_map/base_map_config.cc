@@ -45,7 +45,8 @@ bool BaseMapConfig::Save(const std::string &file_path) {
   bool success = CreateXml(&config);
   if (success) {
     boost::property_tree::write_xml(file_path, config);
-    AINFO << "Saved the map configuration to: " << file_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Saved the map configuration to: " << file_path;
     return true;
   }
   return false;
@@ -57,7 +58,8 @@ bool BaseMapConfig::Load(const std::string &file_path) {
   bool success = LoadXml(config);
 
   if (success) {
-    AINFO << "Loaded the map configuration from: " << file_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Loaded the map configuration from: " << file_path;
     return true;
   }
   return false;
@@ -158,7 +160,8 @@ bool BaseMapConfig::LoadXml(const boost::property_tree::ptree &config) {
                   [this](const boost::property_tree::ptree::value_type &v) {
                     map_resolutions_.push_back(
                         static_cast<float>(atof(v.second.data().c_str())));
-                    AINFO << "Resolution: " << v.second.data();
+                    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Resolution: " << v.second.data();
                   });
   } else {
     return false;
@@ -168,7 +171,8 @@ bool BaseMapConfig::LoadXml(const boost::property_tree::ptree &config) {
   if (datasets) {
     for (const boost::property_tree::ptree::value_type &v : *datasets) {
       map_datasets_.push_back(v.second.data());
-      AINFO << "Dataset: " << v.second.data();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Dataset: " << v.second.data();
     }
   }
 
@@ -180,7 +184,8 @@ bool BaseMapConfig::LoadXml(const boost::property_tree::ptree &config) {
       auto path = child.get_optional<std::string>("path");
       auto md5 = child.get_optional<std::string>("md5");
       if (!path || !md5) {
-        AERROR << "Lack path or md5.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Lack path or md5.";
         return false;
       }
       node_md5_map_[*path] = *md5;

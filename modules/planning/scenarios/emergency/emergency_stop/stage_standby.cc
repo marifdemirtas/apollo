@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -40,8 +39,9 @@ using apollo::common::TrajectoryPoint;
 
 Stage::StageStatus EmergencyStopStageStandby::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: Standby";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: Standby";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
@@ -85,12 +85,14 @@ Stage::StageStatus EmergencyStopStageStandby::Process(
       StopReasonCode::STOP_REASON_EMERGENCY, wait_for_obstacle_ids,
       "EMERGENCY_STOP-scenario", frame,
       &(frame->mutable_reference_line_info()->front()));
-  ADEBUG << "Build a stop fence for emergency_stop: id[" << virtual_obstacle_id
-         << "] s[" << stop_line_s << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Build a stop fence for emergency_stop: id[" << virtual_obstacle_id
+          << "] s[" << stop_line_s << "]";
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "EmergencyStopStageStandby planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "EmergencyStopStageStandby planning error";
   }
 
   return Stage::RUNNING;

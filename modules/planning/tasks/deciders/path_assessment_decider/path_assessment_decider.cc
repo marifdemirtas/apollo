@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -62,10 +61,12 @@ Status PathAssessmentDecider::Process(
   const auto& candidate_path_data = reference_line_info->GetCandidatePathData();
 
   if (candidate_path_data.empty()) {
-    ADEBUG << "Candidate path data is empty.";
-  } else {
-    ADEBUG << "There are " << candidate_path_data.size() << " candidate paths";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Candidate path data is empty.";
+   } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There are " << candidate_path_data.size() << " candidate paths";
+   }
   const auto& end_time0 = std::chrono::system_clock::now();
 
   // 1. Remove invalid path.
@@ -85,8 +86,9 @@ Status PathAssessmentDecider::Process(
   }
   const auto& end_time1 = std::chrono::system_clock::now();
   std::chrono::duration<double> diff = end_time1 - end_time0;
-  ADEBUG << "Time for path validity checking: " << diff.count() * 1000
-         << " msec.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Time for path validity checking: " << diff.count() * 1000
+          << " msec.";
 
   // 2. Analyze and add important info for speed decider to use
   size_t cnt = 0;
@@ -127,28 +129,33 @@ Status PathAssessmentDecider::Process(
 
     // RecordDebugInfo(curr_path_data, curr_path_data.path_label(),
     //                 reference_line_info);
-    ADEBUG << "For " << curr_path_data.path_label() << ", "
-           << "path length = " << curr_path_data.frenet_frame_path().size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "For " << curr_path_data.path_label() << ", "
+            << "path length = " << curr_path_data.frenet_frame_path().size();
   }
   valid_path_data.resize(cnt);
   // If there is no valid path_data, exit.
   if (valid_path_data.empty()) {
     const std::string msg = "Neither regular nor fallback path is valid.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
-  ADEBUG << "There are " << valid_path_data.size() << " valid path data.";
-  const auto& end_time2 = std::chrono::system_clock::now();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There are " << valid_path_data.size() << " valid path data.";
+   const auto& end_time2 = std::chrono::system_clock::now();
   diff = end_time2 - end_time1;
-  ADEBUG << "Time for path info labeling: " << diff.count() * 1000 << " msec.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Time for path info labeling: " << diff.count() * 1000 << " msec.";
+ 
   // 3. Pick the optimal path.
   std::sort(valid_path_data.begin(), valid_path_data.end(),
             std::bind(ComparePathData, std::placeholders::_1,
                       std::placeholders::_2, blocking_obstacle_on_selflane));
 
-  ADEBUG << "Using '" << valid_path_data.front().path_label()
-         << "' path out of " << valid_path_data.size() << " path(s)";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Using '" << valid_path_data.front().path_label()
+          << "' path out of " << valid_path_data.size() << " path(s)";
   if (valid_path_data.front().path_label().find("fallback") !=
       std::string::npos) {
     FLAGS_static_obstacle_nudge_l_buffer = 0.8;
@@ -158,8 +165,9 @@ Status PathAssessmentDecider::Process(
       valid_path_data.front().blocking_obstacle_id());
   const auto& end_time3 = std::chrono::system_clock::now();
   diff = end_time3 - end_time2;
-  ADEBUG << "Time for optimal path selection: " << diff.count() * 1000
-         << " msec.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Time for optimal path selection: " << diff.count() * 1000
+          << " msec.";
 
   reference_line_info->SetCandidatePathData(std::move(valid_path_data));
 
@@ -236,8 +244,9 @@ Status PathAssessmentDecider::Process(
   }
   const auto& end_time4 = std::chrono::system_clock::now();
   diff = end_time4 - end_time3;
-  ADEBUG << "Time for FSM state updating: " << diff.count() * 1000 << " msec.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Time for FSM state updating: " << diff.count() * 1000 << " msec.";
+ 
   // Plot the path in simulator for debug purpose.
   RecordDebugInfo(reference_line_info->path_data(), "Planning PathData",
                   reference_line_info);
@@ -246,15 +255,18 @@ Status PathAssessmentDecider::Process(
 
 bool ComparePathData(const PathData& lhs, const PathData& rhs,
                      const Obstacle* blocking_obstacle) {
-  ADEBUG << "Comparing " << lhs.path_label() << " and " << rhs.path_label();
-  // Empty path_data is never the larger one.
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Comparing " << lhs.path_label() << " and " << rhs.path_label();
+   // Empty path_data is never the larger one.
   if (lhs.Empty()) {
-    ADEBUG << "LHS is empty.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "LHS is empty.";
+     return false;
   }
   if (rhs.Empty()) {
-    ADEBUG << "RHS is empty.";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "RHS is empty.";
+     return true;
   }
   // Regular path goes before fallback path.
   bool lhs_is_regular = lhs.path_label().find("regular") != std::string::npos;
@@ -305,8 +317,9 @@ bool ComparePathData(const PathData& lhs, const PathData& rhs,
           (blocking_obstacle->PerceptionSLBoundary().start_l() +
            blocking_obstacle->PerceptionSLBoundary().end_l()) /
           2;
-      ADEBUG << "obstacle[" << blocking_obstacle->Id() << "] l[" << obstacle_l
-             << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle[" << blocking_obstacle->Id() << "] l[" << obstacle_l
+              << "]";
       return (obstacle_l > 0.0
                   ? (lhs.path_label().find("right") != std::string::npos)
                   : (lhs.path_label().find("left") != std::string::npos));
@@ -335,8 +348,9 @@ bool ComparePathData(const PathData& lhs, const PathData& rhs,
   bool lhs_on_leftlane = lhs.path_label().find("left") != std::string::npos;
   bool rhs_on_leftlane = rhs.path_label().find("left") != std::string::npos;
   if (lhs_on_leftlane != rhs_on_leftlane) {
-    ADEBUG << "Select " << (lhs_on_leftlane ? "left" : "right") << " lane over "
-           << (!lhs_on_leftlane ? "left" : "right") << " lane.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Select " << (lhs_on_leftlane ? "left" : "right") << " lane over "
+            << (!lhs_on_leftlane ? "left" : "right") << " lane.";
     return lhs_on_leftlane;
   }
   // Otherwise, they are the same path, lhs is not < rhs.
@@ -347,28 +361,33 @@ bool PathAssessmentDecider::IsValidRegularPath(
     const ReferenceLineInfo& reference_line_info, const PathData& path_data) {
   // Basic sanity checks.
   if (path_data.Empty()) {
-    ADEBUG << path_data.path_label() << ": path data is empty.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << path_data.path_label() << ": path data is empty.";
+     return false;
   }
   // Check if the path is greatly off the reference line.
   if (IsGreatlyOffReferenceLine(path_data)) {
-    ADEBUG << path_data.path_label() << ": ADC is greatly off reference line.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << path_data.path_label() << ": ADC is greatly off reference line.";
+     return false;
   }
   // Check if the path is greatly off the road.
   if (IsGreatlyOffRoad(reference_line_info, path_data)) {
-    ADEBUG << path_data.path_label() << ": ADC is greatly off road.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << path_data.path_label() << ": ADC is greatly off road.";
+     return false;
   }
   // Check if there is any collision.
   if (IsCollidingWithStaticObstacles(reference_line_info, path_data)) {
-    ADEBUG << path_data.path_label() << ": ADC has collision.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << path_data.path_label() << ": ADC has collision.";
+     return false;
   }
 
   if (IsStopOnReverseNeighborLane(reference_line_info, path_data)) {
-    ADEBUG << path_data.path_label() << ": stop at reverse neighbor lane";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << path_data.path_label() << ": stop at reverse neighbor lane";
+     return false;
   }
 
   return true;
@@ -378,18 +397,21 @@ bool PathAssessmentDecider::IsValidFallbackPath(
     const ReferenceLineInfo& reference_line_info, const PathData& path_data) {
   // Basic sanity checks.
   if (path_data.Empty()) {
-    ADEBUG << "Fallback Path: path data is empty.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Fallback Path: path data is empty.";
+     return false;
   }
   // Check if the path is greatly off the reference line.
   if (IsGreatlyOffReferenceLine(path_data)) {
-    ADEBUG << "Fallback Path: ADC is greatly off reference line.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Fallback Path: ADC is greatly off reference line.";
+     return false;
   }
   // Check if the path is greatly off the road.
   if (IsGreatlyOffRoad(reference_line_info, path_data)) {
-    ADEBUG << "Fallback Path: ADC is greatly off road.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Fallback Path: ADC is greatly off road.";
+     return false;
   }
   return true;
 }
@@ -430,8 +452,9 @@ void PathAssessmentDecider::TrimTailingOutLanePoints(
   }
 
   // Trim.
-  ADEBUG << "Trimming " << path_data->path_label();
-  auto frenet_path = path_data->frenet_frame_path();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Trimming " << path_data->path_label();
+   auto frenet_path = path_data->frenet_frame_path();
   auto path_point_decision = path_data->path_point_decision_guide();
   CHECK_EQ(frenet_path.size(), path_point_decision.size());
   while (!path_point_decision.empty() &&
@@ -439,13 +462,16 @@ void PathAssessmentDecider::TrimTailingOutLanePoints(
              PathData::PathPointType::IN_LANE) {
     if (std::get<1>(path_point_decision.back()) ==
         PathData::PathPointType::OUT_ON_FORWARD_LANE) {
-      ADEBUG << "Trimming out forward lane point";
-    } else if (std::get<1>(path_point_decision.back()) ==
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Trimming out forward lane point";
+     } else if (std::get<1>(path_point_decision.back()) ==
                PathData::PathPointType::OUT_ON_REVERSE_LANE) {
-      ADEBUG << "Trimming out reverse lane point";
-    } else {
-      ADEBUG << "Trimming unknown lane point";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Trimming out reverse lane point";
+     } else {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Trimming unknown lane point";
+     }
     frenet_path.pop_back();
     path_point_decision.pop_back();
   }
@@ -459,8 +485,9 @@ bool PathAssessmentDecider::IsGreatlyOffReferenceLine(
   const auto& frenet_path = path_data.frenet_frame_path();
   for (const auto& frenet_path_point : frenet_path) {
     if (std::fabs(frenet_path_point.l()) > kOffReferenceLineThreshold) {
-      ADEBUG << "Greatly off reference line at s = " << frenet_path_point.s()
-             << ", with l = " << frenet_path_point.l();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Greatly off reference line at s = " << frenet_path_point.s()
+              << ", with l = " << frenet_path_point.l();
       return true;
     }
   }
@@ -478,8 +505,9 @@ bool PathAssessmentDecider::IsGreatlyOffRoad(
             frenet_path_point.s(), &road_left_width, &road_right_width)) {
       if (frenet_path_point.l() > road_left_width + kOffRoadThreshold ||
           frenet_path_point.l() < -road_right_width - kOffRoadThreshold) {
-        ADEBUG << "Greatly off-road at s = " << frenet_path_point.s()
-               << ", with l = " << frenet_path_point.l();
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Greatly off-road at s = " << frenet_path_point.s()
+                << ", with l = " << frenet_path_point.l();
         return true;
       }
     }
@@ -496,8 +524,6 @@ bool PathAssessmentDecider::IsCollidingWithStaticObstacles(
   for (const auto* obstacle : indexed_obstacles.Items()) {
     // Filter out unrelated obstacles.
     if (!IsWithinPathDeciderScopeObstacle(*obstacle)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
       continue;
     }
     // Ignore too small obstacles.
@@ -532,7 +558,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       common::SLPoint curr_point_sl;
       if (!reference_line_info.reference_line().XYToSL(corner_point,
                                                        &curr_point_sl)) {
-        AERROR << "Failed to get the projection from point onto "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get the projection from point onto "
                   "reference_line";
         return true;
       }
@@ -540,8 +567,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       // Check if it's in any polygon of other static obstacles.
       for (const auto& obstacle_polygon : obstacle_polygons) {
         if (obstacle_polygon.IsPointIn(curr_point)) {
-          ADEBUG << "ADC is colliding with obstacle at path s = "
-                 << path_point.s();
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC is colliding with obstacle at path s = "
+                  << path_point.s();
           return true;
         }
       }
@@ -594,8 +622,9 @@ bool PathAssessmentDecider::IsStopOnReverseNeighborLane(
       path_point_sl.set_l(frenet_path_point.l());
     }
   }
-  ADEBUG << "path_point_sl[" << path_point_sl.s() << ", " << path_point_sl.l()
-         << "] lane_left_width[" << lane_left_width << "] lane_right_width["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "path_point_sl[" << path_point_sl.s() << ", " << path_point_sl.l()
+          << "] lane_left_width[" << lane_left_width << "] lane_right_width["
          << lane_right_width << "]";
 
   hdmap::Id neighbor_lane_id;
@@ -605,8 +634,9 @@ bool PathAssessmentDecider::IsStopOnReverseNeighborLane(
     if (reference_line_info.GetNeighborLaneInfo(
             ReferenceLineInfo::LaneType::LeftReverse, path_point_sl.s(),
             &neighbor_lane_id, &neighbor_lane_width)) {
-      ADEBUG << "stop path point at LeftReverse neighbor lane["
-             << neighbor_lane_id.id() << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop path point at LeftReverse neighbor lane["
+              << neighbor_lane_id.id() << "]";
       return true;
     }
   } else if (path_data.path_label().find("right") != std::string::npos &&
@@ -614,8 +644,9 @@ bool PathAssessmentDecider::IsStopOnReverseNeighborLane(
     if (reference_line_info.GetNeighborLaneInfo(
             ReferenceLineInfo::LaneType::RightReverse, path_point_sl.s(),
             &neighbor_lane_id, &neighbor_lane_width)) {
-      ADEBUG << "stop path point at RightReverse neighbor lane["
-             << neighbor_lane_id.id() << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop path point at RightReverse neighbor lane["
+              << neighbor_lane_id.id() << "]";
       return true;
     }
   }
@@ -668,8 +699,9 @@ void PathAssessmentDecider::SetPathPointType(
     SLBoundary ego_sl_boundary;
     if (!reference_line_info.reference_line().GetSLBoundary(ego_box,
                                                             &ego_sl_boundary)) {
-      ADEBUG << "Unable to get SL-boundary of ego-vehicle.";
-      continue;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Unable to get SL-boundary of ego-vehicle.";
+       continue;
     }
     double lane_left_width = 0.0;
     double lane_right_width = 0.0;
@@ -740,7 +772,8 @@ void PathAssessmentDecider::SetPathPointType(
         }
       }
     } else {
-      AERROR << "reference line not ready when setting path point guide";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "reference line not ready when setting path point guide";
       return;
     }
   }

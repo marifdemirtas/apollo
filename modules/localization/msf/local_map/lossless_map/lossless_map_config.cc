@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,8 +22,6 @@ namespace msf {
 
 LosslessMapConfig::LosslessMapConfig(std::string map_version)
     : BaseMapConfig(map_version) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   map_layer_alt_thres_ = 10000.0;  // in meters
   map_cache_size_ = 50;            // 80
   coordinate_type_ = "UTM";
@@ -35,8 +32,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LosslessMapConfig::CreateXml(boost::property_tree::ptree* config) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   BaseMapConfig::CreateXml(config);
   config->put("map.map_config.coordinate_type", coordinate_type_);
   config->put("map.map_runtime.layer_alt_thres", map_layer_alt_thres_);
@@ -47,8 +42,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LosslessMapConfig::LoadXml(const boost::property_tree::ptree& config) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   BaseMapConfig::LoadXml(config);
   coordinate_type_ = config.get<std::string>("map.map_config.coordinate_type");
   map_layer_alt_thres_ = config.get<float>("map.map_runtime.layer_alt_thres");

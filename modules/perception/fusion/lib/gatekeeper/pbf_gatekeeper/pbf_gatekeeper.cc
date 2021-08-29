@@ -44,7 +44,8 @@ bool PbfGatekeeper::Init() {
   PbfGatekeeperConfig params;
 
   if (!cyber::common::GetProtoFromFile(config, &params)) {
-    AERROR << "Read config failed: " << config;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Read config failed: " << config;
     return false;
   }
   params_.publish_if_has_lidar = params.publish_if_has_lidar();
@@ -156,7 +157,8 @@ bool PbfGatekeeper::RadarAbleToPublish(const TrackPtr &track, bool is_night) {
       //   }
       // }
     } else if (radar_object->GetSensorId() == "radar_rear") {
-      ADEBUG << "radar_rear: min_dis: " << params_.min_radar_confident_distance
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "radar_rear: min_dis: " << params_.min_radar_confident_distance
              << " obj dist: "
              << radar_object->GetBaseObject()->radar_supplement.range
              << " track_id: " << track->GetTrackId()
@@ -193,7 +195,8 @@ bool PbfGatekeeper::CameraAbleToPublish(const TrackPtr &track, bool is_night) {
       double exist_prob = track->GetExistenceProb();
       if (exist_prob > params_.existence_threshold) {
         static int cnt_cam = 1;
-        AINFO << "publish camera only object : cnt =  " << cnt_cam;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "publish camera only object : cnt =  " << cnt_cam;
         cnt_cam++;
         return true;
       }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -65,18 +64,21 @@ bool GraphCreator::Create() {
   if (absl::EndsWith(base_map_file_path_, ".xml")) {
     if (!hdmap::adapter::OpendriveAdapter::LoadData(base_map_file_path_,
                                                     &pbmap_)) {
-      AERROR << "Failed to load base map file from " << base_map_file_path_;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load base map file from " << base_map_file_path_;
       return false;
     }
   } else {
     if (!cyber::common::GetProtoFromFile(base_map_file_path_, &pbmap_)) {
-      AERROR << "Failed to load base map file from " << base_map_file_path_;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load base map file from " << base_map_file_path_;
       return false;
     }
   }
 
-  AINFO << "Number of lanes: " << pbmap_.lane_size();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Number of lanes: " << pbmap_.lane_size();
+ 
   graph_.set_hdmap_version(pbmap_.header().version());
   graph_.set_hdmap_district(pbmap_.header().district());
 
@@ -99,17 +101,20 @@ bool GraphCreator::Create() {
   for (const auto& lane : pbmap_.lane()) {
     const auto& lane_id = lane.id().id();
     if (forbidden_lane_id_set_.find(lane_id) != forbidden_lane_id_set_.end()) {
-      ADEBUG << "Ignored lane id: " << lane_id
-             << " because its type is NOT CITY_DRIVING.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Ignored lane id: " << lane_id
+              << " because its type is NOT CITY_DRIVING.";
       continue;
     }
     if (lane.turn() == hdmap::Lane::U_TURN &&
         !IsValidUTurn(lane, min_turn_radius)) {
-      ADEBUG << "The u-turn lane radius is too small for the vehicle to turn";
-      continue;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "The u-turn lane radius is too small for the vehicle to turn";
+       continue;
     }
-    AINFO << "Current lane id: " << lane_id;
-    node_index_map_[lane_id] = graph_.node_size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Current lane id: " << lane_id;
+     node_index_map_[lane_id] = graph_.node_size();
     const auto iter = road_id_map_.find(lane_id);
     if (iter != road_id_map_.end()) {
       node_creator::GetPbNode(lane, iter->second, routing_conf_,
@@ -123,8 +128,9 @@ bool GraphCreator::Create() {
   for (const auto& lane : pbmap_.lane()) {
     const auto& lane_id = lane.id().id();
     if (forbidden_lane_id_set_.find(lane_id) != forbidden_lane_id_set_.end()) {
-      ADEBUG << "Ignored lane id: " << lane_id
-             << " because its type is NOT CITY_DRIVING.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Ignored lane id: " << lane_id
+              << " because its type is NOT CITY_DRIVING.";
       continue;
     }
     const auto& from_node = graph_.node(node_index_map_[lane_id]);
@@ -144,7 +150,8 @@ bool GraphCreator::Create() {
 
   if (!absl::EndsWith(dump_topo_file_path_, ".bin") &&
       !absl::EndsWith(dump_topo_file_path_, ".txt")) {
-    AERROR << "Failed to dump topo data into file, incorrect file type "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to dump topo data into file, incorrect file type "
            << dump_topo_file_path_;
     return false;
   }
@@ -152,16 +159,20 @@ bool GraphCreator::Create() {
   std::string bin_file = dump_topo_file_path_.replace(type_pos, 3, "bin");
   std::string txt_file = dump_topo_file_path_.replace(type_pos, 3, "txt");
   if (!cyber::common::SetProtoToASCIIFile(graph_, txt_file)) {
-    AERROR << "Failed to dump topo data into file " << txt_file;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to dump topo data into file " << txt_file;
     return false;
   }
-  AINFO << "Txt file is dumped successfully. Path: " << txt_file;
-  if (!cyber::common::SetProtoToBinaryFile(graph_, bin_file)) {
-    AERROR << "Failed to dump topo data into file " << bin_file;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Txt file is dumped successfully. Path: " << txt_file;
+   if (!cyber::common::SetProtoToBinaryFile(graph_, bin_file)) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to dump topo data into file " << bin_file;
     return false;
   }
-  AINFO << "Bin file is dumped successfully. Path: " << bin_file;
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Bin file is dumped successfully. Path: " << bin_file;
+   return true;
 }
 
 std::string GraphCreator::GetEdgeID(const std::string& from_id,
@@ -175,8 +186,9 @@ void GraphCreator::AddEdge(const Node& from_node,
   for (const auto& to_id : to_node_vec) {
     if (forbidden_lane_id_set_.find(to_id.id()) !=
         forbidden_lane_id_set_.end()) {
-      ADEBUG << "Ignored lane [id = " << to_id.id();
-      continue;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Ignored lane [id = " << to_id.id();
+       continue;
     }
     const std::string edge_id = GetEdgeID(from_node.lane_id(), to_id.id());
     if (showed_edge_id_set_.count(edge_id) != 0) {
@@ -219,9 +231,7 @@ bool GraphCreator::IsValidUTurn(const hdmap::Lane& lane, const double radius) {
   Vec2d q3 = ((p2 + p3) / 2);                  // middle of p2 -- p3
   Vec2d q4 = (p3 - p2).rotate(M_PI / 2) + q3;  // perpendicular to p2-p3
   const double s1 = CrossProd(q3, q1, q2);
-  if (std::fabs(s1) < kMathEpsilon) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-  // q3 is the circle center
+  if (std::fabs(s1) < kMathEpsilon) {  // q3 is the circle center
     return q3.DistanceTo(p1) >= radius;
   }
   const double s2 = CrossProd(q4, q1, q2);

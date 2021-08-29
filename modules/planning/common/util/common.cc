@@ -37,7 +37,8 @@ int BuildStopDecision(const std::string& stop_wall_id, const double stop_line_s,
   // check
   const auto& reference_line = reference_line_info->reference_line();
   if (!WithinBound(0.0, reference_line.Length(), stop_line_s)) {
-    AERROR << "stop_line_s[" << stop_line_s << "] is not on reference line";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "stop_line_s[" << stop_line_s << "] is not on reference line";
     return 0;
   }
 
@@ -45,12 +46,14 @@ int BuildStopDecision(const std::string& stop_wall_id, const double stop_line_s,
   const auto* obstacle =
       frame->CreateStopObstacle(reference_line_info, stop_wall_id, stop_line_s);
   if (!obstacle) {
-    AERROR << "Failed to create obstacle [" << stop_wall_id << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create obstacle [" << stop_wall_id << "]";
     return -1;
   }
   const Obstacle* stop_wall = reference_line_info->AddObstacle(obstacle);
   if (!stop_wall) {
-    AERROR << "Failed to add obstacle[" << stop_wall_id << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to add obstacle[" << stop_wall_id << "]";
     return -1;
   }
 
@@ -95,19 +98,22 @@ int BuildStopDecision(const std::string& stop_wall_id,
   const auto* obstacle =
       frame->CreateStopObstacle(stop_wall_id, lane_id, lane_s);
   if (!obstacle) {
-    AERROR << "Failed to create obstacle [" << stop_wall_id << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create obstacle [" << stop_wall_id << "]";
     return -1;
   }
 
   const Obstacle* stop_wall = reference_line_info->AddObstacle(obstacle);
   if (!stop_wall) {
-    AERROR << "Failed to create obstacle for: " << stop_wall_id;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create obstacle for: " << stop_wall_id;
     return -1;
   }
 
   const auto& stop_wall_box = stop_wall->PerceptionBoundingBox();
   if (!reference_line.IsOnLane(stop_wall_box.center())) {
-    ADEBUG << "stop point is not on lane. SKIP STOP decision";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop point is not on lane. SKIP STOP decision";
     return 0;
   }
 

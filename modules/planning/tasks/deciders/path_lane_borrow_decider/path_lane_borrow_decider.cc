@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -47,8 +46,9 @@ Status PathLaneBorrowDecider::Process(
   // skip path_lane_borrow_decider if reused path
   if (FLAGS_enable_skip_path_tasks && reference_line_info->path_reusable()) {
     // for debug
-    AINFO << "skip due to reusing path";
-    return Status::OK();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "skip due to reusing path";
+     return Status::OK();
   }
 
   // By default, don't borrow any lane.
@@ -74,12 +74,14 @@ bool PathLaneBorrowDecider::IsNecessaryToBorrowLane(
       // non-lane-borrowing.
       mutable_path_decider_status->set_is_in_path_lane_borrow_scenario(false);
       mutable_path_decider_status->clear_decided_side_pass_direction();
-      AINFO << "Switch from LANE-BORROW path to SELF-LANE path.";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch from LANE-BORROW path to SELF-LANE path.";
+     }
   } else {
     // If originally not borrowing neighbor lane:
-    ADEBUG << "Blocking obstacle ID["
-           << mutable_path_decider_status->front_static_obstacle_id() << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Blocking obstacle ID["
+            << mutable_path_decider_status->front_static_obstacle_id() << "]";
     // ADC requirements check for lane-borrowing:
     if (!HasSingleReferenceLine(frame)) {
       return false;
@@ -127,8 +129,9 @@ bool PathLaneBorrowDecider::IsNecessaryToBorrowLane(
       }
     }
 
-    AINFO << "Switch from SELF-LANE path to LANE-BORROW path.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch from SELF-LANE path to LANE-BORROW path.";
+   }
   return mutable_path_decider_status->is_in_path_lane_borrow_scenario();
 }
 
@@ -149,11 +152,13 @@ bool PathLaneBorrowDecider::IsLongTermBlockingObstacle() {
           .path_decider()
           .front_static_obstacle_cycle_counter() >=
       FLAGS_long_term_blocking_obstacle_cycle_threshold) {
-    ADEBUG << "The blocking obstacle is long-term existing.";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "The blocking obstacle is long-term existing.";
+     return true;
   } else {
-    ADEBUG << "The blocking obstacle is not long-term existing.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "The blocking obstacle is not long-term existing.";
+     return false;
   }
 }
 
@@ -164,24 +169,29 @@ bool PathLaneBorrowDecider::IsBlockingObstacleWithinDestination(
   const std::string blocking_obstacle_id =
       path_decider_status.front_static_obstacle_id();
   if (blocking_obstacle_id.empty()) {
-    ADEBUG << "There is no blocking obstacle.";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There is no blocking obstacle.";
+     return true;
   }
   const Obstacle* blocking_obstacle =
       reference_line_info.path_decision().obstacles().Find(
           blocking_obstacle_id);
   if (blocking_obstacle == nullptr) {
-    ADEBUG << "Blocking obstacle is no longer there.";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Blocking obstacle is no longer there.";
+     return true;
   }
 
   double blocking_obstacle_s =
       blocking_obstacle->PerceptionSLBoundary().start_s();
   double adc_end_s = reference_line_info.AdcSlBoundary().end_s();
-  ADEBUG << "Blocking obstacle is at s = " << blocking_obstacle_s;
-  ADEBUG << "ADC is at s = " << adc_end_s;
-  ADEBUG << "Destination is at s = "
-         << reference_line_info.SDistanceToDestination() + adc_end_s;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Blocking obstacle is at s = " << blocking_obstacle_s;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC is at s = " << adc_end_s;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Destination is at s = "
+          << reference_line_info.SDistanceToDestination() + adc_end_s;
   if (blocking_obstacle_s - adc_end_s >
       reference_line_info.SDistanceToDestination()) {
     return false;
@@ -196,27 +206,31 @@ bool PathLaneBorrowDecider::IsBlockingObstacleFarFromIntersection(
   const std::string blocking_obstacle_id =
       path_decider_status.front_static_obstacle_id();
   if (blocking_obstacle_id.empty()) {
-    ADEBUG << "There is no blocking obstacle.";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There is no blocking obstacle.";
+     return true;
   }
   const Obstacle* blocking_obstacle =
       reference_line_info.path_decision().obstacles().Find(
           blocking_obstacle_id);
   if (blocking_obstacle == nullptr) {
-    ADEBUG << "Blocking obstacle is no longer there.";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Blocking obstacle is no longer there.";
+     return true;
   }
 
   // Get blocking obstacle's s.
   double blocking_obstacle_s =
       blocking_obstacle->PerceptionSLBoundary().end_s();
-  ADEBUG << "Blocking obstacle is at s = " << blocking_obstacle_s;
-  // Get intersection's s and compare with threshold.
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Blocking obstacle is at s = " << blocking_obstacle_s;
+   // Get intersection's s and compare with threshold.
   const auto& first_encountered_overlaps =
       reference_line_info.FirstEncounteredOverlaps();
   for (const auto& overlap : first_encountered_overlaps) {
-    ADEBUG << overlap.first << ", " << overlap.second.DebugString();
-    // if (// overlap.first != ReferenceLineInfo::CLEAR_AREA &&
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << overlap.first << ", " << overlap.second.DebugString();
+     // if (// overlap.first != ReferenceLineInfo::CLEAR_AREA &&
     // overlap.first != ReferenceLineInfo::CROSSWALK &&
     // overlap.first != ReferenceLineInfo::PNC_JUNCTION &&
     if (overlap.first != ReferenceLineInfo::SIGNAL &&
@@ -228,14 +242,16 @@ bool PathLaneBorrowDecider::IsBlockingObstacleFarFromIntersection(
     if (overlap.first == ReferenceLineInfo::SIGNAL ||
         overlap.first == ReferenceLineInfo::STOP_SIGN) {
       if (distance < kIntersectionClearanceDist) {
-        ADEBUG << "Too close to signal intersection (" << distance
-               << "m); don't SIDE_PASS.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Too close to signal intersection (" << distance
+                << "m); don't SIDE_PASS.";
         return false;
       }
     } else {
       if (distance < kJunctionClearanceDist) {
-        ADEBUG << "Too close to overlap_type[" << overlap.first << "] ("
-               << distance << "m); don't SIDE_PASS";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Too close to overlap_type[" << overlap.first << "] ("
+                << distance << "m); don't SIDE_PASS";
         return false;
       }
     }
@@ -251,15 +267,17 @@ bool PathLaneBorrowDecider::IsSidePassableObstacle(
   const std::string blocking_obstacle_id =
       path_decider_status.front_static_obstacle_id();
   if (blocking_obstacle_id.empty()) {
-    ADEBUG << "There is no blocking obstacle.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There is no blocking obstacle.";
+     return false;
   }
   const Obstacle* blocking_obstacle =
       reference_line_info.path_decision().obstacles().Find(
           blocking_obstacle_id);
   if (blocking_obstacle == nullptr) {
-    ADEBUG << "Blocking obstacle is no longer there.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Blocking obstacle is no longer there.";
+     return false;
   }
 
   return IsNonmovableObstacle(reference_line_info, *blocking_obstacle);
@@ -296,8 +314,9 @@ void PathLaneBorrowDecider::CheckLaneBorrow(
           lane_boundary_type == hdmap::LaneBoundaryType::SOLID_WHITE) {
         *left_neighbor_lane_borrowable = false;
       }
-      ADEBUG << "s[" << check_s << "] left_lane_boundary_type["
-             << LaneBoundaryType_Type_Name(lane_boundary_type) << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "s[" << check_s << "] left_lane_boundary_type["
+              << LaneBoundaryType_Type_Name(lane_boundary_type) << "]";
     }
     if (*right_neighbor_lane_borrowable) {
       lane_boundary_type = hdmap::RightBoundaryType(waypoint);
@@ -305,8 +324,9 @@ void PathLaneBorrowDecider::CheckLaneBorrow(
           lane_boundary_type == hdmap::LaneBoundaryType::SOLID_WHITE) {
         *right_neighbor_lane_borrowable = false;
       }
-      ADEBUG << "s[" << check_s << "] right_neighbor_lane_borrowable["
-             << LaneBoundaryType_Type_Name(lane_boundary_type) << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "s[" << check_s << "] right_neighbor_lane_borrowable["
+              << LaneBoundaryType_Type_Name(lane_boundary_type) << "]";
     }
     check_s += 2.0;
   }

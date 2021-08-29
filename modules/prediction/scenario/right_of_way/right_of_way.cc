@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -41,7 +40,8 @@ void RightOfWay::Analyze(ContainerManager* container_manager) {
       container_manager->GetContainer<ObstaclesContainer>(
           AdapterConfig::PERCEPTION_OBSTACLES);
   if (obstacles_container == nullptr) {
-    AERROR << "Null obstacles container found";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null obstacles container found";
     return;
   }
 
@@ -49,7 +49,8 @@ void RightOfWay::Analyze(ContainerManager* container_manager) {
       container_manager->GetContainer<ADCTrajectoryContainer>(
           AdapterConfig::PLANNING_TRAJECTORY);
   if (adc_trajectory_container == nullptr) {
-    AERROR << "adc_trajectory_container is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "adc_trajectory_container is nullptr";
     return;
   }
   const std::vector<std::string>& lane_ids =
@@ -61,13 +62,15 @@ void RightOfWay::Analyze(ContainerManager* container_manager) {
   auto pose_container = container_manager->GetContainer<PoseContainer>(
       AdapterConfig::LOCALIZATION);
   if (pose_container == nullptr) {
-    AERROR << "Pose container pointer is a null pointer.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Pose container pointer is a null pointer.";
     return;
   }
   const PerceptionObstacle* pose_obstacle_ptr =
       pose_container->ToPerceptionObstacle();
   if (pose_obstacle_ptr == nullptr) {
-    AERROR << "Pose obstacle pointer is a null pointer.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Pose obstacle pointer is a null pointer.";
     return;
   }
   double pose_x = pose_obstacle_ptr->position().x();
@@ -81,7 +84,8 @@ void RightOfWay::Analyze(ContainerManager* container_manager) {
     std::shared_ptr<const LaneInfo> lane_info_ptr =
         PredictionMap::LaneById(lane_id);
     if (lane_info_ptr == nullptr) {
-      AERROR << "Null lane info pointer found.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null lane info pointer found.";
       continue;
     }
     double s = 0.0;
@@ -104,7 +108,8 @@ void RightOfWay::Analyze(ContainerManager* container_manager) {
     std::shared_ptr<const LaneInfo> lane_info_ptr =
         PredictionMap::LaneById(lane_id);
     if (lane_info_ptr == nullptr) {
-      AERROR << "Null lane info pointer found.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null lane info pointer found.";
       continue;
     }
     accumulated_s += lane_info_ptr->total_length();
@@ -126,8 +131,9 @@ void RightOfWay::Analyze(ContainerManager* container_manager) {
     if (latest_feature_ptr->type() != PerceptionObstacle::VEHICLE) {
       continue;
     }
-    ADEBUG << "RightOfWay for obstacle [" << latest_feature_ptr->id() << "], "
-           << "with lane_sequence_size: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "RightOfWay for obstacle [" << latest_feature_ptr->id() << "], "
+            << "with lane_sequence_size: "
            << latest_feature_ptr->lane().lane_graph().lane_sequence_size();
     for (auto& lane_sequence : *latest_feature_ptr->mutable_lane()
                                     ->mutable_lane_graph()

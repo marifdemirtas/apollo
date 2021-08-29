@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,15 +25,11 @@ namespace ch {
 
 using ::apollo::drivers::canbus::Byte;
 
-Ecustatus2516::Ecustatus2516() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Ecustatus2516::Ecustatus2516() {}
 const int32_t Ecustatus2516::ID = 0x516;
 
 void Ecustatus2516::Parse(const std::uint8_t* bytes, int32_t length,
                           ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_ch()->mutable_ecu_status_2_516()->set_battery_soc(
       battery_soc(bytes, length));
   chassis->mutable_ch()->mutable_ecu_status_2_516()->set_battery_capacity(
@@ -53,8 +48,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': '%', 'precision': 1.0, 'type': 'int'}
 int Ecustatus2516::battery_soc(const std::uint8_t* bytes,
                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -68,8 +61,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': 'Ah', 'precision': 1.0, 'type': 'int'}
 int Ecustatus2516::battery_capacity(const std::uint8_t* bytes,
                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -83,8 +74,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'V', 'precision': 0.1, 'type': 'double'}
 double Ecustatus2516::battery_voltage(const std::uint8_t* bytes,
                                       int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 
@@ -103,8 +92,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': 'A', 'precision': 0.1, 'type': 'double'}
 double Ecustatus2516::battery_current(const std::uint8_t* bytes,
                                       int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);
 
@@ -126,8 +113,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': '℃', 'precision': 1.0, 'type': 'int'}
 int Ecustatus2516::battery_temperature(const std::uint8_t* bytes,
                                        int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
 

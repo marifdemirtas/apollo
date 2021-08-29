@@ -32,7 +32,8 @@ bool DataProvider::Init(const DataProvider::InitOptions &options) {
   device_id_ = options.device_id;
 
   if (cudaSetDevice(device_id_) != cudaSuccess) {
-    AERROR << "Failed to set device to: " << device_id_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to set device to: " << device_id_;
     return false;
   }
 
@@ -116,7 +117,8 @@ bool DataProvider::Init(const DataProvider::InitOptions &options) {
 bool DataProvider::FillImageData(int rows, int cols, const uint8_t *data,
                                  const std::string &encoding) {
   if (cudaSetDevice(device_id_) != cudaSuccess) {
-    AERROR << "Failed to set device to: " << device_id_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to set device to: " << device_id_;
     return false;
   }
 
@@ -127,9 +129,11 @@ bool DataProvider::FillImageData(int rows, int cols, const uint8_t *data,
   bool success = false;
 
 #if USE_GPU == 0  // copy to host memory
-  AINFO << "Fill in CPU mode ...";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Fill in CPU mode ...";
   if (handler_ != nullptr) {
-    AERROR << "Undistortion DO NOT support CPU mode!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Undistortion DO NOT support CPU mode!";
     return false;
   }
   if (encoding == "rgb8") {
@@ -145,10 +149,12 @@ bool DataProvider::FillImageData(int rows, int cols, const uint8_t *data,
     gray_ready_ = true;
     success = true;
   } else {
-    AERROR << "Unrecognized image encoding: " << encoding;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unrecognized image encoding: " << encoding;
   }
 #else  // copy to device memory directly
-  AINFO << "Fill in GPU mode ...";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Fill in GPU mode ...";
   if (encoding == "rgb8") {
     if (handler_ != nullptr) {
       cudaMemcpy(ori_rgb_->mutable_gpu_data(), data,
@@ -184,11 +190,13 @@ bool DataProvider::FillImageData(int rows, int cols, const uint8_t *data,
     }
     gray_ready_ = true;
   } else {
-    AERROR << "Unrecognized image encoding: " << encoding;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unrecognized image encoding: " << encoding;
   }
 #endif
 
-  AINFO << "Done! (" << success << ")";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Done! (" << success << ")";
   return success;
 }
 
@@ -243,7 +251,8 @@ bool DataProvider::GetImageBlob(const DataProvider::ImageOptions &options,
 
 bool DataProvider::GetImage(const DataProvider::ImageOptions &options,
                             base::Image8U *image) {
-  AINFO << "GetImage ...";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GetImage ...";
   if (image == nullptr) {
     return false;
   }
@@ -262,7 +271,8 @@ bool DataProvider::GetImage(const DataProvider::ImageOptions &options,
       *image = (*gray_);
       break;
     default:
-      AERROR << "Unsupported Color: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unsupported Color: "
              << static_cast<uint8_t>(options.target_color);
   }
   if (!success) {
@@ -270,10 +280,12 @@ bool DataProvider::GetImage(const DataProvider::ImageOptions &options,
   }
 
   if (options.do_crop) {
-    AINFO << "\tcropping ...";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\tcropping ...";
     *image = (*image)(options.crop_roi);
   }
-  AINFO << "Done!";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Done!";
   return true;
 }
 

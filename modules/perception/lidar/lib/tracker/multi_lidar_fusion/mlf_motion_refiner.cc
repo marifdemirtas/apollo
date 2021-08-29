@@ -75,7 +75,8 @@ bool MlfMotionRefiner::Refine(const MlfTrackDataConstPtr& track_data,
     Eigen::Vector3d current_velocity = Eigen::Vector3d::Zero();
     current_velocity = latest_object->output_velocity;
     new_object->output_velocity = current_velocity;
-    AINFO << "Track_id " << track_data->track_id_
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Track_id " << track_data->track_id_
           << ", keep motion because of extraodinary acceleration.";
     return true;
   }
@@ -86,7 +87,8 @@ bool MlfMotionRefiner::Refine(const MlfTrackDataConstPtr& track_data,
   if (is_static_hypothesis) {
     new_object->output_velocity = Eigen::Vector3d::Zero();
     new_object->state.tail<2>().setZero();
-    AINFO << "Track_id " << track_data->track_id_
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Track_id " << track_data->track_id_
           << ", set velocity to zero because of noise claping.";
     return true;
   }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,29 +26,25 @@ namespace localization {
 namespace msf {
 
 PCDExporter::PCDExporter(const std::string &pcd_folder) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pcd_folder_ = pcd_folder;
   std::string stamp_file = pcd_folder_ + "/pcd_timestamp.txt";
 
   if ((stamp_file_handle_ = fopen(stamp_file.c_str(), "a")) == nullptr) {
-    AERROR << "Cannot open stamp file!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot open stamp file!";
   }
 }
 
 PCDExporter::~PCDExporter() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (stamp_file_handle_ != nullptr) {
     fclose(stamp_file_handle_);
   }
 }
 
 void PCDExporter::CompensatedPcdCallback(const std::string &msg_string) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Compensated pcd callback.";
-  drivers::PointCloud msg;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Compensated pcd callback.";
+   drivers::PointCloud msg;
   msg.ParseFromString(msg_string);
 
   static unsigned int index = 1;
@@ -67,8 +62,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void PCDExporter::WritePcdFile(const std::string &filename,
                                const drivers::PointCloud &msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pcl::PointCloud<velodyne::PointXYZIT> cloud;
   cloud.width = msg.width();
   cloud.height = msg.height();

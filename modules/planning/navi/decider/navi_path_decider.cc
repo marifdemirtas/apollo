@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -59,12 +58,14 @@ bool NaviPathDecider::Init(const PlanningConfig& config) {
       max_speed_levels_.push_back(max_speed_level);
     }
   }
-  AINFO << "Maximum speeds and move to dest lane config: ";
-  for (const auto& data : move_dest_lane_config_talbe_) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Maximum speeds and move to dest lane config: ";
+   for (const auto& data : move_dest_lane_config_talbe_) {
     auto max_speed = data.first;
     auto max_move_dest_lane_shift_y = data.second;
-    AINFO << "[max_speed : " << max_speed
-          << " ,max move dest lane shift y : " << max_move_dest_lane_shift_y
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "[max_speed : " << max_speed
+           << " ,max move dest lane shift y : " << max_move_dest_lane_shift_y
           << "]";
   }
   max_keep_lane_distance_ = config_.max_keep_lane_distance();
@@ -90,7 +91,8 @@ Status NaviPathDecider::Execute(Frame* frame,
   RecordDebugInfo(reference_line_info->path_data());
   if (ret != Status::OK()) {
     reference_line_info->SetDrivable(false);
-    AERROR << "Reference Line " << reference_line_info->Lanes().Id()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Reference Line " << reference_line_info->Lanes().Id()
            << " is not drivable after " << Name();
   }
   return ret;
@@ -120,7 +122,8 @@ apollo::common::Status NaviPathDecider::Process(
   // intercept path points from reference line
   std::vector<apollo::common::PathPoint> path_points;
   if (!GetBasicPathData(reference_line, &path_points)) {
-    AERROR << "Get path points from reference line failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Get path points from reference line failed";
     return Status(apollo::common::ErrorCode::PLANNING_ERROR,
                   "NaviPathDecider GetBasicPathData");
   }
@@ -130,15 +133,17 @@ apollo::common::Status NaviPathDecider::Process(
   // y-axis to adc.
   double dest_ref_line_y = path_points[0].y();
 
-  ADEBUG << "in current plan cycle, adc to ref line distance : "
-         << dest_ref_line_y << "lane id : " << cur_reference_line_lane_id_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "in current plan cycle, adc to ref line distance : "
+          << dest_ref_line_y << "lane id : " << cur_reference_line_lane_id_;
   MoveToDestLane(dest_ref_line_y, &path_points);
 
   KeepLane(dest_ref_line_y, &path_points);
 
   path_data->SetReferenceLine(&(reference_line_info_->reference_line()));
   if (!path_data->SetDiscretizedPath(DiscretizedPath(std::move(path_points)))) {
-    AERROR << "Set path data failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Set path data failed.";
     return Status(apollo::common::ErrorCode::PLANNING_ERROR,
                   "NaviPathDecider SetDiscretizedPath");
   }
@@ -166,8 +171,9 @@ void NaviPathDecider::MoveToDestLane(
       lateral_shift_value > 0.0
           ? (lateral_shift_value - move_dest_lane_compensation_)
           : lateral_shift_value;
-  ADEBUG << "in current plan cycle move to dest lane, adc shift to dest "
-            "reference line : "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "in current plan cycle move to dest lane, adc shift to dest "
+             "reference line : "
          << lateral_shift_value;
   std::transform(path_points->begin(), path_points->end(), path_points->begin(),
                  [lateral_shift_value](common::PathPoint& old_path_point) {
@@ -205,8 +211,9 @@ void NaviPathDecider::KeepLane(
       actual_shift_y = std::copysign(lateral_shift_value, actual_dest_point_y);
     }
 
-    ADEBUG << "in current plan cycle keep lane, actual dest : "
-           << actual_dest_point_y << " adc shift to dest : " << actual_shift_y;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "in current plan cycle keep lane, actual dest : "
+            << actual_dest_point_y << " adc shift to dest : " << actual_shift_y;
     std::transform(
         path_points->begin(), path_points->end(), path_points->begin(),
         [actual_shift_y](common::PathPoint& old_path_point) {
@@ -242,7 +249,8 @@ bool NaviPathDecider::GetBasicPathData(
 
   const double reference_line_len = reference_line.Length();
   if (reference_line_len < path_len) {
-    AERROR << "Reference line is too short to generate path trajectory( s = "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Reference line is too short to generate path trajectory( s = "
            << reference_line_len << ").";
     return false;
   }
@@ -254,15 +262,17 @@ bool NaviPathDecider::GetBasicPathData(
   common::SLPoint sl_point;
   if (!reference_line.XYToSL(start_plan_point_project.ToPathPoint(0.0),
                              &sl_point)) {
-    AERROR << "Failed to get start plan point s from reference "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get start plan point s from reference "
               "line.";
     return false;
   }
   auto start_plan_point_project_s = sl_point.has_s() ? sl_point.s() : 0.0;
 
   // get basic path points form reference_line
-  ADEBUG << "Basic path data len ; " << reference_line_len;
-  static constexpr double KDenseSampleUnit = 0.50;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Basic path data len ; " << reference_line_len;
+   static constexpr double KDenseSampleUnit = 0.50;
   static constexpr double KSparseSmapleUnit = 2.0;
   for (double s = start_plan_point_project_s; s < reference_line_len;
        s += ((s < path_len) ? KDenseSampleUnit : KSparseSmapleUnit)) {
@@ -272,7 +282,8 @@ bool NaviPathDecider::GetBasicPathData(
   }
 
   if (path_points->empty()) {
-    AERROR << "path poins is empty.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "path poins is empty.";
     return false;
   }
 
@@ -296,7 +307,8 @@ bool NaviPathDecider::IsSafeChangeLane(const ReferenceLine& reference_line,
                 adc_param.width());
   SLBoundary adc_sl_boundary;
   if (!reference_line.GetSLBoundary(adc_box, &adc_sl_boundary)) {
-    AERROR << "Failed to get ADC boundary from box: " << adc_box.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get ADC boundary from box: " << adc_box.DebugString();
     return false;
   }
 
@@ -345,8 +357,9 @@ double NaviPathDecider::NudgeProcess(
       &lane_obstacles_num);
   // adjust plan start point
   if (std::fabs(nudge_distance) > KNudgeEpsilon) {
-    ADEBUG << "need latteral nudge distance : " << nudge_distance;
-    nudge_position_y = nudge_distance;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "need latteral nudge distance : " << nudge_distance;
+     nudge_position_y = nudge_distance;
     last_lane_id_to_nudge_flag_[cur_reference_line_lane_id_] = true;
   } else {
     // no nudge distance but current lane has obstacles ,keepping path in
@@ -359,8 +372,9 @@ double NaviPathDecider::NudgeProcess(
     }
 
     if (last_plan_has_nudge && lane_obstacles_num != 0) {
-      ADEBUG << "Keepping last nudge path direction";
-      nudge_position_y = vehicle_state_.y();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Keepping last nudge path direction";
+       nudge_position_y = vehicle_state_.y();
     } else {
       // not need nudge or not need nudge keepping
       last_lane_id_to_nudge_flag_[cur_reference_line_lane_id_] = false;

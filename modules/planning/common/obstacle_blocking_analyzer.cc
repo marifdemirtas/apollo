@@ -41,13 +41,15 @@ bool IsNonmovableObstacle(const ReferenceLineInfo& reference_line_info,
   const SLBoundary& adc_sl_boundary = reference_line_info.AdcSlBoundary();
   if (obstacle.PerceptionSLBoundary().start_s() >
       adc_sl_boundary.end_s() + kAdcDistanceThreshold) {
-    ADEBUG << " - It is too far ahead and we are not so sure of its status.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " - It is too far ahead and we are not so sure of its status.";
     return false;
   }
 
   // Obstacle is parked obstacle.
   if (IsParkedVehicle(reference_line_info.reference_line(), &obstacle)) {
-    ADEBUG << "It is Parked and NON-MOVABLE.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "It is Parked and NON-MOVABLE.";
     return true;
   }
 
@@ -75,11 +77,13 @@ bool IsNonmovableObstacle(const ReferenceLineInfo& reference_line_info,
 
     // TODO(All): Fix the segmentation bug for large vehicles, otherwise
     // the follow line will be problematic.
-    ADEBUG << " - It is blocked by others, and will move later.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " - It is blocked by others, and will move later.";
     return false;
   }
 
-  ADEBUG << "IT IS NON-MOVABLE!";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "IT IS NON-MOVABLE!";
   return true;
 }
 
@@ -94,23 +98,27 @@ bool IsBlockingObstacleToSidePass(const Frame& frame, const Obstacle* obstacle,
   const auto& reference_line = reference_line_info.reference_line();
   const SLBoundary& adc_sl_boundary = reference_line_info.AdcSlBoundary();
   const PathDecision& path_decision = reference_line_info.path_decision();
-  ADEBUG << "Evaluating Obstacle: " << obstacle->Id();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Evaluating Obstacle: " << obstacle->Id();
 
   // Obstacle is virtual.
   if (obstacle->IsVirtual()) {
-    ADEBUG << " - It is virtual.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " - It is virtual.";
     return false;
   }
 
   // Obstacle is moving.
   if (!obstacle->IsStatic() || obstacle->speed() > block_obstacle_min_speed) {
-    ADEBUG << " - It is non-static.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " - It is non-static.";
     return false;
   }
 
   // Obstacle is behind ADC.
   if (obstacle->PerceptionSLBoundary().start_s() <= adc_sl_boundary.end_s()) {
-    ADEBUG << " - It is behind ADC.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " - It is behind ADC.";
     return false;
   }
 
@@ -118,20 +126,23 @@ bool IsBlockingObstacleToSidePass(const Frame& frame, const Obstacle* obstacle,
   static constexpr double kAdcDistanceSidePassThreshold = 15.0;
   if (obstacle->PerceptionSLBoundary().start_s() >
       adc_sl_boundary.end_s() + kAdcDistanceSidePassThreshold) {
-    ADEBUG << " - It is too far ahead.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " - It is too far ahead.";
     return false;
   }
 
   // Obstacle is too close.
   if (adc_sl_boundary.end_s() + min_front_sidepass_distance >
       obstacle->PerceptionSLBoundary().start_s()) {
-    ADEBUG << " - It is too close to side-pass.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " - It is too close to side-pass.";
     return false;
   }
 
   // Obstacle is not blocking our path.
   if (!IsBlockingDrivingPathObstacle(reference_line, obstacle)) {
-    ADEBUG << " - It is not blocking our way.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " - It is not blocking our way.";
     return false;
   }
 
@@ -160,12 +171,14 @@ bool IsBlockingObstacleToSidePass(const Frame& frame, const Obstacle* obstacle,
 
       // TODO(All): Fix the segmentation bug for large vehicles, otherwise
       // the follow line will be problematic.
-      ADEBUG << " - It is blocked by others, too.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " - It is blocked by others, too.";
       return false;
     }
   }
 
-  ADEBUG << "IT IS BLOCKING!";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "IT IS BLOCKING!";
   return true;
 }
 
@@ -184,17 +197,20 @@ bool IsBlockingDrivingPathObstacle(const ReferenceLine& reference_line,
       reference_line.GetDrivingWidth(obstacle->PerceptionSLBoundary());
   const double adc_width =
       VehicleConfigHelper::GetConfig().vehicle_param().width();
-  ADEBUG << " (driving width = " << driving_width
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " (driving width = " << driving_width
          << ", adc_width = " << adc_width << ")";
   if (driving_width > adc_width + FLAGS_static_obstacle_nudge_l_buffer +
                           FLAGS_side_pass_driving_width_l_buffer) {
     // TODO(jiacheng): make this a GFLAG:
     // side_pass_context_.scenario_config_.min_l_nudge_buffer()
-    ADEBUG << "It is NOT blocking our path.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "It is NOT blocking our path.";
     return false;
   }
 
-  ADEBUG << "It is blocking our path.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "It is blocking our path.";
   return true;
 }
 

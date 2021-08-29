@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,21 +27,15 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Llcdiagbrakecontrol721::ID = 0x721;
 
 // public
-Llcdiagbrakecontrol721::Llcdiagbrakecontrol721() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Llcdiagbrakecontrol721::Llcdiagbrakecontrol721() { Reset(); }
 
 uint32_t Llcdiagbrakecontrol721::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 10 * 1000;
   return PERIOD;
 }
 
 void Llcdiagbrakecontrol721::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_llc_dbg_brakepidcontribution_p(data, llc_dbg_brakepidcontribution_p_);
   set_p_llc_dbg_brakepidcontribution_i(data, llc_dbg_brakepidcontribution_i_);
   set_p_llc_dbg_brakepidcontribution_d(data, llc_dbg_brakepidcontribution_d_);
@@ -52,8 +45,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Llcdiagbrakecontrol721::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  you should check this manually
   llc_dbg_brakepidcontribution_p_ = 0.0;
   llc_dbg_brakepidcontribution_i_ = 0.0;
@@ -66,8 +57,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 Llcdiagbrakecontrol721*
 Llcdiagbrakecontrol721::set_llc_dbg_brakepidcontribution_p(
     double llc_dbg_brakepidcontribution_p) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   llc_dbg_brakepidcontribution_p_ = llc_dbg_brakepidcontribution_p;
   return this;
 }
@@ -78,8 +67,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'double', 'order': 'intel', 'physical_unit': 'mrev'}
 void Llcdiagbrakecontrol721::set_p_llc_dbg_brakepidcontribution_p(
     uint8_t* data, double llc_dbg_brakepidcontribution_p) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   llc_dbg_brakepidcontribution_p =
       ProtocolData::BoundedValue(-51.2, 51.1, llc_dbg_brakepidcontribution_p);
   int x = static_cast<int>(llc_dbg_brakepidcontribution_p / 0.100000);
@@ -98,8 +85,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 Llcdiagbrakecontrol721*
 Llcdiagbrakecontrol721::set_llc_dbg_brakepidcontribution_i(
     double llc_dbg_brakepidcontribution_i) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   llc_dbg_brakepidcontribution_i_ = llc_dbg_brakepidcontribution_i;
   return this;
 }
@@ -110,8 +95,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'double', 'order': 'intel', 'physical_unit': 'mrev'}
 void Llcdiagbrakecontrol721::set_p_llc_dbg_brakepidcontribution_i(
     uint8_t* data, double llc_dbg_brakepidcontribution_i) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   llc_dbg_brakepidcontribution_i =
       ProtocolData::BoundedValue(-51.2, 51.1, llc_dbg_brakepidcontribution_i);
   int x = static_cast<int>(llc_dbg_brakepidcontribution_i / 0.100000);
@@ -130,8 +113,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 Llcdiagbrakecontrol721*
 Llcdiagbrakecontrol721::set_llc_dbg_brakepidcontribution_d(
     double llc_dbg_brakepidcontribution_d) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   llc_dbg_brakepidcontribution_d_ = llc_dbg_brakepidcontribution_d;
   return this;
 }
@@ -142,8 +123,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'double', 'order': 'intel', 'physical_unit': 'mrev'}
 void Llcdiagbrakecontrol721::set_p_llc_dbg_brakepidcontribution_d(
     uint8_t* data, double llc_dbg_brakepidcontribution_d) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   llc_dbg_brakepidcontribution_d =
       ProtocolData::BoundedValue(-51.2, 51.1, llc_dbg_brakepidcontribution_d);
   int x = static_cast<int>(llc_dbg_brakepidcontribution_d / 0.100000);
@@ -161,8 +140,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Llcdiagbrakecontrol721* Llcdiagbrakecontrol721::set_llc_dbg_brakepid_output(
     double llc_dbg_brakepid_output) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   llc_dbg_brakepid_output_ = llc_dbg_brakepid_output;
   return this;
 }
@@ -173,8 +150,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'double', 'order': 'intel', 'physical_unit': 'mrev'}
 void Llcdiagbrakecontrol721::set_p_llc_dbg_brakepid_output(
     uint8_t* data, double llc_dbg_brakepid_output) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   llc_dbg_brakepid_output =
       ProtocolData::BoundedValue(-51.2, 51.1, llc_dbg_brakepid_output);
   int x = static_cast<int>(llc_dbg_brakepid_output / 0.100000);
@@ -192,8 +167,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Llcdiagbrakecontrol721* Llcdiagbrakecontrol721::set_llc_dbg_brakepid_error(
     int llc_dbg_brakepid_error) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   llc_dbg_brakepid_error_ = llc_dbg_brakepid_error;
   return this;
 }
@@ -204,8 +177,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'int', 'order': 'intel', 'physical_unit': 'psi'}
 void Llcdiagbrakecontrol721::set_p_llc_dbg_brakepid_error(
     uint8_t* data, int llc_dbg_brakepid_error) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   llc_dbg_brakepid_error =
       ProtocolData::BoundedValue(-2048, 2047, llc_dbg_brakepid_error);
   int x = llc_dbg_brakepid_error;
@@ -223,8 +194,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Llcdiagbrakecontrol721* Llcdiagbrakecontrol721::set_llc_dbg_brakefeedforward(
     double llc_dbg_brakefeedforward) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   llc_dbg_brakefeedforward_ = llc_dbg_brakefeedforward;
   return this;
 }
@@ -236,8 +205,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': 'mrev'}
 void Llcdiagbrakecontrol721::set_p_llc_dbg_brakefeedforward(
     uint8_t* data, double llc_dbg_brakefeedforward) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   llc_dbg_brakefeedforward =
       ProtocolData::BoundedValue(-1024.0, 1023.5, llc_dbg_brakefeedforward);
   int x = static_cast<int>(llc_dbg_brakefeedforward / 0.500000);

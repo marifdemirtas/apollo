@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2019 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,28 +43,30 @@ ErrorCode ZhongyunController::Init(
     const VehicleParameter& params,
     CanSender<::apollo::canbus::ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (is_initialized_) {
-    AINFO << "ZhongyunController has already been initialized.";
-    return ErrorCode::CANBUS_ERROR;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ZhongyunController has already been initialized.";
+     return ErrorCode::CANBUS_ERROR;
   }
   vehicle_params_.CopyFrom(
       common::VehicleConfigHelper::Instance()->GetConfig().vehicle_param());
   params_.CopyFrom(params);
   if (!params_.has_driving_mode()) {
-    AERROR << "Vehicle conf pb not set driving_mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Vehicle conf pb not set driving_mode.";
     return ErrorCode::CANBUS_ERROR;
   }
 
   if (can_sender == nullptr) {
-    AERROR << "Canbus sender is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Canbus sender is null.";
     return ErrorCode::CANBUS_ERROR;
   }
   can_sender_ = can_sender;
 
   if (message_manager == nullptr) {
-    AERROR << "Protocol manager is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Protocol manager is null.";
     return ErrorCode::CANBUS_ERROR;
   }
   message_manager_ = message_manager;
@@ -74,35 +75,40 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   brake_control_a4_ = dynamic_cast<Brakecontrola4*>(
       message_manager_->GetMutableProtocolDataById(Brakecontrola4::ID));
   if (brake_control_a4_ == nullptr) {
-    AERROR << "Brakecontrola4 does not exist in the ZhongyunMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Brakecontrola4 does not exist in the ZhongyunMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   gear_control_a1_ = dynamic_cast<Gearcontrola1*>(
       message_manager_->GetMutableProtocolDataById(Gearcontrola1::ID));
   if (gear_control_a1_ == nullptr) {
-    AERROR << "Gearcontrola1 does not exist in the ZhongyunMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Gearcontrola1 does not exist in the ZhongyunMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   parking_control_a5_ = dynamic_cast<Parkingcontrola5*>(
       message_manager_->GetMutableProtocolDataById(Parkingcontrola5::ID));
   if (parking_control_a5_ == nullptr) {
-    AERROR << "Parkingcontrola5 does not exist in the ZhongyunMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Parkingcontrola5 does not exist in the ZhongyunMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   steering_control_a2_ = dynamic_cast<Steeringcontrola2*>(
       message_manager_->GetMutableProtocolDataById(Steeringcontrola2::ID));
   if (steering_control_a2_ == nullptr) {
-    AERROR << "Steeringcontrola2 does not exist in the ZhongyunMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Steeringcontrola2 does not exist in the ZhongyunMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   torque_control_a3_ = dynamic_cast<Torquecontrola3*>(
       message_manager_->GetMutableProtocolDataById(Torquecontrola3::ID));
   if (torque_control_a3_ == nullptr) {
-    AERROR << "Torquecontrola3 does not exist in the ZhongyunMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Torquecontrola3 does not exist in the ZhongyunMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
@@ -113,21 +119,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   can_sender_->AddMessage(Torquecontrola3::ID, torque_control_a3_, false);
 
   // Need to sleep to ensure all messages received
-  AINFO << "ZhongyunController is initialized.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ZhongyunController is initialized.";
+ 
   is_initialized_ = true;
   return ErrorCode::OK;
 }
 
-ZhongyunController::~ZhongyunController() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+ZhongyunController::~ZhongyunController() {}
 
 bool ZhongyunController::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "ZhongyunController has not been initialized.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ZhongyunController has not been initialized.";
     return false;
   }
   const auto& update_func = [this] { SecurityDogThreadFunc(); };
@@ -137,23 +141,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void ZhongyunController::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "ZhongyunController stops or starts improperly!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ZhongyunController stops or starts improperly!";
     return;
   }
 
   if (thread_ != nullptr && thread_->joinable()) {
     thread_->join();
     thread_.reset();
-    AINFO << "ZhongyunController stopped.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ZhongyunController stopped.";
+   }
 }
 
 Chassis ZhongyunController::chassis() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis_.Clear();
 
   ChassisDetail chassis_detail;
@@ -171,7 +173,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   chassis_.set_engine_started(true);
   // if there is not zhongyun, no chassis detail can be retrieved and return
   if (!chassis_detail.has_zhongyun()) {
-    AERROR << "NO ZHONGYUN chassis information!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "NO ZHONGYUN chassis information!";
     return chassis_;
   }
   Zhongyun zhy = chassis_detail.zhongyun();
@@ -270,18 +273,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void ZhongyunController::Emergency() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
 }
 
 ErrorCode ZhongyunController::EnableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
-    AINFO << "Already in COMPLETE_AUTO_DRIVE mode.";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in COMPLETE_AUTO_DRIVE mode.";
+     return ErrorCode::OK;
   }
   steering_control_a2_->set_steering_enable_control(
       Steering_control_a2::STEERING_ENABLE_CONTROL_STEERING_AUTOCONTROL);
@@ -298,35 +298,35 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const int32_t flag =
       CHECK_RESPONSE_STEER_UNIT_FLAG | CHECK_RESPONSE_SPEED_UNIT_FLAG;
   if (!CheckResponse(flag, true)) {
-    AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
     Emergency();
     set_chassis_error_code(Chassis::CHASSIS_ERROR);
     return ErrorCode::CANBUS_ERROR;
   }
   set_driving_mode(Chassis::COMPLETE_AUTO_DRIVE);
-  AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
+   return ErrorCode::OK;
 }
 
 ErrorCode ZhongyunController::DisableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ResetProtocol();
   can_sender_->Update();
   set_driving_mode(Chassis::COMPLETE_MANUAL);
   set_chassis_error_code(Chassis::NO_ERROR);
-  AINFO << "Switch to COMPLETE_MANUAL mode ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_MANUAL mode ok.";
+   return ErrorCode::OK;
 }
 
 ErrorCode ZhongyunController::EnableSteeringOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_STEER_ONLY) {
     set_driving_mode(Chassis::AUTO_STEER_ONLY);
-    AINFO << "Already in AUTO_STEER_ONLY mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in AUTO_STEER_ONLY mode";
+     return ErrorCode::OK;
   }
   steering_control_a2_->set_steering_enable_control(
       Steering_control_a2::STEERING_ENABLE_CONTROL_STEERING_AUTOCONTROL);
@@ -343,24 +343,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const int32_t flag =
       CHECK_RESPONSE_STEER_UNIT_FLAG | CHECK_RESPONSE_SPEED_UNIT_FLAG;
   if (!CheckResponse(flag, true)) {
-    AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
     Emergency();
     set_chassis_error_code(Chassis::CHASSIS_ERROR);
     return ErrorCode::CANBUS_ERROR;
   }
   set_driving_mode(Chassis::AUTO_STEER_ONLY);
-  AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
+   return ErrorCode::OK;
 }
 
 ErrorCode ZhongyunController::EnableSpeedOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_SPEED_ONLY) {
     set_driving_mode(Chassis::AUTO_SPEED_ONLY);
-    AINFO << "Already in AUTO_SPEED_ONLY mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in AUTO_SPEED_ONLY mode";
+     return ErrorCode::OK;
   }
   steering_control_a2_->set_steering_enable_control(
       Steering_control_a2::STEERING_ENABLE_CONTROL_STEERING_MANUALCONTROL);
@@ -375,24 +376,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   can_sender_->Update();
   if (CheckResponse(CHECK_RESPONSE_SPEED_UNIT_FLAG, true) == false) {
-    AERROR << "Failed to switch to AUTO_SPEED_ONLY mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to AUTO_SPEED_ONLY mode.";
     Emergency();
     set_chassis_error_code(Chassis::CHASSIS_ERROR);
     return ErrorCode::CANBUS_ERROR;
   }
   set_driving_mode(Chassis::AUTO_SPEED_ONLY);
-  AINFO << "Switch to AUTO_SPEED_ONLY mode ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to AUTO_SPEED_ONLY mode ok.";
+   return ErrorCode::OK;
 }
 
 // NEUTRAL, REVERSE, DRIVE, PARK
 void ZhongyunController::Gear(Chassis::GearPosition gear_position) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "This drive mode no need to set gear.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "This drive mode no need to set gear.";
+     return;
   }
 
   switch (gear_position) {
@@ -418,7 +420,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
 
     case Chassis::GEAR_INVALID: {
-      AERROR << "Gear command is invalid!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Gear command is invalid!";
       gear_control_a1_->set_gear_state_target(
           Gear_control_a1::GEAR_STATE_TARGET_INVALID);
       break;
@@ -434,12 +437,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // brake with brake pedal
 // pedal:0.00~99.99, unit:percentage
 void ZhongyunController::Brake(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set brake pedal.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set brake pedal.";
+     return;
   }
   brake_control_a4_->set_brake_torque(pedal);
 }
@@ -447,12 +449,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // drive with throttle pedal
 // pedal:0.00~99.99 unit:percentage
 void ZhongyunController::Throttle(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set throttle pedal.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set throttle pedal.";
+     return;
   }
   torque_control_a3_->set_driven_torque(pedal);
 }
@@ -461,12 +462,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // drive with acceleration/deceleration
 // acc:-7.0 ~ 5.0, unit:m/s^2
 void ZhongyunController::Acceleration(double acc) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
   // None
 }
@@ -476,12 +476,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:%, left:-, right:+
 void ZhongyunController::Steer(double angle) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
   const double real_angle =
       vehicle_params_.max_steer_angle() / M_PI * 180 * angle / 100.0;
@@ -492,12 +491,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // zhongyun has no angle_speed
 // angle:-30~30, unit:%, left:+, right:-
 void ZhongyunController::Steer(double angle, double angle_spd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
   const double real_angle =
       vehicle_params_.max_steer_angle() / M_PI * 180 * angle / 100.0;
@@ -505,8 +503,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void ZhongyunController::SetEpbBreak(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.parking_brake()) {
     parking_control_a5_->set_parking_target(
         Parking_control_a5::PARKING_TARGET_PARKING_TRIGGER);
@@ -517,8 +513,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void ZhongyunController::SetBeam(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.signal().high_beam()) {
     // None
   } else if (command.signal().low_beam()) {
@@ -529,8 +523,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void ZhongyunController::SetHorn(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.signal().horn()) {
     // None
   } else {
@@ -539,25 +531,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void ZhongyunController::SetTurningSignal(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Set Turn Signal
   // None
 }
 
 void ZhongyunController::ResetProtocol() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   message_manager_->ResetSendMessages();
 }
 
 bool ZhongyunController::CheckChassisError() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ChassisDetail chassis_detail;
   message_manager_->GetSensorData(&chassis_detail);
   if (!chassis_detail.has_zhongyun()) {
-    AERROR_EVERY(100) << "ChassisDetail has NO zhongyun vehicle info."
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "ChassisDetail has NO zhongyun vehicle info."
                       << chassis_detail.DebugString();
     return false;
   }
@@ -604,13 +591,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void ZhongyunController::SecurityDogThreadFunc() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
 
   if (can_sender_ == nullptr) {
-    AERROR << "Failed to run SecurityDogThreadFunc() because can_sender_ is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to run SecurityDogThreadFunc() because can_sender_ is "
               "nullptr.";
     return;
   }
@@ -665,7 +651,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (elapsed < default_period) {
       std::this_thread::sleep_for(default_period - elapsed);
     } else {
-      AERROR
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
           << "Too much time consumption in ZhongyunController looping process:"
           << elapsed.count();
     }
@@ -673,8 +660,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool ZhongyunController::CheckResponse(const int32_t flags, bool need_wait) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // for Zhongyun, CheckResponse commonly takes 300ms. We leave a 100ms buffer
   // for it.
   int32_t retry_num = 20;
@@ -685,7 +670,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   do {
     if (message_manager_->GetSensorData(&chassis_detail) != ErrorCode::OK) {
-      AERROR_EVERY(100) << "get chassis detail failed.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "get chassis detail failed.";
       return false;
     }
     bool check_ok = true;
@@ -713,41 +699,35 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (check_ok) {
       return true;
     } else {
-      AINFO << "Need to check response again.";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Need to check response again.";
+     }
   } while (need_wait && retry_num);
 
-  AINFO << "check_response fail: is_eps_online:" << is_eps_online
-        << ", is_vcu_online:" << is_vcu_online
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "check_response fail: is_eps_online:" << is_eps_online
+         << ", is_vcu_online:" << is_vcu_online
         << ", is_esp_online:" << is_esp_online;
   return false;
 }
 
 void ZhongyunController::set_chassis_error_mask(const int32_t mask) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t ZhongyunController::chassis_error_mask() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode ZhongyunController::chassis_error_code() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
 }
 
 void ZhongyunController::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
 }

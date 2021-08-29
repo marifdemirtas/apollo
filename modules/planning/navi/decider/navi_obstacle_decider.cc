@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -103,8 +102,9 @@ bool NaviObstacleDecider::IsNeedFilterObstacle(
   *projection_point_ptr = PathMatcher::MatchToPath(
       path_data_points, current_obstacle->Perception().position().x(),
       current_obstacle->Perception().position().y());
-  ADEBUG << "obstacle distance : " << projection_point_ptr->s()
-         << "vehicle distance : " << vehicle_projection_point.s();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle distance : " << projection_point_ptr->s()
+          << "vehicle distance : " << vehicle_projection_point.s();
   if ((projection_point_ptr->s() - vehicle_projection_point.s()) >
       (config_.judge_dis_coeff() * vehicle_state.linear_velocity() +
        config_.basis_dis_value())) {
@@ -181,8 +181,9 @@ double NaviObstacleDecider::GetObstacleActualOffsetDistance(
     const double left_nudge_lane, int* lane_obstacles_num) {
   auto obs_width = iter->first;
   auto lat_dist = iter->second;
-  ADEBUG << "get obstacle width : " << obs_width
-         << "get latitude distance : " << lat_dist;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get obstacle width : " << obs_width
+          << "get latitude distance : " << lat_dist;
   auto actual_dist = std::fabs(lat_dist) - obs_width / 2.0 -
                      VehicleParam().left_edge_to_center();
 
@@ -204,8 +205,9 @@ double NaviObstacleDecider::GetObstacleActualOffsetDistance(
       (!is_obstacle_stable_)) {
     is_obstacle_stable_ = true;
     statist_count_ = 0;
-    ADEBUG << "begin keep obstacles";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "begin keep obstacles";
+   }
 
   if (is_obstacle_stable_) {
     ++statist_count_;
@@ -214,11 +216,13 @@ double NaviObstacleDecider::GetObstacleActualOffsetDistance(
     } else {
       *lane_obstacles_num = last_lane_obstacles_num_;
     }
-    ADEBUG << "statist_count_ : " << statist_count_;
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "statist_count_ : " << statist_count_;
+   }
   last_lane_obstacles_num_ = *lane_obstacles_num;
-  ADEBUG << "last_nudge_dist : " << last_nudge_dist_
-         << "lat_dist : " << lat_dist << "actual_dist : " << actual_dist;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "last_nudge_dist : " << last_nudge_dist_
+          << "lat_dist : " << lat_dist << "actual_dist : " << actual_dist;
   return actual_dist;
 }
 
@@ -258,8 +262,9 @@ void NaviObstacleDecider::SmoothNudgeDistance(
   if (eliminate_clutter_num_ < config_.cycles_number()) {
     *nudge_dist = 0;
   }
-  ADEBUG << "eliminate_clutter_num_: " << eliminate_clutter_num_;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eliminate_clutter_num_: " << eliminate_clutter_num_;
+ }
 
 double NaviObstacleDecider::GetNudgeDistance(
     const std::vector<const Obstacle*>& obstacles,
@@ -274,8 +279,9 @@ double NaviObstacleDecider::GetNudgeDistance(
   double routing_y = path_data_points[0].y();
   double min_lane_width = GetMinLaneWidth(path_data_points, reference_line);
 
-  ADEBUG << "get min_lane_width: " << min_lane_width;
-  if (routing_y <= 0.0) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get min_lane_width: " << min_lane_width;
+   if (routing_y <= 0.0) {
     left_nudge_lane = min_lane_width / 2.0 - std::fabs(routing_y) -
                       VehicleParam().left_edge_to_center();
     right_nudge_lane = -1.0 * (min_lane_width / 2.0 + std::fabs(routing_y) -
@@ -313,8 +319,9 @@ double NaviObstacleDecider::GetNudgeDistance(
       }
     }
   }
-  ADEBUG << "get left_nudge_lane: " << left_nudge_lane
-         << "get right_nudge_lane : " << right_nudge_lane
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get left_nudge_lane: " << left_nudge_lane
+          << "get right_nudge_lane : " << right_nudge_lane
          << "get left_nudge_obstacle: " << left_nudge_obstacle
          << "get right_nudge_obstacle : " << right_nudge_obstacle;
   // Get the appropriate value of the nudge distance
@@ -327,13 +334,15 @@ double NaviObstacleDecider::GetNudgeDistance(
     nudge_dist = std::max(right_nudge_lane, right_nudge_obstacle);
   }
 
-  ADEBUG << "get nudge distance : " << nudge_dist
-         << "get lane_obstacles_num : " << *lane_obstacles_num;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get nudge distance : " << nudge_dist
+          << "get lane_obstacles_num : " << *lane_obstacles_num;
   RecordLastNudgeDistance(nudge_dist);
   SmoothNudgeDistance(vehicle_state, &nudge_dist);
   KeepNudgePosition(nudge_dist, lane_obstacles_num);
-  ADEBUG << "last nudge distance : " << nudge_dist;
-  return nudge_dist;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "last nudge distance : " << nudge_dist;
+   return nudge_dist;
 }
 
 void NaviObstacleDecider::KeepNudgePosition(const double nudge_dist,
@@ -353,8 +362,9 @@ void NaviObstacleDecider::KeepNudgePosition(const double nudge_dist,
       *lane_obstacles_num = 1;
     }
   }
-  ADEBUG << "get lane_obstacles_num : " << *lane_obstacles_num;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get lane_obstacles_num : " << *lane_obstacles_num;
+ }
 
 void NaviObstacleDecider::GetUnsafeObstaclesInfo(
     const std::vector<common::PathPoint>& path_data_points,
@@ -402,8 +412,9 @@ void NaviObstacleDecider::GetUnsafeObstaclesInfo(
       auto project_velocity =
           iter->Perception().velocity().x() * std::cos(ref_theta) +
           iter->Perception().velocity().y() * std::sin(ref_theta);
-      ADEBUG << "Lateral speed : " << iter->Perception().velocity().y();
-      unsafe_obstacle_info_.emplace_back(iter->Id(), front_distance,
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Lateral speed : " << iter->Perception().velocity().y();
+       unsafe_obstacle_info_.emplace_back(iter->Id(), front_distance,
                                          project_velocity);
     }
   }

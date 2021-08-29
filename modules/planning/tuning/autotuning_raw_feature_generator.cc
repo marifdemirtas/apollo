@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -132,7 +131,8 @@ common::Status AutotuningRawFeatureGenerator::EvaluateSpeedProfile(
     autotuning::TrajectoryRawFeature* const trajectory_feature) const {
   if (speed_profile.size() != eval_time_.size()) {
     const std::string msg = "mismatched evaluated time and speed profile size";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   for (size_t i = 0; i < eval_time_.size(); ++i) {
@@ -141,7 +141,8 @@ common::Status AutotuningRawFeatureGenerator::EvaluateSpeedProfile(
         EvaluateSpeedPoint(speed_profile[i], i, trajectory_point_feature);
     if (status != common::Status::OK()) {
       const std::string msg = "Extracting speed profile error";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
   }

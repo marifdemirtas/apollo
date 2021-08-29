@@ -90,7 +90,8 @@ bool StageIntersectionCruiseImpl::CheckDone(
         reference_line_info.AdcSlBoundary().start_s();
     const double distance_adc_pass_traffic_sign =
         adc_back_edge_s - traffic_sign_overlap->end_s;
-    ADEBUG << "distance_adc_pass_traffic_sign["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "distance_adc_pass_traffic_sign["
            << distance_adc_pass_traffic_sign << "] traffic_sign_end_s["
            << traffic_sign_overlap->end_s << "]";
 

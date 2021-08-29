@@ -72,11 +72,13 @@ Stream *create_stream(const config::Stream &sd) {
   switch (sd.type_case()) {
     case config::Stream::kSerial:
       if (!sd.serial().has_device()) {
-        AERROR << "Serial def has no device field.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Serial def has no device field.";
         return nullptr;
       }
       if (!sd.serial().has_baud_rate()) {
-        AERROR << "Serial def has no baud_rate field. Use default baud rate "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Serial def has no baud_rate field. Use default baud rate "
                << sd.serial().baud_rate();
         return nullptr;
       }
@@ -85,11 +87,13 @@ Stream *create_stream(const config::Stream &sd) {
 
     case config::Stream::kTcp:
       if (!sd.tcp().has_address()) {
-        AERROR << "tcp def has no address field.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tcp def has no address field.";
         return nullptr;
       }
       if (!sd.tcp().has_port()) {
-        AERROR << "tcp def has no port field.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tcp def has no port field.";
         return nullptr;
       }
       return Stream::create_tcp(sd.tcp().address().c_str(),
@@ -97,11 +101,13 @@ Stream *create_stream(const config::Stream &sd) {
 
     case config::Stream::kUdp:
       if (!sd.udp().has_address()) {
-        AERROR << "tcp def has no address field.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tcp def has no address field.";
         return nullptr;
       }
       if (!sd.udp().has_port()) {
-        AERROR << "tcp def has no port field.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tcp def has no port field.";
         return nullptr;
       }
       return Stream::create_udp(sd.udp().address().c_str(),
@@ -109,23 +115,28 @@ Stream *create_stream(const config::Stream &sd) {
 
     case config::Stream::kNtrip:
       if (!sd.ntrip().has_address()) {
-        AERROR << "ntrip def has no address field.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ntrip def has no address field.";
         return nullptr;
       }
       if (!sd.ntrip().has_port()) {
-        AERROR << "ntrip def has no port field.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ntrip def has no port field.";
         return nullptr;
       }
       if (!sd.ntrip().has_mount_point()) {
-        AERROR << "ntrip def has no mount point field.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ntrip def has no mount point field.";
         return nullptr;
       }
       if (!sd.ntrip().has_user()) {
-        AERROR << "ntrip def has no user field.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ntrip def has no user field.";
         return nullptr;
       }
       if (!sd.ntrip().has_password()) {
-        AERROR << "ntrip def has no passwd field.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ntrip def has no passwd field.";
         return nullptr;
       }
       return Stream::create_ntrip(
@@ -162,11 +173,13 @@ bool RawStream::Init() {
   CHECK_NOTNULL(data_parser_ptr_);
   CHECK_NOTNULL(rtcm_parser_ptr_);
   if (!data_parser_ptr_->Init()) {
-    AERROR << "Init data parser failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init data parser failed.";
     return false;
   }
   if (!rtcm_parser_ptr_->Init()) {
-    AERROR << "Init rtcm parser failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init rtcm parser failed.";
     return false;
   }
   stream_status_.set_ins_stream_type(StreamStatus::DISCONNECTED);
@@ -180,19 +193,22 @@ bool RawStream::Init() {
   // Creates streams.
   Stream *s = nullptr;
   if (!config_.has_data()) {
-    AINFO << "Error: Config file must provide the data stream.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Error: Config file must provide the data stream.";
     return false;
   }
   s = create_stream(config_.data());
   if (s == nullptr) {
-    AERROR << "Failed to create data stream.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create data stream.";
     return false;
   }
   data_stream_.reset(s);
 
   Status *status = new Status();
   if (!status) {
-    AERROR << "Failed to create data stream status.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create data stream status.";
     return false;
   }
   data_stream_status_.reset(status);
@@ -200,14 +216,16 @@ bool RawStream::Init() {
   if (config_.has_command()) {
     s = create_stream(config_.command());
     if (s == nullptr) {
-      AERROR << "Failed to create command stream.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create command stream.";
       return false;
     }
     command_stream_.reset(s);
 
     status = new Status();
     if (!status) {
-      AERROR << "Failed to create command stream status.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create command stream status.";
       return false;
     }
     command_stream_status_.reset(status);
@@ -219,7 +237,8 @@ bool RawStream::Init() {
   if (config_.has_rtk_from()) {
     s = create_stream(config_.rtk_from());
     if (s == nullptr) {
-      AERROR << "Failed to create rtk_from stream.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create rtk_from stream.";
       return false;
     }
     in_rtk_stream_.reset(s);
@@ -230,7 +249,8 @@ bool RawStream::Init() {
 
     status = new Status();
     if (!status) {
-      AERROR << "Failed to create rtk_from stream status.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create rtk_from stream status.";
       return false;
     }
     in_rtk_stream_status_.reset(status);
@@ -238,14 +258,16 @@ bool RawStream::Init() {
     if (config_.has_rtk_to()) {
       s = create_stream(config_.rtk_to());
       if (s == nullptr) {
-        AERROR << "Failed to create rtk_to stream.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create rtk_to stream.";
         return false;
       }
       out_rtk_stream_.reset(s);
 
       status = new Status();
       if (!status) {
-        AERROR << "Failed to create rtk_to stream status.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create rtk_to stream status.";
         return false;
       }
       out_rtk_stream_status_.reset(status);
@@ -272,12 +294,14 @@ bool RawStream::Init() {
 
   // connect and login
   if (!Connect()) {
-    AERROR << "gnss driver connect failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "gnss driver connect failed.";
     return false;
   }
 
   if (!Login()) {
-    AERROR << "gnss driver login failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "gnss driver login failed.";
     return false;
   }
 
@@ -313,7 +337,8 @@ void RawStream::Start() {
 
 void RawStream::OnWheelVelocityTimer() {
   if (chassis_ptr_ == nullptr) {
-    AINFO << "No chassis message received";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "No chassis message received";
     return;
   }
   auto latency_sec =
@@ -322,7 +347,8 @@ void RawStream::OnWheelVelocityTimer() {
   auto speed_cmps = std::lround(chassis_ptr_->speed_mps() * 100);
   auto cmd_wheelvelocity = absl::StrCat("WHEELVELOCITY ", latency_ms,
                                         " 100 0 0 0 0 0 ", speed_cmps, "\r\n");
-  AINFO << "Write command: " << cmd_wheelvelocity;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Write command: " << cmd_wheelvelocity;
   command_stream_->write(cmd_wheelvelocity);
 }
 
@@ -330,7 +356,8 @@ bool RawStream::Connect() {
   if (data_stream_) {
     if (data_stream_->get_status() != Stream::Status::CONNECTED) {
       if (!data_stream_->Connect()) {
-        AERROR << "data stream connect failed.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "data stream connect failed.";
         return false;
       }
       data_stream_status_->status = Stream::Status::CONNECTED;
@@ -341,7 +368,8 @@ bool RawStream::Connect() {
   if (command_stream_) {
     if (command_stream_->get_status() != Stream::Status::CONNECTED) {
       if (!command_stream_->Connect()) {
-        AERROR << "command stream connect failed.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "command stream connect failed.";
         return false;
       }
       command_stream_status_->status = Stream::Status::CONNECTED;
@@ -351,7 +379,8 @@ bool RawStream::Connect() {
   if (in_rtk_stream_) {
     if (in_rtk_stream_->get_status() != Stream::Status::CONNECTED) {
       if (!in_rtk_stream_->Connect()) {
-        AERROR << "in rtk stream connect failed.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "in rtk stream connect failed.";
       } else {
         in_rtk_stream_status_->status = Stream::Status::CONNECTED;
         stream_status_.set_rtk_stream_in_type(StreamStatus::CONNECTED);
@@ -364,7 +393,8 @@ bool RawStream::Connect() {
   if (out_rtk_stream_) {
     if (out_rtk_stream_->get_status() != Stream::Status::CONNECTED) {
       if (!out_rtk_stream_->Connect()) {
-        AERROR << "out rtk stream connect failed.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "out rtk stream connect failed.";
       } else {
         out_rtk_stream_status_->status = Stream::Status::CONNECTED;
         stream_status_.set_rtk_stream_out_type(StreamStatus::CONNECTED);
@@ -380,7 +410,8 @@ bool RawStream::Disconnect() {
   if (data_stream_) {
     if (data_stream_->get_status() == Stream::Status::CONNECTED) {
       if (!data_stream_->Disconnect()) {
-        AERROR << "data stream disconnect failed.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "data stream disconnect failed.";
         return false;
       }
     }
@@ -389,7 +420,8 @@ bool RawStream::Disconnect() {
   if (command_stream_) {
     if (command_stream_->get_status() == Stream::Status::CONNECTED) {
       if (!command_stream_->Disconnect()) {
-        AERROR << "command stream disconnect failed.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "command stream disconnect failed.";
         return false;
       }
     }
@@ -397,7 +429,8 @@ bool RawStream::Disconnect() {
   if (in_rtk_stream_) {
     if (in_rtk_stream_->get_status() == Stream::Status::CONNECTED) {
       if (!in_rtk_stream_->Disconnect()) {
-        AERROR << "in rtk stream disconnect failed.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "in rtk stream disconnect failed.";
         return false;
       }
     }
@@ -405,7 +438,8 @@ bool RawStream::Disconnect() {
   if (out_rtk_stream_) {
     if (out_rtk_stream_->get_status() == Stream::Status::CONNECTED) {
       if (!out_rtk_stream_->Disconnect()) {
-        AERROR << "out rtk stream disconnect failed.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "out rtk stream disconnect failed.";
         return false;
       }
     }
@@ -419,14 +453,16 @@ bool RawStream::Login() {
   for (const auto &login_command : config_.login_commands()) {
     data_stream_->write(login_command);
     login_data.emplace_back(login_command);
-    AINFO << "Login command: " << login_command;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Login command: " << login_command;
     // sleep a little to avoid overrun of the slow serial interface.
     cyber::Duration(0.5).Sleep();
   }
   data_stream_->RegisterLoginData(login_data);
 
   if (config_.has_wheel_parameters()) {
-    AINFO << "Write command: " << config_.wheel_parameters();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Write command: " << config_.wheel_parameters();
     command_stream_->write(config_.wheel_parameters());
   }
 
@@ -436,7 +472,8 @@ bool RawStream::Login() {
 bool RawStream::Logout() {
   for (const auto &logout_command : config_.logout_commands()) {
     data_stream_->write(logout_command);
-    AINFO << "Logout command: " << logout_command;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Logout command: " << logout_command;
   }
   return true;
 }
@@ -483,7 +520,8 @@ void RawStream::DataSpin() {
     if (length > 0) {
       std::shared_ptr<RawData> msg_pub = std::make_shared<RawData>();
       if (!msg_pub) {
-        AERROR << "New data sting msg failed.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "New data sting msg failed.";
         continue;
       }
       msg_pub->set_data(reinterpret_cast<const char *>(buffer_), length);
@@ -513,7 +551,8 @@ void RawStream::RtkSpin() {
         }
         size_t ret = out_rtk_stream_->write(buffer_rtk_, length);
         if (ret != length) {
-          AERROR << "Expect write out rtk stream bytes " << length
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Expect write out rtk stream bytes " << length
                  << " but got " << ret;
         }
       }
@@ -540,7 +579,8 @@ void RawStream::PushGpgga(const size_t length) {
     if (p) {
       p += 5;
       if (size_t(p - reinterpret_cast<char *>(buffer_)) <= length) {
-        AINFO_EVERY(5) << "Push gpgga.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO_EVERY(5) << "Push gpgga.";
         in_rtk_stream_->write(reinterpret_cast<uint8_t *>(gpgga),
                               reinterpret_cast<uint8_t *>(p) - buffer_);
       }

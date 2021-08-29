@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -39,21 +38,15 @@ MSFLocalization::MSFLocalization()
           apollo::common::monitor::MonitorMessageItem::LOCALIZATION),
       localization_state_(msf::LocalizationMeasureState::OK),
       pcd_msg_index_(-1),
-      raw_imu_msg_(nullptr) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+      raw_imu_msg_(nullptr) {}
 
 Status MSFLocalization::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   InitParams();
 
   return localization_integ_.Init(localization_param_);
 }
 
 void MSFLocalization::InitParams() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // integration module
   localization_param_.is_ins_can_self_align = FLAGS_integ_ins_can_self_align;
   localization_param_.is_sins_align_with_vel = FLAGS_integ_sins_align_with_vel;
@@ -81,10 +74,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   localization_param_.imu_lidar_max_delay_time = FLAGS_lidar_imu_max_delay_time;
   localization_param_.if_use_avx = FLAGS_if_use_avx;
 
-  AINFO << "map: " << localization_param_.map_path;
-  AINFO << "lidar_extrin: " << localization_param_.lidar_extrinsic_file;
-  AINFO << "lidar_height: " << localization_param_.lidar_height_file;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "map: " << localization_param_.map_path;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lidar_extrin: " << localization_param_.lidar_extrinsic_file;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lidar_height: " << localization_param_.lidar_height_file;
+ 
   localization_param_.utm_zone_id = FLAGS_local_utm_zone_id;
   // try load zone id from local_map folder
   if (FLAGS_if_utm_zone_id_from_folder) {
@@ -94,8 +90,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       AWARN << "Can't load utm zone id from map folder, use default value.";
     }
   }
-  AINFO << "utm zone id: " << localization_param_.utm_zone_id;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "utm zone id: " << localization_param_.utm_zone_id;
+ 
   // vehicle imu extrinsic
   imu_vehicle_quat_.x() = FLAGS_imu_vehicle_qx;
   imu_vehicle_quat_.y() = FLAGS_imu_vehicle_qy;
@@ -108,8 +105,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     double qz = 0.0;
     double qw = 0.0;
 
-    AINFO << "Vehile imu file: " << FLAGS_vehicle_imu_file;
-    if (LoadImuVehicleExtrinsic(FLAGS_vehicle_imu_file, &qx, &qy, &qz, &qw)) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Vehile imu file: " << FLAGS_vehicle_imu_file;
+     if (LoadImuVehicleExtrinsic(FLAGS_vehicle_imu_file, &qx, &qy, &qz, &qw)) {
       imu_vehicle_quat_.x() = qx;
       imu_vehicle_quat_.y() = qy;
       imu_vehicle_quat_.z() = qz;
@@ -118,8 +116,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       AWARN << "Can't load imu vehicle quat from file, use default value.";
     }
   }
-  AINFO << "imu_vehicle_quat: " << imu_vehicle_quat_.x() << " "
-        << imu_vehicle_quat_.y() << " " << imu_vehicle_quat_.z() << " "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "imu_vehicle_quat: " << imu_vehicle_quat_.x() << " "
+         << imu_vehicle_quat_.y() << " " << imu_vehicle_quat_.z() << " "
         << imu_vehicle_quat_.w();
 
   // common
@@ -143,8 +142,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     double uncertainty_x = 0.0;
     double uncertainty_y = 0.0;
     double uncertainty_z = 0.0;
-    AINFO << "Ant imu lever arm file: " << FLAGS_ant_imu_leverarm_file;
-    ACHECK(LoadGnssAntennaExtrinsic(FLAGS_ant_imu_leverarm_file, &offset_x,
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Ant imu lever arm file: " << FLAGS_ant_imu_leverarm_file;
+     ACHECK(LoadGnssAntennaExtrinsic(FLAGS_ant_imu_leverarm_file, &offset_x,
                                     &offset_y, &offset_z, &uncertainty_x,
                                     &uncertainty_y, &uncertainty_z));
     localization_param_.ant_imu_leverarm_file = FLAGS_ant_imu_leverarm_file;
@@ -156,8 +156,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     localization_param_.imu_to_ant_offset.uncertainty_y = uncertainty_y;
     localization_param_.imu_to_ant_offset.uncertainty_z = uncertainty_z;
 
-    AINFO << localization_param_.imu_to_ant_offset.offset_x << " "
-          << localization_param_.imu_to_ant_offset.offset_y << " "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << localization_param_.imu_to_ant_offset.offset_x << " "
+           << localization_param_.imu_to_ant_offset.offset_y << " "
           << localization_param_.imu_to_ant_offset.offset_z << " "
           << localization_param_.imu_to_ant_offset.uncertainty_x << " "
           << localization_param_.imu_to_ant_offset.uncertainty_y << " "
@@ -200,8 +201,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void MSFLocalization::OnPointCloud(
     const std::shared_ptr<drivers::PointCloud> &message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ++pcd_msg_index_;
   if (pcd_msg_index_ % FLAGS_point_cloud_step != 0) {
     return;
@@ -220,8 +219,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void MSFLocalization::OnRawImu(
     const std::shared_ptr<drivers::gnss::Imu> &imu_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (FLAGS_imu_coord_rfu) {
     localization_integ_.RawImuProcessRfu(*imu_msg);
   } else {
@@ -256,8 +253,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void MSFLocalization::OnRawImuCache(
     const std::shared_ptr<drivers::gnss::Imu> &imu_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (imu_msg) {
     std::unique_lock<std::mutex> lock(mutex_imu_msg_);
     raw_imu_msg_ = const_cast<std::shared_ptr<drivers::gnss::Imu> &>(imu_msg);
@@ -266,8 +261,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void MSFLocalization::OnGnssBestPose(
     const std::shared_ptr<drivers::gnss::GnssBestPose> &bestgnsspos_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
       FLAGS_gnss_only_init) {
@@ -286,8 +279,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void MSFLocalization::OnGnssRtkObs(
     const std::shared_ptr<drivers::gnss::EpochObservation> &raw_obs_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
       FLAGS_gnss_only_init) {
@@ -306,8 +297,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void MSFLocalization::OnGnssRtkEph(
     const std::shared_ptr<drivers::gnss::GnssEphemeris> &gnss_orbit_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
       FLAGS_gnss_only_init) {
@@ -319,8 +308,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void MSFLocalization::OnGnssHeading(
     const std::shared_ptr<drivers::gnss::Heading> &gnss_heading_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if ((localization_state_ == msf::LocalizationMeasureState::OK ||
        localization_state_ == msf::LocalizationMeasureState::VALID) &&
       FLAGS_gnss_only_init) {
@@ -330,8 +317,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void MSFLocalization::OnLocalizationTimer() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!raw_imu_msg_) {
     return;
   }
@@ -341,15 +326,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void MSFLocalization::SetPublisher(
     const std::shared_ptr<LocalizationMsgPublisher> &publisher) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   publisher_ = publisher;
 }
 
 void MSFLocalization::CompensateImuVehicleExtrinsic(
     LocalizationEstimate *local_result) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(local_result);
   // calculate orientation_vehicle_world
   apollo::localization::Pose *posepb_loc = local_result->mutable_pose();
@@ -377,8 +358,6 @@ bool MSFLocalization::LoadGnssAntennaExtrinsic(
     const std::string &file_path, double *offset_x, double *offset_y,
     double *offset_z, double *uncertainty_x, double *uncertainty_y,
     double *uncertainty_z) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   YAML::Node config = YAML::LoadFile(file_path);
   if (config["leverarm"]) {
     if (config["leverarm"]["primary"]["offset"]) {
@@ -404,8 +383,6 @@ bool MSFLocalization::LoadImuVehicleExtrinsic(const std::string &file_path,
                                               double *quat_qx, double *quat_qy,
                                               double *quat_qz,
                                               double *quat_qw) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!cyber::common::PathExists(file_path)) {
     return false;
   }
@@ -426,8 +403,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool MSFLocalization::LoadZoneIdFromFolder(const std::string &folder_path,
                                            int *zone_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string map_zone_id_folder;
   if (cyber::common::DirectoryExists(folder_path + "/map/000/north")) {
     map_zone_id_folder = folder_path + "/map/000/north";

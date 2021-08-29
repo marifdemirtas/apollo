@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +26,8 @@ bool Storytelling::Init() {
   story_tellers_.emplace_back(new CloseToJunctionTeller(frame_manager_));
 
   if (!cyber::ComponentBase::GetProtoConfig(&config_)) {
-    AERROR << "Unable to load storytelling conf file: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to load storytelling conf file: "
            << cyber::ComponentBase::ConfigFilePath();
     return false;
   }

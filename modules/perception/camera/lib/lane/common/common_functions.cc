@@ -83,7 +83,8 @@ void ConnectedComponent::AddPixel(int x, int y) {
 bool FindCC(const std::vector<unsigned char>& src, int width, int height,
             const base::RectI& roi, std::vector<ConnectedComponent>* cc) {
   if (src.empty()) {
-    AERROR << "input image is empty";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "input image is empty";
     return false;
   }
 
@@ -93,23 +94,28 @@ bool FindCC(const std::vector<unsigned char>& src, int width, int height,
   int x_max = x_min + roi.width - 1;
   int y_max = y_min + roi.height - 1;
   if (x_min < 0) {
-    AERROR << "x_min is less than zero: " << x_min;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "x_min is less than zero: " << x_min;
     return false;
   }
   if (y_min < 0) {
-    AERROR << "y_min is less than zero: " << y_min;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "y_min is less than zero: " << y_min;
     return false;
   }
   if (x_max >= width) {
-    AERROR << "x_max is larger than image width: " << x_max << "|" << width;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "x_max is larger than image width: " << x_max << "|" << width;
     return false;
   }
   if (y_max >= height) {
-    AERROR << "y_max is larger than image height: " << y_max << "|" << height;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "y_max is larger than image height: " << y_max << "|" << height;
     return false;
   }
   if (roi.width <= 1 && roi.height <= 1) {
-    AERROR << "too small roi range";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "too small roi range";
     return false;
   }
 
@@ -170,7 +176,8 @@ bool FindCC(const std::vector<unsigned char>& src, int width, int height,
       }
     }  //  end for x
   }    //  end for y
-  AINFO << "subset number = " << labels.Size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "subset number = " << labels.Size();
 
   // second loop logic
   cur_idx = 0;
@@ -182,7 +189,8 @@ bool FindCC(const std::vector<unsigned char>& src, int width, int height,
       if (curt_label >= 0 && curt_label < static_cast<int>(labels.Num())) {
         curt_label = labels.Find(curt_label);
         if (curt_label >= static_cast<int>(root_map.size())) {
-          AERROR << "curt_label should be smaller than root_map.size() "
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "curt_label should be smaller than root_map.size() "
                  << curt_label << " vs. " << root_map.size();
           return false;
         }
@@ -195,7 +203,8 @@ bool FindCC(const std::vector<unsigned char>& src, int width, int height,
       }
     }  // end for x
   }    // end for y
-  AINFO << "cc number = " << cc_count;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "cc number = " << cc_count;
 
   return true;
 }

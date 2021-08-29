@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -60,8 +59,9 @@ bool OsqpSpline2dSolver::Solve() {
 
   // change P to csc format
   const MatrixXd& P = kernel_.kernel_matrix();
-  ADEBUG << "P: " << P.rows() << ", " << P.cols();
-  if (P.rows() == 0) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "P: " << P.rows() << ", " << P.cols();
+   if (P.rows() == 0) {
     return false;
   }
 
@@ -79,8 +79,9 @@ bool OsqpSpline2dSolver::Solve() {
       inequality_constraint_matrix.rows() + equality_constraint_matrix.rows(),
       inequality_constraint_matrix.cols());
   A << inequality_constraint_matrix, equality_constraint_matrix;
-  ADEBUG << "A: " << A.rows() << ", " << A.cols();
-  if (A.rows() == 0) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "A: " << A.rows() << ", " << A.cols();
+   if (A.rows() == 0) {
     return false;
   }
 

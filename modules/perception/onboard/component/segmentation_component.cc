@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -34,14 +33,13 @@ uint32_t SegmentationComponent::s_seq_num_ = 0;
 std::mutex SegmentationComponent::s_mutex_;
 
 bool SegmentationComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LidarSegmentationComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
     return false;
   }
-  ADEBUG << "Lidar Component Configs: " << comp_config.DebugString();
-  output_channel_name_ = comp_config.output_channel_name();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Lidar Component Configs: " << comp_config.DebugString();
+   output_channel_name_ = comp_config.output_channel_name();
   sensor_name_ = comp_config.sensor_name();
   lidar2novatel_tf2_child_frame_id_ =
       comp_config.lidar2novatel_tf2_child_frame_id();
@@ -51,7 +49,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   writer_ = node_->CreateWriter<LidarFrameMessage>(output_channel_name_);
 
   if (!InitAlgorithmPlugin()) {
-    AERROR << "Failed to init segmentation component algorithm plugin.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to init segmentation component algorithm plugin.";
     return false;
   }
   return true;
@@ -59,10 +58,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool SegmentationComponent::Proc(
     const std::shared_ptr<drivers::PointCloud>& message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << std::setprecision(16)
-        << "Enter segmentation component, message timestamp: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << std::setprecision(16)
+         << "Enter segmentation component, message timestamp: "
         << message->measurement_time() << " current timestamp: "
         << Clock::NowInSeconds();
 
@@ -72,20 +70,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   bool status = InternalProc(message, out_message);
   if (status) {
     writer_->Write(out_message);
-    AINFO << "Send lidar segment output message.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Send lidar segment output message.";
+   }
   return status;
 }
 
 bool SegmentationComponent::InitAlgorithmPlugin() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ACHECK(common::SensorManager::Instance()->GetSensorInfo(sensor_name_,
                                                           &sensor_info_));
 
   segmentor_.reset(new lidar::LidarObstacleSegmentation);
   if (segmentor_ == nullptr) {
-    AERROR << "sensor_name_ "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "sensor_name_ "
            << "Failed to get segmentation instance";
     return false;
   }
@@ -94,8 +92,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   init_options.enable_hdmap_input =
       FLAGS_obs_enable_hdmap_input && enable_hdmap_;
   if (!segmentor_->Init(init_options)) {
-    AINFO << "sensor_name_ "
-          << "Failed to init segmentation.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sensor_name_ "
+           << "Failed to init segmentation.";
     return false;
   }
 
@@ -106,8 +105,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool SegmentationComponent::InternalProc(
     const std::shared_ptr<const drivers::PointCloud>& in_message,
     const std::shared_ptr<LidarFrameMessage>& out_message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PERF_FUNCTION_WITH_INDICATOR(sensor_name_);
   {
     std::unique_lock<std::mutex> lock(s_mutex_);
@@ -116,8 +113,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const double timestamp = in_message->measurement_time();
   const double cur_time = Clock::NowInSeconds();
   const double start_latency = (cur_time - timestamp) * 1e3;
-  AINFO << std::setprecision(16) << "FRAME_STATISTICS:Lidar:Start:msg_time["
-        << timestamp << "]:sensor[" << sensor_name_ << "]:cur_time[" << cur_time
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << std::setprecision(16) << "FRAME_STATISTICS:Lidar:Start:msg_time["
+         << timestamp << "]:sensor[" << sensor_name_ << "]:cur_time[" << cur_time
         << "]:cur_latency[" << start_latency << "]";
 
   out_message->timestamp_ = timestamp;
@@ -140,7 +138,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (!lidar2world_trans_.GetSensor2worldTrans(lidar_query_tf_timestamp, &pose,
                                                &pose_novatel)) {
     out_message->error_code_ = apollo::common::ErrorCode::PERCEPTION_ERROR_TF;
-    AERROR << "Failed to get pose at time: " << lidar_query_tf_timestamp;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get pose at time: " << lidar_query_tf_timestamp;
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(sensor_name_,
@@ -157,7 +156,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (ret.error_code != lidar::LidarErrorCode::Succeed) {
     out_message->error_code_ =
         apollo::common::ErrorCode::PERCEPTION_ERROR_PROCESS;
-    AERROR << "Lidar segmentation process error, " << ret.log;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Lidar segmentation process error, " << ret.log;
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(sensor_name_,

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,8 +32,9 @@ bool RoutingComponent::Init() {
       << "Unable to load routing conf file: "
       << cyber::ComponentBase::ConfigFilePath();
 
-  AINFO << "Config file: " << cyber::ComponentBase::ConfigFilePath()
-        << " is loaded.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Config file: " << cyber::ComponentBase::ConfigFilePath()
+         << " is loaded.";
 
   apollo::cyber::proto::RoleAttributes attr;
   attr.set_channel_name(routing_conf.topic_config().routing_response_topic());

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -83,15 +82,17 @@ bool OsInterFace::InitWriters() {
 
 void OsInterFace::GetLocalizationFromOs(
     const std::shared_ptr<LocalizationEstimate> &msg) {
-  AINFO << "get localization result from os";
-  std::lock_guard<std::mutex> lg(mutex_localization_);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "get localization result from os";
+   std::lock_guard<std::mutex> lg(mutex_localization_);
   msg->CopyFrom(current_localization_);
 }
 
 void OsInterFace::GetPlanningAdcFromOs(
     const std::shared_ptr<::apollo::planning::ADCTrajectory> &msg) {
-  AINFO << "get planning adc from os";
-  std::unique_lock<std::mutex> lg(mutex_planning_);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "get planning adc from os";
+   std::unique_lock<std::mutex> lg(mutex_planning_);
   cond_planning_.wait(lg, [this]() { return flag_planning_new_; });
   flag_planning_new_ = false;
   msg->CopyFrom(adc_trajectory_msg_);
@@ -102,40 +103,48 @@ void OsInterFace::SendV2xObuTrafficLightToOs(
   if (nullptr == msg) {
     return;
   }
-  AINFO << "send v2x obu traffic_light to os";
-  SendMsgToOs(v2x_obu_traffic_light_writer_.get(), msg);
-  AINFO << "v2x obu traffic_light result: " << msg->DebugString();
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "send v2x obu traffic_light to os";
+   SendMsgToOs(v2x_obu_traffic_light_writer_.get(), msg);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "v2x obu traffic_light result: " << msg->DebugString();
+ }
 
 void OsInterFace::SendV2xObstacles2Sys(
     const std::shared_ptr<apollo::v2x::V2XObstacles> &msg) {
   if (nullptr == msg) {
     return;
   }
-  AINFO << "send v2x obu traffic_light to os";
-  SendMsgToOs(v2x_obstacles_internal_writer_.get(), msg);
-  AINFO << "v2x obu traffic_light result: " << msg->DebugString();
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "send v2x obu traffic_light to os";
+   SendMsgToOs(v2x_obstacles_internal_writer_.get(), msg);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "v2x obu traffic_light result: " << msg->DebugString();
+ }
 
 void OsInterFace::SendV2xTrafficLightToOs(
     const std::shared_ptr<IntersectionTrafficLightData> &msg) {
   if (nullptr == msg) {
     return;
   }
-  AINFO << "send v2x traffic_light to os";
-  SendMsgToOs(v2x_traffic_light_writer_.get(), msg);
-  AINFO << "v2x traffic_light result: " << msg->DebugString();
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "send v2x traffic_light to os";
+   SendMsgToOs(v2x_traffic_light_writer_.get(), msg);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "v2x traffic_light result: " << msg->DebugString();
+ }
 
 void OsInterFace::SendV2xTrafficLight4Hmi2Sys(
     const std::shared_ptr<::apollo::perception::TrafficLightDetection> &msg) {
   if (nullptr == msg) {
     return;
   }
-  AINFO << "send v2x tl4hmi to os";
-  SendMsgToOs(v2x_traffic_light_hmi_writer_.get(), msg);
-  AINFO << "v2x tl4hmi result: " << msg->DebugString();
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "send v2x tl4hmi to os";
+   SendMsgToOs(v2x_traffic_light_hmi_writer_.get(), msg);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "v2x tl4hmi result: " << msg->DebugString();
+ }
 
 }  // namespace v2x
 }  // namespace apollo

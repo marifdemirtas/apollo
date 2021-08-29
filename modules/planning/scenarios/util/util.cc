@@ -88,7 +88,8 @@ PullOverStatus CheckADCPullOver(
   if (!pull_over_status.has_position() ||
       !pull_over_status.position().has_x() ||
       !pull_over_status.position().has_y() || !pull_over_status.has_theta()) {
-    ADEBUG << "pull_over status not set properly: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "pull_over status not set properly: "
            << pull_over_status.DebugString();
     return UNKNOWN;
   }
@@ -100,7 +101,8 @@ PullOverStatus CheckADCPullOver(
   const double adc_front_edge_s = reference_line_info.AdcSlBoundary().end_s();
   double distance = adc_front_edge_s - pull_over_sl.s();
   if (distance >= scenario_config.pass_destination_threshold()) {
-    ADEBUG << "ADC passed pull-over spot: distance[" << distance << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC passed pull-over spot: distance[" << distance << "]";
     return PASS_DESTINATION;
   }
 
@@ -110,13 +112,15 @@ PullOverStatus CheckADCPullOver(
                                         .vehicle_param()
                                         .max_abs_speed_when_stopped();
   if (adc_speed > max_adc_stop_speed) {
-    ADEBUG << "ADC not stopped: speed[" << adc_speed << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC not stopped: speed[" << adc_speed << "]";
     return APPROACHING;
   }
 
   static constexpr double kStartParkCheckRange = 3.0;  // meter
   if (distance <= -kStartParkCheckRange) {
-    ADEBUG << "ADC still far: distance[" << distance << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC still far: distance[" << distance << "]";
     return APPROACHING;
   }
 
@@ -146,7 +150,8 @@ PullOverStatus CheckADCPullOverPathPoint(
   if (!pull_over_status.has_position() ||
       !pull_over_status.position().has_x() ||
       !pull_over_status.position().has_y() || !pull_over_status.has_theta()) {
-    ADEBUG << "pull_over status not set properly: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "pull_over status not set properly: "
            << pull_over_status.DebugString();
     return UNKNOWN;
   }
@@ -178,7 +183,8 @@ bool CheckPullOverPositionBySL(const ReferenceLineInfo& reference_line_info,
   const double theta_diff =
       std::fabs(common::math::NormalizeAngle(target_theta - adc_theta));
 
-  ADEBUG << "adc_position_s[" << adc_position_sl.s() << "] adc_position_l["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc_position_s[" << adc_position_sl.s() << "] adc_position_l["
          << adc_position_sl.l() << "] target_s[" << target_sl.s()
          << "] target_l[" << target_sl.l() << "] s_diff[" << s_diff
          << "] l_diff[" << l_diff << "] theta_diff[" << theta_diff << "]";
@@ -221,8 +227,10 @@ bool CheckADCReadyToCruise(
   bool heading_align_w_reference_line =
       CheckADCHeading(adc_position, adc_heading, *reference_line_info,
                       scenario_config.heading_buffer());
-  ADEBUG << "is_near_front_obstacle: " << is_near_front_obstacle;
-  ADEBUG << "heading_align_w_reference_line: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "is_near_front_obstacle: " << is_near_front_obstacle;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "heading_align_w_reference_line: "
          << heading_align_w_reference_line;
   // check gear status
   // TODO(SHU): align with vehicle parameters
@@ -264,7 +272,8 @@ bool CheckADCSurroundObstacles(const common::math::Vec2d adc_position,
     const Polygon2d& nudge_polygon = obstacle_polygon.ExpandByDistance(
         std::fabs(FLAGS_static_obstacle_nudge_l_buffer));
     if (adc_polygon.HasOverlap(nudge_polygon)) {
-      ADEBUG << "blocked obstacle: " << obstacle->Id();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "blocked obstacle: " << obstacle->Id();
       return true;
     }
   }
@@ -287,7 +296,8 @@ bool CheckADCHeading(const common::math::Vec2d adc_position,
   const auto reference_point =
       reference_line.GetReferencePoint(adc_position_sl.s());
   const auto path_point = reference_point.ToPathPoint(adc_position_sl.s());
-  AINFO << "heading difference: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "heading difference: "
         << common::math::NormalizeAngle(adc_heading - path_point.theta());
   double angle_difference =
       common::math::NormalizeAngle(adc_heading - path_point.theta());

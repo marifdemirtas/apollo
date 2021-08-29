@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -71,8 +70,9 @@ void CruiseScenarioFeatures::BuildCruiseScenarioFeatures(
   const std::unordered_set<std::string>& reverse_lane_ids =
       environment_features.nonneglectable_reverse_lanes();
   if (reverse_lane_ids.empty()) {
-    ADEBUG << "No reverse lane considered";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "No reverse lane considered";
+   }
   for (const std::string& reverse_lane_id : reverse_lane_ids) {
     lane_ids_of_interest_.insert(reverse_lane_id);
   }

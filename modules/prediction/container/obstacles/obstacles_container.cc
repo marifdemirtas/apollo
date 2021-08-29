@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -88,9 +87,11 @@ void ObstaclesContainer::Insert(const ::google::protobuf::Message& message) {
   }
   if (std::fabs(timestamp - timestamp_) > FLAGS_replay_timestamp_gap) {
     ptr_obstacles_.Clear();
-    ADEBUG << "Replay mode is enabled.";
-  } else if (timestamp <= timestamp_) {
-    AERROR << "Invalid timestamp curr [" << timestamp << "] v.s. prev ["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Replay mode is enabled.";
+   } else if (timestamp <= timestamp_) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid timestamp curr [" << timestamp << "] v.s. prev ["
            << timestamp_ << "].";
     return;
   }
@@ -141,20 +142,21 @@ void ObstaclesContainer::Insert(const ::google::protobuf::Message& message) {
   }
 
   timestamp_ = timestamp;
-  ADEBUG << "Current timestamp is [" << std::fixed << std::setprecision(6)
-         << timestamp_ << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Current timestamp is [" << std::fixed << std::setprecision(6)
+          << timestamp_ << "]";
 
   // Set up the ObstacleClusters:
   // Insert the Obstacles one by one
   for (const PerceptionObstacle& perception_obstacle :
        perception_obstacles.perception_obstacle()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-    ADEBUG << "Perception obstacle [" << perception_obstacle.id() << "] "
-           << "was detected";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Perception obstacle [" << perception_obstacle.id() << "] "
+            << "was detected";
     InsertPerceptionObstacle(perception_obstacle, timestamp_);
-    ADEBUG << "Perception obstacle [" << perception_obstacle.id() << "] "
-           << "was inserted";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Perception obstacle [" << perception_obstacle.id() << "] "
+            << "was inserted";
   }
 
   SetConsideredObstacleIds();
@@ -201,12 +203,14 @@ void ObstaclesContainer::SetConsideredObstacleIds() {
   for (const int id : curr_frame_movable_obstacle_ids_) {
     Obstacle* obstacle_ptr = GetObstacle(id);
     if (obstacle_ptr == nullptr) {
-      AERROR << "Null obstacle found.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null obstacle found.";
       continue;
     }
     if (obstacle_ptr->ToIgnore()) {
-      ADEBUG << "Ignore obstacle [" << obstacle_ptr->id() << "]";
-      continue;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Ignore obstacle [" << obstacle_ptr->id() << "]";
+       continue;
     }
     curr_frame_considered_obstacle_ids_.push_back(id);
   }
@@ -225,12 +229,14 @@ void ObstaclesContainer::InsertPerceptionObstacle(
   // Sanity checks.
   int id = perception_obstacle.id();
   if (id < FLAGS_ego_vehicle_id) {
-    AERROR << "Invalid ID [" << id << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid ID [" << id << "]";
     return;
   }
   if (!IsMovable(perception_obstacle)) {
-    ADEBUG << "Perception obstacle [" << perception_obstacle.id()
-           << "] is unmovable.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Perception obstacle [" << perception_obstacle.id()
+            << "] is unmovable.";
     curr_frame_unmovable_obstacle_ids_.push_back(id);
     return;
   }
@@ -238,21 +244,25 @@ void ObstaclesContainer::InsertPerceptionObstacle(
   // Insert the obstacle and also update the LRUCache.
   auto obstacle_ptr = GetObstacleWithLRUUpdate(id);
   if (obstacle_ptr != nullptr) {
-    ADEBUG << "Current time = " << std::fixed << std::setprecision(6)
-           << timestamp;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Current time = " << std::fixed << std::setprecision(6)
+            << timestamp;
     obstacle_ptr->Insert(perception_obstacle, timestamp, id);
-    ADEBUG << "Refresh obstacle [" << id << "]";
-  } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Refresh obstacle [" << id << "]";
+   } else {
     auto ptr_obstacle =
         Obstacle::Create(perception_obstacle, timestamp, id, clusters_.get());
     if (ptr_obstacle == nullptr) {
-      AERROR << "Failed to insert obstacle into container";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to insert obstacle into container";
       return;
     }
     ptr_obstacle->SetJunctionAnalyzer(&junction_analyzer_);
     ptr_obstacles_.Put(id, std::move(ptr_obstacle));
-    ADEBUG << "Insert obstacle [" << id << "]";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Insert obstacle [" << id << "]";
+   }
 
   if (FLAGS_prediction_offline_mode ==
           PredictionConstants::kDumpDataForLearning ||
@@ -263,7 +273,8 @@ void ObstaclesContainer::InsertPerceptionObstacle(
 
 void ObstaclesContainer::InsertFeatureProto(const Feature& feature) {
   if (!feature.has_id()) {
-    AERROR << "Invalid feature, no ID found.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid feature, no ID found.";
     return;
   }
   int id = feature.id();
@@ -273,7 +284,8 @@ void ObstaclesContainer::InsertFeatureProto(const Feature& feature) {
   } else {
     auto ptr_obstacle = Obstacle::Create(feature, clusters_.get());
     if (ptr_obstacle == nullptr) {
-      AERROR << "Failed to insert obstacle into container";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to insert obstacle into container";
       return;
     }
     ptr_obstacle->SetJunctionAnalyzer(&junction_analyzer_);
@@ -287,25 +299,30 @@ void ObstaclesContainer::BuildLaneGraph() {
   for (const int id : curr_frame_considered_obstacle_ids_) {
     Obstacle* obstacle_ptr = GetObstacle(id);
     if (obstacle_ptr == nullptr) {
-      AERROR << "Null obstacle found.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null obstacle found.";
       continue;
     }
     if (FLAGS_prediction_offline_mode !=
         PredictionConstants::kDumpDataForLearning) {
-      ADEBUG << "Building Lane Graph.";
-      obstacle_ptr->BuildLaneGraph();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Building Lane Graph.";
+       obstacle_ptr->BuildLaneGraph();
       obstacle_ptr->BuildLaneGraphFromLeftToRight();
     } else {
-      ADEBUG << "Building ordered Lane Graph.";
-      ADEBUG << "Building lane graph for id = " << id;
-      obstacle_ptr->BuildLaneGraphFromLeftToRight();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Building ordered Lane Graph.";
+       AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Building lane graph for id = " << id;
+       obstacle_ptr->BuildLaneGraphFromLeftToRight();
     }
     obstacle_ptr->SetNearbyObstacles();
   }
 
   Obstacle* ego_vehicle_ptr = GetObstacle(FLAGS_ego_vehicle_id);
   if (ego_vehicle_ptr == nullptr) {
-    AERROR << "Ego vehicle not inserted";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ego vehicle not inserted";
     return;
   }
   ego_vehicle_ptr->BuildLaneGraph();
@@ -318,13 +335,15 @@ void ObstaclesContainer::BuildJunctionFeature() {
   for (const int id : curr_frame_considered_obstacle_ids_) {
     Obstacle* obstacle_ptr = GetObstacle(id);
     if (obstacle_ptr == nullptr) {
-      AERROR << "Null obstacle found.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null obstacle found.";
       continue;
     }
     const std::string& junction_id = junction_analyzer_.GetJunctionId();
     if (obstacle_ptr->IsInJunction(junction_id)) {
-      ADEBUG << "Build junction feature for obstacle [" << obstacle_ptr->id()
-             << "] in junction [" << junction_id << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Build junction feature for obstacle [" << obstacle_ptr->id()
+              << "] in junction [" << junction_id << "]";
       obstacle_ptr->BuildJunctionFeature();
     }
   }
@@ -347,7 +366,8 @@ SubmoduleOutput ObstaclesContainer::GetSubmoduleOutput(
   for (int id : curr_frame_considered_obstacle_ids_) {
     Obstacle* obstacle = GetObstacle(id);
     if (obstacle == nullptr) {
-      AERROR << "Nullptr found for obstacle [" << id << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Nullptr found for obstacle [" << id << "]";
       continue;
     }
     obstacle->TrimHistory(history_size);

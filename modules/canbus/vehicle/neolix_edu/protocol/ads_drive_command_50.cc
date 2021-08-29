@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,21 +27,15 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Adsdrivecommand50::ID = 0x50;
 
 // public
-Adsdrivecommand50::Adsdrivecommand50() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Adsdrivecommand50::Adsdrivecommand50() { Reset(); }
 
 uint32_t Adsdrivecommand50::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Adsdrivecommand50::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_drive_enable(data, drive_enable_);
   set_p_auto_shift_command(data, auto_shift_command_);
   set_p_auto_drive_torque(data, auto_drive_torque_);
@@ -55,8 +48,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Adsdrivecommand50::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  you should check this manually
   drive_enable_ = false;
   auto_shift_command_ = Ads_drive_command_50::AUTO_SHIFT_COMMAND_N;
@@ -66,8 +57,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Adsdrivecommand50* Adsdrivecommand50::set_drive_enable(bool drive_enable) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   drive_enable_ = drive_enable;
   return this;
 }
@@ -77,8 +66,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_range': '[0|0]', 'bit': 0, 'type': 'bool', 'order': 'motorola',
 // 'physical_unit': ''}
 void Adsdrivecommand50::set_p_drive_enable(uint8_t* data, bool drive_enable) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = drive_enable;
 
   Byte to_set(data + 0);
@@ -87,8 +74,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Adsdrivecommand50* Adsdrivecommand50::set_auto_shift_command(
     Ads_drive_command_50::Auto_shift_commandType auto_shift_command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_shift_command_ = auto_shift_command;
   return this;
 }
@@ -102,8 +87,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void Adsdrivecommand50::set_p_auto_shift_command(
     uint8_t* data,
     Ads_drive_command_50::Auto_shift_commandType auto_shift_command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = auto_shift_command;
 
   Byte to_set(data + 1);
@@ -112,8 +95,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Adsdrivecommand50* Adsdrivecommand50::set_auto_drive_torque(
     double auto_drive_torque) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_drive_torque_ = auto_drive_torque;
   return this;
 }
@@ -123,8 +104,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 23, 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 void Adsdrivecommand50::set_p_auto_drive_torque(uint8_t* data,
                                                 double auto_drive_torque) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_drive_torque = ProtocolData::BoundedValue(0.0, 50.0, auto_drive_torque);
   int x = (auto_drive_torque - -665.000000) / 0.020000;
   uint8_t t = 0;
@@ -141,8 +120,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Adsdrivecommand50* Adsdrivecommand50::set_auto_drivercmd_alivecounter(
     int auto_drivercmd_alivecounter) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_drivercmd_alivecounter_ = auto_drivercmd_alivecounter;
   return this;
 }
@@ -152,8 +129,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|0]', 'bit': 51, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsdrivecommand50::set_p_auto_drivercmd_alivecounter(
     uint8_t* data, int auto_drivercmd_alivecounter) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_drivercmd_alivecounter =
       ProtocolData::BoundedValue(0, 15, auto_drivercmd_alivecounter);
   int x = auto_drivercmd_alivecounter;
@@ -164,8 +139,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Adsdrivecommand50* Adsdrivecommand50::set_auto_drivercmd_checksum(
     int auto_drivercmd_checksum) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_drivercmd_checksum_ = auto_drivercmd_checksum;
   return this;
 }
@@ -175,8 +148,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|0]', 'bit': 63, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsdrivecommand50::set_p_auto_drivercmd_checksum(
     uint8_t* data, int auto_drivercmd_checksum) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_drivercmd_checksum =
       ProtocolData::BoundedValue(0, 255, auto_drivercmd_checksum);
   int x = auto_drivercmd_checksum;

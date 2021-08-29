@@ -24,15 +24,18 @@ namespace lidar {
 LidarDriverComponent::LidarDriverComponent() {}
 bool LidarDriverComponent::Init() {
   if (!GetProtoConfig(&conf_)) {
-    AERROR << "load config error, file:" << config_file_path_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "load config error, file:" << config_file_path_;
     return false;
   }
   node_ = apollo::cyber::CreateNode("drivers_lidar");
-  AINFO << "conf:" << conf_.DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "conf:" << conf_.DebugString();
   LidarDriverFactory::Instance()->RegisterLidarClients();
   driver_ = LidarDriverFactory::Instance()->CreateLidarDriver(node_, conf_);
   if (!driver_->Init()) {
-    AERROR << "driver init error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "driver init error";
     return false;
   }
   return true;

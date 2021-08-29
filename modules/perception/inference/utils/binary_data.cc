@@ -119,7 +119,8 @@ std::map<std::string, std::shared_ptr<base::Blob<Dtype>>> BinaryReadFile(
 
   FILE *fp = fopen(file_path, "rb");
   if (NULL == fp) {
-    AERROR << "Failed opening Binaryary file: " << file_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed opening Binaryary file: " << file_path;
     return data_dict;
   }
 
@@ -138,7 +139,8 @@ bool BinaryWriteFile(const char *file_path,
                      const std::map<std::string, Btype> &data_dict) {
   FILE *fp = fopen(file_path, "wb");
   if (NULL == fp) {
-    AERROR << "Failed opening Binaryary file: " << file_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed opening Binaryary file: " << file_path;
     return false;
   }
 

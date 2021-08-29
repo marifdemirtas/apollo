@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -47,8 +46,9 @@ EmergencyStopStageApproach::EmergencyStopStageApproach(
 
 Stage::StageStatus EmergencyStopStageApproach::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: Approach";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: Approach";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
@@ -83,8 +83,9 @@ Stage::StageStatus EmergencyStopStageApproach::Process(
 
     static constexpr double kBuffer = 2.0;
     stop_line_s = adc_front_edge_s + travel_distance + stop_distance + kBuffer;
-    ADEBUG << "travel_distance[" << travel_distance << "] [" << adc_speed
-           << "] adc_front_edge_s[" << adc_front_edge_s << "] stop_line_s["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "travel_distance[" << travel_distance << "] [" << adc_speed
+            << "] adc_front_edge_s[" << adc_front_edge_s << "] stop_line_s["
            << stop_line_s << "]";
     const auto& stop_fence_point =
         reference_line.GetReferencePoint(stop_line_s);
@@ -103,12 +104,14 @@ Stage::StageStatus EmergencyStopStageApproach::Process(
       StopReasonCode::STOP_REASON_EMERGENCY, wait_for_obstacle_ids,
       "EMERGENCY_STOP-scenario", frame,
       &(frame->mutable_reference_line_info()->front()));
-  ADEBUG << "Build a stop fence for emergency_stop: id[" << virtual_obstacle_id
-         << "] s[" << stop_line_s << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Build a stop fence for emergency_stop: id[" << virtual_obstacle_id
+          << "] s[" << stop_line_s << "]";
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "EmergencyPullOverStageApproach planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "EmergencyPullOverStageApproach planning error";
   }
 
   const double max_adc_stop_speed = common::VehicleConfigHelper::Instance()

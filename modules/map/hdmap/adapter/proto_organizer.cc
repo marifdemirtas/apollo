@@ -175,7 +175,8 @@ void ProtoOrganizer::GetLaneObjectOverlapElements(
       proto_data_.pb_pnc_junctions[object_id].add_overlap_id()->set_id(
           overlap_id);
     } else {
-      AERROR << "unknown object, object id:" << object_id;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unknown object, object id:" << object_id;
     }
     proto_data_.pb_lanes[lane_id].add_overlap_id()->set_id(overlap_id);
     proto_data_.pb_overlaps[overlap_id] = overlap;
@@ -197,7 +198,8 @@ void ProtoOrganizer::GetLaneSignalOverlapElements(
     if (proto_data_.pb_signals.count(object_id) <= 0 &&
         proto_data_.pb_stop_signs.count(object_id) <= 0 &&
         proto_data_.pb_yield_signs.count(object_id) <= 0) {
-      AINFO << "cannot find signal object_id:" << object_id;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "cannot find signal object_id:" << object_id;
       continue;
     }
     PbOverlap overlap;
@@ -227,7 +229,8 @@ void ProtoOrganizer::GetLaneSignalOverlapElements(
       object_overlap->mutable_rsu_overlap_info();
       proto_data_.pb_rsus[object_id].add_overlap_id()->set_id(overlap_id);
     } else {
-      AERROR << "unknown signal, signal id:" << object_id;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unknown signal, signal id:" << object_id;
     }
 
     proto_data_.pb_lanes[lane_id].add_overlap_id()->set_id(overlap_id);
@@ -241,7 +244,8 @@ void ProtoOrganizer::GetLaneJunctionOverlapElements(
   for (auto& overlap_junction : overlap_with_lanes) {
     std::string object_id = overlap_junction.object_id;
     if (proto_data_.pb_junctions.count(object_id) <= 0) {
-      AINFO << "cannot find junction object " << object_id;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "cannot find junction object " << object_id;
       continue;
     }
     PbOverlap overlap;
@@ -261,7 +265,8 @@ void ProtoOrganizer::GetLaneJunctionOverlapElements(
       object_overlap->mutable_junction_overlap_info();
       proto_data_.pb_junctions[object_id].add_overlap_id()->set_id(overlap_id);
     } else {
-      AERROR << "unknown junction overlap, id:" << object_id;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unknown junction overlap, id:" << object_id;
     }
     proto_data_.pb_lanes[lane_id].add_overlap_id()->set_id(overlap_id);
     proto_data_.pb_overlaps[overlap_id] = overlap;
@@ -298,12 +303,14 @@ void ProtoOrganizer::GetLaneLaneOverlapElements(
     object_overlap = overlap.add_object();
     object_overlap->mutable_id()->set_id(object_id);
     if (proto_data_.pb_lanes.count(object_id) <= 0) {
-      AERROR << "unknown overlap lane, id:" << object_id;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unknown overlap lane, id:" << object_id;
       continue;
     }
 
     if (lane_lane_overlaps.count(make_pair(object_id, lane_id)) <= 0) {
-      AERROR << "lane overlap is not symmetrical " << overlap_id;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "lane overlap is not symmetrical " << overlap_id;
       continue;
     }
     proto_data_.pb_lanes[lane_id].add_overlap_id()->set_id(overlap_id);
@@ -431,7 +438,8 @@ void ProtoOrganizer::OutputData(apollo::hdmap::Map* pb_map) {
     *(pb_map->add_overlap()) = overlap_pair.second;
   }
 
-  AINFO << "hdmap statistics: roads-" << proto_data_.pb_roads.size()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "hdmap statistics: roads-" << proto_data_.pb_roads.size()
         << ",lanes-" << proto_data_.pb_lanes.size() << ",crosswalks-"
         << proto_data_.pb_crosswalks.size() << ",parking spaces-"
         << proto_data_.pb_parking_spaces.size() << ",clear areas-"

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Dashcontrolsleftcmd10c::Dashcontrolsleftcmd10c() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Dashcontrolsleftcmd10c::Dashcontrolsleftcmd10c() {}
 const int32_t Dashcontrolsleftcmd10c::ID = 0x10C;
 
 void Dashcontrolsleftcmd10c::Parse(const std::uint8_t* bytes, int32_t length,
                                    ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_lexus()
       ->mutable_dash_controls_left_cmd_10c()
       ->set_ignore_overrides(ignore_overrides(bytes, length));
@@ -58,8 +53,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Dashcontrolsleftcmd10c::ignore_overrides(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
 
@@ -72,8 +65,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 bool Dashcontrolsleftcmd10c::enable(const std::uint8_t* bytes,
                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 
@@ -86,8 +77,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Dashcontrolsleftcmd10c::clear_override(const std::uint8_t* bytes,
                                             int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
 
@@ -100,8 +89,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Dashcontrolsleftcmd10c::clear_faults(const std::uint8_t* bytes,
                                           int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
 
@@ -121,8 +108,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 Dash_controls_left_cmd_10c::Dash_controls_buttonType
 Dashcontrolsleftcmd10c::dash_controls_button(const std::uint8_t* bytes,
                                              int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 

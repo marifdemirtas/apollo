@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -45,18 +44,18 @@ ErrorCode Neolix_eduController::Init(
     const VehicleParameter& params,
     CanSender<::apollo::canbus::ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (is_initialized_) {
-    AINFO << "Neolix_eduController has already been initiated.";
-    return ErrorCode::CANBUS_ERROR;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Neolix_eduController has already been initiated.";
+     return ErrorCode::CANBUS_ERROR;
   }
 
   vehicle_params_.CopyFrom(
       common::VehicleConfigHelper::Instance()->GetConfig().vehicle_param());
   params_.CopyFrom(params);
   if (!params_.has_driving_mode()) {
-    AERROR << "Vehicle conf pb not set driving_mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Vehicle conf pb not set driving_mode.";
     return ErrorCode::CANBUS_ERROR;
   }
 
@@ -66,7 +65,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   can_sender_ = can_sender;
 
   if (message_manager == nullptr) {
-    AERROR << "protocol manager is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "protocol manager is null.";
     return ErrorCode::CANBUS_ERROR;
   }
   message_manager_ = message_manager;
@@ -75,7 +75,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   ads_brake_command_46_ = dynamic_cast<Adsbrakecommand46*>(
       message_manager_->GetMutableProtocolDataById(Adsbrakecommand46::ID));
   if (ads_brake_command_46_ == nullptr) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "Adsbrakecommand46 does not exist in the Neolix_eduMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
@@ -83,14 +84,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   ads_diagnosis_628_ = dynamic_cast<Adsdiagnosis628*>(
       message_manager_->GetMutableProtocolDataById(Adsdiagnosis628::ID));
   if (ads_diagnosis_628_ == nullptr) {
-    AERROR << "Adsdiagnosis628 does not exist in the Neolix_eduMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Adsdiagnosis628 does not exist in the Neolix_eduMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   ads_drive_command_50_ = dynamic_cast<Adsdrivecommand50*>(
       message_manager_->GetMutableProtocolDataById(Adsdrivecommand50::ID));
   if (ads_drive_command_50_ == nullptr) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "Adsdrivecommand50 does not exist in the Neolix_eduMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
@@ -98,14 +101,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   ads_eps_command_56_ = dynamic_cast<Adsepscommand56*>(
       message_manager_->GetMutableProtocolDataById(Adsepscommand56::ID));
   if (ads_eps_command_56_ == nullptr) {
-    AERROR << "Adsepscommand56 does not exist in the Neolix_eduMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Adsepscommand56 does not exist in the Neolix_eduMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   ads_light_horn_command_310_ = dynamic_cast<Adslighthorncommand310*>(
       message_manager_->GetMutableProtocolDataById(Adslighthorncommand310::ID));
   if (ads_light_horn_command_310_ == nullptr) {
-    AERROR << "Adslighthorncommand310 does not exist in the "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Adslighthorncommand310 does not exist in the "
               "Neolix_eduMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
@@ -118,21 +123,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                           ads_light_horn_command_310_, false);
 
   // need sleep to ensure all messages received
-  AINFO << "Neolix_eduController is initialized.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Neolix_eduController is initialized.";
+ 
   is_initialized_ = true;
   return ErrorCode::OK;
 }
 
-Neolix_eduController::~Neolix_eduController() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Neolix_eduController::~Neolix_eduController() {}
 
 bool Neolix_eduController::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "Neolix_eduController has NOT been initiated.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Neolix_eduController has NOT been initiated.";
     return false;
   }
   const auto& update_func = [this] { SecurityDogThreadFunc(); };
@@ -142,23 +145,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Neolix_eduController::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "Neolix_eduController stops or starts improperly!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Neolix_eduController stops or starts improperly!";
     return;
   }
 
   if (thread_ != nullptr && thread_->joinable()) {
     thread_->join();
     thread_.reset();
-    AINFO << "Neolix_eduController stopped.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Neolix_eduController stopped.";
+   }
 }
 
 Chassis Neolix_eduController::chassis() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis_.Clear();
 
   ChassisDetail chassis_detail;
@@ -279,18 +280,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Neolix_eduController::Emergency() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
 }
 
 ErrorCode Neolix_eduController::EnableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
-    AINFO << "already in COMPLETE_AUTO_DRIVE mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "already in COMPLETE_AUTO_DRIVE mode";
+     return ErrorCode::OK;
   }
   // set enable
   ads_brake_command_46_->set_drive_enable(true);
@@ -301,61 +299,61 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const int32_t flag =
       CHECK_RESPONSE_STEER_UNIT_FLAG | CHECK_RESPONSE_SPEED_UNIT_FLAG;
   if (!CheckResponse(flag, true)) {
-    AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
     Emergency();
     set_chassis_error_code(Chassis::CHASSIS_ERROR);
     return ErrorCode::CANBUS_ERROR;
   }
   set_driving_mode(Chassis::COMPLETE_AUTO_DRIVE);
-  AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
+   return ErrorCode::OK;
 }
 
 ErrorCode Neolix_eduController::DisableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ResetProtocol();
   can_sender_->Update();
   set_driving_mode(Chassis::COMPLETE_MANUAL);
   set_chassis_error_code(Chassis::NO_ERROR);
-  AINFO << "Switch to COMPLETE_MANUAL ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_MANUAL ok.";
+   return ErrorCode::OK;
 }
 
 ErrorCode Neolix_eduController::EnableSteeringOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_STEER_ONLY) {
     set_driving_mode(Chassis::AUTO_STEER_ONLY);
-    AINFO << "Already in AUTO_STEER_ONLY mode.";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in AUTO_STEER_ONLY mode.";
+     return ErrorCode::OK;
   }
-  AFATAL << "SpeedOnlyMode is not supported in Neolix_edu!";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "SpeedOnlyMode is not supported in Neolix_edu!";
+   return ErrorCode::OK;
 }
 
 ErrorCode Neolix_eduController::EnableSpeedOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_SPEED_ONLY) {
     set_driving_mode(Chassis::AUTO_SPEED_ONLY);
-    AINFO << "Already in AUTO_SPEED_ONLY mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in AUTO_SPEED_ONLY mode";
+     return ErrorCode::OK;
   }
-  AFATAL << "SpeedOnlyMode is not supported in Neolix_edu!";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "SpeedOnlyMode is not supported in Neolix_edu!";
+   return ErrorCode::OK;
 }
 
 // NEUTRAL, REVERSE, DRIVE
 void Neolix_eduController::Gear(Chassis::GearPosition gear_position) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "This drive mode no need to set gear.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "This drive mode no need to set gear.";
+     return;
   }
   switch (gear_position) {
     case Chassis::GEAR_NEUTRAL: {
@@ -386,13 +384,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // brake with pedal
 // pedal:0.00~99.99, unit:
 void Neolix_eduController::Brake(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  Update brake value based on mode
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set brake pedal.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set brake pedal.";
+     return;
   }
   ads_brake_command_46_->set_auto_brake_command(pedal);
 }
@@ -400,12 +397,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // drive with old acceleration
 // gas:0.00~99.99 unit:
 void Neolix_eduController::Throttle(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set throttle pedal.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set throttle pedal.";
+     return;
   }
   ads_drive_command_50_->set_auto_drive_torque(pedal / 2);
 }
@@ -414,8 +410,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // drive with acceleration/deceleration
 // acc:-7.0 ~ 5.0, unit:m/s^2
 void Neolix_eduController::Acceleration(double acc) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // None
 }
 
@@ -424,12 +418,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 void Neolix_eduController::Steer(double angle) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
   const double real_angle =
       vehicle_params_.max_steer_angle() / M_PI * 180 * angle / 100.0;
@@ -440,12 +433,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void Neolix_eduController::Steer(double angle, double angle_spd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
   const double real_angle =
       vehicle_params_.max_steer_angle() / M_PI * 180 * angle / 100.0;
@@ -453,8 +445,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Neolix_eduController::SetEpbBreak(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.parking_brake()) {
     ads_brake_command_46_->set_auto_parking_command(true);
   } else {
@@ -463,8 +453,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Neolix_eduController::SetBeam(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.signal().high_beam()) {
     // None
   } else if (command.signal().low_beam()) {
@@ -475,8 +463,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Neolix_eduController::SetHorn(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.signal().horn()) {
     // None
   } else {
@@ -485,33 +471,26 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Neolix_eduController::SetTurningSignal(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // None
 }
 
 void Neolix_eduController::ResetProtocol() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   message_manager_->ResetSendMessages();
 }
 
 bool Neolix_eduController::CheckChassisError() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   /* ADD YOUR OWN CAR CHASSIS OPERATION
    */
   return false;
 }
 
 void Neolix_eduController::SecurityDogThreadFunc() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
 
   if (can_sender_ == nullptr) {
-    AERROR << "Failed to run SecurityDogThreadFunc() because can_sender_ is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to run SecurityDogThreadFunc() because can_sender_ is "
               "nullptr.";
     return;
   }
@@ -566,7 +545,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (elapsed < default_period) {
       std::this_thread::sleep_for(default_period - elapsed);
     } else {
-      AERROR << "Too much time consumption in Neolix_eduController looping "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Too much time consumption in Neolix_eduController looping "
                 "process:"
              << elapsed.count();
     }
@@ -574,8 +554,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool Neolix_eduController::CheckResponse(const int32_t flags, bool need_wait) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int32_t retry_num = 20;
   ChassisDetail chassis_detail;
   bool is_eps_online = false;
@@ -584,7 +562,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   do {
     if (message_manager_->GetSensorData(&chassis_detail) != ErrorCode::OK) {
-      AERROR_EVERY(100) << "get chassis detail failed.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "get chassis detail failed.";
       return false;
     }
     bool check_ok = true;
@@ -607,8 +586,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (check_ok) {
       return true;
     } else {
-      AINFO << "Need to check response again.";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Need to check response again.";
+     }
     if (need_wait) {
       --retry_num;
       std::this_thread::sleep_for(
@@ -616,38 +596,31 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
   } while (need_wait && retry_num);
 
-  AINFO << "check_response fail: is_eps_online:" << is_eps_online
-        << ", is_vcu_online:" << is_vcu_online
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "check_response fail: is_eps_online:" << is_eps_online
+         << ", is_vcu_online:" << is_vcu_online
         << ", is_esp_online:" << is_esp_online;
 
   return false;
 }
 
 void Neolix_eduController::set_chassis_error_mask(const int32_t mask) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t Neolix_eduController::chassis_error_mask() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode Neolix_eduController::chassis_error_code() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
 }
 
 void Neolix_eduController::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
 }

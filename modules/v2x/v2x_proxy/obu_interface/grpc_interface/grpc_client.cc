@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -39,8 +38,9 @@ using grpc::Status;
 
 GrpcClientImpl::GrpcClientImpl(std::shared_ptr<Channel> channel)
     : stub_(::apollo::v2x::CarToObu::NewStub(channel)) {
-  AINFO << "GrpcClientImpl initial success";
-  car_status_tv_nsec_ = (1000000000 / FLAGS_v2x_car_status_timer_frequency / 2);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GrpcClientImpl initial success";
+   car_status_tv_nsec_ = (1000000000 / FLAGS_v2x_car_status_timer_frequency / 2);
   init_flag_ = true;
 }
 
@@ -64,8 +64,9 @@ void GrpcClientImpl::SendMsgToGrpc(const std::shared_ptr<CarStatus> &msg) {
   std::chrono::duration<double> time_used = end - start;
 
   // response check: error_code 4: time out; 0: success;
-  AINFO << "stub PushCarStatus Time used: " << time_used.count() * 1000
-        << " ms";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "stub PushCarStatus Time used: " << time_used.count() * 1000
+         << " ms";
 }
 
 }  // namespace v2x

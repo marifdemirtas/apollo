@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,21 +28,19 @@ namespace ndt {
 using apollo::cyber::Clock;
 
 NDTLocalizationComponent::NDTLocalizationComponent()
-    : localization_(new NDTLocalization()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : localization_(new NDTLocalization()) {}
 
 bool NDTLocalizationComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   tf2_broadcaster_.reset(new apollo::transform::TransformBroadcaster(node_));
   if (!InitConfig()) {
-    AERROR << "Init Config false.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init Config false.";
     return false;
   }
 
   if (!InitIO()) {
-    AERROR << "Init Interval false.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init Interval false.";
     return false;
   }
 
@@ -51,8 +48,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool NDTLocalizationComponent::InitConfig() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_topic_ = FLAGS_localization_topic;
   lidar_topic_ = FLAGS_lidar_topic;
   lidar_pose_topic_ = FLAGS_localization_ndt_topic;
@@ -67,8 +62,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool NDTLocalizationComponent::InitIO() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cyber::ReaderConfig reader_config;
   reader_config.channel_name = lidar_topic_;
   reader_config.pending_queue_size = 1;
@@ -102,8 +95,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool NDTLocalizationComponent::Proc(
     const std::shared_ptr<localization::Gps>& gps_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_->OdometryCallback(gps_msg);
 
   if (localization_->IsServiceStarted()) {
@@ -117,16 +108,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     PublishPoseBroadcastTopic(localization);
     PublishPoseBroadcastTF(localization);
     PublishLocalizationStatusTopic(localization_status);
-    ADEBUG << "[OnTimer]: Localization message publish success!";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "[OnTimer]: Localization message publish success!";
+   }
 
   return true;
 }
 
 void NDTLocalizationComponent::LidarCallback(
     const std::shared_ptr<drivers::PointCloud>& lidar_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_->LidarCallback(lidar_msg);
   // for test to output lidar pose
   if (localization_->IsServiceStarted()) {
@@ -139,15 +129,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void NDTLocalizationComponent::OdometryStatusCallback(
     const std::shared_ptr<drivers::gnss::InsStat>& status_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_->OdometryStatusCallback(status_msg);
 }
 
 void NDTLocalizationComponent::PublishPoseBroadcastTF(
     const LocalizationEstimate& localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // broadcast tf message
   apollo::transform::TransformStamped tf2_msg;
 
@@ -172,22 +158,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void NDTLocalizationComponent::PublishPoseBroadcastTopic(
     const LocalizationEstimate& localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_talker_->Write(localization);
 }
 
 void NDTLocalizationComponent::PublishLidarPoseBroadcastTopic(
     const LocalizationEstimate& localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   lidar_pose_talker_->Write(localization);
 }
 
 void NDTLocalizationComponent::PublishLocalizationStatusTopic(
     const LocalizationStatus& localization_status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_status_talker_->Write(localization_status);
 }
 

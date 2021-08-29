@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -50,15 +49,17 @@ bool SemanticLSTMEvaluator::Evaluate(Obstacle* obstacle_ptr,
   CHECK_NOTNULL(obstacle_ptr);
   int id = obstacle_ptr->id();
   if (!obstacle_ptr->latest_feature().IsInitialized()) {
-    AERROR << "Obstacle [" << id << "] has no latest feature.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no latest feature.";
     return false;
   }
   Feature* latest_feature_ptr = obstacle_ptr->mutable_latest_feature();
   CHECK_NOTNULL(latest_feature_ptr);
 
   if (!FLAGS_enable_semantic_map) {
-    ADEBUG << "Not enable semantic map, exit semantic_lstm_evaluator.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Not enable semantic map, exit semantic_lstm_evaluator.";
+     return false;
   }
   cv::Mat feature_map;
   if (!semantic_map_->GetMapById(id, &feature_map)) {
@@ -77,8 +78,9 @@ bool SemanticLSTMEvaluator::Evaluate(Obstacle* obstacle_ptr,
   // Extract features of pos_history
   std::vector<std::pair<double, double>> pos_history(20, {0.0, 0.0});
   if (!ExtractObstacleHistory(obstacle_ptr, &pos_history)) {
-    ADEBUG << "Obstacle [" << id << "] failed to extract obstacle history";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] failed to extract obstacle history";
+     return false;
   }
   // Process obstacle_history
   // TODO(Hongyi): move magic numbers to parameters and gflags
@@ -119,8 +121,9 @@ bool SemanticLSTMEvaluator::Evaluate(Obstacle* obstacle_ptr,
 
   auto end_time = std::chrono::system_clock::now();
   std::chrono::duration<double> diff = end_time - start_time;
-  ADEBUG << "Semantic_LSTM_evaluator used time: " << diff.count() * 1000
-         << " ms.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Semantic_LSTM_evaluator used time: " << diff.count() * 1000
+          << " ms.";
   auto torch_output = torch_output_tensor.accessor<float, 3>();
 
   // Get the trajectory
@@ -239,8 +242,9 @@ bool SemanticLSTMEvaluator::ExtractObstacleHistory(
 
 void SemanticLSTMEvaluator::LoadModel() {
   if (FLAGS_use_cuda && torch::cuda::is_available()) {
-    ADEBUG << "CUDA is available";
-    device_ = torch::Device(torch::kCUDA);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "CUDA is available";
+     device_ = torch::Device(torch::kCUDA);
     torch_vehicle_model_ =
         torch::jit::load(FLAGS_torch_vehicle_semantic_lstm_file, device_);
     torch_pedestrian_model_ =

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -175,10 +174,9 @@ bool CollisionChecker::IsObstacleBehindEgoVehicle(
 
   if (obstacle_reference_line_position.first < ego_vehicle_s &&
       std::fabs(obstacle_reference_line_position.second) < half_lane_width) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-    ADEBUG << "Ignore obstacle [" << obstacle->Id() << "]";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Ignore obstacle [" << obstacle->Id() << "]";
+     return true;
   }
   return false;
 }

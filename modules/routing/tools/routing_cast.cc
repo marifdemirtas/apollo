@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,7 +35,8 @@ int main(int argc, char *argv[]) {
   apollo::routing::RoutingResponse routing_response;
   if (!apollo::cyber::common::GetProtoFromFile(FLAGS_routing_dump_file,
                                                &routing_response)) {
-    AERROR << "failed to load file: " << FLAGS_routing_dump_file;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to load file: " << FLAGS_routing_dump_file;
     return -1;
   }
 

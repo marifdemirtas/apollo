@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -227,8 +226,9 @@ apollo::perception::PerceptionObstacles SmartereyeToPerceptionObstacles(
                                2 * path_c2 * converted_x + path_c1,
                            1) +
                     M_PI;
-      AINFO << "nearest lane heading is" << nearest_lane_heading;
-      sma->set_theta(nearest_lane_heading);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "nearest lane heading is" << nearest_lane_heading;
+       sma->set_theta(nearest_lane_heading);
     }
 
     sma->set_id(sma_id);

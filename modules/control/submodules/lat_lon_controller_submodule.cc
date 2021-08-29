@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -33,23 +32,15 @@ using apollo::common::StatusPb;
 using apollo::cyber::Clock;
 
 LatLonControllerSubmodule::LatLonControllerSubmodule()
-    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {}
 
-LatLonControllerSubmodule::~LatLonControllerSubmodule() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+LatLonControllerSubmodule::~LatLonControllerSubmodule() {}
 
 std::string LatLonControllerSubmodule::Name() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return FLAGS_lat_lon_controller_submodule_name;
 }
 
 bool LatLonControllerSubmodule::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   injector_ = std::make_shared<DependencyInjector>();
   // lateral controller initialization
   ACHECK(cyber::common::GetProtoFromFile(FLAGS_lateral_controller_conf_file,
@@ -85,8 +76,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool LatLonControllerSubmodule::Proc(
     const std::shared_ptr<Preprocessor>& preprocessor_status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto start_time = Clock::Now();
   ControlCommand control_core_command;
 
@@ -95,20 +84,23 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     control_core_command.mutable_pad_msg()->CopyFrom(
         preprocessor_status->local_view().pad_msg());
   }
-  ADEBUG << "Lat+Lon controller submodule started ....";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Lat+Lon controller submodule started ....";
+ 
   // skip produce control command when estop for lat+lon controller
   StatusPb pre_status = preprocessor_status->header().status();
   if (pre_status.error_code() != ErrorCode::OK) {
     control_core_command.mutable_header()->mutable_status()->CopyFrom(
         pre_status);
-    AERROR << "Error in preprocessor submodule.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Error in preprocessor submodule.";
     return false;
   }
 
   Status status = ProduceControlCoreCommand(preprocessor_status->local_view(),
                                             &control_core_command);
-  AERROR_IF(!status.ok()) << "Failed to produce control command:"
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_IF(!status.ok()) << "Failed to produce control command:"
                           << status.error_message();
 
   control_core_command.mutable_header()->set_lidar_timestamp(
@@ -137,13 +129,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Status LatLonControllerSubmodule::ProduceControlCoreCommand(
     const LocalView& local_view, ControlCommand* control_core_command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(mutex_);
   if (local_view.chassis().driving_mode() == Chassis::COMPLETE_MANUAL) {
     lateral_controller_.Reset();
     longitudinal_controller_.Reset();
-    AINFO_EVERY(100) << "Reset Controllers in Manual Mode";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO_EVERY(100) << "Reset Controllers in Manual Mode";
   }
 
   // fill out control command sequentially

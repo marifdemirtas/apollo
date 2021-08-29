@@ -43,7 +43,8 @@ bool Parser::Init() {
   // init calibration
   if (!conf_.is_online_calibration() && conf_.calibration_file() != "") {
     if (!LoadCalibration(conf_.calibration_file().c_str())) {
-      AERROR << "load local calibration file[" << conf_.calibration_file()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "load local calibration file[" << conf_.calibration_file()
              << "] error";
       return false;
     }
@@ -58,7 +59,8 @@ bool Parser::Init() {
       node_->CreateWriter<PointCloud>(conf_.pointcloud_channel());
 
   if (raw_pointcloud_writer_ == nullptr) {
-    AERROR << "create writer:" << conf_.pointcloud_channel()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "create writer:" << conf_.pointcloud_channel()
            << " error, check cyber is init?";
     return false;
   }
@@ -68,8 +70,7 @@ bool Parser::Init() {
   // for (int i = 0; i < pool_size_; i++) {
   //   auto point_cloud = raw_pointcloud_pool_->GetObject();
   //   if (point_cloud == nullptr) {
-  //     AERROR << "fail to getobject, i: " << i;
-  //     return false;
+    //     return false;
   //   }
   //   point_cloud->mutable_point()->Reserve(70000);
   // }
@@ -78,7 +79,8 @@ bool Parser::Init() {
   for (int i = 0; i < pool_size_; i++) {
     raw_pointcloud_pool_[i] = std::make_shared<PointCloud>();
     if (raw_pointcloud_pool_[i] == nullptr) {
-      AERROR << "make shared PointCloud error,oom";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "make shared PointCloud error,oom";
       return false;
     }
     raw_pointcloud_pool_[i]->mutable_point()->Reserve(70000);
@@ -99,7 +101,8 @@ void Parser::ResetRawPointCloud() {
   // raw_pointcloud_out_->Clear();
   //
   raw_pointcloud_out_ = raw_pointcloud_pool_.at(pool_index_);
-  AINFO << "pool index:" << pool_index_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "pool index:" << pool_index_;
   raw_pointcloud_out_->Clear();
   raw_pointcloud_out_->mutable_point()->Reserve(70000);
   pool_index_ = (pool_index_ + 1) % pool_size_;
@@ -172,24 +175,29 @@ void Parser::PublishRawPointCloud(int seq) {
 void Parser::LoadCalibrationThread() {
   TcpCmdClient tcp_cmd(conf_.ip(), conf_.tcp_cmd_port());
   std::string content;
-  AINFO << "start LoadCalibrationThread";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "start LoadCalibrationThread";
   while (running_) {
     AWARN << "calibration has not inited";
     if (!tcp_cmd.GetCalibration(&content)) {
-      AERROR << "tcp get calibration error";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tcp get calibration error";
       sleep(1);
       continue;
     }
 
     if (!LoadCalibration(content)) {
-      AERROR << "load calibration error";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "load calibration error";
       continue;
     }
-    AINFO << "online calibration success";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "online calibration success";
     is_calibration_ = true;
     break;
   }
-  AINFO << "exit LoadCalibrationThread, calibration:" << is_calibration_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "exit LoadCalibrationThread, calibration:" << is_calibration_;
 }
 
 void Parser::Stop() {
@@ -203,18 +211,21 @@ bool Parser::LoadCalibration(const char* path_file) {
   std::string path(path_file);
   std::string content;
   if (!apollo::cyber::common::GetContent(path, &content)) {
-    AERROR << "get calibration file content error, file:" << path_file;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "get calibration file content error, file:" << path_file;
     return false;
   }
   return LoadCalibration(content);
 }
 
 bool Parser::LoadCalibration(const std::string& content) {
-  AINFO << "parse calibration content:" << content;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "parse calibration content:" << content;
   std::istringstream ifs(content);
   std::string line;
   if (!std::getline(ifs, line)) {  // first line "Laser id,Elevation,Azimuth"
-    AERROR << "lidar calibration content is empty, content:" << content;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "lidar calibration content is empty, content:" << content;
     return false;
   }
 
@@ -240,7 +251,8 @@ bool Parser::LoadCalibration(const std::string& content) {
     std::stringstream(subline) >> azimuth;
 
     if (line_id != line_counter) {
-      AERROR << "parser lidar calibration content error, line_id[" << line_id
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "parser lidar calibration content error, line_id[" << line_id
              << "] != line_counter[" << line_counter << "]";
       return false;
     }
@@ -249,9 +261,11 @@ bool Parser::LoadCalibration(const std::string& content) {
     azimuthOffset[line_id - 1] = azimuth;
   }
 
-  AINFO << "laser count:" << line_counter;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "laser count:" << line_counter;
   if (line_counter != LASER_COUNT && line_counter != LASER_COUNT_L64) {
-    AERROR << "now only support hesai40p, hesai64";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "now only support hesai40p, hesai64";
     return false;
   }
 

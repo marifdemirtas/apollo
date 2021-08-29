@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -160,7 +159,8 @@ RadarObstacles DelphiToRadarObstacles(
   for (const auto& esr_trackmotionpower_540 :
        delphi_esr.esr_trackmotionpower_540()) {
     if (!esr_trackmotionpower_540.has_can_tx_track_can_id_group()) {
-      AERROR << "ESR track motion power 540 does not have "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ESR track motion power 540 does not have "
                 "can_tx_track_can_id_group()";
       continue;
     }

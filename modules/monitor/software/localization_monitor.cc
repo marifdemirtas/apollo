@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -40,13 +39,9 @@ using apollo::localization::MeasureState;
 
 LocalizationMonitor::LocalizationMonitor()
     : RecurrentRunner(FLAGS_localization_monitor_name,
-                      FLAGS_localization_monitor_interval) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+                      FLAGS_localization_monitor_interval) {}
 
 void LocalizationMonitor::RunOnce(const double current_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto manager = MonitorManager::Instance();
   auto* component = apollo::common::util::FindOrNull(
       *manager->GetStatus()->mutable_components(),
@@ -100,8 +95,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           component_status);
       break;
     default:
-      AFATAL << "Unknown fusion_status: " << status->fusion_status();
-      break;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "Unknown fusion_status: " << status->fusion_status();
+       break;
   }
 }
 

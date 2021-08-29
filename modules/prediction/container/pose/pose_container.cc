@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -38,16 +37,19 @@ void PoseContainer::Update(
     const localization::LocalizationEstimate& localization) {
   if (!localization.has_header() ||
       !localization.header().has_timestamp_sec()) {
-    AERROR << "Localization message has no timestamp ["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Localization message has no timestamp ["
            << localization.ShortDebugString() << "].";
     return;
   } else if (!localization.has_pose()) {
-    AERROR << "Localization message has no pose ["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Localization message has no pose ["
            << localization.ShortDebugString() << "].";
     return;
   } else if (!localization.pose().has_position() ||
              !localization.pose().has_linear_velocity()) {
-    AERROR << "Localization message has no position or linear velocity ["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Localization message has no position or linear velocity ["
            << localization.ShortDebugString() << "].";
     return;
   }
@@ -87,8 +89,9 @@ void PoseContainer::Update(
   obstacle_ptr_->set_type(type_);
   obstacle_ptr_->set_timestamp(localization.header().timestamp_sec());
 
-  ADEBUG << "ADC obstacle [" << obstacle_ptr_->ShortDebugString() << "].";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC obstacle [" << obstacle_ptr_->ShortDebugString() << "].";
+ }
 
 double PoseContainer::GetTimestamp() {
   if (obstacle_ptr_ != nullptr) {

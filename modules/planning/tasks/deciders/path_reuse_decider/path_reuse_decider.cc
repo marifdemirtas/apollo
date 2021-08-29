@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -51,8 +50,9 @@ Status PathReuseDecider::Process(Frame* const frame,
   CHECK_NOTNULL(reference_line_info);
 
   if (!Decider::config_.path_reuse_decider_config().reuse_path()) {
-    ADEBUG << "skipping reusing path: conf";
-    reference_line_info->set_path_reusable(false);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "skipping reusing path: conf";
+     reference_line_info->set_path_reusable(false);
     return Status::OK();
   }
 
@@ -62,8 +62,9 @@ Status PathReuseDecider::Process(Frame* const frame,
                                  .scenario()
                                  .scenario_type();
   if (scenario_type != ScenarioConfig::LANE_FOLLOW) {
-    ADEBUG << "skipping reusing path: not in LANE_FOLLOW scenario";
-    reference_line_info->set_path_reusable(false);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "skipping reusing path: not in LANE_FOLLOW scenario";
+     reference_line_info->set_path_reusable(false);
     return Status::OK();
   }
 
@@ -71,13 +72,15 @@ Status PathReuseDecider::Process(Frame* const frame,
   auto* lane_change_status = injector_->planning_context()
                                  ->mutable_planning_status()
                                  ->mutable_change_lane();
-  ADEBUG << "lane change status: " << lane_change_status->ShortDebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "lane change status: " << lane_change_status->ShortDebugString();
+ 
   // skip path reuse if not in_change_lane
   if (lane_change_status->status() != ChangeLaneStatus::IN_CHANGE_LANE &&
       !FLAGS_enable_reuse_path_in_lane_follow) {
-    ADEBUG << "skipping reusing path: not in lane_change";
-    reference_line_info->set_path_reusable(false);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "skipping reusing path: not in lane_change";
+     reference_line_info->set_path_reusable(false);
     return Status::OK();
   }
 
@@ -85,8 +88,9 @@ Status PathReuseDecider::Process(Frame* const frame,
   const bool valid_model_output =
       reference_line_info->path_data().is_valid_path_reference();
   if (valid_model_output) {
-    ADEBUG << "skipping reusing path: path reference is valid";
-    reference_line_info->set_path_reusable(false);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "skipping reusing path: path reference is valid";
+     reference_line_info->set_path_reusable(false);
     return Status::OK();
   }
 
@@ -99,10 +103,12 @@ Status PathReuseDecider::Process(Frame* const frame,
   bool is_change_lane_path = reference_line_info->IsChangeLanePath();
   if (is_change_lane_path && !lane_change_status->is_current_opt_succeed()) {
     reference_line_info->set_path_reusable(false);
-    ADEBUG << "reusable_path_counter[" << reusable_path_counter_
-           << "] total_path_counter[" << total_path_counter_ << "]";
-    ADEBUG << "Stop reusing path when optimization failed on change lane path";
-    return Status::OK();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "reusable_path_counter[" << reusable_path_counter_
+            << "] total_path_counter[" << total_path_counter_ << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Stop reusing path when optimization failed on change lane path";
+     return Status::OK();
   }
 
   // stop reusing current path:
@@ -128,12 +134,14 @@ Status PathReuseDecider::Process(Frame* const frame,
     if (!frame->current_frame_planned_trajectory().is_replan() &&
         speed_optimization_successful && IsCollisionFree(reference_line_info) &&
         TrimHistoryPath(frame, reference_line_info)) {
-      ADEBUG << "reuse path";
-      ++reusable_path_counter_;  // count reusable path
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "reuse path";
+       ++reusable_path_counter_;  // count reusable path
     } else {
       // stop reuse path
-      ADEBUG << "stop reuse path";
-      path_reusable_ = false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop reuse path";
+       path_reusable_ = false;
     }
   } else {
     // F -> T
@@ -146,8 +154,9 @@ Status PathReuseDecider::Process(Frame* const frame,
         mutable_path_decider_status->front_static_obstacle_cycle_counter();
     const bool ignore_blocking_obstacle =
         IsIgnoredBlockingObstacle(reference_line_info);
-    ADEBUG << "counter[" << front_static_obstacle_cycle_counter
-           << "] IsIgnoredBlockingObstacle[" << ignore_blocking_obstacle << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "counter[" << front_static_obstacle_cycle_counter
+            << "] IsIgnoredBlockingObstacle[" << ignore_blocking_obstacle << "]";
     // stop reusing current path:
     // 1. blocking obstacle disappeared or moving far away
     // 2. trimming successful
@@ -157,15 +166,17 @@ Status PathReuseDecider::Process(Frame* const frame,
         speed_optimization_successful && IsCollisionFree(reference_line_info) &&
         TrimHistoryPath(frame, reference_line_info)) {
       // enable reuse path
-      ADEBUG << "reuse path: front_blocking_obstacle ignorable";
-      path_reusable_ = true;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "reuse path: front_blocking_obstacle ignorable";
+       path_reusable_ = true;
       ++reusable_path_counter_;
     }
   }
 
   reference_line_info->set_path_reusable(path_reusable_);
-  ADEBUG << "reusable_path_counter[" << reusable_path_counter_
-         << "] total_path_counter[" << total_path_counter_ << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "reusable_path_counter[" << reusable_path_counter_
+          << "] total_path_counter[" << total_path_counter_ << "]";
   return Status::OK();
 }
 
@@ -185,8 +196,9 @@ bool PathReuseDecider::IsIgnoredBlockingObstacle(
   if (GetBlockingObstacleS(reference_line_info, &blocking_obstacle_start_s) &&
       // distance to blocking obstacle
       (blocking_obstacle_start_s - adc_position_sl.s() > final_s_buffer)) {
-    ADEBUG << "blocking obstacle distance: "
-           << blocking_obstacle_start_s - adc_position_sl.s();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "blocking obstacle distance: "
+            << blocking_obstacle_start_s - adc_position_sl.s();
     return true;
   } else {
     return false;
@@ -211,8 +223,9 @@ bool PathReuseDecider::GetBlockingObstacleS(
 
   const auto& obstacle_sl = blocking_obstacle->PerceptionSLBoundary();
   *blocking_obstacle_s = obstacle_sl.start_s();
-  ADEBUG << "blocking obstacle distance: " << obstacle_sl.start_s();
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "blocking obstacle distance: " << obstacle_sl.start_s();
+   return true;
 }
 
 void PathReuseDecider::GetADCSLPoint(const ReferenceLine& reference_line,
@@ -240,11 +253,13 @@ bool PathReuseDecider::IsCollisionFree(
     // filtered all non-static objects and virtual obstacle
     if (!obstacle->IsStatic() || obstacle->IsVirtual()) {
       if (!obstacle->IsStatic()) {
-        ADEBUG << "SPOT a dynamic obstacle";
-      }
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "SPOT a dynamic obstacle";
+       }
       if (obstacle->IsVirtual()) {
-        ADEBUG << "SPOT a virtual obstacle";
-      }
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "SPOT a virtual obstacle";
+       }
       continue;
     }
 
@@ -299,7 +314,8 @@ bool PathReuseDecider::IsCollisionFree(
       // For each corner point, project it onto reference_line
       common::SLPoint curr_point_sl;
       if (!reference_line.XYToSL(corner_point, &curr_point_sl)) {
-        AERROR << "Failed to get the projection from point onto "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get the projection from point onto "
                   "reference_line";
         return false;
       }
@@ -308,17 +324,22 @@ bool PathReuseDecider::IsCollisionFree(
       for (const auto& obstacle_polygon : obstacle_polygons) {
         if (obstacle_polygon.IsPointIn(curr_point)) {
           // for debug
-          ADEBUG << "s distance to end point:" << path_end_position_sl.s();
-          ADEBUG << "s distance to end point:" << path_position_sl.s();
-          ADEBUG << "[" << i << "]"
-                 << ", history_path[i].x(): " << std::setprecision(9)
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "s distance to end point:" << path_end_position_sl.s();
+           AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "s distance to end point:" << path_position_sl.s();
+           AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "[" << i << "]"
+                  << ", history_path[i].x(): " << std::setprecision(9)
                  << history_path[i].x() << ", history_path[i].y()"
                  << std::setprecision(9) << history_path[i].y();
-          ADEBUG << "collision:" << curr_point.x() << ", " << curr_point.y();
-          Vec2d xy_point;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "collision:" << curr_point.x() << ", " << curr_point.y();
+           Vec2d xy_point;
           reference_line.SLToXY(curr_point_sl, &xy_point);
-          ADEBUG << "collision:" << xy_point.x() << ", " << xy_point.y();
-
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "collision:" << xy_point.x() << ", " << xy_point.y();
+ 
           return false;
         }
       }
@@ -339,24 +360,27 @@ bool PathReuseDecider::TrimHistoryPath(
   const ReferenceLine& reference_line = reference_line_info->reference_line();
   const auto& history_frame = injector_->frame_history()->Latest();
   if (!history_frame) {
-    ADEBUG << "no history frame";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "no history frame";
+     return false;
   }
 
   const common::TrajectoryPoint history_planning_start_point =
       history_frame->PlanningStartPoint();
   common::PathPoint history_init_path_point =
       history_planning_start_point.path_point();
-  ADEBUG << "history_init_path_point x:[" << std::setprecision(9)
-         << history_init_path_point.x() << "], y["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "history_init_path_point x:[" << std::setprecision(9)
+          << history_init_path_point.x() << "], y["
          << history_init_path_point.y() << "], s: ["
          << history_init_path_point.s() << "]";
 
   const common::TrajectoryPoint planning_start_point =
       frame->PlanningStartPoint();
   common::PathPoint init_path_point = planning_start_point.path_point();
-  ADEBUG << "init_path_point x:[" << std::setprecision(9) << init_path_point.x()
-         << "], y[" << init_path_point.y() << "], s: [" << init_path_point.s()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "init_path_point x:[" << std::setprecision(9) << init_path_point.x()
+          << "], y[" << init_path_point.y() << "], s: [" << init_path_point.s()
          << "]";
 
   const DiscretizedPath& history_path =
@@ -364,8 +388,9 @@ bool PathReuseDecider::TrimHistoryPath(
   DiscretizedPath trimmed_path;
   common::SLPoint adc_position_sl;  // current vehicle sl position
   GetADCSLPoint(reference_line, &adc_position_sl);
-  ADEBUG << "adc_position_sl.s(): " << adc_position_sl.s();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc_position_sl.s(): " << adc_position_sl.s();
+ 
   size_t path_start_index = 0;
 
   for (size_t i = 0; i < history_path.size(); ++i) {
@@ -375,8 +400,9 @@ bool PathReuseDecider::TrimHistoryPath(
       break;
     }
   }
-  ADEBUG << "!!!path_start_index[" << path_start_index << "]";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "!!!path_start_index[" << path_start_index << "]";
+ 
   // get current s=0
   common::SLPoint init_path_position_sl;
   reference_line.XYToSL(init_path_point, &init_path_position_sl);
@@ -400,33 +426,38 @@ bool PathReuseDecider::TrimHistoryPath(
     trimmed_path.emplace_back(history_path[i]);
 
     // if (i < 50) {
-    //   ADEBUG << "path_point:[" << i << "]" << updated_s;
-    //   path_position_sl.s();
-    //   ADEBUG << std::setprecision(9) << "path_point:[" << i << "]"
-    //          << "x: [" << history_path[i].x() << "], y:[" <<
+         //   path_position_sl.s();
+         //          << "x: [" << history_path[i].x() << "], y:[" <<
     //          history_path[i].y()
     //          << "]. s[" << history_path[i].s() << "]";
     // }
     trimmed_path.back().set_s(updated_s);
   }
 
-  ADEBUG << "trimmed_path[0]: " << trimmed_path.front().s();
-  ADEBUG << "[END] trimmed_path.size(): " << trimmed_path.size();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "trimmed_path[0]: " << trimmed_path.front().s();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "[END] trimmed_path.size(): " << trimmed_path.size();
+ 
   if (!NotShortPath(trimmed_path)) {
-    ADEBUG << "short path: " << trimmed_path.size();
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "short path: " << trimmed_path.size();
+     return false;
   }
 
   // set path
   auto path_data = reference_line_info->mutable_path_data();
-  ADEBUG << "previous path_data size: " << history_path.size();
-  path_data->SetReferenceLine(&reference_line);
-  ADEBUG << "previous path_data size: " << path_data->discretized_path().size();
-  path_data->SetDiscretizedPath(DiscretizedPath(std::move(trimmed_path)));
-  ADEBUG << "not short path: " << trimmed_path.size();
-  ADEBUG << "current path size: "
-         << reference_line_info->path_data().discretized_path().size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "previous path_data size: " << history_path.size();
+   path_data->SetReferenceLine(&reference_line);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "previous path_data size: " << path_data->discretized_path().size();
+   path_data->SetDiscretizedPath(DiscretizedPath(std::move(trimmed_path)));
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "not short path: " << trimmed_path.size();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "current path size: "
+          << reference_line_info->path_data().discretized_path().size();
 
   return true;
 }

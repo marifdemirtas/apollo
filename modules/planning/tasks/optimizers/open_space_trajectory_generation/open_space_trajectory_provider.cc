@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -85,8 +84,9 @@ void OpenSpaceTrajectoryProvider::Restart() {
 }
 
 Status OpenSpaceTrajectoryProvider::Process() {
-  ADEBUG << "trajectory provider";
-  auto trajectory_data =
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "trajectory provider";
+   auto trajectory_data =
       frame_->mutable_open_space_info()->mutable_stitched_trajectory_result();
 
   // generate stop trajectory at park_and_go check_stage
@@ -94,8 +94,9 @@ Status OpenSpaceTrajectoryProvider::Process() {
           ->mutable_planning_status()
           ->mutable_park_and_go()
           ->in_check_stage()) {
-    ADEBUG << "ParkAndGo Stage Check.";
-    GenerateStopTrajectory(trajectory_data);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ParkAndGo Stage Check.";
+     GenerateStopTrajectory(trajectory_data);
     return Status::OK();
   }
   // Start thread when getting in Process() for the first time
@@ -127,8 +128,9 @@ Status OpenSpaceTrajectoryProvider::Process() {
         FLAGS_open_space_trajectory_stitching_preserved_length, false,
         &last_frame_complete_trajectory, &replan_reason);
   } else {
-    ADEBUG << "Replan due to fallback stop";
-    const double planning_cycle_time =
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Replan due to fallback stop";
+     const double planning_cycle_time =
         1.0 / static_cast<double>(FLAGS_planning_loop_rate);
     stitching_trajectory = TrajectoryStitcher::ComputeReinitStitchingTrajectory(
         planning_cycle_time, vehicle_state);
@@ -141,8 +143,9 @@ Status OpenSpaceTrajectoryProvider::Process() {
   const auto& open_space_info = frame_->open_space_info();
 
   if (FLAGS_enable_open_space_planner_thread) {
-    ADEBUG << "Open space plan in multi-threads mode";
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Open space plan in multi-threads mode";
+ 
     if (is_generation_thread_stop_) {
       GenerateStopTrajectory(trajectory_data);
       return Status(ErrorCode::OK, "Parking finished");
@@ -308,15 +311,18 @@ bool OpenSpaceTrajectoryProvider::IsVehicleNearDestination(
 
   double theta_to_vehicle = std::abs(common::math::AngleDiff(
       vehicle_state.heading(), end_theta_to_world_frame));
-  ADEBUG << "theta_to_vehicle" << theta_to_vehicle << "end_theta_to_world_frame"
-         << end_theta_to_world_frame << "rotate_angle" << rotate_angle;
-  ADEBUG << "is_near_destination_threshold"
-         << config_.open_space_trajectory_provider_config()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "theta_to_vehicle" << theta_to_vehicle << "end_theta_to_world_frame"
+          << end_theta_to_world_frame << "rotate_angle" << rotate_angle;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "is_near_destination_threshold"
+          << config_.open_space_trajectory_provider_config()
                 .open_space_trajectory_optimizer_config()
                 .planner_open_space_config()
                 .is_near_destination_threshold();  // which config file
-  ADEBUG << "is_near_destination_theta_threshold"
-         << config_.open_space_trajectory_provider_config()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "is_near_destination_theta_threshold"
+          << config_.open_space_trajectory_provider_config()
                 .open_space_trajectory_optimizer_config()
                 .planner_open_space_config()
                 .is_near_destination_theta_threshold();
@@ -328,8 +334,9 @@ bool OpenSpaceTrajectoryProvider::IsVehicleNearDestination(
                              .open_space_trajectory_optimizer_config()
                              .planner_open_space_config()
                              .is_near_destination_theta_threshold()) {
-    ADEBUG << "vehicle reach end_pose";
-    frame_->mutable_open_space_info()->set_destination_reached(true);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "vehicle reach end_pose";
+     frame_->mutable_open_space_info()->set_destination_reached(true);
     return true;
   }
   return false;
@@ -344,8 +351,9 @@ bool OpenSpaceTrajectoryProvider::IsVehicleStopDueToFallBack(
   const double adc_speed = vehicle_state.linear_velocity();
   const double adc_acceleration = vehicle_state.linear_acceleration();
   if (std::abs(adc_speed) < kEpsilon && std::abs(adc_acceleration) < kEpsilon) {
-    ADEBUG << "ADC stops due to fallback trajectory";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC stops due to fallback trajectory";
+     return true;
   }
   return false;
 }

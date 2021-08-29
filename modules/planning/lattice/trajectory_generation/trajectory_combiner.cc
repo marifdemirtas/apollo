@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -89,8 +88,6 @@ DiscretizedTrajectory TrajectoryCombiner::Combine(
         &theta, &kappa, &v, &a);
 
     if (prev_trajectory_point.has_x() && prev_trajectory_point.has_y()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
       double delta_x = x - prev_trajectory_point.x();
       double delta_y = y - prev_trajectory_point.y();
       double delta_s = std::hypot(delta_x, delta_y);

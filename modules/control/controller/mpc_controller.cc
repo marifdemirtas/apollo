@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -45,8 +44,6 @@ using apollo::common::VehicleConfigHelper;
 namespace {
 
 std::string GetLogFileName() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   time_t raw_time;
   char name_buffer[80];
   std::time(&raw_time);
@@ -58,39 +55,34 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   return std::string(name_buffer);
 }
 
-void WriteHeaders(std::ofstream &file_stream) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+void WriteHeaders(std::ofstream &file_stream) {}
 }  // namespace
 
 MPCController::MPCController() : name_("MPC Controller") {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (FLAGS_enable_csv_debug) {
     mpc_log_file_.open(GetLogFileName());
     mpc_log_file_ << std::fixed;
     mpc_log_file_ << std::setprecision(6);
     WriteHeaders(mpc_log_file_);
   }
-  AINFO << "Using " << name_;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Using " << name_;
+ }
 
-MPCController::~MPCController() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- CloseLogFile(); }
+MPCController::~MPCController() { CloseLogFile(); }
 
 bool MPCController::LoadControlConf(const ControlConf *control_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!control_conf) {
-    AERROR << "[MPCController] control_conf = nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "[MPCController] control_conf = nullptr";
     return false;
   }
   vehicle_param_ = VehicleConfigHelper::Instance()->GetConfig().vehicle_param();
 
   ts_ = control_conf->mpc_controller_conf().ts();
   if (ts_ <= 0.0) {
-    AERROR << "[MPCController] Invalid control update interval.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "[MPCController] Invalid control update interval.";
     return false;
   }
   cf_ = control_conf->mpc_controller_conf().cf();
@@ -105,7 +97,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   // steering ratio should be positive
   static constexpr double kEpsilon = 1e-6;
   if (std::isnan(steer_ratio_) || steer_ratio_ < kEpsilon) {
-    AERROR << "[MPCController] steer_ratio = 0";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "[MPCController] steer_ratio = 0";
     return false;
   }
   wheel_single_direction_max_degree_ =
@@ -148,31 +141,28 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       control_conf->mpc_controller_conf().unconstrained_control_diff_limit();
 
   LoadControlCalibrationTable(control_conf->mpc_controller_conf());
-  ADEBUG << "MPC conf loaded";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "MPC conf loaded";
+   return true;
 }
 
 void MPCController::ProcessLogs(const SimpleMPCDebug *debug,
                                 const canbus::Chassis *chassis) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL): Add debug information
 }
 
 void MPCController::LogInitParameters() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  ADEBUG << name_ << " begin.";
-  ADEBUG << "[MPCController parameters]"
-         << " mass_: " << mass_ << ","
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << name_ << " begin.";
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "[MPCController parameters]"
+          << " mass_: " << mass_ << ","
          << " iz_: " << iz_ << ","
          << " lf_: " << lf_ << ","
          << " lr_: " << lr_;
 }
 
 void MPCController::InitializeFilters(const ControlConf *control_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Low pass filter
   std::vector<double> den(3, 0.0);
   std::vector<double> num(3, 0.0);
@@ -187,10 +177,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Status MPCController::Init(std::shared_ptr<DependencyInjector> injector,
                            const ControlConf *control_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!LoadControlConf(control_conf)) {
-    AERROR << "failed to load control conf";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to load control conf";
     return Status(ErrorCode::CONTROL_COMPUTE_ERROR,
                   "failed to load control_conf");
   }
@@ -242,7 +231,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         absl::StrCat("MPC controller error: matrix_q size: ", q_param_size,
                      " in parameter file not equal to basic_state_size_: ",
                      basic_state_size_);
-    AERROR << error_msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_msg;
     return Status(ErrorCode::CONTROL_COMPUTE_ERROR, error_msg);
   }
   for (int i = 0; i < q_param_size; ++i) {
@@ -256,36 +246,27 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   InitializeFilters(control_conf);
   LoadMPCGainScheduler(control_conf->mpc_controller_conf());
   LogInitParameters();
-  ADEBUG << "[MPCController] init done!";
-  return Status::OK();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "[MPCController] init done!";
+   return Status::OK();
 }
 
 void MPCController::CloseLogFile() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (FLAGS_enable_csv_debug && mpc_log_file_.is_open()) {
     mpc_log_file_.close();
   }
 }
 
 double MPCController::Wheel2SteerPct(const double wheel_angle) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return wheel_angle / wheel_single_direction_max_degree_ * 100;
 }
 
-void MPCController::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- CloseLogFile(); }
+void MPCController::Stop() { CloseLogFile(); }
 
-std::string MPCController::Name() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return name_; }
+std::string MPCController::Name() const { return name_; }
 
 void MPCController::LoadMPCGainScheduler(
     const MPCControllerConf &mpc_controller_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto &lat_err_gain_scheduler =
       mpc_controller_conf.lat_err_gain_scheduler();
   const auto &heading_err_gain_scheduler =
@@ -294,8 +275,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       mpc_controller_conf.feedforwardterm_gain_scheduler();
   const auto &steer_weight_gain_scheduler =
       mpc_controller_conf.steer_weight_gain_scheduler();
-  ADEBUG << "MPC control gain scheduler loaded";
-  Interpolation1D::DataType xy1, xy2, xy3, xy4;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "MPC control gain scheduler loaded";
+   Interpolation1D::DataType xy1, xy2, xy3, xy4;
   for (const auto &scheduler : lat_err_gain_scheduler.scheduler()) {
     xy1.push_back(std::make_pair(scheduler.speed(), scheduler.ratio()));
   }
@@ -331,8 +313,6 @@ Status MPCController::ComputeControlCommand(
     const canbus::Chassis *chassis,
     const planning::ADCTrajectory *planning_published_trajectory,
     ControlCommand *cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   trajectory_analyzer_ =
       std::move(TrajectoryAnalyzer(planning_published_trajectory));
 
@@ -423,10 +403,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       upper_state_bound, reference_state, mpc_max_iteration_, horizon_,
       mpc_eps_);
   if (!mpc_osqp.Solve(&control_cmd)) {
-    AERROR << "MPC OSQP solver failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "MPC OSQP solver failed";
   } else {
-    ADEBUG << "MPC OSQP problem solved! ";
-    control[0](0, 0) = control_cmd.at(0);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "MPC OSQP problem solved! ";
+     control[0](0, 0) = control_cmd.at(0);
     control[0](1, 0) = control_cmd.at(1);
   }
 
@@ -460,8 +442,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   double mpc_end_timestamp = Clock::NowInSeconds();
 
-  ADEBUG << "MPC core algorithm: calculation time is: "
-         << (mpc_end_timestamp - mpc_start_timestamp) * 1000 << " ms.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "MPC core algorithm: calculation time is: "
+          << (mpc_end_timestamp - mpc_start_timestamp) * 1000 << " ms.";
 
   // TODO(QiL): evaluate whether need to add spline smoothing after the result
   double steer_angle = steer_angle_feedback +
@@ -501,8 +484,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         (chassis->gear_location() == canbus::Chassis::GEAR_REVERSE)
             ? std::max(acceleration_cmd, -standstill_acceleration_)
             : std::min(acceleration_cmd, standstill_acceleration_);
-    ADEBUG << "Stop location reached";
-    debug->set_is_full_stop(true);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Stop location reached";
+     debug->set_is_full_stop(true);
   }
   // TODO(Yu): study the necessity of path_remain and add it to MPC if needed
 
@@ -557,8 +541,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Status MPCController::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   previous_heading_error_ = 0.0;
   previous_lateral_error_ = 0.0;
   return Status::OK();
@@ -566,12 +548,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void MPCController::LoadControlCalibrationTable(
     const MPCControllerConf &mpc_controller_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto &control_table = mpc_controller_conf.calibration_table();
-  ADEBUG << "Control calibration table loaded";
-  ADEBUG << "Control calibration table size is "
-         << control_table.calibration_size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Control calibration table loaded";
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Control calibration table size is "
+          << control_table.calibration_size();
   Interpolation2D::DataType xyz;
   for (const auto &calibration : control_table.calibration()) {
     xyz.push_back(std::make_tuple(calibration.speed(),
@@ -584,8 +566,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void MPCController::UpdateState(SimpleMPCDebug *debug) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto &com = injector_->vehicle_state()->ComputeCOMPosition(lr_);
   ComputeLateralErrors(com.x(), com.y(), injector_->vehicle_state()->heading(),
                        injector_->vehicle_state()->linear_velocity(),
@@ -603,8 +583,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void MPCController::UpdateMatrix(SimpleMPCDebug *debug) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const double v = std::max(injector_->vehicle_state()->linear_velocity(),
                             minimum_speed_protection_);
   matrix_a_(1, 1) = matrix_a_coeff_(1, 1) / v;
@@ -622,8 +600,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void MPCController::FeedforwardUpdate(SimpleMPCDebug *debug) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const double v = injector_->vehicle_state()->linear_velocity();
   const double kv =
       lr_ * mass_ / 2 / cf_ / wheelbase_ - lf_ * mass_ / 2 / cr_ / wheelbase_;
@@ -635,8 +611,6 @@ void MPCController::ComputeLateralErrors(
     const double x, const double y, const double theta, const double linear_v,
     const double angular_v, const double linear_a,
     const TrajectoryAnalyzer &trajectory_analyzer, SimpleMPCDebug *debug) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto matched_point =
       trajectory_analyzer.QueryNearestPointByPosition(x, y);
 
@@ -704,8 +678,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void MPCController::ComputeLongitudinalErrors(
     const TrajectoryAnalyzer *trajectory_analyzer, SimpleMPCDebug *debug) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // the decomposed vehicle motion onto Frenet frame
   // s: longitudinal accumulated distance along reference trajectory
   // s_dot: longitudinal velocity along reference trajectory
@@ -731,9 +703,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       trajectory_analyzer->QueryNearestPointByAbsoluteTime(
           current_control_time);
 
-  ADEBUG << "matched point:" << matched_point.DebugString();
-  ADEBUG << "reference point:" << reference_point.DebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "matched point:" << matched_point.DebugString();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "reference point:" << reference_point.DebugString();
+ 
   const double linear_v = injector_->vehicle_state()->linear_velocity();
   const double linear_a = injector_->vehicle_state()->linear_acceleration();
   double heading_error = common::math::NormalizeAngle(

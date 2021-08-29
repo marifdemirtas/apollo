@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -108,13 +107,15 @@ void TrafficLight::MakeDecisions(Frame* const frame,
     const double distance =
         common::util::DistanceXY(traffic_light_point, adc_position);
     const double s_distance = traffic_light_overlap.start_s - adc_front_edge_s;
-    ADEBUG << "traffic_light[" << traffic_light_overlap.object_id
-           << "] start_s[" << traffic_light_overlap.start_s << "] s_distance["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "traffic_light[" << traffic_light_overlap.object_id
+            << "] start_s[" << traffic_light_overlap.start_s << "] s_distance["
            << s_distance << "] actual_distance[" << distance << "]";
     if (s_distance >= 0 &&
         fabs(s_distance - distance) > kSDiscrepanceTolerance) {
-      ADEBUG << "SKIP traffic_light[" << traffic_light_overlap.object_id
-             << "] close in position, but far away along reference line";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "SKIP traffic_light[" << traffic_light_overlap.object_id
+              << "] close in position, but far away along reference line";
       continue;
     }
 
@@ -123,8 +124,9 @@ void TrafficLight::MakeDecisions(Frame* const frame,
     const double stop_deceleration = util::GetADCStopDeceleration(
         injector_->vehicle_state(), adc_front_edge_s,
         traffic_light_overlap.start_s);
-    ADEBUG << "traffic_light_id[" << traffic_light_overlap.object_id
-           << "] start_s[" << traffic_light_overlap.start_s << "] color["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "traffic_light_id[" << traffic_light_overlap.object_id
+            << "] start_s[" << traffic_light_overlap.start_s << "] color["
            << signal_color << "] stop_deceleration[" << stop_deceleration
            << "]";
 
@@ -147,8 +149,9 @@ void TrafficLight::MakeDecisions(Frame* const frame,
     }
 
     // build stop decision
-    ADEBUG << "BuildStopDecision: traffic_light["
-           << traffic_light_overlap.object_id << "] start_s["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "BuildStopDecision: traffic_light["
+            << traffic_light_overlap.object_id << "] start_s["
            << traffic_light_overlap.start_s << "]";
     std::string virtual_obstacle_id =
         TRAFFIC_LIGHT_VO_ID_PREFIX + traffic_light_overlap.object_id;

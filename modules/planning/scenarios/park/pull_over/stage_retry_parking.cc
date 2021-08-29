@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -43,8 +42,9 @@ PullOverStageRetryParking::PullOverStageRetryParking(
 
 Stage::StageStatus PullOverStageRetryParking::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: RetryParking";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: RetryParking";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
@@ -53,7 +53,8 @@ Stage::StageStatus PullOverStageRetryParking::Process(
   frame->mutable_open_space_info()->set_is_on_open_space_trajectory(true);
   bool plan_ok = ExecuteTaskOnOpenSpace(frame);
   if (!plan_ok) {
-    AERROR << "PullOverStageRetryParking planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PullOverStageRetryParking planning error";
     return StageStatus::ERROR;
   }
 
@@ -89,8 +90,9 @@ bool PullOverStageRetryParking::CheckADCPullOverOpenSpace() {
   if (!pull_over_status.has_position() ||
       !pull_over_status.position().has_x() ||
       !pull_over_status.position().has_y() || !pull_over_status.has_theta()) {
-    ADEBUG << "pull_over status not set properly: "
-           << pull_over_status.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "pull_over status not set properly: "
+            << pull_over_status.DebugString();
     return false;
   }
 
@@ -102,8 +104,9 @@ bool PullOverStageRetryParking::CheckADCPullOverOpenSpace() {
   const double distance_diff = adc_position.DistanceTo(target_position);
   const double theta_diff = std::fabs(common::math::NormalizeAngle(
       pull_over_status.theta() - injector_->vehicle_state()->heading()));
-  ADEBUG << "distance_diff[" << distance_diff << "] theta_diff[" << theta_diff
-         << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "distance_diff[" << distance_diff << "] theta_diff[" << theta_diff
+          << "]";
   // check distance/theta diff
   return (distance_diff <= scenario_config_.max_distance_error_to_end_point() &&
           theta_diff <= scenario_config_.max_theta_error_to_end_point());

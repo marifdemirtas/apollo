@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -48,28 +47,30 @@ ErrorCode GemController::Init(
     const VehicleParameter& params,
     CanSender<::apollo::canbus::ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (is_initialized_) {
-    AINFO << "GemController has already been initialized.";
-    return ErrorCode::CANBUS_ERROR;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GemController has already been initialized.";
+     return ErrorCode::CANBUS_ERROR;
   }
   vehicle_params_.CopyFrom(
       common::VehicleConfigHelper::Instance()->GetConfig().vehicle_param());
   params_.CopyFrom(params);
   if (!params_.has_driving_mode()) {
-    AERROR << "Vehicle conf pb not set driving_mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Vehicle conf pb not set driving_mode.";
     return ErrorCode::CANBUS_ERROR;
   }
 
   if (can_sender == nullptr) {
-    AERROR << "Canbus sender is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Canbus sender is null.";
     return ErrorCode::CANBUS_ERROR;
   }
   can_sender_ = can_sender;
 
   if (message_manager == nullptr) {
-    AERROR << "Protocol manager is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Protocol manager is null.";
     return ErrorCode::CANBUS_ERROR;
   }
   message_manager_ = message_manager;
@@ -78,40 +79,46 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   brake_cmd_6b_ = dynamic_cast<Brakecmd6b*>(
       message_manager_->GetMutableProtocolDataById(Brakecmd6b::ID));
   if (brake_cmd_6b_ == nullptr) {
-    AERROR << "Brakecmd6b does not exist in the GemMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Brakecmd6b does not exist in the GemMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   accel_cmd_67_ = dynamic_cast<Accelcmd67*>(
       message_manager_->GetMutableProtocolDataById(Accelcmd67::ID));
   if (accel_cmd_67_ == nullptr) {
-    AERROR << "Accelcmd67 does not exist in the GemMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Accelcmd67 does not exist in the GemMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   steering_cmd_6d_ = dynamic_cast<Steeringcmd6d*>(
       message_manager_->GetMutableProtocolDataById(Steeringcmd6d::ID));
   if (steering_cmd_6d_ == nullptr) {
-    AERROR << "Steeringcmd6d does not exist in the GemMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Steeringcmd6d does not exist in the GemMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   shift_cmd_65_ = dynamic_cast<Shiftcmd65*>(
       message_manager_->GetMutableProtocolDataById(Shiftcmd65::ID));
   if (shift_cmd_65_ == nullptr) {
-    AERROR << "Shiftcmd65 does not exist in the GemMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Shiftcmd65 does not exist in the GemMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
   turn_cmd_63_ = dynamic_cast<Turncmd63*>(
       message_manager_->GetMutableProtocolDataById(Turncmd63::ID));
   if (turn_cmd_63_ == nullptr) {
-    AERROR << "Turncmd63 does not exist in the GemMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Turncmd63 does not exist in the GemMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
   global_cmd_69_ = dynamic_cast<Globalcmd69*>(
       message_manager_->GetMutableProtocolDataById(Globalcmd69::ID));
   if (global_cmd_69_ == nullptr) {
-    AERROR << "Turncmd63 does not exist in the GemMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Turncmd63 does not exist in the GemMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
@@ -123,21 +130,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   can_sender_->AddMessage(Globalcmd69::ID, global_cmd_69_, false);
 
   // Need to sleep to ensure all messages received.
-  AINFO << "GemController is initialized.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GemController is initialized.";
+ 
   is_initialized_ = true;
   return ErrorCode::OK;
 }
 
-GemController::~GemController() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+GemController::~GemController() {}
 
 bool GemController::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "GemController has NOT been initiated.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "GemController has NOT been initiated.";
     return false;
   }
   const auto& update_func = [this] { SecurityDogThreadFunc(); };
@@ -147,23 +152,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void GemController::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "GemController stops or starts improperly!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "GemController stops or starts improperly!";
     return;
   }
 
   if (thread_ != nullptr && thread_->joinable()) {
     thread_->join();
     thread_.reset();
-    AINFO << "GemController stopped.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GemController stopped.";
+   }
 }
 
 Chassis GemController::chassis() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis_.Clear();
 
   ChassisDetail chassis_detail;
@@ -301,19 +304,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void GemController::Emergency() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
   set_chassis_error_code(Chassis::CHASSIS_ERROR);
 }
 
 ErrorCode GemController::EnableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
-    AINFO << "Already in COMPLETE_AUTO_DRIVE mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in COMPLETE_AUTO_DRIVE mode";
+     return ErrorCode::OK;
   }
 
   global_cmd_69_->set_pacmod_enable(
@@ -325,49 +325,47 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const int32_t flag =
       CHECK_RESPONSE_STEER_UNIT_FLAG | CHECK_RESPONSE_SPEED_UNIT_FLAG;
   if (!CheckResponse(flag, true)) {
-    AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
     Emergency();
     set_chassis_error_code(Chassis::CHASSIS_ERROR);
     return ErrorCode::CANBUS_ERROR;
   }
   set_driving_mode(Chassis::COMPLETE_AUTO_DRIVE);
-  AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
+   return ErrorCode::OK;
 }
 
 ErrorCode GemController::DisableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ResetProtocol();
   can_sender_->Update();
   set_driving_mode(Chassis::COMPLETE_MANUAL);
   set_chassis_error_code(Chassis::NO_ERROR);
-  AINFO << "Switch to COMPLETE_MANUAL ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_MANUAL ok.";
+   return ErrorCode::OK;
 }
 
 ErrorCode GemController::EnableSteeringOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AFATAL << "Not supported!";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "Not supported!";
+   return ErrorCode::OK;
 }
 
 ErrorCode GemController::EnableSpeedOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AFATAL << "Not supported!";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "Not supported!";
+   return ErrorCode::OK;
 }
 
 // NEUTRAL, REVERSE, DRIVE
 void GemController::Gear(Chassis::GearPosition gear_position) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "This drive mode no need to set gear.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "This drive mode no need to set gear.";
+     return;
   }
 
   switch (gear_position) {
@@ -384,7 +382,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       break;
     }
     case Chassis::GEAR_INVALID: {
-      AERROR << "Gear command is invalid!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Gear command is invalid!";
       shift_cmd_65_->set_shift_cmd(Shift_cmd_65::SHIFT_CMD_NEUTRAL);
       break;
     }
@@ -401,14 +400,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // acceleration_spd:60 ~ 100, suggest: 90
 // -> pedal
 void GemController::Brake(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // double real_value = params_.max_acc() * acceleration / 100;
   // TODO(QiL) Update brake value based on mode
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
 
   brake_cmd_6b_->set_brake_cmd(pedal / 100.0);
@@ -417,12 +415,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // drive with old acceleration
 // gas:0.00~99.99 unit:
 void GemController::Throttle(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
 
   accel_cmd_67_->set_accel_cmd(pedal / 100.0);
@@ -431,12 +428,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // drive with acceleration/deceleration
 // acc:-7.0 ~ 5.0, unit:m/s^2
 void GemController::Acceleration(double acc) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
   // None
 }
@@ -446,12 +442,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 void GemController::Steer(double angle) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
 
   const double real_angle = vehicle_params_.max_steer_angle() * angle / 100.0;
@@ -463,12 +458,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void GemController::Steer(double angle, double angle_spd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
   const double real_angle = vehicle_params_.max_steer_angle() * angle / 100.0;
 
@@ -482,8 +476,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void GemController::SetEpbBreak(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.parking_brake()) {
     // None
   } else {
@@ -492,8 +484,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void GemController::SetBeam(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.signal().high_beam()) {
     // None
   } else if (command.signal().low_beam()) {
@@ -504,8 +494,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void GemController::SetHorn(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.signal().horn()) {
     // None
   } else {
@@ -514,8 +502,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void GemController::SetTurningSignal(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Set Turn Signal
   auto signal = command.signal().turn_signal();
   if (signal == common::VehicleSignal::TURN_LEFT) {
@@ -527,25 +513,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 }
 
-void GemController::ResetProtocol() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- message_manager_->ResetSendMessages(); }
+void GemController::ResetProtocol() { message_manager_->ResetSendMessages(); }
 
 bool GemController::CheckChassisError() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) : implement it here
   return false;
 }
 
 void GemController::SecurityDogThreadFunc() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
 
   if (can_sender_ == nullptr) {
-    AERROR << "Failed to run SecurityDogThreadFunc() because can_sender_ is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to run SecurityDogThreadFunc() because can_sender_ is "
               "nullptr.";
     return;
   }
@@ -600,45 +581,36 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (elapsed < default_period) {
       std::this_thread::sleep_for(default_period - elapsed);
     } else {
-      AERROR << "Too much time consumption in GemController looping process:"
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Too much time consumption in GemController looping process:"
              << elapsed.count();
     }
   }
 }
 
 bool GemController::CheckResponse(const int32_t flags, bool need_wait) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   /* ADD YOUR OWN CAR CHASSIS OPERATION
    */
   return true;
 }
 
 void GemController::set_chassis_error_mask(const int32_t mask) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t GemController::chassis_error_mask() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode GemController::chassis_error_code() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
 }
 
 void GemController::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
 }

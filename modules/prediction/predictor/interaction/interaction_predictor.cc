@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -59,7 +58,8 @@ bool InteractionPredictor::Predict(
   Feature* feature_ptr = obstacle->mutable_latest_feature();
 
   if (!feature_ptr->lane().has_lane_graph()) {
-    AERROR << "Obstacle [" << obstacle->id() << "] has no lane graph.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle->id() << "] has no lane graph.";
     return false;
   }
   auto* lane_graph = feature_ptr->mutable_lane()->mutable_lane_graph();
@@ -153,7 +153,8 @@ void InteractionPredictor::BuildADCTrajectory(
     const ADCTrajectoryContainer* adc_trajectory_container,
     const double time_resolution) {
   if (adc_trajectory_container == nullptr) {
-    AERROR << "Null adc trajectory container";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null adc trajectory container";
     return;
   }
   const auto& adc_trajectory = adc_trajectory_container->adc_trajectory();
@@ -176,7 +177,8 @@ bool InteractionPredictor::DrawTrajectory(
   const Feature& feature = obstacle.latest_feature();
   if (!feature.has_position() || !feature.has_velocity() ||
       !feature.position().has_x() || !feature.position().has_y()) {
-    AERROR << "Obstacle [" << obstacle.id()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle.id()
            << " is missing position or velocity";
     return false;
   }
@@ -191,7 +193,8 @@ bool InteractionPredictor::DrawTrajectory(
   double lane_s = 0.0;
   double lane_l = 0.0;
   if (!PredictionMap::GetProjection(position, lane_info, &lane_s, &lane_l)) {
-    AERROR << "Failed in getting lane s and lane l";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed in getting lane s and lane l";
     return false;
   }
   double approach_rate = FLAGS_go_approach_rate;
@@ -205,7 +208,8 @@ bool InteractionPredictor::DrawTrajectory(
     double theta = M_PI;
     if (!PredictionMap::SmoothPointFromLane(lane_id, lane_s, lane_l, &point,
                                             &theta)) {
-      AERROR << "Unable to get smooth point from lane [" << lane_id
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to get smooth point from lane [" << lane_id
              << "] with s [" << lane_s << "] and l [" << lane_l << "]";
       break;
     }
@@ -322,7 +326,8 @@ double InteractionPredictor::CollisionWithEgoVehicleCost(
       std::shared_ptr<const LaneInfo> lane_info_ptr =
           PredictionMap::LaneById(lane_id);
       if (lane_info_ptr == nullptr) {
-        AERROR << "Null lane info ptr found with lane ID [" << lane_id << "]";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null lane info ptr found with lane ID [" << lane_id << "]";
         continue;
       }
       double lane_length = lane_info_ptr->total_length();

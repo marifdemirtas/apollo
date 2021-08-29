@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2019 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,29 +40,31 @@ const int32_t CHECK_RESPONSE_SPEED_UNIT_FLAG = 2;
 ErrorCode Ge3Controller::Init(
     const VehicleParameter& params, CanSender<ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (is_initialized_) {
-    AINFO << "Ge3Controller has already been initiated.";
-    return ErrorCode::CANBUS_ERROR;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Ge3Controller has already been initiated.";
+     return ErrorCode::CANBUS_ERROR;
   }
 
   vehicle_params_.CopyFrom(
       common::VehicleConfigHelper::Instance()->GetConfig().vehicle_param());
   params_.CopyFrom(params);
   if (!params_.has_driving_mode()) {
-    AERROR << "Vehicle conf pb not set driving_mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Vehicle conf pb not set driving_mode.";
     return ErrorCode::CANBUS_ERROR;
   }
 
   if (can_sender == nullptr) {
-    AERROR << "Canbus sender is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Canbus sender is null.";
     return ErrorCode::CANBUS_ERROR;
   }
   can_sender_ = can_sender;
 
   if (message_manager == nullptr) {
-    AERROR << "protocol manager is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "protocol manager is null.";
     return ErrorCode::CANBUS_ERROR;
   }
   message_manager_ = message_manager;
@@ -72,35 +73,40 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   pc_bcm_201_ = dynamic_cast<Pcbcm201*>(
       message_manager_->GetMutableProtocolDataById(Pcbcm201::ID));
   if (pc_bcm_201_ == nullptr) {
-    AERROR << "Pcbcm201 does not exist in the Ge3MessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Pcbcm201 does not exist in the Ge3MessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   pc_bcs_202_ = dynamic_cast<Pcbcs202*>(
       message_manager_->GetMutableProtocolDataById(Pcbcs202::ID));
   if (pc_bcs_202_ == nullptr) {
-    AERROR << "Pcbcs202 does not exist in the Ge3MessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Pcbcs202 does not exist in the Ge3MessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   pc_epb_203_ = dynamic_cast<Pcepb203*>(
       message_manager_->GetMutableProtocolDataById(Pcepb203::ID));
   if (pc_epb_203_ == nullptr) {
-    AERROR << "Pcepb203 does not exist in the Ge3MessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Pcepb203 does not exist in the Ge3MessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   pc_eps_204_ = dynamic_cast<Pceps204*>(
       message_manager_->GetMutableProtocolDataById(Pceps204::ID));
   if (pc_eps_204_ == nullptr) {
-    AERROR << "Pceps204 does not exist in the Ge3MessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Pceps204 does not exist in the Ge3MessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   pc_vcu_205_ = dynamic_cast<Pcvcu205*>(
       message_manager_->GetMutableProtocolDataById(Pcvcu205::ID));
   if (pc_vcu_205_ == nullptr) {
-    AERROR << "Pcvcu205 does not exist in the Ge3MessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Pcvcu205 does not exist in the Ge3MessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
@@ -111,21 +117,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   can_sender_->AddMessage(Pcvcu205::ID, pc_vcu_205_, false);
 
   // Need to sleep to ensure all messages received
-  AINFO << "Ge3Controller is initialized.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Ge3Controller is initialized.";
+ 
   is_initialized_ = true;
   return ErrorCode::OK;
 }
 
-Ge3Controller::~Ge3Controller() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Ge3Controller::~Ge3Controller() {}
 
 bool Ge3Controller::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "Ge3Controller has NOT been initialized.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ge3Controller has NOT been initialized.";
     return false;
   }
   const auto& update_func = [this] { SecurityDogThreadFunc(); };
@@ -135,23 +139,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Ge3Controller::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "Ge3Controller stops or starts improperly!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ge3Controller stops or starts improperly!";
     return;
   }
 
   if (thread_ != nullptr && thread_->joinable()) {
     thread_->join();
     thread_.reset();
-    AINFO << "Ge3Controller stopped.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Ge3Controller stopped.";
+   }
 }
 
 Chassis Ge3Controller::chassis() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis_.Clear();
 
   ChassisDetail chassis_detail;
@@ -170,7 +172,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // check if there is not ge3, no chassis detail can be retrieved and return
   if (!chassis_detail.has_ge3()) {
-    AERROR << "NO GE3 chassis information!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "NO GE3 chassis information!";
     return chassis_;
   }
   Ge3 ge3 = chassis_detail.ge3();
@@ -402,8 +405,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Ge3Controller::Emergency() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
   // In emergency case, the hazard lamp should be on
@@ -412,11 +413,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 ErrorCode Ge3Controller::EnableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
-    AINFO << "already in COMPLETE_AUTO_DRIVE mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "already in COMPLETE_AUTO_DRIVE mode";
+     return ErrorCode::OK;
   }
   pc_bcs_202_->set_pc_brkpedenable(Pc_bcs_202::PC_BRKPEDENABLE_ENABLE);
   pc_vcu_205_->set_pc_accpedenable(Pc_vcu_205::PC_ACCPEDENABLE_ENABLE);
@@ -428,7 +428,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const int32_t flag =
       CHECK_RESPONSE_STEER_UNIT_FLAG | CHECK_RESPONSE_SPEED_UNIT_FLAG;
   if (!CheckResponse(flag, true)) {
-    AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
     Emergency();
     set_chassis_error_code(Chassis::CHASSIS_ERROR);
     return ErrorCode::CANBUS_ERROR;
@@ -436,29 +437,28 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   set_driving_mode(Chassis::COMPLETE_AUTO_DRIVE);
   // If the auto mode can be set normally, the harzad lamp should be off.
   pc_bcm_201_->set_pc_hazardlampreq(Pc_bcm_201::PC_HAZARDLAMPREQ_NOREQ);
-  AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
+   return ErrorCode::OK;
 }
 
 ErrorCode Ge3Controller::DisableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ResetProtocol();
   can_sender_->Update();
   set_driving_mode(Chassis::COMPLETE_MANUAL);
   set_chassis_error_code(Chassis::NO_ERROR);
-  AINFO << "Switch to COMPLETE_MANUAL OK.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_MANUAL OK.";
+   return ErrorCode::OK;
 }
 
 ErrorCode Ge3Controller::EnableSteeringOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_STEER_ONLY) {
     set_driving_mode(Chassis::AUTO_STEER_ONLY);
-    AINFO << "Already in AUTO_STEER_ONLY mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in AUTO_STEER_ONLY mode";
+     return ErrorCode::OK;
   }
   pc_bcs_202_->set_pc_brkpedenable(Pc_bcs_202::PC_BRKPEDENABLE_DISABLE);
   pc_vcu_205_->set_pc_accpedenable(Pc_vcu_205::PC_ACCPEDENABLE_DISABLE);
@@ -468,7 +468,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   can_sender_->Update();
   if (!CheckResponse(CHECK_RESPONSE_STEER_UNIT_FLAG, true)) {
-    AERROR << "Failed to switch to AUTO_STEER_ONLY mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to AUTO_STEER_ONLY mode.";
     Emergency();
     set_chassis_error_code(Chassis::CHASSIS_ERROR);
     return ErrorCode::CANBUS_ERROR;
@@ -476,18 +477,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   set_driving_mode(Chassis::AUTO_STEER_ONLY);
   // If the auto mode can be set normally, the harzad lamp should be off.
   pc_bcm_201_->set_pc_hazardlampreq(Pc_bcm_201::PC_HAZARDLAMPREQ_NOREQ);
-  AINFO << "Switch to AUTO_STEER_ONLY mode ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to AUTO_STEER_ONLY mode ok.";
+   return ErrorCode::OK;
 }
 
 ErrorCode Ge3Controller::EnableSpeedOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_SPEED_ONLY) {
     set_driving_mode(Chassis::AUTO_SPEED_ONLY);
-    AINFO << "Already in AUTO_SPEED_ONLY mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in AUTO_SPEED_ONLY mode";
+     return ErrorCode::OK;
   }
   pc_bcs_202_->set_pc_brkpedenable(Pc_bcs_202::PC_BRKPEDENABLE_ENABLE);
   pc_vcu_205_->set_pc_accpedenable(Pc_vcu_205::PC_ACCPEDENABLE_ENABLE);
@@ -497,7 +498,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   can_sender_->Update();
   if (!CheckResponse(CHECK_RESPONSE_SPEED_UNIT_FLAG, true)) {
-    AERROR << "Failed to switch to AUTO_SPEED_ONLY mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to AUTO_SPEED_ONLY mode.";
     Emergency();
     set_chassis_error_code(Chassis::CHASSIS_ERROR);
     return ErrorCode::CANBUS_ERROR;
@@ -505,18 +507,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   set_driving_mode(Chassis::AUTO_SPEED_ONLY);
   // If the auto mode can be set normally, the harzad lamp should be off.
   pc_bcm_201_->set_pc_hazardlampreq(Pc_bcm_201::PC_HAZARDLAMPREQ_NOREQ);
-  AINFO << "Switch to AUTO_SPEED_ONLY mode ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to AUTO_SPEED_ONLY mode ok.";
+   return ErrorCode::OK;
 }
 
 // NEUTRAL, REVERSE, DRIVE
 void Ge3Controller::Gear(Chassis::GearPosition gear_position) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "This drive mode no need to set gear.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "This drive mode no need to set gear.";
+     return;
   }
   switch (gear_position) {
     case Chassis::GEAR_NEUTRAL: {
@@ -544,7 +546,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       break;
     }
     case Chassis::GEAR_INVALID: {
-      AERROR << "Gear command is invalid!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Gear command is invalid!";
       pc_vcu_205_->set_pc_gearreq(Pc_vcu_205::PC_GEARREQ_INVALID);
       break;
     }
@@ -561,13 +564,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // acceleration_spd:60 ~ 100, suggest: 90
 // -> pedal
 void Ge3Controller::Brake(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Update brake value based on mode
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
   pc_bcs_202_->set_pc_brkpedreq(pedal);
 }
@@ -575,12 +577,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // drive with old acceleration
 // gas:0.00~99.99 unit:
 void Ge3Controller::Throttle(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
   pc_vcu_205_->set_pc_accpedreq(pedal);
 }
@@ -590,12 +591,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 void Ge3Controller::Steer(double angle) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_STEER_ONLY)) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
   const double real_angle =
       vehicle_params_.max_steer_angle() / M_PI * 180 * angle / 100.0;
@@ -605,12 +605,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // drive with acceleration/deceleration
 // acc:-7.0 ~ 5.0, unit:m/s^2
 void Ge3Controller::Acceleration(double acc) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
   // None
 }
@@ -619,12 +618,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void Ge3Controller::Steer(double angle, double angle_spd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
   const double real_angle =
       vehicle_params_.max_steer_angle() / M_PI * 180 * angle / 100.0;
@@ -639,8 +637,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Ge3Controller::SetEpbBreak(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.parking_brake()) {
     pc_epb_203_->set_pc_epbreq(Pc_epb_203::PC_EPBREQ_APPLY);
   } else {
@@ -649,8 +645,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Ge3Controller::SetBeam(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.signal().high_beam()) {
     pc_bcm_201_->set_pc_lowbeamreq(Pc_bcm_201::PC_LOWBEAMREQ_NOREQ);
     pc_bcm_201_->set_pc_highbeamreq(Pc_bcm_201::PC_HIGHBEAMREQ_REQ);
@@ -664,8 +658,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Ge3Controller::SetHorn(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.signal().horn()) {
     pc_bcm_201_->set_pc_hornreq(Pc_bcm_201::PC_HORNREQ_REQ);
   } else {
@@ -674,8 +666,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Ge3Controller::SetTurningSignal(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Set Turn Signal
   auto signal = command.signal().turn_signal();
   if (signal == common::VehicleSignal::TURN_LEFT) {
@@ -690,17 +680,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 }
 
-void Ge3Controller::ResetProtocol() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- message_manager_->ResetSendMessages(); }
+void Ge3Controller::ResetProtocol() { message_manager_->ResetSendMessages(); }
 
 bool Ge3Controller::CheckChassisError() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ChassisDetail chassis_detail;
   message_manager_->GetSensorData(&chassis_detail);
   if (!chassis_detail.has_ge3()) {
-    AERROR_EVERY(100) << "ChassisDetail has NO ge3 vehicle info."
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "ChassisDetail has NO ge3 vehicle info."
                       << chassis_detail.DebugString();
     return false;
   }
@@ -750,13 +737,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Ge3Controller::SecurityDogThreadFunc() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
 
   if (can_sender_ == nullptr) {
-    AERROR << "Failed to run SecurityDogThreadFunc() because can_sender_ is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to run SecurityDogThreadFunc() because can_sender_ is "
               "nullptr.";
     return;
   }
@@ -811,15 +797,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (elapsed < default_period) {
       std::this_thread::sleep_for(default_period - elapsed);
     } else {
-      AERROR << "Too much time consumption in Ge3Controller looping process:"
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Too much time consumption in Ge3Controller looping process:"
              << elapsed.count();
     }
   }
 }
 
 bool Ge3Controller::CheckResponse(const int32_t flags, bool need_wait) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int32_t retry_num = 20;
   ChassisDetail chassis_detail;
   bool is_eps_online = false;
@@ -828,7 +813,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   do {
     if (message_manager_->GetSensorData(&chassis_detail) != ErrorCode::OK) {
-      AERROR_EVERY(100) << "get chassis detail failed.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "get chassis detail failed.";
       return false;
     }
     bool check_ok = true;
@@ -851,53 +837,45 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (check_ok) {
       return true;
     }
-    AINFO << "Need to check response again.";
-    if (need_wait) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Need to check response again.";
+     if (need_wait) {
       --retry_num;
       std::this_thread::sleep_for(
           std::chrono::duration<double, std::milli>(20));
     }
   } while (need_wait && retry_num);
 
-  AINFO << "check_response fail: is_eps_online:" << is_eps_online
-        << ", is_vcu_online:" << is_vcu_online
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "check_response fail: is_eps_online:" << is_eps_online
+         << ", is_vcu_online:" << is_vcu_online
         << ", is_esp_online:" << is_esp_online;
   return false;
 }
 
 void Ge3Controller::set_chassis_error_mask(const int32_t mask) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t Ge3Controller::chassis_error_mask() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode Ge3Controller::chassis_error_code() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
 }
 
 void Ge3Controller::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
 }
 
 bool Ge3Controller::CheckSafetyError(
     const ::apollo::canbus::ChassisDetail& chassis_detail) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return false;
 }
 

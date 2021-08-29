@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Steeringmotorrpt1404::Steeringmotorrpt1404() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Steeringmotorrpt1404::Steeringmotorrpt1404() {}
 const int32_t Steeringmotorrpt1404::ID = 0x404;
 
 void Steeringmotorrpt1404::Parse(const std::uint8_t* bytes, int32_t length,
                                  ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_lexus()
       ->mutable_steering_motor_rpt_1_404()
       ->set_motor_current(motor_current(bytes, length));
@@ -50,8 +45,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'amps'}
 double Steeringmotorrpt1404::motor_current(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -80,8 +73,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': 'amps'}
 double Steeringmotorrpt1404::shaft_position(const std::uint8_t* bytes,
                                             int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 

@@ -74,12 +74,14 @@ bool HistogramEstimator::Process() {
   uint32_t mass = 0;
   GetPeakIndexAndMass(hist_smoothed, nr_bins, &max_index, &mass);
   if (mass < params_.histogram_mass_limit) {
-    AERROR << "Fail: lack enough samples.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail: lack enough samples.";
     return false;
   }
 
   if (!IsGoodShape(hist, nr_bins, max_index)) {
-    AERROR << "Fail: distribution is not good.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail: distribution is not good.";
     return false;
   }
 

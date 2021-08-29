@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -61,8 +60,9 @@ void Trajectory1dGenerator::GenerateTrajectoryBundles(
 void Trajectory1dGenerator::GenerateSpeedProfilesForCruising(
     const double target_speed,
     Trajectory1DBundle* ptr_lon_trajectory_bundle) const {
-  ADEBUG << "cruise speed is  " << target_speed;
-  auto end_conditions =
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "cruise speed is  " << target_speed;
+   auto end_conditions =
       end_condition_sampler_.SampleLonEndConditionsForCruising(target_speed);
   if (end_conditions.empty()) {
     return;
@@ -78,8 +78,9 @@ void Trajectory1dGenerator::GenerateSpeedProfilesForCruising(
 void Trajectory1dGenerator::GenerateSpeedProfilesForStopping(
     const double stop_point,
     Trajectory1DBundle* ptr_lon_trajectory_bundle) const {
-  ADEBUG << "stop point is " << stop_point;
-  auto end_conditions =
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop point is " << stop_point;
+   auto end_conditions =
       end_condition_sampler_.SampleLonEndConditionsForStopping(stop_point);
   if (end_conditions.empty()) {
     return;

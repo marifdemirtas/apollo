@@ -110,7 +110,8 @@ Obstacle::Obstacle(const std::string& id,
     const auto& prev = trajectory_points[i - 1];
     const auto& cur = trajectory_points[i];
     if (prev.relative_time() >= cur.relative_time()) {
-      AERROR << "prediction time is not increasing."
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "prediction time is not increasing."
              << "current point: " << cur.ShortDebugString()
              << "previous point: " << prev.ShortDebugString();
     }
@@ -165,28 +166,33 @@ common::math::Box2d Obstacle::GetBoundingBox(
 
 bool Obstacle::IsValidPerceptionObstacle(const PerceptionObstacle& obstacle) {
   if (obstacle.length() <= 0.0) {
-    AERROR << "invalid obstacle length:" << obstacle.length();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "invalid obstacle length:" << obstacle.length();
     return false;
   }
   if (obstacle.width() <= 0.0) {
-    AERROR << "invalid obstacle width:" << obstacle.width();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "invalid obstacle width:" << obstacle.width();
     return false;
   }
   if (obstacle.height() <= 0.0) {
-    AERROR << "invalid obstacle height:" << obstacle.height();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "invalid obstacle height:" << obstacle.height();
     return false;
   }
   if (obstacle.has_velocity()) {
     if (std::isnan(obstacle.velocity().x()) ||
         std::isnan(obstacle.velocity().y())) {
-      AERROR << "invalid obstacle velocity:"
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "invalid obstacle velocity:"
              << obstacle.velocity().DebugString();
       return false;
     }
   }
   for (auto pt : obstacle.polygon_point()) {
     if (std::isnan(pt.x()) || std::isnan(pt.y())) {
-      AERROR << "invalid obstacle polygon point:" << pt.DebugString();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "invalid obstacle polygon point:" << pt.DebugString();
       return false;
     }
   }
@@ -198,7 +204,8 @@ std::list<std::unique_ptr<Obstacle>> Obstacle::CreateObstacles(
   std::list<std::unique_ptr<Obstacle>> obstacles;
   for (const auto& prediction_obstacle : predictions.prediction_obstacle()) {
     if (!IsValidPerceptionObstacle(prediction_obstacle.perception_obstacle())) {
-      AERROR << "Invalid perception obstacle: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid perception obstacle: "
              << prediction_obstacle.perception_obstacle().DebugString();
       continue;
     }
@@ -217,7 +224,8 @@ std::list<std::unique_ptr<Obstacle>> Obstacle::CreateObstacles(
       bool is_valid_trajectory = true;
       for (const auto& point : trajectory.trajectory_point()) {
         if (!IsValidTrajectoryPoint(point)) {
-          AERROR << "obj:" << perception_id
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "obj:" << perception_id
                  << " TrajectoryPoint: " << trajectory.ShortDebugString()
                  << " is NOT valid.";
           is_valid_trajectory = false;
@@ -335,13 +343,16 @@ void Obstacle::BuildReferenceLineStBoundary(const ReferenceLine& reference_line,
   } else {
     if (BuildTrajectoryStBoundary(reference_line, adc_start_s,
                                   &reference_line_st_boundary_)) {
-      ADEBUG << "Found st_boundary for obstacle " << id_;
-      ADEBUG << "st_boundary: min_t = " << reference_line_st_boundary_.min_t()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Found st_boundary for obstacle " << id_;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "st_boundary: min_t = " << reference_line_st_boundary_.min_t()
              << ", max_t = " << reference_line_st_boundary_.max_t()
              << ", min_s = " << reference_line_st_boundary_.min_s()
              << ", max_s = " << reference_line_st_boundary_.max_s();
     } else {
-      ADEBUG << "No st_boundary for obstacle " << id_;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "No st_boundary for obstacle " << id_;
     }
   }
 }
@@ -350,7 +361,8 @@ bool Obstacle::BuildTrajectoryStBoundary(const ReferenceLine& reference_line,
                                          const double adc_start_s,
                                          STBoundary* const st_boundary) {
   if (!IsValidObstacle(perception_obstacle_)) {
-    AERROR << "Fail to build trajectory st boundary because object is not "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to build trajectory st boundary because object is not "
               "valid. PerceptionObstacle: "
            << perception_obstacle_.DebugString();
     return false;
@@ -375,7 +387,8 @@ bool Obstacle::BuildTrajectoryStBoundary(const ReferenceLine& reference_line,
   int last_index = 0;
 
   for (int i = 1; i < trajectory_points.size(); ++i) {
-    ADEBUG << "last_sl_boundary: " << last_sl_boundary.ShortDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "last_sl_boundary: " << last_sl_boundary.ShortDebugString();
 
     const auto& first_traj_point = trajectory_points[i - 1];
     const auto& second_traj_point = trajectory_points[i];
@@ -410,7 +423,8 @@ bool Obstacle::BuildTrajectoryStBoundary(const ReferenceLine& reference_line,
 
     if (!reference_line.GetApproximateSLBoundary(object_moving_box, start_s,
                                                  end_s, &object_boundary)) {
-      AERROR << "failed to calculate boundary";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to calculate boundary";
       return false;
     }
 
@@ -649,7 +663,8 @@ void Obstacle::AddLongitudinalDecision(const std::string& decider_tag,
       << " is not a longitudinal decision";
   longitudinal_decision_ =
       MergeLongitudinalDecision(longitudinal_decision_, decision);
-  ADEBUG << decider_tag << " added obstacle " << Id()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << decider_tag << " added obstacle " << Id()
          << " longitudinal decision: " << decision.ShortDebugString()
          << ". The merged decision is: "
          << longitudinal_decision_.ShortDebugString();
@@ -663,7 +678,8 @@ void Obstacle::AddLateralDecision(const std::string& decider_tag,
       << "Decision: " << decision.ShortDebugString()
       << " is not a lateral decision";
   lateral_decision_ = MergeLateralDecision(lateral_decision_, decision);
-  ADEBUG << decider_tag << " added obstacle " << Id()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << decider_tag << " added obstacle " << Id()
          << " a lateral decision: " << decision.ShortDebugString()
          << ". The merged decision is: "
          << lateral_decision_.ShortDebugString();

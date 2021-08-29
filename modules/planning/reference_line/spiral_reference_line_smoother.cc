@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -51,8 +50,9 @@ bool SpiralReferenceLineSmoother::Smooth(
   if (anchor_points_.empty()) {
     const double piecewise_length = config_.spiral().piecewise_length();
     const double length = raw_reference_line.Length();
-    ADEBUG << "Length = " << length;
-    uint32_t num_of_pieces =
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Length = " << length;
+     uint32_t num_of_pieces =
         std::max(1u, static_cast<uint32_t>(length / piecewise_length));
 
     const double delta_s = length / num_of_pieces;
@@ -171,7 +171,8 @@ bool SpiralReferenceLineSmoother::Smooth(
 
   ReferencePoint::RemoveDuplicates(&ref_points);
   if (ref_points.size() < 2) {
-    AERROR << "Fail to generate smoothed reference line.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to generate smoothed reference line.";
     return false;
   }
   *smoothed_reference_line = ReferenceLine(ref_points);
@@ -205,8 +206,9 @@ int SpiralReferenceLineSmoother::SmoothStandAlone(
 
   Ipopt::ApplicationReturnStatus status = app->Initialize();
   if (status != Ipopt::Solve_Succeeded) {
-    ADEBUG << "*** Error during initialization!";
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** Error during initialization!";
+     return -1;
   }
 
   status = app->OptimizeTNLP(problem);
@@ -215,14 +217,17 @@ int SpiralReferenceLineSmoother::SmoothStandAlone(
       status == Ipopt::Solved_To_Acceptable_Level) {
     // Retrieve some statistics about the solve
     Ipopt::Index iter_count = app->Statistics()->IterationCount();
-    ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
+ 
     Ipopt::Number final_obj = app->Statistics()->FinalObjective();
-    ADEBUG << "*** The final value of the objective function is " << final_obj
-           << '.';
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The final value of the objective function is " << final_obj
+            << '.';
   } else {
-    ADEBUG << "Return status: " << int(status);
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Return status: " << int(status);
+   }
 
   ptop->get_optimization_results(ptr_theta, ptr_kappa, ptr_dkappa, ptr_s, ptr_x,
                                  ptr_y);
@@ -272,8 +277,9 @@ bool SpiralReferenceLineSmoother::Smooth(std::vector<Eigen::Vector2d> point2d,
 
   Ipopt::ApplicationReturnStatus status = app->Initialize();
   if (status != Ipopt::Solve_Succeeded) {
-    ADEBUG << "*** Error during initialization!";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** Error during initialization!";
+     return false;
   }
 
   status = app->OptimizeTNLP(problem);
@@ -282,14 +288,17 @@ bool SpiralReferenceLineSmoother::Smooth(std::vector<Eigen::Vector2d> point2d,
       status == Ipopt::Solved_To_Acceptable_Level) {
     // Retrieve some statistics about the solve
     Ipopt::Index iter_count = app->Statistics()->IterationCount();
-    ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
+ 
     Ipopt::Number final_obj = app->Statistics()->FinalObjective();
-    ADEBUG << "*** The final value of the objective function is " << final_obj
-           << '.';
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The final value of the objective function is " << final_obj
+            << '.';
   } else {
-    ADEBUG << "Return status: " << int(status);
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Return status: " << int(status);
+   }
 
   ptop->get_optimization_results(ptr_theta, ptr_kappa, ptr_dkappa, ptr_s, ptr_x,
                                  ptr_y);

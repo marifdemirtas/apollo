@@ -146,7 +146,8 @@ void BaseMap::LoadMapNodes(std::set<MapNodeIndex>* map_ids) {
   std::vector<std::future<void>> load_futures_;
   itr = map_ids->begin();
   while (itr != map_ids->end()) {
-    AERROR << "Preload map node failed!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Preload map node failed!";
     load_futures_.emplace_back(
         cyber::Async(&BaseMap::LoadMapNodeThreadSafety, this, *itr, true));
     ++itr;
@@ -180,7 +181,8 @@ void BaseMap::CheckAndUpdateCache(std::set<MapNodeIndex>* map_ids) {
 
 void BaseMap::PreloadMapNodes(std::set<MapNodeIndex>* map_ids) {
   if (map_ids->size() > map_node_cache_lvl2_->Capacity()) {
-    AERROR << "map_ids's size is bigger than cache's capacity";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "map_ids's size is bigger than cache's capacity";
     return;
   }
   // check in cacheL2
@@ -213,9 +215,11 @@ void BaseMap::PreloadMapNodes(std::set<MapNodeIndex>* map_ids) {
   // load form disk sync
   std::vector<std::future<void>> preload_futures;
   itr = map_ids->begin();
-  AINFO << "Preload map node size: " << map_ids->size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Preload map node size: " << map_ids->size();
   while (itr != map_ids->end()) {
-    AINFO << "Preload map node: " << *itr << std::endl;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Preload map node: " << *itr << std::endl;
     boost::unique_lock<boost::recursive_mutex> lock3(map_load_mutex_);
     map_preloading_task_index_.insert(*itr);
     lock3.unlock();
@@ -242,9 +246,11 @@ void BaseMap::LoadMapNodeThreadSafety(const MapNodeIndex& index,
   map_node->SetMapNodeIndex(index);
 
   if (!map_node->Load()) {
-    AINFO << "Created map node: " << index;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Created map node: " << index;
   } else {
-    AINFO << "Loaded map node: " << index;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Loaded map node: " << index;
   }
   map_node->SetIsReserved(is_reserved);
   boost::unique_lock<boost::recursive_mutex> lock(map_load_mutex_);

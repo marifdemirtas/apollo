@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -31,8 +30,6 @@ namespace hdmap {
 LapsChecker::LapsChecker(const std::vector<FramePose> &poses, int laps_to_check,
                          std::shared_ptr<JsonConf> sp_conf)
     : poses_(poses), sp_conf_(sp_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   laps_to_check_ = laps_to_check;
   maxx_ = 0.0;
   maxy_ = 0.0;
@@ -42,43 +39,41 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   confidence_.resize(possible_max_laps_ + 1, 0.0);
   finished_ = false;
   return_state_ = ErrorCode::SUCCESS;
-  AINFO << "instance has " << poses.size() << " poses";
-  AINFO << "confidence size: " << possible_max_laps_ + 1;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "instance has " << poses.size() << " poses";
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "confidence size: " << possible_max_laps_ + 1;
+ }
 
 int LapsChecker::SetProgress(double p) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   progress_ = p;
   return 0;
 }
 
-double LapsChecker::GetProgress() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return progress_; }
+double LapsChecker::GetProgress() const { return progress_; }
 
-size_t LapsChecker::GetLap() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return lap_; }
+size_t LapsChecker::GetLap() const { return lap_; }
 
 double LapsChecker::GetConfidence() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double res = 0.0;
   lap_ = laps_to_check_;
   for (size_t i = 0; i < confidence_.size(); ++i) {
-    AINFO << "confidence[" << i << "]: " << confidence_[i];
-  }
-  AINFO << "laps to check: " << laps_to_check_;
-  for (size_t i = laps_to_check_; i < confidence_.size(); ++i) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "confidence[" << i << "]: " << confidence_[i];
+   }
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "laps to check: " << laps_to_check_;
+   for (size_t i = laps_to_check_; i < confidence_.size(); ++i) {
     res += confidence_[i];
   }
-  AINFO << "current confidence: " << res
-        << ",confidence thresh:" << sp_conf_->laps_rate_thresh;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "current confidence: " << res
+         << ",confidence thresh:" << sp_conf_->laps_rate_thresh;
   if (res < sp_conf_->laps_rate_thresh) {
     if (confidence_.empty()) {
-      AINFO << "some problems induce lap problem";
-      return 0.0;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "some problems induce lap problem";
+       return 0.0;
     }
     res = confidence_[0];
     lap_ = 0;
@@ -96,8 +91,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 ErrorCode LapsChecker::Check() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (poses_.empty()) {
     return_state_ = ErrorCode::ERROR_VERIFY_NO_GNSSPOS;
     return return_state_;
@@ -108,40 +101,46 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LapsChecker::DoCheck() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "do_check";
-  SetProgress(0.0);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "do_check";
+   SetProgress(0.0);
   int ret = 0;
-  AINFO << "check->check_params";
-  ret = CheckParams();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "check->check_params";
+   ret = CheckParams();
   if (ret < 0) {
-    AINFO << "check_params failed";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "check_params failed";
+   }
   SetProgress(0.1);
 
-  AINFO << "check->setup_grids_map";
-  ret = SetupGridsMap();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "check->setup_grids_map";
+   ret = SetupGridsMap();
   if (ret < 0) {
-    AINFO << "setup_grids_map failed";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "setup_grids_map failed";
+   }
   SetProgress(0.5);
-  AINFO << "check->setup_grids_map done";
-
-  AINFO << "check->check_laps";
-  ret = CheckLaps();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "check->setup_grids_map done";
+ 
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "check->check_laps";
+   ret = CheckLaps();
   if (ret < 0) {
-    AINFO << "check_laps failed";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "check_laps failed";
+   }
   SetProgress(1.0);
-  AINFO << "check->check_laps done";
-
-  AINFO << "do_check done";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "check->check_laps done";
+ 
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "do_check done";
+ }
 
 int LapsChecker::CheckParams() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int n_pose = static_cast<int>(poses_.size());
   if (n_pose < sp_conf_->laps_frames_thresh) {
     return -1;
@@ -150,33 +149,35 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int LapsChecker::SetupGridsMap() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "setup_grids_map->get_min_max";
-  GetMinMax();
-  AINFO << "setup_grids_map->do_setup_grids_map";
-  int ret = DoSetupGridsMap();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "setup_grids_map->get_min_max";
+   GetMinMax();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "setup_grids_map->do_setup_grids_map";
+   int ret = DoSetupGridsMap();
   if (ret < 0) {
-    AINFO << "do_setup_grids_map failed";
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "do_setup_grids_map failed";
+     return -1;
   }
-  AINFO << "setup_grids_map done";
-  return 0;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "setup_grids_map done";
+   return 0;
 }
 
 int LapsChecker::CheckLaps() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int height = static_cast<int>(grids_map_.size());
   if (height <= 2 || height > 1000000) {
-    AINFO << "grids_map_ size error. height = " << height;
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "grids_map_ size error. height = " << height;
+     return -1;
   }
 
   int width = static_cast<int>(grids_map_[0].size());
   if (width <= 2 || width >= 1000000) {
-    AINFO << "grids_map_ size error. width = " << width;
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "grids_map_ size error. width = " << width;
+     return -1;
   }
 
   for (int y = 0; y < height; y++) {
@@ -212,11 +213,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     all += confidence_[i];
   }
   if (all == 0.0) {
-    AINFO << "there seems no poses";
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "there seems no poses";
+     return -1;
   }
-  AINFO << "confidence size: " << confidence_.size();
-  for (size_t i = 0; i < confidence_.size(); ++i) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "confidence size: " << confidence_.size();
+   for (size_t i = 0; i < confidence_.size(); ++i) {
     confidence_[i] /= all;
   }
 
@@ -225,12 +228,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 int LapsChecker::GatherTimestamps(std::vector<double> *sp_stamps, double alpha,
                                   int center_x, int center_y) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int search_d = sp_conf_->laps_search_diameter;
   if ((search_d & 1) == 0) {
-    AINFO << "laps_search_diameter should be an odd";
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "laps_search_diameter should be an odd";
+     return -1;
   }
   int search_r = (search_d >> 1);
   size_t height = grids_map_.size(), width = grids_map_[0].size();
@@ -250,8 +252,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           std::vector<int> &idxs = grid[i].idxs;
           for (size_t j = 0; j < idxs.size(); ++j) {
             if (idxs[j] >= static_cast<int>(poses_.size())) {
-              AINFO << "index error, index: " << idxs[j]
-                    << ", pose size: " << poses_.size();
+              AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "index error, index: " << idxs[j]
+                     << ", pose size: " << poses_.size();
             } else {
               stamps.push_back(poses_[idxs[j]].time_stamp);
             }
@@ -265,15 +268,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int LapsChecker::GetMinMax() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   minx_ = std::numeric_limits<double>::max();
   miny_ = std::numeric_limits<double>::max();
   maxx_ = std::numeric_limits<double>::min();
   maxy_ = std::numeric_limits<double>::min();
   size_t size = poses_.size();
-  AINFO << "get_min_max pose size: " << size;
-  for (size_t i = 0; i < size; ++i) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "get_min_max pose size: " << size;
+   for (size_t i = 0; i < size; ++i) {
     double tx = poses_[i].tx, ty = poses_[i].ty;
     if (tx < minx_) {
       minx_ = tx;
@@ -292,18 +294,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int LapsChecker::DoSetupGridsMap() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   size_t width = size_t(maxx_ - minx_ + 1);
   size_t height = size_t(maxy_ - miny_ + 1);
-  AINFO << "grid map width: " << width << ", height: " << height;
-  size_t size = poses_.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "grid map width: " << width << ", height: " << height;
+   size_t size = poses_.size();
   if (1 >= size || 0 == height || 0 == width || height > 1000000 ||
       width > 1000000) {
-    AINFO << "pose size: " << size << ", height: " << height
-          << ", width: " << width;
-    AINFO << "pose size error or grid map size error";
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "pose size: " << size << ", height: " << height
+           << ", width: " << width;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "pose size error or grid map size error";
+     return -1;
   }
 
   grids_map_.resize(height);
@@ -321,8 +324,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 double LapsChecker::CalcAlpha(int pose_index) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double vecx = poses_[pose_index].tx - poses_[pose_index - 1].tx;
   double vecy = poses_[pose_index].ty - poses_[pose_index - 1].ty;
   double alpha = acos(vecx / sqrt(vecx * vecx + vecy * vecy)) * 180 / M_PI;
@@ -333,14 +334,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int LapsChecker::PutPoseToGrid(int pose_index, int grid_y, int grid_x) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (pose_index <= 0) {
     return 0;
   }
   double alpha = CalcAlpha(pose_index);
   if (std::isnan(alpha)) {
-    AERROR << "ignore static pose " << pose_index;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ignore static pose " << pose_index;
     return 0;
   }
 
@@ -362,8 +362,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int LapsChecker::PutPoseToNeighborGrid(int pose_index) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (pose_index <= 0) {
     return 0;
   }
@@ -377,8 +375,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 int LapsChecker::GetPassedGrid(int pose_index, std::vector<int> *sp_grid_x,
                                std::vector<int> *sp_grid_y) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (pose_index <= 0) {
     return 0;
   }
@@ -409,7 +405,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   } else {
     double k = Slope(last_x, last_y, x, y);
     if (k > 99999999.0) {
-      AERROR << "slope error";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "slope error";
       return -1;
     }
     int steps = static_cast<int>(std::abs(last_x - x));
@@ -431,8 +428,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 double LapsChecker::Slope(double x1, double y1, double x2, double y2) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (std::abs(x1 - x2) < 1e-6) {
     return std::numeric_limits<double>::max();
   }
@@ -442,9 +437,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   return (y2 - y1) / (x2 - x1);
 }
 
-ErrorCode LapsChecker::GetReturnState() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return return_state_; }
+ErrorCode LapsChecker::GetReturnState() { return return_state_; }
 
 }  // namespace hdmap
 }  // namespace apollo

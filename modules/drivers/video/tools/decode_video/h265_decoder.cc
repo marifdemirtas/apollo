@@ -31,31 +31,37 @@ bool H265Decoder::Init() {
   avcodec_register_all();
   AVCodec* codec_h265 = avcodec_find_decoder(AV_CODEC_ID_H265);
   if (codec_h265 == nullptr) {
-    AERROR << "error: codec not found";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error: codec not found";
     return false;
   }
   codec_ctx_h265_ = avcodec_alloc_context3(codec_h265);
   if (codec_ctx_h265_ == nullptr) {
-    AERROR << "error: codec context alloc fail";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error: codec context alloc fail";
     return false;
   }
   if (avcodec_open2(codec_ctx_h265_, codec_h265, nullptr) < 0) {
-    AERROR << "error: could not open codec";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error: could not open codec";
     return false;
   }
   yuv_frame_ = av_frame_alloc();
   if (yuv_frame_ == nullptr) {
-    AERROR << "error: could not alloc yuv frame";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error: could not alloc yuv frame";
     return false;
   }
   AVCodec* codec_jpeg = avcodec_find_encoder(AV_CODEC_ID_MJPEG);
   if (codec_jpeg == nullptr) {
-    AERROR << "error: jpeg Codec not found";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error: jpeg Codec not found";
     return false;
   }
   codec_ctx_jpeg_ = avcodec_alloc_context3(codec_jpeg);
   if (codec_ctx_jpeg_ == nullptr) {
-    AERROR << "error: jpeg ctx allco fail";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error: jpeg ctx allco fail";
     return false;
   }
   // Put sample parameters and open it
@@ -67,7 +73,8 @@ bool H265Decoder::Init() {
   codec_ctx_jpeg_->time_base = (AVRational){1, 15};
   codec_ctx_jpeg_->pix_fmt = AV_PIX_FMT_YUVJ422P;
   if (avcodec_open2(codec_ctx_jpeg_, codec_jpeg, nullptr) < 0) {
-    AERROR << "error: could not open jpeg context";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error: could not open jpeg context";
     return false;
   }
   return true;
@@ -103,7 +110,8 @@ H265Decoder::DecodingResult H265Decoder::Process(
   int ret =
       avcodec_decode_video2(codec_ctx_h265_, yuv_frame_, &got_picture, &apt);
   if (ret < 0) {
-    AERROR << "error: decode failed: input_framesize = " << apt.size
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error: decode failed: input_framesize = " << apt.size
            << ". error code = " << ret;
     return H265Decoder::DecodingResult::FATAL;
   }
@@ -116,11 +124,13 @@ H265Decoder::DecodingResult H265Decoder::Process(
   got_picture = 0;
   ret = avcodec_encode_video2(codec_ctx_jpeg_, &apt, yuv_frame_, &got_picture);
   if (ret < 0) {
-    AERROR << "error: jpeg encode failed, error code = " << ret;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error: jpeg encode failed, error code = " << ret;
     return H265Decoder::DecodingResult::FATAL;
   }
   if (!got_picture) {
-    AERROR << "error: failed to get jpeg picture from yuyv";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error: failed to get jpeg picture from yuyv";
     return H265Decoder::DecodingResult::FATAL;
   }
   outdata->resize(apt.size);

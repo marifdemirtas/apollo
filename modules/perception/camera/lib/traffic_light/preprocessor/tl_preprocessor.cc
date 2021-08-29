@@ -28,7 +28,8 @@ bool TLPreprocessor::Init(const TrafficLightPreprocessorInitOptions &options) {
   camera::MultiCamerasInitOption projection_init_option;
   projection_init_option.camera_names = options.camera_names;
   if (!projection_.Init(projection_init_option)) {
-    AERROR << "init multi_camera_projection failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "init multi_camera_projection failed.";
     return false;
   }
 
@@ -37,7 +38,8 @@ bool TLPreprocessor::Init(const TrafficLightPreprocessorInitOptions &options) {
   lights_outside_image_array_.resize(num_cameras_);
   sync_interval_seconds_ = options.sync_interval_seconds;
 
-  AINFO << "preprocessor init succeed";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "preprocessor init succeed";
 
   return true;
 }
@@ -49,20 +51,24 @@ bool TLPreprocessor::UpdateCameraSelection(
   selected_camera_name_.first = timestamp;
   selected_camera_name_.second = GetMaxFocalLenWorkingCameraName();
 
-  AINFO << "TLPreprocessor Got signal number: " << lights->size()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "TLPreprocessor Got signal number: " << lights->size()
         << ", ts: " << timestamp;
   if (lights->empty()) {
-    AINFO << "No signals, select camera with max focal length: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "No signals, select camera with max focal length: "
           << selected_camera_name_.second;
     return true;
   }
 
   if (!ProjectLightsAndSelectCamera(pose, option,
                                     &(selected_camera_name_.second), lights)) {
-    AERROR << "project_lights_and_select_camera failed, ts: " << timestamp;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "project_lights_and_select_camera failed, ts: " << timestamp;
   }
 
-  AINFO << "selected_camera_id: " << selected_camera_name_.second;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "selected_camera_id: " << selected_camera_name_.second;
 
   return true;
 }
@@ -71,15 +77,18 @@ bool TLPreprocessor::SyncInformation(const double image_timestamp,
                                      const std::string &cam_name) {
   const double &proj_ts = selected_camera_name_.first;
   const std::string &proj_camera_name = selected_camera_name_.second;
-  AINFO << "ready to sync information";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ready to sync information";
 
   if (!projection_.HasCamera(cam_name)) {
-    AERROR << "sync_image failed, "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "sync_image failed, "
            << "get invalid camera_name: " << cam_name;
     return false;
   }
 
-  AINFO << "Enter TLPreprocessor::sync_image. proj_ts: " << proj_ts
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Enter TLPreprocessor::sync_image. proj_ts: " << proj_ts
         << " proj_camera_name: " << proj_camera_name
         << " image_ts: " << image_timestamp
         << " image_camera_name: " << cam_name;
@@ -95,7 +104,8 @@ bool TLPreprocessor::SyncInformation(const double image_timestamp,
           << "but camera_name not match.";
     return false;
   }
-  AINFO << "sync_image succeeded.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sync_image succeeded.";
   last_pub_img_ts_ = image_timestamp;
   return true;
 }
@@ -107,22 +117,26 @@ bool TLPreprocessor::UpdateLightsProjection(
   lights_on_image_.clear();
   lights_outside_image_.clear();
 
-  AINFO << "clear lights_outside_image_ " << lights_outside_image_.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "clear lights_outside_image_ " << lights_outside_image_.size();
 
   if (lights->empty()) {
-    AINFO << "No lights to be projected";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "No lights to be projected";
     return true;
   }
 
   if (!ProjectLights(pose, camera_name, lights, &lights_on_image_,
                      &lights_outside_image_)) {
-    AERROR << "update_lights_projection project lights on " << camera_name
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "update_lights_projection project lights on " << camera_name
            << " image failed";
     return false;
   }
 
   if (lights_outside_image_.size() > 0) {
-    AERROR << "update_lights_projection failed,"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "update_lights_projection failed,"
            << "lights_outside_image->size() " << lights_outside_image_.size()
            << " ts: " << pose.getTimestamp();
     return false;
@@ -137,25 +151,29 @@ bool TLPreprocessor::UpdateLightsProjection(
                          projection_.getImageWidth(camera_name),
                          projection_.getImageHeight(camera_name),
                          option.image_borders_size->at(camera_name))) {
-      AINFO << "update_lights_projection light project out of image region. "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "update_lights_projection light project out of image region. "
             << "camera_name: " << camera_name;
       return false;
     }
   }
 
-  AINFO << "UpdateLightsProjection success";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "UpdateLightsProjection success";
   return true;
 }
 
 bool TLPreprocessor::SetCameraWorkingFlag(const std::string &camera_name,
                                           bool is_working) {
   if (!projection_.HasCamera(camera_name)) {
-    AERROR << "SetCameraWorkingFlag failed, "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "SetCameraWorkingFlag failed, "
            << "get invalid camera_name: " << camera_name;
     return false;
   }
   camera_is_working_flags_[camera_name] = is_working;
-  AINFO << "SetCameraWorkingFlag succeeded, camera_name: " << camera_name
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "SetCameraWorkingFlag succeeded, camera_name: " << camera_name
         << ", flag: " << camera_is_working_flags_[camera_name];
   return true;
 }
@@ -163,7 +181,8 @@ bool TLPreprocessor::SetCameraWorkingFlag(const std::string &camera_name,
 bool TLPreprocessor::GetCameraWorkingFlag(const std::string &camera_name,
                                           bool *is_working) const {
   if (!projection_.HasCamera(camera_name)) {
-    AERROR << "GetCameraWorkingFlag failed, "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "GetCameraWorkingFlag failed, "
            << "get invalid camera_name: " << camera_name;
     return false;
   }
@@ -184,7 +203,8 @@ void TLPreprocessor::SelectCamera(
     const TLPreprocessorOption &option, std::string *selected_camera_name) {
   // do not check boundary if this is min focal camera
   auto min_focal_len_working_camera = GetMinFocalLenWorkingCameraName();
-  AINFO << "working camera with minimum focal length: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "working camera with minimum focal length: "
         << min_focal_len_working_camera;
 
   const auto &camera_names = projection_.getCameraNamesByDescendingFocalLen();
@@ -193,7 +213,8 @@ void TLPreprocessor::SelectCamera(
     bool is_working = false;
     // camera is not working ,skip
     if (!GetCameraWorkingFlag(camera_name, &is_working) || !is_working) {
-      AINFO << "camera " << camera_name << "is not working";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "camera " << camera_name << "is not working";
       continue;
     }
 
@@ -201,7 +222,8 @@ void TLPreprocessor::SelectCamera(
     if (camera_name != min_focal_len_working_camera) {
       // lights must project on the image if this is not min focal camera
       if (lights_outside_image_array->at(cam_id).size() > 0) {
-        AINFO << "light project out of image, "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "light project out of image, "
               << "camera_name: " << camera_name
               << " lights_outside_image_array->at(cam_id).size(): "
               << lights_outside_image_array->at(cam_id).size();
@@ -215,7 +237,8 @@ void TLPreprocessor::SelectCamera(
                              projection_.getImageHeight(camera_name),
                              option.image_borders_size->at(camera_name))) {
           ok = false;
-          AINFO << "light project out of image region, "
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "light project out of image region, "
                 << "camera_name: " << camera_name << " border_size: "
                 << option.image_borders_size->at(camera_name);
           break;
@@ -231,7 +254,8 @@ void TLPreprocessor::SelectCamera(
       break;
     }
   }
-  AINFO << "select_camera selection: " << *selected_camera_name;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "select_camera selection: " << *selected_camera_name;
 }
 
 bool TLPreprocessor::ProjectLights(
@@ -240,11 +264,13 @@ bool TLPreprocessor::ProjectLights(
     base::TrafficLightPtrs *lights_on_image,
     base::TrafficLightPtrs *lights_outside_image) {
   if (lights->empty()) {
-    AINFO << "project_lights get empty signals.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "project_lights get empty signals.";
     return true;
   }
   if (!projection_.HasCamera(camera_name)) {
-    AERROR << "project_lights get invalid camera_name: " << camera_name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "project_lights get invalid camera_name: " << camera_name;
     return false;
   }
 
@@ -277,11 +303,13 @@ bool TLPreprocessor::ProjectLightsAndSelectCamera(
     std::string *selected_camera_name,
     std::vector<base::TrafficLightPtr> *lights) {
   if (selected_camera_name == nullptr) {
-    AERROR << "selected_camera_name is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "selected_camera_name is not available";
     return false;
   }
   if (lights == nullptr) {
-    AERROR << "lights is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "lights is not available";
     return false;
   }
 
@@ -299,7 +327,8 @@ bool TLPreprocessor::ProjectLightsAndSelectCamera(
     if (!ProjectLights(pose, camera_name, lights,
                        &(lights_on_image_array_[cam_id]),
                        &(lights_outside_image_array_[cam_id]))) {
-      AERROR << "select_camera_by_lights_projection project lights on "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "select_camera_by_lights_projection project lights on "
              << camera_name << " image failed";
       return false;
     }

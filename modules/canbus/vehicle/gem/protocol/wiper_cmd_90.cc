@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,34 +27,24 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Wipercmd90::ID = 0x90;
 
 // public
-Wipercmd90::Wipercmd90() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Wipercmd90::Wipercmd90() { Reset(); }
 
 uint32_t Wipercmd90::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Wipercmd90::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_wiper_cmd(data, wiper_cmd_);
 }
 
 void Wipercmd90::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) :you should check this manually
   wiper_cmd_ = Wiper_cmd_90::WIPER_CMD_WIPERS_OFF;
 }
 
 Wipercmd90* Wipercmd90::set_wiper_cmd(Wiper_cmd_90::Wiper_cmdType wiper_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   wiper_cmd_ = wiper_cmd;
   return this;
 }
@@ -69,8 +58,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Wipercmd90::set_p_wiper_cmd(uint8_t* data,
                                  Wiper_cmd_90::Wiper_cmdType wiper_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   uint8_t x = wiper_cmd;
 
   Byte to_set(data + 0);

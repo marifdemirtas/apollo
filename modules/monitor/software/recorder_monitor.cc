@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -39,13 +38,9 @@ using apollo::data::SmartRecorderStatus;
 
 RecorderMonitor::RecorderMonitor()
     : RecurrentRunner(FLAGS_smart_recorder_monitor_name,
-                      FLAGS_smart_recorder_monitor_interval) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+                      FLAGS_smart_recorder_monitor_interval) {}
 
 void RecorderMonitor::RunOnce(const double current_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto manager = MonitorManager::Instance();
   auto* component = apollo::common::util::FindOrNull(
       *manager->GetStatus()->mutable_components(),
@@ -72,8 +67,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   // Translate SmartRecorderStatus to ComponentStatus. Note that ERROR and FATAL
   // will trigger safety mode in current settings.
   switch (status->recording_state()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     case RecordingState::RECORDING:
       SummaryMonitor::EscalateStatus(ComponentStatus::OK, "", component_status);
       break;
@@ -89,8 +82,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           absl::StrCat("STOPPED: ", status->state_message()), component_status);
       break;
     default:
-      AFATAL << "Unknown recording status: " << status->recording_state();
-      break;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "Unknown recording status: " << status->recording_state();
+       break;
   }
 }
 

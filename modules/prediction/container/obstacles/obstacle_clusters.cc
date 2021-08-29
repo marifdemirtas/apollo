@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -102,7 +101,8 @@ bool ObstacleClusters::BackwardNearbyObstacle(
     const double obstacle_s, const double obstacle_l,
     NearbyObstacle* const nearby_obstacle_ptr) {
   if (lane_sequence.lane_segment().empty()) {
-    AERROR << "Empty lane sequence found.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Empty lane sequence found.";
     return false;
   }
   const LaneSegment& lane_segment = lane_sequence.lane_segment(0);

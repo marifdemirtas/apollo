@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -222,8 +221,9 @@ Status NaviSpeedDecider::Execute(Frame* frame,
       decel_compensation_ratio_ = (decel_compensation_ratio_ + raw_ratio) / 2.0;
       decel_compensation_ratio_ =
           Clamp(decel_compensation_ratio_, 1.0, kDecelCompensationLimit);
-      ADEBUG << "change decel_compensation_ratio: " << decel_compensation_ratio_
-             << " raw: " << raw_ratio;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "change decel_compensation_ratio: " << decel_compensation_ratio_
+              << " raw: " << raw_ratio;
     }
     prev_v_ = current_v;
   }
@@ -238,7 +238,8 @@ Status NaviSpeedDecider::Execute(Frame* frame,
   RecordDebugInfo(reference_line_info->speed_data());
   if (ret != Status::OK()) {
     reference_line_info->SetDrivable(false);
-    AERROR << "Reference Line " << reference_line_info->Lanes().Id()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Reference Line " << reference_line_info->Lanes().Id()
            << " is not drivable after " << Name();
   }
 
@@ -258,13 +259,15 @@ Status NaviSpeedDecider::MakeSpeedDecision(
   auto end_s = path_points.back().has_s() ? path_points.back().s() : start_s;
   auto planning_length = end_s - start_s;
 
-  ADEBUG << "start to make speed decision,  start_v: " << start_v
-         << " start_a: " << start_a << " start_da: " << start_da
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "start to make speed decision,  start_v: " << start_v
+          << " start_a: " << start_a << " start_da: " << start_da
          << " start_s: " << start_s << " planning_length: " << planning_length;
 
   if (start_v > max_speed_) {
     const std::string msg = "exceeding maximum allowable speed.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   start_v = std::max(0.0, start_v);
@@ -279,33 +282,38 @@ Status NaviSpeedDecider::MakeSpeedDecision(
   // add t-s constraints
   auto ret = AddPerceptionRangeConstraints();
   if (ret != Status::OK()) {
-    AERROR << "Add t-s constraints base on range of perception failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Add t-s constraints base on range of perception failed";
     return ret;
   }
 
   ret = AddObstaclesConstraints(start_v, planning_length, path_points,
                                 obstacles, find_obstacle);
   if (ret != Status::OK()) {
-    AERROR << "Add t-s constraints base on obstacles failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Add t-s constraints base on obstacles failed";
     return ret;
   }
 
   ret = AddCentricAccelerationConstraints(path_points);
   if (ret != Status::OK()) {
-    AERROR << "Add t-s constraints base on centric acceleration failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Add t-s constraints base on centric acceleration failed";
     return ret;
   }
 
   ret = AddConfiguredConstraints();
   if (ret != Status::OK()) {
-    AERROR << "Add t-s constraints base on configs failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Add t-s constraints base on configs failed";
     return ret;
   }
 
   // create speed-points
   std::vector<NaviSpeedTsPoint> ts_points;
   if (ts_graph_.Solve(&ts_points) != Status::OK()) {
-    AERROR << "Solve speed points failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Solve speed points failed";
     speed_data->clear();
     speed_data->AppendSpeedPoint(0.0 + start_s, 0.0, 0.0, -max_decel_, 0.0);
     speed_data->AppendSpeedPoint(0.0 + start_s, 1.0, 0.0, -max_decel_, 0.0);
@@ -318,7 +326,8 @@ Status NaviSpeedDecider::MakeSpeedDecision(
       break;
 
     if (ts_point.v > hard_speed_limit_) {
-      AERROR << "The v: " << ts_point.v << " of point with s: " << ts_point.s
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The v: " << ts_point.v << " of point with s: " << ts_point.s
              << " and t: " << ts_point.t << "is greater than hard_speed_limit "
              << hard_speed_limit_;
       ts_point.v = hard_speed_limit_;
@@ -328,7 +337,8 @@ Status NaviSpeedDecider::MakeSpeedDecision(
       ts_point.v = 0.0;
     }
     if (ts_point.a > hard_accel_limit_) {
-      AERROR << "The a: " << ts_point.a << " of point with s: " << ts_point.s
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The a: " << ts_point.a << " of point with s: " << ts_point.s
              << " and t: " << ts_point.t << "is greater than hard_accel_limit "
              << hard_accel_limit_;
       ts_point.a = hard_accel_limit_;
@@ -388,8 +398,9 @@ Status NaviSpeedDecider::AddObstaclesConstraints(
       auto obstacle_distance = get_obstacle_distance(s);
       auto obstacle_speed = std::max(std::get<2>(info), 0.0);
       auto safe_distance = get_safe_distance(obstacle_speed);
-      AINFO << "obstacle with id: " << id << " s: " << s
-            << " distance: " << obstacle_distance
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "obstacle with id: " << id << " s: " << s
+             << " distance: " << obstacle_distance
             << " speed: " << obstacle_speed
             << " safe_distance: " << safe_distance;
 
@@ -420,7 +431,8 @@ Status NaviSpeedDecider::AddCentricAccelerationConstraints(
     const std::vector<PathPoint>& path_points) {
   if (path_points.size() < 2) {
     const std::string msg = "Too few path points";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -491,8 +503,9 @@ Status NaviSpeedDecider::AddCentricAccelerationConstraints(
     start_s = end_s;
   }
 
-  AINFO << "add speed limit for centric acceleration with kappa: " << max_kappa
-        << " v_max: " << max_kappa_v << " v_preffered: " << preffered_kappa_v
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "add speed limit for centric acceleration with kappa: " << max_kappa
+         << " v_max: " << max_kappa_v << " v_preffered: " << preffered_kappa_v
         << " s: " << max_kappa_s;
 
   return Status::OK();

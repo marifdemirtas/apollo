@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -49,8 +48,6 @@ using apollo::hdmap::Map;
 using apollo::hdmap::adapter::OpendriveAdapter;
 
 static void DownsampleCurve(Curve* curve) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto* line_segment = curve->mutable_segment(0)->mutable_line_segment();
   std::vector<PointENU> points(line_segment->point().begin(),
                                line_segment->point().end());
@@ -76,13 +73,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   size_t new_size = line_segment->point_size();
   CHECK_GT(new_size, 1U);
 
-  AINFO << "Lane curve downsampled from " << points.size() << " points to "
-        << new_size << " points.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Lane curve downsampled from " << points.size() << " points to "
+         << new_size << " points.";
 }
 
 static void DownsampleMap(Map* map_pb) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (int i = 0; i < map_pb->lane_size(); ++i) {
     auto* lane = map_pb->mutable_lane(i);
     lane->clear_left_sample();
@@ -90,16 +86,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     lane->clear_left_road_sample();
     lane->clear_right_road_sample();
 
-    AINFO << "Downsampling lane " << lane->id().id();
-    DownsampleCurve(lane->mutable_central_curve());
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Downsampling lane " << lane->id().id();
+     DownsampleCurve(lane->mutable_central_curve());
     DownsampleCurve(lane->mutable_left_boundary()->mutable_curve());
     DownsampleCurve(lane->mutable_right_boundary()->mutable_curve());
   }
 }
 
 static void OutputMap(const Map& map_pb) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::ofstream map_txt_file(FLAGS_output_dir + "/sim_map.txt");
   map_txt_file << map_pb.DebugString();
   map_txt_file.close();
@@ -112,8 +107,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int main(int32_t argc, char** argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::InitGoogleLogging(argv[0]);
   FLAGS_alsologtostderr = true;
   FLAGS_v = 3;
@@ -130,7 +123,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   DownsampleMap(&map_pb);
   OutputMap(map_pb);
-  AINFO << "sim_map generated at:" << FLAGS_output_dir;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sim_map generated at:" << FLAGS_output_dir;
+ 
   return 0;
 }

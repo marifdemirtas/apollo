@@ -39,7 +39,8 @@ bool RtcmParser::Init() {
   rtcm_parser_.reset(new Rtcm3Parser(true));
 
   if (!rtcm_parser_) {
-    AERROR << "Failed to create rtcm parser.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create rtcm parser.";
     return false;
   }
 

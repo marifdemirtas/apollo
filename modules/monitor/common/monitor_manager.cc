@@ -51,7 +51,8 @@ bool MonitorManager::StartFrame(const double current_time) {
   hmi_status_reader->Observe();
   const auto hmi_status = hmi_status_reader->GetLatestObserved();
   if (hmi_status == nullptr) {
-    AERROR << "No HMIStatus was received.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No HMIStatus was received.";
     return false;
   }
 

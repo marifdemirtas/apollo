@@ -37,7 +37,8 @@ Input::Input(uint16_t port, uint16_t gpsPort) {
   socketForLidar = -1;
   socketForLidar = socket(PF_INET, SOCK_DGRAM, 0);
   if (-1 == socketForLidar) {
-    AERROR << "socket open error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "socket open error";
     return;
   }
 
@@ -49,12 +50,14 @@ Input::Input(uint16_t port, uint16_t gpsPort) {
 
   if (bind(socketForLidar, reinterpret_cast<sockaddr *>(&myAddress),
            sizeof(sockaddr)) == -1) {
-    AERROR << "bind error, port:" << port;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "bind error, port:" << port;
     return;
   }
 
   if (fcntl(socketForLidar, F_SETFL, O_NONBLOCK | FASYNC) < 0) {
-    AERROR << "fcntl error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fcntl error";
     return;
   }
 
@@ -78,12 +81,14 @@ Input::Input(uint16_t port, uint16_t gpsPort) {
 
   if (bind(socketForGPS, reinterpret_cast<sockaddr *>(&myAddressGPS),
            sizeof(sockaddr)) == -1) {
-    AERROR << "gps bind error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "gps bind error";
     return;
   }
 
   if (fcntl(socketForGPS, F_SETFL, O_NONBLOCK | FASYNC) < 0) {
-    AERROR << "gps fcntl error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "gps fcntl error";
     return;
   }
 
@@ -117,17 +122,20 @@ int Input::GetPacket(HesaiPacket *pkt) {
   int retval = poll(fds, socketNumber, POLL_TIMEOUT);
   if (retval < 0) {
     if (errno != EINTR) {
-      AERROR << "poll() error:" << strerror(errno);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "poll() error:" << strerror(errno);
     }
     return -1;
   }
   if (retval == 0) {
-    AERROR << "poll() timeout";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "poll() timeout";
     return -1;
   }
   if ((fds[0].revents & POLLERR) || (fds[0].revents & POLLHUP) ||
       (fds[0].revents & POLLNVAL)) {
-    AERROR << "poll() reports hesai error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "poll() reports hesai error";
     return -1;
   }
 
@@ -144,7 +152,8 @@ int Input::GetPacket(HesaiPacket *pkt) {
 
   if (nbytes < 0) {
     if (errno != EWOULDBLOCK) {
-      AERROR << "recvfrom error";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "recvfrom error";
       return -1;
     }
   }

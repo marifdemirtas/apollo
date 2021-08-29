@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,8 +31,6 @@ CameraPerceptionVizMessage::CameraPerceptionVizMessage(
       pose_camera_to_world_(pose_camera_to_world),
       image_blob_(image_blob),
       error_code_(error_code) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   camera_objects_.clear();
   for (const auto& obj : camera_objects) {
     camera_objects_.push_back(obj);

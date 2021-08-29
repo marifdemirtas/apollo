@@ -56,7 +56,8 @@ void FileUtility::ComputeFileMd5(const std::string &file_path,
       ++count;
     }
   } else {
-    AERROR << "Can't find the file: " << file_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can't find the file: " << file_path;
     return;
   }
 
@@ -85,7 +86,8 @@ void FileUtility::ComputeFileMd5(const std::string &file_path,
       ++count;
     }
   } else {
-    AERROR << "Can't find the file: " << file_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can't find the file: " << file_path;
     return;
   }
 

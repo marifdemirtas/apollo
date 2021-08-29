@@ -33,11 +33,13 @@ bool LocationRefinerObstaclePostprocessor::Init(
 
   if (!cyber::common::GetProtoFromFile(postprocessor_config,
                                        &location_refiner_param_)) {
-    AERROR << "Read config failed: " << postprocessor_config;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Read config failed: " << postprocessor_config;
     return false;
   }
 
-  AINFO << "Load postprocessor parameters from " << postprocessor_config
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Load postprocessor parameters from " << postprocessor_config
         << " \nmin_dist_to_camera: "
         << location_refiner_param_.min_dist_to_camera()
         << " \nroi_h2bottom_scale: "
@@ -50,13 +52,15 @@ bool LocationRefinerObstaclePostprocessor::Process(
   if (frame->detected_objects.empty() ||
       frame->calibration_service == nullptr ||
       !options.do_refinement_with_calibration_service) {
-    ADEBUG << "Do not run obstacle postprocessor.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Do not run obstacle postprocessor.";
     return true;
   }
   Eigen::Vector4d plane;
   if (options.do_refinement_with_calibration_service &&
       !frame->calibration_service->QueryGroundPlaneInCameraFrame(&plane)) {
-    AINFO << "No valid ground plane in the service.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "No valid ground plane in the service.";
   }
   float query_plane[4] = {
       static_cast<float>(plane(0)), static_cast<float>(plane(1)),
@@ -69,7 +73,8 @@ bool LocationRefinerObstaclePostprocessor::Process(
       k_mat[i3 + j] = camera_k_matrix(i, j);
     }
   }
-  AINFO << "Camera k matrix input to obstacle postprocessor: \n"
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Camera k matrix input to obstacle postprocessor: \n"
         << k_mat[0] << ", " << k_mat[1] << ", " << k_mat[2] << "\n"
         << k_mat[3] << ", " << k_mat[4] << ", " << k_mat[5] << "\n"
         << k_mat[6] << ", " << k_mat[7] << ", " << k_mat[8] << "\n";
@@ -100,7 +105,8 @@ bool LocationRefinerObstaclePostprocessor::Process(
 
     if (dist2camera > location_refiner_param_.min_dist_to_camera() ||
         !is_in_rule_roi) {
-      ADEBUG << "Pass for obstacle postprocessor.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Pass for obstacle postprocessor.";
       continue;
     }
 
@@ -154,8 +160,10 @@ bool LocationRefinerObstaclePostprocessor::Process(
     obj->center(2) = static_cast<double>(object_center[2]);
     obj->center = frame->camera2world_pose * obj->center;
 
-    AINFO << "diff on camera z: " << z_diff_camera;
-    AINFO << "Obj center from postprocessor: " << obj->center.transpose();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "diff on camera z: " << z_diff_camera;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Obj center from postprocessor: " << obj->center.transpose();
   }
   return true;
 }

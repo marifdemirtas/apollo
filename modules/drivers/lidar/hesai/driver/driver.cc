@@ -22,17 +22,20 @@ namespace hesai {
 
 bool HesaiDriver::Init() {
   if (node_ == nullptr) {
-    AERROR << "node is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "node is nullptr";
     return false;
   }
   Parser* hesai_parser = ParserFactory::CreateParser(node_, conf_);
   if (hesai_parser == nullptr) {
-    AERROR << "create parser error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "create parser error";
   }
   parser_.reset(hesai_parser);
   scan_writer_ = node_->CreateWriter<HesaiScan>(conf_.scan_channel());
   if (scan_writer_ == nullptr) {
-    AERROR << "writer:" << conf_.scan_channel()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "writer:" << conf_.scan_channel()
            << " create error, check cyber is inited.";
     return false;
   }
@@ -42,18 +45,21 @@ bool HesaiDriver::Init() {
   } else if (conf_.model() == HESAI64) {
     pkt_buffer_capacity_ = HESAI64_MAX_PACKETS * 10;
   } else {
-    AERROR << "Not support model:" << conf_.model();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Not support model:" << conf_.model();
     return false;
   }
 
-  AINFO << "packet buffer capacity:" << pkt_buffer_capacity_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "packet buffer capacity:" << pkt_buffer_capacity_;
   pkt_buffer_.resize(pkt_buffer_capacity_);
   for (int i = 0; i < pkt_buffer_capacity_; ++i) {
     pkt_buffer_[i] = std::make_shared<HesaiPacket>();
   }
 
   if (!parser_->Init()) {
-    AERROR << "parser init error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "parser init error";
     return false;
   }
 
@@ -61,7 +67,8 @@ bool HesaiDriver::Init() {
   for (int i = 0; i < scan_buffer_size_; ++i) {
     scan_buffer_[i] = std::make_shared<HesaiScan>();
     if (scan_buffer_[i] == nullptr) {
-      AERROR << "make scan buffer error";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "make scan buffer error";
       return false;
     }
   }
@@ -73,7 +80,8 @@ bool HesaiDriver::Init() {
 }
 
 void HesaiDriver::PollThread() {
-  AINFO << "Poll thread start";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Poll thread start";
   while (running_) {
     auto start = std::chrono::steady_clock::now();
     std::shared_ptr<HesaiPacket>& pkt = pkt_buffer_[pkt_index_];
@@ -144,7 +152,8 @@ void HesaiDriver::ProcessGps(const HesaiPacket& pkt) {
   // static_cast<double>(mktime(&t) + tz_second_));
   uint64_t gps_timestamp = static_cast<uint64_t>(timegm(&t));
   auto now = apollo::cyber::Time().Now().ToNanosecond();
-  AINFO << "hesai gps time:" << gps_timestamp << ", sys time:" << now
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "hesai gps time:" << gps_timestamp << ", sys time:" << now
         << ", diff:" << now - gps_timestamp;
 }
 
@@ -152,7 +161,8 @@ void HesaiDriver::ProcessThread() {
   std::shared_ptr<HesaiPacket> pkt = nullptr;
   bool is_end = false;
   int seq = 0;
-  AINFO << "packet process thread start";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "packet process thread start";
   while (running_) {
     {
       std::unique_lock<std::mutex> lck(packet_mutex_);
@@ -183,7 +193,8 @@ void HesaiDriver::ProcessThread() {
       scan_buffer_[index_]->set_model(conf_.model());
       scan_buffer_[index_]->set_basetime(0);
       scan_writer_->Write(scan_buffer_[index_]);
-      AINFO << "publish scan size:" << scan_buffer_[index_]->firing_pkts_size()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "publish scan size:" << scan_buffer_[index_]->firing_pkts_size()
             << ", index:" << index_;
       ++index_;
       index_ = index_ % scan_buffer_size_;

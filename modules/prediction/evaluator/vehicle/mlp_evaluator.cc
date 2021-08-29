@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -62,7 +61,8 @@ bool MLPEvaluator::Evaluate(Obstacle* obstacle_ptr,
 
   int id = obstacle_ptr->id();
   if (!obstacle_ptr->latest_feature().IsInitialized()) {
-    AERROR << "Obstacle [" << id << "] has no latest feature.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no latest feature.";
     return false;
   }
 
@@ -70,8 +70,9 @@ bool MLPEvaluator::Evaluate(Obstacle* obstacle_ptr,
   CHECK_NOTNULL(latest_feature_ptr);
   if (!latest_feature_ptr->has_lane() ||
       !latest_feature_ptr->lane().has_lane_graph()) {
-    ADEBUG << "Obstacle [" << id << "] has no lane graph.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] has no lane graph.";
+     return false;
   }
 
   double speed = latest_feature_ptr->speed();
@@ -80,15 +81,17 @@ bool MLPEvaluator::Evaluate(Obstacle* obstacle_ptr,
       latest_feature_ptr->mutable_lane()->mutable_lane_graph();
   CHECK_NOTNULL(lane_graph_ptr);
   if (lane_graph_ptr->lane_sequence().empty()) {
-    AERROR << "Obstacle [" << id << "] has no lane sequences.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no lane sequences.";
     return false;
   }
 
   std::vector<double> obstacle_feature_values;
   SetObstacleFeatureValues(obstacle_ptr, &obstacle_feature_values);
   if (obstacle_feature_values.size() != OBSTACLE_FEATURE_SIZE) {
-    ADEBUG << "Obstacle [" << id << "] has fewer than "
-           << "expected obstacle feature_values "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] has fewer than "
+            << "expected obstacle feature_values "
            << obstacle_feature_values.size() << ".";
     return false;
   }
@@ -99,8 +102,9 @@ bool MLPEvaluator::Evaluate(Obstacle* obstacle_ptr,
     std::vector<double> lane_feature_values;
     SetLaneFeatureValues(obstacle_ptr, lane_sequence_ptr, &lane_feature_values);
     if (lane_feature_values.size() != LANE_FEATURE_SIZE) {
-      ADEBUG << "Obstacle [" << id << "] has fewer than "
-             << "expected lane feature_values" << lane_feature_values.size()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] has fewer than "
+              << "expected lane feature_values" << lane_feature_values.size()
              << ".";
       continue;
     }
@@ -117,8 +121,9 @@ bool MLPEvaluator::Evaluate(Obstacle* obstacle_ptr,
         !obstacle_ptr->IsNearJunction()) {
       FeatureOutput::InsertDataForLearning(*latest_feature_ptr, feature_values,
                                            "mlp", lane_sequence_ptr);
-      ADEBUG << "Save extracted features for learning locally.";
-      return true;  // Skip Compute probability for offline mode
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Save extracted features for learning locally.";
+       return true;  // Skip Compute probability for offline mode
     }
     double probability = ComputeProbability(feature_values);
 
@@ -140,8 +145,9 @@ void MLPEvaluator::ExtractFeatureValues(Obstacle* obstacle_ptr,
   SetObstacleFeatureValues(obstacle_ptr, &obstacle_feature_values);
 
   if (obstacle_feature_values.size() != OBSTACLE_FEATURE_SIZE) {
-    ADEBUG << "Obstacle [" << id << "] has fewer than "
-           << "expected obstacle feature_values "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] has fewer than "
+            << "expected obstacle feature_values "
            << obstacle_feature_values.size() << ".";
     return;
   }
@@ -149,8 +155,9 @@ void MLPEvaluator::ExtractFeatureValues(Obstacle* obstacle_ptr,
   std::vector<double> lane_feature_values;
   SetLaneFeatureValues(obstacle_ptr, lane_sequence_ptr, &lane_feature_values);
   if (lane_feature_values.size() != LANE_FEATURE_SIZE) {
-    ADEBUG << "Obstacle [" << id << "] has fewer than "
-           << "expected lane feature_values" << lane_feature_values.size()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] has fewer than "
+            << "expected lane feature_values" << lane_feature_values.size()
            << ".";
     return;
   }
@@ -311,11 +318,13 @@ void MLPEvaluator::SetLaneFeatureValues(Obstacle* obstacle_ptr,
   feature_values->reserve(LANE_FEATURE_SIZE);
   const Feature& feature = obstacle_ptr->latest_feature();
   if (!feature.IsInitialized()) {
-    ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no latest feature.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no latest feature.";
+     return;
   } else if (!feature.has_position()) {
-    ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no position.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no position.";
+     return;
   }
 
   double heading = feature.velocity_heading();
@@ -330,7 +339,8 @@ void MLPEvaluator::SetLaneFeatureValues(Obstacle* obstacle_ptr,
       }
       const LanePoint& lane_point = lane_segment.lane_point(j);
       if (!lane_point.has_position()) {
-        AERROR << "Lane point has no position.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Lane point has no position.";
         continue;
       }
       double diff_x = lane_point.position().x() - feature.position().x();
@@ -363,8 +373,9 @@ void MLPEvaluator::LoadModel(const std::string& model_file) {
   ACHECK(cyber::common::GetProtoFromFile(model_file, model_ptr_.get()))
       << "Unable to load model file: " << model_file << ".";
 
-  AINFO << "Succeeded in loading the model file: " << model_file << ".";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Succeeded in loading the model file: " << model_file << ".";
+ }
 
 double MLPEvaluator::ComputeProbability(
     const std::vector<double>& feature_values) {
@@ -372,8 +383,9 @@ double MLPEvaluator::ComputeProbability(
   double probability = 0.0;
 
   if (model_ptr_->dim_input() != static_cast<int>(feature_values.size())) {
-    ADEBUG << "Model feature size not consistent with model proto definition. "
-           << "model input dim = " << model_ptr_->dim_input()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Model feature size not consistent with model proto definition. "
+            << "model input dim = " << model_ptr_->dim_input()
            << "; feature value size = " << feature_values.size();
     return probability;
   }
@@ -408,7 +420,8 @@ double MLPEvaluator::ComputeProbability(
       } else if (layer.layer_activation_func() == Layer::TANH) {
         neuron_output = std::tanh(neuron_output);
       } else {
-        AERROR << "Undefined activation function ["
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Undefined activation function ["
                << layer.layer_activation_func()
                << "]. A default sigmoid will be used instead.";
         neuron_output = Sigmoid(neuron_output);
@@ -418,7 +431,8 @@ double MLPEvaluator::ComputeProbability(
   }
 
   if (layer_output.size() != 1) {
-    AERROR << "Model output layer has incorrect # outputs: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Model output layer has incorrect # outputs: "
            << layer_output.size();
   } else {
     probability = layer_output[0];

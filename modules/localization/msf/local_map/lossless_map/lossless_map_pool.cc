@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -23,13 +22,9 @@ namespace msf {
 
 LosslessMapNodePool::LosslessMapNodePool(unsigned int pool_size,
                                          unsigned int thread_size)
-    : BaseMapNodePool(pool_size, thread_size) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : BaseMapNodePool(pool_size, thread_size) {}
 
 BaseMapNode* LosslessMapNodePool::AllocNewMapNode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return new LosslessMapNode();
 }
 

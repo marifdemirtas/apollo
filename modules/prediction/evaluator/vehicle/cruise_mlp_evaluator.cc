@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -62,26 +61,30 @@ bool CruiseMLPEvaluator::Evaluate(Obstacle* obstacle_ptr,
 
   int id = obstacle_ptr->id();
   if (!obstacle_ptr->latest_feature().IsInitialized()) {
-    AERROR << "Obstacle [" << id << "] has no latest feature.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no latest feature.";
     return false;
   }
   Feature* latest_feature_ptr = obstacle_ptr->mutable_latest_feature();
   CHECK_NOTNULL(latest_feature_ptr);
   if (!latest_feature_ptr->has_lane() ||
       !latest_feature_ptr->lane().has_lane_graph()) {
-    ADEBUG << "Obstacle [" << id << "] has no lane graph.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] has no lane graph.";
+     return false;
   }
   LaneGraph* lane_graph_ptr =
       latest_feature_ptr->mutable_lane()->mutable_lane_graph();
   CHECK_NOTNULL(lane_graph_ptr);
   if (lane_graph_ptr->lane_sequence().empty()) {
-    AERROR << "Obstacle [" << id << "] has no lane sequences.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no lane sequences.";
     return false;
   }
 
-  ADEBUG << "There are " << lane_graph_ptr->lane_sequence_size()
-         << " lane sequences with probabilities:";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There are " << lane_graph_ptr->lane_sequence_size()
+          << " lane sequences with probabilities:";
   // For every possible lane sequence, extract features that are needed
   // to feed into our trained model.
   // Then compute the likelihood of the obstacle moving onto that laneseq.
@@ -93,8 +96,9 @@ bool CruiseMLPEvaluator::Evaluate(Obstacle* obstacle_ptr,
     if (feature_values.size() !=
         OBSTACLE_FEATURE_SIZE + SINGLE_LANE_FEATURE_SIZE * LANE_POINTS_SIZE) {
       lane_sequence_ptr->set_probability(0.0);
-      ADEBUG << "Skip lane sequence due to incorrect feature size";
-      continue;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip lane sequence due to incorrect feature size";
+       continue;
     }
 
     // Insert features to DataForLearning
@@ -105,20 +109,23 @@ bool CruiseMLPEvaluator::Evaluate(Obstacle* obstacle_ptr,
                                   lane_sequence_ptr,
                                   &interaction_feature_values);
       if (interaction_feature_values.size() != INTERACTION_FEATURE_SIZE) {
-        ADEBUG << "Obstacle [" << id << "] has fewer than "
-               << "expected lane feature_values"
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] has fewer than "
+                << "expected lane feature_values"
                << interaction_feature_values.size() << ".";
         return false;
       }
-      ADEBUG << "Interaction feature size = "
-             << interaction_feature_values.size();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Interaction feature size = "
+              << interaction_feature_values.size();
       feature_values.insert(feature_values.end(),
                             interaction_feature_values.begin(),
                             interaction_feature_values.end());
       FeatureOutput::InsertDataForLearning(*latest_feature_ptr, feature_values,
                                            "lane_scanning", lane_sequence_ptr);
-      ADEBUG << "Save extracted features for learning locally.";
-      return true;  // Skip Compute probability for offline mode
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Save extracted features for learning locally.";
+       return true;  // Skip Compute probability for offline mode
     }
 
     std::vector<torch::jit::IValue> torch_inputs;
@@ -150,13 +157,15 @@ void CruiseMLPEvaluator::ExtractFeatureValues(
   std::vector<double> obstacle_feature_values;
   SetObstacleFeatureValues(obstacle_ptr, &obstacle_feature_values);
   if (obstacle_feature_values.size() != OBSTACLE_FEATURE_SIZE) {
-    ADEBUG << "Obstacle [" << id << "] has fewer than "
-           << "expected obstacle feature_values "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] has fewer than "
+            << "expected obstacle feature_values "
            << obstacle_feature_values.size() << ".";
     return;
   }
-  ADEBUG << "Obstacle feature size = " << obstacle_feature_values.size();
-  feature_values->insert(feature_values->end(), obstacle_feature_values.begin(),
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle feature size = " << obstacle_feature_values.size();
+   feature_values->insert(feature_values->end(), obstacle_feature_values.begin(),
                          obstacle_feature_values.end());
 
   // Extract lane related features.
@@ -164,13 +173,15 @@ void CruiseMLPEvaluator::ExtractFeatureValues(
   SetLaneFeatureValues(obstacle_ptr, lane_sequence_ptr, &lane_feature_values);
   if (lane_feature_values.size() !=
       SINGLE_LANE_FEATURE_SIZE * LANE_POINTS_SIZE) {
-    ADEBUG << "Obstacle [" << id << "] has fewer than "
-           << "expected lane feature_values" << lane_feature_values.size()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] has fewer than "
+            << "expected lane feature_values" << lane_feature_values.size()
            << ".";
     return;
   }
-  ADEBUG << "Lane feature size = " << lane_feature_values.size();
-  feature_values->insert(feature_values->end(), lane_feature_values.begin(),
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Lane feature size = " << lane_feature_values.size();
+   feature_values->insert(feature_values->end(), lane_feature_values.begin(),
                          lane_feature_values.end());
 }
 
@@ -212,8 +223,9 @@ void CruiseMLPEvaluator::SetObstacleFeatureValues(
   double prev_timestamp = obs_curr_feature.timestamp();
 
   // Starting from the most recent timestamp and going backward.
-  ADEBUG << "Obstacle has " << obstacle_ptr->history_size()
-         << " history timestamps.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle has " << obstacle_ptr->history_size()
+          << " history timestamps.";
   for (std::size_t i = 0; i < obstacle_ptr->history_size(); ++i) {
     const Feature& feature = obstacle_ptr->feature(i);
     if (!feature.IsInitialized()) {
@@ -223,8 +235,9 @@ void CruiseMLPEvaluator::SetObstacleFeatureValues(
       break;
     }
     if (!feature.has_lane()) {
-      ADEBUG << "Feature has no lane. Quit.";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Feature has no lane. Quit.";
+     }
     // These are for the old 23 features.
     if (feature.has_lane() && feature.lane().has_lane_feature()) {
       thetas.push_back(feature.lane().lane_feature().angle_diff());
@@ -237,9 +250,11 @@ void CruiseMLPEvaluator::SetObstacleFeatureValues(
       speeds.push_back(feature.speed());
       ++count;
     } else {
-      ADEBUG << "Feature has no lane_feature!!!";
-      ADEBUG << feature.lane().current_lane_feature_size();
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Feature has no lane_feature!!!";
+       AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << feature.lane().current_lane_feature_size();
+     }
 
     // These are for the new features based on the relative coord. system.
     if (i >= FLAGS_cruise_historical_frame_length) {
@@ -293,8 +308,9 @@ void CruiseMLPEvaluator::SetObstacleFeatureValues(
     }
   }
   if (count <= 0) {
-    ADEBUG << "There is no feature with lane info. Quit.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There is no feature with lane info. Quit.";
+     return;
   }
 
   // The following entire part is setting up the old 23 features.
@@ -474,11 +490,13 @@ void CruiseMLPEvaluator::SetLaneFeatureValues(
   feature_values->reserve(SINGLE_LANE_FEATURE_SIZE * LANE_POINTS_SIZE);
   const Feature& feature = obstacle_ptr->latest_feature();
   if (!feature.IsInitialized()) {
-    ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no latest feature.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no latest feature.";
+     return;
   } else if (!feature.has_position()) {
-    ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no position.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no position.";
+     return;
   }
 
   double heading = feature.velocity_heading();
@@ -494,7 +512,8 @@ void CruiseMLPEvaluator::SetLaneFeatureValues(
       }
       const LanePoint& lane_point = lane_segment.lane_point(j);
       if (!lane_point.has_position()) {
-        AERROR << "Lane point has no position.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Lane point has no position.";
         continue;
       }
 
@@ -531,8 +550,9 @@ void CruiseMLPEvaluator::SetLaneFeatureValues(
 
 void CruiseMLPEvaluator::LoadModels() {
   if (FLAGS_use_cuda && torch::cuda::is_available()) {
-    ADEBUG << "CUDA is available";
-    device_ = torch::Device(torch::kCUDA);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "CUDA is available";
+     device_ = torch::Device(torch::kCUDA);
   }
   torch::set_num_threads(1);
   torch_go_model_ =

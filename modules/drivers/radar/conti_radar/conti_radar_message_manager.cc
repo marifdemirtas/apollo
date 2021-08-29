@@ -69,7 +69,8 @@ ProtocolData<ContiRadar> *ContiRadarMessageManager::GetMutableProtocolDataById(
   uint32_t converted_message_id = message_id;
   if (protocol_data_map_.find(converted_message_id) ==
       protocol_data_map_.end()) {
-    ADEBUG << "Unable to get protocol data because of invalid message_id:"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Unable to get protocol data because of invalid message_id:"
            << message_id;
     return nullptr;
   }
@@ -93,7 +94,8 @@ void ContiRadarMessageManager::Parse(const uint32_t message_id,
   // trigger publishment
   if (message_id == ClusterListStatus600::ID ||
       message_id == ObjectListStatus60A::ID) {
-    ADEBUG << sensor_data_.ShortDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << sensor_data_.ShortDebugString();
 
     if (sensor_data_.contiobs_size() <=
         sensor_data_.object_list_status().nof_objects()) {
@@ -108,7 +110,8 @@ void ContiRadarMessageManager::Parse(const uint32_t message_id,
   sensor_protocol_data->Parse(data, length, &sensor_data_);
 
   if (message_id == RadarState201::ID) {
-    ADEBUG << sensor_data_.ShortDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << sensor_data_.ShortDebugString();
     if (sensor_data_.radar_state().send_quality() ==
             radar_config_.radar_conf().send_quality() &&
         sensor_data_.radar_state().send_ext_info() ==
@@ -123,7 +126,8 @@ void ContiRadarMessageManager::Parse(const uint32_t message_id,
             radar_config_.radar_conf().radar_power()) {
       is_configured_ = true;
     } else {
-      AINFO << "configure radar again";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "configure radar again";
       SenderMessage<ContiRadar> sender_message(RadarConfig200::ID,
                                                &radar_config_);
       sender_message.Update();

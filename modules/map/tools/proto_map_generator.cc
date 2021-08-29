@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2017 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,8 +28,6 @@ limitations under the License.
 DEFINE_string(output_dir, "/tmp", "output map directory");
 
 int main(int argc, char **argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::InitGoogleLogging(argv[0]);
   FLAGS_alsologtostderr = true;
 
@@ -54,7 +51,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   ACHECK(apollo::cyber::common::GetProtoFromFile(output_bin_file, &pb_map))
       << "failed to load map";
 
-  AINFO << "load map success";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "load map success";
+ 
   return 0;
 }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -55,7 +54,8 @@ bool PlanningComponent::Init() {
   if (FLAGS_planning_offline_learning ||
       config_.learning_mode() != PlanningConfig::NO_LEARNING) {
     if (!message_process_.Init(config_, injector_)) {
-      AERROR << "failed to init MessageProcess";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to init MessageProcess";
       return false;
     }
   }
@@ -65,8 +65,9 @@ bool PlanningComponent::Init() {
   routing_reader_ = node_->CreateReader<RoutingResponse>(
       config_.topic_config().routing_response_topic(),
       [this](const std::shared_ptr<RoutingResponse>& routing) {
-        AINFO << "Received routing data: run routing callback."
-              << routing->header().DebugString();
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Received routing data: run routing callback."
+               << routing->header().DebugString();
         std::lock_guard<std::mutex> lock(mutex_);
         routing_.CopyFrom(*routing);
       });
@@ -74,24 +75,27 @@ bool PlanningComponent::Init() {
   traffic_light_reader_ = node_->CreateReader<TrafficLightDetection>(
       config_.topic_config().traffic_light_detection_topic(),
       [this](const std::shared_ptr<TrafficLightDetection>& traffic_light) {
-        ADEBUG << "Received traffic light data: run traffic light callback.";
-        std::lock_guard<std::mutex> lock(mutex_);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received traffic light data: run traffic light callback.";
+         std::lock_guard<std::mutex> lock(mutex_);
         traffic_light_.CopyFrom(*traffic_light);
       });
 
   pad_msg_reader_ = node_->CreateReader<PadMessage>(
       config_.topic_config().planning_pad_topic(),
       [this](const std::shared_ptr<PadMessage>& pad_msg) {
-        ADEBUG << "Received pad data: run pad callback.";
-        std::lock_guard<std::mutex> lock(mutex_);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received pad data: run pad callback.";
+         std::lock_guard<std::mutex> lock(mutex_);
         pad_msg_.CopyFrom(*pad_msg);
       });
 
   story_telling_reader_ = node_->CreateReader<Stories>(
       config_.topic_config().story_telling_topic(),
       [this](const std::shared_ptr<Stories>& stories) {
-        ADEBUG << "Received story_telling data: run story_telling callback.";
-        std::lock_guard<std::mutex> lock(mutex_);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received story_telling data: run story_telling callback.";
+         std::lock_guard<std::mutex> lock(mutex_);
         stories_.CopyFrom(*stories);
       });
 
@@ -99,8 +103,9 @@ bool PlanningComponent::Init() {
     relative_map_reader_ = node_->CreateReader<MapMsg>(
         config_.topic_config().relative_map_topic(),
         [this](const std::shared_ptr<MapMsg>& map_message) {
-          ADEBUG << "Received relative map data: run relative map callback.";
-          std::lock_guard<std::mutex> lock(mutex_);
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received relative map data: run relative map callback.";
+           std::lock_guard<std::mutex> lock(mutex_);
           relative_map_.CopyFrom(*map_message);
         });
   }
@@ -155,7 +160,8 @@ bool PlanningComponent::Proc(
   }
 
   if (!CheckInput()) {
-    AERROR << "Input check failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input check failed";
     return false;
   }
 
@@ -180,7 +186,8 @@ bool PlanningComponent::Proc(
       common::util::FillHeader(node_->Name(), &planning_learning_data);
       planning_learning_data_writer_->Write(planning_learning_data);
     } else {
-      AERROR << "fail to generate learning data frame";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to generate learning data frame";
       return false;
     }
     return true;
@@ -244,7 +251,8 @@ bool PlanningComponent::CheckInput() {
   }
 
   if (not_ready->has_reason()) {
-    AERROR << not_ready->reason() << "; skip the planning cycle.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << not_ready->reason() << "; skip the planning cycle.";
     common::util::FillHeader(node_->Name(), &trajectory_pb);
     planning_writer_->Write(trajectory_pb);
     return false;

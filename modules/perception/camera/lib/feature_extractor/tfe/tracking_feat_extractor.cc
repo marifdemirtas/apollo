@@ -34,11 +34,13 @@ bool TrackingFeatureExtractor::Init(
   std::string config_path = cyber::common::GetAbsolutePath(
       init_options.root_dir, init_options.conf_file);
   if (!cyber::common::GetProtoFromFile(config_path, &feat_param)) {
-    AERROR << "read proto_config fail";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "read proto_config fail";
     return false;
   }
   if (feat_param.extractor_size() != 1) {
-    AERROR << "extractor should be 1";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "extractor should be 1";
     return false;
   }
   CHECK_EQ(input_height_ / feat_height, input_width_ / feat_width)
@@ -55,7 +57,8 @@ bool TrackingFeatureExtractor::Init(
     }
   }
   if (roi_poolings_.empty()) {
-    AERROR << "no proper extractor";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "no proper extractor";
     return false;
   }
 
@@ -109,7 +112,8 @@ bool TrackingFeatureExtractor::Extract(const FeatureExtractorOptions &options,
           obj->camera_supplement.box.xmax * static_cast<float>(feat_width_);
       rois_data[4] =
           obj->camera_supplement.box.ymax * static_cast<float>(feat_height_);
-      ADEBUG << rois_data[0] << " " << rois_data[1] << " " << rois_data[2]
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << rois_data[0] << " " << rois_data[1] << " " << rois_data[2]
              << " " << rois_data[3] << " " << rois_data[4];
       rois_data += feature_extractor_layer_ptr->rois_blob->offset(1);
     }

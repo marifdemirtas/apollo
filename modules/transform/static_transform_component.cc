@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,7 +26,8 @@ namespace transform {
 
 bool StaticTransformComponent::Init() {
   if (!GetProtoConfig(&conf_)) {
-    AERROR << "Parse conf file failed, " << ConfigFilePath();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Parse conf file failed, " << ConfigFilePath();
     return false;
   }
   cyber::proto::RoleAttributes attr;
@@ -43,8 +43,9 @@ void StaticTransformComponent::SendTransforms() {
   std::vector<TransformStamped> tranform_stamped_vec;
   for (auto& extrinsic_file : conf_.extrinsic_file()) {
     if (extrinsic_file.enable()) {
-      AINFO << "Broadcast static transform, frame id ["
-            << extrinsic_file.frame_id() << "], child frame id ["
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Broadcast static transform, frame id ["
+             << extrinsic_file.frame_id() << "], child frame id ["
             << extrinsic_file.child_frame_id() << "]";
       TransformStamped transform;
       if (ParseFromYaml(extrinsic_file.file_path(), &transform)) {
@@ -58,7 +59,8 @@ void StaticTransformComponent::SendTransforms() {
 bool StaticTransformComponent::ParseFromYaml(
     const std::string& file_path, TransformStamped* transform_stamped) {
   if (!cyber::common::PathExists(file_path)) {
-    AERROR << "Extrinsic yaml file does not exist: " << file_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Extrinsic yaml file does not exist: " << file_path;
     return false;
   }
   YAML::Node tf = YAML::LoadFile(file_path);
@@ -80,7 +82,8 @@ bool StaticTransformComponent::ParseFromYaml(
     rotation->set_qz(tf["transform"]["rotation"]["z"].as<double>());
     rotation->set_qw(tf["transform"]["rotation"]["w"].as<double>());
   } catch (...) {
-    AERROR << "Extrinsic yaml file parse failed: " << file_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Extrinsic yaml file parse failed: " << file_path;
     return false;
   }
   return true;

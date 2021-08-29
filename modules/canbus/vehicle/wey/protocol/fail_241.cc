@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace wey {
 
 using ::apollo::drivers::canbus::Byte;
 
-Fail241::Fail241() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Fail241::Fail241() {}
 const int32_t Fail241::ID = 0x241;
 
 void Fail241::Parse(const std::uint8_t* bytes, int32_t length,
                     ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_wey()->mutable_fail_241()->set_engfail(
       engfail(bytes, length));
   chassis->mutable_wey()->mutable_fail_241()->set_espfail(
@@ -55,8 +50,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 7, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Fail_241::EngfailType Fail241::engfail(const std::uint8_t* bytes,
                                        int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(7, 1);
 
@@ -70,8 +63,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Fail_241::EspfailType Fail241::espfail(const std::uint8_t* bytes,
                                        int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(6, 1);
 
@@ -86,8 +77,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Fail_241::EpbfailType Fail241::epbfail(const std::uint8_t* bytes,
                                        int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(2, 2);
 
@@ -105,8 +94,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Fail_241::ShiftfailType Fail241::shiftfail(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(4, 4);
 
@@ -121,8 +108,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Fail_241::EpsfailType Fail241::epsfail(const std::uint8_t* bytes,
                                        int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(5, 1);
 

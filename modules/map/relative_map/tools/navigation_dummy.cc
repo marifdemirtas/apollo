@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,8 +31,6 @@ DEFINE_string(navigation_dummy_file,
               "Used for sending navigation result to relative_map node.");
 
 int main(int argc, char** argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::ParseCommandLineFlags(&argc, &argv, true);
   // Init the cyber framework
   apollo::cyber::Init(argv[0]);
@@ -42,7 +39,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   apollo::relative_map::NavigationInfo navigation_info;
   if (!apollo::cyber::common::GetProtoFromFile(FLAGS_navigation_dummy_file,
                                                &navigation_info)) {
-    AERROR << "failed to load file: " << FLAGS_navigation_dummy_file;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to load file: " << FLAGS_navigation_dummy_file;
     return -1;
   }
 
@@ -55,8 +53,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   while (apollo::cyber::OK()) {
     apollo::common::util::FillHeader(node->Name(), &navigation_info);
     writer->Write(navigation_info);
-    ADEBUG << "Sending navigation info:" << navigation_info.DebugString();
-    rate.Sleep();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Sending navigation info:" << navigation_info.DebugString();
+     rate.Sleep();
   }
 
   return 0;

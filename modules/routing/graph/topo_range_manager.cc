@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -69,8 +68,9 @@ const std::vector<NodeSRange>* TopoRangeManager::Find(
 void TopoRangeManager::PrintDebugInfo() const {
   for (const auto& map : range_map_) {
     for (const auto& range : map.second) {
-      AINFO << "black lane id: " << map.first->LaneId()
-            << ", start s: " << range.StartS() << ", end s: " << range.EndS();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "black lane id: " << map.first->LaneId()
+             << ", start s: " << range.StartS() << ", end s: " << range.EndS();
     }
   }
 }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -38,10 +37,9 @@ using cyber::common::GetAbsolutePath;
 
 bool ObstacleCameraPerception::Init(
     const CameraPerceptionInitOptions &options) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Arif called ObstacleCameraPerception::Init";
-  std::string work_root = "";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Arif called ObstacleCameraPerception::Init";
+   std::string work_root = "";
   if (options.use_cyber_work_root) {
     work_root = GetCyberWorkRoot();
   }
@@ -136,8 +134,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Init feature_extractor
   if (!perception_param_.has_feature_param()) {
-    AINFO << "No feature config found.";
-    extractor_ = nullptr;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "No feature config found.";
+     extractor_ = nullptr;
   } else {
     FeatureExtractorInitOptions init_options;
     auto plugin_param = perception_param_.feature_param().plugin_param();
@@ -187,10 +186,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void ObstacleCameraPerception::InitLane(
     const std::string &work_root,
     const app::PerceptionParam &perception_param) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Arif called ObstacleCameraPerception::InitLane";
-  // Init lane
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Arif called ObstacleCameraPerception::InitLane";
+   // Init lane
   CHECK_GT(perception_param.lane_param_size(), 0)
       << "Failed to include lane_param";
   for (int i = 0; i < perception_param.lane_param_size(); ++i) {
@@ -210,14 +208,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         common::SensorManager::Instance()->GetUndistortCameraModel(
             lane_detector_param.camera_name());
     lane_detector_init_options.base_camera_model = model;
-    AINFO << "lane_detector_name: " << lane_detector_plugin_param.name();
-    lane_detector_.reset(BaseLaneDetectorRegisterer::GetInstanceByName(
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lane_detector_name: " << lane_detector_plugin_param.name();
+     lane_detector_.reset(BaseLaneDetectorRegisterer::GetInstanceByName(
         lane_detector_plugin_param.name()));
     ACHECK(lane_detector_ != nullptr);
     ACHECK(lane_detector_->Init(lane_detector_init_options))
         << "Failed to init: " << lane_detector_plugin_param.name();
-    AINFO << "Detector: " << lane_detector_->Name();
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Detector: " << lane_detector_->Name();
+ 
     // Initialize lane postprocessor
     const auto &lane_postprocessor_param =
         lane_param.lane_postprocessor_param();
@@ -236,8 +236,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     ACHECK(lane_postprocessor_ != nullptr);
     ACHECK(lane_postprocessor_->Init(postprocessor_init_options))
         << "Failed to init: " << lane_postprocessor_param.name();
-    AINFO << "lane_postprocessor: " << lane_postprocessor_->Name();
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lane_postprocessor: " << lane_postprocessor_->Name();
+ 
     // Init output file folder
     if (perception_param.has_debug_param() &&
         perception_param.debug_param().has_lane_out_dir()) {
@@ -258,8 +259,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void ObstacleCameraPerception::InitCalibrationService(
     const std::string &work_root, const base::BaseCameraModelPtr model,
     const app::PerceptionParam &perception_param) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Init calibration service
   ACHECK(perception_param.has_calibration_service_param())
       << "Failed to include calibration_service_param.";
@@ -283,18 +282,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     ACHECK(calibration_service_->Init(calibration_service_init_options))
         << "Failed to init: "
         << calibration_service_param.plugin_param().name();
-    AINFO << "calibration_service: " << calibration_service_->Name();
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "calibration_service: " << calibration_service_->Name();
+   }
 }
 
 void ObstacleCameraPerception::SetCameraHeightAndPitch(
     const std::map<std::string, float> &name_camera_ground_height_map,
     const std::map<std::string, float> &name_camera_pitch_angle_diff_map,
     const float &pitch_angle_calibrator_working_sensor) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (calibration_service_ == nullptr) {
-    AERROR << "Calibraion service is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Calibraion service is not available";
     return;
   }
   calibration_service_->SetCameraHeightAndPitch(
@@ -304,10 +303,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void ObstacleCameraPerception::SetIm2CarHomography(
     Eigen::Matrix3d homography_im2car) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (calibration_service_ == nullptr) {
-    AERROR << "Calibraion service is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Calibraion service is not available";
     return;
   }
   lane_postprocessor_->SetIm2CarHomography(homography_im2car);
@@ -315,17 +313,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool ObstacleCameraPerception::GetCalibrationService(
     BaseCalibrationService **calibration_service) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Arif called ObstacleCameraPerception::GetCalibrationService";
-  *calibration_service = calibration_service_.get();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Arif called ObstacleCameraPerception::GetCalibrationService";
+   *calibration_service = calibration_service_.get();
   return true;
 }
 
 bool ObstacleCameraPerception::Perception(
     const CameraPerceptionOptions &options, CameraFrame *frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PERF_FUNCTION();
   inference::CudaUtil::set_device_id(perception_param_.gpu_id());
   ObstacleDetectorOptions detector_options;
@@ -337,21 +332,24 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   frame->camera_k_matrix =
       name_intrinsic_map_.at(frame->data_provider->sensor_name());
   if (frame->calibration_service == nullptr) {
-    AERROR << "Calibraion service is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Calibraion service is not available";
     return false;
   }
 
   LaneDetectorOptions lane_detetor_options;
   LanePostprocessorOptions lane_postprocessor_options;
   if (!lane_detector_->Detect(lane_detetor_options, frame)) {
-    AERROR << "Failed to detect lane.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to detect lane.";
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(),
                                 "LaneDetector");
 
   if (!lane_postprocessor_->Process2D(lane_postprocessor_options, frame)) {
-    AERROR << "Failed to postprocess lane 2D.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to postprocess lane 2D.";
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(),
@@ -363,7 +361,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                                 "CalibrationService");
 
   if (!lane_postprocessor_->Process3D(lane_postprocessor_options, frame)) {
-    AERROR << "Failed to postprocess lane 3D.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to postprocess lane 3D.";
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(),
@@ -383,7 +382,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // Obstacle prediction
   if (!tracker_->Predict(tracker_options, frame)) {
-    AERROR << "Failed to predict.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to predict.";
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(), "Predict");
@@ -392,7 +392,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       name_detector_map_.at(frame->data_provider->sensor_name());
 
   if (!detector->Detect(detector_options, frame)) {
-    AERROR << "Failed to detect.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to detect.";
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(), "detect");
@@ -404,7 +405,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                    frame->frame_id, ".txt"),
       frame->detected_objects);
   if (extractor_ && !extractor_->Extract(extractor_options, frame)) {
-    AERROR << "Failed to extractor";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to extractor";
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(),
@@ -422,14 +424,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         frame->data_provider->sensor_name();
   }
   if (!tracker_->Associate2D(tracker_options, frame)) {
-    AERROR << "Failed to associate2d.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to associate2d.";
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(),
                                 "Associate2D");
 
   if (!transformer_->Transform(transformer_options, frame)) {
-    AERROR << "Failed to transform.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to transform.";
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(),
@@ -440,21 +444,24 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       frame->calibration_service != nullptr;
   if (!obstacle_postprocessor_->Process(obstacle_postprocessor_options,
                                         frame)) {
-    AERROR << "Failed to post process obstacles.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to post process obstacles.";
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(),
                                 "PostprocessObsacle");
 
   if (!tracker_->Associate3D(tracker_options, frame)) {
-    AERROR << "Failed to Associate3D.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to Associate3D.";
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(),
                                 "Associate3D");
 
   if (!tracker_->Track(tracker_options, frame)) {
-    AERROR << "Failed to track.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to track.";
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(), "Track");

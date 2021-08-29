@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -48,8 +47,6 @@ using apollo::cyber::Clock;
 namespace {
 
 std::string GetLogFileName() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   time_t raw_time;
   char name_buffer[80];
   std::time(&raw_time);
@@ -61,8 +58,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void WriteHeaders(std::ofstream &file_stream) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   file_stream << "current_lateral_error,"
               << "current_ref_heading,"
               << "current_heading,"
@@ -83,26 +78,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }  // namespace
 
 LatController::LatController() : name_("LQR-based Lateral Controller") {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (FLAGS_enable_csv_debug) {
     steer_log_file_.open(GetLogFileName());
     steer_log_file_ << std::fixed;
     steer_log_file_ << std::setprecision(6);
     WriteHeaders(steer_log_file_);
   }
-  AINFO << "Using " << name_;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Using " << name_;
+ }
 
-LatController::~LatController() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- CloseLogFile(); }
+LatController::~LatController() { CloseLogFile(); }
 
 bool LatController::LoadControlConf(const ControlConf *control_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!control_conf) {
-    AERROR << "[LatController] control_conf == nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "[LatController] control_conf == nullptr";
     return false;
   }
   vehicle_param_ =
@@ -110,7 +101,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ts_ = control_conf->lat_controller_conf().ts();
   if (ts_ <= 0.0) {
-    AERROR << "[MPCController] Invalid control update interval.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "[MPCController] Invalid control update interval.";
     return false;
   }
   cf_ = control_conf->lat_controller_conf().cf();
@@ -159,8 +151,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LatController::ProcessLogs(const SimpleLateralDebug *debug,
                                 const canbus::Chassis *chassis) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const std::string log_str = absl::StrCat(
       debug->lateral_error(), ",", debug->ref_heading(), ",", debug->heading(),
       ",", debug->heading_error(), ",", debug->heading_error_rate(), ",",
@@ -175,23 +165,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (FLAGS_enable_csv_debug) {
     steer_log_file_ << log_str << std::endl;
   }
-  ADEBUG << "Steer_Control_Detail: " << log_str;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Steer_Control_Detail: " << log_str;
+ }
 
 void LatController::LogInitParameters() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << name_ << " begin.";
-  AINFO << "[LatController parameters]"
-        << " mass_: " << mass_ << ","
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << name_ << " begin.";
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "[LatController parameters]"
+         << " mass_: " << mass_ << ","
         << " iz_: " << iz_ << ","
         << " lf_: " << lf_ << ","
         << " lr_: " << lr_;
 }
 
 void LatController::InitializeFilters(const ControlConf *control_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Low pass filter
   std::vector<double> den(3, 0.0);
   std::vector<double> num(3, 0.0);
@@ -206,14 +195,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Status LatController::Init(std::shared_ptr<DependencyInjector> injector,
                            const ControlConf *control_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   control_conf_ = control_conf;
   injector_ = injector;
   if (!LoadControlConf(control_conf_)) {
-    AERROR << "failed to load control conf";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to load control conf";
     return Status(ErrorCode::CONTROL_COMPUTE_ERROR,
                   "failed to load control_conf");
   }
@@ -266,7 +252,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         "lateral controller error: reverse_matrix_q size: ",
         reverse_q_param_size,
         " in parameter file not equal to matrix_size: ", matrix_size);
-    AERROR << error_msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_msg;
     return Status(ErrorCode::CONTROL_COMPUTE_ERROR, error_msg);
   }
 
@@ -300,8 +287,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LatController::CloseLogFile() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (FLAGS_enable_csv_debug && steer_log_file_.is_open()) {
     steer_log_file_.close();
   }
@@ -309,14 +294,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LatController::LoadLatGainScheduler(
     const LatControllerConf &lat_controller_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto &lat_err_gain_scheduler =
       lat_controller_conf.lat_err_gain_scheduler();
   const auto &heading_err_gain_scheduler =
       lat_controller_conf.heading_err_gain_scheduler();
-  AINFO << "Lateral control gain scheduler loaded";
-  Interpolation1D::DataType xy1, xy2;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Lateral control gain scheduler loaded";
+   Interpolation1D::DataType xy1, xy2;
   for (const auto &scheduler : lat_err_gain_scheduler.scheduler()) {
     xy1.push_back(std::make_pair(scheduler.speed(), scheduler.ratio()));
   }
@@ -333,21 +317,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       << "Fail to load heading error gain scheduler";
 }
 
-void LatController::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- CloseLogFile(); }
+void LatController::Stop() { CloseLogFile(); }
 
-std::string LatController::Name() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return name_; }
+std::string LatController::Name() const { return name_; }
 
 Status LatController::ComputeControlCommand(
     const localization::LocalizationEstimate *localization,
     const canbus::Chassis *chassis,
     const planning::ADCTrajectory *planning_published_trajectory,
     ControlCommand *cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto vehicle_state = injector_->vehicle_state();
 
   auto target_tracking_trajectory = *planning_published_trajectory;
@@ -517,8 +495,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                                   matrix_r_, lqr_eps_, lqr_max_iteration_,
                                   &matrix_k_);
   } else {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     common::math::SolveLQRProblem(matrix_adc_, matrix_bdc_, matrix_q_,
                                   matrix_r_, lqr_eps_, lqr_max_iteration_,
                                   &matrix_k_);
@@ -537,8 +513,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   double steer_angle_feedback_augment = 0.0;
   // Augment the feedback control on lateral error at the desired speed domain
   if (enable_leadlag_) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     if (FLAGS_enable_feedback_augment_on_high_speed ||
         std::fabs(vehicle_state->linear_velocity()) < low_speed_bound_) {
       steer_angle_feedback_augment =
@@ -680,8 +654,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Status LatController::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   matrix_state_.setZero();
   if (enable_mrac_) {
     mrac_controller_.Reset();
@@ -690,8 +662,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LatController::UpdateState(SimpleLateralDebug *debug) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto vehicle_state = injector_->vehicle_state();
   if (FLAGS_use_navigation_mode) {
     ComputeLateralErrors(
@@ -746,8 +716,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LatController::UpdateMatrix() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double v;
   // At reverse driving, replace the lateral translational motion dynamics with
   // the corresponding kinematic models
@@ -770,8 +738,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LatController::UpdateMatrixCompound() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Initialize preview matrix
   matrix_adc_.block(0, 0, basic_state_size_, basic_state_size_) = matrix_ad_;
   matrix_bdc_.block(0, 0, basic_state_size_, 1) = matrix_bd_;
@@ -785,8 +751,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 double LatController::ComputeFeedForward(double ref_curvature) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const double kv =
       lr_ * mass_ / 2 / cf_ / wheelbase_ - lf_ * mass_ / 2 / cr_ / wheelbase_;
 
@@ -814,8 +778,6 @@ void LatController::ComputeLateralErrors(
     const double x, const double y, const double theta, const double linear_v,
     const double angular_v, const double linear_a,
     const TrajectoryAnalyzer &trajectory_analyzer, SimpleLateralDebug *debug) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   TrajectoryPoint target_point;
 
   if (FLAGS_query_time_nearest_point_only) {
@@ -838,9 +800,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   debug->mutable_current_target_point()->mutable_path_point()->set_y(
       target_point.path_point().y());
 
-  ADEBUG << "x point: " << x << " y point: " << y;
-  ADEBUG << "match point information : " << target_point.ShortDebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "x point: " << x << " y point: " << y;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "match point information : " << target_point.ShortDebugString();
+ 
   const double cos_target_heading = std::cos(target_point.path_point().theta());
   const double sin_target_heading = std::sin(target_point.path_point().theta());
 
@@ -953,8 +917,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LatController::UpdateDrivingOrientation() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto vehicle_state = injector_->vehicle_state();
   driving_orientation_ = vehicle_state->heading();
   matrix_bd_ = matrix_b_ * ts_;
@@ -965,8 +927,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           common::math::NormalizeAngle(driving_orientation_ + M_PI);
       // Update Matrix_b for reverse mode
       matrix_bd_ = -matrix_b_ * ts_;
-      ADEBUG << "Matrix_b changed due to gear direction";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Matrix_b changed due to gear direction";
+     }
   }
 }
 

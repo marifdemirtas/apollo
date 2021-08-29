@@ -52,7 +52,8 @@ void LpFirstOrderCoefficients(const double ts, const double settling_time,
                               std::vector<double> *numerators) {
   // sanity check
   if (ts <= 0.0 || settling_time < 0.0 || dead_time < 0.0) {
-    AERROR << "time cannot be negative";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "time cannot be negative";
     return;
   }
 

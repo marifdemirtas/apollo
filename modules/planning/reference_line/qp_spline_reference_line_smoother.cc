@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -50,24 +49,28 @@ bool QpSplineReferenceLineSmoother::Smooth(
   Clear();
   const double kEpsilon = 1e-6;
   if (!Sampling()) {
-    AERROR << "Fail to sample reference line smoother points!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to sample reference line smoother points!";
     return false;
   }
 
   spline_solver_->Reset(t_knots_, config_.qp_spline().spline_order());
 
   if (!AddConstraint()) {
-    AERROR << "Add constraint for spline smoother failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Add constraint for spline smoother failed";
     return false;
   }
 
   if (!AddKernel()) {
-    AERROR << "Add kernel for spline smoother failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Add kernel for spline smoother failed.";
     return false;
   }
 
   if (!Solve()) {
-    AERROR << "Solve spline smoother problem failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Solve spline smoother problem failed";
   }
 
   // mapping spline to reference line point
@@ -116,7 +119,8 @@ bool QpSplineReferenceLineSmoother::Smooth(
 
   ReferencePoint::RemoveDuplicates(&ref_points);
   if (ref_points.size() < 2) {
-    AERROR << "Fail to generate smoothed reference line.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to generate smoothed reference line.";
     return false;
   }
   *smoothed_reference_line = ReferenceLine(ref_points);
@@ -164,7 +168,8 @@ bool QpSplineReferenceLineSmoother::AddConstraint() {
   // all points (x, y) should not deviate anchor points by a bounding box
   if (!spline_constraint->Add2dBoundary(evaluated_t, headings, xy_points,
                                         longitudinal_bound, lateral_bound)) {
-    AERROR << "Add 2d boundary constraint failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Add 2d boundary constraint failed.";
     return false;
   }
 
@@ -173,13 +178,15 @@ bool QpSplineReferenceLineSmoother::AddConstraint() {
   if (FLAGS_enable_reference_line_stitching &&
       !spline_constraint->AddPointAngleConstraint(evaluated_t.front(),
                                                   headings.front())) {
-    AERROR << "Add 2d point angle constraint failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Add 2d point angle constraint failed.";
     return false;
   }
 
   // all spline should be connected smoothly to the second order derivative.
   if (!spline_constraint->AddSecondDerivativeSmoothConstraint()) {
-    AERROR << "Add jointness constraint failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Add jointness constraint failed.";
     return false;
   }
 

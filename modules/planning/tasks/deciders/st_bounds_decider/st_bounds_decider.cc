@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -60,12 +59,14 @@ Status STBoundsDecider::Process(Frame* const frame,
   Status ret = GenerateRegularSTBound(&regular_st_bound, &regular_vt_bound,
                                       &st_guide_line);
   if (!ret.ok()) {
-    ADEBUG << "Cannot generate a regular ST-boundary.";
-    return Status(ErrorCode::PLANNING_ERROR, ret.error_message());
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Cannot generate a regular ST-boundary.";
+     return Status(ErrorCode::PLANNING_ERROR, ret.error_message());
   }
   if (regular_st_bound.empty()) {
     const std::string msg = "Generated regular ST-boundary is empty.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   StGraphData* st_graph_data = reference_line_info_->mutable_st_graph_data();
@@ -77,8 +78,9 @@ Status STBoundsDecider::Process(Frame* const frame,
   for (const auto& st_boundary : all_st_boundaries) {
     st_boundaries.push_back(st_boundary.second);
   }
-  ADEBUG << "Total ST boundaries = " << st_boundaries.size();
-  STGraphDebug* st_graph_debug = reference_line_info->mutable_debug()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Total ST boundaries = " << st_boundaries.size();
+   STGraphDebug* st_graph_debug = reference_line_info->mutable_debug()
                                      ->mutable_planning_data()
                                      ->add_st_graph();
   RecordSTGraphDebug(st_boundaries, regular_st_bound, st_guide_line,
@@ -100,8 +102,9 @@ void STBoundsDecider::InitSTBoundsDecider(
   st_obstacles_processor_.MapObstaclesToSTBoundaries(path_decision);
   auto time2 = std::chrono::system_clock::now();
   std::chrono::duration<double> diff = time2 - time1;
-  ADEBUG << "Time for ST Obstacles Processing = " << diff.count() * 1000
-         << " msec.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Time for ST Obstacles Processing = " << diff.count() * 1000
+          << " msec.";
 
   // Initialize Guide-Line and Driving-Limits.
   static constexpr double desired_speed = 15.0;
@@ -138,14 +141,16 @@ Status STBoundsDecider::GenerateFallbackSTBound(STBound* const st_bound,
     double t, s_lower, s_upper, lower_obs_v, upper_obs_v;
     std::tie(t, s_lower, s_upper) = st_bound->at(i);
     std::tie(t, lower_obs_v, upper_obs_v) = vt_bound->at(i);
-    ADEBUG << "Processing st-boundary at t = " << t;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Processing st-boundary at t = " << t;
+ 
     // Get Boundary due to driving limits
     auto driving_limits_bound = st_driving_limits_.GetVehicleDynamicsLimits(t);
     s_lower = std::fmax(s_lower, driving_limits_bound.first);
     s_upper = std::fmin(s_upper, driving_limits_bound.second);
-    ADEBUG << "Bounds for s due to driving limits are "
-           << "s_upper = " << s_upper << ", s_lower = " << s_lower;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Bounds for s due to driving limits are "
+            << "s_upper = " << s_upper << ", s_lower = " << s_lower;
 
     // Get Boundary due to obstacles
     std::vector<std::pair<double, double>> available_s_bounds;
@@ -154,14 +159,17 @@ Status STBoundsDecider::GenerateFallbackSTBound(STBound* const st_bound,
             t, &available_s_bounds, &available_obs_decisions)) {
       const std::string msg =
           "Failed to find a proper boundary due to obstacles.";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
     std::vector<std::pair<STBoundPoint, ObsDecSet>> available_choices;
-    ADEBUG << "Available choices are:";
-    for (int j = 0; j < static_cast<int>(available_s_bounds.size()); ++j) {
-      ADEBUG << "  (" << available_s_bounds[j].first << ", "
-             << available_s_bounds[j].second << ")";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Available choices are:";
+     for (int j = 0; j < static_cast<int>(available_s_bounds.size()); ++j) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "  (" << available_s_bounds[j].first << ", "
+              << available_s_bounds[j].second << ")";
       available_choices.emplace_back(
           std::make_tuple(0.0, available_s_bounds[j].first,
                           available_s_bounds[j].second),
@@ -213,7 +221,8 @@ Status STBoundsDecider::GenerateFallbackSTBound(STBound* const st_bound,
       }
     } else {
       const std::string msg = "No valid st-boundary exists.";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
 
@@ -242,14 +251,16 @@ Status STBoundsDecider::GenerateRegularSTBound(
     double t, s_lower, s_upper, lower_obs_v, upper_obs_v;
     std::tie(t, s_lower, s_upper) = st_bound->at(i);
     std::tie(t, lower_obs_v, upper_obs_v) = vt_bound->at(i);
-    ADEBUG << "Processing st-boundary at t = " << t;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Processing st-boundary at t = " << t;
+ 
     // Get Boundary due to driving limits
     auto driving_limits_bound = st_driving_limits_.GetVehicleDynamicsLimits(t);
     s_lower = std::fmax(s_lower, driving_limits_bound.first);
     s_upper = std::fmin(s_upper, driving_limits_bound.second);
-    ADEBUG << "Bounds for s due to driving limits are "
-           << "s_upper = " << s_upper << ", s_lower = " << s_lower;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Bounds for s due to driving limits are "
+            << "s_upper = " << s_upper << ", s_lower = " << s_lower;
 
     // Get Boundary due to obstacles
     std::vector<std::pair<double, double>> available_s_bounds;
@@ -258,14 +269,17 @@ Status STBoundsDecider::GenerateRegularSTBound(
             t, &available_s_bounds, &available_obs_decisions)) {
       const std::string msg =
           "Failed to find a proper boundary due to obstacles.";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
     std::vector<std::pair<STBoundPoint, ObsDecSet>> available_choices;
-    ADEBUG << "Available choices are:";
-    for (int j = 0; j < static_cast<int>(available_s_bounds.size()); ++j) {
-      ADEBUG << "  (" << available_s_bounds[j].first << ", "
-             << available_s_bounds[j].second << ")";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Available choices are:";
+     for (int j = 0; j < static_cast<int>(available_s_bounds.size()); ++j) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "  (" << available_s_bounds[j].first << ", "
+              << available_s_bounds[j].second << ")";
       available_choices.emplace_back(
           std::make_tuple(0.0, available_s_bounds[j].first,
                           available_s_bounds[j].second),
@@ -274,8 +288,9 @@ Status STBoundsDecider::GenerateRegularSTBound(
     RemoveInvalidDecisions(driving_limits_bound, &available_choices);
 
     if (!available_choices.empty()) {
-      ADEBUG << "One decision needs to be made among "
-             << available_choices.size() << " choices.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "One decision needs to be made among "
+              << available_choices.size() << " choices.";
       double guide_line_s = st_guide_line_.GetGuideSFromT(t);
       st_guide_line->emplace_back(t, guide_line_s);
       RankDecisions(guide_line_s, driving_limits_bound, &available_choices);
@@ -314,7 +329,8 @@ Status STBoundsDecider::GenerateRegularSTBound(
       }
     } else {
       const std::string msg = "No valid st-boundary exists.";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
 
@@ -366,10 +382,12 @@ void STBoundsDecider::RankDecisions(
       std::tie(std::ignore, B_s_lower, B_s_upper) =
           available_choices->at(i + 1).first;
 
-      ADEBUG << "    Range ranking: A has s_upper = " << A_s_upper
-             << ", s_lower = " << A_s_lower;
-      ADEBUG << "    Range ranking: B has s_upper = " << B_s_upper
-             << ", s_lower = " << B_s_lower;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "    Range ranking: A has s_upper = " << A_s_upper
+              << ", s_lower = " << A_s_lower;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "    Range ranking: B has s_upper = " << B_s_upper
+              << ", s_lower = " << B_s_lower;
 
       // If not both are larger than passable-threshold, should select
       // the one with larger room.
@@ -381,8 +399,9 @@ void STBoundsDecider::RankDecisions(
         if (A_room < B_room) {
           swap(available_choices->at(i + 1), available_choices->at(i));
           has_swaps = true;
-          ADEBUG << "Swapping to favor larger room.";
-        }
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Swapping to favor larger room.";
+         }
         continue;
       }
 
@@ -395,8 +414,9 @@ void STBoundsDecider::RankDecisions(
         if (!A_contains_guideline) {
           swap(available_choices->at(i + 1), available_choices->at(i));
           has_swaps = true;
-          ADEBUG << "Swapping to favor overlapping with guide-line.";
-        }
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Swapping to favor overlapping with guide-line.";
+         }
         continue;
       }
     }
@@ -408,8 +428,9 @@ void STBoundsDecider::RecordSTGraphDebug(
     const std::vector<std::pair<double, double>>& st_guide_line,
     planning_internal::STGraphDebug* const st_graph_debug) {
   if (!FLAGS_enable_record_debug || !st_graph_debug) {
-    ADEBUG << "Skip record debug info";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip record debug info";
+     return;
   }
 
   // Plot ST-obstacle boundaries.
@@ -418,14 +439,17 @@ void STBoundsDecider::RecordSTGraphDebug(
     boundary_debug->set_name(boundary.id());
     if (boundary.boundary_type() == STBoundary::BoundaryType::YIELD) {
       boundary_debug->set_type(StGraphBoundaryDebug::ST_BOUNDARY_TYPE_YIELD);
-      ADEBUG << "Obstacle ID = " << boundary.id() << ", decision = YIELD";
-    } else if (boundary.boundary_type() == STBoundary::BoundaryType::OVERTAKE) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle ID = " << boundary.id() << ", decision = YIELD";
+     } else if (boundary.boundary_type() == STBoundary::BoundaryType::OVERTAKE) {
       boundary_debug->set_type(StGraphBoundaryDebug::ST_BOUNDARY_TYPE_OVERTAKE);
-      ADEBUG << "Obstacle ID = " << boundary.id() << ", decision = OVERTAKE";
-    } else {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle ID = " << boundary.id() << ", decision = OVERTAKE";
+     } else {
       boundary_debug->set_type(StGraphBoundaryDebug::ST_BOUNDARY_TYPE_UNKNOWN);
-      ADEBUG << "Obstacle ID = " << boundary.id() << ", decision = UNKNOWN";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle ID = " << boundary.id() << ", decision = UNKNOWN";
+     }
 
     for (const auto& point : boundary.points()) {
       auto point_debug = boundary_debug->add_point();
@@ -446,8 +470,9 @@ void STBoundsDecider::RecordSTGraphDebug(
     std::tie(t, s_lower, std::ignore) = st_bound_pt;
     point_debug->set_t(t);
     point_debug->set_s(s_lower);
-    ADEBUG << "(" << t << ", " << s_lower << ")";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "(" << t << ", " << s_lower << ")";
+   }
   for (int i = static_cast<int>(st_bound.size()) - 1; i >= 0; --i) {
     auto point_debug = boundary_debug->add_point();
     double t = 0.0;
@@ -455,8 +480,9 @@ void STBoundsDecider::RecordSTGraphDebug(
     std::tie(t, std::ignore, s_upper) = st_bound[i];
     point_debug->set_t(t);
     point_debug->set_s(s_upper);
-    ADEBUG << "(" << t << ", " << s_upper << ")";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "(" << t << ", " << s_upper << ")";
+   }
 
   // Plot the used st_guide_line when generating the st_bounds
   for (const auto& st_points : st_guide_line) {

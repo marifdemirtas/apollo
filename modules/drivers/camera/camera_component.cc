@@ -26,7 +26,8 @@ bool CameraComponent::Init() {
                                                camera_config_.get())) {
     return false;
   }
-  AINFO << "UsbCam config: " << camera_config_->DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "UsbCam config: " << camera_config_->DebugString();
 
   camera_device_.reset(new UsbCam());
   camera_device_->init(camera_config_);
@@ -45,7 +46,8 @@ bool CameraComponent::Init() {
     raw_image_->image_size = raw_image_->width * raw_image_->height * 3;
   }
   if (raw_image_->image_size > MAX_IMAGE_SIZE) {
-    AERROR << "image size is too big ,must less than " << MAX_IMAGE_SIZE
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "image size is too big ,must less than " << MAX_IMAGE_SIZE
            << " bytes.";
     return false;
   }
@@ -54,7 +56,8 @@ bool CameraComponent::Init() {
   raw_image_->image =
       reinterpret_cast<char*>(calloc(raw_image_->image_size, sizeof(char)));
   if (raw_image_->image == nullptr) {
-    AERROR << "system calloc memory error, size:" << raw_image_->image_size;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "system calloc memory error, size:" << raw_image_->image_size;
     return false;
   }
 
@@ -91,7 +94,8 @@ void CameraComponent::run() {
     }
 
     if (!camera_device_->poll(raw_image_)) {
-      AERROR << "camera device poll failed";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "camera device poll failed";
       continue;
     }
 

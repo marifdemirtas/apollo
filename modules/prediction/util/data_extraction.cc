@@ -28,7 +28,8 @@ void GetRecordFileNames(const boost::filesystem::path& p,
     return;
   }
   if (boost::filesystem::is_regular_file(p)) {
-    AINFO << "Found record file: " << p.c_str();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Found record file: " << p.c_str();
     record_files->push_back(p.c_str());
     return;
   }

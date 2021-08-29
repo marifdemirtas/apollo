@@ -41,7 +41,8 @@ bool write_result(const std::string &out_path,
                   const std::vector<float> &results) {
   std::ofstream outf(out_path, std::ios::binary | std::ios::out);
   if (!outf.is_open()) {
-    AINFO << "Cannot open output file: " << out_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Cannot open output file: " << out_path;
     return false;
   }
   outf.write(reinterpret_cast<const char *>(results.data()),

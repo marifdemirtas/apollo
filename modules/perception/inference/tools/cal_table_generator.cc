@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -50,10 +49,6 @@ DEFINE_int32(mean_r, 0, "image r");
 DEFINE_bool(hwc_input, true, "input blob is hwc order.");
 
 int evaluate_image_list() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_EQ(FLAGS_image_channel_num, 3);
   const int height = FLAGS_height;
   const int width = FLAGS_width;
@@ -62,7 +57,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   std::ifstream fin;
   fin.open(FLAGS_test_list, std::ifstream::in);
   if (!fin.is_open()) {
-    AERROR << "Failed to open test list file: " << FLAGS_test_list;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to open test list file: " << FLAGS_test_list;
     return -1;
   }
   std::string image_name;
@@ -82,7 +78,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   std::ofstream out_car(out_file, std::ofstream::out | std::ofstream::binary);
   // std::ofstream out_car(out_file, std::ofstream::out);
   if (!out_car.is_open()) {
-    AERROR << "Failed to open out car file: " << out_file;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to open out car file: " << out_file;
     return -1;
   }
   std::vector<float> cpu_data(count);
@@ -107,7 +104,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       image_c2 = FLAGS_mean_b;
     }
     if (img.data == 0) {
-      AERROR << "Failed to read image: " << image_path;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to read image: " << image_path;
       return -1;
     }
     cv::resize(img, img, cv::Size(width, height));
@@ -119,7 +117,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
       out_car.open(out_file, std::ofstream::out | std::ofstream::binary);
       if (!out_car.is_open()) {
-        AERROR << "Failed to open out car file: " << out_file;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to open out car file: " << out_file;
         return -1;
       }
 
@@ -166,8 +165,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int main(int argc, char **argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::ParseCommandLineFlags(&argc, &argv, true);
 
   if (FLAGS_gen_batch) {

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -75,22 +74,26 @@ Status STObstaclesProcessor::MapObstaclesToSTBoundaries(
   // Sanity checks.
   if (path_decision == nullptr) {
     const std::string msg = "path_decision is nullptr";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   if (planning_time_ < 0.0) {
     const std::string msg = "Negative planning time.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   if (planning_distance_ < 0.0) {
     const std::string msg = "Negative planning distance.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   if (path_data_.discretized_path().size() <= 1) {
     const std::string msg = "Number of path points is too few.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   obs_id_to_st_boundary_.clear();
@@ -126,7 +129,8 @@ Status STObstaclesProcessor::MapObstaclesToSTBoundaries(
     Obstacle* obs_ptr = path_decision->Find(obs_item_ptr->Id());
     if (obs_ptr == nullptr) {
       const std::string msg = "Null obstacle pointer.";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
 
@@ -160,8 +164,9 @@ Status STObstaclesProcessor::MapObstaclesToSTBoundaries(
         STBoundary::CreateInstanceAccurate(lower_points, upper_points);
     alternative_boundary.set_id(obs_ptr->Id());
     obs_id_to_alternative_st_boundary_[obs_ptr->Id()] = alternative_boundary;
-    ADEBUG << "Obstacle " << obs_ptr->Id()
-           << " has an alternative st-boundary with "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle " << obs_ptr->Id()
+            << " has an alternative st-boundary with "
            << lower_points.size() + upper_points.size() << " points.";
 
     // Store all Keep-Clear zone together.
@@ -193,8 +198,9 @@ Status STObstaclesProcessor::MapObstaclesToSTBoundaries(
       obs_id_to_st_boundary_[obs_ptr->Id()] = boundary;
       obs_ptr->set_path_st_boundary(boundary);
       non_ignore_obstacles.insert(obs_ptr->Id());
-      ADEBUG << "Adding " << obs_ptr->Id() << " into the ST-graph.";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Adding " << obs_ptr->Id() << " into the ST-graph.";
+     }
   }
   // For static obstacles, only retain the closest one (also considers
   // Keep-Clear zone here).
@@ -209,8 +215,9 @@ Status STObstaclesProcessor::MapObstaclesToSTBoundaries(
     Obstacle* closest_stop_obs_ptr;
     std::tie(closest_stop_obs_id, closest_stop_obs_boundary,
              closest_stop_obs_ptr) = closest_stop_obstacle;
-    ADEBUG << "Closest obstacle ID = " << closest_stop_obs_id;
-    // Go through all Keep-Clear zones, and see if there is an even closer
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Closest obstacle ID = " << closest_stop_obs_id;
+     // Go through all Keep-Clear zones, and see if there is an even closer
     // stop fence due to them.
     if (!closest_stop_obs_ptr->IsVirtual()) {
       for (const auto& clear_zone : candidate_clear_zones_) {
@@ -219,17 +226,20 @@ Status STObstaclesProcessor::MapObstaclesToSTBoundaries(
             closest_stop_obs_boundary.min_s() <= clear_zone_boundary.max_s()) {
           std::tie(closest_stop_obs_id, closest_stop_obs_boundary,
                    closest_stop_obs_ptr) = clear_zone;
-          ADEBUG << "Clear zone " << closest_stop_obs_id << " is closer.";
-          break;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Clear zone " << closest_stop_obs_id << " is closer.";
+           break;
         }
       }
     }
     obs_id_to_st_boundary_[closest_stop_obs_id] = closest_stop_obs_boundary;
     closest_stop_obs_ptr->set_path_st_boundary(closest_stop_obs_boundary);
     non_ignore_obstacles.insert(closest_stop_obs_id);
-    ADEBUG << "Adding " << closest_stop_obs_ptr->Id() << " into the ST-graph.";
-    ADEBUG << "min_s = " << closest_stop_obs_boundary.min_s();
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Adding " << closest_stop_obs_ptr->Id() << " into the ST-graph.";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "min_s = " << closest_stop_obs_boundary.min_s();
+   }
 
   // Set IGNORE decision for those that are not in ST-graph:
   for (const auto* obs_item_ptr : path_decision->obstacles().Items()) {
@@ -318,16 +328,18 @@ bool STObstaclesProcessor::GetSBoundsFromDecisions(
   available_obs_decisions->clear();
 
   // Gather any possible change in st-boundary situations.
-  ADEBUG << "There are " << obs_t_edges_.size() << " t-edges.";
-  std::vector<ObsTEdge> new_t_edges;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There are " << obs_t_edges_.size() << " t-edges.";
+   std::vector<ObsTEdge> new_t_edges;
   while (obs_t_edges_idx_ < static_cast<int>(obs_t_edges_.size()) &&
          std::get<1>(obs_t_edges_[obs_t_edges_idx_]) <= t) {
     if (std::get<0>(obs_t_edges_[obs_t_edges_idx_]) == 0 &&
         std::get<1>(obs_t_edges_[obs_t_edges_idx_]) == t) {
       break;
     }
-    ADEBUG << "Seeing a new t-edge at t = "
-           << std::get<1>(obs_t_edges_[obs_t_edges_idx_]);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Seeing a new t-edge at t = "
+            << std::get<1>(obs_t_edges_[obs_t_edges_idx_]);
     new_t_edges.push_back(obs_t_edges_[obs_t_edges_idx_]);
     ++obs_t_edges_idx_;
   }
@@ -335,8 +347,9 @@ bool STObstaclesProcessor::GetSBoundsFromDecisions(
   // For st-boundaries that disappeared before t, remove them.
   for (const auto& obs_t_edge : new_t_edges) {
     if (std::get<0>(obs_t_edge) == 0) {
-      ADEBUG << "Obstacle id: " << std::get<4>(obs_t_edge)
-             << " is leaving st-graph.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle id: " << std::get<4>(obs_t_edge)
+              << " is leaving st-graph.";
       if (obs_id_to_decision_.count(std::get<4>(obs_t_edge)) != 0) {
         obs_id_to_decision_.erase(std::get<4>(obs_t_edge));
       }
@@ -389,34 +402,39 @@ bool STObstaclesProcessor::GetSBoundsFromDecisions(
   if (s_min > s_max) {
     return false;
   }
-  ADEBUG << "S-boundary based on existing decisions = (" << s_min << ", "
-         << s_max << ")";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "S-boundary based on existing decisions = (" << s_min << ", "
+          << s_max << ")";
 
   // For newly entering st_boundaries, determine possible new-boundaries.
   // For apparent ones, make decisions directly.
   std::vector<ObsTEdge> ambiguous_t_edges;
   for (auto obs_t_edge : new_t_edges) {
-    ADEBUG << "For obstacle id: " << std::get<4>(obs_t_edge)
-           << ", its s-range = [" << std::get<2>(obs_t_edge) << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "For obstacle id: " << std::get<4>(obs_t_edge)
+            << ", its s-range = [" << std::get<2>(obs_t_edge) << ", "
            << std::get<3>(obs_t_edge) << "]";
     if (std::get<0>(obs_t_edge) == 1) {
       if (std::get<2>(obs_t_edge) >= s_max) {
-        ADEBUG << "  Apparently, it should be yielded.";
-        obs_id_to_decision_[std::get<4>(obs_t_edge)] =
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "  Apparently, it should be yielded.";
+         obs_id_to_decision_[std::get<4>(obs_t_edge)] =
             DetermineObstacleDecision(std::get<2>(obs_t_edge),
                                       std::get<3>(obs_t_edge), s_max);
         obs_id_to_st_boundary_[std::get<4>(obs_t_edge)].SetBoundaryType(
             STBoundary::BoundaryType::YIELD);
       } else if (std::get<3>(obs_t_edge) <= s_min) {
-        ADEBUG << "  Apparently, it should be overtaken.";
-        obs_id_to_decision_[std::get<4>(obs_t_edge)] =
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "  Apparently, it should be overtaken.";
+         obs_id_to_decision_[std::get<4>(obs_t_edge)] =
             DetermineObstacleDecision(std::get<2>(obs_t_edge),
                                       std::get<3>(obs_t_edge), s_min);
         obs_id_to_st_boundary_[std::get<4>(obs_t_edge)].SetBoundaryType(
             STBoundary::BoundaryType::OVERTAKE);
       } else {
-        ADEBUG << "  It should be further analyzed.";
-        ambiguous_t_edges.push_back(obs_t_edge);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "  It should be further analyzed.";
+         ambiguous_t_edges.push_back(obs_t_edge);
       }
     }
   }
@@ -512,12 +530,14 @@ bool STObstaclesProcessor::ComputeObstacleSTBoundary(
       // In the future, this could be considered in greater details rather
       // than being approximated.
       const Box2d& obs_box = obstacle.GetBoundingBox(obs_traj_pt);
-      ADEBUG << obs_box.DebugString();
-      std::pair<double, double> overlapping_s;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << obs_box.DebugString();
+       std::pair<double, double> overlapping_s;
       if (GetOverlappingS(adc_path_points, obs_box, kADCSafetyLBuffer,
                           &overlapping_s)) {
-        ADEBUG << "Obstacle instance is overlapping with ADC path.";
-        lower_points->emplace_back(overlapping_s.first,
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle instance is overlapping with ADC path.";
+         lower_points->emplace_back(overlapping_s.first,
                                    obs_traj_pt.relative_time());
         upper_points->emplace_back(overlapping_s.second,
                                    obs_traj_pt.relative_time());
@@ -555,12 +575,14 @@ bool STObstaclesProcessor::GetOverlappingS(
   int pt_before_idx = GetSBoundingPathPointIndex(
       adc_path_points, obstacle_instance, vehicle_param_.front_edge_to_center(),
       true, 0, static_cast<int>(adc_path_points.size()) - 2);
-  ADEBUG << "The index before is " << pt_before_idx;
-  int pt_after_idx = GetSBoundingPathPointIndex(
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "The index before is " << pt_before_idx;
+   int pt_after_idx = GetSBoundingPathPointIndex(
       adc_path_points, obstacle_instance, vehicle_param_.back_edge_to_center(),
       false, 0, static_cast<int>(adc_path_points.size()) - 2);
-  ADEBUG << "The index after is " << pt_after_idx;
-  if (pt_before_idx == static_cast<int>(adc_path_points.size()) - 2) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "The index after is " << pt_after_idx;
+   if (pt_before_idx == static_cast<int>(adc_path_points.size()) - 2) {
     return false;
   }
   if (pt_after_idx == 0) {
@@ -580,25 +602,29 @@ bool STObstaclesProcessor::GetOverlappingS(
   // Detailed searching.
   bool has_overlapping = false;
   for (int i = pt_before_idx; i <= pt_after_idx; ++i) {
-    ADEBUG << "At ADC path index = " << i << " :";
-    if (IsADCOverlappingWithObstacle(adc_path_points[i], obstacle_instance,
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "At ADC path index = " << i << " :";
+     if (IsADCOverlappingWithObstacle(adc_path_points[i], obstacle_instance,
                                      adc_l_buffer)) {
       overlapping_s->first = adc_path_points[std::max(i - 1, 0)].s();
       has_overlapping = true;
-      ADEBUG << "There is overlapping.";
-      break;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There is overlapping.";
+       break;
     }
   }
   if (!has_overlapping) {
     return false;
   }
   for (int i = pt_after_idx; i >= pt_before_idx; --i) {
-    ADEBUG << "At ADC path index = " << i << " :";
-    if (IsADCOverlappingWithObstacle(adc_path_points[i], obstacle_instance,
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "At ADC path index = " << i << " :";
+     if (IsADCOverlappingWithObstacle(adc_path_points[i], obstacle_instance,
                                      adc_l_buffer)) {
       overlapping_s->second = adc_path_points[i + 1].s();
-      ADEBUG << "There is overlapping.";
-      break;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There is overlapping.";
+       break;
     }
   }
   return true;
@@ -689,9 +715,11 @@ bool STObstaclesProcessor::IsADCOverlappingWithObstacle(
   Box2d adc_box(ego_center_map_frame, adc_path_point.theta(),
                 vehicle_param_.length(), vehicle_param_.width() + l_buffer * 2);
 
-  ADEBUG << "    ADC box is: " << adc_box.DebugString();
-  ADEBUG << "    Obs box is: " << obs_box.DebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "    ADC box is: " << adc_box.DebugString();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "    Obs box is: " << obs_box.DebugString();
+ 
   // Check whether ADC bounding box overlaps with obstacle bounding box.
   return obs_box.HasOverlap(adc_box);
 }

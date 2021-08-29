@@ -35,7 +35,8 @@ void MlfMotionMeasurement::ComputeMotionMeasurment(
     latest_object = track_data->GetLatestObject().second;
   }
   if (latest_object.get() == nullptr) {
-    AERROR << "latest_object is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "latest_object is not available";
     return;
   }
   // should we estimate the measurement if the time diff is too small?

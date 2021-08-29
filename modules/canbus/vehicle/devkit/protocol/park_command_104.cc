@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,21 +27,15 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Parkcommand104::ID = 0x104;
 
 // public
-Parkcommand104::Parkcommand104() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Parkcommand104::Parkcommand104() { Reset(); }
 
 uint32_t Parkcommand104::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Parkcommand104::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_park_target(data, park_target_);
   set_p_park_en_ctrl(data, park_en_ctrl_);
   checksum_104_ =
@@ -51,8 +44,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Parkcommand104::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  you should check this manually
   checksum_104_ = 0;
   park_target_ = Park_command_104::PARK_TARGET_RELEASE;
@@ -60,8 +51,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Parkcommand104* Parkcommand104::set_checksum_104(int checksum_104) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   checksum_104_ = checksum_104;
   return this;
 }
@@ -70,8 +59,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 63,
 // 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Parkcommand104::set_p_checksum_104(uint8_t* data, int checksum_104) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   checksum_104 = ProtocolData::BoundedValue(0, 255, checksum_104);
   int x = checksum_104;
 
@@ -81,8 +68,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Parkcommand104* Parkcommand104::set_park_target(
     Park_command_104::Park_targetType park_target) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   park_target_ = park_target;
   return this;
 }
@@ -93,8 +78,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 void Parkcommand104::set_p_park_target(
     uint8_t* data, Park_command_104::Park_targetType park_target) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = park_target;
 
   Byte to_set(data + 1);
@@ -103,8 +86,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Parkcommand104* Parkcommand104::set_park_en_ctrl(
     Park_command_104::Park_en_ctrlType park_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   park_en_ctrl_ = park_en_ctrl;
   return this;
 }
@@ -115,8 +96,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 void Parkcommand104::set_p_park_en_ctrl(
     uint8_t* data, Park_command_104::Park_en_ctrlType park_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = park_en_ctrl;
 
   Byte to_set(data + 0);

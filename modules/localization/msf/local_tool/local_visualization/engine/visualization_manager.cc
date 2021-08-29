@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,32 +31,28 @@ namespace msf {
 // ===================MessageBuffer=======================
 template <class MessageType>
 MessageBuffer<MessageType>::MessageBuffer(int capacity) : capacity_(capacity) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pthread_mutex_init(&buffer_mutex_, nullptr);
 }
 
 template <class MessageType>
 MessageBuffer<MessageType>::~MessageBuffer() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pthread_mutex_destroy(&buffer_mutex_);
 }
 
 template <class MessageType>
 bool MessageBuffer<MessageType>::PushNewMessage(const double timestamp,
                                                 const MessageType &msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (capacity_ == 0) {
-    AERROR << "The buffer capacity is 0.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The buffer capacity is 0.";
     return false;
   }
 
   pthread_mutex_lock(&buffer_mutex_);
   auto found_iter = msg_map_.find(timestamp);
   if (found_iter != msg_map_.end()) {
-    AERROR << "The msg has existed in buffer.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The msg has existed in buffer.";
     pthread_mutex_unlock(&buffer_mutex_);
     return false;
   }
@@ -81,10 +76,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 template <class MessageType>
 bool MessageBuffer<MessageType>::PopOldestMessage(MessageType *msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (IsEmpty()) {
-    AERROR << "The buffer is empty.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The buffer is empty.";
     return false;
   }
 
@@ -100,10 +94,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 template <class MessageType>
 bool MessageBuffer<MessageType>::GetMessageBefore(const double timestamp,
                                                   MessageType *msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (IsEmpty()) {
-    AERROR << "The buffer is empty.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The buffer is empty.";
     return false;
   }
 
@@ -127,8 +120,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 template <class MessageType>
 bool MessageBuffer<MessageType>::GetMessage(const double timestamp,
                                             MessageType *msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pthread_mutex_lock(&buffer_mutex_);
   auto found_iter = msg_map_.find(timestamp);
   if (found_iter != msg_map_.end()) {
@@ -142,8 +133,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 template <class MessageType>
 void MessageBuffer<MessageType>::Clear() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pthread_mutex_lock(&buffer_mutex_);
   msg_list_.clear();
   msg_map_.clear();
@@ -152,16 +141,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 template <class MessageType>
 void MessageBuffer<MessageType>::SetCapacity(const unsigned int capacity) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   capacity_ = capacity;
 }
 
 template <class MessageType>
 void MessageBuffer<MessageType>::GetAllMessages(
     std::list<std::pair<double, MessageType>> *msg_list) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pthread_mutex_lock(&buffer_mutex_);
   msg_list->clear();
   std::copy(msg_list_.begin(), msg_list_.end(), std::back_inserter(*msg_list));
@@ -170,8 +155,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 template <class MessageType>
 bool MessageBuffer<MessageType>::IsEmpty() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   bool flag = true;
   pthread_mutex_lock(&buffer_mutex_);
   flag = msg_list_.empty();
@@ -181,8 +164,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 template <class MessageType>
 unsigned int MessageBuffer<MessageType>::BufferSize() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   unsigned int size = 0;
   pthread_mutex_lock(&buffer_mutex_);
   size = static_cast<unsigned int>(msg_list_.size());
@@ -194,20 +175,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // ==============IntepolationMessageBuffer==================
 template <class MessageType>
 IntepolationMessageBuffer<MessageType>::IntepolationMessageBuffer(int capacity)
-    : MessageBuffer<MessageType>(capacity) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : MessageBuffer<MessageType>(capacity) {}
 
 template <class MessageType>
-IntepolationMessageBuffer<MessageType>::~IntepolationMessageBuffer() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+IntepolationMessageBuffer<MessageType>::~IntepolationMessageBuffer() {}
 
 template <class MessageType>
 bool IntepolationMessageBuffer<MessageType>::QueryMessage(
     const double timestamp, MessageType *msg, double timeout_s) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::map<double, ListIterator> msg_map_tem;
   std::list<std::pair<double, MessageType>> msg_list_tem;
 
@@ -241,7 +216,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       //     return false;
       // }
       if (std::abs(delta_time) < 1e-9) {
-        AERROR << "Delta_time is too small.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Delta_time is too small.";
         return false;
       }
       double scale = (timestamp - before_iter->first) / delta_time;
@@ -257,8 +233,6 @@ template <class MessageType>
 bool IntepolationMessageBuffer<MessageType>::WaitMessageBufferOk(
     const double timestamp, std::map<double, ListIterator> *msg_map,
     std::list<std::pair<double, MessageType>> *msg_list, double timeout_ms) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   boost::posix_time::ptime start_time =
       boost::posix_time::microsec_clock::local_time();
   pthread_mutex_lock(&(this->buffer_mutex_));
@@ -269,7 +243,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   pthread_mutex_unlock(&(this->buffer_mutex_));
 
   if (msg_list->empty()) {
-    AERROR << "The queried buffer is empty.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The queried buffer is empty.";
     return false;
   }
 
@@ -281,8 +256,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 
   while (last_iter->first < timestamp) {
-    AINFO << "Waiting new message!";
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Waiting new message!";
+     std::this_thread::sleep_for(std::chrono::milliseconds(5));
     pthread_mutex_lock(&(this->buffer_mutex_));
     msg_list->clear();
     std::copy(this->msg_list_.begin(), this->msg_list_.end(),
@@ -297,7 +273,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     boost::posix_time::time_duration during_time = end_time - start_time;
 
     if (during_time.total_milliseconds() >= timeout_ms) {
-      AERROR << "Waiting time is out";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Waiting time is out";
       return false;
     }
   }
@@ -312,13 +289,9 @@ VisualizationManager::VisualizationManager()
       lidar_frame_buffer_(10),
       gnss_loc_info_buffer_(20),
       lidar_loc_info_buffer_(40),
-      fusion_loc_info_buffer_(400) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+      fusion_loc_info_buffer_(400) {}
 
 VisualizationManager::~VisualizationManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!(stop_visualization_.load())) {
     stop_visualization_ = true;
     visual_thread_.join();
@@ -329,37 +302,39 @@ bool VisualizationManager::Init(const std::string &map_folder,
                                 const std::string &map_visual_folder,
                                 const Eigen::Affine3d &velodyne_extrinsic,
                                 const VisualMapParam &map_param) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Get zone id.";
-  unsigned int resolution_id = 0;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Get zone id.";
+   unsigned int resolution_id = 0;
   int zone_id = 0;
 
   bool success = GetZoneIdFromMapFolder(map_folder, resolution_id, &zone_id);
   if (!success) {
-    AERROR << "Get zone id failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Get zone id failed.";
     return false;
   }
-  AINFO << "Get zone id succeed.";
-
-  AINFO << "Init visualization engine.";
-  success = visual_engine_.Init(map_folder, map_visual_folder, map_param,
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Get zone id succeed.";
+ 
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Init visualization engine.";
+   success = visual_engine_.Init(map_folder, map_visual_folder, map_param,
                                 resolution_id, zone_id, velodyne_extrinsic,
                                 LOC_INFO_NUM);
   if (!success) {
-    AERROR << "Visualization engine init failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Visualization engine init failed.";
     return false;
   }
-  AINFO << "Visualization engine init succeed.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Visualization engine init succeed.";
+ 
   visual_engine_.SetAutoPlay(true);
 
   return true;
 }
 
 bool VisualizationManager::Init(const VisualizationManagerParams &params) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   lidar_frame_buffer_.SetCapacity(params.lidar_frame_buffer_capacity);
   gnss_loc_info_buffer_.SetCapacity(params.gnss_loc_info_buffer_capacity);
   lidar_loc_info_buffer_.SetCapacity(params.lidar_loc_info_buffer_capacity);
@@ -370,56 +345,47 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void VisualizationManager::AddLidarFrame(const LidarVisFrame &lidar_frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "AddLidarFrame.";
-  static int id = 0;
-  AINFO << "id." << id;
-  lidar_frame_buffer_.PushNewMessage(lidar_frame.timestamp, lidar_frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "AddLidarFrame.";
+   static int id = 0;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "id." << id;
+   lidar_frame_buffer_.PushNewMessage(lidar_frame.timestamp, lidar_frame);
   id++;
 }
 
 void VisualizationManager::AddGNSSLocMessage(
     const LocalizationMsg &gnss_loc_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "AddGNSSLocMessage.";
-  gnss_loc_info_buffer_.PushNewMessage(gnss_loc_msg.timestamp, gnss_loc_msg);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "AddGNSSLocMessage.";
+   gnss_loc_info_buffer_.PushNewMessage(gnss_loc_msg.timestamp, gnss_loc_msg);
 }
 
 void VisualizationManager::AddLidarLocMessage(
     const LocalizationMsg &lidar_loc_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "AddLidarLocMessage.";
-  lidar_loc_info_buffer_.PushNewMessage(lidar_loc_msg.timestamp, lidar_loc_msg);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "AddLidarLocMessage.";
+   lidar_loc_info_buffer_.PushNewMessage(lidar_loc_msg.timestamp, lidar_loc_msg);
 }
 
 void VisualizationManager::AddFusionLocMessage(
     const LocalizationMsg &fusion_loc_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "AddFusionLocMessage.";
-  fusion_loc_info_buffer_.PushNewMessage(fusion_loc_msg.timestamp,
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "AddFusionLocMessage.";
+   fusion_loc_info_buffer_.PushNewMessage(fusion_loc_msg.timestamp,
                                          fusion_loc_msg);
 }
 
 void VisualizationManager::StartVisualization() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   visual_thread_ = std::thread(&VisualizationManager::DoVisualize, this);
 }
 
 void VisualizationManager::StopVisualization() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   stop_visualization_ = true;
   visual_thread_.join();
 }
 
 void VisualizationManager::DoVisualize() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   while (!(stop_visualization_.load())) {
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
     // if (!lidar_frame_buffer_.IsEmpty()) {
@@ -498,8 +464,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool VisualizationManager::GetZoneIdFromMapFolder(
     const std::string &map_folder, const unsigned int resolution_id,
     int *zone_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   char buf[256];
   snprintf(buf, sizeof(buf), "/%03u", resolution_id);
   std::string folder_north = map_folder + "/map" + buf + "/north";
@@ -517,8 +481,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           zone_id_full_path.substr(pos + 1, zone_id_full_path.length());
 
       *zone_id = -(std::stoi(zone_id_str));
-      AINFO << "Find zone id: " << *zone_id;
-      return true;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Find zone id: " << *zone_id;
+       return true;
     }
   }
   std::string zone_id_full_path = (*iter_north).path().string();
@@ -527,8 +492,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       zone_id_full_path.substr(pos + 1, zone_id_full_path.length());
 
   *zone_id = (std::stoi(zone_id_str));
-  AINFO << "Find zone id: " << *zone_id;
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Find zone id: " << *zone_id;
+   return true;
 }
 
 }  // namespace msf

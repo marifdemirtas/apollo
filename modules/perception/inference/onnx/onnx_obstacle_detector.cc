@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -30,8 +29,6 @@ using apollo::perception::base::Blob;
   { GPUAssert((ans), __FILE__, __LINE__); }
 inline void GPUAssert(cudaError_t code, const char* file, int line,
                       bool abort = true) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (code != cudaSuccess) {
     fprintf(stderr, "GPUassert: %s %s %d\n", cudaGetErrorString(code), file,
             line);
@@ -47,27 +44,19 @@ OnnxObstacleDetector::OnnxObstacleDetector(
   : model_file_(model_file),
     score_threshold_(score_threshold),
     output_names_(outputs),
-    input_names_(inputs) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    input_names_(inputs) {}
 
 OnnxObstacleDetector::OnnxObstacleDetector(
   const std::string &model_file,
   const std::vector<std::string> &outputs,
   const std::vector<std::string> &inputs)
-  : model_file_(model_file), output_names_(outputs), input_names_(inputs) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+  : model_file_(model_file), output_names_(outputs), input_names_(inputs) {}
 
-OnnxObstacleDetector::~OnnxObstacleDetector() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+OnnxObstacleDetector::~OnnxObstacleDetector() {}
 
 void OnnxObstacleDetector::OnnxToTRTModel(
     const std::string& model_file,  // name of the onnx model
     nvinfer1::ICudaEngine** engine_ptr) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int verbosity = static_cast<int>(nvinfer1::ILogger::Severity::kWARNING);
   kBatchSize = 1;
 
@@ -102,28 +91,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void OnnxObstacleDetector::inference() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Do Inference";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Do Inference";
+ }
 
 bool OnnxObstacleDetector::Init(const std::map<std::string,
                                 std::vector<int>> &shapes) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // create a TensorRT model from the onnx model and load it into an engine
   OnnxToTRTModel(model_file_, &engine_);
   if (engine_ == nullptr) {
-    AERROR << "Fail to load obstacle ONNX model";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to load obstacle ONNX model";
     return false;
   }
 
   // create execution context from the engine
   context_ = engine_->createExecutionContext();
   if (context_ == nullptr) {
-    AERROR << "Fail to create Exceution Context";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to create Exceution Context";
     return false;
   }
 
@@ -143,18 +129,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void OnnxObstacleDetector::Infer() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::cout << "Infer" << std::endl;
 }
 
 BlobPtr OnnxObstacleDetector::get_blob(const std::string &name) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto iter = blobs_.find(name);
   if (iter == blobs_.end()) {
     return nullptr;

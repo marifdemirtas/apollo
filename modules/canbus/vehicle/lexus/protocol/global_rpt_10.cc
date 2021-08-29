@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Globalrpt10::Globalrpt10() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Globalrpt10::Globalrpt10() {}
 const int32_t Globalrpt10::ID = 0x10;
 
 void Globalrpt10::Parse(const std::uint8_t* bytes, int32_t length,
                         ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_lexus()->mutable_global_rpt_10()->set_config_fault_active(
       config_fault_active(bytes, length));
   chassis->mutable_lexus()
@@ -69,8 +64,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 15, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Globalrpt10::config_fault_active(const std::uint8_t* bytes,
                                       int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(7, 1);
 
@@ -83,8 +76,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 5, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Globalrpt10::pacmod_subsystem_timeout(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
 
@@ -99,8 +90,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Global_rpt_10::Pacmod_system_enabledType Globalrpt10::pacmod_system_enabled(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 
@@ -117,8 +106,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 Global_rpt_10::Pacmod_system_override_activeType
 Globalrpt10::pacmod_system_override_active(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
 
@@ -132,8 +119,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 7, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Globalrpt10::pacmod_system_fault_active(const std::uint8_t* bytes,
                                              int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(7, 1);
 
@@ -146,8 +131,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Globalrpt10::veh_can_timeout(const std::uint8_t* bytes,
                                   int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(6, 1);
 
@@ -160,8 +143,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Globalrpt10::str_can_timeout(const std::uint8_t* bytes,
                                   int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
 
@@ -176,8 +157,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Global_rpt_10::Brk_can_timeoutType Globalrpt10::brk_can_timeout(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 1);
 
@@ -191,8 +170,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Globalrpt10::usr_can_timeout(const std::uint8_t* bytes,
                                   int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
 
@@ -206,8 +183,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // ''}
 int Globalrpt10::usr_can_read_errors(const std::uint8_t* bytes,
                                      int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
 

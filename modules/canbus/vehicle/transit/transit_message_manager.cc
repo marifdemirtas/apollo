@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2018 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,8 +34,6 @@ namespace canbus {
 namespace transit {
 
 TransitMessageManager::TransitMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Control Messages
   AddSendProtocolData<Adcauxiliarycontrol110, true>();
   AddSendProtocolData<Adcmotioncontrol110, true>();
@@ -54,9 +51,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   AddRecvProtocolData<Llcvehiclestatus25, true>();
 }
 
-TransitMessageManager::~TransitMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+TransitMessageManager::~TransitMessageManager() {}
 
 }  // namespace transit
 }  // namespace canbus

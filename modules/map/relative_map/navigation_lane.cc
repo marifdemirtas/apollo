@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -61,15 +60,14 @@ bool CreateSingleLaneMap(
     const perception::PerceptionObstacles &perception_obstacles,
     hdmap::Map *const hdmap,
     google::protobuf::Map<std::string, NavigationPath> *const navigation_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(hdmap);
   CHECK_NOTNULL(navigation_path);
 
   const auto &navi_path = std::get<3>(navi_path_tuple);
   const auto &path = navi_path->path();
   if (path.path_point_size() < 2) {
-    AERROR << "The path length of line index is invalid";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The path length of line index is invalid";
     return false;
   }
   auto *lane = hdmap->add_lane();
@@ -140,27 +138,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }  // namespace
 
 NavigationLane::NavigationLane(const NavigationLaneConfig &config)
-    : config_(config) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : config_(config) {}
 
 void NavigationLane::SetConfig(const NavigationLaneConfig &config) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   config_ = config;
 }
 
 void NavigationLane::SetVehicleStateProvider(
     common::VehicleStateProvider *vehicle_state_provider) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   vehicle_state_provider_ = vehicle_state_provider;
 }
 
 void NavigationLane::UpdateNavigationInfo(
     const NavigationInfo &navigation_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   navigation_info_ = navigation_path;
   last_project_index_map_.clear();
   navigation_path_list_.clear();
@@ -171,8 +161,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool NavigationLane::GeneratePath() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   navigation_path_list_.clear();
   current_navi_path_tuple_ = std::make_tuple(-1, -1.0, -1.0, nullptr);
 
@@ -195,9 +183,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         std::make_tuple(0, left_width, right_width, current_navi_path);
   };
 
-  ADEBUG << "Beginning of NavigationLane::GeneratePath().";
-  ADEBUG << "navigation_line_num: " << navigation_line_num;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Beginning of NavigationLane::GeneratePath().";
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "navigation_line_num: " << navigation_line_num;
+ 
   // priority: merge > navigation line > perception lane marker
   if (config_.lane_source() == NavigationLaneConfig::OFFLINE_GENERATED &&
       navigation_line_num > 0) {
@@ -239,8 +229,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     double min_d = std::numeric_limits<double>::max();
     for (const auto &navi_path_tuple : navigation_path_list_) {
       int current_line_index = std::get<0>(navi_path_tuple);
-      ADEBUG << "Current navigation path index is: " << current_line_index;
-      double current_d = std::numeric_limits<double>::max();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Current navigation path index is: " << current_line_index;
+       double current_d = std::numeric_limits<double>::max();
       auto item_iter = last_project_index_map_.find(current_line_index);
       if (item_iter != last_project_index_map_.end()) {
         current_d = item_iter->second.second;
@@ -270,8 +261,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                                                        : right_width + min_d;
     }
 
-    ADEBUG << "The left width of current lane is: " << left_width
-           << " and the right width of current lane is: " << right_width;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "The left width of current lane is: " << left_width
+            << " and the right width of current lane is: " << right_width;
 
     std::get<1>(current_navi_path_tuple_) = left_width;
     std::get<2>(current_navi_path_tuple_) = right_width;
@@ -361,15 +353,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 double NavigationLane::EvaluateCubicPolynomial(const double c0, const double c1,
                                                const double c2, const double c3,
                                                const double x) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return ((c3 * x + c2) * x + c1) * x + c0;
 }
 
 void NavigationLane::MergeNavigationLineAndLaneMarker(
     const int line_index, common::Path *const path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(path);
 
   // If the size of "path" points is smaller than 2, it indicates that a
@@ -424,10 +412,6 @@ common::PathPoint NavigationLane::GetPathPointByS(const common::Path &path,
                                                   const int start_index,
                                                   const double s,
                                                   int *const matched_index) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(matched_index);
   const int size = path.path_point_size();
 
@@ -462,8 +446,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool NavigationLane::ConvertNavigationLineToPath(const int line_index,
                                                  common::Path *const path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(path);
   if (!navigation_info_.navigation_path(line_index).has_path() ||
       navigation_info_.navigation_path(line_index).path().path_point_size() ==
@@ -480,7 +462,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   int current_project_index = proj_index_pair.first;
   if (current_project_index < 0 ||
       current_project_index >= navigation_path.path_point_size()) {
-    AERROR << "Invalid projection index " << current_project_index
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid projection index " << current_project_index
            << " in line " << line_index;
     last_project_index_map_.erase(line_index);
     return false;
@@ -555,8 +538,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       stitch_end_index = std::max(0, stitch_end_index);
       stitch_end_index = std::min(current_project_index, stitch_end_index);
 
-      ADEBUG << "The stitch_start_index is: " << stitch_start_index << "; "
-             << "the stitch_end_index is: " << stitch_end_index << "; "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "The stitch_start_index is: " << stitch_start_index << "; "
+              << "the stitch_end_index is: " << stitch_end_index << "; "
              << "the current_project_index is: " << current_project_index
              << " for the navigation line: " << line_index;
 
@@ -586,8 +570,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // project adc_state_ onto path
 ProjIndexPair NavigationLane::UpdateProjectionIndex(const common::Path &path,
                                                     const int line_index) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (path.path_point_size() < 2) {
     return std::make_pair(-1, std::numeric_limits<double>::max());
   }
@@ -680,8 +662,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 double NavigationLane::GetKappa(const double c1, const double c2,
                                 const double c3, const double x) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const double dy = 3 * c3 * x * x + 2 * c2 * x + c1;
   const double d2y = 6 * c3 * x + 2 * c2;
   return d2y / std::pow((1 + dy * dy), 1.5);
@@ -689,8 +669,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void NavigationLane::ConvertLaneMarkerToPath(
     const perception::LaneMarkers &lane_marker, common::Path *const path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(path);
 
   path->set_name("Path from lane markers.");
@@ -760,10 +738,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool NavigationLane::CreateMap(const MapGenerationParam &map_config,
                                MapMsg *const map_msg) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto *navigation_path = map_msg->mutable_navigation_path();
   auto *hdmap = map_msg->mutable_hdmap();
   auto *lane_marker = map_msg->mutable_lane_marker();
@@ -811,8 +785,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 
   int lane_num = hdmap->lane_size();
-  ADEBUG << "The Lane number is: " << lane_num;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "The Lane number is: " << lane_num;
+ 
   // Set road boundary
   auto *road = hdmap->add_road();
   road->mutable_id()->set_id("road_" + hdmap->lane(0).id().id());
@@ -840,20 +815,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (i > 0) {
       lane->add_left_neighbor_forward_lane_id()->CopyFrom(
           hdmap->lane(i - 1).id());
-      ADEBUG << "Left neighbor is: " << hdmap->lane(i - 1).id().id();
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Left neighbor is: " << hdmap->lane(i - 1).id().id();
+     }
     if (i < lane_num - 1) {
       lane->add_right_neighbor_forward_lane_id()->CopyFrom(
           hdmap->lane(i + 1).id());
-      ADEBUG << "Right neighbor is: " << hdmap->lane(i + 1).id().id();
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Right neighbor is: " << hdmap->lane(i + 1).id().id();
+     }
   }
   return true;
 }
 
 void NavigationLane::UpdateStitchIndexInfo() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   stitch_index_map_.clear();
 
   int navigation_line_num = navigation_info_.navigation_path_size();
@@ -900,8 +875,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
 
     if (min_distance < config_.min_lane_half_width()) {
-      AINFO << "The stitching pair is: (" << min_index_pair.first << ", "
-            << min_index_pair.second << ") for the navigation line: " << i;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The stitching pair is: (" << min_index_pair.first << ", "
+             << min_index_pair.second << ") for the navigation line: " << i;
       stitch_index_map_[i] = min_index_pair;
     }
   }

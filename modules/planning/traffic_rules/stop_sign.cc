@@ -1,4 +1,3 @@
-#include <iostream>
 /*****************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -70,8 +69,9 @@ void StopSign::MakeDecisions(Frame* const frame,
     }
 
     // build stop decision
-    ADEBUG << "BuildStopDecision: stop_sign[" << stop_sign_overlap.object_id
-           << "] start_s[" << stop_sign_overlap.start_s << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "BuildStopDecision: stop_sign[" << stop_sign_overlap.object_id
+            << "] start_s[" << stop_sign_overlap.start_s << "]";
     const std::string virtual_obstacle_id =
         STOP_SIGN_VO_ID_PREFIX + stop_sign_overlap.object_id;
     const std::vector<std::string> wait_for_obstacle_ids(

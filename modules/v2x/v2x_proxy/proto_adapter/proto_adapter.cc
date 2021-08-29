@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -81,8 +80,9 @@ bool ProtoAdapter::LightObu2Sys(const ObuLight &obu_light,
         tl_attr = apollo::common::Direction::NORTH;
         break;
       default:
-        AINFO << "Road direction=" << obu_road_light1.road_direction()
-              << " is invalid.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Road direction=" << obu_road_light1.road_direction()
+               << " is invalid.";
     }
     // FOR-EACH LANE
     for (int idx_lane = 0; idx_lane < obu_road_light1.lane_traffic_light_size();
@@ -200,8 +200,9 @@ bool ProtoAdapter::RsiObu2Sys(const ObuRsi *obu_rsi,
       break;
     }
     default:
-      AINFO << "RSI type:" << obu_rsi->alter_type();
-      break;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "RSI type:" << obu_rsi->alter_type();
+       break;
   }
   *os_rsi = res;
   return true;

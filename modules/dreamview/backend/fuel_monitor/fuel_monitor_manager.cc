@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -24,27 +23,22 @@
 namespace apollo {
 namespace dreamview {
 
-FuelMonitorManager::FuelMonitorManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+FuelMonitorManager::FuelMonitorManager() {}
 
 void FuelMonitorManager::RegisterFuelMonitor(
     const std::string& mode, std::unique_ptr<FuelMonitor>&& fuel_monitor) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto& class_name = fuel_monitor->GetClassName();
   if (monitors_.find(mode) != monitors_.end() &&
       monitors_[mode].find(class_name) != monitors_[mode].end()) {
     AWARN << class_name << " for mode: " << mode << " has been exist!";
   } else {
     monitors_[mode].emplace(class_name, std::move(fuel_monitor));
-    AINFO << "Registered " << class_name << " for mode: " << mode;
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Registered " << class_name << " for mode: " << mode;
+   }
 }
 
 void FuelMonitorManager::SetCurrentMode(const std::string& mode) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   current_mode_ = mode;
   if (monitors_.find(mode) != monitors_.end()) {
     FuelMonitorMap* new_monitors = &monitors_[mode];
@@ -68,8 +62,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 FuelMonitorMap* FuelMonitorManager::GetCurrentMonitors() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   boost::unique_lock<boost::shared_mutex> reader_lock(mutex_);
   return current_monitors_;
 }

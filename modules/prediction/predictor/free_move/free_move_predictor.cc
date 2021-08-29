@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -45,7 +44,8 @@ bool FreeMovePredictor::Predict(
 
   if (!feature.has_position() || !feature.has_velocity() ||
       !feature.position().has_x() || !feature.position().has_y()) {
-    AERROR << "Obstacle [" << obstacle->id()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle->id()
            << " is missing position or velocity";
     return false;
   }
@@ -76,7 +76,8 @@ bool FreeMovePredictor::Predict(
           obstacle->mutable_latest_feature()->mutable_predicted_trajectory(i);
       int traj_size = trajectory->trajectory_point_size();
       if (traj_size == 0) {
-        AERROR << "Empty predicted trajectory found";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Empty predicted trajectory found";
         continue;
       }
       std::vector<TrajectoryPoint> points;

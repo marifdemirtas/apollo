@@ -103,10 +103,12 @@ bool DataParser::Init() {
   common::util::FillHeader("gnss", &gnss_status_);
   gnssstatus_writer_->Write(gnss_status_);
 
-  AINFO << "Creating data parser of format: " << config_.data().format();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Creating data parser of format: " << config_.data().format();
   data_parser_.reset(CreateParser(config_, false));
   if (!data_parser_) {
-    AFATAL << "Failed to create data parser.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "Failed to create data parser.";
     return false;
   }
 
@@ -116,7 +118,8 @@ bool DataParser::Init() {
 
 void DataParser::ParseRawData(const std::string &msg) {
   if (!init_flag_) {
-    AERROR << "Data parser not init.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Data parser not init.";
     return;
   }
 

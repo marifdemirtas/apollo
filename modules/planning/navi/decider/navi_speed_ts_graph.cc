@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -273,7 +272,8 @@ Status NaviSpeedTsGraph::Solve(std::vector<NaviSpeedTsPoint>* output) {
     }
     // if t_max < t_min
     if (t_max < t_min) {
-      AERROR << "failure to satisfy the constraints.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failure to satisfy the constraints.";
       return Status(ErrorCode::PLANNING_ERROR,
                     "failure to satisfy the constraints.");
     }

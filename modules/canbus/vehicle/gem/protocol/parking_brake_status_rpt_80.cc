@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace gem {
 
 using ::apollo::drivers::canbus::Byte;
 
-Parkingbrakestatusrpt80::Parkingbrakestatusrpt80() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Parkingbrakestatusrpt80::Parkingbrakestatusrpt80() {}
 const int32_t Parkingbrakestatusrpt80::ID = 0x80;
 
 void Parkingbrakestatusrpt80::Parse(const std::uint8_t* bytes, int32_t length,
                                     ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_gem()
       ->mutable_parking_brake_status_rpt_80()
       ->set_parking_brake_enabled(parking_brake_enabled(bytes, length));
@@ -50,8 +45,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 Parking_brake_status_rpt_80::Parking_brake_enabledType
 Parkingbrakestatusrpt80::parking_brake_enabled(const std::uint8_t* bytes,
                                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 

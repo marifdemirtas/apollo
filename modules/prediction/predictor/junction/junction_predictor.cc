@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -111,7 +110,8 @@ void JunctionPredictor::DrawJunctionTrajectoryPoints(
   while (t <= total_time) {
     if (!PredictionMap::SmoothPointFromLane(lane_id, lane_s, 0.0, &pos,
                                             &theta)) {
-      AERROR << "Unable to get smooth point from lane [" << lane_id
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to get smooth point from lane [" << lane_id
              << "] with s [" << lane_s << "] and l [" << 0.0 << "]";
       return;
     }
@@ -143,12 +143,14 @@ void JunctionPredictor::DrawJunctionTrajectoryPoints(
 std::vector<JunctionExit> JunctionPredictor::MostLikelyJunctions(
     const Feature& feature) {
   if (!feature.has_junction_feature()) {
-    AERROR << "No junction_feature exist!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No junction_feature exist!";
     return {};
   }
   if (feature.junction_feature().junction_exit_size() < 1 ||
       feature.junction_feature().junction_mlp_probability_size() != 12) {
-    AERROR << "No junction_exit"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No junction_exit"
            << "or no enough junction_mlp_probability to process!";
     return {};
   }

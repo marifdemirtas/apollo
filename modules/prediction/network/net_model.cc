@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,8 +30,9 @@ bool NetModel::LoadModel(const NetParameter& net_parameter) {
 
   for (int i = 0; i < net_parameter_.layers_size(); ++i) {
     LayerParameter layer_pb = net_parameter_.layers(i);
-    ADEBUG << i << "-th layer name: " << layer_pb.name().c_str();
-    std::unique_ptr<Layer> layer(nullptr);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << i << "-th layer name: " << layer_pb.name().c_str();
+     std::unique_ptr<Layer> layer(nullptr);
     switch (layer_pb.oneof_layers_case()) {
       case LayerParameter::kInput:
         layer = std::unique_ptr<Layer>(new Input());
@@ -56,19 +56,23 @@ bool NetModel::LoadModel(const NetParameter& net_parameter) {
         layer = std::unique_ptr<Layer>(new Concatenate());
         break;
       default:
-        AERROR << "Failed to load layer: " << layer_pb.type().c_str();
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load layer: " << layer_pb.type().c_str();
         break;
     }
     if (!layer->Load(layer_pb)) {
-      AERROR << "Failed to load " << i << "-layer: " << layer_pb.name().c_str();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load " << i << "-layer: " << layer_pb.name().c_str();
       return false;
     }
     layers_.push_back(std::move(layer));
   }
   ok_ = true;
-  AINFO << "Success in loading the model!";
-  ADEBUG << "Its Performance:" << PerformanceString().c_str();
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Success in loading the model!";
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Its Performance:" << PerformanceString().c_str();
+   return true;
 }
 
 std::string NetModel::PerformanceString() const {

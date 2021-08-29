@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -45,7 +44,8 @@ void BareIntersectionUnprotectedScenario::Init() {
   Scenario::Init();
 
   if (!GetScenarioConfig()) {
-    AERROR << "fail to get scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to get scenario specific config";
     return;
   }
 
@@ -55,14 +55,16 @@ void BareIntersectionUnprotectedScenario::Init() {
           .bare_intersection()
           .current_pnc_junction_overlap_id();
   if (pnc_junction_overlap_id.empty()) {
-    AERROR << "Could not find pnc_junction";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Could not find pnc_junction";
     return;
   }
   hdmap::PNCJunctionInfoConstPtr pnc_junction =
       HDMapUtil::BaseMap().GetPNCJunctionById(
           hdmap::MakeMapId(pnc_junction_overlap_id));
   if (!pnc_junction) {
-    AERROR << "Could not find pnc_junction: " << pnc_junction_overlap_id;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Could not find pnc_junction: " << pnc_junction_overlap_id;
     return;
   }
 
@@ -115,7 +117,8 @@ std::unique_ptr<Stage> BareIntersectionUnprotectedScenario::CreateStage(
  */
 bool BareIntersectionUnprotectedScenario::GetScenarioConfig() {
   if (!config_.has_bare_intersection_unprotected_config()) {
-    AERROR << "miss scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "miss scenario specific config";
     return false;
   }
   context_.scenario_config = config_.bare_intersection_unprotected_config();

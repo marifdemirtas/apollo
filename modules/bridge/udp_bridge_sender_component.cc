@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -32,40 +31,37 @@ using apollo::localization::LocalizationEstimate;
 
 template <typename T>
 bool UDPBridgeSenderComponent<T>::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "UDP bridge sender init, startin...";
-  apollo::bridge::UDPBridgeSenderRemoteInfo udp_bridge_remote;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "UDP bridge sender init, startin...";
+   apollo::bridge::UDPBridgeSenderRemoteInfo udp_bridge_remote;
   if (!this->GetProtoConfig(&udp_bridge_remote)) {
-    AINFO << "load udp bridge component proto param failed";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "load udp bridge component proto param failed";
+     return false;
   }
   remote_ip_ = udp_bridge_remote.remote_ip();
   remote_port_ = udp_bridge_remote.remote_port();
   proto_name_ = udp_bridge_remote.proto_name();
-  ADEBUG << "UDP Bridge remote ip is: " << remote_ip_;
-  ADEBUG << "UDP Bridge remote port is: " << remote_port_;
-  ADEBUG << "UDP Bridge for Proto is: " << proto_name_;
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "UDP Bridge remote ip is: " << remote_ip_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "UDP Bridge remote port is: " << remote_port_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "UDP Bridge for Proto is: " << proto_name_;
+   return true;
 }
 
 template <typename T>
 bool UDPBridgeSenderComponent<T>::Proc(const std::shared_ptr<T> &pb_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (remote_port_ == 0 || remote_ip_.empty()) {
-    AERROR << "remote info is invalid!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "remote info is invalid!";
     return false;
   }
 
   if (pb_msg == nullptr) {
-    AERROR << "proto msg is not ready!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "proto msg is not ready!";
     return false;
   }
 

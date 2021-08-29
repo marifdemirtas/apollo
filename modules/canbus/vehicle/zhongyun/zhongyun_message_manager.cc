@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2019 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,8 +31,6 @@ namespace canbus {
 namespace zhongyun {
 
 ZhongyunMessageManager::ZhongyunMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Control Messages
   AddSendProtocolData<Brakecontrola4, true>();
   AddSendProtocolData<Gearcontrola1, true>();
@@ -48,9 +45,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   AddRecvProtocolData<Vehiclestatefeedbackc1, true>();
 }
 
-ZhongyunMessageManager::~ZhongyunMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+ZhongyunMessageManager::~ZhongyunMessageManager() {}
 
 }  // namespace zhongyun
 }  // namespace canbus

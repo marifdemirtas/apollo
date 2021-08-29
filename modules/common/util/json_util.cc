@@ -51,11 +51,13 @@ bool JsonUtil::GetString(const Json &json, const std::string &key,
                          std::string *value) {
   const auto iter = json.find(key);
   if (iter == json.end()) {
-    AERROR << "The json has no such key: " << key;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The json has no such key: " << key;
     return false;
   }
   if (!iter->is_string()) {
-    AERROR << "The value of json[" << key << "] is not a string";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The value of json[" << key << "] is not a string";
     return false;
   }
   *value = *iter;
@@ -66,11 +68,13 @@ bool JsonUtil::GetStringVector(const Json &json, const std::string &key,
                                std::vector<std::string> *value) {
   const auto iter = json.find(key);
   if (iter == json.end()) {
-    AERROR << "The json has no such key: " << key;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The json has no such key: " << key;
     return false;
   }
   if (!iter->is_array()) {
-    AERROR << "The value of json[" << key << "] is not an array";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The value of json[" << key << "] is not an array";
     return false;
   }
 
@@ -94,11 +98,13 @@ bool JsonUtil::GetBoolean(const nlohmann::json &json, const std::string &key,
                           bool *value) {
   const auto iter = json.find(key);
   if (iter == json.end()) {
-    AERROR << "The json has no such key: " << key;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The json has no such key: " << key;
     return false;
   }
   if (!iter->is_boolean()) {
-    AERROR << "The value of json[" << key << "] is not a boolean";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The value of json[" << key << "] is not a boolean";
     return false;
   }
   *value = *iter;

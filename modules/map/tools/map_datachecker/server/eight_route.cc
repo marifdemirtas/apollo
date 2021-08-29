@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -23,26 +22,21 @@ namespace apollo {
 namespace hdmap {
 
 EightRoute::EightRoute(std::shared_ptr<JsonConf> sp_conf) : Alignment(sp_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Reset();
 }
 
 void EightRoute::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   progress_ = 0.0;
   last_progress_ = 0;
 }
 
 bool EightRoute::IsEightRoutePose(const std::vector<FramePose>& poses,
                                   int pose_index) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (poses.empty() || pose_index <= 0 ||
       pose_index >= static_cast<int>(poses.size())) {
-    AINFO << "params error, poses size: " << poses.size()
-          << ", pose_index: " << pose_index;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "params error, poses size: " << poses.size()
+           << ", pose_index: " << pose_index;
     return true;
   }
 
@@ -59,12 +53,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   double during =
       poses[pose_index].time_stamp - poses[pose_index - 1].time_stamp;
   if (during < 0) {
-    AINFO << "skip back pose is bad pose";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "skip back pose is bad pose";
+     return false;
   }
   double vel = dist / during;
-  AINFO << poses[pose_index].time_stamp << ", yaw_diff:" << yaw_diff
-        << ", dist: " << dist << ", during: " << during << ", vel: " << vel;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << poses[pose_index].time_stamp << ", yaw_diff:" << yaw_diff
+         << ", dist: " << dist << ", during: " << during << ", vel: " << vel;
   if (yaw_diff > sp_conf_->eight_angle && vel > sp_conf_->eight_vel) {
     return true;
   }
@@ -72,8 +68,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 double EightRoute::GetGoodPoseDuring() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (sp_good_pose_info_ == nullptr || sp_good_pose_info_->start_time < 0 ||
       sp_good_pose_info_->end_time < 0) {
     return 0.0;
@@ -82,27 +76,28 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 double EightRoute::GetEightRouteProgress(const std::vector<FramePose>& poses) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int size = static_cast<int>(poses.size());
   int start_index = TimeToIndex(poses, start_time_);
   // select first good pose
   while (start_index < size) {
     if (IsGoodPose(poses, start_index) &&
         IsEightRoutePose(poses, start_index)) {
-      AINFO << "find first good pose.index:" << start_index;
-      break;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "find first good pose.index:" << start_index;
+       break;
     }
     ++start_index;
   }
   if (start_index >= size) {
-    AINFO << "not find first good pose, start_time: " << start_time_
-          << ", start_index: " << start_index << ", pose size: " << size;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "not find first good pose, start_time: " << start_time_
+           << ", start_index: " << start_index << ", pose size: " << size;
     return 0.0;
   }
   if (start_index + 1 >= size) {
-    AINFO << "not have enough poses, wait for a moment";
-    return 0.0;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "not have enough poses, wait for a moment";
+     return 0.0;
   }
   last_yaw_ = GetYaw(poses[start_index].tx, poses[start_index].ty,
                      poses[start_index + 1].tx, poses[start_index + 1].ty);
@@ -110,28 +105,33 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   int not_eight_count = 0;
   for (int i = start_index + 2; i < size; ++i) {
     if (!IsGoodPose(poses, i)) {
-      AINFO << "not good pose";
-      return 0.0;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "not good pose";
+       return 0.0;
     }
     if (!IsEightRoutePose(poses, i)) {
       ++not_eight_count;
-      AINFO << "not eight route pose";
-      if (not_eight_count > sp_conf_->eight_bad_pose_tolerance) {
-        AINFO << "not-eight pose count reached upper limitation";
-        return_state_ = ErrorCode::ERROR_NOT_EIGHT_ROUTE;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "not eight route pose";
+       if (not_eight_count > sp_conf_->eight_bad_pose_tolerance) {
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "not-eight pose count reached upper limitation";
+         return_state_ = ErrorCode::ERROR_NOT_EIGHT_ROUTE;
         return 0.0;
       }
     } else {
       not_eight_count = 0;
     }
-    AINFO << "good pose";
-    UpdateGoodPoseInfo(poses[i]);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "good pose";
+     UpdateGoodPoseInfo(poses[i]);
     //  ClearBadPoseInfo();
   }
   double eight_route_during = GetGoodPoseDuring();
   if (eight_route_during < 1e-8) {
-    AINFO << "num of eight route good pose too small, during: "
-          << eight_route_during;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "num of eight route good pose too small, during: "
+           << eight_route_during;
     return_state_ = ErrorCode::SUCCESS;
     return 0.0;
   }
@@ -145,10 +145,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 ErrorCode EightRoute::Process(const std::vector<FramePose>& poses) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "[EightRoute::process] begin";
-  size_t size = poses.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "[EightRoute::process] begin";
+   size_t size = poses.size();
   if (size <= 1) {
     return_state_ = ErrorCode::ERROR_VERIFY_NO_GNSSPOS;
     return return_state_;
@@ -156,22 +155,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   progress_ = GetEightRouteProgress(poses);
   if (return_state_ != ErrorCode::SUCCESS) {
-    AINFO << "get_eight_route_progress failed.";
-    return return_state_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "get_eight_route_progress failed.";
+     return return_state_;
   }
   if (progress_ < last_progress_) {
     return_state_ = ErrorCode::ERROR_NOT_EIGHT_ROUTE;
     return return_state_;
   }
 
-  AINFO << "[EightRoute::process] end, progress:" << progress_;
-  return_state_ = ErrorCode::SUCCESS;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "[EightRoute::process] end, progress:" << progress_;
+   return_state_ = ErrorCode::SUCCESS;
   return return_state_;
 }
 
-double EightRoute::GetProgress() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return progress_; }
+double EightRoute::GetProgress() const { return progress_; }
 
 }  // namespace hdmap
 }  // namespace apollo

@@ -96,12 +96,14 @@ Status RoadGraph::BuildLaneGraph(LaneGraph* const lane_graph_ptr) {
   if (length_ < 0.0 || lane_info_ptr_ == nullptr) {
     const auto error_msg = absl::StrCat(
         "Invalid road graph settings. Road graph length = ", length_);
-    AERROR << error_msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_msg;
     return Status(ErrorCode::PREDICTION_ERROR, error_msg);
   }
   if (lane_graph_ptr == nullptr) {
     const auto error_msg = "Invalid input lane graph.";
-    AERROR << error_msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_msg;
     return Status(ErrorCode::PREDICTION_ERROR, error_msg);
   }
 
@@ -120,12 +122,14 @@ Status RoadGraph::BuildLaneGraphBidirection(LaneGraph* const lane_graph_ptr) {
   if (length_ < 0.0 || lane_info_ptr_ == nullptr) {
     const auto error_msg = absl::StrCat(
         "Invalid road graph settings. Road graph length = ", length_);
-    AERROR << error_msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_msg;
     return Status(ErrorCode::PREDICTION_ERROR, error_msg);
   }
   if (lane_graph_ptr == nullptr) {
     const auto error_msg = "Invalid input lane graph.";
-    AERROR << error_msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_msg;
     return Status(ErrorCode::PREDICTION_ERROR, error_msg);
   }
 
@@ -215,12 +219,15 @@ void RoadGraph::ConstructLaneSequence(
     LaneGraph* const lane_graph_ptr) const {
   // Sanity checks.
   if (lane_info_ptr == nullptr) {
-    AERROR << "Invalid lane.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid lane.";
     return;
   }
   if (graph_search_horizon < 0) {
-    AERROR << "The lane search has already reached the limits";
-    AERROR << "Possible map error found!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The lane search has already reached the limits";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Possible map error found!";
     return;
   }
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -56,8 +55,9 @@ Status KeepClear::ApplyRule(Frame* const frame,
       if (BuildKeepClearObstacle(frame, reference_line_info, obstacle_id,
                                  keep_clear_overlap.start_s,
                                  keep_clear_overlap.end_s)) {
-        ADEBUG << "KEEP_CLAER for keep_clear_zone["
-               << keep_clear_overlap.object_id << "] s["
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "KEEP_CLAER for keep_clear_zone["
+                << keep_clear_overlap.object_id << "] s["
                << keep_clear_overlap.start_s << ", " << keep_clear_overlap.end_s
                << "] BUILD";
       }
@@ -74,29 +74,34 @@ Status KeepClear::ApplyRule(Frame* const frame,
     const auto& first_encountered_overlaps =
         reference_line_info->FirstEncounteredOverlaps();
     for (const auto& overlap : first_encountered_overlaps) {
-      ADEBUG << overlap.first << ", " << overlap.second.DebugString();
-      switch (overlap.first) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << overlap.first << ", " << overlap.second.DebugString();
+       switch (overlap.first) {
         case ReferenceLineInfo::CROSSWALK:
-          ADEBUG << "CROSSWALK[" << overlap.second.object_id << "] s["
-                 << overlap.second.start_s << ", " << overlap.second.end_s
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "CROSSWALK[" << overlap.second.object_id << "] s["
+                  << overlap.second.start_s << ", " << overlap.second.end_s
                  << "]";
           crosswalk_overlap = const_cast<PathOverlap*>(&overlap.second);
           break;
         case ReferenceLineInfo::STOP_SIGN:
-          ADEBUG << "STOP_SIGN[" << overlap.second.object_id << "] s["
-                 << overlap.second.start_s << ", " << overlap.second.end_s
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "STOP_SIGN[" << overlap.second.object_id << "] s["
+                  << overlap.second.start_s << ", " << overlap.second.end_s
                  << "]";
           stop_sign_overlap = const_cast<PathOverlap*>(&overlap.second);
           break;
         case ReferenceLineInfo::SIGNAL:
-          ADEBUG << "SIGNAL[" << overlap.second.object_id << "] s["
-                 << overlap.second.start_s << ", " << overlap.second.end_s
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "SIGNAL[" << overlap.second.object_id << "] s["
+                  << overlap.second.start_s << ", " << overlap.second.end_s
                  << "]";
           traffic_light_overlap = const_cast<PathOverlap*>(&overlap.second);
           break;
         case ReferenceLineInfo::PNC_JUNCTION:
-          ADEBUG << "PNC_JUNCTION[" << overlap.second.object_id << "] s["
-                 << overlap.second.start_s << ", " << overlap.second.end_s
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "PNC_JUNCTION[" << overlap.second.object_id << "] s["
+                  << overlap.second.start_s << ", " << overlap.second.end_s
                  << "]";
           pnc_junction_overlap = const_cast<PathOverlap*>(&overlap.second);
           break;
@@ -116,8 +121,9 @@ Status KeepClear::ApplyRule(Frame* const frame,
         if (traffic_light_overlap != nullptr &&
             std::fabs(pnc_junction_start_s - traffic_light_overlap->start_s) <=
                 config_.keep_clear().align_with_traffic_sign_tolerance()) {
-          ADEBUG << "adjust pnc_junction_start_s[" << pnc_junction_start_s
-                 << "] to traffic_light_start_s"
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adjust pnc_junction_start_s[" << pnc_junction_start_s
+                  << "] to traffic_light_start_s"
                  << traffic_light_overlap->start_s << "]";
           pnc_junction_start_s = traffic_light_overlap->start_s;
         } else if (stop_sign_overlap != nullptr &&
@@ -125,8 +131,9 @@ Status KeepClear::ApplyRule(Frame* const frame,
                              stop_sign_overlap->start_s) <=
                        config_.keep_clear()
                            .align_with_traffic_sign_tolerance()) {
-          ADEBUG << "adjust pnc_junction_start_s[" << pnc_junction_start_s
-                 << "] to stop_sign_start_s" << stop_sign_overlap->start_s
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adjust pnc_junction_start_s[" << pnc_junction_start_s
+                  << "] to stop_sign_start_s" << stop_sign_overlap->start_s
                  << "]";
           pnc_junction_start_s = stop_sign_overlap->start_s;
         } else if (crosswalk_overlap != nullptr &&
@@ -134,8 +141,9 @@ Status KeepClear::ApplyRule(Frame* const frame,
                              crosswalk_overlap->start_s) <=
                        config_.keep_clear()
                            .align_with_traffic_sign_tolerance()) {
-          ADEBUG << "adjust pnc_junction_start_s[" << pnc_junction_start_s
-                 << "] to cross_walk_start_s" << crosswalk_overlap->start_s
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adjust pnc_junction_start_s[" << pnc_junction_start_s
+                  << "] to cross_walk_start_s" << crosswalk_overlap->start_s
                  << "]";
           pnc_junction_start_s = crosswalk_overlap->start_s;
         }
@@ -146,8 +154,9 @@ Status KeepClear::ApplyRule(Frame* const frame,
         if (BuildKeepClearObstacle(frame, reference_line_info, obstacle_id,
                                    pnc_junction_start_s,
                                    pnc_junction_overlap->end_s)) {
-          ADEBUG << "KEEP_CLAER for junction["
-                 << pnc_junction_overlap->object_id << "] s["
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "KEEP_CLAER for junction["
+                  << pnc_junction_overlap->object_id << "] s["
                  << pnc_junction_start_s << ", " << pnc_junction_overlap->end_s
                  << "] BUILD";
         }
@@ -187,26 +196,30 @@ bool KeepClear::BuildKeepClearObstacle(
   const double adc_front_edge_s = reference_line_info->AdcSlBoundary().end_s();
   if (adc_front_edge_s - keep_clear_start_s >
       config_.keep_clear().min_pass_s_distance()) {
-    ADEBUG << "adc inside keep_clear zone[" << virtual_obstacle_id << "] s["
-           << keep_clear_start_s << ", " << keep_clear_end_s
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc inside keep_clear zone[" << virtual_obstacle_id << "] s["
+            << keep_clear_start_s << ", " << keep_clear_end_s
            << "] adc_front_edge_s[" << adc_front_edge_s
            << "]. skip this keep clear zone";
     return false;
   }
 
-  ADEBUG << "keep clear obstacle: [" << keep_clear_start_s << ", "
-         << keep_clear_end_s << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "keep clear obstacle: [" << keep_clear_start_s << ", "
+          << keep_clear_end_s << "]";
   // create virtual static obstacle
   auto* obstacle =
       frame->CreateStaticObstacle(reference_line_info, virtual_obstacle_id,
                                   keep_clear_start_s, keep_clear_end_s);
   if (!obstacle) {
-    AERROR << "Failed to create obstacle [" << virtual_obstacle_id << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create obstacle [" << virtual_obstacle_id << "]";
     return false;
   }
   auto* path_obstacle = reference_line_info->AddObstacle(obstacle);
   if (!path_obstacle) {
-    AERROR << "Failed to create path_obstacle: " << virtual_obstacle_id;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create path_obstacle: " << virtual_obstacle_id;
     return false;
   }
   path_obstacle->SetReferenceLineStBoundaryType(

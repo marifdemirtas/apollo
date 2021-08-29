@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -94,87 +93,10 @@ REGISTER_LANE_POSTPROCESSOR(DarkSCNNLanePostprocessor);
 static const float kDefaultPitchAngle = 0.0f;
 static const float kDefaultCameraHeight = 1.5f;
 
-void save_image(const std::string &path, base::Image8U &image) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-  // NOLINT
-  AINFO << path;
-  int cv_type = image.type() == base::Color::GRAY ? CV_8UC1 : CV_8UC3;
+void save_image(const std::string &path, base::Image8U &image) {  // NOLINT
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << path;
+   int cv_type = image.type() == base::Color::GRAY ? CV_8UC1 : CV_8UC3;
   cv::Mat cv_img(image.rows(), image.cols(), cv_type, image.mutable_cpu_data(),
                  image.width_step());
   cv::imwrite(path, cv_img);
@@ -185,10 +107,12 @@ int work() {
   ObstacleCameraPerception perception;
   CameraPerceptionInitOptions init_option;
   CameraPerceptionOptions options;
-  AINFO << "config_root: " << FLAGS_config_root;
-  init_option.root_dir = FLAGS_config_root;
-  AINFO << "config_file: " << FLAGS_config_file;
-  init_option.conf_file = FLAGS_config_file;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "config_root: " << FLAGS_config_root;
+   init_option.root_dir = FLAGS_config_root;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "config_file: " << FLAGS_config_file;
+   init_option.conf_file = FLAGS_config_file;
   init_option.lane_calibration_working_sensor_name = FLAGS_base_camera_name;
   init_option.use_cyber_work_root = true;
   ACHECK(perception.Init(init_option));
@@ -205,7 +129,8 @@ int work() {
   std::ifstream fin;
   fin.open(FLAGS_test_list, std::ifstream::in);
   if (!fin.is_open()) {
-    AERROR << "Cannot open image list: " << FLAGS_test_list;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot open image list: " << FLAGS_test_list;
     return -1;
   }
 
@@ -228,8 +153,9 @@ int work() {
     ACHECK(data_providers[i].Init(data_options));
     name_provider_map.insert(std::pair<std::string, DataProvider *>(
         camera_names[i], &data_providers[i]));
-    AINFO << "Init data_provider for " << camera_names[i];
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Init data_provider for " << camera_names[i];
+   }
 
   // Init intrinsic
   std::map<std::string, Eigen::Matrix3f> intrinsic_map;
@@ -240,8 +166,9 @@ int work() {
     auto pinhole = dynamic_cast<base::PinholeCameraModel *>(model.get());
     Eigen::Matrix3f intrinsic = pinhole->get_intrinsic_params();
     intrinsic_map[camera_name] = intrinsic;
-    AINFO << "#intrinsics of " << camera_name << ": "
-          << intrinsic_map[camera_name];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "#intrinsics of " << camera_name << ": "
+           << intrinsic_map[camera_name];
   }
 
   // Init extrinsic
@@ -261,13 +188,15 @@ int work() {
   for (size_t i = 0; i < camera_names.size(); ++i) {
     Eigen::Affine3d c2g;
     if (!transform_server.QueryTransform(camera_names[i], "ground", &c2g)) {
-      AINFO << "Failed to query transform from " << camera_names[i]
-            << " to ground";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to query transform from " << camera_names[i]
+             << " to ground";
       return -1;
     }
     float camera_ground_height = static_cast<float>(c2g.translation()[2]);
-    AINFO << camera_names[i] << " height: " << camera_ground_height;
-    name_camera_ground_height_map[camera_names[i]] = camera_ground_height;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << camera_names[i] << " height: " << camera_ground_height;
+     name_camera_ground_height_map[camera_names[i]] = camera_ground_height;
     Eigen::Matrix3d project_matrix;
     float pitch_diff = 0.0f;
     if (FLAGS_base_camera_name == camera_names[i]) {
@@ -277,8 +206,9 @@ int work() {
       Eigen::Affine3d trans;
       if (!transform_server.QueryTransform(camera_names[i],
                                            FLAGS_base_camera_name, &trans)) {
-        AINFO << "Failed to query transform";
-        return -1;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to query transform";
+         return -1;
       }
       Eigen::Vector3d euler = trans.linear().eulerAngles(0, 1, 2);
       pitch_diff = static_cast<float>(euler(0));
@@ -305,13 +235,15 @@ int work() {
   while (fin >> line) {
     const std::vector<std::string> temp_strs = absl::StrSplit(line, '/');
     if (temp_strs.size() != 2) {
-      AERROR << "invaid format in " << FLAGS_test_list;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "invaid format in " << FLAGS_test_list;
     }
     camera_name = temp_strs[0];
     image_name = temp_strs[1];
 
-    AINFO << "image: " << image_name << ", camera_name: " << camera_name;
-    std::string image_path = FLAGS_image_root + image_name + FLAGS_image_ext;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "image: " << image_name << ", camera_name: " << camera_name;
+     std::string image_path = FLAGS_image_root + image_name + FLAGS_image_ext;
     cv::Mat image;
     if (FLAGS_image_color == "gray") {
       image = cv::imread(image_path, cv::IMREAD_GRAYSCALE);
@@ -322,10 +254,12 @@ int work() {
     } else if (FLAGS_image_color == "bgr") {
       image = cv::imread(image_path, cv::IMREAD_COLOR);
     } else {
-      AERROR << "Invalid color: " << FLAGS_image_color;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid color: " << FLAGS_image_color;
     }
     if (image.data == 0) {
-      AERROR << "Cannot read image: " << image_path;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot read image: " << image_path;
       return -1;
     }
 
@@ -339,8 +273,9 @@ int work() {
     if (frame.timestamp < 1e-3) {
       frame.timestamp = 1.0 / FLAGS_camera_fps * frame_id;
     }
-    AINFO << "Timestamp: " << std::fixed << std::setprecision(10)
-          << frame.timestamp;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Timestamp: " << std::fixed << std::setprecision(10)
+           << frame.timestamp;
 
     if (FLAGS_base_camera_name == camera_name) {
       frame.project_matrix = Eigen::Matrix3d::Identity();
@@ -348,8 +283,9 @@ int work() {
       Eigen::Affine3d trans;
       if (!transform_server.QueryTransform(camera_name, FLAGS_base_camera_name,
                                            &trans)) {
-        AINFO << "Failed to query transform from " << camera_name << " to "
-              << FLAGS_base_camera_name;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to query transform from " << camera_name << " to "
+               << FLAGS_base_camera_name;
         return -1;
       }
       frame.project_matrix =
@@ -358,16 +294,18 @@ int work() {
           intrinsic_map.at(camera_name).cast<double>().inverse();
     }
     frame.data_provider = name_provider_map.at(camera_name);
-    AINFO << "Project Matrix: \n" << frame.project_matrix;
-    Eigen::Affine3d pose;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Project Matrix: \n" << frame.project_matrix;
+     Eigen::Affine3d pose;
     if (!transform_server.QueryPos(frame.timestamp, &pose)) {
       pose.setIdentity();
     }
 
     Eigen::Affine3d c2n;
     if (!transform_server.QueryTransform(camera_name, "novatel", &c2n)) {
-      AINFO << "Failed to query transform from " << camera_name
-            << " to novatel";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to query transform from " << camera_name
+             << " to novatel";
       return -1;
     }
     frame.camera2world_pose = pose * c2n;
@@ -384,8 +322,9 @@ int work() {
       image_options.target_color = base::Color::BGR;
       frame.data_provider->GetImage(image_options, &image1);
       save_image(save_dir + "/" + image_name + FLAGS_image_ext, image1);
-      AINFO << "Undistorted image saved to : "
-            << save_dir + "/" + image_name + FLAGS_image_ext;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Undistorted image saved to : "
+             << save_dir + "/" + image_name + FLAGS_image_ext;
     }
 
     ACHECK(perception.Perception(options, &frame));
@@ -393,9 +332,8 @@ int work() {
 
     save_dir = FLAGS_save_dir;
     if (!cyber::common::PathExists(save_dir)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-      AERROR << "save_dir does not exist : " << save_dir;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "save_dir does not exist : " << save_dir;
     } else {
       std::ofstream myfile;
       myfile.open(save_dir + "/" + image_name + ".txt");
@@ -421,8 +359,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
             cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 127, 0), 2);
       }
       cv::imwrite(save_dir + "/" + image_name + FLAGS_image_ext, image);
-      AINFO << "Result saved to : "
-            << save_dir + "/" + image_name + FLAGS_image_ext;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Result saved to : "
+             << save_dir + "/" + image_name + FLAGS_image_ext;
     }
   }
   return 0;

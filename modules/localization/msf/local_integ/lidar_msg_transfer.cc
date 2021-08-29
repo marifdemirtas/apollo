@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,8 +29,6 @@ namespace msf {
 
 void LidarMsgTransfer::Transfer(const drivers::PointCloud &msg,
                                 LidarFrame *lidar_frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(lidar_frame);
 
   if (msg.height() > 1 && msg.width() > 1) {
@@ -57,8 +54,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       }
     }
   } else {
-    AINFO << "Receiving un-organized-point-cloud, width " << msg.width()
-          << " height " << msg.height() << "size " << msg.point_size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Receiving un-organized-point-cloud, width " << msg.width()
+           << " height " << msg.height() << "size " << msg.point_size();
     for (int i = 0; i < msg.point_size(); ++i) {
       Eigen::Vector3d pt3d;
       pt3d[0] = static_cast<double>(msg.point(i).x());
@@ -83,8 +81,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   lidar_frame->measurement_time =
       cyber::Time(msg.measurement_time()).ToSecond();
   if (FLAGS_lidar_debug_log_flag) {
-    AINFO << std::setprecision(15) << "LocalLidar Debug Log: velodyne msg. "
-          << "[time:" << lidar_frame->measurement_time
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << std::setprecision(15) << "LocalLidar Debug Log: velodyne msg. "
+           << "[time:" << lidar_frame->measurement_time
           << "][height:" << msg.height() << "][width:" << msg.width()
           << "][point_cnt:" << msg.point_size() << "]";
   }

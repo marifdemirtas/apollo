@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -42,8 +41,6 @@ const char car_img_path[3][1024] = {
 
 // =================VisualizationEngine=================
 bool MapImageKey::operator<(const MapImageKey &key) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Compare elements by priority.
   return std::forward_as_tuple(level, zone_id, node_north_id, node_east_id) <
          std::forward_as_tuple(key.level, key.zone_id, key.node_north_id,
@@ -52,8 +49,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 // =================MapImageCache=================
 bool MapImageCache::Get(const MapImageKey &key, cv::Mat *image) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto found_iter = _map.find(key);
   if (found_iter == _map.end()) {
     return false;
@@ -65,8 +60,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void MapImageCache::Set(const MapImageKey &key, const cv::Mat &image) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto found_iter = _map.find(key);
   if (found_iter != _map.end()) {
     // move the corresponding key to list front
@@ -90,9 +83,7 @@ VisualizationEngine::VisualizationEngine()
     : map_image_cache_(20),
       image_window_(1024, 1024, CV_8UC3, cv::Scalar(0, 0, 0)),
       big_window_(3072, 3072, CV_8UC3),
-      tips_window_(48, 1024, CV_8UC3, cv::Scalar(0, 0, 0)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+      tips_window_(48, 1024, CV_8UC3, cv::Scalar(0, 0, 0)) {}
 
 bool VisualizationEngine::Init(const std::string &map_folder,
                                const std::string &map_visual_folder,
@@ -101,8 +92,6 @@ bool VisualizationEngine::Init(const std::string &map_folder,
                                const int zone_id,
                                const Eigen::Affine3d &extrinsic,
                                const unsigned int loc_info_num) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   map_folder_ = map_folder;
   map_visual_folder_ = map_visual_folder;
   map_param_ = map_param;
@@ -122,7 +111,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 
   if (resolution_id_ >= map_param_.map_resolutions.size()) {
-    AERROR << "Invalid resolution id.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid resolution id.";
     return false;
   }
 
@@ -141,7 +131,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   std::string params_file = image_visual_resolution_path_ + "/param.txt";
   bool success = InitOtherParams(params_file);
   if (!success) {
-    AERROR << "Init other params failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init other params failed.";
   }
 
   cv::namedWindow(window_name_, cv::WINDOW_NORMAL);
@@ -155,15 +146,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void VisualizationEngine::Visualize(
     ::apollo::common::EigenVector<LocalizatonInfo> &&loc_infos,
     const ::apollo::common::EigenVector3dVec &cloud) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_init_) {
-    AERROR << "Visualziation should be init first.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Visualziation should be init first.";
     return;
   }
 
   if (loc_infos.size() != loc_info_num_) {
-    AERROR << "Please check the localization info num.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Please check the localization info num.";
     return;
   }
 
@@ -187,37 +178,38 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void VisualizationEngine::SetAutoPlay(bool auto_play) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_play_ = auto_play;
 }
 
 void VisualizationEngine::Preprocess(const std::string &map_folder,
                                      const std::string &map_visual_folder) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string image_path = map_folder_ + "/image";
   std::string image_visual_path = map_visual_folder;
   char buf[256];
   snprintf(buf, sizeof(buf), "/%03u", resolution_id_);
   image_visual_resolution_path_ = image_visual_path + buf;
-  AINFO << "image_visual_resolution_path: " << image_visual_resolution_path_;
-  std::string image_resolution_path = image_path + buf;
-  AINFO << "image_resolution_path: " << image_resolution_path;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "image_visual_resolution_path: " << image_visual_resolution_path_;
+   std::string image_resolution_path = image_path + buf;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "image_resolution_path: " << image_resolution_path;
+ 
   if (!EnsureDirectory(image_visual_path)) {
-    AERROR << "image_visual_path: " << image_visual_path
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "image_visual_path: " << image_visual_path
            << " cannot be created.";
     return;
   }
 
   if (DirectoryExists(image_visual_resolution_path_)) {
-    AINFO << "image_visual_resolution_path: " << image_visual_resolution_path_
-          << "already exists.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "image_visual_resolution_path: " << image_visual_resolution_path_
+           << "already exists.";
     return;
   }
   if (!EnsureDirectory(image_visual_resolution_path_)) {
-    AERROR << "image_visual_resolution_path: " << image_visual_resolution_path_
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "image_visual_resolution_path: " << image_visual_resolution_path_
            << " cannot be created.";
     return;
   }
@@ -251,8 +243,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void VisualizationEngine::Draw() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   UpdateLevel();
 
   if (follow_car_) {
@@ -319,10 +309,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void VisualizationEngine::DrawTrajectory(const cv::Point &bias) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Draw trajectory.";
-  if (cur_level_ == 0 && is_draw_trajectory_) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Draw trajectory.";
+   if (cur_level_ == 0 && is_draw_trajectory_) {
     unsigned int i = (car_loc_id_ + 1) % loc_info_num_;
     for (unsigned int k = 0; k < loc_info_num_; k++) {
       std::map<double, Eigen::Vector2d> &trj = trajectory_groups_[i];
@@ -373,10 +362,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void VisualizationEngine::DrawLoc(const cv::Point &bias) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Draw loc.";
-  if (cur_level_ == 0) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Draw loc.";
+   if (cur_level_ == 0) {
     unsigned int i = (car_loc_id_ + 1) % loc_info_num_;
     for (unsigned int k = 0; k < loc_info_num_; k++) {
       LocalizatonInfo &loc_info = cur_loc_infos_[i];
@@ -408,8 +396,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           cv::resize(car_img_mats_[i], mat_tem, cv::Size(48, 24), 0, 0,
                      cv::INTER_LINEAR);
           cv::Mat rotated_mat;
-          // AINFO << "yaw: " << yaw;
-          // RotateImg(mat_tem, rotated_mat, 90 - yaw);
+                     // RotateImg(mat_tem, rotated_mat, 90 - yaw);
           // RotateImg(mat_tem, rotated_mat, - yaw - 90);
           // RotateImg(mat_tem, rotated_mat, yaw + 90);
           RotateImg(mat_tem, &rotated_mat, yaw - 90);
@@ -440,10 +427,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void VisualizationEngine::DrawStd(const cv::Point &bias) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Draw std.";
-  if (cur_level_ == 0 && is_draw_std_) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Draw std.";
+   if (cur_level_ == 0 && is_draw_std_) {
     unsigned int i = (car_loc_id_ + 1) % loc_info_num_;
     for (unsigned int k = 0; k < loc_info_num_; k++) {
       LocalizatonInfo &loc_info = cur_loc_infos_[i];
@@ -476,14 +462,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void VisualizationEngine::DrawCloud(const cv::Point &bias) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!cur_loc_infos_[car_loc_id_].is_has_attitude) {
     return;
   }
 
-  AINFO << "Draw cloud.";
-  if (cur_level_ == 0) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Draw cloud.";
+   if (cur_level_ == 0) {
     CloudToMat(car_pose_, velodyne_extrinsic_, cloud_, &cloud_img_,
                &cloud_img_mask_);
     cv::Point lt;
@@ -500,10 +485,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void VisualizationEngine::DrawLegend() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Draw legend.";
-  int fontFace = cv::FONT_HERSHEY_SIMPLEX;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Draw legend.";
+   int fontFace = cv::FONT_HERSHEY_SIMPLEX;
   double fontScale = 0.6;
   int thickness = 2.0;
   int baseline = 0;
@@ -532,10 +516,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void VisualizationEngine::DrawInfo() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Draw info.";
-  LocalizatonInfo &loc_info = cur_loc_infos_[car_loc_id_];
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Draw info.";
+   LocalizatonInfo &loc_info = cur_loc_infos_[car_loc_id_];
 
   int fontFace = cv::FONT_HERSHEY_SIMPLEX;
   double fontScale = 0.8;
@@ -564,10 +547,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void VisualizationEngine::DrawTips() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Draw tips.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Draw tips.";
+ 
   tips_window_.setTo(cv::Scalar(0, 0, 0));
 
   int fontFace = cv::FONT_HERSHEY_SIMPLEX;
@@ -602,8 +584,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void VisualizationEngine::UpdateLevel() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (cur_scale_ > max_stride_ * 1.5) {
     SetScale(max_stride_ * 1.5);
   }
@@ -624,8 +604,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void VisualizationEngine::GenerateMutiResolutionImages(
     const std::vector<std::string> &src_files, const int base_path_length,
     const std::string &dst_folder) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x_min = std::numeric_limits<int>::max();
   int x_max = -1;
   int y_min = std::numeric_limits<int>::max();
@@ -716,8 +694,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool VisualizationEngine::InitOtherParams(const std::string &params_file) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x_min = 0;
   int y_min = 0;
   int x_max = 0;
@@ -727,7 +703,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::ifstream inf(params_file);
   if (!inf.is_open()) {
-    AERROR << "Open params file failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Open params file failed.";
     return false;
   }
 
@@ -747,8 +724,6 @@ void VisualizationEngine::InitOtherParams(const int x_min, const int y_min,
                                           const int x_max, const int y_max,
                                           const int level,
                                           const std::string &path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   lt_node_index_.x = x_min;
   lt_node_index_.y = y_min;
   lt_node_grid_index_.x = lt_node_index_.x * map_param_.map_node_size_x;
@@ -770,15 +745,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
   // SetScale((double)max_stride_);
   image_visual_leaf_path_ = image_visual_resolution_path_ + path;
-  AINFO << "image_visual_leaf_path: " << image_visual_leaf_path_;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "image_visual_leaf_path: " << image_visual_leaf_path_;
+ }
 
 void VisualizationEngine::CloudToMat(
     const Eigen::Affine3d &cur_pose, const Eigen::Affine3d &velodyne_extrinsic,
     const ::apollo::common::EigenVector3dVec &cloud, cv::Mat *cloud_img,
     cv::Mat *cloud_img_mask) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   unsigned int img_width = map_param_.map_node_size_x;
   unsigned int img_height = map_param_.map_node_size_y;
   Eigen::Vector3d cen = car_pose_.translation();
@@ -814,8 +788,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void VisualizationEngine::CoordToImageKey(const Eigen::Vector2d &coord,
                                           MapImageKey *key) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   key->level = cur_level_;
 
   DCHECK_LT(resolution_id_, map_param_.map_resolutions.size());
@@ -857,8 +829,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 cv::Point VisualizationEngine::CoordToMapGridIndex(
     const Eigen::Vector2d &coord, const unsigned int resolution_id,
     const int stride) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cv::Point p;
   p.x = static_cast<int>((coord[0] - map_param_.map_min_x) /
                          map_param_.map_resolutions[resolution_id]);
@@ -875,8 +845,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 cv::Point VisualizationEngine::MapGridIndexToNodeGridIndex(const cv::Point &p) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cv::Point pi;
   pi.x = p.x % map_param_.map_node_size_x;
   pi.x = pi.x < 0 ? pi.x + map_param_.map_node_size_x : pi.x;
@@ -887,8 +855,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool VisualizationEngine::LoadImageToCache(const MapImageKey &key) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cv::Mat img;
 
   if (!map_image_cache_.Get(key, &img)) {
@@ -898,8 +864,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
              key.node_east_id, key.level);
     if (cyber::common::PathExists(path)) {
       img = cv::imread(path);
-      AINFO << "visualizer load: " << path;
-      map_image_cache_.Set(key, img);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "visualizer load: " << path;
+       map_image_cache_.Set(key, img);
       return true;
     } else {
       return false;
@@ -910,8 +877,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void VisualizationEngine::RotateImg(const cv::Mat &in_img, cv::Mat *out_img,
                                     double angle) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int width = (in_img.cols > in_img.rows) ? in_img.cols : in_img.rows;
   width += 4;
   cv::Mat mat_tem(width, width, CV_8UC3);
@@ -927,33 +892,23 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void VisualizationEngine::SetViewCenter(const double center_x,
                                         const double center_y) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _view_center[0] = center_x;
   _view_center[1] = center_y;
 }
 
 void VisualizationEngine::UpdateViewCenter(const double move_x,
                                            const double move_y) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _view_center[0] += move_x;
   _view_center[1] += move_y;
 }
 
-void VisualizationEngine::SetScale(const double scale) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- cur_scale_ = scale; }
+void VisualizationEngine::SetScale(const double scale) { cur_scale_ = scale; }
 
 void VisualizationEngine::UpdateScale(const double factor) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cur_scale_ *= factor;
 }
 
 bool VisualizationEngine::UpdateCarLocId() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (unsigned int i = 0; i < loc_info_num_ - 1; i++) {
     unsigned int tem_car_loc_id = (car_loc_id_ + i + 1) % loc_info_num_;
     if (cur_loc_infos_[tem_car_loc_id].is_valid) {
@@ -966,8 +921,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool VisualizationEngine::UpdateCarLocId(const unsigned int car_loc_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (car_loc_id >= loc_info_num_) {
     return false;
   }
@@ -982,8 +935,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool VisualizationEngine::UpdateTrajectoryGroups() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (unsigned int i = 0; i < loc_info_num_; i++) {
     if (cur_loc_infos_[i].is_valid) {
       Eigen::Vector2d loc;
@@ -999,8 +950,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void VisualizationEngine::ProcessKey(int key) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const int move = 20;
   char c_key = static_cast<char>(key);
   switch (c_key) {

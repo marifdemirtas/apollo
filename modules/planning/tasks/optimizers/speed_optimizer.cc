@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -55,8 +54,9 @@ void SpeedOptimizer::RecordDebugInfo(const SpeedData& speed_data) {
 void SpeedOptimizer::RecordDebugInfo(const SpeedData& speed_data,
                                      STGraphDebug* st_graph_debug) {
   if (!FLAGS_enable_record_debug || !st_graph_debug) {
-    ADEBUG << "Skip record debug info";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip record debug info";
+     return;
   }
   st_graph_debug->set_name(Name());
   st_graph_debug->mutable_speed_profile()->CopyFrom(

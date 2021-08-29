@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -73,7 +72,8 @@ bool JunctionMLPEvaluator::Evaluate(Obstacle* obstacle_ptr,
 
   int id = obstacle_ptr->id();
   if (!obstacle_ptr->latest_feature().IsInitialized()) {
-    AERROR << "Obstacle [" << id << "] has no latest feature.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no latest feature.";
     return false;
   }
   Feature* latest_feature_ptr = obstacle_ptr->mutable_latest_feature();
@@ -82,8 +82,9 @@ bool JunctionMLPEvaluator::Evaluate(Obstacle* obstacle_ptr,
   // Assume obstacle is NOT closed to any junction exit
   if (!latest_feature_ptr->has_junction_feature() ||
       latest_feature_ptr->junction_feature().junction_exit_size() < 1) {
-    ADEBUG << "Obstacle [" << id << "] has no junction_exit.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] has no junction_exit.";
+     return false;
   }
 
   std::vector<double> feature_values;
@@ -94,8 +95,9 @@ bool JunctionMLPEvaluator::Evaluate(Obstacle* obstacle_ptr,
       PredictionConstants::kDumpDataForLearning) {
     FeatureOutput::InsertDataForLearning(*latest_feature_ptr, feature_values,
                                          "junction", nullptr);
-    ADEBUG << "Save extracted features for learning locally.";
-    return true;  // Skip Compute probability for offline mode
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Save extracted features for learning locally.";
+     return true;  // Skip Compute probability for offline mode
   }
   std::vector<torch::jit::IValue> torch_inputs;
   int input_dim = static_cast<int>(
@@ -128,7 +130,8 @@ bool JunctionMLPEvaluator::Evaluate(Obstacle* obstacle_ptr,
       latest_feature_ptr->mutable_lane()->mutable_lane_graph();
   CHECK_NOTNULL(lane_graph_ptr);
   if (lane_graph_ptr->lane_sequence().empty()) {
-    AERROR << "Obstacle [" << id << "] has no lane sequences.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no lane sequences.";
     return false;
   }
 
@@ -171,7 +174,8 @@ void JunctionMLPEvaluator::ExtractFeatureValues(
   SetObstacleFeatureValues(obstacle_ptr, &obstacle_feature_values);
 
   if (obstacle_feature_values.size() != OBSTACLE_FEATURE_SIZE) {
-    AERROR << "Obstacle [" << id << "] has fewer than "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has fewer than "
            << "expected obstacle feature_values "
            << obstacle_feature_values.size() << ".";
     return;
@@ -181,7 +185,8 @@ void JunctionMLPEvaluator::ExtractFeatureValues(
   SetEgoVehicleFeatureValues(obstacle_ptr, obstacles_container,
                              &ego_vehicle_feature_values);
   if (ego_vehicle_feature_values.size() != EGO_VEHICLE_FEATURE_SIZE) {
-    AERROR << "Obstacle [" << id << "] has fewer than "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has fewer than "
            << "expected ego vehicle feature_values"
            << ego_vehicle_feature_values.size() << ".";
     return;
@@ -190,7 +195,8 @@ void JunctionMLPEvaluator::ExtractFeatureValues(
   std::vector<double> junction_feature_values;
   SetJunctionFeatureValues(obstacle_ptr, &junction_feature_values);
   if (junction_feature_values.size() != JUNCTION_FEATURE_SIZE) {
-    AERROR << "Obstacle [" << id << "] has fewer than "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has fewer than "
            << "expected junction feature_values"
            << junction_feature_values.size() << ".";
     return;
@@ -211,8 +217,9 @@ void JunctionMLPEvaluator::SetObstacleFeatureValues(
   feature_values->reserve(OBSTACLE_FEATURE_SIZE);
   const Feature& feature = obstacle_ptr->latest_feature();
   if (!feature.has_position()) {
-    ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no position.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no position.";
+     return;
   }
   std::pair<double, double> obs_curr_pos =
       std::make_pair(feature.position().x(), feature.position().y());
@@ -278,8 +285,9 @@ void JunctionMLPEvaluator::SetEgoVehicleFeatureValues(
   (*feature_values)[1] = ego_relative_position.y();
   (*feature_values)[2] = ego_relative_velocity.x();
   (*feature_values)[3] = ego_relative_velocity.y();
-  ADEBUG << "ego relative pos = {" << ego_relative_position.x() << ", "
-         << ego_relative_position.y() << "} "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ego relative pos = {" << ego_relative_position.x() << ", "
+          << ego_relative_position.y() << "} "
          << "ego_relative_velocity = {" << ego_relative_velocity.x() << ", "
          << ego_relative_velocity.y() << "}";
 }
@@ -290,13 +298,15 @@ void JunctionMLPEvaluator::SetJunctionFeatureValues(
   feature_values->reserve(JUNCTION_FEATURE_SIZE);
   Feature* feature_ptr = obstacle_ptr->mutable_latest_feature();
   if (!feature_ptr->has_position()) {
-    ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no position.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << obstacle_ptr->id() << "] has no position.";
+     return;
   }
   double heading = std::atan2(feature_ptr->raw_velocity().y(),
                               feature_ptr->raw_velocity().x());
   if (!feature_ptr->has_junction_feature()) {
-    AERROR << "Obstacle [" << obstacle_ptr->id()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle_ptr->id()
            << "] has no junction_feature.";
     return;
   }
@@ -361,8 +371,9 @@ void JunctionMLPEvaluator::SetJunctionFeatureValues(
 
 void JunctionMLPEvaluator::LoadModel() {
   if (FLAGS_use_cuda && torch::cuda::is_available()) {
-    ADEBUG << "CUDA is available";
-    device_ = torch::Device(torch::kCUDA);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "CUDA is available";
+     device_ = torch::Device(torch::kCUDA);
   }
   torch::set_num_threads(1);
   torch_model_ =

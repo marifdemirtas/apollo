@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -44,8 +43,6 @@ PiecewiseJerkPathOptimizer::PiecewiseJerkPathOptimizer(
     const TaskConfig& config,
     const std::shared_ptr<DependencyInjector>& injector)
     : PathOptimizer(config, injector) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ACHECK(config_.has_piecewise_jerk_path_optimizer_config());
 }
 
@@ -57,8 +54,9 @@ common::Status PiecewiseJerkPathOptimizer::Process(
   if (FLAGS_enable_skip_path_tasks && path_reusable) {
     return Status::OK();
   }
-  ADEBUG << "Plan at the starting point: x = " << init_point.path_point().x()
-         << ", y = " << init_point.path_point().y()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Plan at the starting point: x = " << init_point.path_point().x()
+          << ", y = " << init_point.path_point().y()
          << ", and angle = " << init_point.path_point().theta();
   common::TrajectoryPoint planning_start_point = init_point;
   if (FLAGS_use_front_axe_center_in_path_planning) {
@@ -85,8 +83,9 @@ common::Status PiecewiseJerkPathOptimizer::Process(
 
   const auto& path_boundaries =
       reference_line_info_->GetCandidatePathBoundaries();
-  ADEBUG << "There are " << path_boundaries.size() << " path boundaries.";
-  const auto& reference_path_data = reference_line_info_->path_data();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There are " << path_boundaries.size() << " path boundaries.";
+   const auto& reference_path_data = reference_line_info_->path_data();
 
   std::vector<PathData> candidate_path_data;
   for (const auto& path_boundary : path_boundaries) {
@@ -139,8 +138,9 @@ common::Status PiecewiseJerkPathOptimizer::Process(
 
     if (path_boundary.label().find("regular") != std::string::npos &&
         reference_path_data.is_valid_path_reference()) {
-      ADEBUG << "path label is: " << path_boundary.label();
-      // when path reference is ready
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "path label is: " << path_boundary.label();
+       // when path reference is ready
       for (size_t i = 0; i < path_reference_size; ++i) {
         common::SLPoint path_reference_sl;
         reference_line.XYToSL(
@@ -176,8 +176,9 @@ common::Status PiecewiseJerkPathOptimizer::Process(
 
     if (res_opt) {
       for (size_t i = 0; i < path_boundary_size; i += 4) {
-        ADEBUG << "for s[" << static_cast<double>(i) * path_boundary.delta_s()
-               << "], l = " << opt_l[i] << ", dl = " << opt_dl[i];
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "for s[" << static_cast<double>(i) * path_boundary.delta_s()
+                << "], l = " << opt_l[i] << ", dl = " << opt_dl[i];
       }
       auto frenet_frame_path =
           ToPiecewiseJerkPath(opt_l, opt_dl, opt_ddl, path_boundary.delta_s(),
@@ -280,8 +281,9 @@ bool PiecewiseJerkPathOptimizer::OptimizePath(
       // Gaussian weighting
       const double x = static_cast<double>(i) * delta_s;
       weight_x_ref_vec.at(i) = GaussianWeighting(x, peak_value, peak_value_x);
-      ADEBUG << "i: " << i << ", weight: " << weight_x_ref_vec.at(i);
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "i: " << i << ", weight: " << weight_x_ref_vec.at(i);
+     }
     piecewise_jerk_problem.set_x_ref(std::move(weight_x_ref_vec),
                                      std::move(path_reference_l_ref));
   }
@@ -314,10 +316,12 @@ bool PiecewiseJerkPathOptimizer::OptimizePath(
 
   auto end_time = std::chrono::system_clock::now();
   std::chrono::duration<double> diff = end_time - start_time;
-  ADEBUG << "Path Optimizer used time: " << diff.count() * 1000 << " ms.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Path Optimizer used time: " << diff.count() * 1000 << " ms.";
+ 
   if (!success) {
-    AERROR << "piecewise jerk path optimizer failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "piecewise jerk path optimizer failed";
     return false;
   }
 
@@ -376,10 +380,12 @@ double PiecewiseJerkPathOptimizer::GaussianWeighting(
   double std = 1 / (std::sqrt(2 * M_PI) * peak_weighting);
   double u = peak_weighting_x * std;
   double x_updated = x * std;
-  ADEBUG << peak_weighting *
-                exp(-0.5 * (x - peak_weighting_x) * (x - peak_weighting_x));
-  ADEBUG << Gaussian(u, std, x_updated);
-  return Gaussian(u, std, x_updated);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << peak_weighting *
+                 exp(-0.5 * (x - peak_weighting_x) * (x - peak_weighting_x));
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << Gaussian(u, std, x_updated);
+   return Gaussian(u, std, x_updated);
 }
 
 }  // namespace planning

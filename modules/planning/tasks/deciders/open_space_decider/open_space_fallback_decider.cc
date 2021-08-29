@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -53,8 +52,9 @@ bool OpenSpaceFallbackDecider::QuardraticFormulaLowerSolution(const double a,
   double sol2 = (-b - std::sqrt(tmp)) / (2.0 * a);
 
   *sol = std::abs(std::min(sol1, sol2));
-  ADEBUG << "QuardraticFormulaLowerSolution finished with sol: " << *sol
-         << "sol1: " << sol1 << ", sol2: " << sol2 << "a: " << a << "b: " << b
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "QuardraticFormulaLowerSolution finished with sol: " << *sol
+          << "sol1: " << sol1 << ", sol2: " << sol2 << "a: " << a << "b: " << b
          << "c: " << c;
   return true;
 }
@@ -65,9 +65,11 @@ Status OpenSpaceFallbackDecider::Process(Frame* frame) {
   size_t fallback_start_index = 0;
 
   BuildPredictedEnvironment(frame->obstacles(), predicted_bounding_rectangles);
-  ADEBUG << "Numbers of obstsacles are: " << frame->obstacles().size();
-  ADEBUG << "Numbers of predicted bounding rectangles are: "
-         << predicted_bounding_rectangles[0].size()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Numbers of obstsacles are: " << frame->obstacles().size();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Numbers of predicted bounding rectangles are: "
+          << predicted_bounding_rectangles[0].size()
          << " and : " << predicted_bounding_rectangles.size();
   if (!IsCollisionFreeTrajectory(
           frame->open_space_info().chosen_partitioned_trajectory(),
@@ -108,8 +110,9 @@ Status OpenSpaceFallbackDecider::Process(Frame* frame) {
                            fallback_start_point.path_point().s() + 1.0,
                        0.0);
 
-    ADEBUG << "stop distance : " << stop_distance;
-    // const auto& vehicle_config =
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop distance : " << stop_distance;
+     // const auto& vehicle_config =
     //     common::VehicleConfigHelper::Instance()->GetConfig();
     const double vehicle_max_acc = 4.0;   // vehicle_config.max_acceleration();
     const double vehicle_max_dec = -4.0;  // vehicle_config.max_deceleration();
@@ -131,8 +134,9 @@ Status OpenSpaceFallbackDecider::Process(Frame* frame) {
       stop_distance = std::max(min_stop_distance, stop_distance);
     }
 
-    ADEBUG << "stop_deceleration: " << stop_deceleration;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop_deceleration: " << stop_deceleration;
+ 
     // Search stop index in chosen trajectory by distance
     size_t stop_index = fallback_start_index;
 
@@ -146,8 +150,9 @@ Status OpenSpaceFallbackDecider::Process(Frame* frame) {
       }
     }
 
-    ADEBUG << "stop index before is: " << stop_index
-           << "; fallback_start index before is: " << fallback_start_index;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop index before is: " << stop_index
+            << "; fallback_start index before is: " << fallback_start_index;
 
     for (size_t i = 0; i < fallback_start_index; ++i) {
       fallback_trajectory_pair_candidate.first[i].set_v(
@@ -161,8 +166,9 @@ Status OpenSpaceFallbackDecider::Process(Frame* frame) {
     // If stop_index == fallback_start_index;
     if (fallback_start_index == stop_index) {
       // 1. Set fallback start speed to 0, acceleration to max acceleration.
-      AINFO << "Stop distance within safety buffer, stop now!";
-      fallback_start_point.set_v(0.0);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Stop distance within safety buffer, stop now!";
+       fallback_start_point.set_v(0.0);
       fallback_start_point.set_a(0.0);
       fallback_trajectory_pair_candidate.first[stop_index].set_v(0.0);
       fallback_trajectory_pair_candidate.first[stop_index].set_a(0.0);
@@ -190,8 +196,9 @@ Status OpenSpaceFallbackDecider::Process(Frame* frame) {
       return Status::OK();
     }
 
-    ADEBUG << "before change, size : "
-           << fallback_trajectory_pair_candidate.first.size()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "before change, size : "
+            << fallback_trajectory_pair_candidate.first.size()
            << ", first index information : "
            << fallback_trajectory_pair_candidate.first[0].DebugString()
            << ", second index information : "
@@ -211,8 +218,9 @@ Status OpenSpaceFallbackDecider::Process(Frame* frame) {
           std::abs(
               fallback_trajectory_pair_candidate.first[i].path_point().s()) <=
               std::abs(stop_distance)) {
-        ADEBUG << "new_relative_time" << new_relative_time;
-        temp_v =
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "new_relative_time" << new_relative_time;
+         temp_v =
             fallback_start_point.v() + stop_deceleration * new_relative_time;
         // speed limit
         if (std::abs(temp_v) < 1.0) {
@@ -226,8 +234,9 @@ Status OpenSpaceFallbackDecider::Process(Frame* frame) {
         fallback_trajectory_pair_candidate.first[i].set_relative_time(
             new_relative_time);
       } else {
-        AINFO << "QuardraticFormulaLowerSolution solving failed, stop "
-                 "immediately!";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "QuardraticFormulaLowerSolution solving failed, stop "
+                  "immediately!";
 
         if (i != 0) {
           fallback_trajectory_pair_candidate.first[i]
@@ -246,12 +255,15 @@ Status OpenSpaceFallbackDecider::Process(Frame* frame) {
       }
     }
 
-    ADEBUG << "fallback start point after changes: "
-           << fallback_start_point.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "fallback start point after changes: "
+            << fallback_start_point.DebugString();
 
-    ADEBUG << "stop index: " << stop_index;
-    ADEBUG << "fallback start index: " << fallback_start_index;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop index: " << stop_index;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "fallback start index: " << fallback_start_index;
+ 
     // 2. Erase afterwards
     fallback_trajectory_pair_candidate.first.erase(
         fallback_trajectory_pair_candidate.first.begin() + stop_index + 1,
@@ -328,8 +340,9 @@ bool OpenSpaceFallbackDecider::IsCollisionFreeTrajectory(
     for (size_t j = 0; j < predicted_time_horizon; j++) {
       for (const auto& obstacle_box : predicted_bounding_rectangles[j]) {
         if (ego_box.HasOverlap(obstacle_box)) {
-          ADEBUG << "HasOverlap(obstacle_box) [" << i << "]";
-          const auto& vehicle_state = frame_->vehicle_state();
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "HasOverlap(obstacle_box) [" << i << "]";
+           const auto& vehicle_state = frame_->vehicle_state();
           Vec2d vehicle_vec({vehicle_state.x(), vehicle_state.y()});
           // remove points in previous trajectory
           if (std::abs(trajectory_point.relative_time() -
@@ -338,8 +351,9 @@ bool OpenSpaceFallbackDecider::IsCollisionFreeTrajectory(
                   config_.open_space_fallback_decider_config()
                       .open_space_fallback_collision_time_buffer() &&
               trajectory_point.relative_time() > 0.0) {
-            ADEBUG << "first_collision_index: [" << i << "]";
-            *first_collision_index = i;
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "first_collision_index: [" << i << "]";
+             *first_collision_index = i;
             return false;
           }
         }

@@ -40,33 +40,39 @@ bool ContiArsTracker::Init() {
   bool state = true;
   if (!lib::ConfigManager::Instance()->GetModelConfig(model_name,
                                                       &model_config)) {
-    AERROR << "not found model: " << model_name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "not found model: " << model_name;
     state = false;
   }
   if (!model_config->get_value("tracking_time_window", &s_tracking_time_win_)) {
-    AERROR << "track_time_window is not found.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "track_time_window is not found.";
     state = false;
   }
   if (!model_config->get_value("macher_name", &matcher_name_)) {
-    AERROR << "macher_name is not found.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "macher_name is not found.";
     state = false;
   }
   std::string chosen_filter;
   if (!model_config->get_value("chosen_filter", &chosen_filter)) {
-    AERROR << "chosen_filter is not found.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "chosen_filter is not found.";
     state = false;
   }
   RadarTrack::SetChosenFilter(chosen_filter);
   int tracked_times_threshold;
   if (!model_config->get_value("tracked_times_threshold",
                                &tracked_times_threshold)) {
-    AERROR << "tracked_times_threshold is not found.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tracked_times_threshold is not found.";
     state = false;
   }
   RadarTrack::SetTrackedTimesThreshold(tracked_times_threshold);
   bool use_filter;
   if (!model_config->get_value("use_filter", &use_filter)) {
-    AERROR << "use_filter is not found.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "use_filter is not found.";
     state = false;
   }
   RadarTrack::SetUseFilter(use_filter);
@@ -75,7 +81,8 @@ bool ContiArsTracker::Init() {
     matcher_ = new HMMatcher();
     matcher_->Init();  //  use proto later
   } else {
-    AERROR << "Not supported matcher : " << matcher_name_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Not supported matcher : " << matcher_name_;
     state = false;
   }
 
@@ -149,7 +156,8 @@ void ContiArsTracker::CreateNewTracks(
 
 void ContiArsTracker::CollectTrackedFrame(base::FramePtr tracked_frame) {
   if (tracked_frame == nullptr) {
-    AERROR << "tracked_frame is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tracked_frame is nullptr";
     return;
   }
   auto &objects = tracked_frame->objects;

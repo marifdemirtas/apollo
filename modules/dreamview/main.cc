@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -20,8 +19,6 @@
 #include "modules/dreamview/backend/dreamview.h"
 
 int main(int argc, char *argv[]) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::ParseCommandLineFlags(&argc, &argv, true);
   // Added by caros to improve dv performance
   apollo::cyber::GlobalData::Instance()->SetProcessGroup("dreamview_sched");
@@ -30,7 +27,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   apollo::dreamview::Dreamview dreamview;
   const bool init_success = dreamview.Init().ok() && dreamview.Start().ok();
   if (!init_success) {
-    AERROR << "Failed to initialize dreamview server";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to initialize dreamview server";
     return -1;
   }
   apollo::cyber::WaitForShutdown();

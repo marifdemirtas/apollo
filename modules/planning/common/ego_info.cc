@@ -43,7 +43,8 @@ bool EgoInfo::Update(const common::TrajectoryPoint& start_point,
 
 void EgoInfo::CalculateEgoBox(const common::VehicleState& vehicle_state) {
   const auto& param = ego_vehicle_config_.vehicle_param();
-  ADEBUG << "param: " << param.DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "param: " << param.DebugString();
 
   Vec2d vec_to_center(
       (param.front_edge_to_center() - param.back_edge_to_center()) / 2.0,

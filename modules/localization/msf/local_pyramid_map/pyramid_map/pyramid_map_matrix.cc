@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,17 +24,11 @@ namespace localization {
 namespace msf {
 namespace pyramid_map {
 
-PyramidMapMatrix::PyramidMapMatrix() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Clear(); }
+PyramidMapMatrix::PyramidMapMatrix() { Clear(); }
 
-PyramidMapMatrix::~PyramidMapMatrix() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Clear(); }
+PyramidMapMatrix::~PyramidMapMatrix() { Clear(); }
 
 PyramidMapMatrix::PyramidMapMatrix(const PyramidMapMatrix& map_matrix) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Clear();
   resolution_num_ = map_matrix.resolution_num_;
   ratio_ = map_matrix.ratio_;
@@ -61,8 +54,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void PyramidMapMatrix::Init(const BaseMapConfig& config) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const PyramidMapConfig* pconfig =
       dynamic_cast<const PyramidMapConfig*>(&config);
   Init(pconfig->map_node_size_y_, pconfig->map_node_size_x_,
@@ -74,8 +65,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void PyramidMapMatrix::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (unsigned int i = 0; i < resolution_num_; i++) {
     Reset(i);
   }
@@ -87,20 +76,20 @@ void PyramidMapMatrix::Init(unsigned int rows, unsigned int cols,
                             bool has_ground_altitude, bool has_count,
                             bool has_ground_count, unsigned int resolution_num,
                             unsigned int ratio) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Clear();
 
   // resolution_num should greater than 0
   if (resolution_num < 1) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "PyramidMapMatrix: [init] The resolution_num should greater than 0.";
     return;
   }
 
   // ratio should greater than 0
   if (ratio < 1) {
-    AERROR << "PyramidMapMatrix: [init] The ratio should greater than 0.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [init] The ratio should greater than 0.";
     return;
   }
 
@@ -112,7 +101,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     unsigned int cols_remainder = cols_tem % ratio;
 
     if (rows_remainder != 0 || cols_remainder != 0) {
-      AERROR << "PyramidMapMatrix: [init] "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [init] "
              << "Rows and cols in each level should be divisible by ratio.";
       return;
     }
@@ -195,10 +185,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void PyramidMapMatrix::Reset(unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [reset] The level id is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [reset] The level id is illegal.";
     return;
   }
 
@@ -227,16 +216,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void PyramidMapMatrix::ResetCells(unsigned int start_id, unsigned int end_id,
                                   unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [ResetCells] The level id is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [ResetCells] The level id is illegal.";
     return;
   }
 
   unsigned int length = rows_mr_[level] * cols_mr_[level];
   if (start_id >= length || end_id >= length) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "PyramidMapMatrix: [ResetCell] The start_id or end_id is illegal.";
     return;
   }
@@ -265,14 +254,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void PyramidMapMatrix::ResetCell(unsigned int id, unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ResetCells(id, id, level);
 }
 
 void PyramidMapMatrix::Clear() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   resolution_num_ = 1;
   ratio_ = 2;
 
@@ -297,22 +282,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool PyramidMapMatrix::GetIntensityImg(cv::Mat* intensity_img) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return GetIntensityImg(0, intensity_img);
 }
 
 bool PyramidMapMatrix::GetIntensityImg(unsigned int level,
                                        cv::Mat* intensity_img) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_intensity_ || resolution_num_ < 1) {
-    AERROR << "PyramidMapMatrix: [GetIntensityImg] No intensity data.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensityImg] No intensity data.";
     return false;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetIntensityImg] The level id is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensityImg] The level id is illegal.";
     return false;
   }
 
@@ -335,22 +318,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool PyramidMapMatrix::GetAltitudeImg(cv::Mat* altitude_img) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return GetAltitudeImg(0, altitude_img);
 }
 
 bool PyramidMapMatrix::GetAltitudeImg(unsigned int level,
                                       cv::Mat* altitude_img) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_altitude_ || resolution_num_ < 1) {
-    AERROR << "PyramidMapMatrix: [GetAltitudeImg] No altitude data.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetAltitudeImg] No altitude data.";
     return false;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetAltitudeImg] The level id is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetAltitudeImg] The level id is illegal.";
     return false;
   }
 
@@ -393,10 +374,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void PyramidMapMatrix::BottomUpSafe() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_count_) {
-    AERROR << "PyramidMapMatrix: [bottom_up] Has no count.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [bottom_up] Has no count.";
     return;
   }
 
@@ -433,8 +413,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void PyramidMapMatrix::BottomUpBase() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (unsigned int i = 1; i < resolution_num_; ++i) {
     const unsigned int& row = rows_mr_[i];
     const unsigned int& col = rows_mr_[i];
@@ -464,8 +442,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 PyramidMapMatrix& PyramidMapMatrix::operator=(
     const PyramidMapMatrix& map_matrix) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Clear();
   resolution_num_ = map_matrix.resolution_num_;
   ratio_ = map_matrix.ratio_;
@@ -494,15 +470,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 const float* PyramidMapMatrix::GetIntensitySafe(unsigned int row,
                                                 unsigned int col,
                                                 unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_intensity_) {
-    AERROR << "PyramidMapMatrix: [GetIntensitySafe] Has no intensity.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensitySafe] Has no intensity.";
     return nullptr;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [GetIntensitySafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensitySafe] Params is illegal.";
     return nullptr;
   }
 
@@ -512,15 +488,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 const float* PyramidMapMatrix::GetIntensityVarSafe(unsigned int row,
                                                    unsigned int col,
                                                    unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_intensity_var_) {
-    AERROR << "PyramidMapMatrix: [GetIntensityVarSafe] Has no intensity_var.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensityVarSafe] Has no intensity_var.";
     return nullptr;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [GetIntensityVarSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensityVarSafe] Params is illegal.";
     return nullptr;
   }
 
@@ -530,15 +506,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 const float* PyramidMapMatrix::GetAltitudeSafe(unsigned int row,
                                                unsigned int col,
                                                unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_altitude_) {
-    AERROR << "PyramidMapMatrix: [GetAltitudeSafe] Has no altitude.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetAltitudeSafe] Has no altitude.";
     return nullptr;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [GetAltitudeSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetAltitudeSafe] Params is illegal.";
     return nullptr;
   }
 
@@ -548,15 +524,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 const float* PyramidMapMatrix::GetAltitudeVarSafe(unsigned int row,
                                                   unsigned int col,
                                                   unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_altitude_var_) {
-    AERROR << "PyramidMapMatrix: [GetAltitudeVarSafe] Has no altitude_var.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetAltitudeVarSafe] Has no altitude_var.";
     return nullptr;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [get_altitude_var] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [get_altitude_var] Params is illegal.";
     return nullptr;
   }
 
@@ -566,16 +542,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 const float* PyramidMapMatrix::GetGroundAltitudeSafe(unsigned int row,
                                                      unsigned int col,
                                                      unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_ground_altitude_) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "PyramidMapMatrix: [GetGroundAltitudeSafe] Has no ground_altitude.";
     return nullptr;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [GetGroundAltitudeSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetGroundAltitudeSafe] Params is illegal.";
     return nullptr;
   }
 
@@ -585,15 +561,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 const unsigned int* PyramidMapMatrix::GetCountSafe(unsigned int row,
                                                    unsigned int col,
                                                    unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_count_) {
-    AERROR << "PyramidMapMatrix: [GetCountSafe] Has no count.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetCountSafe] Has no count.";
     return nullptr;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [GetCountSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetCountSafe] Params is illegal.";
     return nullptr;
   }
 
@@ -602,15 +578,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 const unsigned int* PyramidMapMatrix::GetGroundCountSafe(
     unsigned int row, unsigned int col, unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_ground_count_) {
-    AERROR << "PyramidMapMatrix: [GetGroundCountSafe] Has no ground_count.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetGroundCountSafe] Has no ground_count.";
     return nullptr;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [GetGroundCountSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetGroundCountSafe] Params is illegal.";
     return nullptr;
   }
 
@@ -624,10 +600,9 @@ void PyramidMapMatrix::GetMapCellSafe(float** intensity, float** intensity_var,
                                       unsigned int** ground_count,
                                       unsigned int row, unsigned int col,
                                       unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [GetMapCellSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetMapCellSafe] Params is illegal.";
     return;
   }
 
@@ -661,15 +636,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 FloatMatrix* PyramidMapMatrix::GetIntensityMatrixSafe(unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_intensity_) {
-    AERROR << "PyramidMapMatrix: [GetIntensityMatrixSafe] Has no intensity.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensityMatrixSafe] Has no intensity.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetIntensityMatrixSafe] The level id is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensityMatrixSafe] The level id is "
               "illegal.";
     return nullptr;
   }
@@ -678,16 +653,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 FloatMatrix* PyramidMapMatrix::GetIntensityVarMatrixSafe(unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_intensity_var_) {
-    AERROR << "PyramidMapMatrix: [GetIntensityVarMatrixSafe] Has no "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensityVarMatrixSafe] Has no "
               "intensity_var.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetIntensityVarMatrixSafe] The level id "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensityVarMatrixSafe] The level id "
               "is illegal.";
     return nullptr;
   }
@@ -696,15 +671,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 FloatMatrix* PyramidMapMatrix::GetAltitudeMatrixSafe(unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_altitude_) {
-    AERROR << "PyramidMapMatrix: [GetAltitudeMatrixSafe] Has no altitude.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetAltitudeMatrixSafe] Has no altitude.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "PyramidMapMatrix: [GetAltitudeMatrixSafe] The level id is illegal.";
     return nullptr;
   }
@@ -713,16 +688,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 FloatMatrix* PyramidMapMatrix::GetAltitudeVarMatrixSafe(unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_altitude_var_) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "PyramidMapMatrix: [GetAltitudeVarMatrixSafe] Has no altitude_var.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetAltitudeVarMatrixSafe] The level id is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetAltitudeVarMatrixSafe] The level id is "
               "illegal.";
     return nullptr;
   }
@@ -731,16 +706,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 FloatMatrix* PyramidMapMatrix::GetGroundAltitudeMatrixSafe(unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_ground_altitude_) {
-    AERROR << "PyramidMapMatrix: [GetGroundAltitudeMatrixSafe] Has no "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetGroundAltitudeMatrixSafe] Has no "
               "ground_altitude.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetGroundAltitudeMatrixSafe] The level id "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetGroundAltitudeMatrixSafe] The level id "
               "is illegal.";
     return nullptr;
   }
@@ -749,15 +724,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 UIntMatrix* PyramidMapMatrix::GetCountMatrixSafe(unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_count_) {
-    AERROR << "PyramidMapMatrix: [GetCountMatrixSafe] Has no count.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetCountMatrixSafe] Has no count.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetCountMatrixSafe] The level id is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetCountMatrixSafe] The level id is illegal.";
     return nullptr;
   }
 
@@ -765,16 +740,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 UIntMatrix* PyramidMapMatrix::GetGroundCountMatrixSafe(unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_ground_count_) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "PyramidMapMatrix: [GetGroundCountMatrixSafe] Has no ground_count.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetGroundCountMatrixSafe] The level id is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetGroundCountMatrixSafe] The level id is "
               "illegal.";
     return nullptr;
   }
@@ -784,15 +759,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 const FloatMatrix* PyramidMapMatrix::GetIntensityMatrixSafe(
     unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_intensity_) {
-    AERROR << "PyramidMapMatrix: [GetIntensityMatrixSafe] Has no intensity.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensityMatrixSafe] Has no intensity.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetIntensityMatrixSafe] The level id is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensityMatrixSafe] The level id is "
               "illegal.";
     return nullptr;
   }
@@ -802,16 +777,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 const FloatMatrix* PyramidMapMatrix::GetIntensityVarMatrixSafe(
     unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_intensity_var_) {
-    AERROR << "PyramidMapMatrix: [GetIntensityVarMatrixSafe] Has no "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensityVarMatrixSafe] Has no "
               "intensity_var.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetIntensityVarMatrixSafe] The level id "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetIntensityVarMatrixSafe] The level id "
               "is illegal.";
     return nullptr;
   }
@@ -821,15 +796,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 const FloatMatrix* PyramidMapMatrix::GetAltitudeMatrixSafe(
     unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_altitude_) {
-    AERROR << "PyramidMapMatrix: [GetAltitudeMatrixSafe] Has no altitude.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetAltitudeMatrixSafe] Has no altitude.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "PyramidMapMatrix: [GetAltitudeMatrixSafe] The level id is illegal.";
     return nullptr;
   }
@@ -839,16 +814,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 const FloatMatrix* PyramidMapMatrix::GetAltitudeVarMatrixSafe(
     unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_altitude_var_) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "PyramidMapMatrix: [GetAltitudeVarMatrixSafe] Has no altitude_var.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetAltitudeVarMatrixSafe] The level id is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetAltitudeVarMatrixSafe] The level id is "
               "illegal.";
     return nullptr;
   }
@@ -858,16 +833,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 const FloatMatrix* PyramidMapMatrix::GetGroundAltitudeMatrixSafe(
     unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_ground_altitude_) {
-    AERROR << "PyramidMapMatrix: [GetGroundAltitudeMatrixSafe] Has no "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetGroundAltitudeMatrixSafe] Has no "
               "ground_altitude.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetGroundAltitudeMatrixSafe] The level id "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetGroundAltitudeMatrixSafe] The level id "
               "is illegal.";
     return nullptr;
   }
@@ -877,15 +852,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 const UIntMatrix* PyramidMapMatrix::GetCountMatrixSafe(
     unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_count_) {
-    AERROR << "PyramidMapMatrix: [GetCountMatrixSafe] Has no count.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetCountMatrixSafe] Has no count.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetCountMatrixSafe] The level id is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetCountMatrixSafe] The level id is illegal.";
     return nullptr;
   }
 
@@ -894,16 +869,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 const UIntMatrix* PyramidMapMatrix::GetGroundCountMatrixSafe(
     unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_ground_count_) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "PyramidMapMatrix: [GetGroundCountMatrixSafe] Has no ground_count.";
     return nullptr;
   }
 
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [GetGroundCountMatrixSafe] The level id is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [GetGroundCountMatrixSafe] The level id is "
               "illegal.";
     return nullptr;
   }
@@ -914,15 +889,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void PyramidMapMatrix::SetIntensityMatrix(const float* input, unsigned int size,
                                           unsigned int start_index,
                                           unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_intensity_) {
-    AERROR << "PyramidMapMatrix: [SetIntensityMatrix] Has no intensity.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetIntensityMatrix] Has no intensity.";
     return;
   }
 
   if (!CheckLegalityForSetData(level, start_index, size)) {
-    AERROR << "PyramidMapMatrix: [SetIntensityMatrix] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetIntensityMatrix] Params is illegal.";
     return;
   }
 
@@ -933,16 +908,16 @@ void PyramidMapMatrix::SetIntensityVarMatrix(const float* input,
                                              unsigned int size,
                                              unsigned int start_index,
                                              unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_intensity_var_) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "PyramidMapMatrix: [set_intensity_var_matrix] Has no intensity_var.";
     return;
   }
 
   if (!CheckLegalityForSetData(level, start_index, size)) {
-    AERROR << "PyramidMapMatrix: [set_intensity_var_matrix] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [set_intensity_var_matrix] Params is illegal.";
     return;
   }
 
@@ -952,15 +927,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void PyramidMapMatrix::SetAltitudeMatrix(const float* input, unsigned int size,
                                          unsigned int start_index,
                                          unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_altitude_) {
-    AERROR << "PyramidMapMatrix: [SetAltitudeMatrix] Has no altitude.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetAltitudeMatrix] Has no altitude.";
     return;
   }
 
   if (!CheckLegalityForSetData(level, start_index, size)) {
-    AERROR << "PyramidMapMatrix: [SetAltitudeMatrix] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetAltitudeMatrix] Params is illegal.";
     return;
   }
 
@@ -971,15 +946,15 @@ void PyramidMapMatrix::SetAltitudeVarMatrix(const float* input,
                                             unsigned int size,
                                             unsigned int start_index,
                                             unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_altitude_var_) {
-    AERROR << "PyramidMapMatrix: [SetAltitudeVarMatrix] Has no altitude_var.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetAltitudeVarMatrix] Has no altitude_var.";
     return;
   }
 
   if (!CheckLegalityForSetData(level, start_index, size)) {
-    AERROR << "PyramidMapMatrix: [SetAltitudeVarMatrix] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetAltitudeVarMatrix] Params is illegal.";
     return;
   }
 
@@ -990,16 +965,16 @@ void PyramidMapMatrix::SetGroundAltitudeMatrix(const float* input,
                                                unsigned int size,
                                                unsigned int start_index,
                                                unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_ground_altitude_) {
-    AERROR << "PyramidMapMatrix: [SetGroundAltitudeMatrix] Has no "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetGroundAltitudeMatrix] Has no "
               "ground_altitude.";
     return;
   }
 
   if (!CheckLegalityForSetData(level, start_index, size)) {
-    AERROR << "PyramidMapMatrix: [SetGroundAltitudeMatrix] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetGroundAltitudeMatrix] Params is illegal.";
     return;
   }
 
@@ -1010,15 +985,15 @@ void PyramidMapMatrix::SetCountMatrix(const unsigned int* input,
                                       unsigned int size,
                                       unsigned int start_index,
                                       unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_count_) {
-    AERROR << "PyramidMapMatrix: [SetCountMatrix] Has no count.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetCountMatrix] Has no count.";
     return;
   }
 
   if (!CheckLegalityForSetData(level, start_index, size)) {
-    AERROR << "PyramidMapMatrix: [SetCountMatrix] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetCountMatrix] Params is illegal.";
     return;
   }
 
@@ -1029,15 +1004,15 @@ void PyramidMapMatrix::SetGroundCountMatrix(const unsigned int* input,
                                             unsigned int size,
                                             unsigned int start_index,
                                             unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_ground_count_) {
-    AERROR << "PyramidMapMatrix: [SetGroundCountMatrix] Has no ground count.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetGroundCountMatrix] Has no ground count.";
     return;
   }
 
   if (!CheckLegalityForSetData(level, start_index, size)) {
-    AERROR << "PyramidMapMatrix: [SetGroundCountMatrix] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetGroundCountMatrix] Params is illegal.";
     return;
   }
 
@@ -1049,41 +1024,45 @@ void PyramidMapMatrix::SetFloatMatrixRoi(const FloatMatrix* source_matrix,
                                          const Rect2D<unsigned int>& target_roi,
                                          unsigned int type,
                                          unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (source_matrix == nullptr) {
-    AERROR << "PyramidMapMatrix: [SetFloatMatrixRoi] Source matrix is nullptr.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetFloatMatrixRoi] Source matrix is nullptr.";
     return;
   }
 
   switch (type) {
     case 0:
       if (!has_intensity_) {
-        AERROR << "PyramidMapMatrix: [SetFloatMatrixRoi] Has no intensity.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetFloatMatrixRoi] Has no intensity.";
         return;
       }
       break;
     case 1:
       if (!has_intensity_var_) {
-        AERROR << "PyramidMapMatrix: [SetFloatMatrixRoi] Has no intensity var.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetFloatMatrixRoi] Has no intensity var.";
         return;
       }
       break;
     case 2:
       if (!has_altitude_) {
-        AERROR << "PyramidMapMatrix: [SetFloatMatrixRoi] Has no altitude.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetFloatMatrixRoi] Has no altitude.";
         return;
       }
       break;
     case 3:
       if (!has_altitude_var_) {
-        AERROR << "PyramidMapMatrix: [SetFloatMatrixRoi] Has no altitude var.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetFloatMatrixRoi] Has no altitude var.";
         return;
       }
       break;
     case 4:
       if (!has_ground_altitude_) {
-        AERROR
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
             << "PyramidMapMatrix: [SetFloatMatrixRoi] Has no ground altitude.";
         return;
       }
@@ -1094,7 +1073,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           level, static_cast<unsigned int>(source_matrix->GetRow()),
           static_cast<unsigned int>(source_matrix->GetCol()), source_roi,
           target_roi)) {
-    AERROR << "PyramidMapMatrix: [SetFloatMatrixRoi] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetFloatMatrixRoi] Params is illegal.";
     return;
   }
 
@@ -1141,23 +1121,24 @@ void PyramidMapMatrix::SetUintMatrixRoi(const UIntMatrix* source_matrix,
                                         const Rect2D<unsigned int>& source_roi,
                                         const Rect2D<unsigned int>& target_roi,
                                         unsigned int type, unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (source_matrix == nullptr) {
-    AERROR << "PyramidMapMatrix: [SetUintMatrixRoi] Source matrix is nullptr.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetUintMatrixRoi] Source matrix is nullptr.";
     return;
   }
 
   switch (type) {
     case 0:
       if (!has_count_) {
-        AERROR << "PyramidMapMatrix: [SetUintMatrixRoi] Has no count.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetUintMatrixRoi] Has no count.";
         return;
       }
       break;
     case 1:
       if (!has_ground_count_) {
-        AERROR << "PyramidMapMatrix: [SetUintMatrixRoi] Has no ground count.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetUintMatrixRoi] Has no ground count.";
         return;
       }
       break;
@@ -1167,7 +1148,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           level, static_cast<unsigned int>(source_matrix->GetRow()),
           static_cast<unsigned int>(source_matrix->GetCol()), source_roi,
           target_roi)) {
-    AERROR << "PyramidMapMatrix: [SetUintMatrixRoi] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetUintMatrixRoi] Params is illegal.";
     return;
   }
 
@@ -1202,15 +1184,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void PyramidMapMatrix::SetIntensitySafe(float intensity, unsigned int row,
                                         unsigned int col, unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_intensity_) {
-    AERROR << "PyramidMapMatrix: [SetIntensitySafe] Has no intensity.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetIntensitySafe] Has no intensity.";
     return;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [SetIntensitySafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetIntensitySafe] Params is illegal.";
     return;
   }
 
@@ -1220,15 +1202,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void PyramidMapMatrix::SetIntensityVarSafe(float intensity_var,
                                            unsigned int row, unsigned int col,
                                            unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_intensity_var_) {
-    AERROR << "PyramidMapMatrix: [SetIntensityVarSafe] Has no intensity_var.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetIntensityVarSafe] Has no intensity_var.";
     return;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [SetIntensityVarSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetIntensityVarSafe] Params is illegal.";
     return;
   }
 
@@ -1237,15 +1219,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void PyramidMapMatrix::SetAltitudeSafe(float altitude, unsigned int row,
                                        unsigned int col, unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_altitude_) {
-    AERROR << "PyramidMapMatrix: [SetAltitudeSafe] Has no altitude.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetAltitudeSafe] Has no altitude.";
     return;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [SetAltitudeSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetAltitudeSafe] Params is illegal.";
     return;
   }
 
@@ -1255,15 +1237,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void PyramidMapMatrix::SetAltitudeVarSafe(float altitude_var, unsigned int row,
                                           unsigned int col,
                                           unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_altitude_var_) {
-    AERROR << "PyramidMapMatrix: [SetAltitudeVarSafe] Has no altitude var.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetAltitudeVarSafe] Has no altitude var.";
     return;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [SetAltitudeVarSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetAltitudeVarSafe] Params is illegal.";
     return;
   }
 
@@ -1273,16 +1255,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void PyramidMapMatrix::SetGroundAltitudeSafe(float ground_altitude,
                                              unsigned int row, unsigned int col,
                                              unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_ground_altitude_) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "PyramidMapMatrix: [SetGroundAltitudeSafe] Has no ground altitude.";
     return;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [SetGroundAltitudeSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetGroundAltitudeSafe] Params is illegal.";
     return;
   }
 
@@ -1291,15 +1273,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void PyramidMapMatrix::SetCountSafe(unsigned int count, unsigned int row,
                                     unsigned int col, unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_count_) {
-    AERROR << "PyramidMapMatrix: [SetCountSafe] Has no count.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetCountSafe] Has no count.";
     return;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [SetCountSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetCountSafe] Params is illegal.";
     return;
   }
 
@@ -1309,15 +1291,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void PyramidMapMatrix::SetGroundCountSafe(unsigned int ground_count,
                                           unsigned int row, unsigned int col,
                                           unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_ground_count_) {
-    AERROR << "PyramidMapMatrix: [SetGroundCountSafe] Has no ground count.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetGroundCountSafe] Has no ground count.";
     return;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [SetGroundCountSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetGroundCountSafe] Params is illegal.";
     return;
   }
 
@@ -1327,20 +1309,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void PyramidMapMatrix::SetValueSafe(unsigned char intensity, float altitude,
                                     unsigned int row, unsigned int col,
                                     unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_intensity_) {
-    AERROR << "PyramidMapMatrix: [SetValueSafe] Has no intensity.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetValueSafe] Has no intensity.";
     return;
   }
 
   if (!has_altitude_) {
-    AERROR << "PyramidMapMatrix: [SetValueSafe] Has no altitude.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetValueSafe] Has no altitude.";
     return;
   }
 
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [SetValueSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [SetValueSafe] Params is illegal.";
     return;
   }
 
@@ -1353,10 +1336,9 @@ void PyramidMapMatrix::MergeCellSafe(
     const float* altitude_var, const float* ground_altitude,
     const unsigned int* count, const unsigned int* ground_count,
     unsigned int row, unsigned int col, unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [MergeCellSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [MergeCellSafe] Params is illegal.";
     return;
   }
 
@@ -1421,21 +1403,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool PyramidMapMatrix::CheckLegalityForGetData(unsigned int row,
                                                unsigned int col,
                                                unsigned int level) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [CheckLegalityForGetData] The level id is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [CheckLegalityForGetData] The level id is "
               "illegal.";
     return false;
   }
 
   if (row >= rows_mr_[level]) {
-    AERROR << "PyramidMapMatrix: [CheckLegalityForGetData] The row is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [CheckLegalityForGetData] The row is illegal.";
     return false;
   }
 
   if (col >= cols_mr_[level]) {
-    AERROR << "PyramidMapMatrix: [CheckLegalityForGetData] The col is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [CheckLegalityForGetData] The col is illegal.";
     return false;
   }
 
@@ -1445,16 +1428,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool PyramidMapMatrix::CheckLegalityForSetData(unsigned int level,
                                                unsigned int start_id,
                                                unsigned int size) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [CheckLegalityForSetData] The level id is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [CheckLegalityForSetData] The level id is "
               "illegal.";
     return false;
   }
 
   if (start_id + size > rows_mr_[level] * cols_mr_[level]) {
-    AERROR << "PyramidMapMatrix: [CheckLegalityForSetData] The start_id or "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [CheckLegalityForSetData] The start_id or "
               "size is illegal.";
     return false;
   }
@@ -1466,10 +1449,9 @@ bool PyramidMapMatrix::CheckLegalityForSetDataRoi(
     unsigned int level, unsigned int source_matrix_rows,
     unsigned int source_matrix_cols, const Rect2D<unsigned int>& source_roi,
     const Rect2D<unsigned int>& target_roi) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (level >= resolution_num_) {
-    AERROR << "PyramidMapMatrix: [CheckLegalityForSetDataRoi] The level id "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [CheckLegalityForSetDataRoi] The level id "
               "is illegal.";
     return false;
   }
@@ -1496,7 +1478,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           target_roi_max_x - target_roi_min_x ||
       source_roi_max_y - source_roi_min_y !=
           target_roi_max_y - target_roi_min_y) {
-    AERROR << "PyramidMapMatrix: [CheckLegalityForSetDataRoi]"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [CheckLegalityForSetDataRoi]"
               " The source_roi or target_roi is illegal.";
     return false;
   }
@@ -1507,10 +1490,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void PyramidMapMatrix::AddSampleSafe(float intensity, float altitude,
                                      unsigned int row, unsigned int col,
                                      unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [AddSampleSafe] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [AddSampleSafe] Params is illegal.";
     return;
   }
 
@@ -1554,10 +1536,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void PyramidMapMatrix::AddGroundSample(float ground_altitude, unsigned int row,
                                        unsigned int col, unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!CheckLegalityForGetData(row, col, level)) {
-    AERROR << "PyramidMapMatrix: [AddGroundSample] Params is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [AddGroundSample] Params is illegal.";
     return;
   }
 
@@ -1575,20 +1556,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 double PyramidMapMatrix::ComputeMeanIntensity(unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!has_count_) {
-    AERROR << "PyramidMapMatrix: [ComputeMeanIntensity] Has no count.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [ComputeMeanIntensity] Has no count.";
     return 0.0;
   }
 
   if (!has_intensity_ || resolution_num_ < 1) {
-    AERROR << "PyramidMapMatrix: [ComputeMeanIntensity] No intensity data.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [ComputeMeanIntensity] No intensity data.";
     return 0.0;
   }
 
   if (level >= resolution_num_) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "PyramidMapMatrix: [ComputeMeanIntensity] The level id is illegal.";
     return 0.0;
   }
@@ -1611,15 +1593,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void PyramidMapMatrix::Reduce(std::shared_ptr<PyramidMapMatrix> cells,
                               const PyramidMapMatrix& new_cells,
                               unsigned int level, unsigned int new_level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (level >= cells->resolution_num_) {
-    AERROR << "PyramidMapMatrix: [Reduce] The level id is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [Reduce] The level id is illegal.";
     return;
   }
 
   if (new_level >= new_cells.resolution_num_) {
-    AERROR << "PyramidMapMatrix: [Reduce] The new level id is illegal.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PyramidMapMatrix: [Reduce] The new level id is illegal.";
     return;
   }
 

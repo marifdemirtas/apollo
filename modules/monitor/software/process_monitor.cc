@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -36,13 +35,9 @@ namespace monitor {
 
 ProcessMonitor::ProcessMonitor()
     : RecurrentRunner(FLAGS_process_monitor_name,
-                      FLAGS_process_monitor_interval) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+                      FLAGS_process_monitor_interval) {}
 
 void ProcessMonitor::RunOnce(const double current_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Get running processes.
   std::vector<std::string> running_processes;
   for (const auto& cmd_file : cyber::common::Glob("/proc/*/cmdline")) {
@@ -93,8 +88,6 @@ void ProcessMonitor::UpdateStatus(
     const std::vector<std::string>& running_processes,
     const apollo::dreamview::ProcessMonitorConfig& config,
     ComponentStatus* status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   status->clear_status();
   for (const std::string& command : running_processes) {
     bool all_keywords_matched = true;

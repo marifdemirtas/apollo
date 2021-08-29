@@ -52,12 +52,14 @@ void DigitalFilter::set_coefficients(const std::vector<double> &denominators,
 
 void DigitalFilter::set_dead_zone(const double deadzone) {
   dead_zone_ = std::fabs(deadzone);
-  AINFO << "Setting digital filter dead zone = " << dead_zone_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Setting digital filter dead zone = " << dead_zone_;
 }
 
 double DigitalFilter::Filter(const double x_insert) {
   if (denominators_.empty() || numerators_.empty()) {
-    AERROR << "Empty denominators or numerators";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Empty denominators or numerators";
     return 0.0;
   }
 

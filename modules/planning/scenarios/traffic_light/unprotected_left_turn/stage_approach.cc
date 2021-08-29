@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -44,8 +43,9 @@ using apollo::perception::TrafficLight;
 
 Stage::StageStatus TrafficLightUnprotectedLeftTurnStageApproach::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: Approach";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: Approach";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
@@ -59,7 +59,8 @@ Stage::StageStatus TrafficLightUnprotectedLeftTurnStageApproach::Process(
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "TrafficLightUnprotectedLeftTurnStageApproach planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TrafficLightUnprotectedLeftTurnStageApproach planning error";
   }
 
   if (GetContext()->current_traffic_light_overlap_ids.empty()) {
@@ -92,8 +93,9 @@ Stage::StageStatus TrafficLightUnprotectedLeftTurnStageApproach::Process(
     const double distance_adc_to_stop_line =
         current_traffic_light_overlap->start_s - adc_front_edge_s;
     auto signal_color = frame->GetSignal(traffic_light_overlap_id).color();
-    ADEBUG << "traffic_light_overlap_id[" << traffic_light_overlap_id
-           << "] start_s[" << current_traffic_light_overlap->start_s
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "traffic_light_overlap_id[" << traffic_light_overlap_id
+            << "] start_s[" << current_traffic_light_overlap->start_s
            << "] distance_adc_to_stop_line[" << distance_adc_to_stop_line
            << "] color[" << signal_color << "]";
 

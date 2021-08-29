@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -42,8 +41,6 @@ using Json = nlohmann::json;
 PreprocessMonitor::PreprocessMonitor()
     : FuelMonitor(FLAGS_preprocess_monitor_name),
       node_(cyber::CreateNode("progress_monitor")) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   InitReaders();
   LoadConfiguration();
 }
@@ -52,19 +49,13 @@ PreprocessMonitor::PreprocessMonitor(const std::string& task_name)
     : FuelMonitor(FLAGS_preprocess_monitor_name),
       task_name_(task_name),
       node_(cyber::CreateNode(task_name + "_progress_monitor")) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   InitReaders();
   LoadConfiguration();
 }
 
-PreprocessMonitor::~PreprocessMonitor() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Stop(); }
+PreprocessMonitor::~PreprocessMonitor() { Stop(); }
 
 void PreprocessMonitor::InitReaders() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   node_->CreateReader<Progress>(
       FLAGS_progress_topic, [this](const std::shared_ptr<Progress>& progress) {
         this->OnProgress(progress);
@@ -72,8 +63,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void PreprocessMonitor::LoadConfiguration() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!task_name_.empty()) {
     const std::string& vehicle_dir =
         VehicleManager::Instance()->GetVehicleDataPath();
@@ -98,12 +87,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   MessageToJsonString(preprocess_table_, &json_string);
   current_status_json_ = Json::parse(json_string);
 
-  ADEBUG << "Configuration loaded.";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Configuration loaded.";
+ }
 
 void PreprocessMonitor::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!enabled_) {
     current_status_json_.clear();
     LoadConfiguration();
@@ -111,13 +99,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   enabled_ = true;
 }
 
-void PreprocessMonitor::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- enabled_ = false; }
+void PreprocessMonitor::Stop() { enabled_ = false; }
 
 void PreprocessMonitor::OnProgress(const std::shared_ptr<Progress>& progress) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!enabled_) {
     return;
   }
@@ -131,8 +115,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 nlohmann::json PreprocessMonitor::GetProgressAsJson() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   boost::unique_lock<boost::shared_mutex> reader_lock(mutex_);
   return current_status_json_;
 }

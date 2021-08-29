@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,16 +26,12 @@ namespace apollo {
 namespace hdmap {
 
 ChannelVerifyAgent::ChannelVerifyAgent(std::shared_ptr<JsonConf> sp_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sp_conf_ = sp_conf;
   sp_channel_checker_ = nullptr;
   sp_check_result_ = nullptr;
 }
 
 void ChannelVerifyAgent::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> guard(stop_mutex_);
   need_stop_ = false;
   stopped_ = false;
@@ -48,37 +43,40 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 grpc::Status ChannelVerifyAgent::ProcessGrpcRequest(
     grpc::ServerContext *context, ChannelVerifyRequest *request,
     ChannelVerifyResponse *response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "ChannelVerifyAgent Request: " << request->DebugString();
-  switch (request->cmd()) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ChannelVerifyAgent Request: " << request->DebugString();
+   switch (request->cmd()) {
     case CmdType::START:
-      AINFO << "ChannelVerifyAgent start";
-      StartCheck(request, response);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ChannelVerifyAgent start";
+       StartCheck(request, response);
       break;
     case CmdType::CHECK:
-      AINFO << "ChannelVerifyAgent check";
-      CheckResult(request, response);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ChannelVerifyAgent check";
+       CheckResult(request, response);
       break;
     case CmdType::STOP:
-      AINFO << "ChannelVerifyAgent stop";
-      StopCheck(request, response);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ChannelVerifyAgent stop";
+       StopCheck(request, response);
       break;
     default:
       response->set_code(ErrorCode::ERROR_REQUEST);
-      AERROR << "command error";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "command error";
   }
-  AINFO << "ChannelVerifyAgent progress: " << response->DebugString();
-  return grpc::Status::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ChannelVerifyAgent progress: " << response->DebugString();
+   return grpc::Status::OK;
 }
 
 void ChannelVerifyAgent::StartCheck(ChannelVerifyRequest *request,
                                     ChannelVerifyResponse *response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (GetState() == ChannelVerifyAgentState::RUNNING) {
-    AINFO << "ChannelVerify is RUNNING, do not need start again";
-    response->set_code(ErrorCode::ERROR_REPEATED_START);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ChannelVerify is RUNNING, do not need start again";
+     response->set_code(ErrorCode::ERROR_REPEATED_START);
     return;
   }
   Reset();
@@ -88,8 +86,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void ChannelVerifyAgent::AsyncCheck(const std::string &records_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   SetState(ChannelVerifyAgentState::RUNNING);
   std::thread doctor_strange([=]() {
     check_thread_id_ = std::this_thread::get_id();
@@ -101,8 +97,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           break;
         }
         DoCheck(records_path);
-        AINFO << "thread check done";
-      }
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "thread check done";
+       }
       std::this_thread::sleep_for(std::chrono::seconds(wait_sec));
       if (std::this_thread::get_id() != check_thread_id_) {
         break;
@@ -111,12 +108,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     stopped_ = true;
   });
   doctor_strange.detach();
-  AINFO << "ChannelVerifyAgent::async_check exit";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ChannelVerifyAgent::async_check exit";
+ }
 
 void ChannelVerifyAgent::DoCheck(const std::string &records_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (sp_channel_checker_ == nullptr) {
     sp_channel_checker_ = std::make_shared<ChannelVerify>(sp_conf_);
   }
@@ -128,20 +124,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 int ChannelVerifyAgent::AddTopicLack(
     VerifyResult *result, const std::string &record_path,
     std::vector<std::string> const &lack_channels) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   TopicResult *topics = result->mutable_topics();
   for (const std::string &channel : lack_channels) {
     topics->add_topic_lack(channel);
-    AINFO << record_path << " lack topic: " << channel;
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << record_path << " lack topic: " << channel;
+   }
   return static_cast<int>(lack_channels.size());
 }
 
 FrameRate *ChannelVerifyAgent::FindRates(VerifyResult *result,
                                          const std::string &channel) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (FrameRate &rate : *result->mutable_rates()) {
     if (rate.topic() == channel) {
       return &rate;
@@ -153,8 +146,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 int ChannelVerifyAgent::AddInadequateRate(
     VerifyResult *result, std::string const &record_path,
     std::map<std::string, std::pair<double, double>> const &inadequate_rate) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (auto it = inadequate_rate.begin(); it != inadequate_rate.end(); ++it) {
     const std::string &channel = it->first;
     double expected_rate = it->second.first;
@@ -176,17 +167,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void ChannelVerifyAgent::CheckResult(ChannelVerifyRequest *request,
                                      ChannelVerifyResponse *response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (GetState() == ChannelVerifyAgentState::IDLE) {
-    AINFO << "ChannelVerify is not RUNNING, it should start first";
-    response->set_code(ErrorCode::ERROR_CHECK_BEFORE_START);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ChannelVerify is not RUNNING, it should start first";
+     response->set_code(ErrorCode::ERROR_CHECK_BEFORE_START);
     return;
   }
 
   if (sp_channel_checker_ == nullptr || sp_check_result_ == nullptr) {
-    AINFO << "check result is null. check later";
-    response->set_code(ErrorCode::SUCCESS);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "check result is null. check later";
+     response->set_code(ErrorCode::SUCCESS);
     return;
   }
 
@@ -215,8 +206,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void ChannelVerifyAgent::StopCheck(ChannelVerifyRequest *request,
                                    ChannelVerifyResponse *response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> guard(stop_mutex_);
   need_stop_ = true;
   response->set_code(ErrorCode::SUCCESS);
@@ -242,14 +231,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void ChannelVerifyAgent::SetState(ChannelVerifyAgentState state) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   state_ = state;
 }
 
-ChannelVerifyAgentState ChannelVerifyAgent::GetState() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return state_; }
+ChannelVerifyAgentState ChannelVerifyAgent::GetState() const { return state_; }
 
 }  // namespace hdmap
 }  // namespace apollo

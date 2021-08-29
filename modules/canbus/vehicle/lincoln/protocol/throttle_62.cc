@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,15 +29,11 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Throttle62::ID = 0x62;
 
 uint32_t Throttle62::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   static const uint32_t PERIOD = 10 * 1000;
   return PERIOD;
 }
 
 void Throttle62::UpdateData(uint8_t *data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_pedal_p(data, pedal_cmd_);
   set_enable_p(data, pedal_enable_);
   set_clear_driver_override_flag_p(data, clear_driver_override_flag_);
@@ -47,8 +42,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Throttle62::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pedal_cmd_ = 0.0;
   pedal_enable_ = false;
   clear_driver_override_flag_ = false;
@@ -57,22 +50,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Throttle62 *Throttle62::set_pedal(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pedal_cmd_ = pedal;
   return this;
 }
 
 Throttle62 *Throttle62::set_enable() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pedal_enable_ = true;
   return this;
 }
 
 Throttle62 *Throttle62::set_disable() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pedal_enable_ = false;
   return this;
 }
@@ -80,8 +67,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // private
 
 void Throttle62::set_pedal_p(uint8_t *data, double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // change from [0-100] to [0.00-1.00]
   // and a rough mapping
   pedal /= 100.0;
@@ -100,8 +85,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Throttle62::set_enable_p(uint8_t *bytes, bool enable) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame(bytes + 3);
   if (enable) {
     frame.set_bit_1(0);
@@ -111,8 +94,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Throttle62::set_clear_driver_override_flag_p(uint8_t *bytes, bool clear) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame(bytes + 3);
   if (clear) {
     frame.set_bit_1(1);
@@ -122,8 +103,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Throttle62::set_ignore_driver_override_p(uint8_t *bytes, bool ignore) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame(bytes + 3);
   if (ignore) {
     frame.set_bit_1(2);
@@ -133,8 +112,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Throttle62::set_watchdog_counter_p(uint8_t *data, int32_t count) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   count = ProtocolData::BoundedValue(0, 255, count);
   Byte frame(data + 7);
   frame.set_value(static_cast<uint8_t>(count), 0, 8);

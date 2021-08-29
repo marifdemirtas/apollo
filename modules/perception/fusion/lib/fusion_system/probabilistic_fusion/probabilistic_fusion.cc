@@ -57,7 +57,8 @@ bool ProbabilisticFusion::Init(const FusionInitOptions& init_options) {
   ProbabilisticFusionConfig params;
 
   if (!cyber::common::GetProtoFromFile(config, &params)) {
-    AERROR << "Read config failed: " << config;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Read config failed: " << config;
     return false;
   }
   params_.use_lidar = params.use_lidar();
@@ -80,22 +81,26 @@ bool ProbabilisticFusion::Init(const FusionInitOptions& init_options) {
   if (params_.data_association_method == "HMAssociation") {
     matcher_.reset(new HMTrackersObjectsAssociation());
   } else {
-    AERROR << "Unknown association method: " << params_.data_association_method;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknown association method: " << params_.data_association_method;
     return false;
   }
   if (!matcher_->Init()) {
-    AERROR << "Failed to init matcher.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to init matcher.";
     return false;
   }
 
   if (params_.gate_keeper_method == "PbfGatekeeper") {
     gate_keeper_.reset(new PbfGatekeeper());
   } else {
-    AERROR << "Unknown gate keeper method: " << params_.gate_keeper_method;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknown gate keeper method: " << params_.gate_keeper_method;
     return false;
   }
   if (!gate_keeper_->Init()) {
-    AERROR << "Failed to init gatekeeper.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to init gatekeeper.";
     return false;
   }
 
@@ -109,7 +114,8 @@ bool ProbabilisticFusion::Fuse(const FusionOptions& options,
                                const base::FrameConstPtr& sensor_frame,
                                std::vector<base::ObjectPtr>* fused_objects) {
   if (fused_objects == nullptr) {
-    AERROR << "fusion error: fused_objects is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fusion error: fused_objects is nullptr";
     return false;
   }
 
@@ -133,7 +139,8 @@ bool ProbabilisticFusion::Fuse(const FusionOptions& options,
     }
 
     if (started_) {
-      AINFO << "add sensor measurement: " << sensor_frame->sensor_info.name
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "add sensor measurement: " << sensor_frame->sensor_info.name
             << ", obj_cnt : " << sensor_frame->objects.size() << ", "
             << FORMAT_TIMESTAMP(sensor_frame->timestamp);
       sensor_data_manager->AddSensorMeasurements(sensor_frame);
@@ -149,7 +156,8 @@ bool ProbabilisticFusion::Fuse(const FusionOptions& options,
   double fusion_time = sensor_frame->timestamp;
   std::vector<SensorFramePtr> frames;
   sensor_data_manager->GetLatestFrames(fusion_time, &frames);
-  AINFO << "Get " << frames.size() << " related frames for fusion";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Get " << frames.size() << " related frames for fusion";
 
   // 3. perform fusion on related frames
   for (const auto& frame : frames) {
@@ -176,7 +184,8 @@ bool ProbabilisticFusion::IsPublishSensor(
 }
 
 void ProbabilisticFusion::FuseFrame(const SensorFramePtr& frame) {
-  AINFO << "Fusing frame: " << frame->GetSensorId()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Fusing frame: " << frame->GetSensorId()
         << ", foreground_object_number: "
         << frame->GetForegroundObjects().size()
         << ", background_object_number: "
@@ -267,7 +276,8 @@ void ProbabilisticFusion::CreateNewTracks(
     track->Initialize(frame->GetForegroundObjects()[obj_ind]);
     scenes_->AddForegroundTrack(track);
 
-    ADEBUG << "object id: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "object id: "
            << frame->GetForegroundObjects()[obj_ind]->GetBaseObject()->track_id
            << ", create new track: " << track->GetTrackId();
 
@@ -348,7 +358,8 @@ void ProbabilisticFusion::RemoveLostTrack() {
       foreground_track_count++;
     }
   }
-  AINFO << "Remove " << foreground_tracks.size() - foreground_track_count
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Remove " << foreground_tracks.size() - foreground_track_count
         << " foreground tracks. " << foreground_track_count << " tracks left.";
   foreground_tracks.resize(foreground_track_count);
   trackers_.resize(foreground_track_count);
@@ -364,7 +375,8 @@ void ProbabilisticFusion::RemoveLostTrack() {
       background_track_count++;
     }
   }
-  AINFO << "Remove " << background_tracks.size() - background_track_count
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Remove " << background_tracks.size() - background_track_count
         << " background tracks";
   background_tracks.resize(background_track_count);
 }
@@ -395,7 +407,8 @@ void ProbabilisticFusion::CollectFusedObjects(
     }
   }
 
-  AINFO << "collect objects : fg_obj_cnt = " << fg_obj_num
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "collect objects : fg_obj_cnt = " << fg_obj_num
         << ", bg_obj_cnt = " << bg_obj_num
         << ", timestamp = " << FORMAT_TIMESTAMP(timestamp);
 }
@@ -437,7 +450,8 @@ void ProbabilisticFusion::CollectObjectsByTrack(
   obj->latest_tracked_time = timestamp;
   obj->tracking_time = track->GetTrackingPeriod();
   fused_objects->emplace_back(obj);
-  ADEBUG << "fusion_reporting..." << obj->track_id << "@"
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "fusion_reporting..." << obj->track_id << "@"
          << FORMAT_TIMESTAMP(timestamp) << "@(" << std::setprecision(10)
          << obj->center(0) << "," << obj->center(1) << ","
          << obj->center_uncertainty(0, 0) << ","

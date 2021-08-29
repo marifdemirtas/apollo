@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -43,8 +42,6 @@ DEFINE_int32(mean_g, 99, "image g");
 DEFINE_int32(mean_r, 96, "image r");
 
 int main(int argc, char **argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::ParseCommandLineFlags(&argc, &argv, true);
 
   const int height = FLAGS_height;
@@ -57,8 +54,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   cudaDeviceProp prop;
   cudaGetDeviceProperties(&prop, 0);
-  AINFO << prop.name;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << prop.name;
+ 
   apollo::perception::inference::Inference *rt_net;
   const std::string input_blob_name = "data";
   std::vector<std::string> inputs{input_blob_name};
@@ -67,19 +65,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   apollo::perception::inference::load_data<std::string>(FLAGS_names_file,
                                                         &outputs);
   for (auto name : outputs) {
-    AINFO << "outputs name: " << name;
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "outputs name: " << name;
+   }
 
   apollo::perception::inference::BatchStream stream(2, 50, "./batches/");
   nvinfer1::Int8EntropyCalibrator *calibrator =
       new nvinfer1::Int8EntropyCalibrator(stream, 0, true, "./");
   if (FLAGS_int8) {
-    AINFO << "int8";
-    rt_net = new apollo::perception::inference::RTNet(
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "int8";
+     rt_net = new apollo::perception::inference::RTNet(
         proto_file, weight_file, outputs, inputs, calibrator);
   } else {
-    AINFO << "fp32";
-    rt_net = new apollo::perception::inference::RTNet(proto_file, weight_file,
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "fp32";
+     rt_net = new apollo::perception::inference::RTNet(proto_file, weight_file,
                                                       outputs, inputs);
   }
   std::vector<int> shape = {1, 3, height, width};
@@ -95,8 +96,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (auto image_file : image_lists) {
     cv::Mat img = cv::imread(FLAGS_image_root + image_file + FLAGS_image_ext);
-    AINFO << img.channels();
-    cv::Rect roi(0, FLAGS_offset_y, img.cols, img.rows - FLAGS_offset_y);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << img.channels();
+     cv::Rect roi(0, FLAGS_offset_y, img.cols, img.rows - FLAGS_offset_y);
     cv::Mat img_roi = img(roi);
     img_roi.copyTo(img);
     cv::resize(img, img, cv::Size(width, height));
@@ -124,17 +126,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       std::vector<float> tmp_vec(blob->cpu_data(),
                                  blob->cpu_data() + blob->count());
       // if(output_name=="conv2" || output_name == "conv1") {
-      AINFO << output_name << " " << blob->channels() << " " << blob->height()
-            << " " << blob->width();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << output_name << " " << blob->channels() << " " << blob->height()
+             << " " << blob->width();
       double sum = 0;
       for (int i = 0; i < blob->count(); ++i) {
         sum += blob->cpu_data()[i];
         if (i < 100) {
-          AINFO << blob->cpu_data()[i];
-        }
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << blob->cpu_data()[i];
+         }
       }
-      AINFO << output_name << ", sum : " << std::endl;
-      // end of if
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << output_name << ", sum : " << std::endl;
+       // end of if
 
       output_data_vec.insert(output_data_vec.end(), tmp_vec.begin(),
                              tmp_vec.end());

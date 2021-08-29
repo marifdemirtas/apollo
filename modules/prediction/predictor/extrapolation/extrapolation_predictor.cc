@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -45,11 +44,13 @@ bool ExtrapolationPredictor::Predict(
   Feature* feature_ptr = obstacle->mutable_latest_feature();
 
   if (!feature_ptr->lane().has_lane_graph()) {
-    AERROR << "Obstacle [" << obstacle->id() << "] has no lane graph.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle->id() << "] has no lane graph.";
     return false;
   }
   if (feature_ptr->predicted_trajectory().empty()) {
-    AERROR << "Obstacle [" << obstacle->id()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle->id()
            << "] has no short-term trajectories.";
     return false;
   }
@@ -125,7 +126,8 @@ void ExtrapolationPredictor::ExtrapolateByLane(
   bool projected =
       PredictionMap::GetProjection(position, lane_info_ptr, &lane_s, &lane_l);
   if (!projected) {
-    AERROR << "Position (" << position.x() << ", " << position.y() << ") "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Position (" << position.x() << ", " << position.y() << ") "
            << "cannot be projected onto lane [" << start_lane_id << "]";
     return;
   }
@@ -152,7 +154,8 @@ void ExtrapolationPredictor::ExtrapolateByLane(
     double theta = M_PI;
     if (!PredictionMap::SmoothPointFromLane(lane_id, lane_s, lane_l, &point,
                                             &theta)) {
-      AERROR << "Unable to get smooth point from lane [" << lane_id
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to get smooth point from lane [" << lane_id
              << "] with s [" << lane_s << "] and l [" << lane_l << "]";
       break;
     }

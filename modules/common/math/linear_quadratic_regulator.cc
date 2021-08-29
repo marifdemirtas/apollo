@@ -34,7 +34,8 @@ void SolveLQRProblem(const Matrix &A, const Matrix &B, const Matrix &Q,
   if (A.rows() != A.cols() || B.rows() != A.rows() || Q.rows() != Q.cols() ||
       Q.rows() != A.rows() || R.rows() != R.cols() || R.rows() != B.cols() ||
       M.rows() != Q.rows() || M.cols() != R.cols()) {
-    AERROR << "LQR solver: one or more matrices have incompatible dimensions.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "LQR solver: one or more matrices have incompatible dimensions.";
     return;
   }
 
@@ -57,11 +58,13 @@ void SolveLQRProblem(const Matrix &A, const Matrix &B, const Matrix &Q,
   }
 
   if (num_iteration >= max_num_iteration) {
-    ADEBUG << "LQR solver cannot converge to a solution, "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "LQR solver cannot converge to a solution, "
               "last consecutive result diff is: "
            << diff;
   } else {
-    ADEBUG << "LQR solver converged at iteration: " << num_iteration
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "LQR solver converged at iteration: " << num_iteration
            << ", max consecutive result diff.: " << diff;
   }
   *ptr_K = (R + BT * P * B).inverse() * (BT * P * A + MT);

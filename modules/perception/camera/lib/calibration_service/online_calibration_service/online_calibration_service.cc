@@ -118,7 +118,8 @@ bool OnlineCalibrationService::QueryPoint3dOnGroundPlane(
 bool OnlineCalibrationService::QueryGroundPlaneInCameraFrame(
     Eigen::Vector4d *plane_param) const {
   if (plane_param == nullptr) {
-    AERROR << "plane_param is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "plane_param is nullptr";
     return false;
   }
   if (!is_service_ready_) {
@@ -137,11 +138,13 @@ bool OnlineCalibrationService::QueryGroundPlaneInCameraFrame(
 bool OnlineCalibrationService::QueryCameraToGroundHeightAndPitchAngle(
     float *height, float *pitch) const {
   if (height == nullptr) {
-    AERROR << "height is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "height is nullptr";
     return false;
   }
   if (pitch == nullptr) {
-    AERROR << "pitch is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "pitch is nullptr";
     return false;
   }
   if (!is_service_ready_) {
@@ -156,7 +159,8 @@ bool OnlineCalibrationService::QueryCameraToGroundHeightAndPitchAngle(
 
 void OnlineCalibrationService::Update(CameraFrame *frame) {
   if (frame == nullptr) {
-    AERROR << "frame is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "frame is nullptr";
     return;
   }
   sensor_name_ = frame->data_provider->sensor_name();
@@ -185,9 +189,11 @@ void OnlineCalibrationService::Update(CameraFrame *frame) {
     }
   }
   auto iter = name_camera_status_map_.find(sensor_name_);
-  AINFO << "camera_ground_height: " << iter->second.camera_ground_height
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "camera_ground_height: " << iter->second.camera_ground_height
         << " meter.";
-  AINFO << "pitch_angle: " << iter->second.pitch_angle * 180.0 / M_PI
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "pitch_angle: " << iter->second.pitch_angle * 180.0 / M_PI
         << " degree.";
   // ACHECK(BuildIndex());
   is_service_ready_ = true;

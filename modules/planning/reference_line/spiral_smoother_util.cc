@@ -74,7 +74,8 @@ class SpiralSmootherUtil {
   static bool Smooth(std::vector<Eigen::Vector2d> raw_points,
                      std::vector<common::PathPoint>* ptr_smooth_points) {
     if (raw_points.size() <= 2) {
-      AERROR << "the original point size is " << raw_points.size();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the original point size is " << raw_points.size();
       return false;
     }
 
@@ -116,7 +117,8 @@ class SpiralSmootherUtil {
     if (!res) {
       AWARN << "Optimization failed; the result may not be smooth";
     } else {
-      AINFO << "Optimal solution found";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Optimal solution found";
     }
 
     std::for_each(opt_x.begin(), opt_x.end(),
@@ -135,7 +137,8 @@ class SpiralSmootherUtil {
                      const std::vector<common::PathPoint>& smoothed_points) {
     std::ofstream ofs(filename.c_str());
     if (ofs.fail()) {
-      AERROR << "Fail to open file " << filename;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to open file " << filename;
       return;
     }
     ofs.precision(12);
@@ -148,7 +151,8 @@ class SpiralSmootherUtil {
           << ", \"dkappa\":" << point.dkappa() << "}";
     }
     ofs.close();
-    AINFO << "Smoothed result saved to " << filename;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Smoothed result saved to " << filename;
   }
 };
 
@@ -160,7 +164,8 @@ int main(int argc, char* argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
 
   if (FLAGS_input_file.empty()) {
-    AERROR << "need to provide --input_file";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "need to provide --input_file";
     return 0;
   }
 
@@ -172,12 +177,14 @@ int main(int argc, char* argv[]) {
   auto res =
       apollo::planning::SpiralSmootherUtil::Smooth(raw_points, &smooth_points);
   if (!res) {
-    AERROR << "Failed to smooth a the line";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to smooth a the line";
   }
 
   if (FLAGS_output_file.empty()) {
     FLAGS_output_file = FLAGS_input_file + ".smoothed";
-    AINFO << "Output file not provided, set to: " << FLAGS_output_file;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Output file not provided, set to: " << FLAGS_output_file;
   }
   apollo::planning::SpiralSmootherUtil::Export(FLAGS_output_file,
                                                smooth_points);

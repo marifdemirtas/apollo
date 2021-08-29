@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -41,8 +40,6 @@ namespace {
 
 #if USE_ESD_CAN
 std::string StatusString(const NTCAN_RESULT ntstatus) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   switch (ntstatus) {
     case NTCAN_SUCCESS:
       return "NTCAN_SUCCESS";
@@ -151,13 +148,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 NTCAN_RESULT EsdCanTest(const int can_id, NTCAN_HANDLE* handle) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   NTCAN_RESULT ret = canOpen(can_id, 0, 1, 1, 0, 0, handle);
   if (ret == NTCAN_SUCCESS) {
-    AINFO << "Successfully opened ESD-CAN device " << can_id;
-  } else {
-    AERROR << "Failed to open ESD-CAN device " << can_id << ", error: " << ret
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Successfully opened ESD-CAN device " << can_id;
+   } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to open ESD-CAN device " << can_id << ", error: " << ret
            << " (" << StatusString(ret) << ")";
     return ret;
   }
@@ -165,7 +162,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   CAN_IF_STATUS if_status;
   ret = canStatus(*handle, &if_status);
   if (ret != NTCAN_SUCCESS) {
-    AERROR << "Cannot get status of ESD-CAN, ret=" << ret << " ("
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot get status of ESD-CAN, ret=" << ret << " ("
            << StatusString(ret) << ")";
     return ret;
   }
@@ -173,7 +171,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   NTCAN_BUS_STATISTIC stats;
   ret = canIoctl(*handle, NTCAN_IOCTL_GET_BUS_STATISTIC, &stats);
   if (ret != NTCAN_SUCCESS) {
-    AERROR << "NTCAN_IOCTL_GET_BUS_STATISTIC failed for device with error: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "NTCAN_IOCTL_GET_BUS_STATISTIC failed for device with error: "
            << ret << " (" << StatusString(ret) << ")";
     return ret;
   }
@@ -181,7 +180,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   NTCAN_CTRL_STATE ctrl_state;
   ret = canIoctl(*handle, NTCAN_IOCTL_GET_CTRL_STATUS, &ctrl_state);
   if (ret != NTCAN_SUCCESS) {
-    AERROR << "NTCAN_IOCTL_GET_CTRL_STATUS failed for device with error: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "NTCAN_IOCTL_GET_CTRL_STATUS failed for device with error: "
            << ret << " (" << StatusString(ret) << ")";
     return ret;
   }
@@ -189,7 +189,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   NTCAN_BITRATE bitrate;
   ret = canIoctl(*handle, NTCAN_IOCTL_GET_BITRATE_DETAILS, &bitrate);
   if (ret != NTCAN_SUCCESS) {
-    AERROR << "NTCAN_IOCTL_GET_BITRATE_ for device with error: " << ret << " ("
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "NTCAN_IOCTL_GET_BITRATE_ for device with error: " << ret << " ("
            << StatusString(ret) << ")";
     return ret;
   }
@@ -197,8 +198,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void EsdCanTest(const int can_id, ComponentStatus* status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   NTCAN_HANDLE handle;
   const NTCAN_RESULT ret = EsdCanTest(can_id, &handle);
   canClose(handle);
@@ -210,8 +209,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 #else
 // USE_ESD_CAN is not set, do dummy check.
 void EsdCanTest(const int can_id, ComponentStatus* status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   SummaryMonitor::EscalateStatus(ComponentStatus::ERROR,
                                  "USE_ESD_CAN is not defined during compiling",
                                  status);
@@ -222,13 +219,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 EsdCanMonitor::EsdCanMonitor()
     : RecurrentRunner(FLAGS_esdcan_monitor_name,
-                      FLAGS_esdcan_monitor_interval) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+                      FLAGS_esdcan_monitor_interval) {}
 
 void EsdCanMonitor::RunOnce(const double current_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Component* component = apollo::common::util::FindOrNull(
       *MonitorManager::Instance()->GetStatus()->mutable_components(),
       FLAGS_esdcan_component_name);

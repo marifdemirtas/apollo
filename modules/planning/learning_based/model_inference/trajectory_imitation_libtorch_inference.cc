@@ -43,7 +43,8 @@ bool TrajectoryImitationLibtorchInference::LoadCNNModel() {
     auto torch_output_tensor =
         model_.forward(torch_inputs).toTensor().to(torch::kCPU);
   } catch (const c10::Error& e) {
-    AERROR << "Fail to do initial inference on CNN Model";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to do initial inference on CNN Model";
     return false;
   }
   return true;
@@ -61,7 +62,8 @@ bool TrajectoryImitationLibtorchInference::LoadCNNLSTMModel() {
     auto torch_output_tensor =
         model_.forward(torch_inputs).toTensor().to(torch::kCPU);
   } catch (const c10::Error& e) {
-    AERROR << "Fail to do initial inference on HISTORY_UNCONDITIONED_CNN_LSTM "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to do initial inference on HISTORY_UNCONDITIONED_CNN_LSTM "
               "Model";
     return false;
   }
@@ -70,12 +72,14 @@ bool TrajectoryImitationLibtorchInference::LoadCNNLSTMModel() {
 
 bool TrajectoryImitationLibtorchInference::LoadModel() {
   if (config_.use_cuda() && torch::cuda::is_available()) {
-    ADEBUG << "CUDA is available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "CUDA is available";
     device_ = torch::Device(torch::kCUDA);
     try {
       model_ = torch::jit::load(config_.gpu_model_file(), device_);
     } catch (const c10::Error& e) {
-      AERROR << "Failed to load model on to device";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load model on to device";
       return false;
     }
   } else {
@@ -97,7 +101,8 @@ bool TrajectoryImitationLibtorchInference::LoadModel() {
       break;
     }
     default: {
-      AERROR << "Configured model type not defined and implemented";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Configured model type not defined and implemented";
       break;
     }
   }
@@ -115,7 +120,8 @@ void TrajectoryImitationLibtorchInference::output_postprocessing(
   const double cur_x = cur_path_point.x();
   const double cur_y = cur_path_point.y();
   const double cur_heading = cur_path_point.theta();
-  ADEBUG << "cur_x[" << cur_x << "], cur_y[" << cur_y << "], cur_heading["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "cur_x[" << cur_x << "], cur_y[" << cur_y << "], cur_heading["
          << cur_heading << "], cur_v[" << cur_traj_point.trajectory_point().v()
          << "]";
 
@@ -127,7 +133,8 @@ void TrajectoryImitationLibtorchInference::output_postprocessing(
     const double dy = static_cast<double>(torch_output[0][i][1]);
     const double dtheta = static_cast<double>(torch_output[0][i][2]);
     const double v = static_cast<double>(torch_output[0][i][3]);
-    ADEBUG << "dx[" << dx << "], dy[" << dy << "], dtheta[" << dtheta << "], v["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "dx[" << dx << "], dy[" << dy << "], dtheta[" << dtheta << "], v["
            << v << "]";
     const double time_sec = cur_time_sec + delta_t * (i + 1);
     apollo::common::math::Vec2d offset(dx, dy);
@@ -154,7 +161,8 @@ bool TrajectoryImitationLibtorchInference::DoCNNMODELInference(
     LearningDataFrame* const learning_data_frame) {
   const int past_points_size = learning_data_frame->adc_trajectory_point_size();
   if (past_points_size == 0) {
-    AERROR << "No current trajectory point status";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No current trajectory point status";
     return false;
   }
 
@@ -163,14 +171,16 @@ bool TrajectoryImitationLibtorchInference::DoCNNMODELInference(
   cv::Mat input_feature;
   if (!BirdviewImgFeatureRenderer::Instance()->RenderMultiChannelEnv(
           *learning_data_frame, &input_feature)) {
-    AERROR << "Render multi-channel input image failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Render multi-channel input image failed";
     return false;
   }
 
   auto input_renderering_end_time = std::chrono::system_clock::now();
   std::chrono::duration<double> rendering_diff =
       input_renderering_end_time - input_renderering_start_time;
-  ADEBUG << "trajectory imitation model input renderer used time: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "trajectory imitation model input renderer used time: "
          << rendering_diff.count() * 1000 << " ms.";
 
   auto input_preprocessing_start_time = std::chrono::system_clock::now();
@@ -189,7 +199,8 @@ bool TrajectoryImitationLibtorchInference::DoCNNMODELInference(
   auto input_preprocessing_end_time = std::chrono::system_clock::now();
   std::chrono::duration<double> preprocessing_diff =
       input_preprocessing_end_time - input_preprocessing_start_time;
-  ADEBUG << "trajectory imitation model input preprocessing used time: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "trajectory imitation model input preprocessing used time: "
          << preprocessing_diff.count() * 1000 << " ms.";
 
   auto inference_start_time = std::chrono::system_clock::now();
@@ -202,7 +213,8 @@ bool TrajectoryImitationLibtorchInference::DoCNNMODELInference(
   auto inference_end_time = std::chrono::system_clock::now();
   std::chrono::duration<double> inference_diff =
       inference_end_time - inference_start_time;
-  ADEBUG << "trajectory imitation model inference used time: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "trajectory imitation model inference used time: "
          << inference_diff.count() * 1000 << " ms.";
 
   output_postprocessing(torch_output_tensor, learning_data_frame);
@@ -214,7 +226,8 @@ bool TrajectoryImitationLibtorchInference::DoCNNLSTMMODELInference(
     LearningDataFrame* const learning_data_frame) {
   const int past_points_size = learning_data_frame->adc_trajectory_point_size();
   if (past_points_size == 0) {
-    AERROR << "No current trajectory point status";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No current trajectory point status";
     return false;
   }
 
@@ -223,14 +236,16 @@ bool TrajectoryImitationLibtorchInference::DoCNNLSTMMODELInference(
   cv::Mat input_feature;
   if (!BirdviewImgFeatureRenderer::Instance()->RenderMultiChannelEnv(
           *learning_data_frame, &input_feature)) {
-    AERROR << "Render multi-channel input image failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Render multi-channel input image failed";
     return false;
   }
 
   auto input_renderering_end_time = std::chrono::system_clock::now();
   std::chrono::duration<double> rendering_diff =
       input_renderering_end_time - input_renderering_start_time;
-  ADEBUG << "trajectory imitation model input renderer used time: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "trajectory imitation model input renderer used time: "
          << rendering_diff.count() * 1000 << " ms.";
 
   auto input_preprocessing_start_time = std::chrono::system_clock::now();
@@ -259,7 +274,8 @@ bool TrajectoryImitationLibtorchInference::DoCNNLSTMMODELInference(
   auto input_preprocessing_end_time = std::chrono::system_clock::now();
   std::chrono::duration<double> preprocessing_diff =
       input_preprocessing_end_time - input_preprocessing_start_time;
-  ADEBUG << "trajectory imitation model input preprocessing used time: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "trajectory imitation model input preprocessing used time: "
          << preprocessing_diff.count() * 1000 << " ms.";
 
   auto inference_start_time = std::chrono::system_clock::now();
@@ -274,7 +290,8 @@ bool TrajectoryImitationLibtorchInference::DoCNNLSTMMODELInference(
   auto inference_end_time = std::chrono::system_clock::now();
   std::chrono::duration<double> inference_diff =
       inference_end_time - inference_start_time;
-  ADEBUG << "trajectory imitation model inference used time: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "trajectory imitation model inference used time: "
          << inference_diff.count() * 1000 << " ms.";
 
   output_postprocessing(torch_output_tensor, learning_data_frame);
@@ -298,7 +315,8 @@ bool TrajectoryImitationLibtorchInference::DoInference(
       break;
     }
     default: {
-      AERROR << "Configured model type not defined and implemented";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Configured model type not defined and implemented";
       break;
     }
   }

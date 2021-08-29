@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -42,14 +41,13 @@ using apollo::perception::PerceptionObstacles;
 
 void GetRecordFileNames(const boost::filesystem::path& p,
                         std::vector<std::string>* record_files) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!boost::filesystem::exists(p)) {
     return;
   }
   if (boost::filesystem::is_regular_file(p)) {
-    AINFO << "Found record file: " << p.c_str();
-    record_files->push_back(p.c_str());
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Found record file: " << p.c_str();
+     record_files->push_back(p.c_str());
     return;
   }
   if (boost::filesystem::is_directory(p)) {
@@ -67,8 +65,6 @@ void ProcessSingleRecordFile(const AudioConf& audio_conf,
     DirectionDetection* direction_detection,
     MovingDetection* moving_detection,
     SirenDetection* siren_detection) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   RecordReader reader(input_record_filepath);
   RecordMessage message;
   RecordWriter writer;
@@ -87,42 +83,45 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         writer.WriteMessage<AudioDetection>(
             audio_conf.topic_conf().audio_detection_topic_name(),
             audio_detection, message.time);
-        AINFO << "Generate a new audio detection message.";
-      }
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Generate a new audio detection message.";
+       }
     } else if (message.channel_name ==
                audio_conf.topic_conf().audio_event_topic_name()) {
       AudioEvent audio_event;
       if (audio_event.ParseFromString(message.content)) {
         writer.WriteMessage<AudioEvent>(message.channel_name, audio_event,
                                         message.time);
-        AINFO << "Save an audio even message.";
-      }
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Save an audio even message.";
+       }
     } else if (message.channel_name ==
                  audio_conf.topic_conf().localization_topic_name()) {
       LocalizationEstimate localization;
       if (localization.ParseFromString(message.content)) {
         writer.WriteMessage<LocalizationEstimate>(
             message.channel_name, localization, message.time);
-        AINFO << "Save a localization message.";
-      }
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Save a localization message.";
+       }
     } else if (message.channel_name ==
                  audio_conf.topic_conf().perception_topic_name()) {
       PerceptionObstacles perception_obstacles;
       if (perception_obstacles.ParseFromString(message.content)) {
         writer.WriteMessage<PerceptionObstacles>(
             message.channel_name, perception_obstacles, message.time);
-        AINFO << "Save a perception message.";
-      }
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Save a perception message.";
+       }
     }
   }
   writer.Close();
 }
 
 void ProcessFolder() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (FLAGS_audio_records_dir.empty()) {
-    AERROR << "The input folder is empty";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The input folder is empty";
     return;
   }
   AudioConf audio_conf;
@@ -152,8 +151,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }  // namespace apollo
 
 int main(int argc, char* argv[]) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::ParseCommandLineFlags(&argc, &argv, true);
   apollo::audio::ProcessFolder();
   return 0;

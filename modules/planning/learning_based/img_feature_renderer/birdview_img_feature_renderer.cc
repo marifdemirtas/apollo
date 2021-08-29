@@ -48,7 +48,8 @@ bool BirdviewImgFeatureRenderer::Init(const PlanningSemanticMapConfig& config) {
   const std::string map_name =
       FLAGS_map_dir.substr(FLAGS_map_dir.find_last_of("/") + 1);
   if (map_name != "sunnyvale_with_two_offices" && map_name != "sunnyvale") {
-    AERROR << "Map other than sunnyvale_with_two_offices are not supported";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Map other than sunnyvale_with_two_offices are not supported";
   }
   // TODO(Jinyun): add sunnyvale map or draw basemap online
   if (map_name == "sunnyvale") {
@@ -62,7 +63,8 @@ bool BirdviewImgFeatureRenderer::Init(const PlanningSemanticMapConfig& config) {
   bool speedlimit_img_status = LoadSpeedlimitMap(SPEEDLIMITMAP_IMG_PATH);
 
   if (!roadmap_img_status || !speedlimit_img_status) {
-    AERROR << "Base map image read failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Base map image read failed";
     return false;
   }
 
@@ -75,13 +77,15 @@ bool BirdviewImgFeatureRenderer::Init(const PlanningSemanticMapConfig& config) {
   bool render_ego_box_status = RenderEgoCurrentBox(&ego_cur_box_img_);
 
   if (!render_ego_point_status || !render_ego_box_status) {
-    AERROR << "Ego point or box img rendering failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ego point or box img rendering failed";
     return false;
   }
 
   if (base_roadmap_img_.size[0] != base_speedlimit_img_.size[0] ||
       base_roadmap_img_.size[1] != base_speedlimit_img_.size[1]) {
-    AERROR << "base map sizes doesn't match";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "base map sizes doesn't match";
     return false;
   }
 
@@ -96,7 +100,8 @@ bool BirdviewImgFeatureRenderer::RenderMultiChannelEnv(
   int ego_trajectory_point_history_size =
       learning_data_frame.adc_trajectory_point_size();
   if (ego_trajectory_point_history_size < 1) {
-    AERROR << "Ego past history is empty";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ego past history is empty";
     return false;
   }
 
@@ -126,34 +131,41 @@ bool BirdviewImgFeatureRenderer::RenderMultiChannelEnv(
 
   if (!RenderEgoPastPoint(learning_data_frame, current_time_sec, current_x,
                           current_y, current_heading, &ego_past)) {
-    AERROR << "RenderEgoPastPoint failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderEgoPastPoint failed";
     return false;
   }
   if (!RenderObsPastBox(learning_data_frame, current_time_sec, &obs_past)) {
-    AERROR << "RenderObsPastBox failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderObsPastBox failed";
     return false;
   }
   if (!RenderObsFutureBox(learning_data_frame, current_time_sec, &obs_future)) {
-    AERROR << "RenderObsFutureBox failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderObsFutureBox failed";
     return false;
   }
   if (!RenderLocalRoadMap(current_x, current_y, current_heading, &road_map)) {
-    AERROR << "RenderLocalRoadMap failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderLocalRoadMap failed";
     return false;
   }
   if (!RenderRouting(learning_data_frame, current_x, current_y, current_heading,
                      &routing)) {
-    AERROR << "RenderRouting failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderRouting failed";
     return false;
   }
   if (!RenderLocalSpeedlimitMap(current_x, current_y, current_heading,
                                 &speed_limit)) {
-    AERROR << "RenderLocalSpeedlimitMap failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderLocalSpeedlimitMap failed";
     return false;
   }
   if (!RenderTrafficLight(learning_data_frame, current_x, current_y,
                           current_heading, &traffic_light)) {
-    AERROR << "RenderTrafficLight failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderTrafficLight failed";
     return false;
   }
 
@@ -169,7 +181,8 @@ bool BirdviewImgFeatureRenderer::RenderBGREnv(
   int ego_trajectory_point_history_size =
       learning_data_frame.adc_trajectory_point_size();
   if (ego_trajectory_point_history_size < 1) {
-    AERROR << "Ego past history is empty";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ego past history is empty";
     return false;
   }
 
@@ -186,34 +199,41 @@ bool BirdviewImgFeatureRenderer::RenderBGREnv(
   const double current_heading = current_path_point.theta();
 
   if (!RenderLocalRoadMap(current_x, current_y, current_heading, &bgr_canvas)) {
-    AERROR << "RenderLocalRoadMap failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderLocalRoadMap failed";
     return false;
   }
   if (!RenderRouting(learning_data_frame, current_x, current_y, current_heading,
                      &bgr_canvas)) {
-    AERROR << "RenderRouting failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderRouting failed";
     return false;
   }
   if (!RenderTrafficLight(learning_data_frame, current_x, current_y,
                           current_heading, &bgr_canvas)) {
-    AERROR << "RenderTrafficLight failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderTrafficLight failed";
     return false;
   }
   if (!RenderObsPastBox(learning_data_frame, current_time_sec, &bgr_canvas)) {
-    AERROR << "RenderObsPastBox failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderObsPastBox failed";
     return false;
   }
   if (!RenderObsFutureBox(learning_data_frame, current_time_sec, &bgr_canvas)) {
-    AERROR << "RenderObsFutureBox failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderObsFutureBox failed";
     return false;
   }
   if (!RenderEgoCurrentBox(&bgr_canvas)) {
-    AERROR << "RenderEgoCurrentBox failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderEgoCurrentBox failed";
     return false;
   }
   if (!RenderEgoPastPoint(learning_data_frame, current_time_sec, current_x,
                           current_y, current_heading, &bgr_canvas)) {
-    AERROR << "RenderEgoPastPoint failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RenderEgoPastPoint failed";
     return false;
   }
 
@@ -406,7 +426,8 @@ bool BirdviewImgFeatureRenderer::RenderObsFutureBox(
       const auto& past_traj_points_size =
           obstacle.obstacle_trajectory().evaluated_trajectory_point_size();
       if (past_traj_points_size == 0) {
-        AERROR << "obstacle[" << obstacle.id()
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "obstacle[" << obstacle.id()
                << "] is static without tracking history points";
         return false;
       }
@@ -496,7 +517,8 @@ bool BirdviewImgFeatureRenderer::RenderTrafficLight(
         apollo::hdmap::HDMapUtil::BaseMap().GetSignalById(
             hdmap::MakeMapId(traffic_light_status.id()));
     if (traffic_light == nullptr) {
-      AERROR << "traffic_light [" << traffic_light_status.id() << "] not found";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "traffic_light [" << traffic_light_status.id() << "] not found";
       return false;
     }
     if (traffic_light_status.color() == perception::TrafficLight::RED) {
@@ -511,7 +533,8 @@ bool BirdviewImgFeatureRenderer::RenderTrafficLight(
       const auto& overlap =
           apollo::hdmap::HDMapUtil::BaseMap().GetOverlapById(overlap_id);
       if (overlap == nullptr) {
-        AERROR << "overlap [" << overlap_id.id() << "] not found";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "overlap [" << overlap_id.id() << "] not found";
         return false;
       }
       for (const auto& overlap_object : overlap->overlap().object()) {
@@ -521,7 +544,8 @@ bool BirdviewImgFeatureRenderer::RenderTrafficLight(
         const auto& lane = apollo::hdmap::HDMapUtil::BaseMap().GetLaneById(
             overlap_object.id());
         if (lane == nullptr) {
-          AERROR << "lane [" << overlap_object.id().id() << "] not found";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "lane [" << overlap_object.id().id() << "] not found";
           return false;
         }
         for (const auto& segment : lane->lane().central_curve().segment()) {
@@ -560,7 +584,8 @@ bool BirdviewImgFeatureRenderer::RenderRouting(
   const int routing_lanes_size =
       learning_data_frame.routing().local_routing_lane_id_size();
   if (routing_lanes_size == 0) {
-    AERROR << "routing is empty";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "routing is empty";
     return false;
   }
 
@@ -571,7 +596,8 @@ bool BirdviewImgFeatureRenderer::RenderRouting(
         apollo::hdmap::HDMapUtil::BaseMap().GetLaneById(hdmap::MakeMapId(
             learning_data_frame.routing().local_routing_lane_id(i)));
     if (lane == nullptr) {
-      AERROR << "lane ["
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "lane ["
              << learning_data_frame.routing().local_routing_lane_id(i)
              << "] not found";
       return false;
@@ -606,14 +632,16 @@ bool BirdviewImgFeatureRenderer::CropByPose(const double ego_x,
                                            base_roadmap_img_.size[0]);
   if (ego_img_idx.x < 0 || ego_img_idx.x + 1 > base_roadmap_img_.size[1] ||
       ego_img_idx.y < 0 || ego_img_idx.y + 1 > base_roadmap_img_.size[0]) {
-    AERROR << "ego vehicle position out of bound of base map";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ego vehicle position out of bound of base map";
     return false;
   }
 
   const int rough_radius = static_cast<int>(sqrt(
       config_.height() * config_.height() + config_.width() * config_.width()));
   if (ego_img_idx.x - rough_radius < 0 || ego_img_idx.y - rough_radius < 0) {
-    AERROR << "cropping out of bound of base map";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "cropping out of bound of base map";
     return false;
   }
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -46,30 +45,30 @@ bool GetNavigationPathFromFile(const std::string& filename,
 void CheckConfig(const apollo::relative_map::NavigatorConfig& navigator_config);
 
 int main(int argc, char** argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::ParseCommandLineFlags(&argc, &argv, true);
   // Init the cyber framework
   apollo::cyber::Init(argv[0]);
   FLAGS_alsologtostderr = true;
 
   NavigatorConfig navigator_config;
-  AINFO << "The navigator configuration filename is: "
-        << FLAGS_navigator_config_filename;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The navigator configuration filename is: "
+         << FLAGS_navigator_config_filename;
   if (!apollo::cyber::common::GetProtoFromFile(FLAGS_navigator_config_filename,
                                                &navigator_config)) {
-    AERROR << "Failed to parse " << FLAGS_navigator_config_filename;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to parse " << FLAGS_navigator_config_filename;
     return -1;
   }
   CheckConfig(navigator_config);
 
   std::vector<std::string> navigation_line_filenames;
   if (!ParseNavigationLineFileNames(argc, argv, &navigation_line_filenames)) {
-    AERROR << "Failed to get navigation file names.";
-    AINFO << "Usage: \n"
-          << "\t" << argv[0]
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get navigation file names.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Usage: \n"
+           << "\t" << argv[0]
           << " navigation_filename_1 navigation_filename_2 ...\n"
           << "For example: \n"
           << "\t" << argv[0]
@@ -77,8 +76,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     return -1;
   }
 
-  ADEBUG << "The flag \"navigator_down_sample\" is: "
-         << navigator_config.enable_navigator_downsample();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "The flag \"navigator_down_sample\" is: "
+          << navigator_config.enable_navigator_downsample();
 
   NavigationInfo navigation_info;
   int i = 0;
@@ -86,20 +86,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     auto* navigation_path = navigation_info.add_navigation_path();
     if (!GetNavigationPathFromFile(filename, navigator_config,
                                    navigation_path)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
       AWARN << "Failed to load file: " << filename;
       continue;
     }
-    AINFO << "The file: " << filename + " is processed ";
-    navigation_path->set_path_priority(i);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The file: " << filename + " is processed ";
+     navigation_path->set_path_priority(i);
     navigation_path->mutable_path()->set_name("Navigation path " + i);
     ++i;
   }
   if (navigation_info.navigation_path_size() < 1) {
-    AERROR << "No navigation information is fetched.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No navigation information is fetched.";
     return -1;
   }
 
@@ -120,8 +118,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
     apollo::common::util::FillHeader(node->Name(), &navigation_info);
     writer->Write(navigation_info);
-    ADEBUG << "Sending navigation info:" << navigation_info.DebugString();
-    rate.Sleep();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Sending navigation info:" << navigation_info.DebugString();
+     rate.Sleep();
     ++trans_num;
   }
 
@@ -141,7 +140,8 @@ bool ParseNavigationLineFileNames(
       }
       initialized = true;
     } catch (const std::exception& e) {
-      AERROR << "Failed to get navigation line filenames: " << e.what();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get navigation line filenames: " << e.what();
       initialized = false;
     }
   }
@@ -156,7 +156,8 @@ bool GetNavigationPathFromFile(const std::string& filename,
 
   std::ifstream ifs(filename, std::ios::in);
   if (!ifs.is_open()) {
-    AERROR << "Failed to open " << filename;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to open " << filename;
     return false;
   }
   std::string line_str;
@@ -195,27 +196,26 @@ bool GetNavigationPathFromFile(const std::string& filename,
         point->set_kappa(current_kappa);
         point->set_dkappa(json_obj["dkappa"]);
         ++down_sampled_points_num;
-        ADEBUG << "down_sample_x: " << json_obj["x"]
-               << ", down_sample_y: " << json_obj["y"];
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "down_sample_x: " << json_obj["x"]
+                << ", down_sample_y: " << json_obj["y"];
       }
       ++original_points_num;
     } catch (const std::exception& e) {
-      AERROR << "Failed to parse JSON data: " << e.what();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to parse JSON data: " << e.what();
       return false;
     }
   }
-  AINFO << "The number of original points is: " << original_points_num
-        << " and the number of down sampled points is: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The number of original points is: " << original_points_num
+         << " and the number of down sampled points is: "
         << down_sampled_points_num << " in the file: " << filename;
   return true;
 }
 
 void CheckConfig(
     const apollo::relative_map::NavigatorConfig& navigator_config) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ACHECK(navigator_config.has_sample_param());
   const auto& sample_param = navigator_config.sample_param();
   ACHECK(sample_param.has_straight_sample_interval());

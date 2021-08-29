@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -31,8 +30,9 @@ namespace valet_parking {
 
 Stage::StageStatus StageApproachingParkingSpot::Process(
     const common::TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: StageApproachingParkingSpot";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: StageApproachingParkingSpot";
+   CHECK_NOTNULL(frame);
   GetContext()->target_parking_spot_id.clear();
   if (frame->local_view().routing->routing_request().has_parking_info() &&
       frame->local_view()
@@ -44,7 +44,8 @@ Stage::StageStatus StageApproachingParkingSpot::Process(
                                                .parking_info()
                                                .parking_space_id();
   } else {
-    AERROR << "No parking space id from routing";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No parking space id from routing";
     return StageStatus::ERROR;
   }
 
@@ -61,7 +62,8 @@ Stage::StageStatus StageApproachingParkingSpot::Process(
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "StopSignUnprotectedStagePreStop planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "StopSignUnprotectedStagePreStop planning error";
     return StageStatus::ERROR;
   }
 
@@ -86,8 +88,9 @@ bool StageApproachingParkingSpot::CheckADCStop(const Frame& frame) {
                                         .vehicle_param()
                                         .max_abs_speed_when_stopped();
   if (adc_speed > max_adc_stop_speed) {
-    ADEBUG << "ADC not stopped: speed[" << adc_speed << "]";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC not stopped: speed[" << adc_speed << "]";
+     return false;
   }
 
   // check stop close enough to stop line of the stop_sign
@@ -99,8 +102,9 @@ bool StageApproachingParkingSpot::CheckADCStop(const Frame& frame) {
 
   if (distance_stop_line_to_adc_front_edge >
       scenario_config_.max_valid_stop_distance()) {
-    ADEBUG << "not a valid stop. too far from stop line.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "not a valid stop. too far from stop line.";
+     return false;
   }
   return true;
 }

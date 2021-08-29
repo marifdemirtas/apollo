@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,14 +29,13 @@ uint32_t FusionComponent::s_seq_num_ = 0;
 std::mutex FusionComponent::s_mutex_;
 
 bool FusionComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   FusionComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
     return false;
   }
-  AINFO << "Fusion Component Configs: " << comp_config.DebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Fusion Component Configs: " << comp_config.DebugString();
+ 
   // to load component configs
   fusion_method_ = comp_config.fusion_method();
   for (int i = 0; i < comp_config.fusion_main_sensors_size(); ++i) {
@@ -56,8 +54,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool FusionComponent::Proc(const std::shared_ptr<SensorFrameMessage>& message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (message->process_stage_ == ProcessStage::SENSOR_FUSION) {
     return true;
   }
@@ -70,16 +66,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const auto& itr = std::find(fusion_main_sensors_.begin(),
                               fusion_main_sensors_.end(), message->sensor_id_);
   if (itr == fusion_main_sensors_.end()) {
-    AINFO << "Fusion receives message from " << message->sensor_id_
-          << " which is not in main sensors. Skip sending.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Fusion receives message from " << message->sensor_id_
+           << " which is not in main sensors. Skip sending.";
     return true;
   }
 
   bool status = InternalProc(message, out_message, viz_message);
   if (status) {
     writer_->Write(out_message);
-    AINFO << "Send fusion processing output message.";
-    // send msg for visualization
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Send fusion processing output message.";
+     // send msg for visualization
     if (FLAGS_obs_enable_visualization) {
       inner_writer_->Write(viz_message);
     }
@@ -88,8 +86,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool FusionComponent::InitAlgorithmPlugin() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   fusion_.reset(new fusion::ObstacleMultiSensorFusion());
   fusion::ObstacleMultiSensorFusionParam param;
   param.main_sensors = fusion_main_sensors_;
@@ -100,16 +96,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     hdmap_input_ = map::HDMapInput::Instance();
     ACHECK(hdmap_input_->Init()) << "Failed to init hdmap input.";
   }
-  AINFO << "Init algorithm successfully, onboard fusion: " << fusion_method_;
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Init algorithm successfully, onboard fusion: " << fusion_method_;
+   return true;
 }
 
 bool FusionComponent::InternalProc(
     const std::shared_ptr<SensorFrameMessage const>& in_message,
     std::shared_ptr<PerceptionObstacles> out_message,
     std::shared_ptr<SensorFrameMessage> viz_message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   {
     std::unique_lock<std::mutex> lock(s_mutex_);
     s_seq_num_++;
@@ -123,14 +118,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (!MsgSerializer::SerializeMsg(
             timestamp, lidar_timestamp, in_message->seq_num_, valid_objects,
             in_message->error_code_, out_message.get())) {
-      AERROR << "Failed to gen PerceptionObstacles object.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to gen PerceptionObstacles object.";
       return false;
     }
     if (FLAGS_obs_enable_visualization) {
       viz_message->process_stage_ = ProcessStage::SENSOR_FUSION;
       viz_message->error_code_ = in_message->error_code_;
     }
-    AERROR << "Fusion receive message with error code, skip it.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fusion receive message with error code, skip it.";
     return true;
   }
   base::FramePtr frame = in_message->frame_;
@@ -138,7 +135,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   std::vector<base::ObjectPtr> fused_objects;
   if (!fusion_->Process(frame, &fused_objects)) {
-    AERROR << "Failed to call fusion plugin.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to call fusion plugin.";
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR("fusion_process", in_message->sensor_id_);
@@ -184,7 +182,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (!MsgSerializer::SerializeMsg(timestamp, lidar_timestamp,
                                    in_message->seq_num_, valid_objects,
                                    error_code, out_message.get())) {
-    AERROR << "Failed to gen PerceptionObstacles object.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to gen PerceptionObstacles object.";
     return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR("fusion_serialize_message",
@@ -192,11 +191,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const double cur_time = ::apollo::cyber::Clock::NowInSeconds();
   const double latency = (cur_time - timestamp) * 1e3;
-  AINFO << std::setprecision(16) << "FRAME_STATISTICS:Obstacle:End:msg_time["
-        << timestamp << "]:cur_time[" << cur_time << "]:cur_latency[" << latency
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << std::setprecision(16) << "FRAME_STATISTICS:Obstacle:End:msg_time["
+         << timestamp << "]:cur_time[" << cur_time << "]:cur_latency[" << latency
         << "]:obj_cnt[" << valid_objects.size() << "]";
-  AINFO << "publish_number: " << valid_objects.size() << " obj";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "publish_number: " << valid_objects.size() << " obj";
+   return true;
 }
 
 }  // namespace onboard

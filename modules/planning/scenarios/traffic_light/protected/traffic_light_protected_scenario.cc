@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -43,7 +42,8 @@ void TrafficLightProtectedScenario::Init() {
   Scenario::Init();
 
   if (!GetScenarioConfig()) {
-    AERROR << "fail to get scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to get scenario specific config";
     return;
   }
 
@@ -51,7 +51,8 @@ void TrafficLightProtectedScenario::Init() {
       injector_->planning_context()->planning_status().traffic_light();
 
   if (traffic_light_status.current_traffic_light_overlap_id().empty()) {
-    AERROR << "Could not find traffic-light(s)";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Could not find traffic-light(s)";
     return;
   }
 
@@ -64,7 +65,8 @@ void TrafficLightProtectedScenario::Init() {
         HDMapUtil::BaseMap().GetSignalById(
             hdmap::MakeMapId(traffic_light_overlap_id));
     if (!traffic_light) {
-      AERROR << "Could not find traffic light: " << traffic_light_overlap_id;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Could not find traffic light: " << traffic_light_overlap_id;
     }
 
     context_.current_traffic_light_overlap_ids.push_back(
@@ -118,7 +120,8 @@ std::unique_ptr<Stage> TrafficLightProtectedScenario::CreateStage(
  */
 bool TrafficLightProtectedScenario::GetScenarioConfig() {
   if (!config_.has_traffic_light_protected_config()) {
-    AERROR << "miss scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "miss scenario specific config";
     return false;
   }
   context_.scenario_config.CopyFrom(config_.traffic_light_protected_config());

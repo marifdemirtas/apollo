@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace gem {
 
 using ::apollo::drivers::canbus::Byte;
 
-Wiperrpt91::Wiperrpt91() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Wiperrpt91::Wiperrpt91() {}
 const int32_t Wiperrpt91::ID = 0x91;
 
 void Wiperrpt91::Parse(const std::uint8_t* bytes, int32_t length,
                        ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_gem()->mutable_wiper_rpt_91()->set_output_value(
       output_value(bytes, length));
   chassis->mutable_gem()->mutable_wiper_rpt_91()->set_commanded_value(
@@ -54,8 +49,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Wiper_rpt_91::Output_valueType Wiperrpt91::output_value(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -73,8 +66,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 15, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Wiper_rpt_91::Commanded_valueType Wiperrpt91::commanded_value(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -92,8 +83,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Wiper_rpt_91::Manual_inputType Wiperrpt91::manual_input(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 

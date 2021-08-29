@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -46,8 +45,6 @@ namespace canbus {
 namespace lincoln {
 
 LincolnMessageManager::LincolnMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(Authors): verify which one is recv/sent
   AddSendProtocolData<Brake60, true>();
   AddSendProtocolData<Throttle62, true>();
@@ -75,9 +72,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   AddRecvProtocolData<License7e, true>();
 }
 
-LincolnMessageManager::~LincolnMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+LincolnMessageManager::~LincolnMessageManager() {}
 
 }  // namespace lincoln
 }  // namespace canbus

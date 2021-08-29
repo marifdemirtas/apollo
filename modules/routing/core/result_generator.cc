@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -58,7 +57,8 @@ bool ResultGenerator::ExtractBasicPassages(
     auto edge =
         nodes.at(i - 1).GetTopoNode()->GetOutEdgeTo(nodes.at(i).GetTopoNode());
     if (edge == nullptr) {
-      AERROR << "Get null pointer to edge from " << nodes.at(i - 1).LaneId()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Get null pointer to edge from " << nodes.at(i - 1).LaneId()
              << " to " << nodes.at(i).LaneId();
       return false;
     }
@@ -185,8 +185,9 @@ void ResultGenerator::ExtendForward(const TopoRangeManager& range_manager,
         if (adjusted_end_s > back_node.StartS()) {
           adjusted_end_s = std::min(adjusted_end_s, back_node.FullLength());
           back_node.SetEndS(adjusted_end_s);
-          ADEBUG << "ExtendForward: orig_end_s[" << back_node.EndS()
-                 << "] adjusted_end_s[" << adjusted_end_s << "]";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ExtendForward: orig_end_s[" << back_node.EndS()
+                  << "] adjusted_end_s[" << adjusted_end_s << "]";
         }
       }
     } else {
@@ -291,12 +292,15 @@ double CalculateDistance(const std::vector<NodeWithRange>& nodes) {
 
 void PrintDebugInfo(const std::string& road_id,
                     const std::vector<std::vector<NodeWithRange>>& nodes) {
-  AINFO << "road id: " << road_id;
-  for (size_t j = 0; j < nodes.size(); ++j) {
-    AINFO << "\tPassage " << j;
-    for (const auto& node : nodes[j]) {
-      AINFO << "\t\t" << node.LaneId() << "   (" << node.StartS() << ", "
-            << node.EndS() << ")";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "road id: " << road_id;
+   for (size_t j = 0; j < nodes.size(); ++j) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\tPassage " << j;
+     for (const auto& node : nodes[j]) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\t\t" << node.LaneId() << "   (" << node.StartS() << ", "
+             << node.EndS() << ")";
     }
   }
 }
@@ -344,15 +348,17 @@ void ResultGenerator::AddRoadSegment(
         (i == start_index.first ?
         std::max((std::size_t)0, start_index.second) : 0);
     const auto node_begin_iter = passages[i].nodes.cbegin() + node_start_index;
-    ADEBUG<< "start node: " << node_begin_iter->LaneId() << ": "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG<< "start node: " << node_begin_iter->LaneId() << ": "
            << node_begin_iter->StartS() << "; " << node_begin_iter->EndS();
     const size_t node_end_index =
          (i == end_index.first ?
          std::min(end_index.second, passages[i].nodes.size() - 1) :
          passages[i].nodes.size() - 1);
     const auto node_last_iter = passages[i].nodes.cbegin() + node_end_index;
-    ADEBUG << "last node: " << node_last_iter->LaneId() << ": "
-           << node_last_iter->StartS() << "; " << node_last_iter->EndS();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "last node: " << node_last_iter->LaneId() << ": "
+            << node_last_iter->StartS() << "; " << node_last_iter->EndS();
     auto node_end_iter = node_last_iter + 1;
     LaneNodesToPassageRegion(node_begin_iter, node_end_iter, passage);
     if (start_index.first == end_index.first) {
@@ -386,21 +392,24 @@ void ResultGenerator::CreateRoadSegments(
         }
       } else {
         if (in_change_lane) {
-          ADEBUG << "start_index(" << start_index.first << ", "
-                 << start_index.second
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "start_index(" << start_index.first << ", "
+                  << start_index.second
                  << ") end_index(" << i << ", " << j - 1 << ")";
           AddRoadSegment(passages, start_index, {i, j - 1}, result);
         }
-        ADEBUG << "start_index(" << i << ", " << j
-               << ") end_index(" << i << ", " << j << ")";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "start_index(" << i << ", " << j
+                << ") end_index(" << i << ", " << j << ")";
         AddRoadSegment(passages, {i, j}, {i, j}, result);
         in_change_lane = false;
       }
     }
   }
   if (in_change_lane) {
-    ADEBUG << "start_index(" << start_index.first << ", " << start_index.second
-           << ") end_index(" << passages.size() - 1 << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "start_index(" << start_index.first << ", " << start_index.second
+            << ") end_index(" << passages.size() - 1 << ", "
            << passages.back().nodes.size() - 1 << ")";
     AddRoadSegment(passages, start_index,
                    {passages.size() - 1, passages.back().nodes.size() - 1},

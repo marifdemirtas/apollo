@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -34,14 +33,16 @@ bool TaskManagerComponent::Init() {
       << "Unable to load task_manager conf file: "
       << cyber::ComponentBase::ConfigFilePath();
 
-  AINFO << "Config file: " << cyber::ComponentBase::ConfigFilePath()
-        << " is loaded.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Config file: " << cyber::ComponentBase::ConfigFilePath()
+         << " is loaded.";
 
   localization_reader_ = node_->CreateReader<LocalizationEstimate>(
       task_manager_conf.topic_config().localization_pose_topic(),
       [this](const std::shared_ptr<LocalizationEstimate>& localization) {
-        ADEBUG << "Received localization data: run localization callback.";
-        std::lock_guard<std::mutex> lock(mutex_);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received localization data: run localization callback.";
+         std::lock_guard<std::mutex> lock(mutex_);
         localization_.CopyFrom(*localization);
       });
 
@@ -61,8 +62,9 @@ bool TaskManagerComponent::Init() {
 bool TaskManagerComponent::Proc(const std::shared_ptr<Task>& task) {
   task_name_ = task->task_name();
   if (task->task_type() != CYCLE_ROUTING) {
-    AINFO << "Task type is not cycle_routing.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Task type is not cycle_routing.";
+     return false;
   }
 
   cycle_routing_manager_ = std::make_shared<CycleRoutingManager>();
@@ -75,8 +77,9 @@ bool TaskManagerComponent::Proc(const std::shared_ptr<Task>& task) {
                                               &routing_request_)) {
       common::util::FillHeader(node_->Name(), &routing_request_);
       request_writer_->Write(routing_request_);
-      AINFO << "[TaskManagerComponent]Reach begin/end point: "
-            << "routing manager send a routing request. ";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "[TaskManagerComponent]Reach begin/end point: "
+             << "routing manager send a routing request. ";
     }
     rate.Sleep();
   }

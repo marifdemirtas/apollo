@@ -1,5 +1,3 @@
-#include <iostream>
-
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,8 +34,9 @@
 class RTLogger : public nvinfer1::ILogger {
   void log(Severity severity, const char *msg) override {
     if (severity != Severity::kINFO) {
-      AINFO << msg;
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << msg;
+     }
   }
 } rt_gLogger;
 #define LOAD_DEBUG 0
@@ -49,8 +48,6 @@ namespace inference {
 void RTNet::ConstructMap(const LayerParameter &layer_param,
                          nvinfer1::ILayer *layer, TensorMap *tensor_map,
                          TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (int i = 0; i < layer_param.top_size(); i++) {
     std::string top_name = layer_param.top(i);
     TensorModifyMap::iterator it;
@@ -75,8 +72,6 @@ void RTNet::addConvLayer(const LayerParameter &layer_param,
                          nvinfer1::INetworkDefinition *net,
                          TensorMap *tensor_map,
                          TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ConvolutionParameter p = layer_param.convolution_param();
 
   int nbOutputs = p.num_output();
@@ -152,8 +147,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   for (int i = 0; i < 3; i++) {
     absl::StrAppend(&dim_string, " ", tmp_out_dims.d[i]);
   }
-  AINFO << layer_param.name() << dim_string;
-#endif
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << layer_param.name() << dim_string;
+ #endif
 }
 
 void RTNet::addDeconvLayer(const LayerParameter &layer_param,
@@ -162,14 +158,11 @@ void RTNet::addDeconvLayer(const LayerParameter &layer_param,
                            nvinfer1::INetworkDefinition *net,
                            TensorMap *tensor_map,
                            TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ConvolutionParameter conv = layer_param.convolution_param();
   ConvParam param;
   ParserConvParam(conv, &param);
   nvinfer1::IDeconvolutionLayer *deconvLayer = nullptr;
   if ((*weight_map)[layer_param.name().c_str()].size() == 2) {
-
     deconvLayer =
         net->addDeconvolution(*inputs[0], conv.num_output(),
                               nvinfer1::DimsHW{param.kernel_h, param.kernel_w},
@@ -196,16 +189,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     absl::StrAppend(&dim_string, " ", inputs[0]->getDimensions().d[i]);
   }
   absl::StrAppend(&dim_string, " | output: ");
-  AINFO << layer_param.name() << dim_string;
-#endif
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << layer_param.name() << dim_string;
+ #endif
 }
 void RTNet::addActiveLayer(const LayerParameter &layer_param,
                            nvinfer1::ITensor *const *inputs, int nbInputs,
                            nvinfer1::INetworkDefinition *net,
                            TensorMap *tensor_map,
                            TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (layer_param.type() == "ReLU" &&
       layer_param.relu_param().negative_slope() > 0.0f) {
     std::shared_ptr<ReLUPlugin> relu_plugin;
@@ -235,8 +227,6 @@ void RTNet::addConcatLayer(const LayerParameter &layer_param,
                            nvinfer1::INetworkDefinition *net,
                            TensorMap *tensor_map,
                            TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ConcatParameter concat = layer_param.concat_param();
   nvinfer1::IConcatenationLayer *concatLayer =
       net->addConcatenation(inputs, nbInputs);
@@ -253,8 +243,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     for (int i = 0; i < 3; i++) {
       absl::StrAppend(&dim_string, " ", dim_tmp.d[i]);
     }
-    AINFO << layer_param.name() << ": " << layer_param.bottom(i) << " "
-          << (*tensor_modify_map)[layer_param.bottom(i)] << " " << dim_string;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << layer_param.name() << ": " << layer_param.bottom(i) << " "
+           << (*tensor_modify_map)[layer_param.bottom(i)] << " " << dim_string;
   }
 #endif
   ConstructMap(layer_param, concatLayer, tensor_map, tensor_modify_map);
@@ -265,8 +256,6 @@ void RTNet::addPoolingLayer(const LayerParameter &layer_param,
                             nvinfer1::INetworkDefinition *net,
                             TensorMap *tensor_map,
                             TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PoolingParameter pool = layer_param.pooling_param();
   nvinfer1::PoolingType pool_type =
       (pool.pool() == PoolingParameter_PoolMethod_MAX)
@@ -288,8 +277,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   ACHECK(modify_pool_param(&pool));
   nvinfer1::IPoolingLayer *poolLayer = net->addPooling(
       *inputs[0], pool_type,
-      {
-static_cast<int>(pool.kernel_h()), static_cast<int>(pool.kernel_w())});
+      {static_cast<int>(pool.kernel_h()), static_cast<int>(pool.kernel_w())});
   poolLayer->setStride(nvinfer1::DimsHW{static_cast<int>(pool.stride_h()),
                                         static_cast<int>(pool.stride_w())});
   poolLayer->setPadding(nvinfer1::DimsHW{static_cast<int>(pool.pad_h()),
@@ -306,8 +294,6 @@ void RTNet::addSliceLayer(const LayerParameter &layer_param,
                           nvinfer1::INetworkDefinition *net,
                           TensorMap *tensor_map,
                           TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_GT(layer_param.slice_param().axis(), 0);
   std::shared_ptr<SLICEPlugin> slice_plugin;
   slice_plugin.reset(
@@ -325,11 +311,8 @@ void RTNet::addInnerproductLayer(const LayerParameter &layer_param,
                                  nvinfer1::INetworkDefinition *net,
                                  TensorMap *tensor_map,
                                  TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   InnerProductParameter fc = layer_param.inner_product_param();
-  nvinfer1::Weights bias{
-nvinfer1::DataType::kFLOAT, nullptr, 0};
+  nvinfer1::Weights bias{nvinfer1::DataType::kFLOAT, nullptr, 0};
   if ((*weight_map)[layer_param.name().c_str()].size() == 2) {
     bias = (*weight_map)[layer_param.name().c_str()][1];
   }
@@ -346,8 +329,6 @@ void RTNet::addScaleLayer(const LayerParameter &layer_param,
                           nvinfer1::INetworkDefinition *net,
                           TensorMap *tensor_map,
                           TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::vector<nvinfer1::Weights> lw(
       3, nvinfer1::Weights{nvinfer1::DataType::kFLOAT, nullptr, 0});
   if (layer_param.type() == "Power") {
@@ -378,8 +359,6 @@ void RTNet::addBatchnormLayer(const LayerParameter &layer_param,
                               nvinfer1::INetworkDefinition *net,
                               TensorMap *tensor_map,
                               TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   BatchNormParameter param = layer_param.batch_norm_param();
   nvinfer1::Weights power{nvinfer1::DataType::kFLOAT, nullptr, 0};
   // shift scale power
@@ -396,8 +375,6 @@ void RTNet::addSoftmaxLayer(const LayerParameter &layer_param,
                             nvinfer1::INetworkDefinition *net,
                             TensorMap *tensor_map,
                             TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (layer_param.has_softmax_param()) {
     std::shared_ptr<SoftmaxPlugin> softmax_plugin;
     softmax_plugin.reset(new SoftmaxPlugin(layer_param.softmax_param(),
@@ -420,8 +397,6 @@ void RTNet::addEltwiseLayer(const LayerParameter &layer_param,
                             nvinfer1::INetworkDefinition *net,
                             TensorMap *tensor_map,
                             TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto pair = eltwise_map.find(layer_param.eltwise_param().operation());
   nvinfer1::ElementWiseOperation op = nvinfer1::ElementWiseOperation::kSUM;
   if (pair != eltwise_map.end()) {
@@ -439,8 +414,6 @@ void RTNet::addArgmaxLayer(const LayerParameter &layer_param,
                            nvinfer1::INetworkDefinition *net,
                            TensorMap *tensor_map,
                            TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::shared_ptr<ArgMax1Plugin> argmax_plugin;
   argmax_plugin.reset(new ArgMax1Plugin(layer_param.argmax_param(),
                                         inputs[0]->getDimensions()));
@@ -457,8 +430,6 @@ void RTNet::addPermuteLayer(const LayerParameter &layer_param,
                             nvinfer1::INetworkDefinition *net,
                             TensorMap *tensor_map,
                             TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_LE(layer_param.permute_param().order_size(), nvinfer1::Dims::MAX_DIMS);
   nvinfer1::IShuffleLayer *permuteLayer = net->addShuffle(*inputs[0]);
   nvinfer1::Permutation permutation;
@@ -481,8 +452,6 @@ void RTNet::addReshapeLayer(const LayerParameter &layer_param,
                             nvinfer1::INetworkDefinition *net,
                             TensorMap *tensor_map,
                             TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   nvinfer1::DimsCHW dims;
   dims.d[0] = static_cast<int>(layer_param.reshape_param().shape().dim(1));
   dims.d[1] = static_cast<int>(layer_param.reshape_param().shape().dim(2));
@@ -498,8 +467,6 @@ void RTNet::addPaddingLayer(const LayerParameter &layer_param,
                             nvinfer1::INetworkDefinition *net,
                             TensorMap *tensor_map,
                             TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   nvinfer1::DimsHW pre_dims(layer_param.padding_param().pad_t(),
                             layer_param.padding_param().pad_l());
   nvinfer1::DimsHW post_dims(layer_param.padding_param().pad_b(),
@@ -516,8 +483,6 @@ void RTNet::addDFMBPSROIAlignLayer(const LayerParameter &layer_param,
                                    nvinfer1::INetworkDefinition *net,
                                    TensorMap *tensor_map,
                                    TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::shared_ptr<DFMBPSROIAlignPlugin> dfmb_psroi_align_plugin;
   nvinfer1::Dims input_dims[3];
   for (int i = 0; i < nbInputs && i < 3; ++i) {
@@ -539,8 +504,6 @@ void RTNet::addRCNNProposalLayer(const LayerParameter &layer_param,
                                  nvinfer1::INetworkDefinition *net,
                                  TensorMap *tensor_map,
                                  TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::shared_ptr<RCNNProposalPlugin> rcnn_proposal_plugin;
   nvinfer1::Dims input_dims[4];
   for (int i = 0; i < nbInputs && i < 4; ++i) {
@@ -563,8 +526,6 @@ void RTNet::addRPNProposalSSDLayer(const LayerParameter &layer_param,
                                    nvinfer1::INetworkDefinition *net,
                                    TensorMap *tensor_map,
                                    TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::shared_ptr<RPNProposalSSDPlugin> rpn_proposal_ssd_plugin;
   nvinfer1::Dims input_dims[3];
   for (int i = 0; i < nbInputs && i < 3; ++i) {
@@ -587,8 +548,6 @@ void RTNet::addLayer(const LayerParameter &layer_param,
                      WeightMap *weight_map, nvinfer1::INetworkDefinition *net,
                      TensorMap *tensor_map,
                      TensorModifyMap *tensor_modify_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (layer_param.type() == "Convolution") {
     addConvLayer(layer_param, inputs, weight_map, net, tensor_map,
                  tensor_modify_map);
@@ -632,8 +591,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     addArgmaxLayer(layer_param, inputs, nbInputs, net, tensor_map,
                    tensor_modify_map);
   } else if (layer_param.type() == "Dropout") {
-    AINFO << "skip dropout";
-  } else if (layer_param.type() == "Power") {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "skip dropout";
+   } else if (layer_param.type() == "Power") {
     addScaleLayer(layer_param, inputs, weight_map, net, tensor_map,
                   tensor_modify_map);
   } else if (layer_param.type() == "DFMBPSROIAlign") {
@@ -650,13 +610,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 }
 bool RTNet::loadWeights(const std::string &model_file, WeightMap *weight_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   NetParameter net;
   if (!ReadProtoFromBinaryFile(model_file.c_str(), &net)) {
-
-    AFATAL << "open file " << model_file << " failed";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "open file " << model_file << " failed";
+     return false;
   }
   for (int i = 0; i < net.layer_size(); i++) {
     std::vector<nvinfer1::Weights> lw;
@@ -678,8 +636,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   return true;
 }
 void RTNet::mergeBN(int index, LayerParameter *layer_param) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto blob = (layer_param->mutable_blobs(index));
   CHECK_EQ(blob->double_data_size(), 0);
   CHECK_EQ(blob->double_diff_size(), 0);
@@ -706,8 +662,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 }
 nvinfer1::Weights RTNet::loadLayerWeights(const float *data, int size) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   nvinfer1::Weights wt{nvinfer1::DataType::kFLOAT, nullptr, 0};
   std::shared_ptr<float> val;
   val.reset(new float[size]);
@@ -720,8 +674,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   return wt;
 }
 nvinfer1::Weights RTNet::loadLayerWeights(float data, int size) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   nvinfer1::Weights wt{nvinfer1::DataType::kFLOAT, nullptr, 0};
   std::shared_ptr<float> val;
   val.reset(new float[size]);
@@ -738,8 +690,6 @@ RTNet::RTNet(const std::string &net_file, const std::string &model_file,
              const std::vector<std::string> &outputs,
              const std::vector<std::string> &inputs)
     : output_names_(outputs), input_names_(inputs) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   loadWeights(model_file, &weight_map_);
   net_param_.reset(new NetParameter);
   loadNetParams(net_file, net_param_.get());
@@ -749,9 +699,6 @@ RTNet::RTNet(const std::string &net_file, const std::string &model_file,
              const std::vector<std::string> &inputs,
              nvinfer1::Int8EntropyCalibrator *calibrator)
     : output_names_(outputs), input_names_(inputs) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-
   loadWeights(model_file, &weight_map_);
   net_param_.reset(new NetParameter);
   loadNetParams(net_file, net_param_.get());
@@ -763,8 +710,6 @@ RTNet::RTNet(const std::string &net_file, const std::string &model_file,
              const std::vector<std::string> &inputs,
              const std::string &model_root)
     : output_names_(outputs), input_names_(inputs), is_own_calibrator_(true) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   loadWeights(model_file, &weight_map_);
   net_param_.reset(new NetParameter);
   loadNetParams(net_file, net_param_.get());
@@ -776,12 +721,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool RTNet::shape(const std::string &name, std::vector<int> *res) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto engine = &(context_->getEngine());
   if (tensor_modify_map_.find(name) == tensor_modify_map_.end()) {
-    AINFO << "can't get the shape of " << name;
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "can't get the shape of " << name;
+     return false;
   }
   int bindingIndex = engine->getBindingIndex(tensor_modify_map_[name].c_str());
   if (bindingIndex > static_cast<int>(buffers_.size())) {
@@ -797,8 +741,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   return true;
 }
 void RTNet::init_blob(std::vector<std::string> *names) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto engine = &(context_->getEngine());
 
   for (auto name : *names) {
@@ -820,11 +762,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool RTNet::Init(const std::map<std::string, std::vector<int>> &shapes) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (gpu_id_ < 0) {
-    AINFO << "must use gpu mode";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "must use gpu mode";
+     return false;
   }
   BASE_CUDA_CHECK(cudaSetDevice(gpu_id_));
   // stream will only be destoried for gpu_id_ >= 0
@@ -855,16 +796,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 bool RTNet::checkInt8(const std::string &gpu_name,
                       nvinfer1::IInt8Calibrator *calibrator) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (calibrator == nullptr) {
-    AINFO << "Device Works on FP32 Mode.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Device Works on FP32 Mode.";
+     return false;
   }
   for (auto ref : _gpu_checklist) {
     if (ref == gpu_name) {
-      AINFO << "Device Works on Int8 Mode.";
-      return true;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Device Works on Int8 Mode.";
+       return true;
     }
   }
   AWARN << "Device Not Supports Int8 Mode. Use FP32 Mode.";
@@ -874,8 +815,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool RTNet::addInput(const TensorDimsMap &tensor_dims_map,
                      const std::map<std::string, std::vector<int>> &shapes,
                      TensorMap *tensor_map) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_GT(net_param_->layer_size(), 0);
   input_names_.clear();
   for (auto dims_pair : tensor_dims_map) {
@@ -900,8 +839,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void RTNet::parse_with_api(
     const std::map<std::string, std::vector<int>> &shapes) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_GT(net_param_->layer_size(), 0);
   std::vector<LayerParameter> order;
   TensorMap tensor_map;
@@ -909,7 +846,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   ParseNetParam(*net_param_, &tensor_dims_map, &tensor_modify_map_, &order);
   addInput(tensor_dims_map, shapes, &tensor_map);
   for (auto layer_param : order) {
-
     std::vector<nvinfer1::ITensor *> inputs;
     for (int j = 0; j < layer_param.bottom_size(); j++) {
       CHECK_NOTNULL(tensor_map[tensor_modify_map_[layer_param.bottom(j)]]);
@@ -928,15 +864,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       network_->markOutput(*tensor_map[tensor_modify_map_[*iter]]);
       iter++;
     } else {
-      AINFO << "Erase output: " << *iter;
-      iter = output_names_.erase(iter);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Erase output: " << *iter;
+       iter = output_names_.erase(iter);
     }
   }
 }
 
 RTNet::~RTNet() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (is_own_calibrator_ && calibrator_ != nullptr) {
     delete calibrator_;
   }
@@ -952,8 +887,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void RTNet::Infer() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   BASE_CUDA_CHECK(cudaSetDevice(gpu_id_));
   BASE_CUDA_CHECK(cudaStreamSynchronize(stream_));
   for (auto name : input_names_) {
@@ -986,8 +919,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 std::shared_ptr<apollo::perception::base::Blob<float>> RTNet::get_blob(
     const std::string &name) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto iter = blobs_.find(name);
   if (iter == blobs_.end()) {
     return nullptr;
@@ -998,4 +929,3 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }  // namespace inference
 }  // namespace perception
 }  // namespace apollo
-

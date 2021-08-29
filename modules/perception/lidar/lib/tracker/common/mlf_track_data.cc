@@ -53,7 +53,8 @@ void MlfTrackData::PushTrackedObjectToTrack(TrackedObjectPtr obj) {
     age_++;
     if (age_ == 1) {  // the first timestamp
       if (obj->is_fake) {
-        AERROR << "obj is fake";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "obj is fake";
         return;
       }
       latest_visible_time_ = timestamp;
@@ -73,7 +74,8 @@ void MlfTrackData::PushTrackedObjectToTrack(TrackedObjectPtr obj) {
     }
     RemoveStaleHistory(timestamp - kMaxHistoryTime);
   } else {
-    AINFO << "Push object timestamp " << timestamp << " from sensor "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Push object timestamp " << timestamp << " from sensor "
           << obj->sensor_info.name << " already exist in track, ignore push.";
   }
 }
@@ -84,7 +86,8 @@ void MlfTrackData::PushTrackedObjectToCache(TrackedObjectPtr obj) {
     cached_objects_.insert(std::make_pair(timestamp, obj));
     latest_cached_time_ = timestamp;
   } else {
-    AINFO << "Push object timestamp " << timestamp << " from sensor "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Push object timestamp " << timestamp << " from sensor "
           << obj->sensor_info.name << " already exist in cache, ignore push.";
   }
 }

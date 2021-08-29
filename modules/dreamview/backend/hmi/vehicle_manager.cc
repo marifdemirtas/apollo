@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -33,24 +32,19 @@ namespace dreamview {
 using cyber::common::GetProtoFromFile;
 
 VehicleManager::VehicleManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ACHECK(GetProtoFromFile(FLAGS_vehicle_data_config_filename, &vehicle_data_))
       << "Unable to parse VehicleData config file "
       << FLAGS_vehicle_data_config_filename;
 }
 
 const std::string &VehicleManager::GetVehicleDataPath() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return vehicle_data_path_;
 }
 
 bool VehicleManager::UseVehicle(const std::string &vehicle_data_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!cyber::common::DirectoryExists(vehicle_data_path)) {
-    AERROR << "Cannot find vehicle data: " << vehicle_data_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot find vehicle data: " << vehicle_data_path;
     return false;
   }
   vehicle_data_path_ = vehicle_data_path;
@@ -61,7 +55,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     const auto &dest_path = data_file.dest_path();
 
     const bool ret = cyber::common::Copy(source_path, dest_path);
-    AINFO_IF(ret) << "Copied " << source_path << " to " << dest_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO_IF(ret) << "Copied " << source_path << " to " << dest_path;
   }
 
   // Reload vehicle config for current process.

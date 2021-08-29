@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,8 +25,6 @@ namespace camera {
 
 bool TransformServer::Init(const std::vector<std::string> &camera_names,
                            const std::string &params_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const std::string params_dir = params_path;
   // 1. Init lidar height
   try {
@@ -35,21 +32,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         YAML::LoadFile(params_dir + "/" + "velodyne128_height.yaml");
     Eigen::Affine3d trans;
     trans.linear() = Eigen::Matrix3d::Identity();
-    AINFO << trans.translation() << " "
-          << lidar_height["vehicle"]["parameters"]["height"];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << trans.translation() << " "
+           << lidar_height["vehicle"]["parameters"]["height"];
     trans.translation() << 0.0, 0.0,
         lidar_height["vehicle"]["parameters"]["height"].as<double>();
     AddTransform("velodyne128", "ground", trans);
   } catch (YAML::InvalidNode &in) {
-    AERROR << "load velodyne128 extrisic file error"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "load velodyne128 extrisic file error"
            << " YAML::InvalidNode exception";
     return false;
   } catch (YAML::TypedBadConversion<float> &bc) {
-    AERROR << "load velodyne128 extrisic file error, "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "load velodyne128 extrisic file error, "
            << "YAML::TypedBadConversion exception";
     return false;
   } catch (YAML::Exception &e) {
-    AERROR << "load velodyne128 extrisic file "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "load velodyne128 extrisic file "
            << " error, YAML exception:" << e.what();
     return false;
   }
@@ -66,8 +67,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     try {
       YAML::Node node = YAML::LoadFile(yaml_file);
       if (node.IsNull()) {
-        AINFO << "Load " << yaml_file << " failed! please check!";
-        return false;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Load " << yaml_file << " failed! please check!";
+         return false;
       }
       std::string child_frame_id = node["child_frame_id"].as<std::string>();
       std::string frame_id = node["header"]["frame_id"].as<std::string>();
@@ -83,19 +85,23 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       trans.linear() = qq.matrix();
       trans.translation() << t[0], t[1], t[2];
       if (!AddTransform(child_frame_id, frame_id, trans)) {
-        AINFO << "failed to add transform from " << child_frame_id << " to "
-              << frame_id << std::endl;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "failed to add transform from " << child_frame_id << " to "
+               << frame_id << std::endl;
       }
     } catch (YAML::InvalidNode &in) {
-      AERROR << "load camera extrisic file " << yaml_file
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "load camera extrisic file " << yaml_file
              << " with error, YAML::InvalidNode exception";
       return false;
     } catch (YAML::TypedBadConversion<double> &bc) {
-      AERROR << "load camera extrisic file " << yaml_file
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "load camera extrisic file " << yaml_file
              << " with error, YAML::TypedBadConversion exception";
       return false;
     } catch (YAML::Exception &e) {
-      AERROR << "load camera extrisic file " << yaml_file
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "load camera extrisic file " << yaml_file
              << " with error, YAML exception:" << e.what();
       return false;
     }
@@ -105,10 +111,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool TransformServer::LoadFromFile(const std::string &tf_input,
                                    float frequency) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (frequency <= 0) {
-    AERROR << "Error frequency value:" << frequency;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Error frequency value:" << frequency;
     return false;
   }
   std::ifstream fin(tf_input);
@@ -127,23 +132,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
   fin.close();
   error_limit_ = 1 / frequency / 2.0f;
-  AINFO << "Load tf successfully. count: " << tf_.size()
-        << " error limit:" << error_limit_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Load tf successfully. count: " << tf_.size()
+         << " error limit:" << error_limit_;
   return true;
 }
 
 bool TransformServer::QueryPos(double timestamp, Eigen::Affine3d *pose) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (auto &&tf : tf_) {
     if (Equal(timestamp, tf.timestamp, error_limit_)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
       Eigen::Quaterniond rotation(tf.qw, tf.qx, tf.qy, tf.qz);
       pose->linear() = rotation.matrix();
       pose->translation() << tf.tx, tf.ty, tf.tz;
-      AINFO << "Get Pose:\n" << pose->matrix();
-      return true;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Get Pose:\n" << pose->matrix();
+       return true;
     }
   }
   return false;
@@ -152,8 +155,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool TransformServer::AddTransform(const std::string &child_frame_id,
                                    const std::string &frame_id,
                                    const Eigen::Affine3d &transform) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   vertices_.insert(child_frame_id);
   vertices_.insert(frame_id);
 
@@ -175,8 +176,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   e_inv.child_frame_id = frame_id;
   e_inv.frame_id = child_frame_id;
   e_inv.transform = transform.inverse();
-  ADEBUG << "Add transform between " << frame_id << " and " << child_frame_id;
-  edges_.insert({child_frame_id, e});
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Add transform between " << frame_id << " and " << child_frame_id;
+   edges_.insert({child_frame_id, e});
   edges_.insert({frame_id, e_inv});
 
   return true;
@@ -185,8 +187,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool TransformServer::QueryTransform(const std::string &child_frame_id,
                                      const std::string &frame_id,
                                      Eigen::Affine3d *transform) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   *transform = Eigen::Affine3d::Identity();
 
   if (child_frame_id == frame_id) {
@@ -211,8 +211,6 @@ bool TransformServer::FindTransform(const std::string &child_frame_id,
                                     const std::string &frame_id,
                                     Eigen::Affine3d *transform,
                                     std::map<std::string, bool> *visited) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Affine3d loc_transform = Eigen::Affine3d::Identity();
 
   auto begin = edges_.lower_bound(child_frame_id);
@@ -225,8 +223,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       continue;
     }
 
-    ADEBUG << "from " << edge.child_frame_id << " to " << edge.frame_id
-           << std::endl;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "from " << edge.child_frame_id << " to " << edge.frame_id
+            << std::endl;
 
     loc_transform = edge.transform * loc_transform;
 
@@ -248,20 +247,24 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TransformServer::print() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (auto item : edges_) {
-    AINFO << "----------------" << std::endl;
-    AINFO << item.first << std::endl;
-    AINFO << "edge: " << std::endl;
-    AINFO << "from " << item.second.child_frame_id << " to "
-          << item.second.frame_id << std::endl;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "----------------" << std::endl;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << item.first << std::endl;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "edge: " << std::endl;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "from " << item.second.child_frame_id << " to "
+           << item.second.frame_id << std::endl;
     Eigen::Affine3d trans = item.second.transform;
     Eigen::Quaterniond quat(trans.linear());
-    AINFO << "rot: " << quat.x() << " " << quat.y() << " " << quat.z() << " "
-          << quat.w() << std::endl;
-    AINFO << "trans: " << trans.translation()[0] << " "
-          << trans.translation()[1] << " " << trans.translation()[2]
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "rot: " << quat.x() << " " << quat.y() << " " << quat.z() << " "
+           << quat.w() << std::endl;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "trans: " << trans.translation()[0] << " "
+           << trans.translation()[1] << " " << trans.translation()[2]
           << std::endl;
   }
 }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,19 +23,13 @@ namespace localization {
 namespace msf {
 namespace pyramid_map {
 
-PyramidMap::PyramidMap(PyramidMapConfig* config) : BaseMap(config) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+PyramidMap::PyramidMap(PyramidMapConfig* config) : BaseMap(config) {}
 
-PyramidMap::~PyramidMap() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+PyramidMap::~PyramidMap() {}
 
 float PyramidMap::GetIntensitySafe(const Eigen::Vector3d& coordinate,
                                    int zone_id, unsigned int resolution_id,
                                    unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
   PyramidMapNode* node = dynamic_cast<PyramidMapNode*>(GetMapNodeSafe(index));
@@ -46,8 +39,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 float PyramidMap::GetIntensityVarSafe(const Eigen::Vector3d& coordinate,
                                       int zone_id, unsigned int resolution_id,
                                       unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
   PyramidMapNode* node = dynamic_cast<PyramidMapNode*>(GetMapNodeSafe(index));
@@ -57,8 +48,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 float PyramidMap::GetAltitudeSafe(const Eigen::Vector3d& coordinate,
                                   int zone_id, unsigned int resolution_id,
                                   unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
   PyramidMapNode* node = dynamic_cast<PyramidMapNode*>(GetMapNodeSafe(index));
@@ -68,8 +57,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 float PyramidMap::GetAltitudeVarSafe(const Eigen::Vector3d& coordinate,
                                      int zone_id, unsigned int resolution_id,
                                      unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
   PyramidMapNode* node = dynamic_cast<PyramidMapNode*>(GetMapNodeSafe(index));
@@ -79,8 +66,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 float PyramidMap::GetGroundAltitudeSafe(const Eigen::Vector3d& coordinate,
                                         int zone_id, unsigned int resolution_id,
                                         unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
   PyramidMapNode* node = dynamic_cast<PyramidMapNode*>(GetMapNodeSafe(index));
@@ -90,8 +75,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 unsigned int PyramidMap::GetCountSafe(const Eigen::Vector3d& coordinate,
                                       int zone_id, unsigned int resolution_id,
                                       unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
   PyramidMapNode* node = dynamic_cast<PyramidMapNode*>(GetMapNodeSafe(index));
@@ -102,8 +85,6 @@ unsigned int PyramidMap::GetGroundCountSafe(const Eigen::Vector3d& coordinate,
                                             int zone_id,
                                             unsigned int resolution_id,
                                             unsigned int level) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   MapNodeIndex index = MapNodeIndex::GetMapNodeIndex(GetMapConfig(), coordinate,
                                                      resolution_id, zone_id);
   PyramidMapNode* node = dynamic_cast<PyramidMapNode*>(GetMapNodeSafe(index));

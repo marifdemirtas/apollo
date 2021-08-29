@@ -74,7 +74,8 @@ bool ReferenceLineInfo::Init(const std::vector<const Obstacle*>& obstacles) {
                     param.width());
 
   if (!reference_line_.GetSLBoundary(box, &adc_sl_boundary_)) {
-    AERROR << "Failed to get ADC boundary from box: " << box.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get ADC boundary from box: " << box.DebugString();
     return false;
   }
 
@@ -89,12 +90,14 @@ bool ReferenceLineInfo::Init(const std::vector<const Obstacle*>& obstacles) {
   static constexpr double kOutOfReferenceLineL = 10.0;  // in meters
   if (adc_sl_boundary_.start_l() > kOutOfReferenceLineL ||
       adc_sl_boundary_.end_l() < -kOutOfReferenceLineL) {
-    AERROR << "Ego vehicle is too far away from reference line.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ego vehicle is too far away from reference line.";
     return false;
   }
   is_on_reference_line_ = reference_line_.IsOnLane(adc_sl_boundary_);
   if (!AddObstacles(obstacles)) {
-    AERROR << "Failed to add obstacles to reference line";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to add obstacles to reference line";
     return false;
   }
 
@@ -355,27 +358,32 @@ bool ReferenceLineInfo::AddObstacleHelper(
 // AddObstacle is thread safe
 Obstacle* ReferenceLineInfo::AddObstacle(const Obstacle* obstacle) {
   if (!obstacle) {
-    AERROR << "The provided obstacle is empty";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The provided obstacle is empty";
     return nullptr;
   }
   auto* mutable_obstacle = path_decision_.AddObstacle(*obstacle);
   if (!mutable_obstacle) {
-    AERROR << "failed to add obstacle " << obstacle->Id();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to add obstacle " << obstacle->Id();
     return nullptr;
   }
 
   SLBoundary perception_sl;
   if (!reference_line_.GetSLBoundary(obstacle->PerceptionBoundingBox(),
                                      &perception_sl)) {
-    AERROR << "Failed to get sl boundary for obstacle: " << obstacle->Id();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get sl boundary for obstacle: " << obstacle->Id();
     return mutable_obstacle;
   }
   mutable_obstacle->SetPerceptionSlBoundary(perception_sl);
   mutable_obstacle->CheckLaneBlocking(reference_line_);
   if (mutable_obstacle->IsLaneBlocking()) {
-    ADEBUG << "obstacle [" << obstacle->Id() << "] is lane blocking.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle [" << obstacle->Id() << "] is lane blocking.";
   } else {
-    ADEBUG << "obstacle [" << obstacle->Id() << "] is NOT lane blocking.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle [" << obstacle->Id() << "] is NOT lane blocking.";
   }
 
   if (IsIrrelevantObstacle(*mutable_obstacle)) {
@@ -385,13 +393,16 @@ Obstacle* ReferenceLineInfo::AddObstacle(const Obstacle* obstacle) {
                                       ignore);
     path_decision_.AddLongitudinalDecision("reference_line_filter",
                                            obstacle->Id(), ignore);
-    ADEBUG << "NO build reference line st boundary. id:" << obstacle->Id();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "NO build reference line st boundary. id:" << obstacle->Id();
   } else {
-    ADEBUG << "build reference line st boundary. id:" << obstacle->Id();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "build reference line st boundary. id:" << obstacle->Id();
     mutable_obstacle->BuildReferenceLineStBoundary(reference_line_,
                                                    adc_sl_boundary_.start_s());
 
-    ADEBUG << "reference line st boundary: t["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "reference line st boundary: t["
            << mutable_obstacle->reference_line_st_boundary().min_t() << ", "
            << mutable_obstacle->reference_line_st_boundary().max_t() << "] s["
            << mutable_obstacle->reference_line_st_boundary().min_s() << ", "
@@ -410,14 +421,16 @@ bool ReferenceLineInfo::AddObstacles(
     }
     for (auto& result : results) {
       if (!result.get()) {
-        AERROR << "Fail to add obstacles.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to add obstacles.";
         return false;
       }
     }
   } else {
     for (const auto* obstacle : obstacles) {
       if (!AddObstacle(obstacle)) {
-        AERROR << "Failed to add obstacle " << obstacle->Id();
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to add obstacle " << obstacle->Id();
         return false;
       }
     }
@@ -500,12 +513,14 @@ bool ReferenceLineInfo::CombinePathAndSpeedProfile(
   const double kDenseTimeSec = FLAGS_trajectory_time_high_density_period;
 
   if (path_data_.discretized_path().empty()) {
-    AERROR << "path data is empty";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "path data is empty";
     return false;
   }
 
   if (speed_data_.empty()) {
-    AERROR << "speed profile is empty";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "speed profile is empty";
     return false;
   }
 
@@ -514,7 +529,8 @@ bool ReferenceLineInfo::CombinePathAndSpeedProfile(
                                                      : kSparseTimeResolution)) {
     common::SpeedPoint speed_point;
     if (!speed_data_.EvaluateByTime(cur_rel_time, &speed_point)) {
-      AERROR << "Fail to get speed point with relative time " << cur_rel_time;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get speed point with relative time " << cur_rel_time;
       return false;
     }
 
@@ -569,7 +585,8 @@ bool ReferenceLineInfo::AdjustTrajectoryWhichStartsFromCurrentPos(
     }
   }
   if (insert_idx == -1) {
-    AERROR << "All points are behind of planning init point";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "All points are behind of planning init point";
     return false;
   }
 
@@ -587,7 +604,8 @@ bool ReferenceLineInfo::AdjustTrajectoryWhichStartsFromCurrentPos(
   // cause.
   if (cut_trajectory.size() > 1 && cut_trajectory.front().relative_time() >=
                                        cut_trajectory[1].relative_time()) {
-    AERROR << "planning init point relative_time["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "planning init point relative_time["
            << cut_trajectory.front().relative_time()
            << "] larger than its next point's relative_time["
            << cut_trajectory[1].relative_time() << "]";
@@ -823,7 +841,8 @@ int ReferenceLineInfo::MakeMainStopDecision(
 
     double stop_line_s = stop_line_sl.s();
     if (stop_line_s < 0 || stop_line_s > reference_line_.Length()) {
-      AERROR << "Ignore object:" << obstacle->Id() << " fence route_s["
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ignore object:" << obstacle->Id() << " fence route_s["
              << stop_line_s << "] not in range[0, " << reference_line_.Length()
              << "]";
       continue;
@@ -846,7 +865,8 @@ int ReferenceLineInfo::MakeMainStopDecision(
     main_stop->mutable_stop_point()->set_y(stop_decision->stop_point().y());
     main_stop->set_stop_heading(stop_decision->stop_heading());
 
-    ADEBUG << " main stop obstacle id:" << stop_obstacle->Id()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " main stop obstacle id:" << stop_obstacle->Id()
            << " stop_line_s:" << min_stop_line_s << " stop_point: ("
            << stop_decision->stop_point().x() << stop_decision->stop_point().y()
            << " ) stop_heading: " << stop_decision->stop_heading();

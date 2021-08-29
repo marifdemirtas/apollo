@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Detectedobjectrpt411::Detectedobjectrpt411() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Detectedobjectrpt411::Detectedobjectrpt411() {}
 const int32_t Detectedobjectrpt411::ID = 0x411;
 
 void Detectedobjectrpt411::Parse(const std::uint8_t* bytes, int32_t length,
                                  ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_lexus()
       ->mutable_detected_object_rpt_411()
       ->set_front_object_distance_high_res(
@@ -53,8 +48,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': 'm'}
 double Detectedobjectrpt411::front_object_distance_high_res(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 
@@ -78,8 +71,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': 'm'}
 double Detectedobjectrpt411::front_object_distance_low_res(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,8 +25,6 @@ namespace perception {
 namespace benchmark {
 
 bool LidarOption::set_options() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto iter = _options.find("JACCARD");
   if (iter != _options.end()) {
     if (iter->second.size() > 1) {
@@ -93,8 +90,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     Frame::set_black_list(iter->second);
     std::cerr << "Set label black list: ";
     for (auto& value : iter->second) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
       std::cerr << value << " ";
     }
     std::cerr << std::endl;
@@ -182,8 +177,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
   iter = _options.find("PENALIZE_PI");
   if (iter != _options.end()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     if (iter->second.size() > 1) {
       std::cerr << "Confused by multiple penalize pi flag, so use default"
                 << std::endl;
@@ -221,8 +214,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
   iter = _options.find("CONFIDENCE");
   if (iter != _options.end()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     if (iter->second.size() > 1) {
       std::cerr << "Confused by multiple confidence values, so use default"
                 << std::endl;
@@ -234,8 +225,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
   iter = _options.find("ROI_TYPE");
   if (iter != _options.end()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     if (iter->second.size() > 1) {
       std::cerr << "Confused by multiple roi type values, so use default"
                 << std::endl;

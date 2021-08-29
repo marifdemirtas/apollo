@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,15 +25,11 @@ namespace ge3 {
 
 using ::apollo::drivers::canbus::Byte;
 
-Scuepb310::Scuepb310() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Scuepb310::Scuepb310() {}
 const int32_t Scuepb310::ID = 0x310;
 
 void Scuepb310::Parse(const std::uint8_t* bytes, int32_t length,
                       ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_ge3()->mutable_scu_epb_310()->set_epb_intidx(
       epb_intidx(bytes, length));
   chassis->mutable_ge3()->mutable_scu_epb_310()->set_epb_drvmode(
@@ -52,8 +47,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 Scu_epb_310::Epb_intidxType Scuepb310::epb_intidx(const std::uint8_t* bytes,
                                                   int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 3);
 
@@ -68,8 +61,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Scu_epb_310::Epb_drvmodeType Scuepb310::epb_drvmode(const std::uint8_t* bytes,
                                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 2);
 
@@ -86,8 +77,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 Scu_epb_310::Epb_sysstType Scuepb310::epb_sysst(const std::uint8_t* bytes,
                                                 int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 3);
 
@@ -102,8 +91,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Scu_epb_310::Epb_faultstType Scuepb310::epb_faultst(const std::uint8_t* bytes,
                                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(7, 1);
 

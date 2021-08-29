@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,8 +23,6 @@ namespace apollo {
 namespace hdmap {
 
 MapDataCheckerAgent::MapDataCheckerAgent() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sp_conf_ = ParseJson(FLAGS_conf_json);
   assert(sp_conf_ != nullptr);
   sp_pose_collection_agent_ = std::make_shared<PoseCollectionAgent>(sp_conf_);
@@ -37,23 +34,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       sp_conf_, sp_pose_collection_agent_);
   sp_loops_verify_agent_ =
       std::make_shared<LoopsVerifyAgent>(sp_conf_, sp_pose_collection_agent_);
-  AINFO << "MapDataCheckerAgent create successfully";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "MapDataCheckerAgent create successfully";
+ }
 
 std::shared_ptr<PoseCollectionAgent>
 MapDataCheckerAgent::GetSpPoseCollectionAgent() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return sp_pose_collection_agent_;
 }
 
 grpc::Status MapDataCheckerAgent::ServiceChannelVerify(
     grpc::ServerContext *context, ChannelVerifyRequest *request,
     ChannelVerifyResponse *response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return sp_channel_checker_agent_->ProcessGrpcRequest(context, request,
                                                        response);
 }
@@ -61,24 +53,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 grpc::Status MapDataCheckerAgent::ServiceStaticAlign(
     grpc::ServerContext *context, StaticAlignRequest *request,
     StaticAlignResponse *response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return sp_static_align_agent_->ProcessGrpcRequest(context, request, response);
 }
 
 grpc::Status MapDataCheckerAgent::ServiceEightRoute(
     grpc::ServerContext *context, EightRouteRequest *request,
     EightRouteResponse *response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return sp_eight_route_agent_->ProcessGrpcRequest(context, request, response);
 }
 
 grpc::Status MapDataCheckerAgent::ServiceLoopsVerify(
     grpc::ServerContext *context, LoopsVerifyRequest *request,
     LoopsVerifyResponse *response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return sp_loops_verify_agent_->ProcessGrpcRequest(context, request, response);
 }
 

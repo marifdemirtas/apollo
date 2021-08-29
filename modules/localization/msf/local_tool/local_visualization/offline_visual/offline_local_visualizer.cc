@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,21 +29,15 @@ namespace apollo {
 namespace localization {
 namespace msf {
 OfflineLocalVisualizer::OfflineLocalVisualizer()
-    : map_config_(), resolution_id_(0), zone_id_(0), visual_engine_() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : map_config_(), resolution_id_(0), zone_id_(0), visual_engine_() {}
 
-OfflineLocalVisualizer::~OfflineLocalVisualizer() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+OfflineLocalVisualizer::~OfflineLocalVisualizer() {}
 
 bool OfflineLocalVisualizer::Init(
     const std::string &map_folder, const std::string &map_visual_folder,
     const std::string &pcd_folder, const std::string &pcd_timestamp_file,
     const std::string &gnss_loc_file, const std::string &lidar_loc_file,
     const std::string &fusion_loc_file, const std::string &extrinsic_file) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   map_folder_ = map_folder;
   map_visual_folder_ = map_visual_folder;
   pcd_folder_ = pcd_folder;
@@ -66,54 +59,68 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   map_config_.map_version_ = "lossy_map";
   bool success = map_config_.Load(config_file);
   if (!success) {
-    AERROR << "Load map config failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Load map config failed.";
     return false;
   }
-  AINFO << "Load map config succeed.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Load map config succeed.";
+ 
   success = velodyne::LoadExtrinsic(extrinsic_file_, &velodyne_extrinsic_);
   if (!success) {
-    AERROR << "Load velodyne extrinsic failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Load velodyne extrinsic failed.";
     return false;
   }
-  AERROR << "Load velodyne extrinsic succeed.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Load velodyne extrinsic succeed.";
 
   success = PCDTimestampFileHandler();
   if (!success) {
-    AERROR << "Handle pcd timestamp file failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Handle pcd timestamp file failed.";
     return false;
   }
-  AINFO << "Handle pcd timestamp file succeed.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Handle pcd timestamp file succeed.";
+ 
   success = LidarLocFileHandler(pcd_timestamps_);
   if (!success) {
-    AERROR << "Handle lidar localization file failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Handle lidar localization file failed.";
     return false;
   }
-  AINFO << "Handle lidar localization file succeed.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Handle lidar localization file succeed.";
+ 
   success = GnssLocFileHandler(pcd_timestamps_);
   if (!success) {
-    AERROR << "Handle gnss localization file failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Handle gnss localization file failed.";
     return false;
   }
-  AINFO << "Handle gnss localization file succeed.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Handle gnss localization file succeed.";
+ 
   success = FusionLocFileHandler(pcd_timestamps_);
   if (!success) {
-    AERROR << "Handle fusion localization file failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Handle fusion localization file failed.";
     return false;
   }
-  AINFO << "Handle fusion localization file succeed.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Handle fusion localization file succeed.";
+ 
   resolution_id_ = 0;
   success = GetZoneIdFromMapFolder(map_folder_, resolution_id_, &zone_id_);
   if (!success) {
-    AERROR << "Get zone id failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Get zone id failed.";
     return false;
   }
-  AINFO << "Get zone id succeed.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Get zone id succeed.";
+ 
   VisualMapParam map_param;
   map_param.set(map_config_.map_resolutions_, map_config_.map_node_size_x_,
                 map_config_.map_node_size_y_, map_config_.map_range_.GetMinX(),
@@ -124,29 +131,31 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                                 resolution_id_, zone_id_, velodyne_extrinsic_,
                                 LOC_INFO_NUM);
   if (!success) {
-    AERROR << "Visualization engine init failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Visualization engine init failed.";
     return false;
   }
-  AINFO << "Visualization engine init succeed.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Visualization engine init succeed.";
+ 
   return true;
 }
 
 void OfflineLocalVisualizer::Visualize() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (unsigned int idx = 0; idx < pcd_timestamps_.size(); ++idx) {
     LocalizatonInfo lidar_loc_info;
     LocalizatonInfo gnss_loc_info;
     LocalizatonInfo fusion_loc_info;
 
-    AINFO << "Frame id: " << idx + 1;
-    auto pose_found_iter = lidar_poses_.find(idx);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Frame id: " << idx + 1;
+     auto pose_found_iter = lidar_poses_.find(idx);
     auto std_found_iter = lidar_stds_.find(idx);
     if (pose_found_iter != lidar_poses_.end() &&
         std_found_iter != lidar_stds_.end()) {
-      AINFO << "Find lidar pose.";
-      const Eigen::Affine3d &lidar_pose = pose_found_iter->second;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Find lidar pose.";
+       const Eigen::Affine3d &lidar_pose = pose_found_iter->second;
       const Eigen::Vector3d &lidar_std = std_found_iter->second;
       lidar_loc_info.set(Eigen::Translation3d(lidar_pose.translation()),
                          Eigen::Quaterniond(lidar_pose.linear()), lidar_std,
@@ -157,8 +166,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     std_found_iter = gnss_stds_.find(idx);
     if (pose_found_iter != gnss_poses_.end() &&
         std_found_iter != gnss_stds_.end()) {
-      AINFO << "Find gnss pose.";
-      const Eigen::Affine3d &gnss_pose = pose_found_iter->second;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Find gnss pose.";
+       const Eigen::Affine3d &gnss_pose = pose_found_iter->second;
       const Eigen::Vector3d &gnss_std = std_found_iter->second;
       gnss_loc_info.set(Eigen::Translation3d(gnss_pose.translation()), gnss_std,
                         "GNSS.", pcd_timestamps_[idx], idx + 1);
@@ -168,8 +178,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     std_found_iter = fusion_stds_.find(idx);
     if (pose_found_iter != fusion_poses_.end() &&
         std_found_iter != fusion_stds_.end()) {
-      AINFO << "Find fusion pose.";
-      const Eigen::Affine3d &fusion_pose = pose_found_iter->second;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Find fusion pose.";
+       const Eigen::Affine3d &fusion_pose = pose_found_iter->second;
       const Eigen::Vector3d &fusion_std = std_found_iter->second;
       fusion_loc_info.set(Eigen::Translation3d(fusion_pose.translation()),
                           Eigen::Quaterniond(fusion_pose.linear()), fusion_std,
@@ -183,21 +194,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         pcd_file_path, idx, lidar_loc_info.pose, &pt3ds, &intensities, false);
 
     ::apollo::common::EigenVector<LocalizatonInfo> loc_infos{
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
         lidar_loc_info, gnss_loc_info, fusion_loc_info};
     visual_engine_.Visualize(std::move(loc_infos), pt3ds);
   }
 }
 
 bool OfflineLocalVisualizer::PCDTimestampFileHandler() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pcd_timestamps_.clear();
 
   FILE *file = fopen(pcd_timestamp_file_.c_str(), "r");
   if (!file) {
-    AERROR << "Can't open file to read: " << pcd_timestamp_file_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can't open file to read: " << pcd_timestamp_file_;
     return false;
   }
 
@@ -213,8 +221,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool OfflineLocalVisualizer::LidarLocFileHandler(
     const std::vector<double> &pcd_timestamps) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ::apollo::common::EigenAffine3dVec poses;
   ::apollo::common::EigenVector3dVec stds;
   std::vector<double> timestamps;
@@ -228,8 +234,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool OfflineLocalVisualizer::GnssLocFileHandler(
     const std::vector<double> &pcd_timestamps) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ::apollo::common::EigenAffine3dVec poses;
   ::apollo::common::EigenVector3dVec stds;
   std::vector<double> timestamps;
@@ -243,8 +247,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool OfflineLocalVisualizer::FusionLocFileHandler(
     const std::vector<double> &pcd_timestamps) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ::apollo::common::EigenAffine3dVec poses;
   ::apollo::common::EigenVector3dVec stds;
   std::vector<double> timestamps;
@@ -262,8 +264,6 @@ void OfflineLocalVisualizer::PoseAndStdInterpolationByTime(
     const std::vector<double> &ref_timestamps,
     std::map<unsigned int, Eigen::Affine3d> *out_poses,
     std::map<unsigned int, Eigen::Vector3d> *out_stds) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   unsigned int index = 0;
   for (size_t i = 0; i < ref_timestamps.size(); ++i) {
     double ref_timestamp = ref_timestamps[i];
@@ -273,7 +273,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
 
     if (index >= in_timestamps.size()) {
-      AERROR << "[ERROR] No more poses. Exit now.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "[ERROR] No more poses. Exit now.";
       break;
     }
     if (index >= 1) {
@@ -315,8 +316,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool OfflineLocalVisualizer::GetZoneIdFromMapFolder(
     const std::string &map_folder, const unsigned int resolution_id,
     int *zone_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   char buf[256];
   snprintf(buf, sizeof(buf), "/%03u", resolution_id);
   std::string folder_north = map_folder + "/map" + buf + "/north";
@@ -334,8 +333,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         zone_id_full_path.substr(pos + 1, zone_id_full_path.length());
 
     *zone_id = -(std::stoi(zone_id_str));
-    AINFO << "Find zone id: " << *zone_id;
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Find zone id: " << *zone_id;
+     return true;
   }
   std::string zone_id_full_path = (*iter_north).path().string();
   std::size_t pos = zone_id_full_path.find_last_of("/");
@@ -343,8 +343,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       zone_id_full_path.substr(pos + 1, zone_id_full_path.length());
 
   *zone_id = (std::stoi(zone_id_str));
-  AINFO << "Find zone id: " << *zone_id;
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Find zone id: " << *zone_id;
+   return true;
 }
 
 }  // namespace msf

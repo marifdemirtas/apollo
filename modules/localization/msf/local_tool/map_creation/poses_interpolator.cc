@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -42,7 +41,8 @@ int main(int argc, char **argv) {
       !boost_args.count("ref_timestamps_path") ||
       !boost_args.count("extrinsic_path") ||
       !boost_args.count("output_poses_path")) {
-    AERROR << boost_desc;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << boost_desc;
     return 0;
   }
 

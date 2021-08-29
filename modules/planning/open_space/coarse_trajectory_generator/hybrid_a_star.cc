@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -63,16 +62,18 @@ bool HybridAStar::AnalyticExpansion(std::shared_ptr<Node3d> current_node) {
       std::make_shared<ReedSheppPath>();
   if (!reed_shepp_generator_->ShortestRSP(current_node, end_node_,
                                           reeds_shepp_to_check)) {
-    ADEBUG << "ShortestRSP failed";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ShortestRSP failed";
+     return false;
   }
 
   if (!RSPCheck(reeds_shepp_to_check)) {
     return false;
   }
 
-  ADEBUG << "Reach the end configuration with Reed Sharp";
-  // load the whole RSP as nodes and add to the close set
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Reach the end configuration with Reed Sharp";
+   // load the whole RSP as nodes and add to the close set
   final_node_ = LoadRSPinCS(reeds_shepp_to_check, current_node);
   return true;
 }
@@ -118,11 +119,15 @@ bool HybridAStar::ValidityCheck(std::shared_ptr<Node3d> node) {
       for (const common::math::LineSegment2d& linesegment :
            obstacle_linesegments) {
         if (bounding_box.HasOverlap(linesegment)) {
-          ADEBUG << "collision start at x: " << linesegment.start().x();
-          ADEBUG << "collision start at y: " << linesegment.start().y();
-          ADEBUG << "collision end at x: " << linesegment.end().x();
-          ADEBUG << "collision end at y: " << linesegment.end().y();
-          return false;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "collision start at x: " << linesegment.start().x();
+           AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "collision start at y: " << linesegment.start().y();
+           AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "collision end at x: " << linesegment.end().x();
+           AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "collision end at y: " << linesegment.end().y();
+           return false;
         }
       }
     }
@@ -189,10 +194,6 @@ std::shared_ptr<Node3d> HybridAStar::Next_node_generator(
       intermediate_x.back() < XYbounds_[0] ||
       intermediate_y.back() > XYbounds_[3] ||
       intermediate_y.back() < XYbounds_[2]) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     return nullptr;
   }
   std::shared_ptr<Node3d> next_node = std::shared_ptr<Node3d>(
@@ -249,11 +250,13 @@ bool HybridAStar::GetResult(HybridAStartResult* result) {
     std::vector<double> y = current_node->GetYs();
     std::vector<double> phi = current_node->GetPhis();
     if (x.empty() || y.empty() || phi.empty()) {
-      AERROR << "result size check failed";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "result size check failed";
       return false;
     }
     if (x.size() != y.size() || x.size() != phi.size()) {
-      AERROR << "states sizes are not equal";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "states sizes are not equal";
       return false;
     }
     std::reverse(x.begin(), x.end());
@@ -278,14 +281,16 @@ bool HybridAStar::GetResult(HybridAStartResult* result) {
   (*result).phi = hybrid_a_phi;
 
   if (!GetTemporalProfile(result)) {
-    AERROR << "GetSpeedProfile from Hybrid Astar path fails";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "GetSpeedProfile from Hybrid Astar path fails";
     return false;
   }
 
   if (result->x.size() != result->y.size() ||
       result->x.size() != result->v.size() ||
       result->x.size() != result->phi.size()) {
-    AERROR << "state sizes not equal, "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "state sizes not equal, "
            << "result->x.size(): " << result->x.size() << "result->y.size()"
            << result->y.size() << "result->phi.size()" << result->phi.size()
            << "result->v.size()" << result->v.size();
@@ -293,10 +298,14 @@ bool HybridAStar::GetResult(HybridAStartResult* result) {
   }
   if (result->a.size() != result->steer.size() ||
       result->x.size() - result->a.size() != 1) {
-    AERROR << "control sizes not equal or not right";
-    AERROR << " acceleration size: " << result->a.size();
-    AERROR << " steer size: " << result->steer.size();
-    AERROR << " x size: " << result->x.size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "control sizes not equal or not right";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << " acceleration size: " << result->a.size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << " steer size: " << result->steer.size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << " x size: " << result->x.size();
     return false;
   }
   return true;
@@ -305,7 +314,8 @@ bool HybridAStar::GetResult(HybridAStartResult* result) {
 bool HybridAStar::GenerateSpeedAcceleration(HybridAStartResult* result) {
   // Sanity Check
   if (result->x.size() < 2 || result->y.size() < 2 || result->phi.size() < 2) {
-    AERROR << "result size check when generating speed and acceleration fail";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "result size check when generating speed and acceleration fail";
     return false;
   }
   const size_t x_size = result->x.size();
@@ -352,12 +362,14 @@ bool HybridAStar::GenerateSCurveSpeedAcceleration(HybridAStartResult* result) {
   // sanity check
   CHECK_NOTNULL(result);
   if (result->x.size() < 2 || result->y.size() < 2 || result->phi.size() < 2) {
-    AERROR << "result size check when generating speed and acceleration fail";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "result size check when generating speed and acceleration fail";
     return false;
   }
   if (result->x.size() != result->y.size() ||
       result->x.size() != result->phi.size()) {
-    AERROR << "result sizes not equal";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "result sizes not equal";
     return false;
   }
 
@@ -411,7 +423,8 @@ bool HybridAStar::GenerateSCurveSpeedAcceleration(HybridAStartResult* result) {
                                              (max_reverse_acc * max_reverse_v),
                                   10.0);
   if (total_t + delta_t >= delta_t * std::numeric_limits<size_t>::max()) {
-    AERROR << "Number of knots overflow. total_t: " << total_t
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Number of knots overflow. total_t: " << total_t
            << ", delta_t: " << delta_t;
     return false;
   }
@@ -449,7 +462,8 @@ bool HybridAStar::GenerateSCurveSpeedAcceleration(HybridAStartResult* result) {
 
   // solve the problem
   if (!piecewise_jerk_problem.Optimize()) {
-    AERROR << "Piecewise jerk speed optimizer failed!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Piecewise jerk speed optimizer failed!";
     return false;
   }
 
@@ -464,8 +478,9 @@ bool HybridAStar::GenerateSCurveSpeedAcceleration(HybridAStartResult* result) {
   const double sEpislon = 1.0e-6;
   for (size_t i = 1; i < num_of_knots; ++i) {
     if (s[i - 1] - s[i] > kEpislon) {
-      ADEBUG << "unexpected decreasing s in speed smoothing at time "
-             << static_cast<double>(i) * delta_t << "with total time "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "unexpected decreasing s in speed smoothing at time "
+              << static_cast<double>(i) * delta_t << "with total time "
              << total_t;
       break;
     }
@@ -495,14 +510,16 @@ bool HybridAStar::GenerateSCurveSpeedAcceleration(HybridAStartResult* result) {
   const double time_horizon =
       speed_data.TotalTime() + kDenseTimeResoltuion * 1.0e-6;
   if (path_data.empty()) {
-    AERROR << "path data is empty";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "path data is empty";
     return false;
   }
   for (double cur_rel_time = 0.0; cur_rel_time < time_horizon;
        cur_rel_time += kDenseTimeResoltuion) {
     common::SpeedPoint speed_point;
     if (!speed_data.EvaluateByTime(cur_rel_time, &speed_point)) {
-      AERROR << "Fail to get speed point with relative time " << cur_rel_time;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get speed point with relative time " << cur_rel_time;
       return false;
     }
 
@@ -553,7 +570,8 @@ bool HybridAStar::TrajectoryPartition(
   const auto& y = result.y;
   const auto& phi = result.phi;
   if (x.size() != y.size() || x.size() != phi.size()) {
-    AERROR << "states sizes are not equal when do trajectory partitioning of "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "states sizes are not equal when do trajectory partitioning of "
               "Hybrid A Star result";
     return false;
   }
@@ -597,12 +615,14 @@ bool HybridAStar::TrajectoryPartition(
   for (auto& result : *partitioned_result) {
     if (FLAGS_use_s_curve_speed_smooth) {
       if (!GenerateSCurveSpeedAcceleration(&result)) {
-        AERROR << "GenerateSCurveSpeedAcceleration fail";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "GenerateSCurveSpeedAcceleration fail";
         return false;
       }
     } else {
       if (!GenerateSpeedAcceleration(&result)) {
-        AERROR << "GenerateSpeedAcceleration fail";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "GenerateSpeedAcceleration fail";
         return false;
       }
     }
@@ -610,14 +630,16 @@ bool HybridAStar::TrajectoryPartition(
 
   const auto end_timestamp = std::chrono::system_clock::now();
   std::chrono::duration<double> diff = end_timestamp - start_timestamp;
-  ADEBUG << "speed profile total time: " << diff.count() * 1000.0 << " ms.";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "speed profile total time: " << diff.count() * 1000.0 << " ms.";
+   return true;
 }
 
 bool HybridAStar::GetTemporalProfile(HybridAStartResult* result) {
   std::vector<HybridAStartResult> partitioned_results;
   if (!TrajectoryPartition(*result, &partitioned_results)) {
-    AERROR << "TrajectoryPartition fail";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TrajectoryPartition fail";
     return false;
   }
   HybridAStartResult stitched_result;
@@ -676,18 +698,21 @@ bool HybridAStar::Plan(
   end_node_.reset(
       new Node3d({ex}, {ey}, {ephi}, XYbounds_, planner_open_space_config_));
   if (!ValidityCheck(start_node_)) {
-    ADEBUG << "start_node in collision with obstacles";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "start_node in collision with obstacles";
+     return false;
   }
   if (!ValidityCheck(end_node_)) {
-    ADEBUG << "end_node in collision with obstacles";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "end_node in collision with obstacles";
+     return false;
   }
   double map_time = Clock::NowInSeconds();
   grid_a_star_heuristic_generator_->GenerateDpMap(ex, ey, XYbounds_,
                                                   obstacles_linesegments_vec_);
-  ADEBUG << "map time " << Clock::NowInSeconds() - map_time;
-  // load open set, pq
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "map time " << Clock::NowInSeconds() - map_time;
+   // load open set, pq
   open_set_.emplace(start_node_->GetIndex(), start_node_);
   open_pq_.emplace(start_node_->GetIndex(), start_node_->GetCost());
 
@@ -697,8 +722,6 @@ bool HybridAStar::Plan(
   double heuristic_time = 0.0;
   double rs_time = 0.0;
   while (!open_pq_.empty()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     // take out the lowest cost neighboring node
     const std::string current_id = open_pq_.top().first;
     open_pq_.pop();
@@ -739,18 +762,24 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
   }
   if (final_node_ == nullptr) {
-    ADEBUG << "Hybrid A searching return null ptr(open_set ran out)";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Hybrid A searching return null ptr(open_set ran out)";
+     return false;
   }
   if (!GetResult(result)) {
-    ADEBUG << "GetResult failed";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "GetResult failed";
+     return false;
   }
-  ADEBUG << "explored node num is " << explored_node_num;
-  ADEBUG << "heuristic time is " << heuristic_time;
-  ADEBUG << "reed shepp time is " << rs_time;
-  ADEBUG << "hybrid astar total time is "
-         << Clock::NowInSeconds() - astar_start_time;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "explored node num is " << explored_node_num;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "heuristic time is " << heuristic_time;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "reed shepp time is " << rs_time;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "hybrid astar total time is "
+          << Clock::NowInSeconds() - astar_start_time;
   return true;
 }
 }  // namespace planning

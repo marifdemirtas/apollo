@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -62,16 +61,18 @@ Status OpenSpaceTrajectoryOptimizer::Plan(
     double* time_latency) {
   if (XYbounds.empty() || end_pose.empty() || obstacles_edges_num.cols() == 0 ||
       obstacles_A.cols() == 0 || obstacles_b.cols() == 0) {
-    ADEBUG << "OpenSpaceTrajectoryOptimizer input data not ready";
-    return Status(ErrorCode::PLANNING_ERROR,
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OpenSpaceTrajectoryOptimizer input data not ready";
+     return Status(ErrorCode::PLANNING_ERROR,
                   "OpenSpaceTrajectoryOptimizer input data not ready");
   }
 
   // Generate Stop trajectory if init point close to destination
   if (IsInitPointNearDestination(stitching_trajectory.back(), end_pose,
                                  rotate_angle, translate_origin)) {
-    ADEBUG << "Planning init point is close to destination, skip new "
-              "trajectory generation";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Planning init point is close to destination, skip new "
+               "trajectory generation";
     return Status(ErrorCode::OK,
                   "Planning init point is close to destination, skip new "
                   "trajectory generation");
@@ -90,11 +91,15 @@ Status OpenSpaceTrajectoryOptimizer::Plan(
   double init_x = trajectory_stitching_point.path_point().x();
   double init_y = trajectory_stitching_point.path_point().y();
   double init_phi = trajectory_stitching_point.path_point().theta();
-  ADEBUG << "origin x: " << std::setprecision(9) << translate_origin.x();
-  ADEBUG << "origin y: " << std::setprecision(9) << translate_origin.y();
-  ADEBUG << "init_x: " << std::setprecision(9) << init_x;
-  ADEBUG << "init_y: " << std::setprecision(9) << init_y;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "origin x: " << std::setprecision(9) << translate_origin.x();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "origin y: " << std::setprecision(9) << translate_origin.y();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "init_x: " << std::setprecision(9) << init_x;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "init_y: " << std::setprecision(9) << init_y;
+ 
   // Rotate and scale the state
   PathPointNormalizing(rotate_angle, translate_origin, &init_x, &init_y,
                        &init_phi);
@@ -106,10 +111,12 @@ Status OpenSpaceTrajectoryOptimizer::Plan(
   if (warm_start_->Plan(init_x, init_y, init_phi, end_pose[0], end_pose[1],
                         end_pose[2], XYbounds, obstacles_vertices_vec,
                         &result)) {
-    ADEBUG << "State warm start problem solved successfully!";
-  } else {
-    ADEBUG << "State warm start problem failed to solve";
-    return Status(ErrorCode::PLANNING_ERROR,
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "State warm start problem solved successfully!";
+   } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "State warm start problem failed to solve";
+     return Status(ErrorCode::PLANNING_ERROR,
                   "State warm start problem failed to solve");
   }
 
@@ -150,18 +157,23 @@ Status OpenSpaceTrajectoryOptimizer::Plan(
     dual_n_result_ds_vec.resize(size);
 
     // In for loop
-    ADEBUG << "Trajectories size in smoother is " << size;
-    for (size_t i = 0; i < size; ++i) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Trajectories size in smoother is " << size;
+     for (size_t i = 0; i < size; ++i) {
       LoadHybridAstarResultInEigen(&partition_trajectories[i], &xWS_vec[i],
                                    &uWS_vec[i]);
       // checking initial and ending points
       if (config_.planner_open_space_config()
               .enable_check_parallel_trajectory()) {
-        AINFO << "trajectory id: " << i;
-        AINFO << "trajectory partitioned size: " << xWS_vec[i].cols();
-        AINFO << "initial point: " << xWS_vec[i].col(0).transpose();
-        AINFO << "ending point: "
-              << xWS_vec[i].col(xWS_vec[i].cols() - 1).transpose();
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "trajectory id: " << i;
+         AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "trajectory partitioned size: " << xWS_vec[i].cols();
+         AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "initial point: " << xWS_vec[i].col(0).transpose();
+         AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ending point: "
+               << xWS_vec[i].col(xWS_vec[i].cols() - 1).transpose();
       }
 
       Eigen::MatrixXd last_time_u(2, 1);
@@ -185,9 +197,11 @@ Status OpenSpaceTrajectoryOptimizer::Plan(
                 xWS_vec[i], last_time_u(1, 0), init_v, obstacles_vertices_vec,
                 &state_result_ds_vec[i], &control_result_ds_vec[i],
                 &time_result_ds_vec[i])) {
-          ADEBUG << "Smoother fail at " << i << "th trajectory";
-          ADEBUG << i << "th trajectory size is " << xWS_vec[i].cols();
-          return Status(
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Smoother fail at " << i << "th trajectory";
+           AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << i << "th trajectory size is " << xWS_vec[i].cols();
+           return Status(
               ErrorCode::PLANNING_ERROR,
               "iterative anchoring smoothing problem failed to solve");
         }
@@ -202,12 +216,16 @@ Status OpenSpaceTrajectoryOptimizer::Plan(
                 init_v, &state_result_ds_vec[i], &control_result_ds_vec[i],
                 &time_result_ds_vec[i], &l_warm_up_vec[i], &n_warm_up_vec[i],
                 &dual_l_result_ds_vec[i], &dual_n_result_ds_vec[i])) {
-          ADEBUG << "Smoother fail at " << i
-                 << "th trajectory with index starts from 0";
-          ADEBUG << i << "th trajectory size is " << xWS_vec[i].cols();
-          ADEBUG << "State matrix: " << xWS_vec[i];
-          ADEBUG << "Control matrix: " << uWS_vec[i];
-          return Status(ErrorCode::PLANNING_ERROR,
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Smoother fail at " << i
+                  << "th trajectory with index starts from 0";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << i << "th trajectory size is " << xWS_vec[i].cols();
+           AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "State matrix: " << xWS_vec[i];
+           AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Control matrix: " << uWS_vec[i];
+           return Status(ErrorCode::PLANNING_ERROR,
                         "distance approach smoothing problem failed to solve");
         }
         const auto end_system_timestamp =
@@ -216,24 +234,31 @@ Status OpenSpaceTrajectoryOptimizer::Plan(
                 .count();
         const auto time_diff_ms =
             (end_system_timestamp - start_system_timestamp) * 1000;
-        ADEBUG << "total planning time spend: " << time_diff_ms << " ms.";
-        ADEBUG << i << "th trajectory size is " << xWS_vec[i].cols();
-        ADEBUG << "average time spend: " << time_diff_ms / xWS_vec[i].cols()
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "total planning time spend: " << time_diff_ms << " ms.";
+         AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << i << "th trajectory size is " << xWS_vec[i].cols();
+         AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "average time spend: " << time_diff_ms / xWS_vec[i].cols()
+                << " ms per point.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "average time spend after smooth: "
+                << time_diff_ms / state_result_ds_vec[i].cols()
                << " ms per point.";
-        ADEBUG << "average time spend after smooth: "
-               << time_diff_ms / state_result_ds_vec[i].cols()
-               << " ms per point.";
-        ADEBUG << i << "th smoothed trajectory size is "
-               << state_result_ds_vec[i].cols();
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << i << "th smoothed trajectory size is "
+                << state_result_ds_vec[i].cols();
       }
       const auto smoother_end_timestamp = std::chrono::system_clock::now();
       std::chrono::duration<double> smoother_diff =
           smoother_end_timestamp - smoother_start_timestamp;
-      ADEBUG << "Open space trajectory smoothing total time: "
-             << smoother_diff.count() * 1000.0 << " ms at the " << i
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Open space trajectory smoothing total time: "
+              << smoother_diff.count() * 1000.0 << " ms at the " << i
              << "th trajectory.";
-      ADEBUG << "The " << i << "th trajectory pre-smoothing size is "
-             << xWS_vec[i].cols() << "; post-smoothing size is "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "The " << i << "th trajectory pre-smoothing size is "
+              << xWS_vec[i].cols() << "; post-smoothing size is "
              << state_result_ds_vec[i].cols();
     }
 
@@ -286,8 +311,9 @@ Status OpenSpaceTrajectoryOptimizer::Plan(
 
   const auto end_timestamp = std::chrono::system_clock::now();
   std::chrono::duration<double> diff = end_timestamp - start_timestamp;
-  ADEBUG << "open space trajectory smoother total time: "
-         << diff.count() * 1000.0 << " ms.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "open space trajectory smoother total time: "
+          << diff.count() * 1000.0 << " ms.";
   *time_latency = diff.count() * 1000.0;
 
   return Status::OK();
@@ -524,7 +550,8 @@ void OpenSpaceTrajectoryOptimizer::UseWarmStartAsResult(
     Eigen::MatrixXd* state_result_ds, Eigen::MatrixXd* control_result_ds,
     Eigen::MatrixXd* time_result_ds, Eigen::MatrixXd* dual_l_result_ds,
     Eigen::MatrixXd* dual_n_result_ds) {
-  AERROR << "Use warm start as trajectory output";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Use warm start as trajectory output";
 
   *state_result_ds = xWS;
   *control_result_ds = uWS;
@@ -578,10 +605,12 @@ bool OpenSpaceTrajectoryOptimizer::GenerateDistanceApproachTraj(
     if (dual_variable_warm_start_->Solve(
             horizon, ts, ego, obstacles_num, obstacles_edges_num, obstacles_A,
             obstacles_b, xWS, l_warm_up, n_warm_up, &s_warm_up)) {
-      ADEBUG << "Dual variable problem solved successfully!";
-    } else {
-      ADEBUG << "Dual variable problem failed to solve";
-      return false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Dual variable problem solved successfully!";
+     } else {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Dual variable problem failed to solve";
+       return false;
     }
   } else {
     *l_warm_up =
@@ -595,10 +624,12 @@ bool OpenSpaceTrajectoryOptimizer::GenerateDistanceApproachTraj(
           *n_warm_up, s_warm_up, XYbounds, obstacles_num, obstacles_edges_num,
           obstacles_A, obstacles_b, state_result_ds, control_result_ds,
           time_result_ds, dual_l_result_ds, dual_n_result_ds)) {
-    ADEBUG << "Distance approach problem solved successfully!";
-  } else {
-    ADEBUG << "Distance approach problem failed to solve";
-    if (FLAGS_enable_smoother_failsafe) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Distance approach problem solved successfully!";
+   } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Distance approach problem failed to solve";
+     if (FLAGS_enable_smoother_failsafe) {
       UseWarmStartAsResult(xWS, uWS, *l_warm_up, *n_warm_up, state_result_ds,
                            control_result_ds, time_result_ds, dual_l_result_ds,
                            dual_n_result_ds);

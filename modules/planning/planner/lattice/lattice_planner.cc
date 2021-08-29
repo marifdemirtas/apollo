@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -96,8 +95,6 @@ void ComputeInitFrenetState(const PathPoint& matched_point,
 Status LatticePlanner::Plan(const TrajectoryPoint& planning_start_point,
                             Frame* frame,
                             ADCTrajectory* ptr_computed_trajectory) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   size_t success_line_count = 0;
   size_t index = 0;
   for (auto& reference_line_info : *frame->mutable_reference_line_info()) {
@@ -112,10 +109,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
     if (status != Status::OK()) {
       if (reference_line_info.IsChangeLanePath()) {
-        AERROR << "Planner failed to change lane to "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Planner failed to change lane to "
                << reference_line_info.Lanes().Id();
       } else {
-        AERROR << "Planner failed to " << reference_line_info.Lanes().Id();
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Planner failed to " << reference_line_info.Lanes().Id();
       }
     } else {
       success_line_count += 1;
@@ -139,8 +138,9 @@ Status LatticePlanner::PlanOnReferenceLine(
   double start_time = Clock::NowInSeconds();
   double current_time = start_time;
 
-  ADEBUG << "Number of planning cycles: " << num_planning_cycles << " "
-         << num_planning_succeeded_cycles;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Number of planning cycles: " << num_planning_cycles << " "
+          << num_planning_succeeded_cycles;
   ++num_planning_cycles;
 
   reference_line_info->set_is_on_reference_line();
@@ -160,8 +160,9 @@ Status LatticePlanner::PlanOnReferenceLine(
   std::array<double, 3> init_d;
   ComputeInitFrenetState(matched_point, planning_init_point, &init_s, &init_d);
 
-  ADEBUG << "ReferenceLine and Frenet Conversion Time = "
-         << (Clock::NowInSeconds() - current_time) * 1000;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ReferenceLine and Frenet Conversion Time = "
+          << (Clock::NowInSeconds() - current_time) * 1000;
   current_time = Clock::NowInSeconds();
 
   auto ptr_prediction_querier = std::make_shared<PredictionQuerier>(
@@ -180,14 +181,14 @@ Status LatticePlanner::PlanOnReferenceLine(
 
   PlanningTarget planning_target = reference_line_info->planning_target();
   if (planning_target.has_stop_point()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-    ADEBUG << "Planning target stop s: " << planning_target.stop_point().s()
-           << "Current ego s: " << init_s[0];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Planning target stop s: " << planning_target.stop_point().s()
+            << "Current ego s: " << init_s[0];
   }
 
-  ADEBUG << "Decision_Time = "
-         << (Clock::NowInSeconds() - current_time) * 1000;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Decision_Time = "
+          << (Clock::NowInSeconds() - current_time) * 1000;
   current_time = Clock::NowInSeconds();
 
   // 5. generate 1d trajectory bundle for longitudinal and lateral respectively.
@@ -198,8 +199,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   trajectory1d_generator.GenerateTrajectoryBundles(
       planning_target, &lon_trajectory1d_bundle, &lat_trajectory1d_bundle);
 
-  ADEBUG << "Trajectory_Generation_Time = "
-         << (Clock::NowInSeconds() - current_time) * 1000;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Trajectory_Generation_Time = "
+          << (Clock::NowInSeconds() - current_time) * 1000;
   current_time = Clock::NowInSeconds();
 
   // 6. first, evaluate the feasibility of the 1d trajectories according to
@@ -210,12 +212,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       init_s, planning_target, lon_trajectory1d_bundle, lat_trajectory1d_bundle,
       ptr_path_time_graph, ptr_reference_line);
 
-  ADEBUG << "Trajectory_Evaluator_Construction_Time = "
-         << (Clock::NowInSeconds() - current_time) * 1000;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Trajectory_Evaluator_Construction_Time = "
+          << (Clock::NowInSeconds() - current_time) * 1000;
   current_time = Clock::NowInSeconds();
 
-  ADEBUG << "number of trajectory pairs = "
-         << trajectory_evaluator.num_of_trajectory_pairs()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "number of trajectory pairs = "
+          << trajectory_evaluator.num_of_trajectory_pairs()
          << "  number_lon_traj = " << lon_trajectory1d_bundle.size()
          << "  number_lat_traj = " << lat_trajectory1d_bundle.size();
 
@@ -297,35 +301,46 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     reference_line_info->SetDrivable(true);
 
     // Print the chosen end condition and start condition
-    ADEBUG << "Starting Lon. State: s = " << init_s[0] << " ds = " << init_s[1]
-           << " dds = " << init_s[2];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Starting Lon. State: s = " << init_s[0] << " ds = " << init_s[1]
+            << " dds = " << init_s[2];
     // cast
     auto lattice_traj_ptr =
         std::dynamic_pointer_cast<LatticeTrajectory1d>(trajectory_pair.first);
     if (!lattice_traj_ptr) {
-      ADEBUG << "Dynamically casting trajectory1d ptr. failed.";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Dynamically casting trajectory1d ptr. failed.";
+     }
 
     if (lattice_traj_ptr->has_target_position()) {
-      ADEBUG << "Ending Lon. State s = " << lattice_traj_ptr->target_position()
-             << " ds = " << lattice_traj_ptr->target_velocity()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Ending Lon. State s = " << lattice_traj_ptr->target_position()
+              << " ds = " << lattice_traj_ptr->target_velocity()
              << " t = " << lattice_traj_ptr->target_time();
     }
 
-    ADEBUG << "InputPose";
-    ADEBUG << "XY: " << planning_init_point.ShortDebugString();
-    ADEBUG << "S: (" << init_s[0] << ", " << init_s[1] << "," << init_s[2]
-           << ")";
-    ADEBUG << "L: (" << init_d[0] << ", " << init_d[1] << "," << init_d[2]
-           << ")";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "InputPose";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "XY: " << planning_init_point.ShortDebugString();
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "S: (" << init_s[0] << ", " << init_s[1] << "," << init_s[2]
+            << ")";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "L: (" << init_d[0] << ", " << init_d[1] << "," << init_d[2]
+            << ")";
 
-    ADEBUG << "Reference_line_priority_cost = "
-           << reference_line_info->PriorityCost();
-    ADEBUG << "Total_Trajectory_Cost = " << trajectory_pair_cost;
-    ADEBUG << "OutputTrajectory";
-    for (uint i = 0; i < 10; ++i) {
-      ADEBUG << combined_trajectory_points[i].ShortDebugString();
-    }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Reference_line_priority_cost = "
+            << reference_line_info->PriorityCost();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Total_Trajectory_Cost = " << trajectory_pair_cost;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OutputTrajectory";
+     for (uint i = 0; i < 10; ++i) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << combined_trajectory_points[i].ShortDebugString();
+     }
 
     break;
     /*
@@ -339,29 +354,38 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     */
   }
 
-  ADEBUG << "Trajectory_Evaluation_Time = "
-         << (Clock::NowInSeconds() - current_time) * 1000;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Trajectory_Evaluation_Time = "
+          << (Clock::NowInSeconds() - current_time) * 1000;
 
-  ADEBUG << "Step CombineTrajectory Succeeded";
-
-  ADEBUG << "1d trajectory not valid for constraint ["
-         << constraint_failure_count << "] times";
-  ADEBUG << "Combined trajectory not valid for ["
-         << combined_constraint_failure_count << "] times";
-  ADEBUG << "Trajectory not valid for collision [" << collision_failure_count
-         << "] times";
-  ADEBUG << "Total_Lattice_Planning_Frame_Time = "
-         << (Clock::NowInSeconds() - start_time) * 1000;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Step CombineTrajectory Succeeded";
+ 
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "1d trajectory not valid for constraint ["
+          << constraint_failure_count << "] times";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Combined trajectory not valid for ["
+          << combined_constraint_failure_count << "] times";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Trajectory not valid for collision [" << collision_failure_count
+          << "] times";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Total_Lattice_Planning_Frame_Time = "
+          << (Clock::NowInSeconds() - start_time) * 1000;
 
   if (num_lattice_traj > 0) {
-    ADEBUG << "Planning succeeded";
-    num_planning_succeeded_cycles += 1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Planning succeeded";
+     num_planning_succeeded_cycles += 1;
     reference_line_info->SetDrivable(true);
     return Status::OK();
   } else {
-    AERROR << "Planning failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Planning failed";
     if (FLAGS_enable_backup_trajectory) {
-      AERROR << "Use backup trajectory";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Use backup trajectory";
       BackupTrajectoryGenerator backup_trajectory_generator(
           init_s, init_d, planning_init_point.relative_time(),
           std::make_shared<CollisionChecker>(collision_checker),

@@ -76,7 +76,8 @@ BaseThreadPool* PredictionThreadPool::Instance() {
       return LevelThreadPool<2>::Instance();
     }
   }
-  AERROR << "Should not hit here";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Should not hit here";
   return LevelThreadPool<0>::Instance();
 }
 

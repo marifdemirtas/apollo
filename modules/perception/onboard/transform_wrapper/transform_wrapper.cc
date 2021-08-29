@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -40,16 +39,15 @@ DEFINE_bool(obs_enable_local_pose_extrapolation, true,
             "use local pose extrapolation");
 
 void TransformCache::AddTransform(const StampedTransform& transform) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (transforms_.empty()) {
     transforms_.push_back(transform);
     return;
   }
   double delt = transform.timestamp - transforms_.back().timestamp;
   if (delt < 0.0) {
-    AINFO << "ERROR: add earlier transform to transform cache";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ERROR: add earlier transform to transform cache";
+     return;
   }
 
   do {
@@ -95,28 +93,29 @@ Eigen::Quaterniond Slerp(const Eigen::Quaterniond& source, const double& t,
 bool TransformCache::QueryTransform(double timestamp,
                                     StampedTransform* transform,
                                     double max_duration) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (transforms_.empty() || transform == nullptr) {
     return false;
   }
 
   double delt = timestamp - transforms_.back().timestamp;
   if (delt > max_duration) {
-    AINFO << "ERROR: query timestamp is " << delt
-          << "s later than cached timestamp";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ERROR: query timestamp is " << delt
+           << "s later than cached timestamp";
     return false;
   } else if (delt < 0.0) {
-    AINFO << "ERROR: query earlier timestamp than transform cache";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ERROR: query earlier timestamp than transform cache";
+     return false;
   }
 
   int size = static_cast<int>(transforms_.size());
   if (size == 1) {
     (*transform) = transforms_.back();
     transform->timestamp = timestamp;
-    AINFO << "use transform at " << transforms_.back().timestamp << " for "
-          << timestamp;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "use transform at " << transforms_.back().timestamp << " for "
+           << timestamp;
   } else {
     double ratio =
         (timestamp - transforms_[size - 2].timestamp) /
@@ -135,8 +134,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         transforms_[size - 2].translation.z() * (1 - ratio) +
         transforms_[size - 1].translation.z() * ratio;
 
-    AINFO << "estimate pose at " << timestamp << " from poses at "
-          << transforms_[size - 2].timestamp << " and "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "estimate pose at " << timestamp << " from poses at "
+           << transforms_[size - 2].timestamp << " and "
           << transforms_[size - 1].timestamp;
   }
   return true;
@@ -144,10 +144,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void TransformWrapper::Init(
     const std::string& sensor2novatel_tf2_child_frame_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sensor2novatel_tf2_frame_id_ = FLAGS_obs_sensor2novatel_tf2_frame_id;
   sensor2novatel_tf2_child_frame_id_ = sensor2novatel_tf2_child_frame_id;
   novatel2world_tf2_frame_id_ = FLAGS_obs_novatel2world_tf2_frame_id;
@@ -162,8 +158,6 @@ void TransformWrapper::Init(
     const std::string& sensor2novatel_tf2_child_frame_id,
     const std::string& novatel2world_tf2_frame_id,
     const std::string& novatel2world_tf2_child_frame_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sensor2novatel_tf2_frame_id_ = sensor2novatel_tf2_frame_id;
   sensor2novatel_tf2_child_frame_id_ = sensor2novatel_tf2_child_frame_id;
   novatel2world_tf2_frame_id_ = novatel2world_tf2_frame_id;
@@ -175,10 +169,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool TransformWrapper::GetSensor2worldTrans(
     double timestamp, Eigen::Affine3d* sensor2world_trans,
     Eigen::Affine3d* novatel2world_trans) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!inited_) {
-    AERROR << "TransformWrapper not Initialized,"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TransformWrapper not Initialized,"
            << " unable to call GetSensor2worldTrans.";
     return false;
   }
@@ -193,8 +186,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     sensor2novatel_extrinsics_.reset(new Eigen::Affine3d);
     *sensor2novatel_extrinsics_ =
         trans_sensor2novatel.translation * trans_sensor2novatel.rotation;
-    AINFO << "Get sensor2novatel extrinsics successfully.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Get sensor2novatel extrinsics successfully.";
+   }
 
   StampedTransform trans_novatel2world;
   trans_novatel2world.timestamp = timestamp;
@@ -221,16 +215,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (novatel2world_trans != nullptr) {
     *novatel2world_trans = novatel2world;
   }
-  AINFO << "Get pose timestamp: " << timestamp << ", pose: \n"
-        << (*sensor2world_trans).matrix();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Get pose timestamp: " << timestamp << ", pose: \n"
+         << (*sensor2world_trans).matrix();
   return true;
 }
 
 bool TransformWrapper::GetExtrinsics(Eigen::Affine3d* trans) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!inited_ || trans == nullptr || sensor2novatel_extrinsics_ == nullptr) {
-    AERROR << "TransformWrapper get extrinsics failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TransformWrapper get extrinsics failed";
     return false;
   }
   *trans = *sensor2novatel_extrinsics_;
@@ -240,8 +234,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool TransformWrapper::GetTrans(double timestamp, Eigen::Affine3d* trans,
                                 const std::string& frame_id,
                                 const std::string& child_frame_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   StampedTransform transform;
   if (!QueryTrans(timestamp, &transform, frame_id, child_frame_id)) {
     if (!FLAGS_obs_enable_local_pose_extrapolation ||
@@ -263,8 +255,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool TransformWrapper::QueryTrans(double timestamp, StampedTransform* trans,
                                   const std::string& frame_id,
                                   const std::string& child_frame_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cyber::Time query_time(timestamp);
   std::string err_string;
   if (!tf2_buffer_->canTransform(frame_id, child_frame_id, query_time,
@@ -274,7 +264,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (!cyber::common::GlobalData::Instance()->IsRealityMode()) {
       query_time = cyber::Time(0);
     } else {
-      AERROR << "Can not find transform. " << FORMAT_TIMESTAMP(timestamp)
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can not find transform. " << FORMAT_TIMESTAMP(timestamp)
              << " frame_id: " << frame_id
              << " child_frame_id: " << child_frame_id
              << " Error info: " << err_string;
@@ -297,7 +288,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                            stamped_transform.transform().rotation().qy(),
                            stamped_transform.transform().rotation().qz());
   } catch (tf2::TransformException& ex) {
-    AERROR << ex.what();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << ex.what();
     return false;
   }
   return true;
@@ -306,10 +298,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool TransformWrapper::GetExtrinsicsBySensorId(
     const std::string& from_sensor_id, const std::string& to_sensor_id,
     Eigen::Affine3d* trans) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (trans == nullptr) {
-    AERROR << "TransformWrapper get extrinsics failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TransformWrapper get extrinsics failed";
     return false;
   }
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -41,10 +40,12 @@ Status ReferenceLineEnd::ApplyRule(
     Frame* frame, ReferenceLineInfo* const reference_line_info) {
   const auto& reference_line = reference_line_info->reference_line();
 
-  ADEBUG << "ReferenceLineEnd length[" << reference_line.Length() << "]";
-  for (const auto& segment : reference_line_info->Lanes()) {
-    ADEBUG << "   lane[" << segment.lane->lane().id().id() << "]";
-  }
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ReferenceLineEnd length[" << reference_line.Length() << "]";
+   for (const auto& segment : reference_line_info->Lanes()) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "   lane[" << segment.lane->lane().id().id() << "]";
+   }
   // check
   double remain_s =
       reference_line.Length() - reference_line_info->AdcSlBoundary().end_s();

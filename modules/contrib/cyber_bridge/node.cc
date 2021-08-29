@@ -1,4 +1,3 @@
-#include <iostream>
 /**
  * Copyright (c) 2019 LG Electronics, Inc.
  *
@@ -20,24 +19,20 @@
 
 using apollo::cyber::message::PyMessageWrap;
 
-Node::Node() : node(apollo::cyber::CreateNode("bridge")) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Node::Node() : node(apollo::cyber::CreateNode("bridge")) {}
 
-Node::~Node() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Node::~Node() {}
 
 void Node::remove(std::shared_ptr<Client> client) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (auto it = writers.begin(); it != writers.end(); /* empty */) {
     if (it->second.clients.find(client) != it->second.clients.end()) {
-      ADEBUG << "Removing client writer";
-      it->second.clients.erase(client);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Removing client writer";
+       it->second.clients.erase(client);
       if (it->second.clients.empty()) {
-        ADEBUG << "Removing Cyber writer";
-        it = writers.erase(it);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Removing Cyber writer";
+         it = writers.erase(it);
       } else {
         it++;
       }
@@ -50,11 +45,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   for (auto it = readers.begin(); it != readers.end(); /* empty */) {
     if (it->second.clients.find(client) != it->second.clients.end()) {
-      ADEBUG << "Removing client reader";
-      it->second.clients.erase(client);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Removing client reader";
+       it->second.clients.erase(client);
       if (it->second.clients.empty()) {
-        ADEBUG << "Removing Cyber reader";
-        it = readers.erase(it);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Removing Cyber reader";
+         it = readers.erase(it);
       } else {
         it++;
       }
@@ -66,18 +63,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void Node::add_reader(const std::string& channel, const std::string& type,
                       std::shared_ptr<Client> client) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto rit = readers.find(channel);
   if (rit != readers.end()) {
-    ADEBUG << "Adding client to existing " << channel;
-    rit->second.clients.insert(client);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Adding client to existing " << channel;
+     rit->second.clients.insert(client);
     return;
   }
 
   auto cb = [this, channel](const std::shared_ptr<const PyMessageWrap>& msg) {
-    ADEBUG << "New message on " << channel;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "New message on " << channel;
+ 
     const std::string& data = msg->data();
 
     std::lock_guard<std::mutex> lock(mutex);
@@ -90,8 +87,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
   };
 
-  ADEBUG << "Adding new reader to " << channel;
-  Reader reader;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Adding new reader to " << channel;
+   Reader reader;
   reader.reader = node->CreateReader<PyMessageWrap>(channel, cb);
   reader.clients.insert(client);
 
@@ -101,8 +99,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void Node::add_writer(const std::string& channel, const std::string& type,
                       std::shared_ptr<Client> client) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto wit = writers.find(channel);
   if (wit != writers.end()) {
     wit->second.clients.insert(client);
@@ -133,8 +129,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Node::publish(const std::string& channel, const std::string& data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto writer = writers.find(channel);
   if (writer == writers.end()) {
     AWARN << "No writer registered on channel " << channel;

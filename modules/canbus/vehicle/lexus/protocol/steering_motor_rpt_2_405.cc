@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Steeringmotorrpt2405::Steeringmotorrpt2405() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Steeringmotorrpt2405::Steeringmotorrpt2405() {}
 const int32_t Steeringmotorrpt2405::ID = 0x405;
 
 void Steeringmotorrpt2405::Parse(const std::uint8_t* bytes, int32_t length,
                                  ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_lexus()
       ->mutable_steering_motor_rpt_2_405()
       ->set_encoder_temperature(encoder_temperature(bytes, length));
@@ -54,8 +49,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': 'deg C'}
 int Steeringmotorrpt2405::encoder_temperature(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -77,8 +70,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': 'deg C'}
 int Steeringmotorrpt2405::motor_temperature(const std::uint8_t* bytes,
                                             int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -100,8 +91,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': 'rev/s'}
 double Steeringmotorrpt2405::angular_speed(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 

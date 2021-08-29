@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -33,22 +32,26 @@ bool ShowRequestInfo(const RoutingRequest& request, const TopoGraph* graph) {
   for (const auto& wp : request.waypoint()) {
     const auto* node = graph->GetNode(wp.id());
     if (node == nullptr) {
-      AERROR << "Way node is not found in topo graph! ID: " << wp.id();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Way node is not found in topo graph! ID: " << wp.id();
       return false;
     }
-    AINFO << "Way point:\tlane id: " << wp.id() << " s: " << wp.s()
-          << " x: " << wp.pose().x() << " y: " << wp.pose().y()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Way point:\tlane id: " << wp.id() << " s: " << wp.s()
+           << " x: " << wp.pose().x() << " y: " << wp.pose().y()
           << " length: " << node->Length();
   }
 
   for (const auto& bl : request.blacklisted_lane()) {
     const auto* node = graph->GetNode(bl.id());
     if (node == nullptr) {
-      AERROR << "Black list node is not found in topo graph! ID: " << bl.id();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Black list node is not found in topo graph! ID: " << bl.id();
       return false;
     }
-    AINFO << "Black point:\tlane id: " << bl.id()
-          << " start_s: " << bl.start_s() << " end_s: " << bl.end_s()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Black point:\tlane id: " << bl.id()
+           << " start_s: " << bl.start_s() << " end_s: " << bl.end_s()
           << " length: " << node->Length();
   }
 
@@ -61,7 +64,8 @@ bool GetWayNodes(const RoutingRequest& request, const TopoGraph* graph,
   for (const auto& point : request.waypoint()) {
     const auto* cur_node = graph->GetNode(point.id());
     if (cur_node == nullptr) {
-      AERROR << "Cannot find way point in graph! Id: " << point.id();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot find way point in graph! Id: " << point.id();
       return false;
     }
     way_nodes->push_back(cur_node);
@@ -76,17 +80,21 @@ void SetErrorCode(const common::ErrorCode& error_code_id,
   error_code->set_error_code(error_code_id);
   error_code->set_msg(error_string);
   if (error_code_id == common::ErrorCode::OK) {
-    ADEBUG << error_string.c_str();
-  } else {
-    AERROR << error_string.c_str();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << error_string.c_str();
+   } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_string.c_str();
   }
 }
 
 void PrintDebugData(const std::vector<NodeWithRange>& nodes) {
-  AINFO << "Route lane id\tis virtual\tstart s\tend s";
-  for (const auto& node : nodes) {
-    AINFO << node.GetTopoNode()->LaneId() << "\t"
-          << node.GetTopoNode()->IsVirtual() << "\t" << node.StartS() << "\t"
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Route lane id\tis virtual\tstart s\tend s";
+   for (const auto& node : nodes) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << node.GetTopoNode()->LaneId() << "\t"
+           << node.GetTopoNode()->IsVirtual() << "\t" << node.StartS() << "\t"
           << node.EndS();
   }
 }
@@ -96,21 +104,24 @@ void PrintDebugData(const std::vector<NodeWithRange>& nodes) {
 Navigator::Navigator(const std::string& topo_file_path) {
   Graph graph;
   if (!cyber::common::GetProtoFromFile(topo_file_path, &graph)) {
-    AERROR << "Failed to read topology graph from " << topo_file_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to read topology graph from " << topo_file_path;
     return;
   }
 
   graph_.reset(new TopoGraph());
   if (!graph_->LoadGraph(graph)) {
-    AINFO << "Failed to init navigator graph failed! File path: "
-          << topo_file_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to init navigator graph failed! File path: "
+           << topo_file_path;
     return;
   }
   black_list_generator_.reset(new BlackListRangeGenerator);
   result_generator_.reset(new ResultGenerator);
   is_ready_ = true;
-  AINFO << "The navigator is ready.";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The navigator is ready.";
+ }
 
 Navigator::~Navigator() {}
 
@@ -123,7 +134,8 @@ bool Navigator::Init(const RoutingRequest& request, const TopoGraph* graph,
                      std::vector<double>* const way_s) {
   Clear();
   if (!GetWayNodes(request, graph_.get(), way_nodes, way_s)) {
-    AERROR << "Failed to find search terminal point in graph!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find search terminal point in graph!";
     return false;
   }
   black_list_generator_->GenerateBlackMapFromRequest(request, graph_.get(),
@@ -140,7 +152,8 @@ bool Navigator::MergeRoute(
       result_node_vec->push_back(node);
     } else {
       if (result_node_vec->back().EndS() < node.StartS()) {
-        AERROR << "Result route is not continuous.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Result route is not continuous.";
         return false;
       }
       result_node_vec->back().SetEndS(node.EndS());
@@ -171,13 +184,15 @@ bool Navigator::SearchRouteByStrategy(
     SubTopoGraph sub_graph(full_range_manager.RangeMap());
     const auto* start = sub_graph.GetSubNodeWithS(way_start, way_start_s);
     if (start == nullptr) {
-      AERROR << "Sub graph node is nullptr, origin node id: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Sub graph node is nullptr, origin node id: "
              << way_start->LaneId() << ", s:" << way_start_s;
       return false;
     }
     const auto* end = sub_graph.GetSubNodeWithS(way_end, way_end_s);
     if (end == nullptr) {
-      AERROR << "Sub graph node is nullptr, origin node id: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Sub graph node is nullptr, origin node id: "
              << way_end->LaneId() << ", s:" << way_end_s;
       return false;
     }
@@ -185,7 +200,8 @@ bool Navigator::SearchRouteByStrategy(
     std::vector<NodeWithRange> cur_result_nodes;
     if (!strategy_ptr->Search(graph, &sub_graph, start, end,
                               &cur_result_nodes)) {
-      AERROR << "Failed to search route with waypoint from " << start->LaneId()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to search route with waypoint from " << start->LaneId()
              << " to " << end->LaneId();
       return false;
     }
@@ -195,7 +211,8 @@ bool Navigator::SearchRouteByStrategy(
   }
 
   if (!MergeRoute(node_vec, result_nodes)) {
-    AERROR << "Failed to merge route.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to merge route.";
     return false;
   }
   return true;

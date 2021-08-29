@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -32,12 +31,14 @@ namespace bare_intersection {
 
 Stage::StageStatus BareIntersectionUnprotectedStageIntersectionCruise::Process(
     const common::TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: IntersectionCruise";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: IntersectionCruise";
+   CHECK_NOTNULL(frame);
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "StopSignUnprotectedStageIntersectionCruise plan error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "StopSignUnprotectedStageIntersectionCruise plan error";
   }
 
   bool stage_done = stage_impl_.CheckDone(

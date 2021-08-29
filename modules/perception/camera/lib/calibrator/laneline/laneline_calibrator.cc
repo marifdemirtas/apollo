@@ -36,12 +36,14 @@ bool LaneLineCalibrator::Init(const CalibratorInitOptions &options) {
 bool LaneLineCalibrator::Calibrate(const CalibratorOptions &options,
                                    float *pitch_angle) {
   if (pitch_angle == nullptr) {
-    AERROR << "pitch_angle is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "pitch_angle is not available";
     return false;
   }
   EgoLane ego_lane;
   if (!LoadEgoLaneline(*options.lane_objects, &ego_lane)) {
-    AINFO << "Failed to get the ego lane.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to get the ego lane.";
     return false;
   }
 
@@ -56,7 +58,8 @@ bool LaneLineCalibrator::Calibrate(const CalibratorOptions &options,
       c2w(1, 2), c2w(1, 3), c2w(2, 0), c2w(2, 1), c2w(2, 2), c2w(2, 3),
   };
 
-  ADEBUG << "c2w transform this frame:\n"
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "c2w transform this frame:\n"
          << p2w[0] << ", " << p2w[1] << ", " << p2w[2] << ", " << p2w[3] << "\n"
          << p2w[4] << ", " << p2w[5] << ", " << p2w[6] << ", " << p2w[7] << "\n"
          << p2w[8] << ", " << p2w[9] << ", " << p2w[10] << ", " << p2w[11];
@@ -69,14 +72,16 @@ bool LaneLineCalibrator::Calibrate(const CalibratorOptions &options,
   timestamp_cur_ = *options.timestamp;
   if (!is_first_frame_) {
     time_diff_ = fabsf(static_cast<float>(timestamp_cur_ - timestamp_pre_));
-    ADEBUG << timestamp_cur_ << " " << timestamp_pre_ << std::endl;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << timestamp_cur_ << " " << timestamp_pre_ << std::endl;
     camera::GetYawVelocityInfo(time_diff_, cam_coord_cur_, cam_coord_pre_,
                                cam_coord_pre_pre_, &yaw_rate_, &velocity_);
     std::string timediff_yawrate_velocity_text =
         absl::StrCat("time_diff_: ", std::to_string(time_diff_).substr(0, 4),
                      " | yaw_rate_: ", std::to_string(yaw_rate_).substr(0, 4),
                      " | velocity_: ", std::to_string(velocity_).substr(0, 4));
-    ADEBUG << timediff_yawrate_velocity_text << std::endl;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << timediff_yawrate_velocity_text << std::endl;
   }
 
   bool updated =
@@ -84,8 +89,10 @@ bool LaneLineCalibrator::Calibrate(const CalibratorOptions &options,
   if (updated) {
     *pitch_angle = calibrator_.get_pitch_estimation();
     float vanishing_row = calibrator_.get_vanishing_row();
-    AINFO << "#updated pitch angle: " << *pitch_angle;
-    AINFO << "#vanishing row: " << vanishing_row;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "#updated pitch angle: " << *pitch_angle;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "#vanishing row: " << vanishing_row;
   }
 
   if (!is_first_frame_) {
@@ -100,7 +107,8 @@ bool LaneLineCalibrator::Calibrate(const CalibratorOptions &options,
 bool LaneLineCalibrator::LoadEgoLaneline(
     const std::vector<base::LaneLine> &lane_objects, EgoLane *ego_lane) {
   if (ego_lane == nullptr) {
-    AERROR << "ego_lane is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ego_lane is not available";
     return false;
   }
 

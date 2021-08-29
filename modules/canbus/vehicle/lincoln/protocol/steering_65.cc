@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -29,8 +28,6 @@ const int32_t Steering65::ID = 0x65;
 
 void Steering65::Parse(const std::uint8_t *bytes, int32_t length,
                        ChassisDetail *chassis_detail) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis_detail->mutable_eps()->set_steering_angle(
       steering_angle(bytes, length));
   // no steering angle speed
@@ -73,8 +70,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void Steering65::Parse(const std::uint8_t *bytes, int32_t length,
                        const struct timeval &timestamp,
                        ChassisDetail *chassis_detail) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis_detail->mutable_eps()->set_timestamp_65(
       static_cast<double>(timestamp.tv_sec) +
       static_cast<double>(timestamp.tv_usec) / 1000000.0);
@@ -83,8 +78,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 double Steering65::steering_angle(const std::uint8_t *bytes,
                                   int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame_high(bytes + 1);
   int32_t high = frame_high.get_byte(0, 8);
   Byte frame_low(bytes + 0);
@@ -99,8 +92,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 double Steering65::reported_steering_angle_cmd(const std::uint8_t *bytes,
                                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame_high(bytes + 3);
   int32_t high = frame_high.get_byte(0, 8);
   Byte frame_low(bytes + 2);
@@ -115,8 +106,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 double Steering65::vehicle_speed(const std::uint8_t *bytes,
                                  int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame_high(bytes + 5);
   int32_t high = frame_high.get_byte(0, 8);
   Byte frame_low(bytes + 4);
@@ -127,8 +116,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 double Steering65::epas_torque(const std::uint8_t *bytes,
                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame(bytes + 6);
   int32_t x = frame.get_byte(0, 8);
   if (x > 0x7F) {
@@ -138,16 +125,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool Steering65::is_enabled(const std::uint8_t *bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame(bytes + 7);
   return frame.is_bit_1(0);
 }
 
 bool Steering65::is_driver_override(const std::uint8_t *bytes,
                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Cleared on rising edge of EN bit in command message
   Byte frame(bytes + 7);
   return frame.is_bit_1(1);
@@ -155,48 +138,36 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool Steering65::is_driver_activity(const std::uint8_t *bytes,
                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame(bytes + 7);
   return frame.is_bit_1(2);
 }
 
 bool Steering65::is_watchdog_counter_fault(const std::uint8_t *bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame(bytes + 7);
   return frame.is_bit_1(3);
 }
 
 bool Steering65::is_channel_1_fault(const std::uint8_t *bytes,
                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame(bytes + 7);
   return frame.is_bit_1(4);
 }
 
 bool Steering65::is_channel_2_fault(const std::uint8_t *bytes,
                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame(bytes + 7);
   return frame.is_bit_1(5);
 }
 
 bool Steering65::is_calibration_fault(const std::uint8_t *bytes,
                                       int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame(bytes + 7);
   return frame.is_bit_1(6);
 }
 
 bool Steering65::is_connector_fault(const std::uint8_t *bytes,
                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte frame(bytes + 7);
   return frame.is_bit_1(7);
 }

@@ -133,7 +133,8 @@ bool STBoundary::GetUnblockSRange(const double curr_time, double* s_upper,
   size_t left = 0;
   size_t right = 0;
   if (!GetIndexRange(lower_points_, curr_time, &left, &right)) {
-    AERROR << "Fail to get index range.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get index range.";
     return false;
   }
 
@@ -161,7 +162,8 @@ bool STBoundary::GetUnblockSRange(const double curr_time, double* s_upper,
   } else if (boundary_type_ == BoundaryType::OVERTAKE) {
     *s_lower = std::fmax(*s_lower, upper_cross_s);
   } else {
-    ADEBUG << "boundary_type is not supported. boundary_type: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "boundary_type is not supported. boundary_type: "
            << static_cast<int>(boundary_type_);
     return false;
   }
@@ -179,7 +181,8 @@ bool STBoundary::GetBoundarySRange(const double curr_time, double* s_upper,
   size_t left = 0;
   size_t right = 0;
   if (!GetIndexRange(lower_points_, curr_time, &left, &right)) {
-    AERROR << "Fail to get index range.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get index range.";
     return false;
   }
   const double r =
@@ -248,7 +251,8 @@ bool STBoundary::IsPointInBoundary(const STPoint& st_point) const {
   size_t left = 0;
   size_t right = 0;
   if (!GetIndexRange(lower_points_, st_point.t(), &left, &right)) {
-    AERROR << "failed to get index range.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to get index range.";
     return false;
   }
   const double check_upper = common::math::CrossProd(
@@ -274,7 +278,8 @@ STBoundary STBoundary::ExpandByS(const double s) const {
 
 STBoundary STBoundary::ExpandByT(const double t) const {
   if (lower_points_.empty()) {
-    AERROR << "The current st_boundary has NO points.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The current st_boundary has NO points.";
     return STBoundary();
   }
 
@@ -402,7 +407,8 @@ void STBoundary::set_bottom_right_point(STPoint st_point) {
 bool STBoundary::IsValid(
     const std::vector<std::pair<STPoint, STPoint>>& point_pairs) const {
   if (point_pairs.size() < 2) {
-    AERROR << "point_pairs.size() must >= 2, but current point_pairs.size() = "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "point_pairs.size() must >= 2, but current point_pairs.size() = "
            << point_pairs.size();
     return false;
   }
@@ -413,11 +419,13 @@ bool STBoundary::IsValid(
     const auto& curr_lower = point_pairs[i].first;
     const auto& curr_upper = point_pairs[i].second;
     if (curr_upper.s() < curr_lower.s()) {
-      AERROR << "ST-boundary's upper-s must >= lower-s";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ST-boundary's upper-s must >= lower-s";
       return false;
     }
     if (std::fabs(curr_lower.t() - curr_upper.t()) > kStBoundaryEpsilon) {
-      AERROR << "Points in every ST-point pair should be at the same time.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Points in every ST-point pair should be at the same time.";
       return false;
     }
     if (i + 1 != point_pairs.size()) {
@@ -425,7 +433,8 @@ bool STBoundary::IsValid(
       const auto& next_upper = point_pairs[i + 1].second;
       if (std::fmax(curr_lower.t(), curr_upper.t()) + kMinDeltaT >=
           std::fmin(next_lower.t(), next_upper.t())) {
-        AERROR << "Latter points should have larger t: "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Latter points should have larger t: "
                << "curr_lower[" << curr_lower.DebugString() << "] curr_upper["
                << curr_upper.DebugString() << "] next_lower["
                << next_lower.DebugString() << "] next_upper["
@@ -476,7 +485,8 @@ bool STBoundary::GetIndexRange(const std::vector<STPoint>& points,
   CHECK_NOTNULL(left);
   CHECK_NOTNULL(right);
   if (t < points.front().t() || t > points.back().t()) {
-    AERROR << "t is out of range. t = " << t;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "t is out of range. t = " << t;
     return false;
   }
   auto comp = [](const STPoint& p, const double t) { return p.t() < t; };

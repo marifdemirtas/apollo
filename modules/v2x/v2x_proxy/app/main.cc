@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +25,8 @@ int main(int argc, char *argv[]) {
   ::apollo::cyber::Init(argv[0]);
   ::apollo::v2x::V2xProxy v2x_proxy;
   if (!v2x_proxy.InitFlag()) {
-    AERROR << "Failed to initialize v2x proxy";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to initialize v2x proxy";
     ::apollo::cyber::Clear();
     return -1;
   }

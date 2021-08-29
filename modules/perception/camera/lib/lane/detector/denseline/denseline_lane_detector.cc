@@ -32,12 +32,14 @@ using cyber::common::GetAbsolutePath;
 bool DenselineLaneDetector::Init(const LaneDetectorInitOptions &options) {
   std::string proto_path = GetAbsolutePath(options.root_dir, options.conf_file);
   if (!cyber::common::GetProtoFromFile(proto_path, &denseline_param_)) {
-    AINFO << "load proto param failed, root dir: " << options.root_dir;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "load proto param failed, root dir: " << options.root_dir;
     return false;
   }
   std::string param_str;
   google::protobuf::TextFormat::PrintToString(denseline_param_, &param_str);
-  AINFO << "denseline param: " << param_str;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "denseline param: " << param_str;
 
   const auto model_param = denseline_param_.model_param();
   std::string model_root =
@@ -48,7 +50,8 @@ bool DenselineLaneDetector::Init(const LaneDetectorInitOptions &options) {
       GetAbsolutePath(model_root, model_param.weight_file());
   base_camera_model_ = options.base_camera_model;
   if (base_camera_model_ == nullptr) {
-    AERROR << "options.intrinsic is nullptr!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "options.intrinsic is nullptr!";
     input_height_ = 1080;
     input_width_ = 1920;
   } else {
@@ -58,8 +61,10 @@ bool DenselineLaneDetector::Init(const LaneDetectorInitOptions &options) {
   ACHECK(input_width_ > 0) << "input width should be more than 0";
   ACHECK(input_height_ > 0) << "input height should be more than 0";
 
-  AINFO << "input_height: " << input_height_;
-  AINFO << "input_width: " << input_width_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "input_height: " << input_height_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "input_width: " << input_width_;
 
   image_scale_ = model_param.resize_scale();
   input_offset_y_ = static_cast<uint16_t>(model_param.input_offset_y());
@@ -90,7 +95,8 @@ bool DenselineLaneDetector::Init(const LaneDetectorInitOptions &options) {
 
   cudaDeviceProp prop;
   cudaGetDeviceProperties(&prop, options.gpu_id);
-  AINFO << "GPU: " << prop.name;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GPU: " << prop.name;
 
   const auto net_param = denseline_param_.net_param();
   net_inputs_.push_back(net_param.in_blob());
@@ -100,14 +106,17 @@ bool DenselineLaneDetector::Init(const LaneDetectorInitOptions &options) {
             std::back_inserter(net_outputs_));
 
   for (auto name : net_inputs_) {
-    AINFO << "net input blobs: " << name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "net input blobs: " << name;
   }
   for (auto name : net_outputs_) {
-    AINFO << "net output blobs: " << name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "net output blobs: " << name;
   }
 
   const auto &model_type = model_param.model_type();
-  AINFO << "model_type: " << model_type;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "model_type: " << model_type;
   rt_net_.reset(inference::CreateInferenceByName(model_type, proto_file,
                                                  weight_file, net_outputs_,
                                                  net_inputs_, model_root));
@@ -123,24 +132,28 @@ bool DenselineLaneDetector::Init(const LaneDetectorInitOptions &options) {
 
   std::map<std::string, std::vector<int>> input_reshape{
       {net_inputs_[0], shape}};
-  AINFO << "input_reshape: " << input_reshape[net_inputs_[0]][0] << ", "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "input_reshape: " << input_reshape[net_inputs_[0]][0] << ", "
         << input_reshape[net_inputs_[0]][1] << ", "
         << input_reshape[net_inputs_[0]][2] << ", "
         << input_reshape[net_inputs_[0]][3];
   if (!rt_net_->Init(input_reshape)) {
-    AINFO << "net init fail.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "net init fail.";
     return false;
   }
 
   for (auto &input_blob_name : net_inputs_) {
     auto input_blob = rt_net_->get_blob(input_blob_name);
-    AINFO << input_blob_name << ": " << input_blob->channels() << " "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << input_blob_name << ": " << input_blob->channels() << " "
           << input_blob->height() << " " << input_blob->width();
   }
 
   for (auto &output_blob_name : net_outputs_) {
     auto output_blob = rt_net_->get_blob(output_blob_name);
-    AINFO << output_blob_name << " : " << output_blob->channels() << " "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << output_blob_name << " : " << output_blob->channels() << " "
           << output_blob->height() << " " << output_blob->width();
   }
 
@@ -150,18 +163,21 @@ bool DenselineLaneDetector::Init(const LaneDetectorInitOptions &options) {
 bool DenselineLaneDetector::Detect(const LaneDetectorOptions &options,
                                    CameraFrame *frame) {
   if (frame == nullptr) {
-    AINFO << "camera frame is empty.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "camera frame is empty.";
     return false;
   }
 
   auto data_provider = frame->data_provider;
   if (input_width_ != data_provider->src_width()) {
-    AERROR << "Input size is not correct: " << input_width_ << " vs "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input size is not correct: " << input_width_ << " vs "
            << data_provider->src_width();
     return false;
   }
   if (input_height_ != data_provider->src_height()) {
-    AERROR << "Input size is not correct: " << input_height_ << " vs "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input size is not correct: " << input_height_ << " vs "
            << data_provider->src_height();
     return false;
   }
@@ -175,31 +191,39 @@ bool DenselineLaneDetector::Detect(const LaneDetectorOptions &options,
   auto blob_channel = input_blob->channels();
   auto blob_height = input_blob->height();
   auto blob_width = input_blob->width();
-  AINFO << "input_blob: " << blob_channel << " " << blob_height << " "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "input_blob: " << blob_channel << " " << blob_height << " "
         << blob_width << std::endl;
 
   if (blob_height != resize_height_) {
-    AERROR << "height is not equal" << blob_height << " vs " << resize_height_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "height is not equal" << blob_height << " vs " << resize_height_;
     return false;
   }
   if (blob_width != resize_width_) {
-    AERROR << "width is not equal" << blob_width << " vs " << resize_width_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "width is not equal" << blob_width << " vs " << resize_width_;
     return false;
   }
-  ADEBUG << "image_blob: " << image_src_.blob()->shape_string();
-  ADEBUG << "input_blob: " << input_blob->shape_string();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "image_blob: " << image_src_.blob()->shape_string();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "input_blob: " << input_blob->shape_string();
 
   inference::ResizeGPU(
       image_src_, input_blob, static_cast<int>(crop_width_), 0,
       static_cast<float>(image_mean_[0]), static_cast<float>(image_mean_[1]),
       static_cast<float>(image_mean_[2]), false, static_cast<float>(1.0));
-  AINFO << "resize gpu finish.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "resize gpu finish.";
   cudaDeviceSynchronize();
   rt_net_->Infer();
-  AINFO << "infer finish.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "infer finish.";
 
   frame->lane_detected_blob = rt_net_->get_blob(net_outputs_[0]);
-  ADEBUG << frame->lane_detected_blob->shape_string();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << frame->lane_detected_blob->shape_string();
   return true;
 }
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -24,15 +23,11 @@ namespace benchmark {
 
 template <typename KeyType>
 SequenceSelfStatistics<KeyType>::SequenceSelfStatistics() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   reset();
 }
 
 template <typename KeyType>
 void SequenceSelfStatistics<KeyType>::reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _type_change_counts.resize(
       MetaStatistics::get_type_dim(),
       std::vector<unsigned int>(MetaStatistics::get_type_dim(), 0));
@@ -41,8 +36,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 template <typename KeyType>
 bool SequenceSelfStatistics<KeyType>::add_objects(
     const std::vector<ObjectPtr>& objects, KeyType key) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!_sequences.add_data(objects, key)) {
     return false;
   }
@@ -60,8 +53,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 template <typename KeyType>
 void SequenceSelfStatistics<KeyType>::add_statistics(
     SequenceType<KeyType>* sequence) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (sequence->size() <= 1) {
     return;
   }
@@ -76,8 +67,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 template <typename KeyType>
 void SequenceSelfStatistics<KeyType>::get_classification_type_change_rates(
     std::vector<std::vector<double>>* rate_per_class, double* rate) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   rate_per_class->clear();
   rate_per_class->resize(
       MetaStatistics::get_type_dim(),

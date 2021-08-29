@@ -64,7 +64,8 @@ class SmootherUtil {
 
   bool Smooth() {
     if (raw_points_.size() <= 2) {
-      AERROR << "the original point size is " << raw_points_.size();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the original point size is " << raw_points_.size();
       return false;
     }
     size_t i = 1;
@@ -87,7 +88,8 @@ class SmootherUtil {
       smoother_ptr->SetAnchorPoints(anchors);
       ReferenceLine smoothed_init_ref;
       if (!smoother_ptr->Smooth(init_ref, &smoothed_init_ref)) {
-        AERROR << "smooth initial reference line failed";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "smooth initial reference line failed";
         return false;
       }
       ref_points_ = smoothed_init_ref.reference_points();
@@ -127,7 +129,8 @@ class SmootherUtil {
       smoother_ptr->SetAnchorPoints(anchors);
       ReferenceLine smoothed_local_ref;
       if (!smoother_ptr->Smooth(local_ref, &smoothed_local_ref)) {
-        AERROR << "Failed to smooth reference line";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to smooth reference line";
         return false;
       }
       ref_points_.insert(ref_points_.end(),
@@ -140,7 +143,8 @@ class SmootherUtil {
   void Export(const std::string& filename) {
     std::ofstream ofs(filename.c_str());
     if (ofs.fail()) {
-      AERROR << "Fail to open file " << filename;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to open file " << filename;
       return;
     }
     ofs.precision(6);
@@ -155,7 +159,8 @@ class SmootherUtil {
       s += DistanceXY(point, ref_points_[i + 1]);
     }
     ofs.close();
-    AINFO << "Smoothed result saved to " << filename;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Smoothed result saved to " << filename;
   }
 
  private:
@@ -170,7 +175,8 @@ class SmootherUtil {
                                 &anchor_s);
     common::SLPoint sl;
     if (!ref_line.XYToSL(init_point, &sl)) {
-      AERROR << "Failed to project init point to reference line";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to project init point to reference line";
       return anchor_points;
     }
     bool set_init_point = false;
@@ -221,16 +227,19 @@ int main(int argc, char* argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
 
   if (FLAGS_input_file.empty()) {
-    AERROR << "need to provide --input_file";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "need to provide --input_file";
     return 0;
   }
   apollo::planning::SmootherUtil smoother_util(FLAGS_input_file);
   if (!smoother_util.Smooth()) {
-    AERROR << "Failed to smooth a the line";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to smooth a the line";
   }
   if (FLAGS_output_file.empty()) {
     FLAGS_output_file = FLAGS_input_file + ".smoothed";
-    AINFO << "Output file not provided, set to: " << FLAGS_output_file;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Output file not provided, set to: " << FLAGS_output_file;
   }
   smoother_util.Export(FLAGS_output_file);
   return 0;

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -43,8 +42,9 @@ using apollo::hdmap::PathOverlap;
 
 Stage::StageStatus TrafficLightUnprotectedLeftTurnStageCreep::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: Creep";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: Creep";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
@@ -54,7 +54,8 @@ Stage::StageStatus TrafficLightUnprotectedLeftTurnStageCreep::Process(
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "TrafficLightUnprotectedLeftTurnStageCreep planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TrafficLightUnprotectedLeftTurnStageCreep planning error";
   }
 
   if (GetContext()->current_traffic_light_overlap_ids.empty()) {
@@ -83,7 +84,8 @@ Stage::StageStatus TrafficLightUnprotectedLeftTurnStageCreep::Process(
   const double timeout_sec = scenario_config_.creep_timeout_sec();
   auto* task = dynamic_cast<CreepDecider*>(FindTask(TaskConfig::CREEP_DECIDER));
   if (task == nullptr) {
-    AERROR << "task is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "task is nullptr";
     return FinishStage();
   }
 

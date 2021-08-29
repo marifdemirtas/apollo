@@ -67,7 +67,8 @@ bool FusedClassifier::Classify(const ClassifierOptions& options,
                                         : &(frame->segmented_objects);
   if (enable_temporal_fusion_ && frame->timestamp > 0.0) {
     // sequence fusion
-    AINFO << "Combined classifier, temporal fusion";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Combined classifier, temporal fusion";
     sequence_.AddTrackedFrameObjects(*objects, frame->timestamp);
     ObjectSequence::TrackedObjects tracked_objects;
     for (auto& object : *objects) {
@@ -83,21 +84,25 @@ bool FusedClassifier::Classify(const ClassifierOptions& options,
       sequence_.GetTrackInTemporalWindow(track_id, &tracked_objects,
                                          temporal_window_);
       if (tracked_objects.empty()) {
-        AERROR << "Find zero-length track, so skip.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Find zero-length track, so skip.";
         continue;
       }
       if (object != tracked_objects.rbegin()->second) {
-        AERROR << "There must exist some timestamp in disorder, so skip.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "There must exist some timestamp in disorder, so skip.";
         continue;
       }
       if (!sequence_fuser_->TypeFusion(option_, &tracked_objects)) {
-        AERROR << "Failed to fuse types, so break.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to fuse types, so break.";
         break;
       }
     }
   } else {
     // one shot fusion
-    AINFO << "Combined classifier, one shot fusion";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Combined classifier, one shot fusion";
     for (auto& object : *objects) {
       if (object->lidar_supplement.is_background) {
         object->type_probs.assign(static_cast<int>(ObjectType::MAX_OBJECT_TYPE),
@@ -108,7 +113,8 @@ bool FusedClassifier::Classify(const ClassifierOptions& options,
         continue;
       }
       if (!one_shot_fuser_->TypeFusion(option_, object)) {
-        AERROR << "Failed to fuse types, so continue.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to fuse types, so continue.";
       }
     }
   }

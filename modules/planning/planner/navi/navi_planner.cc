@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -77,24 +76,28 @@ Status NaviPlanner::Init(const PlanningConfig& config) {
   // map.
   if (!FLAGS_use_navigation_mode) {
     const std::string msg = "NaviPlanner is only used in navigation mode.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
-  AINFO << "In NaviPlanner::Init()";
-  RegisterTasks();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "In NaviPlanner::Init()";
+   RegisterTasks();
   PlannerNaviConfig planner_conf =
       config.navigation_planning_config().planner_navi_config();
   for (const auto task : planner_conf.task()) {
     tasks_.emplace_back(
         task_factory_.CreateObject(static_cast<TaskConfig::TaskType>(task)));
-    AINFO << "Created task:" << tasks_.back()->Name();
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Created task:" << tasks_.back()->Name();
+   }
   for (auto& task : tasks_) {
     if (!task->Init(config)) {
       const std::string msg = absl::StrCat(
           "Init task[", task->Name(), "] failed.");
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
   }
@@ -107,7 +110,8 @@ Status NaviPlanner::Plan(const TrajectoryPoint& planning_init_point,
   // map.
   if (!FLAGS_use_navigation_mode) {
     const std::string msg = "NaviPlanner is only used in navigation mode.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -126,11 +130,13 @@ Status NaviPlanner::Plan(const TrajectoryPoint& planning_init_point,
       success_line_count += 1;
     } else {
       reference_line_info.SetDrivable(false);
-      AERROR << "Failed to plan on reference line  "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to plan on reference line  "
              << reference_line_info.Lanes().Id();
     }
-    ADEBUG << "ref line info: " << reference_line_info.Lanes().Id()
-           << " priority : " << reference_line_info.GetPriority()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ref line info: " << reference_line_info.Lanes().Id()
+            << " priority : " << reference_line_info.GetPriority()
            << " cost : " << reference_line_info.Cost()
            << " driveable : " << reference_line_info.IsDrivable();
   }
@@ -150,14 +156,16 @@ Status NaviPlanner::PlanOnReferenceLine(
       reference_line_info->IsNeighborLanePath()) {
     reference_line_info->AddCost(kStraightForwardLineCost);
   }
-  ADEBUG << "planning start point:" << planning_init_point.DebugString();
-  auto* heuristic_speed_data = reference_line_info->mutable_speed_data();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "planning start point:" << planning_init_point.DebugString();
+   auto* heuristic_speed_data = reference_line_info->mutable_speed_data();
   auto speed_profile =
       GenerateInitSpeedProfile(planning_init_point, reference_line_info);
   if (speed_profile.empty()) {
     speed_profile = GenerateSpeedHotStart(planning_init_point);
-    ADEBUG << "Using dummy hot start for speed vector";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Using dummy hot start for speed vector";
+   }
   *heuristic_speed_data = SpeedData(speed_profile);
 
   auto ret = Status::OK();
@@ -166,32 +174,37 @@ Status NaviPlanner::PlanOnReferenceLine(
     const double start_timestamp = Clock::NowInSeconds();
     ret = task->Execute(frame, reference_line_info);
     if (!ret.ok()) {
-      AERROR << "Failed to run tasks[" << task->Name()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to run tasks[" << task->Name()
              << "], Error message: " << ret.error_message();
       break;
     }
     const double end_timestamp = Clock::NowInSeconds();
     const double time_diff_ms = (end_timestamp - start_timestamp) * 1000;
 
-    ADEBUG << "after task " << task->Name() << ":"
-           << reference_line_info->PathSpeedDebugString();
-    ADEBUG << task->Name() << " time spend: " << time_diff_ms << " ms.";
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "after task " << task->Name() << ":"
+            << reference_line_info->PathSpeedDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << task->Name() << " time spend: " << time_diff_ms << " ms.";
+ 
     RecordDebugInfo(reference_line_info, task->Name(), time_diff_ms);
   }
 
   RecordObstacleDebugInfo(reference_line_info);
 
   if (reference_line_info->path_data().Empty()) {
-    ADEBUG << "Path fallback.";
-    GenerateFallbackPathProfile(reference_line_info,
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Path fallback.";
+     GenerateFallbackPathProfile(reference_line_info,
                                 reference_line_info->mutable_path_data());
     reference_line_info->AddCost(kPathOptimizationFallbackClost);
   }
 
   if (!ret.ok() || reference_line_info->speed_data().empty()) {
-    ADEBUG << "Speed fallback.";
-    GenerateFallbackSpeedProfile(reference_line_info->mutable_speed_data());
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Speed fallback.";
+     GenerateFallbackSpeedProfile(reference_line_info->mutable_speed_data());
     reference_line_info->AddCost(kSpeedOptimizationFallbackClost);
   }
 
@@ -200,7 +213,8 @@ Status NaviPlanner::PlanOnReferenceLine(
           planning_init_point.relative_time(),
           planning_init_point.path_point().s(), &trajectory)) {
     const std::string msg = "Fail to aggregate planning trajectory.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -222,7 +236,8 @@ Status NaviPlanner::PlanOnReferenceLine(
     if (ConstraintChecker::ValidTrajectory(trajectory) !=
         ConstraintChecker::Result::VALID) {
       const std::string msg = "Current planning trajectory is not valid.";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
   }
@@ -235,8 +250,9 @@ Status NaviPlanner::PlanOnReferenceLine(
 void NaviPlanner::RecordObstacleDebugInfo(
     ReferenceLineInfo* reference_line_info) {
   if (!FLAGS_enable_record_debug) {
-    ADEBUG << "Skip record debug info";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip record debug info";
+     return;
   }
   auto ptr_debug = reference_line_info->mutable_debug();
 
@@ -249,7 +265,8 @@ void NaviPlanner::RecordObstacleDebugInfo(
     const auto& decider_tags = obstacle->decider_tags();
     const auto& decisions = obstacle->decisions();
     if (decider_tags.size() != decisions.size()) {
-      AERROR << "decider_tags size: " << decider_tags.size()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "decider_tags size: " << decider_tags.size()
              << " different from decisions size:" << decisions.size();
     }
     for (size_t i = 0; i < decider_tags.size(); ++i) {
@@ -264,11 +281,13 @@ void NaviPlanner::RecordDebugInfo(ReferenceLineInfo* reference_line_info,
                                   const std::string& name,
                                   const double time_diff_ms) {
   if (!FLAGS_enable_record_debug) {
-    ADEBUG << "Skip record debug info";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip record debug info";
+     return;
   }
   if (reference_line_info == nullptr) {
-    AERROR << "Reference line info is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Reference line info is null.";
     return;
   }
 
@@ -292,12 +311,14 @@ std::vector<SpeedPoint> NaviPlanner::GenerateInitSpeedProfile(
   const ReferenceLineInfo* last_reference_line_info =
       last_frame->DriveReferenceLineInfo();
   if (!last_reference_line_info) {
-    ADEBUG << "last reference line info is empty";
-    return speed_profile;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "last reference line info is empty";
+     return speed_profile;
   }
   if (!reference_line_info->IsStartFrom(*last_reference_line_info)) {
-    ADEBUG << "Current reference line is not started previous drived line";
-    return speed_profile;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Current reference line is not started previous drived line";
+     return speed_profile;
   }
   const auto& last_speed_data = last_reference_line_info->speed_data();
 
@@ -307,7 +328,8 @@ std::vector<SpeedPoint> NaviPlanner::GenerateInitSpeedProfile(
     SLPoint last_sl_point;
     if (!last_reference_line_info->reference_line().XYToSL(last_xy_point,
                                                            &last_sl_point)) {
-      AERROR << "Fail to transfer xy to sl when init speed profile";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to transfer xy to sl when init speed profile";
     }
 
     Vec2d xy_point(planning_init_point.path_point().x(),
@@ -315,7 +337,8 @@ std::vector<SpeedPoint> NaviPlanner::GenerateInitSpeedProfile(
     SLPoint sl_point;
     if (!last_reference_line_info->reference_line().XYToSL(xy_point,
                                                            &sl_point)) {
-      AERROR << "Fail to transfer xy to sl when init speed profile";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to transfer xy to sl when init speed profile";
     }
 
     double s_diff = sl_point.s() - last_sl_point.s();
@@ -394,7 +417,8 @@ void NaviPlanner::GenerateFallbackSpeedProfile(SpeedData* speed_data) {
 
 SpeedData NaviPlanner::GenerateStopProfile(const double init_speed,
                                            const double init_acc) const {
-  AERROR << "Slowing down the car.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Slowing down the car.";
   SpeedData speed_data;
 
   const double kFixedJerk = -1.0;
@@ -439,7 +463,8 @@ SpeedData NaviPlanner::GenerateStopProfile(const double init_speed,
 
 SpeedData NaviPlanner::GenerateStopProfileFromPolynomial(
     const double init_speed, const double init_acc) const {
-  AERROR << "Slowing down the car with polynomial.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Slowing down the car with polynomial.";
   static constexpr double kMaxT = 4.0;
   for (double t = 2.0; t <= kMaxT; t += 0.5) {
     for (double s = 0.0; s < 50.0; s += 1.0) {

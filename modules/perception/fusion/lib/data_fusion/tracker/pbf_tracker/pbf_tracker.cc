@@ -51,14 +51,17 @@ bool PbfTracker::InitParams() {
       lib::ConfigManager::Instance()->work_root(), options.root_dir);
 
   std::string config = GetAbsolutePath(woork_root_config, options.conf_file);
-  AINFO << "Config file : " << config;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Config file : " << config;
   PbfTrackerConfig params;
   if (!cyber::common::GetProtoFromFile(config, &params)) {
-    AERROR << "Read config failed: " << config;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Read config failed: " << config;
     return false;
   }
 
-  AINFO << "Load PbfTrackerConfig: " << params.type_fusion_method() << ","
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Load PbfTrackerConfig: " << params.type_fusion_method() << ","
         << params.motion_fusion_method() << "," << params.shape_fusion_method()
         << "," << params.existence_fusion_method();
   s_type_fusion_method_ = params.type_fusion_method();
@@ -73,28 +76,32 @@ bool PbfTracker::InitMethods() {
   if (s_type_fusion_method_ == "DstTypeFusion") {
     type_fusion_.reset(new DstTypeFusion(track_));
   } else {
-    AERROR << "Unknown type fusion : " << s_type_fusion_method_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknown type fusion : " << s_type_fusion_method_;
     return false;
   }
 
   if (s_motion_fusion_method_ == "KalmanMotionFusion") {
     motion_fusion_.reset(new KalmanMotionFusion(track_));
   } else {
-    AERROR << "Unknown motion fusion : " << s_motion_fusion_method_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknown motion fusion : " << s_motion_fusion_method_;
     return false;
   }
 
   if (s_existence_fusion_method_ == "DstExistenceFusion") {
     existence_fusion_.reset(new DstExistenceFusion(track_));
   } else {
-    AERROR << "Unknown existence fusion : " << s_existence_fusion_method_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknown existence fusion : " << s_existence_fusion_method_;
     return false;
   }
 
   if (s_shape_fusion_method_ == "PbfShapeFusion") {
     shape_fusion_.reset(new PbfShapeFusion(track_));
   } else {
-    AERROR << "Unknown shape fusion : " << s_shape_fusion_method_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknown shape fusion : " << s_shape_fusion_method_;
     return false;
   }
 
@@ -114,7 +121,8 @@ void PbfTracker::UpdateWithMeasurement(const TrackerOptions& options,
                                        const SensorObjectPtr measurement,
                                        double target_timestamp) {
   std::string sensor_id = measurement->GetSensorId();
-  ADEBUG << "fusion_updating..." << track_->GetTrackId() << " with "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "fusion_updating..." << track_->GetTrackId() << " with "
          << sensor_id << "..." << measurement->GetBaseObject()->track_id << "@"
          << FORMAT_TIMESTAMP(measurement->GetTimestamp());
   existence_fusion_->UpdateWithMeasurement(measurement, target_timestamp,

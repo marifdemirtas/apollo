@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -58,7 +57,8 @@ common::Status SpeedDecider::Execute(Frame* frame,
                           reference_line_info->path_decision())
            .ok()) {
     const std::string msg = "Get object decision by speed profile failed.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   return Status::OK();
@@ -88,8 +88,9 @@ SpeedDecider::STLocation SpeedDecider::GetSTLocation(
     if (!FLAGS_use_st_drivable_boundary) {
       common::math::LineSegment2d speed_line(curr_st, next_st);
       if (st_boundary.HasOverlap(speed_line)) {
-        ADEBUG << "speed profile cross st_boundaries.";
-        st_location = CROSS;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "speed profile cross st_boundaries.";
+         st_location = CROSS;
 
         if (!FLAGS_use_st_drivable_boundary) {
           if (st_boundary.boundary_type() ==
@@ -136,8 +137,9 @@ bool SpeedDecider::CheckKeepClearCrossable(
     }
   }
   static constexpr double kKeepClearSlowSpeed = 2.5;  // m/s
-  ADEBUG << "last_speed_point_s[" << last_speed_point.s()
-         << "] st_boundary.max_s[" << keep_clear_st_boundary.max_s()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "last_speed_point_s[" << last_speed_point.s()
+          << "] st_boundary.max_s[" << keep_clear_st_boundary.max_s()
          << "] last_speed_point_v[" << last_speed_point_v << "]";
   if (last_speed_point.s() <= keep_clear_st_boundary.max_s() &&
       last_speed_point_v < kKeepClearSlowSpeed) {
@@ -204,7 +206,8 @@ Status SpeedDecider::MakeObjectDecision(
     const SpeedData& speed_profile, PathDecision* const path_decision) const {
   if (speed_profile.size() < 2) {
     const std::string msg = "dp_st_graph failed to get speed profile.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -311,12 +314,14 @@ Status SpeedDecider::MakeObjectDecision(
           const std::string msg = absl::StrCat(
               "Failed to find a solution for crossing obstacle: ",
               mutable_obstacle->Id());
-          AERROR << msg;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
           return Status(ErrorCode::PLANNING_ERROR, msg);
         }
         break;
       default:
-        AERROR << "Unknown position:" << location;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknown position:" << location;
     }
     AppendIgnoreDecision(mutable_obstacle);
   }
@@ -350,8 +355,9 @@ bool SpeedDecider::CreateStopDecision(const Obstacle& obstacle,
   const double main_stop_s =
       reference_line_info_->path_decision()->stop_reference_line_s();
   if (main_stop_s < fence_s) {
-    ADEBUG << "Stop fence is further away, ignore.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Stop fence is further away, ignore.";
+     return false;
   }
 
   const auto fence_point = reference_line_->GetReferencePoint(fence_s);
@@ -370,8 +376,9 @@ bool SpeedDecider::CreateStopDecision(const Obstacle& obstacle,
   }
 
   PerceptionObstacle::Type obstacle_type = obstacle.Perception().type();
-  ADEBUG << "STOP: obstacle_id[" << obstacle.Id() << "] obstacle_type["
-         << PerceptionObstacle_Type_Name(obstacle_type) << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "STOP: obstacle_id[" << obstacle.Id() << "] obstacle_type["
+          << PerceptionObstacle_Type_Name(obstacle_type) << "]";
 
   return true;
 }
@@ -388,8 +395,9 @@ bool SpeedDecider::CreateFollowDecision(
   const double main_stop_s =
       reference_line_info_->path_decision()->stop_reference_line_s();
   if (main_stop_s < reference_s) {
-    ADEBUG << "Follow reference_s is further away, ignore.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Follow reference_s is further away, ignore.";
+     return false;
   }
 
   auto ref_point = reference_line_->GetReferencePoint(reference_s);
@@ -404,8 +412,9 @@ bool SpeedDecider::CreateFollowDecision(
   follow->set_fence_heading(ref_point.heading());
 
   PerceptionObstacle::Type obstacle_type = obstacle.Perception().type();
-  ADEBUG << "FOLLOW: obstacle_id[" << obstacle.Id() << "] obstacle_type["
-         << PerceptionObstacle_Type_Name(obstacle_type) << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "FOLLOW: obstacle_id[" << obstacle.Id() << "] obstacle_type["
+          << PerceptionObstacle_Type_Name(obstacle_type) << "]";
 
   return true;
 }
@@ -424,8 +433,9 @@ bool SpeedDecider::CreateYieldDecision(
   const double main_stop_s =
       reference_line_info_->path_decision()->stop_reference_line_s();
   if (main_stop_s < reference_line_fence_s) {
-    ADEBUG << "Yield reference_s is further away, ignore.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Yield reference_s is further away, ignore.";
+     return false;
   }
 
   auto ref_point = reference_line_->GetReferencePoint(reference_line_fence_s);
@@ -438,8 +448,9 @@ bool SpeedDecider::CreateYieldDecision(
   yield->mutable_fence_point()->set_z(0.0);
   yield->set_fence_heading(ref_point.heading());
 
-  ADEBUG << "YIELD: obstacle_id[" << obstacle.Id() << "] obstacle_type["
-         << PerceptionObstacle_Type_Name(obstacle_type) << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "YIELD: obstacle_id[" << obstacle.Id() << "] obstacle_type["
+          << PerceptionObstacle_Type_Name(obstacle_type) << "]";
 
   return true;
 }
@@ -462,10 +473,9 @@ bool SpeedDecider::CreateOvertakeDecision(
   const double main_stop_s =
       reference_line_info_->path_decision()->stop_reference_line_s();
   if (main_stop_s < reference_line_fence_s) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-    ADEBUG << "Overtake reference_s is further away, ignore.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Overtake reference_s is further away, ignore.";
+     return false;
   }
 
   auto ref_point = reference_line_->GetReferencePoint(reference_line_fence_s);
@@ -479,8 +489,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   overtake->set_fence_heading(ref_point.heading());
 
   PerceptionObstacle::Type obstacle_type = obstacle.Perception().type();
-  ADEBUG << "OVERTAKE: obstacle_id[" << obstacle.Id() << "] obstacle_type["
-         << PerceptionObstacle_Type_Name(obstacle_type) << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OVERTAKE: obstacle_id[" << obstacle.Id() << "] obstacle_type["
+          << PerceptionObstacle_Type_Name(obstacle_type) << "]";
 
   return true;
 }
@@ -554,13 +565,15 @@ bool SpeedDecider::CheckStopForPedestrian(const Obstacle& obstacle) const {
       if (stop_time_map.count(obstacle_id) == 0) {
         // add timestamp
         stop_time_map[obstacle_id] = Clock::NowInSeconds();
-        ADEBUG << "add timestamp: obstacle_id[" << obstacle_id << "] timestamp["
-               << Clock::NowInSeconds() << "]";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "add timestamp: obstacle_id[" << obstacle_id << "] timestamp["
+                << Clock::NowInSeconds() << "]";
       } else {
         // check timeout
         double stop_timer = Clock::NowInSeconds() - stop_time_map[obstacle_id];
-        ADEBUG << "stop_timer: obstacle_id[" << obstacle_id << "] stop_timer["
-               << stop_timer << "]";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop_timer: obstacle_id[" << obstacle_id << "] stop_timer["
+                << stop_timer << "]";
         if (stop_timer >= kPedestrianStopTimeout) {
           result = false;
         }

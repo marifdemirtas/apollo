@@ -124,7 +124,8 @@ void SerialStream::open(void) {
       case ENFILE:
       case EMFILE:
       default:
-        AERROR << "Open device " << device_name_
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Open device " << device_name_
                << " failed, error: " << strerror(errno);
         return;
     }
@@ -146,7 +147,8 @@ bool SerialStream::configure_port(int fd) {
 
   struct termios options;  // The options for the file descriptor
   if (tcgetattr(fd, &options) == -1) {
-    AERROR << "tcgetattr failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tcgetattr failed.";
     return false;
   }
 
@@ -261,12 +263,14 @@ void SerialStream::check_remove() {
   char data = 0;
   ssize_t nsent = ::write(fd_, &data, 0);
   if (nsent < 0) {
-    AERROR << "Serial stream detect write failed, error: " << strerror(errno);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Serial stream detect write failed, error: " << strerror(errno);
     switch (errno) {
       case EBADF:
       case EIO:
         status_ = Stream::Status::DISCONNECTED;
-        AERROR << "Device " << device_name_ << " removed.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Device " << device_name_ << " removed.";
         Disconnect();
         break;
     }
@@ -278,7 +282,8 @@ size_t SerialStream::read(uint8_t* buffer, size_t max_length) {
     if (!Connect()) {
       return 0;
     }
-    AINFO << "Connect " << device_name_ << " success.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Connect " << device_name_ << " success.";
   }
 
   ssize_t bytes_read = 0;
@@ -297,17 +302,20 @@ size_t SerialStream::read(uint8_t* buffer, size_t max_length) {
 
         case EBADF:
         case EIO:
-          AERROR << "Serial stream read data failed, error: "
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Serial stream read data failed, error: "
                  << strerror(errno);
           Disconnect();
           if (Connect()) {
-            AINFO << "Reconnect " << device_name_ << " success.";
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Reconnect " << device_name_ << " success.";
             bytes_current_read = 0;
             break;  // has recoverable
           }
 
         default:
-          AERROR << "Serial stream read data failed, error: " << strerror(errno)
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Serial stream read data failed, error: " << strerror(errno)
                  << ", errno: " << errno;
           status_ = Stream::Status::ERROR;
           errno_ = errno;
@@ -335,7 +343,8 @@ size_t SerialStream::write(const uint8_t* data, size_t length) {
     if (!Connect()) {
       return 0;
     }
-    AINFO << "Connect " << device_name_ << " success.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Connect " << device_name_ << " success.";
   }
 
   size_t total_nsent = 0;
@@ -344,7 +353,8 @@ size_t SerialStream::write(const uint8_t* data, size_t length) {
   while ((length > 0) && (delay_times < 5)) {
     ssize_t nsent = ::write(fd_, data, length);
     if (nsent < 0) {
-      AERROR << "Serial stream write data failed, error: " << strerror(errno);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Serial stream write data failed, error: " << strerror(errno);
       switch (errno) {
         case EAGAIN:
         case EINVAL:
@@ -355,7 +365,8 @@ size_t SerialStream::write(const uint8_t* data, size_t length) {
         case EIO:
           Disconnect();
           if (Connect()) {
-            AINFO << "Reconnect " << device_name_ << "success.";
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Reconnect " << device_name_ << "success.";
             nsent = 0;
             break;  // has recoverable
           }

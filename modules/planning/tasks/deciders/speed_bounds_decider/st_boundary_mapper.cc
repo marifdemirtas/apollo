@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -66,7 +65,8 @@ Status STBoundaryMapper::ComputeSTBoundary(PathDecision* path_decision) const {
   // Sanity checks.
   CHECK_GT(planning_max_time_, 0.0);
   if (path_data_.discretized_path().size() < 2) {
-    AERROR << "Fail to get params because of too few path points. path points "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get params because of too few path points. path points "
               "size: "
            << path_data_.discretized_path().size() << ".";
     return Status(ErrorCode::PLANNING_ERROR,
@@ -115,7 +115,8 @@ Status STBoundaryMapper::ComputeSTBoundary(PathDecision* path_decision) const {
     bool success = MapStopDecision(stop_obstacle, stop_decision);
     if (!success) {
       const std::string msg = "Fail to MapStopDecision.";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
   }
@@ -197,7 +198,8 @@ bool STBoundaryMapper::GetOverlapBoundaryPoints(
   DCHECK(upper_points->empty());
   DCHECK(lower_points->empty());
   if (path_points.empty()) {
-    AERROR << "No points in path_data_.discretized_path().";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No points in path_data_.discretized_path().";
     return false;
   }
 

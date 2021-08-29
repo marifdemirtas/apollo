@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -29,26 +28,25 @@ namespace apollo {
 namespace audio {
 
 SirenDetection::SirenDetection() : device_(torch::kCPU) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LoadModel();
 }
 
 bool SirenDetection::Evaluate(const std::vector<std::vector<double>>& signals) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Sanity checks.
   omp_set_num_threads(1);
   if (signals.size() == 0) {
-    AERROR << "Got no channel in signals!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Got no channel in signals!";
     return false;
   }
   if (signals[0].size() == 0) {
-    AERROR << "Got no signal in channel 0!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Got no signal in channel 0!";
     return false;
   }
   if (signals[0].size() != 72000) {
-    AERROR << "signals[0].size() = " << signals[0].size() << ", skiping!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "signals[0].size() = " << signals[0].size() << ", skiping!";
     return false;
   }
   torch::Tensor audio_tensor = torch::empty(4 * 1 * 72000);
@@ -71,16 +69,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   auto end_time = std::chrono::system_clock::now();
   std::chrono::duration<double> diff = end_time - start_time;
-  AINFO << "SirenDetection used time: " << diff.count() * 1000 << " ms.";
-  auto torch_output = torch_output_tensor.accessor<float, 2>();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "SirenDetection used time: " << diff.count() * 1000 << " ms.";
+   auto torch_output = torch_output_tensor.accessor<float, 2>();
 
   // majority vote with 4 channels
   float neg_score = torch_output[0][0] + torch_output[1][0] +
                     torch_output[2][0] + torch_output[3][0];
   float pos_score = torch_output[0][1] + torch_output[1][1] +
                     torch_output[2][1] + torch_output[3][1];
-  ADEBUG << "neg_score = " << neg_score << ", pos_score = " << pos_score;
-  if (neg_score < pos_score) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "neg_score = " << neg_score << ", pos_score = " << pos_score;
+   if (neg_score < pos_score) {
     return true;
   } else {
     return false;
@@ -88,11 +88,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void SirenDetection::LoadModel() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (torch::cuda::is_available()) {
-    AINFO << "CUDA is available";
-    device_ = torch::Device(torch::kCUDA);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "CUDA is available";
+     device_ = torch::Device(torch::kCUDA);
   }
   torch::set_num_threads(1);
   torch_model_ = torch::jit::load(FLAGS_torch_siren_detection_model, device_);

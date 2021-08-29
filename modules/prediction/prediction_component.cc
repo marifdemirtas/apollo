@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -75,12 +74,14 @@ bool PredictionComponent::Init() {
 
   PredictionConf prediction_conf;
   if (!ComponentBase::GetProtoConfig(&prediction_conf)) {
-    AERROR << "Unable to load prediction conf file: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to load prediction conf file: "
            << ComponentBase::ConfigFilePath();
     return false;
   }
-  ADEBUG << "Prediction config file is loaded into: "
-         << prediction_conf.ShortDebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Prediction config file is loaded into: "
+          << prediction_conf.ShortDebugString();
 
   if (!MessageProcess::Init(container_manager_.get(), evaluator_manager_.get(),
                             predictor_manager_.get(), prediction_conf)) {
@@ -129,7 +130,8 @@ bool PredictionComponent::ContainerSubmoduleProcess(
   localization_reader_->Observe();
   auto ptr_localization_msg = localization_reader_->GetLatestObserved();
   if (ptr_localization_msg == nullptr) {
-    AERROR << "Prediction: cannot receive any localization message.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Prediction: cannot receive any localization message.";
     return false;
   }
   MessageProcess::OnLocalization(container_manager_.get(),
@@ -180,12 +182,14 @@ bool PredictionComponent::PredictionEndToEndProc(
   if (FLAGS_prediction_test_mode &&
       (Clock::NowInSeconds() - component_start_time_ >
        FLAGS_prediction_test_duration)) {
-    ADEBUG << "Prediction finished running in test mode";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Prediction finished running in test mode";
+   }
 
   // Update relative map if needed
   if (FLAGS_use_navigation_mode && !PredictionMap::Ready()) {
-    AERROR << "Relative map is empty.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Relative map is empty.";
     return false;
   }
 
@@ -197,15 +201,17 @@ bool PredictionComponent::PredictionEndToEndProc(
   localization_reader_->Observe();
   auto ptr_localization_msg = localization_reader_->GetLatestObserved();
   if (ptr_localization_msg == nullptr) {
-    AERROR << "Prediction: cannot receive any localization message.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Prediction: cannot receive any localization message.";
     return false;
   }
   MessageProcess::OnLocalization(container_manager_.get(),
                                  *ptr_localization_msg);
   auto end_time2 = std::chrono::system_clock::now();
   std::chrono::duration<double> diff = end_time2 - end_time1;
-  ADEBUG << "Time for updating PoseContainer: " << diff.count() * 1000
-         << " msec.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Time for updating PoseContainer: " << diff.count() * 1000
+          << " msec.";
 
   // Read storytelling message and call OnStorytelling to update the
   // StoryTellingContainer
@@ -225,8 +231,9 @@ bool PredictionComponent::PredictionEndToEndProc(
   }
   auto end_time3 = std::chrono::system_clock::now();
   diff = end_time3 - end_time2;
-  ADEBUG << "Time for updating ADCTrajectoryContainer: " << diff.count() * 1000
-         << " msec.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Time for updating ADCTrajectoryContainer: " << diff.count() * 1000
+          << " msec.";
 
   // Get all perception_obstacles of this frame and call OnPerception to
   // process them all.
@@ -237,8 +244,9 @@ bool PredictionComponent::PredictionEndToEndProc(
       predictor_manager_.get(), scenario_manager_.get(), &prediction_obstacles);
   auto end_time4 = std::chrono::system_clock::now();
   diff = end_time4 - end_time3;
-  ADEBUG << "Time for updating PerceptionContainer: " << diff.count() * 1000
-         << " msec.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Time for updating PerceptionContainer: " << diff.count() * 1000
+          << " msec.";
 
   // Postprocess prediction obstacles message
   prediction_obstacles.set_start_timestamp(frame_start_time_);
@@ -258,7 +266,8 @@ bool PredictionComponent::PredictionEndToEndProc(
       for (auto const& trajectory : prediction_obstacle.trajectory()) {
         for (auto const& trajectory_point : trajectory.trajectory_point()) {
           if (!ValidationChecker::ValidTrajectoryPoint(trajectory_point)) {
-            AERROR << "Invalid trajectory point ["
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid trajectory point ["
                    << trajectory_point.ShortDebugString() << "]";
             break;
           }
@@ -269,8 +278,9 @@ bool PredictionComponent::PredictionEndToEndProc(
 
   auto end_time5 = std::chrono::system_clock::now();
   diff = end_time5 - end_time1;
-  ADEBUG << "End to end time elapsed: " << diff.count() * 1000 << " msec.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "End to end time elapsed: " << diff.count() * 1000 << " msec.";
+ 
   // Publish output
   common::util::FillHeader(node_->Name(), &prediction_obstacles);
   prediction_writer_->Write(prediction_obstacles);

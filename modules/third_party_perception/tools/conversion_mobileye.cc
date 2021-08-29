@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -117,8 +116,6 @@ PerceptionObstacles MobileyeToPerceptionObstacles(
   for (int index = 0; index < mobileye.details_738().num_obstacles() &&
                       index < mobileye.details_739_size();
        ++index) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     auto* mob = obstacles.add_perception_obstacle();
     const auto& data_739 = mobileye.details_739(index);
     int mob_id = data_739.obstacle_id() + FLAGS_mobileye_id_offset;
@@ -207,8 +204,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                                    2 * path_c2 * converted_x + path_c1,
                                1) +
                         M_PI;
-          AINFO << "nearest lane heading is" << nearest_lane_heading;
-          mob->set_theta(nearest_lane_heading);
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "nearest lane heading is" << nearest_lane_heading;
+           mob->set_theta(nearest_lane_heading);
         }
       }
     }

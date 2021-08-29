@@ -115,7 +115,8 @@ bool MlfEngine::Track(const MultiTargetTrackerOptions& options,
   RemoveStaleTrackData("foreground", frame->timestamp, &foreground_track_data_);
   RemoveStaleTrackData("background", frame->timestamp, &background_track_data_);
 
-  AINFO << "MlfEngine publish objects: " << frame->tracked_objects.size()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "MlfEngine publish objects: " << frame->tracked_objects.size()
         << " sensor_name: " << frame->sensor_info.name
         << " at timestamp: " << frame->timestamp;
   return true;
@@ -142,7 +143,8 @@ void MlfEngine::SplitAndTransformToTrackedObjects(
       foreground_objects_.push_back(tracked_objects[i]);
     }
   }
-  AINFO << "MlfEngine: " << sensor_info.name
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "MlfEngine: " << sensor_info.name
         << " foreground: " << foreground_objects_.size()
         << " background: " << background_objects_.size();
 }
@@ -156,7 +158,8 @@ void MlfEngine::TrackObjectMatchAndAssign(
   std::vector<size_t> unassigned_objects;
   matcher_->Match(match_options, objects, *tracks, &assignments,
                   &unassigned_tracks, &unassigned_objects);
-  AINFO << "MlfEngine: " + name + " assignments " << assignments.size()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "MlfEngine: " + name + " assignments " << assignments.size()
         << " unassigned_tracks " << unassigned_tracks.size()
         << " unassigned_objects " << unassigned_objects.size();
   // 1. for assignment, push object to cache of track_data
@@ -189,7 +192,8 @@ void MlfEngine::TrackStateFilter(const std::vector<MlfTrackDataPtr>& tracks,
 
 void convertPoseToLoc(const Eigen::Affine3d& pose,
                       localization::LocalizationEstimate* localization) {
-  ADEBUG << "translation x y z " << pose.translation()[0] << " "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "translation x y z " << pose.translation()[0] << " "
          << pose.translation()[1] << " " << pose.translation()[2];
   localization->mutable_pose()->mutable_position()->set_x(
       pose.translation()[0]);
@@ -213,7 +217,6 @@ void convertPoseToLoc(const Eigen::Affine3d& pose,
 //      if (obj->id() == (*foreground_objs)[static_cast<int>(i)]->track_id) {
 //        (*foreground_objs)[static_cast<int>(i)]->feature.reset(
 //            new Feature(obj->latest_feature()));
-//        ADEBUG << "traj size is mlf engine is "
 //               << (*foreground_objs)[static_cast<int>(i)]
 //                      ->feature->predicted_trajectory_size()
 //               << " track id "
@@ -255,7 +258,8 @@ void MlfEngine::CollectTrackedResult(LidarFrame* frame) {
       } else {
         if (!track_data->ToObject(-global_to_local_offset_, frame->timestamp,
                                   tracked_objects[pos])) {
-          AERROR << "Tracking failed";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Tracking failed";
           continue;
         }
         ++pos;
@@ -293,10 +297,12 @@ void MlfEngine::CollectTrackedResult(LidarFrame* frame) {
 
   collect(&background_track_data_);
   if (num_predict != 0) {
-    AINFO << "MlfEngine, num_predict: " << num_predict
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "MlfEngine, num_predict: " << num_predict
           << " num_objects: " << num_objects;
     if (num_predict > num_objects) {
-      AERROR << "num_predict > num_objects";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "num_predict > num_objects";
       return;
     }
     tracked_objects.resize(num_objects - num_predict);
@@ -315,7 +321,8 @@ void MlfEngine::RemoveStaleTrackData(const std::string& name, double timestamp,
       ++pos;
     }
   }
-  AINFO << "MlfEngine: " << name << " remove stale tracks, from "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "MlfEngine: " << name << " remove stale tracks, from "
         << tracks->size() << " to " << pos;
   tracks->resize(pos);
 }

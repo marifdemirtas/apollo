@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -229,12 +228,14 @@ bool Spline1dConstraint::AddThirdDerivativeBoundary(
   if (!FilterConstraints(x_coord, lower_bound, upper_bound,
                          &filtered_lower_bound_x, &filtered_lower_bound,
                          &filtered_upper_bound_x, &filtered_upper_bound)) {
-    AERROR << "Fail to filter constraints.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to filter constraints.";
     return false;
   }
 
   if (x_knots_.size() < 2) {
-    AERROR << "x_konts size cannot be < 2.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "x_konts size cannot be < 2.";
     return false;
   }
 

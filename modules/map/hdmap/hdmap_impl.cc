@@ -125,7 +125,8 @@ int HDMapImpl::LoadMapFromProto(const Map& map_proto) {
           iter->second->set_road_id(road_id);
           iter->second->set_section_id(section_id);
         } else {
-          AFATAL << "Unknown lane id: " << lane_id.id();
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "Unknown lane id: " << lane_id.id();
         }
       }
     }
@@ -646,7 +647,8 @@ int HDMapImpl::GetRoadBoundaries(
     road_section_id_set.insert(unique_id);
     const auto road_ptr = GetRoadById(road_id);
     if (road_ptr == nullptr) {
-      AERROR << "road id [" << road_id.id() << "] is not found.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "road id [" << road_id.id() << "] is not found.";
       continue;
     }
     if (road_ptr->has_junction_id()) {
@@ -658,7 +660,8 @@ int HDMapImpl::GetRoadBoundaries(
       JunctionBoundaryPtr junction_boundary_ptr(new JunctionBoundary());
       junction_boundary_ptr->junction_info = GetJunctionById(junction_id);
       if (junction_boundary_ptr->junction_info == nullptr) {
-        AERROR << "junction id [" << junction_id.id() << "] is not found.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "junction id [" << junction_id.id() << "] is not found.";
         continue;
       }
       junctions->push_back(junction_boundary_ptr);
@@ -683,7 +686,8 @@ int HDMapImpl::GetRoadBoundaries(
     std::vector<RoadRoiPtr>* road_boundaries,
     std::vector<JunctionInfoConstPtr>* junctions) const {
   if (road_boundaries == nullptr || junctions == nullptr) {
-    AERROR << "the pointer in parameter is null";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the pointer in parameter is null";
     return -1;
   }
   road_boundaries->clear();
@@ -691,7 +695,8 @@ int HDMapImpl::GetRoadBoundaries(
   std::set<std::string> junction_id_set;
   std::vector<RoadInfoConstPtr> roads;
   if (GetRoads(point, radius, &roads) != 0) {
-    AERROR << "can not get roads in the range.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "can not get roads in the range.";
     return -1;
   }
   for (const auto& road_ptr : roads) {
@@ -753,7 +758,8 @@ int HDMapImpl::GetRoi(const apollo::common::PointENU& point, double radius,
                       std::vector<RoadRoiPtr>* roads_roi,
                       std::vector<PolygonRoiPtr>* polygons_roi) {
   if (roads_roi == nullptr || polygons_roi == nullptr) {
-    AERROR << "the pointer in parameter is null";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the pointer in parameter is null";
     return -1;
   }
   roads_roi->clear();
@@ -762,11 +768,13 @@ int HDMapImpl::GetRoi(const apollo::common::PointENU& point, double radius,
   std::vector<RoadInfoConstPtr> roads;
   std::vector<LaneInfoConstPtr> lanes;
   if (GetRoads(point, radius, &roads) != 0) {
-    AERROR << "can not get roads in the range.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "can not get roads in the range.";
     return -1;
   }
   if (GetLanes(point, radius, &lanes) != 0) {
-    AERROR << "can not get lanes in the range.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "can not get lanes in the range.";
     return -1;
   }
   for (const auto& road_ptr : roads) {
@@ -877,7 +885,8 @@ int HDMapImpl::GetForwardNearestSignalsOnLane(
   car_point.set_y(point.y());
   apollo::common::math::Vec2d map_point;
   if (GetLanes(point, kLanesSearchRange, &temp_surrounding_lanes) == -1) {
-    AINFO << "Can not find lanes around car.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Can not find lanes around car.";
     return -1;
   }
   for (const auto& surround_lane : temp_surrounding_lanes) {
@@ -886,7 +895,8 @@ int HDMapImpl::GetForwardNearestSignalsOnLane(
     }
   }
   if (surrounding_lanes.empty()) {
-    AINFO << "Car is not on lane.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Car is not on lane.";
     return -1;
   }
   for (const auto& lane : surrounding_lanes) {
@@ -1172,7 +1182,8 @@ int HDMapImpl::GetLocalMap(const apollo::common::PointENU& point,
   for (auto& overlap_id : overlap_ids) {
     auto overlap_ptr = GetOverlapById(overlap_id);
     if (overlap_ptr == nullptr) {
-      AERROR << "overlpa id [" << overlap_id.id() << "] is not found.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "overlpa id [" << overlap_id.id() << "] is not found.";
       continue;
     }
 
@@ -1210,12 +1221,14 @@ int HDMapImpl::GetForwardNearestRSUs(const apollo::common::PointENU& point,
                               &lane_ptr,
                               &nearest_s,
                               &nearest_l) == -1) {
-    AERROR << "Fail to get nearest lanes";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get nearest lanes";
     return -1;
   }
 
   if (lane_ptr == nullptr) {
-    AERROR << "Fail to get nearest lanes";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get nearest lanes";
     return -1;
   }
 

@@ -21,37 +21,15 @@ namespace apollo {
 namespace hdmap {
 
 int HDMap::LoadMapFromFile(const std::string& map_filename) {
-  AINFO << "Loading HDMap: " << map_filename << " ...";
-  try
-  {
-    AINFO << "Arif called macro 1:" << __func__;
-  }
-  catch(const std::exception& e)
-  {
-    AINFO << "Arif called macro 1 and it raised an exception";
-  }
-  try
-  {
-    AINFO << "Arif called macro 2:" << __FUNCTION__;
-  }
-  catch(const std::exception& e)
-  {
-    AINFO << "Arif called macro 2 and it raised an exception";
-  }
-  try
-  {
-    AINFO << "Arif called macro 3:" << __PRETTY_FUNCTION__;
-  }
-  catch(const std::exception& e)
-  {
-    AINFO << "Arif called macro 3 and it raised an exception";
-  }
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Loading HDMap: " << map_filename << " ...";
   
   return impl_.LoadMapFromFile(map_filename);
 }
 
 int HDMap::LoadMapFromProto(const Map& map_proto) {
-  ADEBUG << "Loading HDMap with header: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Loading HDMap with header: "
          << map_proto.header().ShortDebugString();
   return impl_.LoadMapFromProto(map_proto);
 }

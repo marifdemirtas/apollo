@@ -59,12 +59,14 @@ void SocketInput::init(const int &port) {
   }
 
   // connect to Velodyne UDP port
-  AINFO << "Opening UDP socket: port " << uint16_t(port);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Opening UDP socket: port " << uint16_t(port);
   port_ = port;
   sockfd_ = socket(AF_INET, SOCK_DGRAM, 0);
 
   if (sockfd_ == -1) {
-    AERROR << "Init socket failed, UDP port is " << port;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init socket failed, UDP port is " << port;
     return;
   }
 
@@ -77,16 +79,19 @@ void SocketInput::init(const int &port) {
 
   if (bind(sockfd_, reinterpret_cast<sockaddr *>(&my_addr), sizeof(sockaddr)) ==
       -1) {
-    AERROR << "Socket bind failed! Port " << port_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Socket bind failed! Port " << port_;
     return;
   }
 
   if (fcntl(sockfd_, F_SETFL, O_NONBLOCK | FASYNC) < 0) {
-    AERROR << "non-block! Port " << port_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "non-block! Port " << port_;
     return;
   }
 
-  AINFO << "Velodyne socket fd is " << sockfd_ << ", port " << port_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Velodyne socket fd is " << sockfd_ << ", port " << port_;
 }
 
 /** @brief Get one velodyne packet. */
@@ -105,7 +110,8 @@ int SocketInput::get_firing_data_packet(VelodynePacket *pkt) {
 
     if (nbytes < 0) {
       if (errno != EWOULDBLOCK) {
-        AERROR << "recvfail from port " << port_;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "recvfail from port " << port_;
         return RECEIVE_FAIL;
       }
     }
@@ -116,7 +122,8 @@ int SocketInput::get_firing_data_packet(VelodynePacket *pkt) {
       break;
     }
 
-    AERROR << "Incomplete Velodyne rising data packet read: " << nbytes
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incomplete Velodyne rising data packet read: " << nbytes
            << " bytes from port " << port_;
   }
   double time2 = apollo::cyber::Time().Now().ToSecond();
@@ -139,7 +146,8 @@ int SocketInput::get_positioning_data_packet(NMEATimePtr nmea_time) {
 
     if (nbytes < 0) {
       if (errno != EWOULDBLOCK) {
-        AERROR << "recvfail from port " << port_;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "recvfail from port " << port_;
         return 1;
       }
     }
@@ -153,7 +161,8 @@ int SocketInput::get_positioning_data_packet(NMEATimePtr nmea_time) {
       }
     }
 
-    AINFO << "incomplete Velodyne packet read: " << nbytes
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "incomplete Velodyne packet read: " << nbytes
           << " bytes from port " << port_;
   }
 
@@ -200,7 +209,8 @@ bool SocketInput::input_available(int timeout) {
 
     if ((fds[0].revents & POLLERR) || (fds[0].revents & POLLHUP) ||
         (fds[0].revents & POLLNVAL)) {  // device error?
-      AERROR << "Velodyne port " << port_ << "poll() reports Velodyne error";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Velodyne port " << port_ << "poll() reports Velodyne error";
       return false;
     }
   } while ((fds[0].revents & POLLIN) == 0);

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -34,9 +33,7 @@ using apollo::common::Status;
 LocalizationGnssProcess::LocalizationGnssProcess()
     : gnss_solver_(new GnssSolver()),
       enable_ins_aid_rtk_(true),
-      gnss_lever_arm_{
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-0.0, 0.0, 0.0},
+      gnss_lever_arm_{0.0, 0.0, 0.0},
       sins_align_finish_(false),
       double_antenna_solver_(new GnssSolver()),
       current_obs_time_(0.0),
@@ -45,8 +42,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 LocalizationGnssProcess::~LocalizationGnssProcess() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   map_gnss_eph_.clear();
 
   delete gnss_solver_;
@@ -56,8 +51,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Status LocalizationGnssProcess::Init(const LocalizationIntegParam &param) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // set launch parameter
   enable_ins_aid_rtk_ = param.enable_ins_aid_rtk;
   gnss_solver_->set_enable_external_prediction(enable_ins_aid_rtk_);
@@ -73,8 +66,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocalizationGnssProcess::SetDefaultOption() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // set default process modes
   gnss_solver_->set_position_option(3);
   gnss_solver_->set_tropsphere_option(0);
@@ -88,10 +79,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LocalizationGnssProcess::RawObservationProcess(
     const drivers::gnss::EpochObservation &raw_obs) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!raw_obs.has_receiver_id()) {
-    AERROR << "Obs data being invalid if without receiver id!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obs data being invalid if without receiver id!";
     return;
   }
   const double unix_to_gps = 315964800;
@@ -119,8 +109,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       "user %u time:%12.3f sat_num:%d obs_delay:%12.3f%16.3f%16.3f%16.3f\n",
       raw_obs.receiver_id(), raw_obs.gnss_second_s(), raw_obs.sat_obs_num(),
       obs_delay, obs_xyz[0], obs_xyz[1], obs_xyz[2]);
-  AINFO << message;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << message;
+ 
   EpochObservationMsg raw_obs_msg;
   GnssMagTransfer::Transfer(raw_obs, &raw_obs_msg);
   if (raw_obs.receiver_id() != 0) {
@@ -142,8 +133,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LocalizationGnssProcess::RawEphemerisProcess(
     const drivers::gnss::GnssEphemeris &msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!msg.has_gnss_type()) {
     return;
   }
@@ -164,8 +153,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   ++eph_counter;
   // printf("received a gnss ephemeris: %d!\n", eph_counter);
   if (DuplicateEph(gnss_orbit)) {
-    AINFO << "received an existed gnss ephemeris!";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "received an existed gnss ephemeris!";
+     return;
   }
 
   GnssEphemerisMsg gnss_orbit_msg;
@@ -175,8 +165,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LocalizationGnssProcess::IntegSinsPvaProcess(const InsPva &sins_pva_msg,
                                                   const double variance[9][9]) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!sins_pva_msg.init_and_alignment) {
     return;
   }
@@ -210,8 +198,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 LocalizationMeasureState LocalizationGnssProcess::GetResult(
     MeasureData *gnss_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(gnss_msg);
 
   // convert GnssPntResult to IntegMeasure
@@ -276,8 +262,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool LocalizationGnssProcess::DuplicateEph(
     const drivers::gnss::GnssEphemeris &raw_eph) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   drivers::gnss::GnssType t_type = raw_eph.gnss_type();
   if (t_type != drivers::gnss::GnssType::GPS_SYS &&
       t_type != drivers::gnss::GnssType::BDS_SYS &&
@@ -308,8 +292,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 inline void LocalizationGnssProcess::LogPnt(const GnssPntResultMsg &rover_pnt,
                                             double ratio) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   char print_infor[256] = {'\0'};
   snprintf(print_infor, sizeof(print_infor),
            "%6d%12.3f%4d%16.3f%16.3f%16.3f%4d%4.1f%6.1f%8.3f%8.3f%8.3f%8.3f%8."
@@ -320,17 +302,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
            rover_pnt.pdop(), ratio, rover_pnt.vel_x_m(), rover_pnt.vel_y_m(),
            rover_pnt.vel_z_m(), rover_pnt.std_pos_x_m(),
            rover_pnt.std_pos_y_m(), rover_pnt.std_pos_z_m());
-  AINFO << print_infor;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << print_infor;
+ }
 
 bool LocalizationGnssProcess::GnssPosition(EpochObservationMsg *raw_rover_obs) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(raw_rover_obs);
 
   gnss_state_ = LocalizationMeasureState::NOT_VALID;
   if (raw_rover_obs->receiver_id() != 0) {
-    AERROR << "Wrong Rover Obs Data!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Wrong Rover Obs Data!";
     return false;
   }
   int b_solved = gnss_solver_->solve(raw_rover_obs, &gnss_pnt_result_);

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,9 +35,7 @@ LocalizationIntegProcess::LocalizationIntegProcess()
       gnss_antenna_extrinsic_(TransformD::Identity()),
       integ_state_(IntegState::NOT_INIT),
       ins_pva_(),
-      pva_covariance_{
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-0.0},
+      pva_covariance_{0.0},
       corrected_imu_(),
       earth_param_(),
       keep_running_(false),
@@ -46,8 +43,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       delay_output_counter_(0) {}
 
 LocalizationIntegProcess::~LocalizationIntegProcess() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   StopThreadLoop();
 
   delete sins_;
@@ -55,8 +50,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Status LocalizationIntegProcess::Init(const LocalizationIntegParam &param) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // sins init
   sins_->Init(param.is_ins_can_self_align);
   sins_->SetSinsAlignFromVel(param.is_sins_align_with_vel);
@@ -71,8 +64,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   } else {
     gnss_antenna_extrinsic_ = TransformD::Identity();
   }
-  AINFO << "gnss and imu lever arm: "
-        << gnss_antenna_extrinsic_.translation()(0) << " "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "gnss and imu lever arm: "
+         << gnss_antenna_extrinsic_.translation()(0) << " "
         << gnss_antenna_extrinsic_.translation()(1) << " "
         << gnss_antenna_extrinsic_.translation()(2);
 
@@ -88,24 +82,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocalizationIntegProcess::RawImuProcess(const ImuData &imu_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   integ_state_ = IntegState::NOT_INIT;
   double cur_imu_time = imu_msg.measurement_time;
 
   if (cur_imu_time < 3000) {
-    AERROR << "the imu time is error: " << cur_imu_time;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the imu time is error: " << cur_imu_time;
     return;
   }
 
   static double pre_imu_time = cur_imu_time;
   double delta_time = cur_imu_time - pre_imu_time;
   if (delta_time > 0.1) {
-    AERROR << std::setprecision(16) << "the imu message loss more than 10, "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << std::setprecision(16) << "the imu message loss more than 10, "
            << "the pre time and current time: " << pre_imu_time << " "
            << cur_imu_time;
   } else if (delta_time < 0.0) {
-    AERROR << std::setprecision(16)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << std::setprecision(16)
            << "received imu message's time is eary than last imu message, "
            << "the pre time and current time: " << pre_imu_time << " "
            << cur_imu_time;
@@ -116,12 +111,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   double delta_system_time = cur_system_time - pre_system_time;
   if (delta_system_time > 0.1) {
-    AERROR << std::setprecision(16)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << std::setprecision(16)
            << "the imu message loss more than 10 according to system time, "
            << "the pre system time and current system time: " << pre_system_time
            << " " << cur_system_time;
   } else if (delta_system_time < 0.0) {
-    AERROR << std::setprecision(16)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << std::setprecision(16)
            << "received imu message's time is eary than last imu message "
               "according to system time, "
            << "the pre system time and current system time: " << pre_system_time
@@ -144,14 +141,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
 
     if (cur_imu_time - 0.5 > pre_imu_time) {
-      AINFO << "SINS has completed alignment!" << std::endl;
-      pre_imu_time = cur_imu_time;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "SINS has completed alignment!" << std::endl;
+       pre_imu_time = cur_imu_time;
     }
   } else {
     delay_output_counter_ = 0;
     if (cur_imu_time - 0.5 > pre_imu_time) {
-      AINFO << "SINS is aligning!" << std::endl;
-      pre_imu_time = cur_imu_time;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "SINS is aligning!" << std::endl;
+       pre_imu_time = cur_imu_time;
     }
   }
 
@@ -160,14 +159,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocalizationIntegProcess::GetValidFromOK() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (integ_state_ != IntegState::OK) {
     return;
   }
 
-  // AERROR << pva_covariance_[0][0] << " " << pva_covariance_[1][1]
-  //     << " " << pva_covariance_[2][2] << " " << pva_covariance_[8][8];
+    //     << " " << pva_covariance_[2][2] << " " << pva_covariance_[8][8];
   if (pva_covariance_[0][0] < 0.3 * 0.3 && pva_covariance_[1][1] < 0.3 * 0.3 &&
       pva_covariance_[2][2] < 0.3 * 0.3 && pva_covariance_[8][8] < 0.1 * 0.1) {
     integ_state_ = IntegState::VALID;
@@ -175,8 +171,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocalizationIntegProcess::GetState(IntegState *state) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(state);
 
   *state = integ_state_;
@@ -184,8 +178,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LocalizationIntegProcess::GetResult(IntegState *state,
                                          LocalizationEstimate *localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(state);
   CHECK_NOTNULL(localization);
 
@@ -193,8 +185,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   *state = integ_state_;
 
   if (*state != IntegState::NOT_INIT) {
-    ADEBUG << std::setprecision(16)
-           << "IntegratedLocalization Debug Log: integ_pose msg: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << std::setprecision(16)
+            << "IntegratedLocalization Debug Log: integ_pose msg: "
            << "[time:" << ins_pva_.time << "]"
            << "[x:" << ins_pva_.pos.longitude * 57.295779513082323 << "]"
            << "[y:" << ins_pva_.pos.latitude * 57.295779513082323 << "]"
@@ -264,8 +257,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LocalizationIntegProcess::GetResult(IntegState *state, InsPva *sins_pva,
                                          double pva_covariance[9][9]) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(state);
   CHECK_NOTNULL(sins_pva);
   CHECK_NOTNULL(pva_covariance);
@@ -276,8 +267,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocalizationIntegProcess::GetCorrectedImu(ImuData *imu_data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(imu_data);
 
   *imu_data = corrected_imu_;
@@ -285,8 +274,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LocalizationIntegProcess::GetEarthParameter(
     InertialParameter *earth_param) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(earth_param);
 
   *earth_param = earth_param_;
@@ -294,34 +281,27 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LocalizationIntegProcess::MeasureDataProcess(
     const MeasureData &measure_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   measure_data_queue_mutex_.lock();
   measure_data_queue_.push(measure_msg);
   measure_data_queue_mutex_.unlock();
 }
 
 void LocalizationIntegProcess::StartThreadLoop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   keep_running_ = true;
   measure_data_queue_size_ = 150;
   cyber::Async(&LocalizationIntegProcess::MeasureDataThreadLoop, this);
 }
 
 void LocalizationIntegProcess::StopThreadLoop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (keep_running_.load()) {
     keep_running_ = false;
   }
 }
 
 void LocalizationIntegProcess::MeasureDataThreadLoop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Started measure data process thread";
-  while (keep_running_.load()) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Started measure data process thread";
+   while (keep_running_.load()) {
     {
       std::unique_lock<std::mutex> lock(measure_data_queue_mutex_);
       int size = static_cast<int>(measure_data_queue_.size());
@@ -351,13 +331,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
     MeasureDataProcessImpl(measure);
   }
-  AINFO << "Exited measure data process thread";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Exited measure data process thread";
+ }
 
 void LocalizationIntegProcess::MeasureDataProcessImpl(
     const MeasureData &measure_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   common::util::Timer timer;
   timer.Start();
 
@@ -372,14 +351,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool LocalizationIntegProcess::CheckIntegMeasureData(
     const MeasureData &measure_data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (measure_data.measure_type == MeasureType::ODOMETER_VEL_ONLY) {
-    AERROR << "receive a new odometry measurement!!!\n";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "receive a new odometry measurement!!!\n";
   }
 
-  ADEBUG << std::setprecision(16)
-         << "IntegratedLocalization Debug Log: measure data: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << std::setprecision(16)
+          << "IntegratedLocalization Debug Log: measure data: "
          << "[time:" << measure_data.time << "]"
          << "[x:" << measure_data.gnss_pos.longitude * 57.295779513082323 << "]"
          << "[y:" << measure_data.gnss_pos.latitude * 57.295779513082323 << "]"
@@ -397,8 +376,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool LocalizationIntegProcess::LoadGnssAntennaExtrinsic(
     const std::string &file_path, TransformD *extrinsic) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(extrinsic);
 
   YAML::Node confige = YAML::LoadFile(file_path);

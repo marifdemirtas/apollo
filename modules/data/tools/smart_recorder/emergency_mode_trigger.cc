@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,14 +26,10 @@ namespace data {
 using apollo::canbus::Chassis;
 
 EmergencyModeTrigger::EmergencyModeTrigger() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   trigger_name_ = "EmergencyModeTrigger";
 }
 
 void EmergencyModeTrigger::Pull(const cyber::record::RecordMessage& msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!trigger_obj_->enabled()) {
     return;
   }
@@ -43,8 +38,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     chassis_msg.ParseFromString(msg.content);
     if (cur_driving_mode_ == Chassis::COMPLETE_AUTO_DRIVE &&
         chassis_msg.driving_mode() == Chassis::EMERGENCY_MODE) {
-      AINFO << "emergency mode trigger is pulled: " << msg.time << " - "
-            << msg.channel_name;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "emergency mode trigger is pulled: " << msg.time << " - "
+             << msg.channel_name;
       TriggerIt(msg.time);
     }
     cur_driving_mode_ = chassis_msg.driving_mode();

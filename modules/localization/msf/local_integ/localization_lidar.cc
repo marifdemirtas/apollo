@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -38,14 +37,10 @@ LocalizationLidar::LocalizationLidar()
       pre_vehicle_ground_height_(0.0),
       is_pre_ground_height_valid_(false),
       velodyne_extrinsic_(Eigen::Affine3d::Identity()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   map_left_top_corner_ = Eigen::Vector2d::Zero();
 }
 
 LocalizationLidar::~LocalizationLidar() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (lidar_map_node_) {
     delete lidar_map_node_;
     lidar_map_node_ = nullptr;
@@ -60,8 +55,6 @@ bool LocalizationLidar::Init(const std::string& map_path,
                              const unsigned int search_range_y,
                              const int zone_id,
                              const unsigned int resolution_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // init map
   resolution_id_ = resolution_id;
   zone_id_ = zone_id;
@@ -89,8 +82,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocalizationLidar::SetVelodyneExtrinsic(const Eigen::Affine3d& pose) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   velodyne_extrinsic_ = pose;
   Eigen::Vector3d trans = pose.translation();
   Eigen::Quaterniond quat = Eigen::Quaterniond(pose.linear());
@@ -100,39 +91,28 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocalizationLidar::SetVehicleHeight(double height) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   vehicle_lidar_height_ = height;
-  AINFO << "Set height: " << vehicle_lidar_height_;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Set height: " << vehicle_lidar_height_;
+ }
 
 void LocalizationLidar::SetValidThreshold(float valid_threashold) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   lidar_locator_->SetValidThreshold(valid_threashold);
 }
 
 void LocalizationLidar::SetImageAlignMode(int mode) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   lidar_locator_->SetImageAlignMode(mode);
 }
 
 void LocalizationLidar::SetLocalizationMode(int mode) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   lidar_locator_->SetLocalizationMode(mode);
 }
 
 void LocalizationLidar::SetDeltaYawLimit(double limit) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   lidar_locator_->SetDeltaYawLimit(limit);
 }
 
 void LocalizationLidar::SetDeltaPitchRollLimit(double limit) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   lidar_locator_->SetDeltaPitchRollLimit(limit);
 }
 
@@ -140,15 +120,14 @@ int LocalizationLidar::Update(const unsigned int frame_idx,
                               const Eigen::Affine3d& pose,
                               const Eigen::Vector3d velocity,
                               const LidarFrame& lidar_frame, bool use_avx) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // check whether loaded map
   if (!is_map_loaded_) {
     map_.LoadMapArea(pose.translation(), resolution_id_, zone_id_,
                      search_range_x_, search_range_y_);
     is_map_loaded_ = true;
-    AINFO << "Reflectance locator map first loading is done.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Reflectance locator map first loading is done.";
+   }
 
   Eigen::Affine3d imu_pose = pose;
   RefineAltitudeFromMap(&imu_pose);
@@ -192,8 +171,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void LocalizationLidar::GetResult(Eigen::Affine3d* location,
                                   Eigen::Matrix3d* covariance,
                                   double* location_score) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!location || !covariance) {
     return;
   }
@@ -230,8 +207,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LocalizationLidar::GetLocalizationDistribution(
     Eigen::MatrixXd* distribution) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(distribution);
 
   int width = 0;
@@ -250,8 +225,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocalizationLidar::RefineAltitudeFromMap(Eigen::Affine3d* pose) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(pose);
 
   Eigen::Affine3d lidar_pose = *pose * velodyne_extrinsic_;
@@ -300,8 +273,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocalizationLidar::ComposeMapNode(const Eigen::Vector3d& trans) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d center(trans(0), trans(1));
   Eigen::Vector2d left_top_corner(center(0) - node_size_x_ * resolution_ / 2.0,
                                   center(1) - node_size_y_ * resolution_ / 2.0);

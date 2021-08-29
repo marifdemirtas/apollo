@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -47,11 +46,10 @@ ErrorCode TransitController::Init(
     const VehicleParameter& params,
     CanSender<::apollo::canbus::ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (is_initialized_) {
-    AINFO << "TransitController has already been initialized.";
-    return ErrorCode::CANBUS_ERROR;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "TransitController has already been initialized.";
+     return ErrorCode::CANBUS_ERROR;
   }
 
   vehicle_params_.CopyFrom(
@@ -59,18 +57,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   params_.CopyFrom(params);
   if (!params_.has_driving_mode()) {
-    AERROR << "Vehicle conf pb not set driving_mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Vehicle conf pb not set driving_mode.";
     return ErrorCode::CANBUS_ERROR;
   }
 
   if (can_sender == nullptr) {
-    AERROR << "Canbus sender is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Canbus sender is null.";
     return ErrorCode::CANBUS_ERROR;
   }
   can_sender_ = can_sender;
 
   if (message_manager == nullptr) {
-    AERROR << "protocol manager is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "protocol manager is null.";
     return ErrorCode::CANBUS_ERROR;
   }
   message_manager_ = message_manager;
@@ -79,7 +80,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   adc_auxiliarycontrol_110_ = dynamic_cast<Adcauxiliarycontrol110*>(
       message_manager_->GetMutableProtocolDataById(Adcauxiliarycontrol110::ID));
   if (adc_auxiliarycontrol_110_ == nullptr) {
-    AERROR << "Adcauxiliarycontrol110 does not exist in the "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Adcauxiliarycontrol110 does not exist in the "
               "TransitMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
@@ -87,7 +89,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   adc_motioncontrol1_10_ = dynamic_cast<Adcmotioncontrol110*>(
       message_manager_->GetMutableProtocolDataById(Adcmotioncontrol110::ID));
   if (adc_motioncontrol1_10_ == nullptr) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "Adcmotioncontrol110 does not exist in the TransitMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
@@ -96,7 +99,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       message_manager_->GetMutableProtocolDataById(
           Adcmotioncontrollimits112::ID));
   if (adc_motioncontrollimits1_12_ == nullptr) {
-    AERROR << "Adcmotioncontrollimits112 does not exist in the "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Adcmotioncontrollimits112 does not exist in the "
               "TransitMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
@@ -104,7 +108,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   llc_diag_brakecontrol_721_ = dynamic_cast<Llcdiagbrakecontrol721*>(
       message_manager_->GetMutableProtocolDataById(Llcdiagbrakecontrol721::ID));
   if (llc_diag_brakecontrol_721_ == nullptr) {
-    AERROR << "Llcdiagbrakecontrol721 does not exist in the "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Llcdiagbrakecontrol721 does not exist in the "
               "TransitMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
@@ -113,7 +118,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       message_manager_->GetMutableProtocolDataById(
           Llcdiagsteeringcontrol722::ID));
   if (llc_diag_steeringcontrol_722_ == nullptr) {
-    AERROR << "Llcdiagsteeringcontrol722 does not exist in the "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Llcdiagsteeringcontrol722 does not exist in the "
               "TransitMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
@@ -130,21 +136,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                           llc_diag_steeringcontrol_722_, false);
 
   // need sleep to ensure all messages received
-  AINFO << "TransitController is initialized.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "TransitController is initialized.";
+ 
   is_initialized_ = true;
   return ErrorCode::OK;
 }
 
-TransitController::~TransitController() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+TransitController::~TransitController() {}
 
 bool TransitController::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "TransitController has NOT been initiated.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TransitController has NOT been initiated.";
     return false;
   }
   const auto& update_func = [this] { SecurityDogThreadFunc(); };
@@ -154,23 +158,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TransitController::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "TransitController stops or starts improperly!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TransitController stops or starts improperly!";
     return;
   }
 
   if (thread_ != nullptr && thread_->joinable()) {
     thread_->join();
     thread_.reset();
-    AINFO << "TransitController stopped.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "TransitController stopped.";
+   }
 }
 
 Chassis TransitController::chassis() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis_.Clear();
 
   ChassisDetail chassis_detail;
@@ -258,18 +260,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TransitController::Emergency() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
 }
 
 ErrorCode TransitController::EnableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
-    AINFO << "Already in COMPLETE_AUTO_DRIVE mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in COMPLETE_AUTO_DRIVE mode";
+     return ErrorCode::OK;
   }
 
   SetLimits();
@@ -284,39 +283,40 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   can_sender_->Update();
   if (!CheckResponse()) {
-    AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
     Emergency();
     return ErrorCode::CANBUS_ERROR;
   }
   if (button_pressed_) {
     set_driving_mode(Chassis::COMPLETE_AUTO_DRIVE);
-    AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
-  } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
+   } else {
     set_driving_mode(Chassis::COMPLETE_MANUAL);
-    AINFO << "Physical button not pressed yet.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Physical button not pressed yet.";
+   }
   return ErrorCode::OK;
 }
 
 ErrorCode TransitController::DisableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ResetProtocol();
   can_sender_->Update();
   set_driving_mode(Chassis::COMPLETE_MANUAL);
   set_chassis_error_code(Chassis::NO_ERROR);
-  AINFO << "Switch to COMPLETE_MANUAL ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_MANUAL ok.";
+   return ErrorCode::OK;
 }
 
 ErrorCode TransitController::EnableSteeringOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_STEER_ONLY) {
     set_driving_mode(Chassis::AUTO_STEER_ONLY);
-    AINFO << "Already in AUTO_STEER_ONLY mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in AUTO_STEER_ONLY mode";
+     return ErrorCode::OK;
   }
 
   SetLimits();
@@ -333,13 +333,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 ErrorCode TransitController::EnableSpeedOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_SPEED_ONLY) {
     set_driving_mode(Chassis::AUTO_SPEED_ONLY);
-    AINFO << "Already in AUTO_SPEED_ONLY mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in AUTO_SPEED_ONLY mode";
+     return ErrorCode::OK;
   }
 
   SetLimits();
@@ -353,29 +352,31 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           ADC_CMD_LONGITUDINALCONTROLMODE_DIRECT_THROTTLE_BRAKE);
   can_sender_->Update();
   if (!CheckResponse()) {
-    AERROR << "Failed to switch to AUTO_STEER_ONLY mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to AUTO_STEER_ONLY mode.";
     Emergency();
     set_chassis_error_code(Chassis::CHASSIS_ERROR);
     return ErrorCode::CANBUS_ERROR;
   }
   if (button_pressed_) {
     set_driving_mode(Chassis::COMPLETE_AUTO_DRIVE);
-    AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
-  } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
+   } else {
     set_driving_mode(Chassis::COMPLETE_MANUAL);
-    AINFO << "Physical button not pressed yet.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Physical button not pressed yet.";
+   }
   return ErrorCode::OK;
 }
 
 // NEUTRAL, REVERSE, DRIVE
 void TransitController::Gear(Chassis::GearPosition gear_position) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "This drive mode no need to set gear.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "This drive mode no need to set gear.";
+     return;
   }
   switch (gear_position) {
     case Chassis::GEAR_NEUTRAL: {
@@ -409,7 +410,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       break;
     }
     case Chassis::GEAR_INVALID: {
-      AERROR << "Gear command is invalid!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Gear command is invalid!";
       adc_motioncontrol1_10_->set_adc_cmd_gear(
           Adc_motioncontrol1_10::ADC_CMD_GEAR_N_NEUTRAL);
       break;
@@ -428,14 +430,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // acceleration_spd:60 ~ 100, suggest: 90
 // -> pedal
 void TransitController::Brake(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // double real_value = params_.max_acc() * acceleration / 100;
   // TODO(QiL):  Update brake value based on mode
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
   if (button_pressed_) {
     adc_motioncontrol1_10_->set_adc_cmd_brakepercentage(pedal);
@@ -447,12 +448,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // drive with old acceleration
 // gas:0.00~99.99 unit:
 void TransitController::Throttle(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
   if (button_pressed_) {
     adc_motioncontrol1_10_->set_adc_cmd_throttleposition(pedal);
@@ -464,12 +464,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // drive with acceleration/deceleration
 // acc:-7.0 ~ 5.0, unit:m/s^2
 void TransitController::Acceleration(double acc) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
   // None
 }
@@ -479,12 +478,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 void TransitController::Steer(double angle) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
   // TODO(All): remove -1.0 once Udelv has a complete fix.
   const double real_angle =
@@ -498,12 +496,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void TransitController::Steer(double angle, double angle_spd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
 
   // TODO(All): remove -1.0 once Udelv has a complete fix.
@@ -517,8 +514,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TransitController::SetEpbBreak(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.parking_brake()) {
     adc_motioncontrol1_10_->set_adc_cmd_parkingbrake(true);
   } else {
@@ -527,8 +522,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TransitController::SetBeam(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.signal().high_beam()) {
     adc_auxiliarycontrol_110_->set_adc_cmd_highbeam(true);
   } else if (command.signal().low_beam()) {
@@ -540,8 +533,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TransitController::SetHorn(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.signal().horn()) {
     adc_auxiliarycontrol_110_->set_adc_cmd_horn(true);
   } else {
@@ -550,8 +541,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TransitController::SetTurningSignal(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Set Turn Signal
   auto signal = command.signal().turn_signal();
   if (signal == common::VehicleSignal::TURN_LEFT) {
@@ -567,26 +556,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TransitController::ResetProtocol() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   message_manager_->ResetSendMessages();
 }
 
 bool TransitController::CheckChassisError() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL): re-design later
   return true;
 }
 
 void TransitController::SecurityDogThreadFunc() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
 
   if (can_sender_ == nullptr) {
-    AERROR << "Failed to run SecurityDogThreadFunc() because can_sender_ is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to run SecurityDogThreadFunc() because can_sender_ is "
               "nullptr.";
     return;
   }
@@ -637,7 +621,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (elapsed < default_period) {
       std::this_thread::sleep_for(default_period - elapsed);
     } else {
-      AERROR
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
           << "Too much time consumption in TransitController looping process:"
           << elapsed.count();
     }
@@ -645,12 +630,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool TransitController::CheckResponse() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(Udelv): Add separate indicators
   ChassisDetail chassis_detail;
   if (message_manager_->GetSensorData(&chassis_detail) != ErrorCode::OK) {
-    AERROR_EVERY(100) << "get chassis detail failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "get chassis detail failed.";
     return false;
   }
 
@@ -667,44 +651,32 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TransitController::set_chassis_error_mask(const int32_t mask) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t TransitController::chassis_error_mask() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode TransitController::chassis_error_code() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
 }
 
 void TransitController::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
 }
 
 bool TransitController::CheckSafetyError(
     const ::apollo::canbus::ChassisDetail& chassis_detail) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return true;
 }
 
 void TransitController::SetLimits() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   adc_motioncontrollimits1_12_->set_adc_cmd_throttlecommandlimit(100);
   adc_motioncontrollimits1_12_->set_adc_cmd_steerwheelanglelimit(1275);
   adc_motioncontrollimits1_12_->set_adc_cmd_steeringrate(500);

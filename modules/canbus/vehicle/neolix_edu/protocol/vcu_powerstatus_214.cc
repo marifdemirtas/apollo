@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace neolix_edu {
 
 using ::apollo::drivers::canbus::Byte;
 
-Vcupowerstatus214::Vcupowerstatus214() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Vcupowerstatus214::Vcupowerstatus214() {}
 const int32_t Vcupowerstatus214::ID = 0x214;
 
 void Vcupowerstatus214::Parse(const std::uint8_t* bytes, int32_t length,
                               ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_neolix_edu()
       ->mutable_vcu_powerstatus_214()
       ->set_vcu_powermode(vcu_powermode(bytes, length));
@@ -73,8 +68,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': 'bit'}
 int Vcupowerstatus214::vcu_powermode(const std::uint8_t* bytes,
                                      int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(1, 3);
 
@@ -89,8 +82,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': 'bit'}
 int Vcupowerstatus214::vcu_powermodevalid(const std::uint8_t* bytes,
                                           int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(4, 2);
 
@@ -104,8 +95,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': 'bit'}
 bool Vcupowerstatus214::replacebatterystateindication(const std::uint8_t* bytes,
                                                       int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(6, 1);
 
@@ -115,8 +104,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool Vcupowerstatus214::forbidden_aeb_signal(const std::uint8_t* bytes,
                                              const int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(7, 1);
 
@@ -126,8 +113,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 float Vcupowerstatus214::bcu_chargedischargecurrent(
     const std::uint8_t* bytes, const int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   Byte t1(bytes + 3);
   int32_t x1 = t0.get_byte(0, 8);
@@ -139,8 +124,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 float Vcupowerstatus214::bcu_batt_internalvoltage(const std::uint8_t* bytes,
                                                   const int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   Byte t1(bytes + 5);
   int32_t x1 = t0.get_byte(0, 8);
@@ -156,8 +139,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit'}
 int Vcupowerstatus214::vcu_driverinfo_alivecounter(const std::uint8_t* bytes,
                                                    int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(4, 4);
 
@@ -171,8 +152,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit'}
 int Vcupowerstatus214::vcu_driverinfo_checksum(const std::uint8_t* bytes,
                                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
 

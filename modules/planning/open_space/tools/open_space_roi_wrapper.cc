@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -56,7 +55,8 @@ class OpenSpaceROITest {
     double right_top_l = 0.0;
     if (!(nearby_path_->GetProjection(left_top, &left_top_s, &left_top_l) &&
           nearby_path_->GetProjection(right_top, &right_top_s, &right_top_l))) {
-      AERROR <<  "fail to get parking spot points' projections "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR <<  "fail to get parking spot points' projections "
                  "on reference line";
       return false;
     }
@@ -109,10 +109,13 @@ class OpenSpaceROITest {
     start_left -= origin_point_;
     end_right -= origin_point_;
     end_left -= origin_point_;
-    AINFO << "left_down x " << left_down.x();
-    AINFO << "right_down x " << right_down.x();
-    AINFO << "left_top x " << left_top.x();
-    left_top.SelfRotate(-origin_heading_);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "left_down x " << left_down.x();
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "right_down x " << right_down.x();
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "left_top x " << left_top.x();
+     left_top.SelfRotate(-origin_heading_);
     left_down.SelfRotate(-origin_heading_);
     right_top.SelfRotate(-origin_heading_);
     right_down.SelfRotate(-origin_heading_);
@@ -230,7 +233,8 @@ class OpenSpaceROITest {
     double right_top_l = 0.0;
     if (!(nearby_path_->GetProjection(left_top, &left_top_s, &left_top_l) &&
           nearby_path_->GetProjection(right_top, &right_top_s, &right_top_l))) {
-      AERROR <<  "fail to get parking spot points' projections "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR <<  "fail to get parking spot points' projections "
                  "on reference line";
       return false;
     }
@@ -349,8 +353,9 @@ class OpenSpaceROITest {
   bool VPresentationObstacle(const std::string& lane_id,
                              const std::string& parking_id) {
     if (!LoadMap(lane_id, parking_id)) {
-      AINFO << "fail at loading map";
-      return false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "fail at loading map";
+       return false;
     }
 
     ACHECK(cyber::common::GetProtoFromFile(
@@ -360,18 +365,21 @@ class OpenSpaceROITest {
 
     // load info from pnc map
     if (!OpenSpaceROI()) {
-      AINFO << "fail at ROI()";
-      return false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "fail at ROI()";
+       return false;
     }
     if (!NoRotateOpenSpaceROI()) {
-      AINFO << "fail at ROI()";
-      return false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "fail at ROI()";
+       return false;
     }
 
     size_t parking_boundaries_num = ROI_parking_boundary_.size();
 
     if (parking_boundaries_num != 4) {
-      AERROR << "parking boundary obstacles size not right";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "parking boundary obstacles size not right";
       return false;
     }
 
@@ -398,8 +406,6 @@ class OpenSpaceROITest {
     target_lane_id.set_id(parking_id);
     auto nearby_lane = map_ptr->GetLaneById(nearby_lane_id);
     if (nearby_lane == nullptr) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
       std::cout << "No such lane found " << lane_id << std::endl;
       return false;
     }
@@ -470,8 +476,9 @@ bool ROITest(OpenSpaceROITest* test_ptr, char* lane_id, char* parking_id,
   std::string lane_id_str(lane_id);
   std::string parking_id_str(parking_id);
   if (!test_ptr->VPresentationObstacle(lane_id_str, parking_id_str)) {
-    AINFO << "VPresentationObstacle fail";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "VPresentationObstacle fail";
+     return false;
   }
   std::vector<std::vector<Vec2d>>* unrotated_roi_boundary_ =
       test_ptr->GetNoRotateROIParkingBoundary();

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -49,8 +48,9 @@ EmergencyPullOverStageApproach::EmergencyPullOverStageApproach(
 
 Stage::StageStatus EmergencyPullOverStageApproach::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: Approach";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: Approach";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
@@ -81,13 +81,15 @@ Stage::StageStatus EmergencyPullOverStageApproach::Process(
         "EMERGENCY_PULL_OVER-scenario", frame,
         &(frame->mutable_reference_line_info()->front()));
 
-    ADEBUG << "Build a stop fence for emergency_pull_over: id["
-           << virtual_obstacle_id << "] s[" << stop_line_s << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Build a stop fence for emergency_pull_over: id["
+            << virtual_obstacle_id << "] s[" << stop_line_s << "]";
   }
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "EmergencyPullOverStageApproach planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "EmergencyPullOverStageApproach planning error";
   }
 
   if (stop_line_s > 0.0) {
@@ -98,8 +100,9 @@ Stage::StageStatus EmergencyPullOverStageApproach::Process(
                                           ->GetConfig()
                                           .vehicle_param()
                                           .max_abs_speed_when_stopped();
-    ADEBUG << "adc_speed[" << adc_speed << "] distance[" << distance << "]";
-    static constexpr double kStopSpeedTolerance = 0.4;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc_speed[" << adc_speed << "] distance[" << distance << "]";
+     static constexpr double kStopSpeedTolerance = 0.4;
     static constexpr double kStopDistanceTolerance = 3.0;
     if (adc_speed <= max_adc_stop_speed + kStopSpeedTolerance &&
         std::fabs(distance) <= kStopDistanceTolerance) {

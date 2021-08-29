@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -57,14 +56,10 @@ SimulationWorldUpdater::SimulationWorldUpdater(
       camera_ws_(camera_ws),
       sim_control_(sim_control),
       perception_camera_updater_(perception_camera_updater) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   RegisterMessageHandlers();
 }
 
 void SimulationWorldUpdater::RegisterMessageHandlers() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Send current sim_control status to the new client.
   websocket_->RegisterConnectionReadyHandler(
       [this](WebSocketHandler::Connection *conn) {
@@ -88,7 +83,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
             map_ws_->SendBinaryData(conn, retrieved_map_string, true);
           } else {
-            AERROR << "Failed to parse MapElementIds from json";
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to parse MapElementIds from json";
           }
         }
       });
@@ -112,7 +108,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         if (navigation_info->ParseFromString(data)) {
           sim_world_service_.PublishNavigationInfo(navigation_info);
         } else {
-          AERROR << "Failed to parse navigation info from string. String size: "
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to parse navigation info from string. String size: "
                  << data.size();
         }
       });
@@ -122,12 +119,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       [this](const Json &json, WebSocketHandler::Connection *conn) {
         auto radius = json.find("radius");
         if (radius == json.end()) {
-          AERROR << "Cannot retrieve map elements with unknown radius.";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot retrieve map elements with unknown radius.";
           return;
         }
 
         if (!radius->is_number()) {
-          AERROR << "Expect radius with type 'number', but was "
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Expect radius with type 'number', but was "
                  << radius->type_name();
           return;
         }
@@ -177,7 +176,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         auto *routing_request = cycle_routing_task->mutable_routing_request();
         if (!ContainsKey(json, "cycleNumber") ||
             !json.find("cycleNumber")->is_number()) {
-          AERROR << "Failed to prepare a cycle routing request: Invalid cycle "
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to prepare a cycle routing request: Invalid cycle "
                     "number";
           return;
         }
@@ -188,8 +188,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           task->set_task_name("cycle_routing_task");
           task->set_task_type(apollo::task_manager::TaskType::CYCLE_ROUTING);
           sim_world_service_.PublishTask(task);
-          AINFO << "The task is : " << task->DebugString();
-          sim_world_service_.PublishMonitorMessage(
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The task is : " << task->DebugString();
+           sim_world_service_.PublishMonitorMessage(
               MonitorMessageItem::INFO, "Default cycle routing request sent.");
         } else {
           sim_world_service_.PublishMonitorMessage(
@@ -373,7 +374,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           sim_world_service_.PublishMonitorMessage(
               MonitorMessageItem::INFO, "Successfully add default routing.");
           if (!default_routing_) {
-            AERROR << "Failed to add a default routing" << std::endl;
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to add a default routing" << std::endl;
           }
           Json response = JsonUtil::ProtoToTypedJson("AddDefaultRoutingPath",
                                                      *default_routing_);
@@ -397,18 +399,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Json SimulationWorldUpdater::CheckRoutingPoint(const Json &json) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Json result;
   if (!ContainsKey(json, "point")) {
     result["error"] = "Failed to check routing point: point not found.";
-    AERROR << result["error"];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << result["error"];
     return result;
   }
   auto point = json["point"];
   if (!ValidateCoordinate(point) || !ContainsKey(point, "id")) {
     result["error"] = "Failed to check routing point: invalid point.";
-    AERROR << result["error"];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << result["error"];
     return result;
   }
   if (!map_service_->CheckRoutingPoint(point["x"], point["y"])) {
@@ -421,32 +423,34 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool SimulationWorldUpdater::ConstructRoutingRequest(
     const Json &json, RoutingRequest *routing_request) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   routing_request->clear_waypoint();
   // set start point
   if (!ContainsKey(json, "start")) {
-    AERROR << "Failed to prepare a routing request: start point not found.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to prepare a routing request: start point not found.";
     return false;
   }
 
   auto start = json["start"];
   if (!ValidateCoordinate(start)) {
-    AERROR << "Failed to prepare a routing request: invalid start point.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to prepare a routing request: invalid start point.";
     return false;
   }
   if (ContainsKey(start, "heading")) {
     if (!map_service_->ConstructLaneWayPointWithHeading(
             start["x"], start["y"], start["heading"],
             routing_request->add_waypoint())) {
-      AERROR << "Failed to prepare a routing request with heading: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to prepare a routing request with heading: "
              << start["heading"] << " cannot locate start point on map.";
       return false;
     }
   } else {
     if (!map_service_->ConstructLaneWayPoint(start["x"], start["y"],
                                              routing_request->add_waypoint())) {
-      AERROR << "Failed to prepare a routing request:"
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to prepare a routing request:"
              << " cannot locate start point on map.";
       return false;
     }
@@ -459,13 +463,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     for (size_t i = 0; i < iter->size(); ++i) {
       auto &point = (*iter)[i];
       if (!ValidateCoordinate(point)) {
-        AERROR << "Failed to prepare a routing request: invalid waypoint.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to prepare a routing request: invalid waypoint.";
         return false;
       }
 
       if (!map_service_->ConstructLaneWayPoint(point["x"], point["y"],
                                                waypoint->Add())) {
-        AERROR << "Failed to construct a LaneWayPoint, skipping.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to construct a LaneWayPoint, skipping.";
         waypoint->RemoveLast();
       }
     }
@@ -473,18 +479,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // set end point
   if (!ContainsKey(json, "end")) {
-    AERROR << "Failed to prepare a routing request: end point not found.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to prepare a routing request: end point not found.";
     return false;
   }
 
   auto end = json["end"];
   if (!ValidateCoordinate(end)) {
-    AERROR << "Failed to prepare a routing request: invalid end point.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to prepare a routing request: invalid end point.";
     return false;
   }
   if (!map_service_->ConstructLaneWayPoint(end["x"], end["y"],
                                            routing_request->add_waypoint())) {
-    AERROR << "Failed to prepare a routing request:"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to prepare a routing request:"
            << " cannot locate end point on map.";
     return false;
   }
@@ -494,43 +503,41 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     auto *requested_parking_info = routing_request->mutable_parking_info();
     if (!JsonStringToMessage(json["parkingInfo"].dump(), requested_parking_info)
              .ok()) {
-      AERROR << "Failed to prepare a routing request: invalid parking info."
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to prepare a routing request: invalid parking info."
              << json["parkingInfo"].dump();
       return false;
     }
   }
 
-  AINFO << "Constructed RoutingRequest to be sent:\n"
-        << routing_request->DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Constructed RoutingRequest to be sent:\n"
+         << routing_request->DebugString();
 
   return true;
 }
 
 bool SimulationWorldUpdater::ValidateCoordinate(const nlohmann::json &json) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!ContainsKey(json, "x") || !ContainsKey(json, "y")) {
-    AERROR << "Failed to find x or y coordinate.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find x or y coordinate.";
     return false;
   }
   if (json.find("x")->is_number() && json.find("y")->is_number()) {
     return true;
   }
-  AERROR << "Both x and y coordinate should be a number.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Both x and y coordinate should be a number.";
   return false;
 }
 
 void SimulationWorldUpdater::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   timer_.reset(new cyber::Timer(
       kSimWorldTimeIntervalMs, [this]() { this->OnTimer(); }, false));
   timer_->Start();
 }
 
 void SimulationWorldUpdater::OnTimer() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sim_world_service_.Update();
 
   {
@@ -546,8 +553,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool SimulationWorldUpdater::LoadPOI() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (GetProtoFromASCIIFile(EndWayPointFile(), &poi_)) {
     return true;
   }
@@ -557,8 +562,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool SimulationWorldUpdater::LoadDefaultRoutings() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (GetProtoFromASCIIFile(DefaultRoutingFile(), &default_routings_)) {
     return true;
   }
@@ -569,15 +572,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool SimulationWorldUpdater::AddDefaultRouting(const Json &json) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!ContainsKey(json, "name")) {
-    AERROR << "Failed to save a default routing: routing name not found.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to save a default routing: routing name not found.";
     return false;
   }
 
   if (!ContainsKey(json, "point")) {
-    AERROR << "Failed to save a default routing: default routing points not "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to save a default routing: default routing points not "
               "found.";
     return false;
   }
@@ -594,21 +597,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       auto &point = (*iter)[i];
       auto *p = waypoint->Add();
       if (!ValidateCoordinate(point)) {
-        AERROR << "Failed to save a default routing: invalid waypoint.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to save a default routing: invalid waypoint.";
         return false;
       }
       p->set_x(static_cast<double>(point["x"]));
       p->set_y(static_cast<double>(point["y"]));
     }
   }
-  AINFO << "Default Routing Points to be saved:\n";
-  std::string file_name = DefaultRoutingFile();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Default Routing Points to be saved:\n";
+   std::string file_name = DefaultRoutingFile();
   if (!SetProtoToASCIIFile(default_routings_, file_name)) {
-    AERROR << "Failed to set proto to ascii file " << file_name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to set proto to ascii file " << file_name;
     return false;
   }
-  AINFO << "Success in setting proto to cycle_routing file" << file_name;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Success in setting proto to cycle_routing file" << file_name;
+ 
   return true;
 }
 

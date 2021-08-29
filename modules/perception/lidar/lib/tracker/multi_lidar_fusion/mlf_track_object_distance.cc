@@ -107,7 +107,8 @@ float MlfTrackObjectDistance::ComputeDistance(
     }
   }
   if (weights == nullptr || weights->size() < 7) {
-    AERROR << "Invalid weights";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid weights";
     return 1e+10f;
   }
   float distance = 0.f;

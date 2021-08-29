@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -47,13 +46,9 @@ void SummaryMonitor::EscalateStatus(const ComponentStatus::Status new_status,
 
 // Set interval to 0, so it runs every time when ticking.
 SummaryMonitor::SummaryMonitor()
-    : RecurrentRunner(FLAGS_summary_monitor_name, 0) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : RecurrentRunner(FLAGS_summary_monitor_name, 0) {}
 
 void SummaryMonitor::RunOnce(const double current_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto manager = MonitorManager::Instance();
   auto* status = manager->GetStatus();
   // Escalate the summary status to the most severe one.

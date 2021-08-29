@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -21,20 +20,25 @@
 int main(int argc, char** argv) {
   google::ParseCommandLineFlags(&argc, &argv, true);
 
-  AINFO << "cyber init";
-  if (apollo::cyber::Init(argv[0])) {
-    AINFO << "init succeed";
-  } else {
-    AERROR << "init failed";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "cyber init";
+   if (apollo::cyber::Init(argv[0])) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "init succeed";
+   } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "init failed";
   }
 
   google::SetStderrLogging(FLAGS_minloglevel);
 
-  AINFO << "Starting Client";
-  apollo::hdmap::Client client;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Starting Client";
+   apollo::hdmap::Client client;
   if (client.Run() != 0) {
-    AFATAL << "Start Client Failed!";
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "Start Client Failed!";
+     return -1;
   }
   return 0;
 }

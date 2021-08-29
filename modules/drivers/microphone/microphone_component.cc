@@ -26,7 +26,8 @@ bool MicrophoneComponent::Init() {
                                                microphone_config_ptr_.get())) {
     return false;
   }
-  AINFO << "Microphone config: " << microphone_config_ptr_->DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Microphone config: " << microphone_config_ptr_->DebugString();
 
   // new microphone device
   microphone_device_ptr_.reset(new Respeaker());
@@ -43,7 +44,8 @@ bool MicrophoneComponent::Init() {
   chunk_size_ = chunk_ * n_channels_ * sample_width_;
   buffer_ = new char[chunk_size_];
   if (buffer_ == nullptr) {
-    AERROR << "System new memory error, size:" << chunk_size_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "System new memory error, size:" << chunk_size_;
     return false;
   }
 

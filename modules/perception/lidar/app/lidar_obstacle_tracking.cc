@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ namespace lidar {
 
 bool LidarObstacleTracking::Init(
     const LidarObstacleTrackingInitOptions& options) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto& sensor_name = options.sensor_name;
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -65,8 +62,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 LidarProcessResult LidarObstacleTracking::Process(
     const LidarObstacleTrackingOptions& options, LidarFrame* frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto& sensor_name = options.sensor_name;
 
   PERF_FUNCTION_WITH_INDICATOR(sensor_name);

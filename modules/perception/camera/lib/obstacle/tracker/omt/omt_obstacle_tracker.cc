@@ -34,11 +34,13 @@ using cyber::common::GetAbsolutePath;
 bool OMTObstacleTracker::Init(const ObstacleTrackerInitOptions &options) {
   std::string omt_config = GetAbsolutePath(options.root_dir, options.conf_file);
   if (!cyber::common::GetProtoFromFile(omt_config, &omt_param_)) {
-    AERROR << "Read config failed: " << omt_config;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Read config failed: " << omt_config;
     return false;
   }
 
-  AINFO << "load omt parameters from " << omt_config
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "load omt parameters from " << omt_config
         << " \nimg_capability: " << omt_param_.img_capability()
         << " \nlost_age: " << omt_param_.lost_age()
         << " \nreserve_age: " << omt_param_.reserve_age()
@@ -119,7 +121,8 @@ bool OMTObstacleTracker::CombineDuplicateTargets() {
           }
         }
       }
-      ADEBUG << "Overlap: (" << targets_[i].id << "," << targets_[j].id
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Overlap: (" << targets_[i].id << "," << targets_[j].id
              << ") score " << score << " count " << count;
       hypo.target = static_cast<int>(i);
       hypo.object = static_cast<int>(j);
@@ -156,7 +159,8 @@ bool OMTObstacleTracker::CombineDuplicateTargets() {
     target_save.latest_object = target_save.get_object(-1);
     base::ObjectPtr object = target_del.latest_object->object;
     target_del.Clear();
-    AINFO << "Target " << target_del.id << " is merged into Target "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Target " << target_del.id << " is merged into Target "
           << target_save.id << " with iou " << pair.score;
     used_target[pair.object] = true;
     used_target[pair.target] = true;
@@ -168,7 +172,8 @@ void OMTObstacleTracker::GenerateHypothesis(const TrackObjectPtrs &objects) {
   std::vector<Hypothesis> score_list;
   Hypothesis hypo;
   for (size_t i = 0; i < targets_.size(); ++i) {
-    ADEBUG << "Target " << targets_[i].id;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Target " << targets_[i].id;
     for (size_t j = 0; j < objects.size(); ++j) {
       hypo.target = static_cast<int>(i);
       hypo.object = static_cast<int>(j);
@@ -189,7 +194,8 @@ void OMTObstacleTracker::GenerateHypothesis(const TrackObjectPtrs &objects) {
       int change_from_type = static_cast<int>(targets_[i].type);
       int change_to_type = static_cast<int>(objects[j]->object->sub_type);
       hypo.score += -kTypeAssociatedCost_[change_from_type][change_to_type];
-      ADEBUG << "Detection " << objects[j]->indicator.frame_id << "(" << j
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Detection " << objects[j]->indicator.frame_id << "(" << j
              << ") sa:" << sa << " sm: " << sm << " ss: " << ss << " so: " << so
              << " score: " << hypo.score;
 
@@ -213,7 +219,8 @@ void OMTObstacleTracker::GenerateHypothesis(const TrackObjectPtrs &objects) {
     target.Add(det_obj);
     used_[pair.object] = true;
     used_target[pair.target] = true;
-    AINFO << "Target " << target.id << " match " << det_obj->indicator.frame_id
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Target " << target.id << " match " << det_obj->indicator.frame_id
           << " (" << pair.object << ")"
           << "at " << pair.score << " size: " << target.Size();
   }
@@ -321,8 +328,10 @@ int OMTObstacleTracker::CreateNewTarget(const TrackObjectPtrs &objects) {
       base::RectF rect(objects[i]->object->camera_supplement.box);
       auto &min_tmplt = kMinTemplateHWL.at(sub_type);
       if (OutOfValidRegion(rect, width_, height_, omt_param_.border())) {
-        AINFO << "Out of valid region";
-        AINFO << "Rect x: " << rect.x
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Out of valid region";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Rect x: " << rect.x
               << " Rect y: " << rect.y
               << " Rect height: " << rect.height
               << " Rect width: " << rect.width
@@ -345,7 +354,8 @@ int OMTObstacleTracker::CreateNewTarget(const TrackObjectPtrs &objects) {
         Target target(omt_param_.target_param());
         target.Add(objects[i]);
         targets_.push_back(target);
-        AINFO << "Target " << target.id << " is created by "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Target " << target.id << " is created by "
               << objects[i]->indicator.frame_id << " ("
               << objects[i]->indicator.patch_id << ")";
         created_count += 1;
@@ -390,11 +400,13 @@ bool OMTObstacleTracker::Associate2D(const ObstacleTrackerOptions &options,
   used_.resize(frame->detected_objects.size(), false);
   GenerateHypothesis(track_objects);
   int new_count = CreateNewTarget(track_objects);
-  AINFO << "Create " << new_count << " new target";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Create " << new_count << " new target";
 
   for (auto &target : targets_) {
     if (target.lost_age > omt_param_.reserve_age()) {
-      AINFO << "Target " << target.id << " is lost";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Target " << target.id << " is lost";
       target.Clear();
     } else {
       target.UpdateType(frame);
@@ -456,7 +468,8 @@ bool OMTObstacleTracker::Associate3D(const ObstacleTrackerOptions &options,
       float obj_2_car_y = obj->camera_supplement.local_center[2];
       float dis = obj_2_car_x * obj_2_car_x + obj_2_car_y * obj_2_car_y;
       if (move > sqr(omt_param_.abnormal_movement()) * dis) {
-        AINFO << "Target " << target.id << " is removed for abnormal movement";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Target " << target.id << " is removed for abnormal movement";
         track_objects.push_back(target.latest_object);
         target.Clear();
       }
@@ -466,7 +479,8 @@ bool OMTObstacleTracker::Associate3D(const ObstacleTrackerOptions &options,
   used_.clear();
   used_.resize(track_objects.size(), false);
   int new_count = CreateNewTarget(track_objects);
-  AINFO << "Create " << new_count << " new target";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Create " << new_count << " new target";
   for (int j = 0; j < new_count; ++j) {
     targets_[targets_.size() - j - 1].Update2D(frame);
     targets_[targets_.size() - j - 1].UpdateType(frame);
@@ -475,7 +489,8 @@ bool OMTObstacleTracker::Associate3D(const ObstacleTrackerOptions &options,
     target.Update3D(frame);
     if (!target.isLost()) {
       frame->tracked_objects.push_back(target[-1]->object);
-      ADEBUG << "Target " << target.id
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Target " << target.id
              << " velocity: " << target.world_center.get_state().transpose()
              << " % " << target.world_center.variance_.diagonal().transpose()
              << " % " << target[-1]->object->velocity.transpose();

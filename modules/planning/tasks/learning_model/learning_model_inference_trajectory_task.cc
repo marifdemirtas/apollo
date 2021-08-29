@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -67,8 +66,9 @@ Status LearningModelInferenceTrajectoryTask::Process(
                                             ->GetLatestLearningDataFrame();
   const int frame_num =
       learning_data_frame ? learning_data_frame->frame_num() : -1;
-  ADEBUG << "LearningModelInferenceTrajectoryTask: frame_num[" << frame_num
-         << "] adc_future_trajectory_points_size["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "LearningModelInferenceTrajectoryTask: frame_num[" << frame_num
+          << "] adc_future_trajectory_points_size["
          << adc_future_trajectory_points.size()
          << "] first_point_relative_time[" << first_point_relative_time
          << "] last_point_relative_time[" << last_point_relative_time << "]";
@@ -81,7 +81,8 @@ Status LearningModelInferenceTrajectoryTask::Process(
                      adc_future_trajectory_points.size(),
                      "] first_point_relative_time[", first_point_relative_time,
                      "] last_point_relative_time[", last_point_relative_time);
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 

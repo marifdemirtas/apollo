@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -20,21 +19,15 @@ namespace apollo {
 namespace hdmap {
 
 PoseCollection::PoseCollection(std::shared_ptr<JsonConf> sp_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sp_conf_ = sp_conf;
   Reset();
 }
 
 void PoseCollection::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sp_poses_ = std::make_shared<std::vector<FramePose>>();
 }
 
 void PoseCollection::Collect(const FramePose& pose) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (sp_poses_ == nullptr) {
     sp_poses_ = std::make_shared<std::vector<FramePose>>();
   }
@@ -42,8 +35,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 std::shared_ptr<std::vector<FramePose>> PoseCollection::GetPoses() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return sp_poses_;
 }
 

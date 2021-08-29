@@ -24,7 +24,8 @@ namespace fusion {
 // @brief call pool instance once to initialize memory
 __attribute__((constructor)) void FusionPoolInitialize() {
   TrackPool::Instance();
-  AINFO << "Initialize FusionPool";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Initialize FusionPool";
 }
 
 }  // namespace fusion

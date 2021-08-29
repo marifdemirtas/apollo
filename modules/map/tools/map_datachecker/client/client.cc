@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -34,10 +33,6 @@ namespace apollo {
 namespace hdmap {
 
 Client::Client() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   YAML::Node node = YAML::LoadFile(FLAGS_client_conf_yaml);
   std::string bin_path = boost::filesystem::current_path().string();
   data_collect_time_flag_file_ =
@@ -45,18 +40,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   channel_checker_stop_flag_file_ =
       bin_path + "/" +
       node["channel_check"]["stop_flag_file"].as<std::string>();
-  AINFO << "bin_path: " << bin_path
-        << ", data_collect_time_flag_file_: " << data_collect_time_flag_file_
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "bin_path: " << bin_path
+         << ", data_collect_time_flag_file_: " << data_collect_time_flag_file_
         << ", channel_checker_stop_flag_file_: "
         << channel_checker_stop_flag_file_;
 }
 
 int Client::Run() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string stage = FLAGS_stage;
-  AINFO << "stage [" << stage << "]";
-  int ret = 0;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "stage [" << stage << "]";
+   int ret = 0;
   if ("record_check" == stage) {
     ret = RecordCheckStage();
   } else if ("static_align" == stage) {
@@ -74,22 +69,24 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int Client::RecordCheckStage() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string cmd = FLAGS_cmd;
   ChannelChecker channel_checker(channel_checker_stop_flag_file_);
-  AINFO << "cmd [" << cmd << "]";
-  if ("start" == cmd) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "cmd [" << cmd << "]";
+   if ("start" == cmd) {
     std::string record_path = FLAGS_record_path;
-    AINFO << "record_path [" << record_path << "]";
-    if (!boost::filesystem::exists(record_path)) {
-      AERROR << "record_path does not exist";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "record_path [" << record_path << "]";
+     if (!boost::filesystem::exists(record_path)) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "record_path does not exist";
       return -1;
     }
     int ret = 0;
     ret = channel_checker.SyncStart(record_path);
     if (ret != 0) {
-      AERROR << "SyncStart channel chacker failed, record_path [" << record_path
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "SyncStart channel chacker failed, record_path [" << record_path
              << "]";
       return -1;
     }
@@ -97,7 +94,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     int ret = 0;
     ret = channel_checker.SyncStop();
     if (ret != 0) {
-      AERROR << "SyncStop channel chacker failed";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "SyncStop channel chacker failed";
       return -1;
     }
   }
@@ -105,20 +103,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int Client::StaticAlignStage() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string cmd = FLAGS_cmd;
-  AINFO << "cmd [" << cmd << "]";
-  StaticAlign static_align;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "cmd [" << cmd << "]";
+   StaticAlign static_align;
   if ("start" == cmd) {
     int ret = 0;
     ret = static_align.SyncStart();
     if (ret != 0) {
-      AERROR << "SyncStart static align failed";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "SyncStart static align failed";
       return -1;
     } else {
-      AINFO << "Static aligh succeed";
-      fprintf(USER_STREAM,
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Static aligh succeed";
+       fprintf(USER_STREAM,
               "Static aligh succeed. Next, you may want to run: bash client.sh "
               "-- stage eight_route\n");
     }
@@ -126,7 +125,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     int ret = 0;
     ret = static_align.SyncStop();
     if (ret != 0) {
-      AERROR << "SyncStop static align failed";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "SyncStop static align failed";
       return -1;
     }
   }
@@ -134,20 +134,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int Client::EightRouteStage() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string cmd = FLAGS_cmd;
-  AINFO << "cmd [" << cmd << "]";
-  EightRoute eight_route;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "cmd [" << cmd << "]";
+   EightRoute eight_route;
   if ("start" == cmd) {
     int ret = 0;
     ret = eight_route.SyncStart();
     if (ret != 0) {
-      AERROR << "SyncStart static align failed";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "SyncStart static align failed";
       return -1;
     } else {
-      AINFO << "Eight route succeed";
-      fprintf(USER_STREAM,
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Eight route succeed";
+       fprintf(USER_STREAM,
               "Eight route succeed. Next, you may want to run: bash client.sh "
               "--stage data_collect\n");
     }
@@ -155,7 +156,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     int ret = 0;
     ret = eight_route.SyncStop();
     if (ret != 0) {
-      AERROR << "SyncStop static align failed";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "SyncStop static align failed";
       return -1;
     }
   }
@@ -163,18 +165,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int Client::DataCollectStage() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string cmd = FLAGS_cmd;
-  AINFO << "cmd [" << cmd << "]";
-  std::vector<std::string> lines = GetFileLines(data_collect_time_flag_file_);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "cmd [" << cmd << "]";
+   std::vector<std::string> lines = GetFileLines(data_collect_time_flag_file_);
   std::ofstream time_file_handler(data_collect_time_flag_file_);
   double now = UnixNow();
   if (cmd == "start") {
     if (lines.empty()) {
       time_file_handler << now << " start\n";
-      AINFO << "write [" << now << " start] to file "
-            << data_collect_time_flag_file_;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "write [" << now << " start] to file "
+             << data_collect_time_flag_file_;
       fprintf(USER_STREAM,
               "Start success. At the end of the collection, you should run: "
               "bash client.sh data_collect stop\n");
@@ -183,15 +185,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       std::vector<std::string> s;
       boost::split(s, the_last_line, boost::is_any_of(" ,\t\n"));
       if (s[1] == "start") {
-        AINFO << "This progress has been already started, this command will be "
-                 "ignored";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "This progress has been already started, this command will be "
+                  "ignored";
         fprintf(USER_STREAM,
                 "This progress has been already started, this command will be "
                 "ignored\n");
       } else {
         time_file_handler << now << " start\n";
-        AINFO << "write [" << now << " start] to file "
-              << data_collect_time_flag_file_;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "write [" << now << " start] to file "
+               << data_collect_time_flag_file_;
         fprintf(USER_STREAM,
                 "Start success. At the end of the collection, you should run: "
                 "bash client.sh --stage data_collect --cmd stop\n");
@@ -199,29 +203,33 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
   } else if (cmd == "stop") {
     if (lines.empty()) {
-      AINFO << "Start first, this command will be ignored";
-    } else {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Start first, this command will be ignored";
+     } else {
       std::string& the_last_line = lines.back();
       std::vector<std::string> s;
       boost::split(s, the_last_line, boost::is_any_of(" ,\t\n"));
       if (s[1] == "start") {
         time_file_handler << now << " stop\n";
-        AINFO << "write [" << now << " stop] to file "
-              << data_collect_time_flag_file_;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "write [" << now << " stop] to file "
+               << data_collect_time_flag_file_;
         fprintf(USER_STREAM,
                 "Stop success. Next you may want to run: bash client.sh "
                 "loops_check start\n");
       } else {
-        AINFO << "This progress has been already stopped, this command will be "
-                 "ignored";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "This progress has been already stopped, this command will be "
+                  "ignored";
         fprintf(USER_STREAM,
                 "This progress has been already stopped, this command will be "
                 "ignored\n");
       }
     }
   } else {
-    AINFO << "Error command, expected command are [start|stop], current "
-             "command is ["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Error command, expected command are [start|stop], current "
+              "command is ["
           << cmd << "]";
     fprintf(USER_STREAM,
             "Error command, expected command are [start|stop], current command "
@@ -232,39 +240,40 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int Client::LoopsCheckStage() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LoopsChecker loops_checker(data_collect_time_flag_file_);
   bool reached = false;
   int ret = loops_checker.SyncStart(&reached);
   if (ret != 0) {
-    AINFO << "loops_check failed";
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "loops_check failed";
+     return -1;
   }
   if (reached) {
-    AINFO << "loops meet requirements";
-    fprintf(USER_STREAM,
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "loops meet requirements";
+     fprintf(USER_STREAM,
             "Loops meet requirements. Next you may want to run: bash client.sh "
             "--stage eight_route\n");
   } else {
-    AINFO << "loops do not meet requirements";
-    fprintf(USER_STREAM,
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "loops do not meet requirements";
+     fprintf(USER_STREAM,
             "Next you may need to run: bash client.sh --stage data_collect\n");
   }
   return 0;
 }
 
 int Client::CleanStage() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (boost::filesystem::exists(data_collect_time_flag_file_)) {
     boost::filesystem::remove(data_collect_time_flag_file_);
-    AINFO << "removed " << data_collect_time_flag_file_;
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "removed " << data_collect_time_flag_file_;
+   }
   if (boost::filesystem::exists(channel_checker_stop_flag_file_)) {
     boost::filesystem::remove(channel_checker_stop_flag_file_);
-    AINFO << "removed " << channel_checker_stop_flag_file_;
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "removed " << channel_checker_stop_flag_file_;
+   }
   fprintf(USER_STREAM, "clean done\n");
   return 0;
 }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -51,7 +50,8 @@ bool V2XFusionComponent::V2XMessageFusionProcess(
   localization_reader_->Observe();
   auto localization_msg = localization_reader_->GetLatestObserved();
   if (localization_msg == nullptr) {
-    AERROR << "V2X: cannot receive any localization message.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "V2X: cannot receive any localization message.";
     return false;
   }
   base::Object hv_obj;
@@ -59,7 +59,8 @@ bool V2XFusionComponent::V2XMessageFusionProcess(
   v2x_obstacles_reader_->Observe();
   auto v2x_obstacles_msg = v2x_obstacles_reader_->GetLatestObserved();
   if (v2x_obstacles_msg == nullptr) {
-    AERROR << "V2X: cannot receive any v2x obstacles message.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "V2X: cannot receive any v2x obstacles message.";
     perception_fusion_obstacles_writer_->Write(*perception_obstacles);
   } else {
     header_.CopyFrom(perception_obstacles->header());

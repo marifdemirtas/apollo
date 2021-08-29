@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -78,7 +77,8 @@ bool AdjustLaneChangeBackward(
       from_to_edge = to_node->GetInEdgeFrom(from_node);
     }
     if (from_to_edge == nullptr) {
-      AERROR << "Get null ptr to edge:" << from_node->LaneId() << " ("
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Get null ptr to edge:" << from_node->LaneId() << " ("
              << from_node->StartS() << ", " << from_node->EndS() << ")"
              << " --> " << to_node->LaneId() << " (" << to_node->StartS()
              << ", " << to_node->EndS() << ")";
@@ -126,7 +126,8 @@ bool AdjustLaneChangeForward(
       from_to_edge = to_node->GetInEdgeFrom(from_node);
     }
     if (from_to_edge == nullptr) {
-      AERROR << "Get null ptr to edge:" << from_node->LaneId() << " ("
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Get null ptr to edge:" << from_node->LaneId() << " ("
              << from_node->StartS() << ", " << from_node->EndS() << ")"
              << " --> " << to_node->LaneId() << " (" << to_node->StartS()
              << ", " << to_node->EndS() << ")";
@@ -166,11 +167,13 @@ bool AdjustLaneChange(std::vector<const TopoNode*>* const result_node_vec) {
     return true;
   }
   if (!AdjustLaneChangeBackward(result_node_vec)) {
-    AERROR << "Failed to adjust lane change backward";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to adjust lane change backward";
     return false;
   }
   if (!AdjustLaneChangeForward(result_node_vec)) {
-    AERROR << "Failed to adjust lane change backward";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to adjust lane change backward";
     return false;
   }
   return true;
@@ -189,7 +192,8 @@ bool Reconstruct(
   }
   std::reverse(result_node_vec.begin(), result_node_vec.end());
   if (!AdjustLaneChange(&result_node_vec)) {
-    AERROR << "Failed to adjust lane change";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to adjust lane change";
     return false;
   }
   result_nodes->clear();
@@ -227,8 +231,9 @@ bool AStarStrategy::Search(const TopoGraph* graph,
                            const TopoNode* src_node, const TopoNode* dest_node,
                            std::vector<NodeWithRange>* const result_nodes) {
   Clear();
-  AINFO << "Start A* search algorithm.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Start A* search algorithm.";
+ 
   std::priority_queue<SearchNode> open_set_detail;
 
   SearchNode src_search_node(src_node);
@@ -247,7 +252,8 @@ bool AStarStrategy::Search(const TopoGraph* graph,
     const auto* from_node = current_node.topo_node;
     if (current_node.topo_node == dest_node) {
       if (!Reconstruct(came_from_, from_node, result_nodes)) {
-        AERROR << "Failed to reconstruct route.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to reconstruct route.";
         return false;
       }
       return true;
@@ -321,7 +327,8 @@ bool AStarStrategy::Search(const TopoGraph* graph,
       }
     }
   }
-  AERROR << "Failed to find goal lane with id: " << dest_node->LaneId();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find goal lane with id: " << dest_node->LaneId();
   return false;
 }
 

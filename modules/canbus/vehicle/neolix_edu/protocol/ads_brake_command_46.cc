@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,21 +27,15 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Adsbrakecommand46::ID = 0x46;
 
 // public
-Adsbrakecommand46::Adsbrakecommand46() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Adsbrakecommand46::Adsbrakecommand46() { Reset(); }
 
 uint32_t Adsbrakecommand46::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Adsbrakecommand46::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_drive_enable(data, drive_enable_);
   set_p_auto_brake_command(data, auto_brake_command_);
   set_p_auto_parking_command(data, auto_parking_command_);
@@ -56,8 +49,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Adsbrakecommand46::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  you should check this manually
   drive_enable_ = false;
   auto_brake_command_ = 0;
@@ -68,8 +59,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Adsbrakecommand46* Adsbrakecommand46::set_drive_enable(bool drive_enable) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   drive_enable_ = drive_enable;
   return this;
 }
@@ -79,8 +68,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_range': '[0|0]', 'bit': 0, 'type': 'bool', 'order': 'motorola',
 // 'physical_unit': ''}
 void Adsbrakecommand46::set_p_drive_enable(uint8_t* data, bool drive_enable) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = drive_enable;
 
   Byte to_set(data + 0);
@@ -89,8 +76,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Adsbrakecommand46* Adsbrakecommand46::set_auto_brake_command(
     int auto_brake_command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_brake_command_ = auto_brake_command;
   return this;
 }
@@ -100,8 +85,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|0]', 'bit': 23, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_auto_brake_command(uint8_t* data,
                                                  int auto_brake_command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_brake_command = ProtocolData::BoundedValue(0, 100, auto_brake_command);
   int x = auto_brake_command;
 
@@ -111,8 +94,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Adsbrakecommand46* Adsbrakecommand46::set_auto_parking_command(
     bool auto_parking_command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_parking_command_ = auto_parking_command;
   return this;
 }
@@ -123,8 +104,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_auto_parking_command(uint8_t* data,
                                                    bool auto_parking_command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = auto_parking_command;
 
   Byte to_set(data + 3);
@@ -133,8 +112,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Adsbrakecommand46* Adsbrakecommand46::set_epb_rampauxiliarycommand(
     bool epb_rampauxiliarycommand) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   epb_rampauxiliarycommand_ = epb_rampauxiliarycommand;
   return this;
 }
@@ -145,8 +122,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_epb_rampauxiliarycommand(
     uint8_t* data, bool epb_rampauxiliarycommand) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = epb_rampauxiliarycommand;
 
   Byte to_set(data + 3);
@@ -155,8 +130,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Adsbrakecommand46* Adsbrakecommand46::set_auto_drivercmd_alivecounter(
     int auto_drivercmd_alivecounter) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_drivercmd_alivecounter_ = auto_drivercmd_alivecounter;
   return this;
 }
@@ -166,8 +139,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|0]', 'bit': 51, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_auto_drivercmd_alivecounter(
     uint8_t* data, int auto_drivercmd_alivecounter) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_drivercmd_alivecounter =
       ProtocolData::BoundedValue(0, 15, auto_drivercmd_alivecounter);
   int x = auto_drivercmd_alivecounter;
@@ -178,8 +149,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Adsbrakecommand46* Adsbrakecommand46::set_auto_drivercmd_checksum(
     int auto_drivercmd_checksum) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_drivercmd_checksum_ = auto_drivercmd_checksum;
   return this;
 }
@@ -189,8 +158,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|0]', 'bit': 63, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Adsbrakecommand46::set_p_auto_drivercmd_checksum(
     uint8_t* data, int auto_drivercmd_checksum) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto_drivercmd_checksum =
       ProtocolData::BoundedValue(0, 255, auto_drivercmd_checksum);
   int x = auto_drivercmd_checksum;

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -77,8 +76,6 @@ constexpr char kNavigationModeName[] = "Navigation";
 
 // Convert a string to be title-like. E.g.: "hello_world" -> "Hello World".
 std::string TitleCase(std::string_view origin) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::vector<std::string> parts = absl::StrSplit(origin, '_');
   for (auto& part : parts) {
     if (!part.empty()) {
@@ -92,8 +89,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 // List subdirs and return a dict of {subdir_title: subdir_path}.
 Map<std::string, std::string> ListDirAsDict(const std::string& dir) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Map<std::string, std::string> result;
   const auto subdirs = cyber::common::ListSubPaths(dir);
   for (const auto& subdir : subdirs) {
@@ -107,8 +102,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // List files by pattern and return a dict of {file_title: file_path}.
 Map<std::string, std::string> ListFilesAsDict(std::string_view dir,
                                               std::string_view extension) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Map<std::string, std::string> result;
   const std::string pattern = absl::StrCat(dir, "/*", extension);
   for (const std::string& file_path : cyber::common::Glob(pattern)) {
@@ -136,13 +129,13 @@ void SetGlobalFlag(std::string_view flag_name, const ValueType& value,
 }
 
 void System(std::string_view cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const int ret = std::system(cmd.data());
   if (ret == 0) {
-    AINFO << "SUCCESS: " << cmd;
-  } else {
-    AERROR << "FAILED(" << ret << "): " << cmd;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "SUCCESS: " << cmd;
+   } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "FAILED(" << ret << "): " << cmd;
   }
 }
 
@@ -150,14 +143,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 HMIWorker::HMIWorker(const std::shared_ptr<Node>& node)
     : config_(LoadConfig()), node_(node) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   InitStatus();
 }
 
 void HMIWorker::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   InitReadersAndWriters();
   RegisterStatusUpdateHandler(
       [this](const bool status_changed, HMIStatus* status) {
@@ -170,8 +159,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void HMIWorker::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   stop_ = true;
   if (thread_future_.valid()) {
     thread_future_.get();
@@ -179,8 +166,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 HMIConfig HMIWorker::LoadConfig() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   HMIConfig config;
   // Get available modes, maps and vehicles by listing data directory.
   *config.mutable_modes() =
@@ -190,13 +175,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   *config.mutable_maps() = ListDirAsDict(FLAGS_maps_data_path);
   *config.mutable_vehicles() = ListDirAsDict(FLAGS_vehicles_config_path);
-  AINFO << "Loaded HMI config: " << config.DebugString();
-  return config;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Loaded HMI config: " << config.DebugString();
+   return config;
 }
 
 HMIMode HMIWorker::LoadMode(const std::string& mode_config_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   HMIMode mode;
   ACHECK(cyber::common::GetProtoFromFile(mode_config_path, &mode))
       << "Unable to parse HMIMode from file " << mode_config_path;
@@ -232,13 +216,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     module.mutable_process_monitor_config()->add_command_keywords(first_dag);
   }
   mode.clear_cyber_modules();
-  AINFO << "Loaded HMI mode: " << mode.DebugString();
-  return mode;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Loaded HMI mode: " << mode.DebugString();
+   return mode;
 }
 
 void HMIWorker::InitStatus() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   static constexpr char kDockerImageEnv[] = "DOCKER_IMG";
   status_.set_docker_image(cyber::common::GetEnv(kDockerImageEnv));
   status_.set_utm_zone_id(FLAGS_local_utm_zone_id);
@@ -285,8 +268,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const std::string cached_mode =
       KVDB::Get(FLAGS_current_mode_db_key).value_or("");
   if (FLAGS_use_navigation_mode && ContainsKey(modes, kNavigationModeName)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     ChangeMode(kNavigationModeName);
   } else if (ContainsKey(modes, cached_mode)) {
     ChangeMode(cached_mode);
@@ -298,8 +279,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void HMIWorker::InitReadersAndWriters() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   status_writer_ = node_->CreateWriter<HMIStatus>(FLAGS_hmi_status_topic);
   pad_writer_ = node_->CreateWriter<control::PadMessage>(FLAGS_pad_topic);
   audio_event_writer_ =
@@ -370,17 +349,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           if (chassis->signal().high_beam()) {
             // Currently we do nothing on high_beam signal.
             const bool ret = Trigger(HMIAction::NONE);
-            AERROR_IF(!ret) << "Failed to execute high_beam action.";
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_IF(!ret) << "Failed to execute high_beam action.";
           }
         }
       });
 }
 
 bool HMIWorker::Trigger(const HMIAction action) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "HMIAction " << HMIAction_Name(action) << " was triggered!";
-  switch (action) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "HMIAction " << HMIAction_Name(action) << " was triggered!";
+   switch (action) {
     case HMIAction::NONE:
       break;
     case HMIAction::SETUP_MODE:
@@ -394,17 +373,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       ResetMode();
       break;
     default:
-      AERROR << "HMIAction not implemented, yet!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "HMIAction not implemented, yet!";
       return false;
   }
   return true;
 }
 
 bool HMIWorker::Trigger(const HMIAction action, const std::string& value) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "HMIAction " << HMIAction_Name(action) << "(" << value
-        << ") was triggered!";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "HMIAction " << HMIAction_Name(action) << "(" << value
+         << ") was triggered!";
   switch (action) {
     case HMIAction::CHANGE_MODE:
       ChangeMode(value);
@@ -422,7 +401,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       StopModule(value);
       break;
     default:
-      AERROR << "HMIAction not implemented, yet!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "HMIAction not implemented, yet!";
       return false;
   }
   return true;
@@ -433,8 +413,6 @@ void HMIWorker::SubmitAudioEvent(const uint64_t event_time_ms,
                                  const int moving_result,
                                  const int audio_direction,
                                  const bool is_siren_on) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::shared_ptr<AudioEvent> audio_event = std::make_shared<AudioEvent>();
   apollo::common::util::FillHeader("HMI", audio_event.get());
   // Here we reuse the header time field as the event occurring time.
@@ -454,7 +432,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   // Read the current localization pose
   localization_reader_->Observe();
   if (localization_reader_->Empty()) {
-    AERROR << "Failed to get localization associated with the audio event: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get localization associated with the audio event: "
            << audio_event->DebugString() << "\n Localization reader is empty!";
     return;
   }
@@ -462,8 +441,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const std::shared_ptr<LocalizationEstimate> localization =
       localization_reader_->GetLatestObserved();
   audio_event->mutable_pose()->CopyFrom(localization->pose());
-  AINFO << "AudioEvent: " << audio_event->DebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "AudioEvent: " << audio_event->DebugString();
+ 
   audio_event_writer_->Write(audio_event);
 }
 
@@ -471,8 +451,6 @@ void HMIWorker::SubmitDriveEvent(const uint64_t event_time_ms,
                                  const std::string& event_msg,
                                  const std::vector<std::string>& event_types,
                                  const bool is_reportable) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::shared_ptr<DriveEvent> drive_event = std::make_shared<DriveEvent>();
   apollo::common::util::FillHeader("HMI", drive_event.get());
   // TODO(xiaoxq): Here we reuse the header time field as the event occurring
@@ -487,23 +465,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (DriveEvent::Type_Parse(type_name, &type)) {
       drive_event->add_type(type);
     } else {
-      AERROR << "Failed to parse drive event type:" << type_name;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to parse drive event type:" << type_name;
     }
   }
   drive_event_writer_->Write(drive_event);
 }
 
 void HMIWorker::SensorCalibrationPreprocess(const std::string& task_type) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string start_command = absl::StrCat(
       "nohup bash /apollo/scripts/extract_data.sh -t ", task_type, " &");
   System(start_command);
 }
 
 void HMIWorker::VehicleCalibrationPreprocess() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string start_command = absl::StrCat(
       "nohup bash /apollo/modules/tools/vehicle_calibration/preprocess.sh "
       "--vehicle_type=\"",
@@ -512,13 +487,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool HMIWorker::ChangeDrivingMode(const Chassis::DrivingMode mode) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Always reset to MANUAL mode before changing to other mode.
   const std::string mode_name = Chassis::DrivingMode_Name(mode);
   if (mode != Chassis::COMPLETE_MANUAL) {
     if (!ChangeDrivingMode(Chassis::COMPLETE_MANUAL)) {
-      AERROR << "Failed to reset to MANUAL before changing to " << mode_name;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to reset to MANUAL before changing to " << mode_name;
       return false;
     }
   }
@@ -532,8 +506,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       pad->set_action(DrivingAction::START);
       break;
     default:
-      AFATAL << "Change driving mode to " << mode_name << " not implemented!";
-      return false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "Change driving mode to " << mode_name << " not implemented!";
+       return false;
   }
 
   static constexpr int kMaxTries = 3;
@@ -547,21 +522,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
     chassis_reader_->Observe();
     if (chassis_reader_->Empty()) {
-      AERROR << "No Chassis message received!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No Chassis message received!";
     } else if (chassis_reader_->GetLatestObserved()->driving_mode() == mode) {
       return true;
     }
   }
-  AERROR << "Failed to change driving mode to " << mode_name;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to change driving mode to " << mode_name;
   return false;
 }
 
 void HMIWorker::ChangeMap(const std::string& map_name) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const std::string* map_dir = FindOrNull(config_.maps(), map_name);
   if (map_dir == nullptr) {
-    AERROR << "Unknown map " << map_name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknown map " << map_name;
     return;
   }
 
@@ -580,11 +556,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void HMIWorker::ChangeVehicle(const std::string& vehicle_name) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const std::string* vehicle_dir = FindOrNull(config_.vehicles(), vehicle_name);
   if (vehicle_dir == nullptr) {
-    AERROR << "Unknown vehicle " << vehicle_name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknown vehicle " << vehicle_name;
     return;
   }
 
@@ -611,10 +586,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void HMIWorker::ChangeMode(const std::string& mode_name) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!ContainsKey(config_.modes(), mode_name)) {
-    AERROR << "Cannot change to unknown mode " << mode_name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot change to unknown mode " << mode_name;
     return;
   }
 
@@ -655,15 +629,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void HMIWorker::StartModule(const std::string& module) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const Module* module_conf = FindOrNull(current_mode_.modules(), module);
   if (module_conf != nullptr) {
     System(module_conf->start_command());
   } else {
-    AERROR << "Cannot find module " << module;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot find module " << module;
   }
 
   if (module == "Recorder") {
@@ -682,34 +653,27 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void HMIWorker::StopModule(const std::string& module) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const Module* module_conf = FindOrNull(current_mode_.modules(), module);
   if (module_conf != nullptr) {
     System(module_conf->stop_command());
   } else {
-    AERROR << "Cannot find module " << module;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot find module " << module;
   }
 }
 
 HMIStatus HMIWorker::GetStatus() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   RLock rlock(status_mutex_);
   return status_;
 }
 
 void HMIWorker::SetupMode() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (const auto& iter : current_mode_.modules()) {
     System(iter.second.start_command());
   }
 }
 
 void HMIWorker::ResetMode() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (const auto& iter : current_mode_.modules()) {
     System(iter.second.stop_command());
   }
@@ -717,8 +681,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void HMIWorker::StatusUpdateThreadLoop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   constexpr int kLoopIntervalMs = 200;
   while (!stop_) {
     std::this_thread::sleep_for(std::chrono::milliseconds(kLoopIntervalMs));
@@ -748,15 +710,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void HMIWorker::ResetComponentStatusTimer() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   last_status_received_s_ = Clock::NowInSeconds();
   last_status_fingerprint_ = 0;
 }
 
 void HMIWorker::UpdateComponentStatus() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   constexpr double kSecondsTillTimeout(2.5);
   const double now = Clock::NowInSeconds();
   if (now - last_status_received_s_.load() > kSecondsTillTimeout) {

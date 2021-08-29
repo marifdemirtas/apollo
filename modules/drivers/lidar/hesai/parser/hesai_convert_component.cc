@@ -24,14 +24,17 @@ using apollo::cyber::Component;
 
 bool HesaiConvertComponent::Init() {
   if (!GetProtoConfig(&conf_)) {
-    AERROR << "load config error, file:" << config_file_path_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "load config error, file:" << config_file_path_;
     return false;
   }
 
-  AINFO << "conf:" << conf_.DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "conf:" << conf_.DebugString();
   Parser* parser = ParserFactory::CreateParser(node_, conf_);
   if (parser == nullptr) {
-    AERROR << "create parser error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "create parser error";
     return false;
   }
   parser_.reset(parser);
@@ -39,7 +42,8 @@ bool HesaiConvertComponent::Init() {
   if (!parser_->Init()) {
     return false;
   }
-  AINFO << "HesaiConvertComponent init success";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "HesaiConvertComponent init success";
   return true;
 }
 

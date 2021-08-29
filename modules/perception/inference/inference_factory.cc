@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,8 +31,6 @@ Inference *CreateInferenceByName(const std::string &name,
                                  const std::vector<std::string> &outputs,
                                  const std::vector<std::string> &inputs,
                                  const std::string &model_root) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (name == "RTNet") {
     return new RTNet(proto_file, weight_file, outputs, inputs);
   } else if (name == "RTNetInt8") {

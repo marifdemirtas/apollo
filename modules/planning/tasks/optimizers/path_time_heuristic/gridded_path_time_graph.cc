@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -118,25 +117,29 @@ Status GriddedPathTimeGraph::Search(SpeedData* const speed_data) {
 
   if (!InitCostTable().ok()) {
     const std::string msg = "Initialize cost table failed.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
   if (!InitSpeedLimitLookUp().ok()) {
     const std::string msg = "Initialize speed limit lookup table failed.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
   if (!CalculateTotalCost().ok()) {
     const std::string msg = "Calculate total cost failed.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
   if (!RetrieveSpeedProfile(speed_data).ok()) {
     const std::string msg = "Retrieve best speed profile failed.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   return Status::OK();
@@ -149,14 +152,16 @@ Status GriddedPathTimeGraph::InitCostTable() {
   // Sanity check for numerical stability
   if (unit_t_ < kDoubleEpsilon) {
     const std::string msg = "unit_t is smaller than the kDoubleEpsilon.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
   // Sanity check on s dimension setting
   if (dense_dimension_s_ < 1) {
     const std::string msg = "dense_dimension_s is at least 1.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -181,7 +186,8 @@ Status GriddedPathTimeGraph::InitCostTable() {
   // Sanity Check
   if (dimension_t_ < 1 || dimension_s_ < 1) {
     const std::string msg = "Dp st cost table size incorrect.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -518,17 +524,21 @@ Status GriddedPathTimeGraph::RetrieveSpeedProfile(SpeedData* const speed_data) {
 
   if (best_end_point == nullptr) {
     const std::string msg = "Fail to find the best feasible trajectory.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
   std::vector<SpeedPoint> speed_profile;
   const StGraphPoint* cur_point = best_end_point;
   while (cur_point != nullptr) {
-    ADEBUG << "Time: " << cur_point->point().t();
-    ADEBUG << "S: " << cur_point->point().s();
-    ADEBUG << "V: " << cur_point->GetOptimalSpeed();
-    SpeedPoint speed_point;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Time: " << cur_point->point().t();
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "S: " << cur_point->point().s();
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "V: " << cur_point->GetOptimalSpeed();
+     SpeedPoint speed_point;
     speed_point.set_s(cur_point->point().s());
     speed_point.set_t(cur_point->point().t());
     speed_profile.push_back(speed_point);
@@ -540,7 +550,8 @@ Status GriddedPathTimeGraph::RetrieveSpeedProfile(SpeedData* const speed_data) {
   if (speed_profile.front().t() > kEpsilon ||
       speed_profile.front().s() > kEpsilon) {
     const std::string msg = "Fail to retrieve speed profile.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 

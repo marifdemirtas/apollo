@@ -63,7 +63,8 @@ struct TestCanParam {
   TestCanParam() = default;
 
   void print() {
-    AINFO << "conf: " << conf.ShortDebugString()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "conf: " << conf.ShortDebugString()
           << ", total send: " << send_cnt + send_err_cnt << "/"
           << FLAGS_agent_mutual_send_frames << ", send_ok: " << send_cnt
           << " , send_err_cnt: " << send_err_cnt
@@ -83,12 +84,14 @@ class CanAgent {
   bool Start() {
     thread_recv_.reset(new std::thread([this] { RecvThreadFunc(); }));
     if (thread_recv_ == nullptr) {
-      AERROR << "Unable to create recv thread.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to create recv thread.";
       return false;
     }
     thread_send_.reset(new std::thread([this] { SendThreadFunc(); }));
     if (thread_send_ == nullptr) {
-      AERROR << "Unable to create send thread.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to create send thread.";
       return false;
     }
     return true;
@@ -96,7 +99,8 @@ class CanAgent {
 
   void SendThreadFunc() {
     using common::ErrorCode;
-    AINFO << "Send thread starting...";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Send thread starting...";
     TestCanParam *param = param_ptr();
     CanClient *client = param->can_client;
     std::vector<CanFrame> frames;
@@ -115,7 +119,8 @@ class CanAgent {
     }
     id = start_id;
     int32_t send_id = id;
-    AINFO << "port:" << param->conf.ShortDebugString()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "port:" << param->conf.ShortDebugString()
           << ", start_id:" << start_id << ", end_id:" << end_id;
 
     // wait for other agent receiving is ok.
@@ -146,12 +151,14 @@ class CanAgent {
       int32_t frame_num = MAX_CAN_SEND_FRAME_LEN;
       if (client->Send(frames, &frame_num) != ErrorCode::OK) {
         param->send_err_cnt += MAX_CAN_SEND_FRAME_LEN;
-        AERROR << "send_thread send msg failed!, id:" << send_id
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "send_thread send msg failed!, id:" << send_id
                << ", conf:" << param->conf.ShortDebugString();
       } else {
         param->send_cnt += frame_num;
         param->send_lost_cnt += MAX_CAN_SEND_FRAME_LEN - frame_num;
-        AINFO << "send_frames: " << frame_num << "send_frame#"
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "send_frames: " << frame_num << "send_frame#"
               << frames[0].CanFrameString()
               << " send lost:" << MAX_CAN_SEND_FRAME_LEN - frame_num
               << ", conf:" << param->conf.ShortDebugString();
@@ -161,7 +168,8 @@ class CanAgent {
     param->send_time = static_cast<int32_t>(end - start);
     // In case for finish too quick to receiver miss some msg
     sleep(2);
-    AINFO << "Send thread stopping..." << param->conf.ShortDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Send thread stopping..." << param->conf.ShortDebugString();
     is_sending_finish(true);
     return;
   }
@@ -178,7 +186,8 @@ class CanAgent {
 
   void RecvThreadFunc() {
     using common::ErrorCode;
-    AINFO << "Receive thread starting...";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Receive thread starting...";
     TestCanParam *param = param_ptr();
     CanClient *client = param->can_client;
     int64_t start = 0;
@@ -190,7 +199,8 @@ class CanAgent {
       int32_t len = MAX_CAN_RECV_FRAME_LEN;
       ErrorCode ret = client->Receive(&buf, &len);
       if (len == 0) {
-        AINFO << "recv frame:0";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "recv frame:0";
         continue;
       }
       if (first) {
@@ -198,21 +208,23 @@ class CanAgent {
         first = false;
       }
       if (ret != ErrorCode::OK || len == 0) {
-        // AINFO << "channel:" << param->conf.channel_id()
-        //      << ", recv frame:failed, code:" << ret;
-        AINFO << "recv error:" << ret;
+                //      << ", recv frame:failed, code:" << ret;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "recv error:" << ret;
         continue;
       }
       for (int32_t i = 0; i < len; ++i) {
         param->recv_cnt = param->recv_cnt + 1;
-        AINFO << "recv_frame#" << buf[i].CanFrameString()
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "recv_frame#" << buf[i].CanFrameString()
               << " conf:" << param->conf.ShortDebugString()
               << ",recv_cnt: " << param->recv_cnt;
       }
     }
     int64_t end = Time::Now().ToMicrosecond();
     param->recv_time = static_cast<int32_t>(end - start);
-    AINFO << "Recv thread stopping..., conf:" << param->conf.ShortDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Recv thread stopping..., conf:" << param->conf.ShortDebugString();
     return;
   }
 
@@ -220,13 +232,15 @@ class CanAgent {
     if (thread_send_ != nullptr && thread_send_->joinable()) {
       thread_send_->join();
       thread_send_.reset();
-      AINFO << "Send thread stopped. conf:"
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Send thread stopped. conf:"
             << param_ptr_->conf.ShortDebugString();
     }
     if (thread_recv_ != nullptr && thread_recv_->joinable()) {
       thread_recv_->join();
       thread_recv_.reset();
-      AINFO << "Recv thread stopped. conf:"
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Recv thread stopped. conf:"
             << param_ptr_->conf.ShortDebugString();
     }
   }
@@ -263,16 +277,20 @@ int main(int32_t argc, char **argv) {
 
   if (!apollo::cyber::common::GetProtoFromFile(FLAGS_can_client_conf_file_a,
                                                &can_client_conf_a)) {
-    AERROR << "Unable to load canbus conf file: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to load canbus conf file: "
            << FLAGS_can_client_conf_file_a;
     return -1;
   }
-  AINFO << "Conf file is loaded: " << FLAGS_can_client_conf_file_a;
-  AINFO << can_client_conf_a.ShortDebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Conf file is loaded: " << FLAGS_can_client_conf_file_a;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << can_client_conf_a.ShortDebugString();
   auto client_a = can_client_factory->CreateObject(can_client_conf_a.brand());
   if (!client_a || !client_a->Init(can_client_conf_a) ||
       client_a->Start() != ErrorCode::OK) {
-    AERROR << "Create can client a failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Create can client a failed.";
     return -1;
   }
   param_ptr_a->can_client = client_a.get();
@@ -284,16 +302,20 @@ int main(int32_t argc, char **argv) {
   if (!FLAGS_only_one_send) {
     if (!apollo::cyber::common::GetProtoFromFile(FLAGS_can_client_conf_file_b,
                                                  &can_client_conf_b)) {
-      AERROR << "Unable to load canbus conf file: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to load canbus conf file: "
              << FLAGS_can_client_conf_file_b;
       return -1;
     }
-    AINFO << "Conf file is loaded: " << FLAGS_can_client_conf_file_b;
-    AINFO << can_client_conf_b.ShortDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Conf file is loaded: " << FLAGS_can_client_conf_file_b;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << can_client_conf_b.ShortDebugString();
     client_b = can_client_factory->CreateObject(can_client_conf_b.brand());
     if (!client_b || !client_b->Init(can_client_conf_b) ||
         client_b->Start() != ErrorCode::OK) {
-      AERROR << "Create can client b failed.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Create can client b failed.";
       return -1;
     }
     param_ptr_b->can_client = client_b.get();
@@ -305,7 +327,8 @@ int main(int32_t argc, char **argv) {
   agent_a.AddOtherAgent(&agent_b);
   agent_b.AddOtherAgent(&agent_a);
   if (!agent_a.Start()) {
-    AERROR << "Agent a start failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Agent a start failed.";
     return -1;
   }
   if (FLAGS_only_one_send) {
@@ -313,7 +336,8 @@ int main(int32_t argc, char **argv) {
     agent_b.is_sending_finish(true);
   } else {
     if (!agent_b.Start()) {
-      AERROR << "Agent b start failed.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Agent b start failed.";
       return -1;
     }
   }

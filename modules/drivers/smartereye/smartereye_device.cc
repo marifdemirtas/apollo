@@ -69,7 +69,8 @@ bool SmartereyeDevice::is_capturing() { return is_capturing_; }
 
 bool SmartereyeDevice::wait_for_device() {
   if (is_capturing_) {
-    ADEBUG << "is capturing";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "is capturing";
     return true;
   }
 

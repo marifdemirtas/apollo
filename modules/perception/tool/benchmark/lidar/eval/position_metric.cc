@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ namespace benchmark {
 
 void PositionMetric::cal_position_metric(const ObjectPtr& object,
                                          const PositionMetricOption& option) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (object->cloud->points.empty()) {
     return;
   }
@@ -61,16 +58,12 @@ double DistanceBasedRangeInterface::_s_distance = 60.0;
 double DistanceBasedRangeInterface::_s_half_distance = 30.0;
 
 void DistanceBasedRangeInterface::set_distance(double distance) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _s_distance = distance;
   _s_half_distance = 0.5 * distance;
 }
 
 unsigned int DistanceBasedRangeInterface::get_index(
     const PositionMetric& position) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // unsigned int index = static_cast<unsigned int>(position.radial_distance /
   // 30.0);
   // index = index > 2 ? 2 : index;
@@ -81,13 +74,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   return index;
 }
 
-unsigned int DistanceBasedRangeInterface::get_dim() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return 3; }
+unsigned int DistanceBasedRangeInterface::get_dim() const { return 3; }
 
 std::string DistanceBasedRangeInterface::get_element(unsigned int index) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (index >= get_dim()) {
     return "Total";
   } else {
@@ -105,8 +94,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 unsigned int DistanceBasedRangeRadarInterface::get_index(
     const PositionMetric& position) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // unsigned int index = static_cast<unsigned int>(position.radial_distance /
   // 30.0);
   // index = index > 2 ? 2 : index;
@@ -125,14 +112,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 }
 
-unsigned int DistanceBasedRangeRadarInterface::get_dim() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return 5; }
+unsigned int DistanceBasedRangeRadarInterface::get_dim() const { return 5; }
 
 std::string DistanceBasedRangeRadarInterface::get_element(
     unsigned int index) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (index >= get_dim()) {
     return "Total";
   } else {
@@ -157,33 +140,23 @@ double ViewBasedRangeInterface::_s_front_view_distance = 60.0;
 double ViewBasedRangeInterface::_s_rear_view_distance = 60.0;
 
 void ViewBasedRangeInterface::set_front_view_angle(double angle) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _s_front_view_angle = angle;
 }
 
 void ViewBasedRangeInterface::set_rear_view_angle(double angle) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _s_rear_view_angle = angle;
 }
 
 void ViewBasedRangeInterface::set_front_view_distance(double distance) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _s_front_view_distance = distance;
 }
 
 void ViewBasedRangeInterface::set_rear_view_distance(double distance) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _s_rear_view_distance = distance;
 }
 
 unsigned int ViewBasedRangeInterface::get_index(
     const PositionMetric& position) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (position.radial_distance >= 60.0) {
     return 3;
   }
@@ -209,13 +182,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   return 3;
 }
 
-unsigned int ViewBasedRangeInterface::get_dim() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return 4; }
+unsigned int ViewBasedRangeInterface::get_dim() const { return 4; }
 
 std::string ViewBasedRangeInterface::get_element(unsigned int index) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (index >= get_dim()) {
     return "Total";
   } else {
@@ -240,27 +209,19 @@ double BoxBasedRangeInterface::_s_rear_box_distance = 45.0;
 double BoxBasedRangeInterface::_s_side_box_distance = 10.0;
 
 void BoxBasedRangeInterface::set_front_box_distance(double distance) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _s_front_box_distance = distance;
 }
 
 void BoxBasedRangeInterface::set_rear_box_distance(double distance) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _s_rear_box_distance = distance;
 }
 
 void BoxBasedRangeInterface::set_side_box_distance(double distance) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _s_side_box_distance = distance;
 }
 
 unsigned int BoxBasedRangeInterface::get_index(
     const PositionMetric& position) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (position.vertical_distance <= _s_front_box_distance &&
       position.vertical_distance >= -_s_rear_box_distance &&
       position.horizontal_distance <= _s_side_box_distance) {
@@ -270,13 +231,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 }
 
-unsigned int BoxBasedRangeInterface::get_dim() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return 2; }
+unsigned int BoxBasedRangeInterface::get_dim() const { return 2; }
 
 std::string BoxBasedRangeInterface::get_element(unsigned int index) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (index >= get_dim()) {
     return "Total";
   } else {
@@ -295,15 +252,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool RoiDistanceBasedRangeInterface::_s_ignore_roi_outside = false;
 
 void RoiDistanceBasedRangeInterface::set_ignore_roi_outside(bool ignore) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _s_ignore_roi_outside = ignore;
 }
 
 unsigned int RoiDistanceBasedRangeInterface::get_index(
     const PositionMetric& position) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   unsigned int index =
       static_cast<unsigned int>(position.radial_distance / _s_half_distance);
   if (_s_ignore_roi_outside) {
@@ -318,15 +271,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 unsigned int RoiDistanceBasedRangeInterface::get_dim() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return _s_ignore_roi_outside ? 3 : 5;
 }
 
 std::string RoiDistanceBasedRangeInterface::get_element(
     unsigned int index) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (index >= get_dim()) {
     return "Total";
   }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,18 +23,12 @@ namespace apollo {
 namespace localization {
 namespace msf {
 LosslessMapNode::LosslessMapNode()
-    : BaseMapNode(new LosslessMapMatrix(), new ZlibStrategy()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : BaseMapNode(new LosslessMapMatrix(), new ZlibStrategy()) {}
 
-LosslessMapNode::~LosslessMapNode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+LosslessMapNode::~LosslessMapNode() {}
 
 void LosslessMapNode::SetValue(const Eigen::Vector3d& coordinate,
                                unsigned char intensity) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -52,8 +45,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool LosslessMapNode::SetValueIfInBound(const Eigen::Vector3d& coordinate,
                                         unsigned char intensity) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -74,8 +65,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LosslessMapNode::SetValueLayer(const Eigen::Vector3d& coordinate,
                                     unsigned char intensity) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -91,8 +80,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LosslessMapNode::GetValue(const Eigen::Vector3d& coordinate,
                                std::vector<unsigned char>* values) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -105,8 +92,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LosslessMapNode::GetVar(const Eigen::Vector3d& coordinate,
                              std::vector<float>* vars) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -119,8 +104,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LosslessMapNode::GetAlt(const Eigen::Vector3d& coordinate,
                              std::vector<float>* alts) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -133,8 +116,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LosslessMapNode::GetAltVar(const Eigen::Vector3d& coordinate,
                                 std::vector<float>* alt_vars) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -147,8 +128,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LosslessMapNode::GetCount(const Eigen::Vector3d& coordinate,
                                std::vector<unsigned int>* counts) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -161,8 +140,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 unsigned char LosslessMapNode::GetValue(
     const Eigen::Vector3d& coordinate) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -174,8 +151,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 float LosslessMapNode::GetVar(const Eigen::Vector3d& coordinate) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -187,8 +162,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 float LosslessMapNode::GetAlt(const Eigen::Vector3d& coordinate) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -200,8 +173,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 float LosslessMapNode::GetAltVar(const Eigen::Vector3d& coordinate) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;
@@ -214,8 +185,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 unsigned int LosslessMapNode::GetCount(
     const Eigen::Vector3d& coordinate) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector2d coord2d(coordinate[0], coordinate[1]);
   unsigned int x = 0;
   unsigned int y = 0;

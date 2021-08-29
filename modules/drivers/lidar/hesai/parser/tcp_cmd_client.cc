@@ -94,19 +94,22 @@ bool TcpCmdClient::WriteCmd(const Command& cmd) {
   int size = BuildCmdHeader(cmd, buffer);
   int ret = write(socket_fd_, buffer, size);
   if (ret != size) {
-    AERROR << "write header error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "write header error";
     return false;
   }
   if (cmd.header.len > 0 && cmd.data) {
     ret = write(socket_fd_, cmd.data, cmd.header.len);
     int len = static_cast<int>(cmd.header.len);
     if (ret != len) {
-      AERROR << "write data error";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "write data error";
       return false;
     }
   }
 
-  AINFO << "write cmd success";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "write cmd success";
 
   return true;
 }
@@ -119,37 +122,43 @@ bool TcpCmdClient::ReadCmd(Command* feedback) {
   memset(buffer, 0, 10 * sizeof(char));
   int ret = Read(buffer, 2);
   if (ret <= 0 || buffer[0] != 0x47 || buffer[1] != 0x74) {
-    AERROR << "server read header failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "server read header failed";
     return false;
   }
 
   ret = Read(buffer + 2, 6);
   if (ret != 6) {
-    AERROR << "server read header failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "server read header failed";
     return false;
   }
 
   ParseHeader(buffer + 2, 6, &feedback->header);
 
   if (feedback->header.len == 0) {
-    AINFO << "no data response, only header return";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "no data response, only header return";
     return false;
   }
 
   feedback->data = (unsigned char*)malloc(feedback->header.len + 1);
   if (!feedback->data) {
-    AERROR << "malloc data error, oom";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "malloc data error, oom";
     return false;
   }
   memset(feedback->data, 0, feedback->header.len + 1);
 
   ret = Read(feedback->data, feedback->header.len);
   if (ret != static_cast<int>(feedback->header.len)) {
-    AERROR << "server read data failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "server read data failed";
     return false;
   }
 
-  AINFO << "read data success, size:" << feedback->header.len;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "read data success, size:" << feedback->header.len;
   return true;
 }
 
@@ -162,7 +171,8 @@ int TcpCmdClient::Read(unsigned char* buffer, int n) {
       if (errno == EINTR) {
         nread = 0;
       } else {
-        AERROR << "read() buffer error " << strerror(errno);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "read() buffer error " << strerror(errno);
         return -1;
       }
     } else if (nread == 0) {
@@ -186,23 +196,27 @@ bool TcpCmdClient::Open() {
   struct sockaddr_in servaddr;
   bzero(&servaddr, sizeof(servaddr));
   if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-    AERROR << "socket() error " << strerror(errno);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "socket() error " << strerror(errno);
     return false;
   }
   servaddr.sin_family = AF_INET;
   servaddr.sin_port = htons(port_);
   if (inet_pton(AF_INET, ip_.c_str(), &servaddr.sin_addr) <= 0) {
-    AERROR << "inet_pton() error, ip:" << ip_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "inet_pton() error, ip:" << ip_;
     close(sockfd);
     return false;
   }
   if (connect(sockfd, (struct sockaddr*)&servaddr, sizeof(servaddr)) == -1) {
     close(sockfd);
-    AERROR << "connect() error " << strerror(errno);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "connect() error " << strerror(errno);
     return false;
   }
   socket_fd_ = sockfd;
-  AINFO << "connect success";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "connect success";
   return true;
 }
 

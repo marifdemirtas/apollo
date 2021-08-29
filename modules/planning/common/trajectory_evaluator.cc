@@ -29,7 +29,8 @@ namespace apollo {
 namespace planning {
 
 void TrajectoryEvaluator::WriteLog(const std::string& msg) {
-  AERROR << msg;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
   if (FLAGS_planning_offline_learning) {
     EvaluatorLogger::GetStream() << msg << std::endl;
   }
@@ -84,7 +85,8 @@ void TrajectoryEvaluator::EvaluateTrajectoryByTime(
   const int high_bound =
       std::min(150.0,
                floor(updated_trajectory.back().relative_time() / delta_time));
-  ADEBUG << "frame_num[" << frame_num << "] obstacle_id[" << obstacle_id
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "frame_num[" << frame_num << "] obstacle_id[" << obstacle_id
          << "] low[" << low_bound << "] high[" << high_bound << "]";
   for (int i = low_bound; i <= high_bound; ++i) {
     double timestamp_sec = start_point_timestamp_sec + i * delta_time;
@@ -138,7 +140,8 @@ void TrajectoryEvaluator::EvaluateADCTrajectory(
   EvaluateTrajectoryByTime(learning_data_frame->frame_num(), "adc_trajectory",
                            trajectory, start_point_timestamp_sec, delta_time,
                            &evaluated_trajectory);
-  ADEBUG << "frame_num[" << learning_data_frame->frame_num()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "frame_num[" << learning_data_frame->frame_num()
          << "] orig adc_trajectory[" << trajectory.size()
          << "] evaluated_trajectory_size[" << evaluated_trajectory.size()
          << "]";
@@ -199,7 +202,8 @@ void TrajectoryEvaluator::EvaluateADCFutureTrajectory(
                            start_point_timestamp_sec, delta_time,
                            &evaluated_trajectory);
 
-  ADEBUG << "frame_num[" << frame_num << "] orig adc_future_trajectory["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "frame_num[" << frame_num << "] orig adc_future_trajectory["
          << trajectory.size() << "] evaluated_trajectory_size["
          << evaluated_trajectory.size() << "]";
 
@@ -276,7 +280,8 @@ void TrajectoryEvaluator::EvaluateObstacleTrajectory(
             <= delta_time ||
         fabs(trajectory.front().first - trajectory.back().first)
             <= delta_time) {
-      ADEBUG << "too short obstacle_trajectory. frame_num["
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "too short obstacle_trajectory. frame_num["
              << learning_data_frame->frame_num() << "] obstacle_id["
              << obstacle_id << "] size[" << trajectory.size()
              << "] timestamp_diff["
@@ -297,7 +302,8 @@ void TrajectoryEvaluator::EvaluateObstacleTrajectory(
                                start_point_timestamp_sec, delta_time,
                                &evaluated_trajectory);
 
-      ADEBUG << "frame_num[" << learning_data_frame->frame_num()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "frame_num[" << learning_data_frame->frame_num()
              << "] obstacle_id[" << obstacle_id
              << "] orig obstacle_trajectory[" << trajectory.size()
              << "] evaluated_trajectory_size[" << evaluated_trajectory.size()
@@ -341,7 +347,8 @@ void TrajectoryEvaluator::EvaluateObstaclePredictionTrajectory(
       }
       if (fabs(trajectory.back().first - start_point_timestamp_sec) <=
           delta_time) {
-        ADEBUG << "too short obstacle_prediction_trajectory. frame_num["
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "too short obstacle_prediction_trajectory. frame_num["
                << learning_data_frame->frame_num() << "] obstacle_id["
                << obstacle_id << "] size[" << trajectory.size()
                << "] timestamp_diff["
@@ -355,7 +362,8 @@ void TrajectoryEvaluator::EvaluateObstaclePredictionTrajectory(
                                start_point_timestamp_sec, delta_time,
                                &evaluated_trajectory);
 
-      ADEBUG << "frame_num[" << learning_data_frame->frame_num()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "frame_num[" << learning_data_frame->frame_num()
              << "] obstacle_id[" << obstacle_id
              << "orig obstacle_prediction_trajectory[" << trajectory.size()
              << "] evaluated_trajectory_size[" << evaluated_trajectory.size()

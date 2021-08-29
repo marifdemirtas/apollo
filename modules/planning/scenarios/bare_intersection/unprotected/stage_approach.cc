@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -40,14 +39,16 @@ using apollo::hdmap::PathOverlap;
 
 Stage::StageStatus BareIntersectionUnprotectedStageApproach::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: Approach";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: Approach";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "BareIntersectionUnprotectedStageApproach planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "BareIntersectionUnprotectedStageApproach planning error";
   }
 
   const auto& reference_line_info = frame->reference_line_info().front();
@@ -70,8 +71,9 @@ Stage::StageStatus BareIntersectionUnprotectedStageApproach::Process(
   const double adc_front_edge_s = reference_line_info.AdcSlBoundary().end_s();
   const double distance_adc_to_pnc_junction =
       current_pnc_junction->start_s - adc_front_edge_s;
-  ADEBUG << "pnc_junction_overlap_id[" << pnc_junction_overlap_id
-         << "] start_s[" << current_pnc_junction->start_s
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "pnc_junction_overlap_id[" << pnc_junction_overlap_id
+          << "] start_s[" << current_pnc_junction->start_s
          << "] distance_adc_to_pnc_junction[" << distance_adc_to_pnc_junction
          << "]";
   if (distance_adc_to_pnc_junction < -kPassStopLineBuffer) {
@@ -89,7 +91,8 @@ Stage::StageStatus BareIntersectionUnprotectedStageApproach::Process(
 
   plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "BareIntersectionUnprotectedStageApproach planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "BareIntersectionUnprotectedStageApproach planning error";
   }
 
   std::vector<std::string> wait_for_obstacle_ids;
@@ -121,8 +124,9 @@ Stage::StageStatus BareIntersectionUnprotectedStageApproach::Process(
 
     if (stop) {
       // build stop decision
-      ADEBUG << "BuildStopDecision: bare pnc_junction["
-             << pnc_junction_overlap_id << "] start_s["
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "BuildStopDecision: bare pnc_junction["
+              << pnc_junction_overlap_id << "] start_s["
              << current_pnc_junction->start_s << "]";
       const std::string virtual_obstacle_id =
           "PNC_JUNCTION_" + current_pnc_junction->object_id;
@@ -157,8 +161,9 @@ bool BareIntersectionUnprotectedStageApproach::CheckClear(
       double obstacle_traveled_s =
           obstacle->reference_line_st_boundary().bottom_left_point().s() -
           obstacle->reference_line_st_boundary().bottom_right_point().s();
-      ADEBUG << "obstacle[" << obstacle->Id() << "] obstacle_st_min_t["
-             << obstacle->reference_line_st_boundary().min_t()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle[" << obstacle->Id() << "] obstacle_st_min_t["
+              << obstacle->reference_line_st_boundary().min_t()
              << "] obstacle_st_min_s["
              << obstacle->reference_line_st_boundary().min_s()
              << "] obstacle_traveled_s[" << obstacle_traveled_s << "]";

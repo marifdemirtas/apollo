@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -162,8 +161,9 @@ bool CreepDecider::CheckCreepDone(const Frame& frame,
         double obstacle_traveled_s =
             obstacle->reference_line_st_boundary().bottom_left_point().s() -
             obstacle->reference_line_st_boundary().bottom_right_point().s();
-        ADEBUG << "obstacle[" << obstacle->Id() << "] obstacle_st_min_t["
-               << obstacle->reference_line_st_boundary().min_t()
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle[" << obstacle->Id() << "] obstacle_st_min_t["
+                << obstacle->reference_line_st_boundary().min_t()
                << "] obstacle_st_min_s["
                << obstacle->reference_line_st_boundary().min_s()
                << "] obstacle_traveled_s[" << obstacle_traveled_s << "]";

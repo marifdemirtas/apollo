@@ -81,7 +81,8 @@ bool DarkSCNNLanePostprocessor::Init(
   const std::string& proto_path =
       GetAbsolutePath(options.detect_config_root, options.detect_config_name);
   if (!GetProtoFromFile(proto_path, &darkscnn_param)) {
-    AINFO << "Failed to load proto param, root dir: " << options.root_dir;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to load proto param, root dir: " << options.root_dir;
     return false;
   }
   const auto& model_param = darkscnn_param.model_param();
@@ -89,7 +90,8 @@ bool DarkSCNNLanePostprocessor::Init(
   input_offset_y_ = model_param.input_offset_y();
   lane_map_width_ = model_param.resize_width();
   lane_map_height_ = model_param.resize_height();
-  AINFO << "offset_x=" << input_offset_x_ << " offset_y=" << input_offset_y_
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "offset_x=" << input_offset_x_ << " offset_y=" << input_offset_y_
         << " lane_map_width=" << lane_map_width_
         << " lane_map_height_=" << lane_map_height_;
   // Read postprocessor parameter
@@ -97,28 +99,33 @@ bool DarkSCNNLanePostprocessor::Init(
   const std::string& conf_file = options.conf_file;
   const std::string& postprocessor_config =
       GetAbsolutePath(root_dir, conf_file);
-  AINFO << "postprocessor_config: " << postprocessor_config;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "postprocessor_config: " << postprocessor_config;
   if (!GetProtoFromFile(postprocessor_config, &lane_postprocessor_param_)) {
-    AERROR << "Failed to read config detect_param: " << postprocessor_config;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to read config detect_param: " << postprocessor_config;
     return false;
   }
   std::string param_str;
   google::protobuf::TextFormat::PrintToString(lane_postprocessor_param_,
                                               &param_str);
-  AINFO << "lane_postprocessor param: " << param_str;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lane_postprocessor param: " << param_str;
 
   roi_height_ = lane_postprocessor_param_.roi_height();
   roi_start_ = lane_postprocessor_param_.roi_start();
   roi_width_ = lane_postprocessor_param_.roi_width();
 
   lane_type_num_ = static_cast<int>(spatialLUTind.size());
-  AINFO << "lane_type_num_: " << lane_type_num_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lane_type_num_: " << lane_type_num_;
   return true;
 }
 
 bool DarkSCNNLanePostprocessor::Process2D(
     const LanePostprocessorOptions& options, CameraFrame* frame) {
-  ADEBUG << "Begin to Process2D.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Begin to Process2D.";
   frame->lane_objects.clear();
   auto start = std::chrono::high_resolution_clock::now();
 
@@ -390,16 +397,18 @@ bool DarkSCNNLanePostprocessor::Process2D(
   auto elapsed = std::chrono::high_resolution_clock::now() - start;
   int64_t microseconds =
       std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
-  // AINFO << "Time for writing: " << microseconds - microseconds_2 << " us";
-  time_3 += microseconds - microseconds_2;
+    time_3 += microseconds - microseconds_2;
   ++time_num;
 
-  ADEBUG << "frame->lane_objects.size(): " << frame->lane_objects.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "frame->lane_objects.size(): " << frame->lane_objects.size();
 
-  ADEBUG << "Avg sampling time: " << time_1 / time_num
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Avg sampling time: " << time_1 / time_num
          << " Avg fitting time: " << time_2 / time_num
          << " Avg writing time: " << time_3 / time_num;
-  ADEBUG << "darkSCNN lane_postprocess done!";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "darkSCNN lane_postprocess done!";
   return true;
 }
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -53,8 +52,9 @@ bool DualVariableWarmStartProblem::Solve(
             obstacles_b, xWS, planner_open_space_config_);
 
     if (ptop.optimize()) {
-      ADEBUG << "dual warm up done.";
-      ptop.get_optimization_results(l_warm_up, n_warm_up);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "dual warm up done.";
+       ptop.get_optimization_results(l_warm_up, n_warm_up);
 
       PERF_BLOCK_END("DualVariableWarmStartSolving");
       solver_flag = true;
@@ -71,8 +71,9 @@ bool DualVariableWarmStartProblem::Solve(
             obstacles_b, xWS, planner_open_space_config_);
 
     if (ptop.optimize()) {
-      ADEBUG << "dual warm up done.";
-      ptop.get_optimization_results(l_warm_up, n_warm_up, s_warm_up);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "dual warm up done.";
+       ptop.get_optimization_results(l_warm_up, n_warm_up, s_warm_up);
 
       PERF_BLOCK_END("DualVariableWarmStartSolving");
       solver_flag = true;
@@ -149,7 +150,8 @@ bool DualVariableWarmStartProblem::Solve(
 
     Ipopt::ApplicationReturnStatus status = app->Initialize();
     if (status != Ipopt::Solve_Succeeded) {
-      AERROR << "*** Dual variable wart start problem error during "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "*** Dual variable wart start problem error during "
                 "initialization!";
       return false;
     }
@@ -160,15 +162,18 @@ bool DualVariableWarmStartProblem::Solve(
         status == Ipopt::Solved_To_Acceptable_Level) {
       // Retrieve some statistics about the solve
       Ipopt::Index iter_count = app->Statistics()->IterationCount();
-      ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
-
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
+ 
       Ipopt::Number final_obj = app->Statistics()->FinalObjective();
-      ADEBUG << "*** The final value of the objective function is " << final_obj
-             << '.';
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The final value of the objective function is " << final_obj
+              << '.';
       PERF_BLOCK_END("DualVariableWarmStartSolving");
     } else {
-      ADEBUG << "Solve not succeeding, return status: " << int(status);
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Solve not succeeding, return status: " << int(status);
+     }
 
     ptop->get_optimization_results(l_warm_up, n_warm_up);
 
@@ -240,7 +245,8 @@ bool DualVariableWarmStartProblem::Solve(
 
     Ipopt::ApplicationReturnStatus status = app->Initialize();
     if (status != Ipopt::Solve_Succeeded) {
-      AERROR << "*** Dual variable wart start problem error during "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "*** Dual variable wart start problem error during "
                 "initialization!";
       return false;
     }
@@ -250,15 +256,18 @@ bool DualVariableWarmStartProblem::Solve(
         status == Ipopt::Solved_To_Acceptable_Level) {
       // Retrieve some statistics about the solve
       Ipopt::Index iter_count = app->Statistics()->IterationCount();
-      ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
-
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
+ 
       Ipopt::Number final_obj = app->Statistics()->FinalObjective();
-      ADEBUG << "*** The final value of the objective function is " << final_obj
-             << '.';
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The final value of the objective function is " << final_obj
+              << '.';
       PERF_BLOCK_END("DualVariableWarmStartSolving");
     } else {
-      ADEBUG << "Solve not succeeding, return status: " << int(status);
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Solve not succeeding, return status: " << int(status);
+     }
 
     ptop->get_optimization_results(l_warm_up, n_warm_up);
 
@@ -272,12 +281,14 @@ bool DualVariableWarmStartProblem::Solve(
     bool succ = ptop_osqp->optimize();
 
     if (!succ) {
-      AERROR << "dual warm up fail.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "dual warm up fail.";
       ptop_osqp->get_optimization_results(l_warm_up, n_warm_up);
     }
 
-    ADEBUG << "dual warm up done.";
-    ptop_osqp->get_optimization_results(l_warm_up, n_warm_up);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "dual warm up done.";
+     ptop_osqp->get_optimization_results(l_warm_up, n_warm_up);
 
     PERF_BLOCK_END("DualVariableWarmStartSolving");
 
@@ -351,7 +362,8 @@ bool DualVariableWarmStartProblem::Solve(
 
     Ipopt::ApplicationReturnStatus status = app->Initialize();
     if (status != Ipopt::Solve_Succeeded) {
-      AERROR << "*** Dual variable wart start problem error during "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "*** Dual variable wart start problem error during "
                 "initialization!";
       return false;
     }
@@ -362,14 +374,17 @@ bool DualVariableWarmStartProblem::Solve(
         status == Ipopt::Solved_To_Acceptable_Level) {
       // Retrieve some statistics about the solve
       Ipopt::Index iter_count = app->Statistics()->IterationCount();
-      ADEBUG << "*** IPOPTQP: The problem solved in " << iter_count
-             << " iterations!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** IPOPTQP: The problem solved in " << iter_count
+              << " iterations!";
       Ipopt::Number final_obj = app->Statistics()->FinalObjective();
-      ADEBUG << "*** IPOPTQP: The final value of the objective function is "
-             << final_obj << '.';
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** IPOPTQP: The final value of the objective function is "
+              << final_obj << '.';
     } else {
-      ADEBUG << "Solve not succeeding, return status: " << int(status);
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Solve not succeeding, return status: " << int(status);
+     }
 
     ptop_ipoptqp->get_optimization_results(&l_warm_up_ipoptqp,
                                            &n_warm_up_ipoptqp);
@@ -388,7 +403,8 @@ bool DualVariableWarmStartProblem::Solve(
 
     status = app->Initialize();
     if (status != Ipopt::Solve_Succeeded) {
-      AERROR << "*** Dual variable wart start problem error during "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "*** Dual variable wart start problem error during "
                 "initialization!";
       return false;
     }
@@ -398,14 +414,17 @@ bool DualVariableWarmStartProblem::Solve(
         status == Ipopt::Solved_To_Acceptable_Level) {
       // Retrieve some statistics about the solve
       Ipopt::Index iter_count = app->Statistics()->IterationCount();
-      ADEBUG << "*** IPOPT: The problem solved in " << iter_count
-             << " iterations!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** IPOPT: The problem solved in " << iter_count
+              << " iterations!";
       Ipopt::Number final_obj = app->Statistics()->FinalObjective();
-      ADEBUG << "*** IPOPT: The final value of the objective function is "
-             << final_obj << '.';
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** IPOPT: The final value of the objective function is "
+              << final_obj << '.';
     } else {
-      ADEBUG << "Solve not succeeding, return status: " << int(status);
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Solve not succeeding, return status: " << int(status);
+     }
 
     ptop_ipopt->get_optimization_results(&l_warm_up_ipopt, &n_warm_up_ipopt);
 
@@ -423,10 +442,13 @@ bool DualVariableWarmStartProblem::Solve(
                                                      l_warm_up_ipopt(r, c)));
       }
     }
-    ADEBUG << "max l warm up diff between osqp & ipopt: " << l_max_diff1;
-    ADEBUG << "max l warm up diff between osqp & ipoptqp: " << l_max_diff2;
-    ADEBUG << "max l warm up diff between ipopt & ipoptqp: " << l_max_diff3;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "max l warm up diff between osqp & ipopt: " << l_max_diff1;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "max l warm up diff between osqp & ipoptqp: " << l_max_diff2;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "max l warm up diff between ipopt & ipoptqp: " << l_max_diff3;
+ 
     double n_max_diff1 = 0.0;
     double n_max_diff2 = 0.0;
     double n_max_diff3 = 0.0;
@@ -440,10 +462,13 @@ bool DualVariableWarmStartProblem::Solve(
                                                      n_warm_up_ipopt(r, c)));
       }
     }
-    ADEBUG << "max n warm up diff between osqp & ipopt: " << n_max_diff1;
-    ADEBUG << "max n warm up diff between osqp & ipoptqp: " << n_max_diff2;
-    ADEBUG << "max n warm up diff between ipopt & ipoptqp: " << n_max_diff3;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "max n warm up diff between osqp & ipopt: " << n_max_diff1;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "max n warm up diff between osqp & ipoptqp: " << n_max_diff2;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "max n warm up diff between ipopt & ipoptqp: " << n_max_diff3;
+ 
     return true;
   }
 

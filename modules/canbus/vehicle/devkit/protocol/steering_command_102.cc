@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,21 +27,15 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Steeringcommand102::ID = 0x102;
 
 // public
-Steeringcommand102::Steeringcommand102() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Steeringcommand102::Steeringcommand102() { Reset(); }
 
 uint32_t Steeringcommand102::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Steeringcommand102::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_steer_en_ctrl(data, steer_en_ctrl_);
   set_p_steer_angle_target(data, steer_angle_target_);
   set_p_steer_angle_spd(data, steer_angle_spd_);
@@ -52,8 +45,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Steeringcommand102::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  you should check this manually
   steer_en_ctrl_ = Steering_command_102::STEER_EN_CTRL_DISABLE;
   steer_angle_target_ = 0;
@@ -63,8 +54,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Steeringcommand102* Steeringcommand102::set_steer_en_ctrl(
     Steering_command_102::Steer_en_ctrlType steer_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   steer_en_ctrl_ = steer_en_ctrl;
   return this;
 }
@@ -75,8 +64,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 void Steeringcommand102::set_p_steer_en_ctrl(
     uint8_t* data, Steering_command_102::Steer_en_ctrlType steer_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = steer_en_ctrl;
 
   Byte to_set(data + 0);
@@ -85,8 +72,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Steeringcommand102* Steeringcommand102::set_steer_angle_target(
     int steer_angle_target) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   steer_angle_target_ = steer_angle_target;
   return this;
 }
@@ -97,8 +82,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'int'}
 void Steeringcommand102::set_p_steer_angle_target(uint8_t* data,
                                                   int steer_angle_target) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   steer_angle_target =
       ProtocolData::BoundedValue(-500, 500, steer_angle_target);
   int x = (steer_angle_target - -500.000000);
@@ -116,8 +99,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Steeringcommand102* Steeringcommand102::set_steer_angle_spd(
     int steer_angle_spd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   steer_angle_spd_ = steer_angle_spd;
   return this;
 }
@@ -127,8 +108,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|250]', 'physical_unit': 'deg/s', 'precision': 1.0, 'type': 'int'}
 void Steeringcommand102::set_p_steer_angle_spd(uint8_t* data,
                                                int steer_angle_spd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   steer_angle_spd = ProtocolData::BoundedValue(0, 250, steer_angle_spd);
   int x = steer_angle_spd;
 
@@ -137,8 +116,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Steeringcommand102* Steeringcommand102::set_checksum_102(int checksum_102) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   checksum_102_ = checksum_102;
   return this;
 }
@@ -147,8 +124,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'CheckSum_102', 'offset': 0.0, 'order': 'motorola', 'physical_range':
 // '[0|255]', 'physical_unit': '', 'precision': 1.0, 'type': 'int'}
 void Steeringcommand102::set_p_checksum_102(uint8_t* data, int checksum_102) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   checksum_102 = ProtocolData::BoundedValue(0, 255, checksum_102);
   int x = checksum_102;
 

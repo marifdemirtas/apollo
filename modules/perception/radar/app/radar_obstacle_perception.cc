@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ namespace perception {
 namespace radar {
 
 bool RadarObstaclePerception::Init(const std::string& pipeline_name) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string model_name = pipeline_name;
   const ModelConfig* model_config = nullptr;
   ACHECK(ConfigManager::Instance()->GetModelConfig(model_name, &model_config))
@@ -72,8 +69,6 @@ bool RadarObstaclePerception::Perceive(
     const drivers::ContiRadar& corrected_obstacles,
     const RadarPerceptionOptions& options,
     std::vector<base::ObjectPtr>* objects) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PERF_FUNCTION();
   const std::string& sensor_name = options.sensor_name;
   PERF_BLOCK_START();
@@ -81,27 +76,33 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!detector_->Detect(corrected_obstacles, options.detector_options,
                          detect_frame_ptr)) {
-    AERROR << "radar detect error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "radar detect error";
     return false;
   }
-  ADEBUG << "Detected frame objects number: "
-         << detect_frame_ptr->objects.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Detected frame objects number: "
+          << detect_frame_ptr->objects.size();
   PERF_BLOCK_END_WITH_INDICATOR(sensor_name, "detector");
   if (!roi_filter_->RoiFilter(options.roi_filter_options, detect_frame_ptr)) {
-    ADEBUG << "All radar objects were filtered out";
-  }
-  ADEBUG << "RoiFiltered frame objects number: "
-         << detect_frame_ptr->objects.size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "All radar objects were filtered out";
+   }
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "RoiFiltered frame objects number: "
+          << detect_frame_ptr->objects.size();
   PERF_BLOCK_END_WITH_INDICATOR(sensor_name, "roi_filter");
 
   base::FramePtr tracker_frame_ptr(new base::Frame);
   if (!tracker_->Track(*detect_frame_ptr, options.track_options,
                        tracker_frame_ptr)) {
-    AERROR << "radar track error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "radar track error";
     return false;
   }
-  ADEBUG << "tracked frame objects number: "
-         << tracker_frame_ptr->objects.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "tracked frame objects number: "
+          << tracker_frame_ptr->objects.size();
   PERF_BLOCK_END_WITH_INDICATOR(sensor_name, "tracker");
 
   *objects = tracker_frame_ptr->objects;
@@ -110,8 +111,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 std::string RadarObstaclePerception::Name() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return "RadarObstaclePerception";
 }
 

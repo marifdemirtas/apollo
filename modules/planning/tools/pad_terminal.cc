@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -51,37 +50,53 @@ class PadTerminal {
     terminal_thread_.reset(new std::thread([this] { terminal_thread_func(); }));
   }
   void help() {
-    AINFO << "COMMAND:0~10\n";
-    AINFO << "\t0: follow";
-    AINFO << "\t1: change left";
-    AINFO << "\t2: change right";
-    AINFO << "\t3: pull over";
-    AINFO << "\t4: stop";
-    AINFO << "\t5: resume cruise";
-    AINFO << "\t10: exit";
-    AINFO << "\tother number: print help";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "COMMAND:0~10\n";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\t0: follow";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\t1: change left";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\t2: change right";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\t3: pull over";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\t4: stop";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\t5: resume cruise";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\t10: exit";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\tother number: print help";
+   }
 
   void send(int action) {
     PadMessage pad;
     pad.set_action(DrivingAction(action));
     if (action == DrivingAction::FOLLOW) {
-      AINFO << "sending FOLLOW action command.";
-    } else if (action == DrivingAction::CHANGE_LEFT) {
-      AINFO << "sending CHANGE LEFT action command.";
-    } else if (action == DrivingAction::CHANGE_RIGHT) {
-      AINFO << "sending CHANGE RIGHT action command.";
-    } else if (action == DrivingAction::PULL_OVER) {
-      AINFO << "sending PULL OVER action command.";
-    } else if (action == DrivingAction::STOP) {
-      AINFO << "sending STOP action command.";
-    } else if (action == DrivingAction::RESUME_CRUISE) {
-      AINFO << "sending RESUME CRUISE action command.";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sending FOLLOW action command.";
+     } else if (action == DrivingAction::CHANGE_LEFT) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sending CHANGE LEFT action command.";
+     } else if (action == DrivingAction::CHANGE_RIGHT) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sending CHANGE RIGHT action command.";
+     } else if (action == DrivingAction::PULL_OVER) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sending PULL OVER action command.";
+     } else if (action == DrivingAction::STOP) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sending STOP action command.";
+     } else if (action == DrivingAction::RESUME_CRUISE) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sending RESUME CRUISE action command.";
+     }
     apollo::common::util::FillHeader("terminal", &pad);
     pad_writer_->Write(pad);
-    AINFO << "send pad_message OK";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "send pad_message OK";
+   }
 
   void terminal_thread_func() {
     int mode = 0;

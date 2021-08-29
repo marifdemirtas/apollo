@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,8 +35,6 @@ namespace ndt {
 
 LidarLocatorNdt::LidarLocatorNdt()
     : config_("map_ndt_v01"), map_(&config_), map_preload_node_pool_(30, 12) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Translation3d trans(0, 0, 0);
   Eigen::Quaterniond quat(1, 0, 0, 0);
   velodyne_extrinsic_ = trans * quat;
@@ -48,14 +45,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   filter_y_ = 128;
 }
 
-LidarLocatorNdt::~LidarLocatorNdt() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+LidarLocatorNdt::~LidarLocatorNdt() {}
 
 void LidarLocatorNdt::Init(const Eigen::Affine3d& init_location,
                            unsigned int resolution_id, int zone_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   location_ = init_location;
   resolution_id_ = resolution_id;
   zone_id_ = zone_id;
@@ -73,8 +66,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     map_.AttachMapNodePool(&map_preload_node_pool_);
     map_.LoadMapArea(location_.translation(), resolution_id_, zone_id_,
                      filter_x_, filter_y_);
-    AINFO << "Locator map pre-loading is done.";
-    is_map_loaded_ = true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Locator map pre-loading is done.";
+     is_map_loaded_ = true;
   }
 
   // set filter
@@ -84,11 +78,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   filter_y_ =
       static_cast<int>(static_cast<float>(FLAGS_ndt_filter_size_y) /
                        map_.GetMapConfig().map_resolutions_[resolution_id_]);
-  AINFO << "Filter size: " << filter_x_ << ", " << filter_y_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Filter size: " << filter_x_ << ", " << filter_y_;
+ 
   // set NDT
-  AINFO << "Init NDT." << std::endl;
-  reg_.SetMaximumIterations(ndt_max_iterations_);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Init NDT." << std::endl;
+   reg_.SetMaximumIterations(ndt_max_iterations_);
   reg_.SetResolution(static_cast<float>(ndt_target_resolution_));
   reg_.SetStepSize(ndt_line_search_step_size_);
   reg_.SetTransformationEpsilon(ndt_transformation_epsilon_);
@@ -98,49 +94,41 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LidarLocatorNdt::LoadMap(const Eigen::Affine3d& init_location,
                               unsigned int resolution_id, int zone_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   map_preload_node_pool_.Initial(&(map_.GetMapConfig()));
   map_.InitMapNodeCaches(12, 24);
   map_.AttachMapNodePool(&map_preload_node_pool_);
   map_.LoadMapArea(location_.translation(), resolution_id, zone_id, filter_x_,
                    filter_y_);
-  AINFO << "Locator map pre-loading is done.";
-  is_map_loaded_ = true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Locator map pre-loading is done.";
+   is_map_loaded_ = true;
 }
 
 void LidarLocatorNdt::SetMapFolderPath(const std::string folder_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!map_.SetMapFolderPath(folder_path)) {
-    AERROR << "Map folder is invalid!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Map folder is invalid!";
   }
 }
 
 void LidarLocatorNdt::SetVelodyneExtrinsic(const Eigen::Affine3d& extrinsic) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   velodyne_extrinsic_ = extrinsic;
 }
 
 void LidarLocatorNdt::SetLidarHeight(double height) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   lidar_height_ = height;
-  AINFO << "Set height: " << lidar_height_;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Set height: " << lidar_height_;
+ }
 
 void LidarLocatorNdt::SetOnlineCloudResolution(const float& online_resolution) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   proj_reslution_ = online_resolution;
-  AINFO << "Proj resolution: " << proj_reslution_;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Proj resolution: " << proj_reslution_;
+ }
 
 int LidarLocatorNdt::Update(unsigned int frame_idx, const Eigen::Affine3d& pose,
                             const LidarFrame& lidar_frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Increasement from INSPVA
   Eigen::Vector3d trans_diff =
       pose.translation() - pre_input_location_.translation();
@@ -151,8 +139,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   Eigen::Affine3d center_pose = transd * quatd;
 
   Eigen::Quaterniond pose_qbn(pose.linear());
-  AINFO << "original pose: " << std::setprecision(15) << pose.translation()[0]
-        << ", " << pose.translation()[1] << ", " << pose.translation()[2]
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "original pose: " << std::setprecision(15) << pose.translation()[0]
+         << ", " << pose.translation()[1] << ", " << pose.translation()[2]
         << ", " << pose_qbn.x() << ", " << pose_qbn.y() << ", " << pose_qbn.z()
         << ", " << pose_qbn.w();
 
@@ -189,15 +178,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 
   // Filter online points
-  AINFO << "Online point cloud leaf size: " << proj_reslution_;
-  pcl::PointCloud<pcl::PointXYZ>::Ptr online_points_filtered(
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Online point cloud leaf size: " << proj_reslution_;
+   pcl::PointCloud<pcl::PointXYZ>::Ptr online_points_filtered(
       new pcl::PointCloud<pcl::PointXYZ>());
   pcl::VoxelGrid<pcl::PointXYZ> sor;
   sor.setInputCloud(online_points);
   sor.setLeafSize(proj_reslution_, proj_reslution_, proj_reslution_);
   sor.filter(*online_points_filtered);
-  AINFO << "Online Pointcloud size: " << online_points->size() << "/"
-        << online_points_filtered->size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Online Pointcloud size: " << online_points->size() << "/"
+         << online_points_filtered->size();
   online_filtered_timer.End("online point calc end.");
 
   //  Obtain map pointcloud
@@ -240,12 +231,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   bool has_converged = reg_.HasConverged();
   int iteration = reg_.GetFinalNumIteration();
   Eigen::Matrix4d ndt_pose = reg_.GetFinalTransformation().cast<double>();
-  AINFO << "Ndt summary:";
-  AINFO << "Fitness Score: " << fitness_score_;
-  AINFO << "Has_converged: " << has_converged;
-  AINFO << "Iteration: %d: " << iteration;
-  AINFO << "Relative Ndt pose: " << ndt_pose(0, 3) << ", " << ndt_pose(1, 3)
-        << ", " << ndt_pose(2, 3);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Ndt summary:";
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Fitness Score: " << fitness_score_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Has_converged: " << has_converged;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Iteration: %d: " << iteration;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Relative Ndt pose: " << ndt_pose(0, 3) << ", " << ndt_pose(1, 3)
+         << ", " << ndt_pose(2, 3);
 
   // Twv
   Eigen::Affine3d lidar_location = Eigen::Affine3d::Identity();
@@ -265,19 +261,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   return 0;
 }
 
-Eigen::Affine3d LidarLocatorNdt::GetPose() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return location_; }
+Eigen::Affine3d LidarLocatorNdt::GetPose() const { return location_; }
 
 Eigen::Vector3d LidarLocatorNdt::GetPredictLocation() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return predict_location_.translation();
 }
 
 Eigen::Matrix3d LidarLocatorNdt::GetLocationCovariance() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return location_covariance_;
 }
 
@@ -285,8 +275,6 @@ void LidarLocatorNdt::ComposeMapCells(
     const Eigen::Vector2d& left_top_coord2d, int zone_id,
     unsigned int resolution_id, float map_pixel_resolution,
     const Eigen::Affine3d& inverse_transform) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   apollo::common::util::Timer timer;
   timer.Start();
 

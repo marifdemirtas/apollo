@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -37,15 +36,11 @@ namespace monitor {
 ModuleMonitor::ModuleMonitor()
     : RecurrentRunner(absl::GetFlag(FLAGS_module_monitor_name),
                       absl::GetFlag(FLAGS_module_monitor_interval)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   node_manager_ =
       cyber::service_discovery::TopologyManager::Instance()->node_manager();
 }
 
 void ModuleMonitor::RunOnce(const double current_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto manager = MonitorManager::Instance();
   const auto& mode = manager->GetHMIMode();
 
@@ -66,8 +61,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void ModuleMonitor::UpdateStatus(
     const apollo::dreamview::ModuleMonitorConfig& config,
     const std::string& module_name, ComponentStatus* status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   status->clear_status();
 
   bool all_nodes_matched = true;

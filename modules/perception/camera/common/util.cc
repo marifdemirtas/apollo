@@ -34,14 +34,16 @@ bool LoadAnchors(const std::string &path, std::vector<float> *anchors) {
   std::ifstream ifs(path, std::ifstream::in);
   ifs >> num_anchors;
   if (!ifs.good()) {
-    AERROR << "Failed to get number of anchors!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get number of anchors!";
     return false;
   }
   (*anchors).resize(num_anchors * 2);
   for (int i = 0; i < num_anchors; ++i) {
     ifs >> (*anchors)[i * 2] >> (*anchors)[i * 2 + 1];
     if (!ifs.good()) {
-      AERROR << "Failed to load the " << i << "-th anchor!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load the " << i << "-th anchor!";
       return false;
     }
   }
@@ -53,34 +55,42 @@ bool LoadTypes(const std::string &path,
                std::vector<base::ObjectSubType> *types) {
   std::ifstream ifs(path, std::ifstream::in);
   if (!ifs.good()) {
-    AERROR << "Type_list not found: " << path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Type_list not found: " << path;
     return false;
   }
   std::string type;
-  AINFO << "Supported types: ";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Supported types: ";
   while (ifs >> type) {
     if (base::kName2SubTypeMap.find(type) == base::kName2SubTypeMap.end()) {
-      AERROR << "Invalid type: " << type;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid type: " << type;
       return false;
     }
     (*types).push_back(base::kName2SubTypeMap.at(type));
-    AINFO << "\t\t" << type;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\t\t" << type;
   }
-  AINFO << "\t\t" << (*types).size() << " in total.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\t\t" << (*types).size() << " in total.";
   ifs.close();
   return true;
 }
 bool LoadExpand(const std::string &path, std::vector<float> *expands) {
   std::ifstream ifs(path, std::ifstream::in);
   if (!ifs.good()) {
-    AERROR << "expand_list not found: " << path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "expand_list not found: " << path;
     return false;
   }
   float expand;
-  AINFO << "Expand nums: ";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Expand nums: ";
   while (ifs >> expand) {
     expands->push_back(expand);
-    AINFO << "\t\t" << expand;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\t\t" << expand;
   }
   ifs.close();
   return true;
@@ -95,7 +105,8 @@ bool ResizeCPU(const base::Blob<uint8_t> &src_blob,
   int origin_height = src_blob.shape(1);
   int origin_width = src_blob.shape(2);
   if (origin_channel != dst_blob->shape(3)) {
-    AERROR << "channel should be the same after resize.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "channel should be the same after resize.";
     return false;
   }
   float fx = static_cast<float>(origin_width) / static_cast<float>(width);

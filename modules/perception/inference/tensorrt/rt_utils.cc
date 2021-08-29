@@ -30,7 +30,8 @@ bool ReadProtoFromTextFile(const std::string &filename,
                            google::protobuf::Message *proto) {
   int fd = open(filename.c_str(), O_RDONLY);
   if (fd < 0) {
-    AERROR << "cannot open file " << filename;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "cannot open file " << filename;
     return false;
   }
   google::protobuf::io::FileInputStream raw_input(fd);
@@ -45,7 +46,8 @@ bool ReadProtoFromBinaryFile(const std::string &filename,
                              google::protobuf::Message *proto) {
   int fd = open(filename.c_str(), O_RDONLY);
   if (fd < 0) {
-    AERROR << "cannot open file " << filename;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "cannot open file " << filename;
     return false;
   }
   google::protobuf::io::FileInputStream raw_input(fd);

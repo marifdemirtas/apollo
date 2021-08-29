@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,21 +27,15 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Gearcommand103::ID = 0x103;
 
 // public
-Gearcommand103::Gearcommand103() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Gearcommand103::Gearcommand103() { Reset(); }
 
 uint32_t Gearcommand103::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Gearcommand103::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_gear_target(data, gear_target_);
   set_p_gear_en_ctrl(data, gear_en_ctrl_);
   checksum_103_ =
@@ -51,8 +44,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Gearcommand103::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  you should check this manually
   gear_target_ = Gear_command_103::GEAR_TARGET_NEUTRAL;
   gear_en_ctrl_ = Gear_command_103::GEAR_EN_CTRL_DISABLE;
@@ -61,8 +52,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Gearcommand103* Gearcommand103::set_gear_target(
     Gear_command_103::Gear_targetType gear_target) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   gear_target_ = gear_target;
   return this;
 }
@@ -74,8 +63,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 void Gearcommand103::set_p_gear_target(
     uint8_t* data, Gear_command_103::Gear_targetType gear_target) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = gear_target;
 
   Byte to_set(data + 1);
@@ -84,8 +71,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Gearcommand103* Gearcommand103::set_gear_en_ctrl(
     Gear_command_103::Gear_en_ctrlType gear_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   gear_en_ctrl_ = gear_en_ctrl;
   return this;
 }
@@ -96,8 +81,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 void Gearcommand103::set_p_gear_en_ctrl(
     uint8_t* data, Gear_command_103::Gear_en_ctrlType gear_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = gear_en_ctrl;
 
   Byte to_set(data + 0);
@@ -105,8 +88,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Gearcommand103* Gearcommand103::set_checksum_103(int checksum_103) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   checksum_103_ = checksum_103;
   return this;
 }
@@ -115,8 +96,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 63,
 // 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 void Gearcommand103::set_p_checksum_103(uint8_t* data, int checksum_103) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   checksum_103 = ProtocolData::BoundedValue(0, 255, checksum_103);
   int x = checksum_103;
 

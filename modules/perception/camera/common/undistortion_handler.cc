@@ -34,7 +34,8 @@ bool UndistortionHandler::set_device(int device) {
   device_ = device;
   auto code = cudaSetDevice(device_);
   if (code != cudaSuccess) {
-    AERROR << "cudaSetDevice failed: " << cudaGetErrorString(code);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "cudaSetDevice failed: " << cudaGetErrorString(code);
     return false;
   }
   return true;
@@ -55,7 +56,8 @@ bool UndistortionHandler::Init(const std::string &sensor_name, int device) {
 
   common::SensorManager *sensor_manager = common::SensorManager::Instance();
   if (!sensor_manager->IsSensorExist(sensor_name)) {
-    AERROR << "Sensor '" << sensor_name << "' not exists!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Sensor '" << sensor_name << "' not exists!";
     return false;
   }
 
@@ -118,12 +120,14 @@ bool UndistortionHandler::Handle(const base::Image8U &src_img,
           remap_mode);
       break;
     default:
-      AERROR << "Invalid number of channels: " << src_img.channels();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid number of channels: " << src_img.channels();
       return false;
   }
 
   if (status != NPP_SUCCESS) {
-    AERROR << "NPP_CHECK_NPP - status = " << status;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "NPP_CHECK_NPP - status = " << status;
     return false;
   }
 

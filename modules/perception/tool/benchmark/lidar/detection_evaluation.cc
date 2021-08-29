@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ bool DetectionEvaluation::init(const std::string& clouds,
                                unsigned int eval_thread_num,
                                unsigned int eval_parrallel_num,
                                const std::string& reserve) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::vector<std::string> strs;
   strs.push_back(clouds);
   strs.push_back(results);
@@ -65,8 +62,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void DetectionEvaluation::run_evaluation() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // sequential loading and accumulate
   while (true) {
     bool has_more_data = true;

@@ -62,7 +62,8 @@ void PointsFromCurve(const Curve &input_curve, std::vector<Vec2d> *points) {
         points->emplace_back(point.x(), point.y());
       }
     } else {
-      AERROR << "Can not handle curve type.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can not handle curve type.";
     }
   }
   RemoveDuplicates(points);
@@ -146,7 +147,8 @@ void LaneInfo::Init() {
     if (lane_.type() == Lane::CITY_DRIVING) {
       for (const auto &p : sampled_left_width_) {
         if (p.second < FLAGS_half_vehicle_width) {
-          AERROR
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
               << "lane[id = " << lane_.id().DebugString()
               << "]. sampled_left_width_[" << p.second
               << "] is too small. It should be larger than half vehicle width["
@@ -155,7 +157,8 @@ void LaneInfo::Init() {
       }
       for (const auto &p : sampled_right_width_) {
         if (p.second < FLAGS_half_vehicle_width) {
-          AERROR
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
               << "lane[id = " << lane_.id().DebugString()
               << "]. sampled_right_width_[" << p.second
               << "] is too small. It should be larger than half vehicle width["
@@ -163,10 +166,12 @@ void LaneInfo::Init() {
         }
       }
     } else if (lane_.type() == Lane::NONE) {
-      AERROR << "lane_[id = " << lane_.id().DebugString() << "] type is NONE.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "lane_[id = " << lane_.id().DebugString() << "] type is NONE.";
     }
   } else {
-    AERROR << "lane_[id = " << lane_.id().DebugString() << "] has NO type.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "lane_[id = " << lane_.id().DebugString() << "] has NO type.";
   }
 
   sampled_left_road_width_.clear();
@@ -194,11 +199,13 @@ void LaneInfo::GetWidth(const double s, double *left_width,
 double LaneInfo::Heading(const double s) const {
   const double kEpsilon = 0.001;
   if (s + kEpsilon < accumulated_s_.front()) {
-    AERROR << "s:" << s << " should be >= " << accumulated_s_.front();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "s:" << s << " should be >= " << accumulated_s_.front();
     return 0.0;
   }
   if (s - kEpsilon > accumulated_s_.back()) {
-    AERROR << "s:" << s << " should be <= " << accumulated_s_.back();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "s:" << s << " should be <= " << accumulated_s_.back();
     return 0.0;
   }
 
@@ -213,27 +220,32 @@ double LaneInfo::Heading(const double s) const {
 
 double LaneInfo::Curvature(const double s) const {
   if (points_.size() < 2U) {
-    AERROR << "Not enough points to compute curvature.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Not enough points to compute curvature.";
     return 0.0;
   }
   const double kEpsilon = 0.001;
   if (s + kEpsilon < accumulated_s_.front()) {
-    AERROR << "s:" << s << " should be >= " << accumulated_s_.front();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "s:" << s << " should be >= " << accumulated_s_.front();
     return 0.0;
   }
   if (s > accumulated_s_.back() + kEpsilon) {
-    AERROR << "s:" << s << " should be <= " << accumulated_s_.back();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "s:" << s << " should be <= " << accumulated_s_.back();
     return 0.0;
   }
 
   auto iter = std::lower_bound(accumulated_s_.begin(), accumulated_s_.end(), s);
   if (iter == accumulated_s_.end()) {
-    ADEBUG << "Reach the end of lane.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Reach the end of lane.";
     return 0.0;
   }
   int index = static_cast<int>(std::distance(accumulated_s_.begin(), iter));
   if (index == 0) {
-    ADEBUG << "Reach the beginning of lane";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Reach the beginning of lane";
     return 0.0;
   }
   return (headings_[index] - headings_[index - 1]) /

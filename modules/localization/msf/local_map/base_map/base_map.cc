@@ -82,8 +82,10 @@ BaseMapNode* BaseMap::GetMapNodeSafe(const MapNodeIndex& index) {
   lock.unlock();
 
   // load from disk
-  AERROR << "GetMapNodeSafe: This node don't exist in cache! ";
-  AERROR << "load this node from disk now! index = " << index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "GetMapNodeSafe: This node don't exist in cache! ";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "load this node from disk now! index = " << index;
   LoadMapNodeThreadSafety(index, true);
   boost::unique_lock<boost::recursive_mutex> lock2(map_load_mutex_);
   map_node_cache_lvl2_->Get(index, &node);
@@ -153,7 +155,8 @@ void BaseMap::LoadMapNodes(std::set<MapNodeIndex>* map_ids) {
   std::vector<std::future<void>> load_futures;
   itr = map_ids->begin();
   while (itr != map_ids->end()) {
-    AERROR << "Preload map node failed!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Preload map node failed!";
     load_futures.emplace_back(
         cyber::Async(&BaseMap::LoadMapNodeThreadSafety, this, *itr, true));
     ++itr;
@@ -170,7 +173,8 @@ void BaseMap::LoadMapNodes(std::set<MapNodeIndex>* map_ids) {
   boost::unique_lock<boost::recursive_mutex> lock2(map_load_mutex_);
   while (itr != map_ids->end()) {
     if (map_node_cache_lvl2_->Get(*itr, &node)) {
-      AINFO << "LoadMapNodes: preload missed, load this node in main thread.\n"
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "LoadMapNodes: preload missed, load this node in main thread.\n"
             << *itr;
       node->SetIsReserved(true);
       map_node_cache_lvl1_->Put(*itr, node);
@@ -217,9 +221,11 @@ void BaseMap::PreloadMapNodes(std::set<MapNodeIndex>* map_ids) {
   // load form disk sync
   std::vector<std::future<void>> preload_futures;
   itr = map_ids->begin();
-  AINFO << "Preload map node size: " << map_ids->size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Preload map node size: " << map_ids->size();
   while (itr != map_ids->end()) {
-    AINFO << "Preload map node: " << *itr << std::endl;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Preload map node: " << *itr << std::endl;
     boost::unique_lock<boost::recursive_mutex> lock3(map_load_mutex_);
     map_preloading_task_index_.insert(*itr);
     lock3.unlock();
@@ -247,9 +253,11 @@ void BaseMap::LoadMapNodeThreadSafety(MapNodeIndex index, bool is_reserved) {
   }
   map_node->Init(map_config_, index, false);
   if (!map_node->Load()) {
-    AERROR << "Created map node: " << index;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Created map node: " << index;
   } else {
-    AERROR << " Loaded map node: " << index;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << " Loaded map node: " << index;
   }
   map_node->SetIsReserved(is_reserved);
 

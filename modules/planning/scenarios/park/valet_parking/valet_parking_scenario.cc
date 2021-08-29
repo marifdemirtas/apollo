@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -49,7 +48,8 @@ void ValetParkingScenario::Init() {
   Scenario::Init();
 
   if (!GetScenarioConfig()) {
-    AERROR << "fail to get scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to get scenario specific config";
     return;
   }
 
@@ -91,7 +91,8 @@ std::unique_ptr<Stage> ValetParkingScenario::CreateStage(
 
 bool ValetParkingScenario::GetScenarioConfig() {
   if (!config_.has_valet_parking_config()) {
-    AERROR << "miss scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "miss scenario specific config";
     return false;
   }
   context_.scenario_config.CopyFrom(config_.valet_parking_config());
@@ -112,8 +113,9 @@ bool ValetParkingScenario::IsTransferable(const Frame& frame,
                                  .parking_info()
                                  .parking_space_id();
   } else {
-    ADEBUG << "No parking space id from routing";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "No parking space id from routing";
+     return false;
   }
 
   if (target_parking_spot_id.empty()) {
@@ -127,16 +129,18 @@ bool ValetParkingScenario::IsTransferable(const Frame& frame,
 
   if (!SearchTargetParkingSpotOnPath(nearby_path, target_parking_spot_id,
                                      &parking_space_overlap)) {
-    ADEBUG << "No such parking spot found after searching all path forward "
-              "possible"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "No such parking spot found after searching all path forward "
+               "possible"
            << target_parking_spot_id;
     return false;
   }
 
   if (!CheckDistanceToParkingSpot(vehicle_state, nearby_path,
                                   parking_start_range, parking_space_overlap)) {
-    ADEBUG << "target parking spot found, but too far, distance larger than "
-              "pre-defined distance"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "target parking spot found, but too far, distance larger than "
+               "pre-defined distance"
            << target_parking_spot_id;
     return false;
   }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -46,7 +45,6 @@ DEFINE_bool(
     "switch to use acceleration instead of throttle pedal and brake pedal");
 
 namespace {
-
 
 using apollo::canbus::Chassis;
 using apollo::common::VehicleSignal;
@@ -165,8 +163,9 @@ class Teleop {
         perror("read():");
         exit(-1);
       }
-      AINFO << "control command : "
-            << control_command_.ShortDebugString().c_str();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "control command : "
+             << control_command_.ShortDebugString().c_str();
       switch (c) {
         case KEYCODE_UP1:  // accelerate
         case KEYCODE_UP2:
@@ -192,11 +191,13 @@ class Teleop {
             }
           }
           if (!FLAGS_use_acceleration) {
-            AINFO << "Throttle = " << control_command_.throttle()
-                  << ", Brake = " << control_command_.brake();
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Throttle = " << control_command_.throttle()
+                   << ", Brake = " << control_command_.brake();
           } else {
-            AINFO << "Acceleration = " << control_command_.acceleration();
-          }
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Acceleration = " << control_command_.acceleration();
+           }
           break;
         case KEYCODE_DN1:  // decelerate
         case KEYCODE_DN2:
@@ -222,35 +223,41 @@ class Teleop {
             }
           }
           if (!FLAGS_use_acceleration) {
-            AINFO << "Throttle = " << control_command_.throttle()
-                  << ", Brake = " << control_command_.brake();
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Throttle = " << control_command_.throttle()
+                   << ", Brake = " << control_command_.brake();
           } else {
-            AINFO << "Acceleration = " << control_command_.acceleration();
-          }
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Acceleration = " << control_command_.acceleration();
+           }
           break;
         case KEYCODE_LF1:  // left
         case KEYCODE_LF2:
           steering = control_command_.steering_target();
           steering = GetCommand(steering, FLAGS_steer_inc_delta);
           control_command_.set_steering_target(steering);
-          AINFO << "Steering Target = " << steering;
-          break;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Steering Target = " << steering;
+           break;
         case KEYCODE_RT1:  // right
         case KEYCODE_RT2:
           steering = control_command_.steering_target();
           steering = GetCommand(steering, -FLAGS_steer_inc_delta);
           control_command_.set_steering_target(steering);
-          AINFO << "Steering Target = " << steering;
-          break;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Steering Target = " << steering;
+           break;
         case KEYCODE_PKBK:  // hand brake
           parking_brake = !control_command_.parking_brake();
           control_command_.set_parking_brake(parking_brake);
-          AINFO << "Parking Brake Toggled: " << parking_brake;
-          break;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Parking Brake Toggled: " << parking_brake;
+           break;
         case KEYCODE_ESTOP:
           control_command_.set_brake(50.0);
-          AINFO << "Estop Brake : " << control_command_.brake();
-          break;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Estop Brake : " << control_command_.brake();
+           break;
         case KEYCODE_SETT1:  // set throttle
         case KEYCODE_SETT2:
           // read keyboard again
@@ -260,8 +267,9 @@ class Teleop {
           level = c - KEYCODE_ZERO;
           control_command_.set_throttle(level * 10.0);
           control_command_.set_brake(0.0);
-          AINFO << "Throttle = " << control_command_.throttle()
-                << ", Brake = " << control_command_.brake();
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Throttle = " << control_command_.throttle()
+                 << ", Brake = " << control_command_.brake();
           break;
         case KEYCODE_SETG1:
         case KEYCODE_SETG2:
@@ -272,8 +280,9 @@ class Teleop {
           level = c - KEYCODE_ZERO;
           gear = GetGear(level);
           control_command_.set_gear_location(gear);
-          AINFO << "Gear set to : " << level;
-          break;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Gear set to : " << level;
+           break;
         case KEYCODE_SETB1:
         case KEYCODE_SETB2:
           // read keyboard again
@@ -283,8 +292,9 @@ class Teleop {
           level = c - KEYCODE_ZERO;
           control_command_.set_throttle(0.0);
           control_command_.set_brake(level * 10.0);
-          AINFO << "Throttle = " << control_command_.throttle()
-                << ", Brake = " << control_command_.brake();
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Throttle = " << control_command_.throttle()
+                 << ", Brake = " << control_command_.brake();
           break;
         case KEYCODE_SETQ1:
         case KEYCODE_SETQ2:
@@ -328,12 +338,14 @@ class Teleop {
           // printf("%X\n", c);
           break;
       }
-      AINFO << "control command after switch : "
-            << control_command_.ShortDebugString().c_str();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "control command after switch : "
+             << control_command_.ShortDebugString().c_str();
     }  // keyboard_loop big while
     tcsetattr(kfd_, TCSANOW, &cooked_);
-    AINFO << "keyboard_loop thread quited.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "keyboard_loop thread quited.";
+     return;
   }  // end of keyboard loop thread
 
   ControlCommand &control_command() { return control_command_; }
@@ -365,15 +377,18 @@ class Teleop {
     switch (int_action) {
       case 0:
         action = apollo::control::DrivingAction::RESET;
-        AINFO << "SET Action RESET";
-        break;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "SET Action RESET";
+         break;
       case 1:
         action = apollo::control::DrivingAction::START;
-        AINFO << "SET Action START";
-        break;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "SET Action START";
+         break;
       default:
-        AINFO << "unknown action: " << int_action << " use default RESET";
-        break;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "unknown action: " << int_action << " use default RESET";
+         break;
     }
     pad_msg->set_action(action);
     return;
@@ -392,8 +407,9 @@ class Teleop {
   void Send() {
     apollo::common::util::FillHeader("control", &control_command_);
     control_command_writer_->Write(control_command_);
-    ADEBUG << "Control Command send OK:" << control_command_.ShortDebugString();
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Control Command send OK:" << control_command_.ShortDebugString();
+   }
 
   void ResetControlCommand() {
     control_command_.Clear();
@@ -416,7 +432,8 @@ class Teleop {
 
   int32_t Start() {
     if (is_running_) {
-      AERROR << "Already running.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Already running.";
       return -1;
     }
     is_running_ = true;
@@ -429,7 +446,8 @@ class Teleop {
     keyboard_thread_.reset(
         new std::thread([this] { KeyboardLoopThreadFunc(); }));
     if (keyboard_thread_ == nullptr) {
-      AERROR << "Unable to create can client receiver thread.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to create can client receiver thread.";
       return -1;
     }
     return 0;
@@ -441,8 +459,9 @@ class Teleop {
       if (keyboard_thread_ != nullptr && keyboard_thread_->joinable()) {
         keyboard_thread_->join();
         keyboard_thread_.reset();
-        AINFO << "Teleop keyboard stopped [ok].";
-      }
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Teleop keyboard stopped [ok].";
+       }
     }
   }
 
@@ -460,8 +479,6 @@ class Teleop {
 }  // namespace
 
 int main(int32_t argc, char **argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   apollo::cyber::Init(argv[0]);
   FLAGS_alsologtostderr = true;
   FLAGS_v = 3;
@@ -471,12 +488,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   Teleop teleop;
 
   if (teleop.Start() != 0) {
-    AERROR << "Teleop start failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Teleop start failed.";
     return -1;
   }
   Teleop::PrintKeycode();
   apollo::cyber::WaitForShutdown();
   teleop.Stop();
-  AINFO << "Teleop exit done.";
-  return 0;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Teleop exit done.";
+   return 0;
 }

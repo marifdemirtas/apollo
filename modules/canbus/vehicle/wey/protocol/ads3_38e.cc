@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,21 +27,15 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Ads338e::ID = 0x38E;
 
 // public
-Ads338e::Ads338e() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Ads338e::Ads338e() { Reset(); }
 
 uint32_t Ads338e::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(ChaoMa) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Ads338e::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_ads_bcm_worksts(data, ads_bcm_worksts_);
   set_p_ads_bcmworkstsvalid(data, ads_bcmworkstsvalid_);
   set_p_ads_reqcontrolbcm(data, ads_reqcontrolbcm_);
@@ -59,8 +52,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Ads338e::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(ChaoMa) you should check this manually
   ads_bcm_worksts_ = Ads3_38e::ADS_BCM_WORKSTS_DISABLE;
   ads_bcmworkstsvalid_ = Ads3_38e::ADS_BCMWORKSTSVALID_INVALID;
@@ -79,8 +70,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Ads338e* Ads338e::set_ads_bcm_worksts(
     Ads3_38e::Ads_bcm_workstsType ads_bcm_worksts) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ads_bcm_worksts_ = ads_bcm_worksts;
   return this;
 }
@@ -94,8 +83,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Ads338e::set_p_ads_bcm_worksts(
     uint8_t* data, Ads3_38e::Ads_bcm_workstsType ads_bcm_worksts) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = ads_bcm_worksts;
 
   Byte to_set(data + 0);
@@ -104,8 +91,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Ads338e* Ads338e::set_ads_bcmworkstsvalid(
     Ads3_38e::Ads_bcmworkstsvalidType ads_bcmworkstsvalid) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ads_bcmworkstsvalid_ = ads_bcmworkstsvalid;
   return this;
 }
@@ -117,8 +102,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 7, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Ads338e::set_p_ads_bcmworkstsvalid(
     uint8_t* data, Ads3_38e::Ads_bcmworkstsvalidType ads_bcmworkstsvalid) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = ads_bcmworkstsvalid;
 
   Byte to_set(data + 0);
@@ -127,8 +110,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Ads338e* Ads338e::set_ads_reqcontrolbcm(
     Ads3_38e::Ads_reqcontrolbcmType ads_reqcontrolbcm) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ads_reqcontrolbcm_ = ads_reqcontrolbcm;
   return this;
 }
@@ -140,8 +121,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 8, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Ads338e::set_p_ads_reqcontrolbcm(
     uint8_t* data, Ads3_38e::Ads_reqcontrolbcmType ads_reqcontrolbcm) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = ads_reqcontrolbcm;
 
   Byte to_set(data + 1);
@@ -149,8 +128,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Ads338e* Ads338e::set_highbeamton(Ads3_38e::HighbeamtonType highbeamton) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   highbeamton_ = highbeamton;
   return this;
 }
@@ -162,8 +139,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Ads338e::set_p_highbeamton(uint8_t* data,
                                 Ads3_38e::HighbeamtonType highbeamton) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = highbeamton;
 
   Byte to_set(data + 1);
@@ -171,8 +146,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Ads338e* Ads338e::set_dippedbeamon(Ads3_38e::DippedbeamonType dippedbeamon) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   dippedbeamon_ = dippedbeamon;
   return this;
 }
@@ -184,8 +157,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Ads338e::set_p_dippedbeamon(uint8_t* data,
                                  Ads3_38e::DippedbeamonType dippedbeamon) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = dippedbeamon;
 
   Byte to_set(data + 1);
@@ -193,8 +164,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Ads338e* Ads338e::set_turnllighton(Ads3_38e::TurnllightonType turnllighton) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   turnllighton_ = turnllighton;
   return this;
 }
@@ -207,8 +176,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Ads338e::set_p_turnllighton(uint8_t* data,
                                  Ads3_38e::TurnllightonType turnllighton) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = turnllighton;
 
   Byte to_set(data + 2);
@@ -217,8 +184,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Ads338e* Ads338e::set_emergencylighton(
     Ads3_38e::EmergencylightonType emergencylighton) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   emergencylighton_ = emergencylighton;
   return this;
 }
@@ -230,8 +195,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Ads338e::set_p_emergencylighton(
     uint8_t* data, Ads3_38e::EmergencylightonType emergencylighton) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = emergencylighton;
 
   Byte to_set(data + 5);
@@ -239,8 +202,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Ads338e* Ads338e::set_ffoglampon(Ads3_38e::FfoglamponType ffoglampon) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ffoglampon_ = ffoglampon;
   return this;
 }
@@ -252,8 +213,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Ads338e::set_p_ffoglampon(uint8_t* data,
                                Ads3_38e::FfoglamponType ffoglampon) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = ffoglampon;
 
   Byte to_set(data + 5);
@@ -261,8 +220,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Ads338e* Ads338e::set_rfoglampon(Ads3_38e::RfoglamponType rfoglampon) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   rfoglampon_ = rfoglampon;
   return this;
 }
@@ -274,8 +231,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Ads338e::set_p_rfoglampon(uint8_t* data,
                                Ads3_38e::RfoglamponType rfoglampon) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = rfoglampon;
 
   Byte to_set(data + 5);
@@ -283,8 +238,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Ads338e* Ads338e::set_brakelight(Ads3_38e::BrakelightType brakelight) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   brakelight_ = brakelight;
   return this;
 }
@@ -296,8 +249,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Ads338e::set_p_brakelight(uint8_t* data,
                                Ads3_38e::BrakelightType brakelight) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = brakelight;
 
   Byte to_set(data + 6);
@@ -305,8 +256,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Ads338e* Ads338e::set_hornon(Ads3_38e::HornonType hornon) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   hornon_ = hornon;
   return this;
 }
@@ -316,8 +265,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'HornON', 'is_signed_var': False, 'offset': 0.0, 'physical_range': '[0|1]',
 // 'bit': 49, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Ads338e::set_p_hornon(uint8_t* data, Ads3_38e::HornonType hornon) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = hornon;
 
   Byte to_set(data + 6);
@@ -326,8 +273,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Ads338e* Ads338e::set_fwindshieldwiper(
     Ads3_38e::FwindshieldwiperType fwindshieldwiper) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   fwindshieldwiper_ = fwindshieldwiper;
   return this;
 }
@@ -339,8 +284,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Ads338e::set_p_fwindshieldwiper(
     uint8_t* data, Ads3_38e::FwindshieldwiperType fwindshieldwiper) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = fwindshieldwiper;
 
   Byte to_set(data + 6);
@@ -349,8 +292,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Ads338e* Ads338e::set_rwindshieldwiper(
     Ads3_38e::RwindshieldwiperType rwindshieldwiper) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   rwindshieldwiper_ = rwindshieldwiper;
   return this;
 }
@@ -362,8 +303,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Ads338e::set_p_rwindshieldwiper(
     uint8_t* data, Ads3_38e::RwindshieldwiperType rwindshieldwiper) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = rwindshieldwiper;
 
   Byte to_set(data + 7);

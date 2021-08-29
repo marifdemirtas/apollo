@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace transit {
 
 using ::apollo::drivers::canbus::Byte;
 
-Llcauxiliaryfeedback120::Llcauxiliaryfeedback120() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Llcauxiliaryfeedback120::Llcauxiliaryfeedback120() {}
 const int32_t Llcauxiliaryfeedback120::ID = 0x120;
 
 void Llcauxiliaryfeedback120::Parse(const std::uint8_t* bytes, int32_t length,
                                     ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_transit()
       ->mutable_llc_auxiliaryfeedback_120()
       ->set_llc_fbk_inverter(llc_fbk_inverter(bytes, length));
@@ -100,8 +95,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_inverter(const std::uint8_t* bytes,
                                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
 
@@ -115,8 +108,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'intel', 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_pdu_ch8(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(7, 1);
 
@@ -130,8 +121,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'intel', 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_pdu_ch7(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(6, 1);
 
@@ -145,8 +134,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'intel', 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_pdu_ch6(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(5, 1);
 
@@ -160,8 +147,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'intel', 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_pdu_ch5(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(4, 1);
 
@@ -175,8 +160,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'intel', 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_pdu_ch4(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(3, 1);
 
@@ -190,8 +173,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'intel', 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_pdu_ch3(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(2, 1);
 
@@ -205,8 +186,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_pdu_ch2(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(1, 1);
 
@@ -220,8 +199,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_pdu_ch1(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 1);
 
@@ -235,8 +212,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'intel', 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_hazardlights(const std::uint8_t* bytes,
                                                    int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(4, 1);
 
@@ -250,8 +225,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'intel', 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_ledgreenon(const std::uint8_t* bytes,
                                                  int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(1, 1);
 
@@ -265,8 +238,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_horn(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
 
@@ -280,8 +251,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'intel', 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_buzzeron(const std::uint8_t* bytes,
                                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(3, 1);
 
@@ -298,8 +267,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 Llc_auxiliaryfeedback_120::Llc_fbk_turnsignalType
 Llcauxiliaryfeedback120::llc_fbk_turnsignal(const std::uint8_t* bytes,
                                             int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 2);
 
@@ -314,8 +281,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'intel', 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_lowbeam(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(2, 1);
 
@@ -329,8 +294,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'intel', 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_highbeam(const std::uint8_t* bytes,
                                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(3, 1);
 
@@ -344,8 +307,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'intel', 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_ledredon(const std::uint8_t* bytes,
                                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(2, 1);
 
@@ -359,8 +320,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'intel', 'physical_unit': 'T/F'}
 bool Llcauxiliaryfeedback120::llc_fbk_autonomybuttonpressed(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 1);
 

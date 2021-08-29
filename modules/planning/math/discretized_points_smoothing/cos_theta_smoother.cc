@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -67,7 +66,8 @@ bool CosThetaSmoother::Solve(
 
   Ipopt::ApplicationReturnStatus status = app->Initialize();
   if (status != Ipopt::Solve_Succeeded) {
-    AERROR << "*** Error during initialization!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "*** Error during initialization!";
     return false;
   }
 
@@ -77,9 +77,11 @@ bool CosThetaSmoother::Solve(
       status == Ipopt::Solved_To_Acceptable_Level) {
     // Retrieve some statistics about the solve
     Ipopt::Index iter_count = app->Statistics()->IterationCount();
-    ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
-  } else {
-    AERROR << "Solver fails with return code: " << static_cast<int>(status);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
+   } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Solver fails with return code: " << static_cast<int>(status);
     return false;
   }
   smoother->get_optimization_results(opt_x, opt_y);

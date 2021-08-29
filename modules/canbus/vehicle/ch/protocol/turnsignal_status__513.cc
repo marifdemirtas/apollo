@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,15 +25,11 @@ namespace ch {
 
 using ::apollo::drivers::canbus::Byte;
 
-Turnsignalstatus513::Turnsignalstatus513() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Turnsignalstatus513::Turnsignalstatus513() {}
 const int32_t Turnsignalstatus513::ID = 0x513;
 
 void Turnsignalstatus513::Parse(const std::uint8_t* bytes, int32_t length,
                                 ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_ch()->mutable_turnsignal_status__513()->set_turn_signal_sts(
       turn_signal_sts(bytes, length));
 }
@@ -47,8 +42,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 Turnsignal_status__513::Turn_signal_stsType
 Turnsignalstatus513::turn_signal_sts(const std::uint8_t* bytes,
                                      int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 

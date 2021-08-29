@@ -40,12 +40,14 @@ void Velodyne16Parser::GeneratePointcloud(
   for (size_t i = 0; i < packets_size; ++i) {
     Unpack(scan_msg->firing_pkts(static_cast<int>(i)), out_msg);
     last_time_stamp_ = out_msg->measurement_time();
-    ADEBUG << "stamp: " << std::fixed << last_time_stamp_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stamp: " << std::fixed << last_time_stamp_;
   }
 
   if (out_msg->point().empty()) {
     // we discard this pointcloud if empty
-    AERROR << "All points is NAN!Please check velodyne:" << config_.model();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "All points is NAN!Please check velodyne:" << config_.model();
   }
 
   // set default width
@@ -148,7 +150,8 @@ void Velodyne16Parser::Unpack(const VelodynePacket& pkt,
         // append this point to the cloud
 
         if (block == 0 && firing == 0) {
-          ADEBUG << "point x:" << point->x() << "  y:" << point->y()
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "point x:" << point->x() << "  y:" << point->y()
                  << "  z:" << point->z()
                  << "  intensity:" << int(point->intensity());
         }

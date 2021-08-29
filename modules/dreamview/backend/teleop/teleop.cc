@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -67,8 +66,6 @@ const std::string planning_pad_channel = "/apollo/planning/pad";
 
 TeleopService::TeleopService(WebSocketHandler *websocket)
     : node_(cyber::CreateNode("teleop")), websocket_(websocket) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   RegisterMessageHandlers();
 
   teleop_status_["audio"] = false;
@@ -86,8 +83,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TeleopService::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO get topic names from proto
   // TODO update proto to get all modems' info combined with rank
 
@@ -133,8 +128,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TeleopService::RegisterMessageHandlers() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Send current teleop status to the new client.
   websocket_->RegisterConnectionReadyHandler(
       [this](WebSocketHandler::Connection *conn) { SendStatus(conn); });
@@ -168,8 +161,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
             }
             start = teleop_status_["audio_starting"];
           }
-          AINFO << "ToggleAudio: " << start;
-          SendAudioStreamCmd(start);
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ToggleAudio: " << start;
+           SendAudioStreamCmd(start);
         }
       });
   // Mute/Unmute local microphone
@@ -200,8 +194,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           }
           start = teleop_status_["mic_starting"];
         }
-        AINFO << "ToggleMic: " << start;
-        SendMicStreamCmd(start);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ToggleMic: " << start;
+         SendMicStreamCmd(start);
       });
   // Start/stop local decoder and viewer, start/stop remote encoder and
   // compositor
@@ -234,8 +229,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           start = teleop_status_["video_starting"];
         }
         // send a start or stop message to the video encoders
-        AINFO << "ToggleVideo: " << start;
-        SendVideoStreamCmd(start);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ToggleVideo: " << start;
+         SendVideoStreamCmd(start);
       });
   // Issue pull-over command to remote
   websocket_->RegisterMessageHandler(
@@ -265,8 +261,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TeleopService::SendStatus(WebSocketHandler::Connection *conn) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string to_send;
   {
     boost::shared_lock<boost::shared_mutex> reader_lock(mutex_);
@@ -277,8 +271,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void TeleopService::UpdateModem(const std::string &modem_id,
                                 const std::shared_ptr<ModemInfo> &modem_info) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO simplify data and only send necessary info for display
   // update modem_info_
   if (modem_info->has_technology()) {
@@ -305,8 +297,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // callback for messages that originate from the remote computer
 void TeleopService::UpdateCarDaemonRpt(
     const std::shared_ptr<DaemonRpt> &daemon_rpt) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   {
     bool videoIsRunning = false;
     bool voipIsRunning = false;
@@ -389,8 +379,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // callback for messages that originate from this computer
 void TeleopService::UpdateOperatorDaemonRpt(
     const std::shared_ptr<DaemonRpt> &daemon_rpt) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   {
     bool voipIsRunning = false;
     for (int i = 0; i < daemon_rpt->services_size(); i++) {
@@ -433,8 +421,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TeleopService::SendVideoStreamCmd(bool start_stop) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   DaemonCmd msg;
   if (start_stop) {
     msg.set_cmd(start_cmd);
@@ -452,13 +438,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     msg.set_service(encoderName);
     common::util::FillHeader("dreamview", &msg);
     remote_daemon_cmd_writer_->Write(msg);
-    AINFO << encoderName << " " << msg.cmd();
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << encoderName << " " << msg.cmd();
+   }
 }
 
 void TeleopService::SendAudioStreamCmd(bool start_stop) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   DaemonCmd msg;
   if (start_stop) {
     msg.set_cmd(start_cmd);
@@ -468,14 +453,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   msg.set_service("voip_encoder");
   common::util::FillHeader("dreamview", &msg);
   remote_daemon_cmd_writer_->Write(msg);
-  AINFO << "audio " << msg.cmd();
-  // audio start / stop implies mic start/stop
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "audio " << msg.cmd();
+   // audio start / stop implies mic start/stop
   SendMicStreamCmd(start_stop);
 }
 
 void TeleopService::SendMicStreamCmd(bool start_stop) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // by switching on or off the voip_encoder in the local console
   // we are controlling the mic
   DaemonCmd msg;
@@ -487,45 +471,42 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   msg.set_service("voip_encoder");
   common::util::FillHeader("dreamview", &msg);
   local_daemon_cmd_writer_->Write(msg);
-  AINFO << "mic " << msg.cmd();
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "mic " << msg.cmd();
+ }
 
 void TeleopService::SendResumeCruiseCmd() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Resume cruise";
-  PadMessage pad_msg;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Resume cruise";
+   PadMessage pad_msg;
   pad_msg.set_action(DrivingAction::RESUME_CRUISE);
   pad_message_writer_->Write(pad_msg);
 }
 
 void TeleopService::SendEstopCmd() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Pull over";
-  PadMessage pad_msg;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Pull over";
+   PadMessage pad_msg;
   pad_msg.set_action(DrivingAction::PULL_OVER);
   pad_message_writer_->Write(pad_msg);
 }
 
 void TeleopService::SendPullOverCmd() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "EStop";
-  PadMessage pad_msg;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "EStop";
+   PadMessage pad_msg;
   pad_msg.set_action(DrivingAction::STOP);
   pad_message_writer_->Write(pad_msg);
 }
 
 void TeleopService::UpdatePlanning(const std::shared_ptr<ADCTrajectory> &msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   static int count = 0;
   ++count;
 
   if (count % 10 == 0) {
-    AINFO << "Update Planning";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Update Planning";
+   }
   auto scenario_type = msg->debug().planning_data().scenario().scenario_type();
 
   bool pulled_over = scenario_type == ScenarioConfig::PULL_OVER;

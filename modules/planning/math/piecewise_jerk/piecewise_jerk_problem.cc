@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -103,13 +102,15 @@ bool PiecewiseJerkProblem::Optimize(const int max_iter) {
   auto status = osqp_work->info->status_val;
 
   if (status < 0 || (status != 1 && status != 2)) {
-    AERROR << "failed optimization status:\t" << osqp_work->info->status;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed optimization status:\t" << osqp_work->info->status;
     osqp_cleanup(osqp_work);
     FreeData(data);
     c_free(settings);
     return false;
   } else if (osqp_work->solution == nullptr) {
-    AERROR << "The solution from OSQP is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The solution from OSQP is nullptr";
     osqp_cleanup(osqp_work);
     FreeData(data);
     c_free(settings);

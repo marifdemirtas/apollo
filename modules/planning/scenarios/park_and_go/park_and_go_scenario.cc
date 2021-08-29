@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -42,7 +41,8 @@ void ParkAndGoScenario::Init() {
   Scenario::Init();
 
   if (!GetScenarioConfig()) {
-    AERROR << "fail to get scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to get scenario specific config";
     return;
   }
 
@@ -95,7 +95,8 @@ std::unique_ptr<Stage> ParkAndGoScenario::CreateStage(
 
 bool ParkAndGoScenario::GetScenarioConfig() {
   if (!config_.has_park_and_go_config()) {
-    AERROR << "miss scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "miss scenario specific config";
     return false;
   }
   context_.scenario_config.CopyFrom(config_.park_and_go_config());

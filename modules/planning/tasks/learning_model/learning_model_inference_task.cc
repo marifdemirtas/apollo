@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -62,7 +61,8 @@ Status LearningModelInferenceTask::Process(Frame* frame) {
   if (!injector_->learning_based_data() ||
       !injector_->learning_based_data()->GetLatestLearningDataFrame()) {
     const std::string msg = "learning_data_frame empty";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     // hybrid model will use rule based planning when learning based data or
     // learning data frame is empty
     if (config.allow_empty_learning_based_data()) {
@@ -75,15 +75,17 @@ Status LearningModelInferenceTask::Process(Frame* frame) {
   learning_data_frame.CopyFrom(
       *(injector_->learning_based_data()->GetLatestLearningDataFrame()));
 
-  ADEBUG << "LearningModelInferenceTask: frame_num["
-         << learning_data_frame.frame_num() << "] adc_trajectory_point_size["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "LearningModelInferenceTask: frame_num["
+          << learning_data_frame.frame_num() << "] adc_trajectory_point_size["
          << learning_data_frame.adc_trajectory_point_size() << "]";
 
   if (learning_data_frame.adc_trajectory_point_size() <= 0) {
     const std::string msg =
         absl::StrCat("learning_data adc_trajectory_point empty. frame_num[",
                      learning_data_frame.frame_num(), "]");
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     // hybrid model will use rule based planning when learning model output is
     // not ready
     if (config.allow_empty_output_trajectory()) {
@@ -98,8 +100,9 @@ Status LearningModelInferenceTask::Process(Frame* frame) {
               learning_data_frame.adc_trajectory_point_size() - 1)
           .timestamp_sec();
 
-  ADEBUG << "start_point_timestamp_sec: " << start_point_timestamp_sec;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "start_point_timestamp_sec: " << start_point_timestamp_sec;
+ 
   TrajectoryEvaluator trajectory_evaluator;
 
   // evaluate adc trajectory
@@ -121,27 +124,31 @@ Status LearningModelInferenceTask::Process(Frame* frame) {
     const std::string msg = absl::StrCat(
         "TrajectoryImitationInference LoadModel() failed. frame_num[",
         learning_data_frame.frame_num(), "]");
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   if (!trajectory_imitation_inference_->DoInference(&learning_data_frame)) {
     const std::string msg = absl::StrCat(
         "TrajectoryImitationLibtorchInference Inference failed. frame_num[",
         learning_data_frame.frame_num(), "]");
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
   const int adc_future_trajectory_point_size =
       learning_data_frame.output().adc_future_trajectory_point_size();
-  ADEBUG << "   adc_future_trajectory_point_size["
-         << adc_future_trajectory_point_size << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "   adc_future_trajectory_point_size["
+          << adc_future_trajectory_point_size << "]";
   if (adc_future_trajectory_point_size < 10) {
     const std::string msg = absl::StrCat(
         "too short adc_future_trajectory_point. frame_num[",
         learning_data_frame.frame_num(), "] adc_future_trajectory_point_size[",
         adc_future_trajectory_point_size, "]");
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -172,8 +179,9 @@ Status LearningModelInferenceTask::Process(Frame* frame) {
   std::vector<common::TrajectoryPoint> adc_future_trajectory;
   ConvertADCFutureTrajectory(evaluated_future_trajectory,
                              &adc_future_trajectory);
-  ADEBUG << "adc_future_trajectory_size: " << adc_future_trajectory.size();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc_future_trajectory_size: " << adc_future_trajectory.size();
+ 
   injector_->learning_based_data()
       ->set_learning_data_adc_future_trajectory_points(adc_future_trajectory);
 

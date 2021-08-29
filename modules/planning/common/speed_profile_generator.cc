@@ -35,7 +35,8 @@ using apollo::common::SpeedPoint;
 
 SpeedData SpeedProfileGenerator::GenerateFallbackSpeed(
     const EgoInfo* ego_info, const double stop_distance) {
-  AERROR << "Fallback using piecewise jerk speed!";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fallback using piecewise jerk speed!";
   const double init_v = ego_info->start_point().v();
   const double init_a = ego_info->start_point().a();
   AWARN << "init_v = " << init_v << ", init_a = " << init_a;
@@ -76,7 +77,8 @@ SpeedData SpeedProfileGenerator::GenerateFallbackSpeed(
 
   // Solve the problem
   if (!piecewise_jerk_problem.Optimize()) {
-    AERROR << "Piecewise jerk fallback speed optimizer failed!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Piecewise jerk fallback speed optimizer failed!";
     return GenerateStopProfile(init_v, init_a);
   }
 
@@ -86,7 +88,8 @@ SpeedData SpeedProfileGenerator::GenerateFallbackSpeed(
   const std::vector<double>& dds = piecewise_jerk_problem.opt_ddx();
 
   for (size_t i = 0; i < num_of_knots; ++i) {
-    ADEBUG << "For[" << delta_t * static_cast<double>(i) << "], s = " << s[i]
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "For[" << delta_t * static_cast<double>(i) << "], s = " << s[i]
            << ", v = " << ds[i] << ", a = " << dds[i];
   }
 
@@ -117,7 +120,8 @@ void SpeedProfileGenerator::FillEnoughSpeedPoints(SpeedData* const speed_data) {
 
 SpeedData SpeedProfileGenerator::GenerateStopProfile(const double init_speed,
                                                      const double init_acc) {
-  AERROR << "Slowing down the car within a constant deceleration with fallback "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Slowing down the car within a constant deceleration with fallback "
             "stopping profile.";
   SpeedData speed_data;
 

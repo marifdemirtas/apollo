@@ -78,7 +78,8 @@ bool DummyPreprocessor::Preprocess(const drivers::ContiRadar& raw_obstacles,
                                    const PreprocessorOptions& options,
                                    drivers::ContiRadar* corrected_obstacles) {
   if (corrected_obstacles == nullptr) {
-    AERROR << "corrected_obstacles is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "corrected_obstacles is not available";
     return false;
   }
   *corrected_obstacles = raw_obstacles;

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,35 +26,25 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Controlcommand115::ID = 0x115;
 
 // public
-Controlcommand115::Controlcommand115() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Controlcommand115::Controlcommand115() { Reset(); }
 
 uint32_t Controlcommand115::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Controlcommand115::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_ctrl_cmd(data, ctrl_cmd_);
 }
 
 void Controlcommand115::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // you should check this manually
   ctrl_cmd_ = Control_command_115::CTRL_CMD_OUT_OF_CONTROL;
 }
 
 Controlcommand115* Controlcommand115::set_ctrl_cmd(
     Control_command_115::Ctrl_cmdType ctrl_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ctrl_cmd_ = ctrl_cmd;
   return this;
 }
@@ -67,8 +56,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Controlcommand115::set_p_ctrl_cmd(
     uint8_t* data, Control_command_115::Ctrl_cmdType ctrl_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = ctrl_cmd;
 
   Byte to_set(data + 0);

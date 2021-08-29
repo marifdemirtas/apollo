@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -103,7 +102,8 @@ Status NaviPlanning::InitFrame(const uint32_t sequence_num,
   if (!reference_line_provider_->GetReferenceLines(&reference_lines,
                                                    &segments)) {
     const std::string msg = "Failed to create reference line";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -112,7 +112,8 @@ Status NaviPlanning::InitFrame(const uint32_t sequence_num,
       reference_line_provider_->FutureRouteWaypoints(), injector_->ego_info());
 
   if (!status.ok()) {
-    AERROR << "failed to init frame:" << status.ToString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to init frame:" << status.ToString();
     return status;
   }
   return Status::OK();
@@ -131,12 +132,14 @@ void NaviPlanning::RunOnce(const LocalView& local_view,
       injector_->vehicle_state(), hdmap_, local_view_.relative_map);
 
   // localization
-  ADEBUG << "Get localization: "
-         << local_view_.localization_estimate->DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Get localization: "
+          << local_view_.localization_estimate->DebugString();
 
   // chassis
-  ADEBUG << "Get chassis: " << local_view_.chassis->DebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Get chassis: " << local_view_.chassis->DebugString();
+ 
   Status status = injector_->vehicle_state()->Update(
       *local_view_.localization_estimate, *local_view_.chassis);
 
@@ -144,8 +147,6 @@ void NaviPlanning::RunOnce(const LocalView& local_view,
       ComputeVehicleConfigFromLocalization(*local_view_.localization_estimate);
 
   if (last_vehicle_config_.is_valid_ && vehicle_config.is_valid_) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     auto x_diff_map = vehicle_config.x_ - last_vehicle_config_.x_;
     auto y_diff_map = vehicle_config.y_ - last_vehicle_config_.y_;
 
@@ -184,7 +185,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!status.ok() || !util::IsVehicleStateValid(vehicle_state)) {
     const std::string msg = "Update VehicleStateProvider failed";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     not_ready->set_reason(msg);
     status.Save(trajectory_pb->mutable_header()->mutable_status());
     // TODO(all): integrate reverse gear
@@ -208,7 +210,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!frame_) {
     const std::string msg = "Failed to init frame";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     not_ready->set_reason(msg);
     status.Save(trajectory_pb->mutable_header()->mutable_status());
     // TODO(all): integrate reverse gear
@@ -223,7 +226,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   trajectory_pb->mutable_latency_stats()->set_init_frame_time_ms(
       Clock::NowInSeconds() - start_timestamp);
   if (!status.ok()) {
-    AERROR << status.ToString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << status.ToString();
     if (FLAGS_publish_estop) {
       // Because the function "Control::ProduceControlCommand()" checks the
       // "estop" signal with the following line (Line 170 in control.cc):
@@ -278,11 +282,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const auto time_diff_ms =
       (Clock::NowInSeconds() - start_timestamp) * 1000;
-  ADEBUG << "total planning time spend: " << time_diff_ms << " ms.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "total planning time spend: " << time_diff_ms << " ms.";
+ 
   trajectory_pb->mutable_latency_stats()->set_total_time_ms(time_diff_ms);
-  ADEBUG << "Planning latency: "
-         << trajectory_pb->latency_stats().DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Planning latency: "
+          << trajectory_pb->latency_stats().DebugString();
 
   auto* ref_line_task =
       trajectory_pb->mutable_latency_stats()->add_task_stats();
@@ -292,9 +298,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!status.ok()) {
     status.Save(trajectory_pb->mutable_header()->mutable_status());
-    AERROR << "Planning failed:" << status.ToString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Planning failed:" << status.ToString();
     if (FLAGS_publish_estop) {
-      AERROR << "Planning failed and set estop";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Planning failed and set estop";
       // Because the function "Control::ProduceControlCommand()" checks the
       // "estop" signal with the following line (Line 170 in control.cc):
       // estop_ = estop_ || trajectory_.estop().is_estop();
@@ -309,8 +317,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   // TODO(all): integrate reverse gear
   trajectory_pb->set_gear(canbus::Chassis::GEAR_DRIVE);
   FillPlanningPb(start_timestamp, trajectory_pb);
-  ADEBUG << "Planning pb:" << trajectory_pb->header().DebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Planning pb:" << trajectory_pb->header().DebugString();
+ 
   auto seq_num = frame_->SequenceNum();
   injector_->frame_history()->Add(seq_num, std::move(frame_));
 }
@@ -324,16 +333,18 @@ void NaviPlanning::ProcessPadMsg(DrivingAction drvie_action) {
       std::string current_lane_id;
       switch (drvie_action) {
         case DrivingAction::FOLLOW: {
-          AINFO << "Received follow drive action";
-          std::string current_lane_id = GetCurrentLaneId();
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Received follow drive action";
+           std::string current_lane_id = GetCurrentLaneId();
           if (!current_lane_id.empty()) {
             target_lane_id_ = current_lane_id;
           }
           break;
         }
         case DrivingAction::CHANGE_LEFT: {
-          AINFO << "Received change left lane drive action";
-          std::vector<LaneInfoPair> lane_info_group;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Received change left lane drive action";
+           std::vector<LaneInfoPair> lane_info_group;
           GetLeftNeighborLanesInfo(&lane_info_group);
           if (!lane_info_group.empty()) {
             target_lane_id_ = lane_info_group.front().first;
@@ -341,8 +352,9 @@ void NaviPlanning::ProcessPadMsg(DrivingAction drvie_action) {
           break;
         }
         case DrivingAction::CHANGE_RIGHT: {
-          AINFO << "Received change right lane drive action";
-          std::vector<LaneInfoPair> lane_info_group;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Received change right lane drive action";
+           std::vector<LaneInfoPair> lane_info_group;
           GetRightNeighborLanesInfo(&lane_info_group);
           if (!lane_info_group.empty()) {
             target_lane_id_ = lane_info_group.front().first;
@@ -350,13 +362,15 @@ void NaviPlanning::ProcessPadMsg(DrivingAction drvie_action) {
           break;
         }
         case DrivingAction::PULL_OVER: {
-          AINFO << "Received pull over drive action";
-          // to do
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Received pull over drive action";
+           // to do
           break;
         }
         case DrivingAction::STOP: {
-          AINFO << "Received stop drive action";
-          // to do
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Received stop drive action";
+           // to do
           break;
         }
         default: {
@@ -371,12 +385,14 @@ void NaviPlanning::ProcessPadMsg(DrivingAction drvie_action) {
       static constexpr uint32_t kOtherRefLinePriority = 10;
       for (auto& ref_line_info : ref_line_info_group) {
         auto lane_id = ref_line_info.Lanes().Id();
-        ADEBUG << "lane_id : " << lane_id;
-        lane_id_to_priority[lane_id] = kOtherRefLinePriority;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "lane_id : " << lane_id;
+         lane_id_to_priority[lane_id] = kOtherRefLinePriority;
         if (lane_id == target_lane_id_) {
           lane_id_to_priority[lane_id] = KTargetRefLinePriority;
-          ADEBUG << "target lane_id : " << lane_id;
-        }
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "target lane_id : " << lane_id;
+         }
       }
       frame_->UpdateReferenceLinePriority(lane_id_to_priority);
     }
@@ -489,7 +505,8 @@ Status NaviPlanning::Plan(
   const auto* best_ref_info = frame_->FindDriveReferenceLineInfo();
   if (!best_ref_info) {
     const std::string msg = "planner failed to make a driving plan";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     if (last_publishable_trajectory_) {
       last_publishable_trajectory_->Clear();
     }
@@ -541,8 +558,9 @@ Status NaviPlanning::Plan(
   last_publishable_trajectory_.reset(new PublishableTrajectory(
       current_time_stamp, best_ref_info->trajectory()));
 
-  ADEBUG << "current_time_stamp: " << current_time_stamp;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "current_time_stamp: " << current_time_stamp;
+ 
   // Navi Planner doesn't need to stitch the last path planning
   // trajectory.Otherwise, it will cause the Dreamview planning track to display
   // flashing or bouncing
@@ -560,8 +578,9 @@ Status NaviPlanning::Plan(
         FLAGS_trajectory_time_high_density_period) {
       break;
     }
-    ADEBUG << last_publishable_trajectory_->TrajectoryPointAt(i)
-                  .ShortDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << last_publishable_trajectory_->TrajectoryPointAt(i)
+                   .ShortDebugString();
   }
 
   last_publishable_trajectory_->PopulateTrajectoryProtobuf(trajectory_pb);

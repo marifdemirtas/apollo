@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -54,7 +53,8 @@ Status RssDecider::Process(Frame *frame,
   if (reference_line_info->path_data().Empty() ||
       reference_line_info->speed_data().empty()) {
     const std::string msg = "Empty path or speed data";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -303,11 +303,13 @@ Status RssDecider::Process(Frame *frame,
   }
 
   if (responseStateVector[0].longitudinalState.isSafe) {
-    ADEBUG << "Task " << Name() << " Distance is RSS-Safe";
-    reference_line_info->mutable_rss_info()->set_is_rss_safe(true);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Task " << Name() << " Distance is RSS-Safe";
+     reference_line_info->mutable_rss_info()->set_is_rss_safe(true);
   } else {
-    ADEBUG << "Task " << Name() << " Distance is not RSS-Safe";
-    reference_line_info->mutable_rss_info()->set_is_rss_safe(false);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Task " << Name() << " Distance is not RSS-Safe";
+     reference_line_info->mutable_rss_info()->set_is_rss_safe(false);
     if (FLAGS_enable_rss_fallback) {
       reference_line_info->mutable_speed_data()->clear();
     }
@@ -330,30 +332,44 @@ Status RssDecider::Process(Frame *frame,
   reference_line_info->mutable_rss_info()->set_acc_lat_right_range_maximum(
       static_cast<double>(accelerationRestriction.lateralRightRange.maximum));
 
-  ADEBUG << " longitudinalState.isSafe: "
-         << responseStateVector[0].longitudinalState.isSafe;
-  ADEBUG << " lateralStateLeft.isSafe: "
-         << responseStateVector[0].lateralStateLeft.isSafe;
-  ADEBUG << " lateralStateRight.isSafe: "
-         << responseStateVector[0].lateralStateRight.isSafe;
-  ADEBUG << " is_rss_safe : " << reference_line_info->rss_info().is_rss_safe();
-  ADEBUG << " cur_dist_lon: " << reference_line_info->rss_info().cur_dist_lon();
-  ADEBUG << " is_rss_safe : " << reference_line_info->rss_info().is_rss_safe();
-  ADEBUG << " cur_dist_lon: " << reference_line_info->rss_info().cur_dist_lon();
-  ADEBUG << " rss_safe_dist_lon: "
-         << reference_line_info->rss_info().rss_safe_dist_lon();
-  ADEBUG << " acc_longitudianlRange_minimum: "
-         << reference_line_info->rss_info().acc_lon_range_minimum();
-  ADEBUG << " acc_longitudinalRange_maximum: "
-         << reference_line_info->rss_info().acc_lon_range_maximum();
-  ADEBUG << " acc_lateralLeftRange_minimum: "
-         << reference_line_info->rss_info().acc_lat_left_range_minimum();
-  ADEBUG << " acc_lateralLeftRange_maximum: "
-         << reference_line_info->rss_info().acc_lat_left_range_maximum();
-  ADEBUG << " acc_lateralRightRange: "
-         << reference_line_info->rss_info().acc_lat_right_range_minimum();
-  ADEBUG << " acc_lateralRightRange_maximum: "
-         << reference_line_info->rss_info().acc_lat_right_range_maximum();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " longitudinalState.isSafe: "
+          << responseStateVector[0].longitudinalState.isSafe;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " lateralStateLeft.isSafe: "
+          << responseStateVector[0].lateralStateLeft.isSafe;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " lateralStateRight.isSafe: "
+          << responseStateVector[0].lateralStateRight.isSafe;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " is_rss_safe : " << reference_line_info->rss_info().is_rss_safe();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " cur_dist_lon: " << reference_line_info->rss_info().cur_dist_lon();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " is_rss_safe : " << reference_line_info->rss_info().is_rss_safe();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " cur_dist_lon: " << reference_line_info->rss_info().cur_dist_lon();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " rss_safe_dist_lon: "
+          << reference_line_info->rss_info().rss_safe_dist_lon();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " acc_longitudianlRange_minimum: "
+          << reference_line_info->rss_info().acc_lon_range_minimum();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " acc_longitudinalRange_maximum: "
+          << reference_line_info->rss_info().acc_lon_range_maximum();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " acc_lateralLeftRange_minimum: "
+          << reference_line_info->rss_info().acc_lat_left_range_minimum();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " acc_lateralLeftRange_maximum: "
+          << reference_line_info->rss_info().acc_lat_left_range_maximum();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " acc_lateralRightRange: "
+          << reference_line_info->rss_info().acc_lat_right_range_minimum();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " acc_lateralRightRange_maximum: "
+          << reference_line_info->rss_info().acc_lat_right_range_maximum();
 
   return Status::OK();
 }
@@ -390,7 +406,8 @@ void RssDecider::rss_create_other_object(::ad_rss::world::Object *other,
 
 void RssDecider::rss_dump_world_info(
     const struct rss_world_model_struct &rss_info) {
-  AERROR << " RSS_INFO :"
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << " RSS_INFO :"
          << " front_obs_dist: " << rss_info.front_obs_dist
          << " obs_s_start: " << rss_info.obs_s_start
          << " obs_s_end: " << rss_info.obs_s_end

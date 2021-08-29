@@ -32,7 +32,8 @@ PlaneMotion::PlaneMotion(int s) {
   } else if (mat_motion_sensor_.rows() == 4 && mat_motion_sensor_.cols() == 4) {
     is_3d_motion_ = true;
   } else {
-    AERROR << "Unknow motion matrix size : " << mat_motion_sensor_.rows() << " "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknow motion matrix size : " << mat_motion_sensor_.rows() << " "
            << mat_motion_sensor_.cols();
   }
 }
@@ -140,7 +141,8 @@ void PlaneMotion::update_motion_buffer(const base::VehicleStatus &vehicledata,
 bool PlaneMotion::find_motion_with_timestamp(double timestamp,
                                              base::VehicleStatus *vs) {
   std::lock_guard<std::mutex> lock(mutex_);
-  ADEBUG << "mot_buffer_->size(): " << mot_buffer_->size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "mot_buffer_->size(): " << mot_buffer_->size();
 
   for (auto rit = mot_buffer_->rbegin(); rit != mot_buffer_->rend(); ++rit) {
     if (std::abs(rit->time_ts - timestamp) <
@@ -164,7 +166,8 @@ void PlaneMotion::add_new_motion(double pre_image_timestamp,
   while (!raw_motion_queue_.empty() &&
          vehicledata->time_ts < raw_motion_queue_.back().time_ts) {
     raw_motion_queue_.pop_back();
-    ADEBUG << "pop ts : back ts" << vehicledata->time_ts << " "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "pop ts : back ts" << vehicledata->time_ts << " "
            << raw_motion_queue_.back().time_ts << " "
            << raw_motion_queue_.size();
   }
@@ -186,7 +189,8 @@ void PlaneMotion::add_new_motion(double pre_image_timestamp,
                              image_timestamp);
         break;
       default:
-        AERROR << "motion operation flag:wrong type";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "motion operation flag:wrong type";
         return;
     }
   } else {
@@ -195,7 +199,8 @@ void PlaneMotion::add_new_motion(double pre_image_timestamp,
     vehicledata->time_ts = image_timestamp;
     vehicledata->motion = base::MotionType::Identity();
     mot_buffer_->push_back(*vehicledata);
-    ADEBUG << "pop and rest raw_buffer, mot_buffer: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "pop and rest raw_buffer, mot_buffer: "
            << raw_motion_queue_.size();
   }
 }

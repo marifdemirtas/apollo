@@ -81,7 +81,8 @@ void PerceptionCameraUpdater::Stop() {
 void PerceptionCameraUpdater::GetImageLocalization(
     std::vector<double> *localization) {
   if (localization_queue_.empty()) {
-    AERROR << "Localization queue is empty, cannot get localization for image,"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Localization queue is empty, cannot get localization for image,"
            << "image_timestamp: " << current_image_timestamp_;
     return;
   }

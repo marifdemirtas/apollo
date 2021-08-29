@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -69,9 +68,11 @@ Status PathReferenceDecider::Process(Frame *frame,
       frame->reference_line_info().size() > 1) {
     reference_line_info->mutable_path_data()->set_is_valid_path_reference(
         false);
-    ADEBUG << "Skip path reference when changing lane.";
-    ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
-           << "] total_path_counter[" << total_path_counter_ << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip path reference when changing lane.";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
+            << "] total_path_counter[" << total_path_counter_ << "]";
     std::string err_msg = "Skip path reference when changing lane.";
     reference_line_info->mutable_debug()
         ->mutable_planning_data()
@@ -91,9 +92,11 @@ Status PathReferenceDecider::Process(Frame *frame,
       reference_line_info->is_path_lane_borrow()) {
     reference_line_info->mutable_path_data()->set_is_valid_path_reference(
         false);
-    ADEBUG << "Skip path reference when sidepass.";
-    ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
-           << "] total_path_counter[" << total_path_counter_ << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip path reference when sidepass.";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
+            << "] total_path_counter[" << total_path_counter_ << "]";
     std::string err_msg = "Skip path reference when sidepass.";
     reference_line_info->mutable_debug()
         ->mutable_planning_data()
@@ -111,23 +114,27 @@ Status PathReferenceDecider::Process(Frame *frame,
   // get path bounds info from reference line info
   const std::vector<PathBoundary> &path_boundaries =
       reference_line_info_->GetCandidatePathBoundaries();
-  ADEBUG << "There are " << path_boundaries.size() << " path boundaries.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There are " << path_boundaries.size() << " path boundaries.";
+ 
   // get learning model output (trajectory) from frame
   const std::vector<common::TrajectoryPoint> &learning_model_trajectory =
       injector_->learning_based_data()
           ->learning_data_adc_future_trajectory_points();
-  ADEBUG << "There are " << learning_model_trajectory.size() << " path points.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There are " << learning_model_trajectory.size() << " path points.";
+ 
   // get regular path bound
   size_t regular_path_bound_idx = GetRegularPathBound(path_boundaries);
   if (regular_path_bound_idx == path_boundaries.size()) {
     reference_line_info->mutable_path_data()->set_is_valid_path_reference(
         false);
     const std::string msg = "No regular path boundary";
-    AERROR << msg;
-    ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
-           << "] total_path_counter[" << total_path_counter_ << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
+            << "] total_path_counter[" << total_path_counter_ << "]";
     std::string err_msg = "No regular path boundary";
     reference_line_info->mutable_debug()
         ->mutable_planning_data()
@@ -148,8 +155,9 @@ Status PathReferenceDecider::Process(Frame *frame,
   if (learning_model_trajectory.size() == 0) {
     reference_line_info->mutable_path_data()->set_is_valid_path_reference(
         false);
-    ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
-           << "] total_path_counter[" << total_path_counter_ << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
+            << "] total_path_counter[" << total_path_counter_ << "]";
     std::string err_msg = "No learning model output";
     reference_line_info->mutable_debug()
         ->mutable_planning_data()
@@ -173,8 +181,9 @@ Status PathReferenceDecider::Process(Frame *frame,
   if (stitched_learning_model_trajectory.size() <= 1) {
     reference_line_info->mutable_path_data()->set_is_valid_path_reference(
         false);
-    ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
-           << "] total_path_counter[" << total_path_counter_ << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
+            << "] total_path_counter[" << total_path_counter_ << "]";
     std::string err_msg = "Stitched path reference is too short";
     reference_line_info->mutable_debug()
         ->mutable_planning_data()
@@ -199,8 +208,9 @@ Status PathReferenceDecider::Process(Frame *frame,
                             path_reference)) {
     reference_line_info->mutable_path_data()->set_is_valid_path_reference(
         false);
-    ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
-           << "] total_path_counter[" << total_path_counter_ << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
+            << "] total_path_counter[" << total_path_counter_ << "]";
     std::string err_msg = "Learning model output violates path bounds";
     reference_line_info->mutable_debug()
         ->mutable_planning_data()
@@ -220,8 +230,9 @@ Status PathReferenceDecider::Process(Frame *frame,
   std::vector<PathPoint> evaluated_path_reference;
   EvaluatePathReference(path_boundaries[regular_path_bound_idx], path_reference,
                         &evaluated_path_reference);
-  ADEBUG << "evaluated_path_reference: " << evaluated_path_reference.size();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "evaluated_path_reference: " << evaluated_path_reference.size();
+ 
   // mark learning trajectory as path reference
   reference_line_info->mutable_path_data()->set_is_valid_path_reference(true);
   // export decider result to debug info
@@ -246,8 +257,9 @@ Status PathReferenceDecider::Process(Frame *frame,
   //                   reference_line_info);
 
   ++valid_path_reference_counter_;
-  ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
-         << "] total_path_counter[" << total_path_counter_ << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "valid_path_reference_counter[" << valid_path_reference_counter_
+          << "] total_path_counter[" << total_path_counter_ << "]";
 
   // export reuse ratio to debug info
   reference_line_info->mutable_debug()
@@ -257,8 +269,9 @@ Status PathReferenceDecider::Process(Frame *frame,
           static_cast<double>(valid_path_reference_counter_) /
           (total_path_counter_ + kMathEpsilon));
 
-  ADEBUG << "path reference size:" << path_reference.size();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "path reference size:" << path_reference.size();
+ 
   return Status::OK();
 }
 
@@ -290,8 +303,9 @@ bool PathReferenceDecider::IsValidPathReference(
     const double cur_y = path_referece_point.y();
     if (-1 == IsPointWithinPathBounds(reference_line_info, regular_path_bound,
                                       cur_x, cur_y)) {
-      ADEBUG << ", x: " << std::setprecision(9) << cur_x
-             << ", y: " << std::setprecision(9) << cur_y;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << ", x: " << std::setprecision(9) << cur_x
+              << ", y: " << std::setprecision(9) << cur_y;
       return false;
     }
   }
@@ -326,8 +340,9 @@ bool PathReferenceDecider::IsADCBoxAlongPathReferenceWithinPathBounds(
       // TODO(Shu): early stop when vehicle box is far away.
       for (auto vehicle_box : vehicle_boxes) {
         if (vehicle_box.HasOverlap(line_segment)) {
-          ADEBUG << std::setprecision(9) << "Vehicle box:["
-                 << vehicle_box.center_x() << "," << vehicle_box.center_y()
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << std::setprecision(9) << "Vehicle box:["
+                  << vehicle_box.center_x() << "," << vehicle_box.center_y()
                  << "]"
                  << "Violate path bound at [" << line_segment.start().x() << ","
                  << line_segment.start().y() << "];"
@@ -411,7 +426,8 @@ int PathReferenceDecider::IsPointWithinPathBounds(
 
   if (point_sl.s() > end_s ||
       point_sl.s() < start_s - kPathBoundsDeciderResolution * 2) {
-    AERROR << "Longitudinally outside the boundary.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Longitudinally outside the boundary.";
     return -1;
   }
   int idx_after = 0;
@@ -424,8 +440,9 @@ int PathReferenceDecider::IsPointWithinPathBounds(
     // begining point
     return idx_after;
   } else {
-    ADEBUG << "idx_after[" << idx_after << "] point_l[" << point_sl.l() << "]";
-    int idx_before = idx_after - 1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "idx_after[" << idx_after << "] point_l[" << point_sl.l() << "]";
+     int idx_before = idx_after - 1;
     if (std::get<0>(path_bound.boundary().at(idx_before)) <= point_sl.l() &&
         std::get<1>(path_bound.boundary().at(idx_before)) >= point_sl.l() &&
         std::get<0>(path_bound.boundary().at(idx_after)) <= point_sl.l() &&
@@ -433,8 +450,9 @@ int PathReferenceDecider::IsPointWithinPathBounds(
       return idx_after;
     }
   }
-  ADEBUG << "Laterally outside the boundary.";
-  return -1;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Laterally outside the boundary.";
+   return -1;
 }
 
 void PathReferenceDecider::EvaluatePathReference(

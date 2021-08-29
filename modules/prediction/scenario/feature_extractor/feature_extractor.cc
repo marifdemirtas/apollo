@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -38,7 +37,8 @@ EnvironmentFeatures FeatureExtractor::ExtractEnvironmentFeatures(
 
   if (ego_state_container == nullptr ||
       ego_state_container->ToPerceptionObstacle() == nullptr) {
-    AERROR << "Null ego state container found or "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null ego state container found or "
               "the container pointer is nullptr";
     return environment_features;
   }
@@ -48,7 +48,8 @@ EnvironmentFeatures FeatureExtractor::ExtractEnvironmentFeatures(
       !ptr_ego_state->position().has_y() || !ptr_ego_state->has_theta() ||
       !ptr_ego_state->has_velocity() || !ptr_ego_state->velocity().has_x() ||
       !ptr_ego_state->velocity().has_y()) {
-    AERROR << "Incomplete ego pose information.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incomplete ego pose information.";
     return environment_features;
   }
 
@@ -57,7 +58,8 @@ EnvironmentFeatures FeatureExtractor::ExtractEnvironmentFeatures(
       std::isnan(ptr_ego_state->theta()) ||
       std::isnan(ptr_ego_state->velocity().x()) ||
       std::isnan(ptr_ego_state->velocity().y())) {
-    AERROR << "nan found in ego state";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "nan found in ego state";
     return environment_features;
   }
 
@@ -87,11 +89,13 @@ void FeatureExtractor::ExtractEgoLaneFeatures(
     EnvironmentFeatures* ptr_environment_features,
     const LaneInfoPtr& ptr_ego_lane, const common::math::Vec2d& ego_position) {
   if (ptr_ego_lane == nullptr) {
-    ADEBUG << "Ego vehicle is not on any lane.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Ego vehicle is not on any lane.";
+     return;
   }
-  ADEBUG << "Ego vehicle is on lane [" << ptr_ego_lane->id().id() << "]";
-  double curr_lane_s = 0.0;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Ego vehicle is on lane [" << ptr_ego_lane->id().id() << "]";
+   double curr_lane_s = 0.0;
   double curr_lane_l = 0.0;
   ptr_ego_lane->GetProjection(ego_position, &curr_lane_s, &curr_lane_l);
   ptr_environment_features->SetEgoLane(ptr_ego_lane->id().id(), curr_lane_s);
@@ -120,8 +124,9 @@ void FeatureExtractor::ExtractNeighborLaneFeatures(
     EnvironmentFeatures* ptr_environment_features,
     const LaneInfoPtr& ptr_ego_lane, const Vec2d& ego_position) {
   if (ptr_ego_lane == nullptr) {
-    ADEBUG << "Ego vehicle is not on any lane.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Ego vehicle is not on any lane.";
+     return;
   }
 
   auto ptr_left_neighbor_lane = PredictionMap::GetLeftNeighborLane(
@@ -158,7 +163,8 @@ void FeatureExtractor::ExtractFrontJunctionFeatures(
       container_manager->GetContainer<ADCTrajectoryContainer>(
           AdapterConfig::PLANNING_TRAJECTORY);
   if (ego_trajectory_container == nullptr) {
-    AERROR << "Null ego trajectory container";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null ego trajectory container";
     return;
   }
   JunctionInfoPtr junction = ego_trajectory_container->ADCJunction();

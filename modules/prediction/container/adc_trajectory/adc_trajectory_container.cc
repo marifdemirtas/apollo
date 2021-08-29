@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -42,18 +41,21 @@ void ADCTrajectoryContainer::Insert(
   adc_junction_polygon_ = std::move(Polygon2d());
 
   adc_trajectory_.CopyFrom(dynamic_cast<const ADCTrajectory&>(message));
-  ADEBUG << "Received a planning message ["
-         << adc_trajectory_.ShortDebugString() << "].";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received a planning message ["
+          << adc_trajectory_.ShortDebugString() << "].";
 
   // Find ADC lane sequence
   SetLaneSequence();
-  ADEBUG << "Generate an ADC lane id sequence [" << ToString(adc_lane_seq_)
-         << "].";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Generate an ADC lane id sequence [" << ToString(adc_lane_seq_)
+          << "].";
 
   // Find ADC target lane sequence
   SetTargetLaneSequence();
-  ADEBUG << "Generate an ADC target lane id sequence ["
-         << ToString(adc_target_lane_seq_) << "].";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Generate an ADC target lane id sequence ["
+          << ToString(adc_target_lane_seq_) << "].";
 }
 
 bool ADCTrajectoryContainer::IsPointInJunction(const PathPoint& point) const {
@@ -234,8 +236,9 @@ void ADCTrajectoryContainer::SetPosition(const Vec2d& position) {
       break;
     }
   }
-  ADEBUG << "Generate an ADC lane ids [" << ToString(adc_lane_ids_) << "].";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Generate an ADC lane ids [" << ToString(adc_lane_ids_) << "].";
+ }
 
 const std::vector<std::string>& ADCTrajectoryContainer::GetADCLaneIDSequence()
     const {

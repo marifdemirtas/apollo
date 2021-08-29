@@ -44,7 +44,8 @@ Status VehicleStateProvider::Update(
   } else if (localization.header().has_timestamp_sec()) {
     vehicle_state_.set_timestamp(localization.header().timestamp_sec());
   } else if (chassis.has_header() && chassis.header().has_timestamp_sec()) {
-    AERROR << "Unable to use location timestamp for vehicle state. Use chassis "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to use location timestamp for vehicle state. Use chassis "
               "time instead.";
     vehicle_state_.set_timestamp(chassis.header().timestamp_sec());
   }
@@ -83,13 +84,15 @@ Status VehicleStateProvider::Update(
 bool VehicleStateProvider::ConstructExceptLinearVelocity(
     const localization::LocalizationEstimate &localization) {
   if (!localization.has_pose()) {
-    AERROR << "Invalid localization input.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid localization input.";
     return false;
   }
 
   // skip localization update when it is in use_navigation_mode.
   if (FLAGS_use_navigation_mode) {
-    ADEBUG << "Skip localization update when it is in use_navigation_mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip localization update when it is in use_navigation_mode.";
     return true;
   }
 
@@ -112,7 +115,8 @@ bool VehicleStateProvider::ConstructExceptLinearVelocity(
 
   if (FLAGS_enable_map_reference_unify) {
     if (!localization.pose().has_angular_velocity_vrf()) {
-      AERROR << "localization.pose().has_angular_velocity_vrf() must be true "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "localization.pose().has_angular_velocity_vrf() must be true "
                 "when FLAGS_enable_map_reference_unify is true.";
       return false;
     }
@@ -120,7 +124,8 @@ bool VehicleStateProvider::ConstructExceptLinearVelocity(
         localization.pose().angular_velocity_vrf().z());
 
     if (!localization.pose().has_linear_acceleration_vrf()) {
-      AERROR << "localization.pose().has_linear_acceleration_vrf() must be "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "localization.pose().has_linear_acceleration_vrf() must be "
                 "true when FLAGS_enable_map_reference_unify is true.";
       return false;
     }
@@ -128,14 +133,16 @@ bool VehicleStateProvider::ConstructExceptLinearVelocity(
         localization.pose().linear_acceleration_vrf().y());
   } else {
     if (!localization.pose().has_angular_velocity()) {
-      AERROR << "localization.pose() has no angular velocity.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "localization.pose() has no angular velocity.";
       return false;
     }
     vehicle_state_.set_angular_velocity(
         localization.pose().angular_velocity().z());
 
     if (!localization.pose().has_linear_acceleration()) {
-      AERROR << "localization.pose() has no linear acceleration.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "localization.pose() has no linear acceleration.";
       return false;
     }
     vehicle_state_.set_linear_acceleration(

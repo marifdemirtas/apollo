@@ -64,15 +64,18 @@ bool PointPillarsDetection::Detect(const DetectionOptions& options,
                                    LidarFrame* frame) {
   // check input
   if (frame == nullptr) {
-    AERROR << "Input null frame ptr.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input null frame ptr.";
     return false;
   }
   if (frame->cloud == nullptr) {
-    AERROR << "Input null frame cloud.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input null frame cloud.";
     return false;
   }
   if (frame->cloud->size() == 0) {
-    AERROR << "Input none points.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input none points.";
     return false;
   }
 
@@ -85,7 +88,8 @@ bool PointPillarsDetection::Detect(const DetectionOptions& options,
   frame->segmented_objects.clear();
 
   if (cudaSetDevice(FLAGS_gpu_id) != cudaSuccess) {
-    AERROR << "Failed to set device to gpu " << FLAGS_gpu_id;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to set device to gpu " << FLAGS_gpu_id;
     return false;
   }
 
@@ -127,7 +131,8 @@ bool PointPillarsDetection::Detect(const DetectionOptions& options,
   downsample_time_ = timer.toc(true);
 
   num_points = cur_cloud_ptr_->size();
-  AINFO << "num points before fusing: " << num_points;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "num points before fusing: " << num_points;
 
   // fuse clouds of preceding frames with current cloud
   cur_cloud_ptr_->mutable_points_timestamp()->assign(cur_cloud_ptr_->size(),
@@ -168,7 +173,8 @@ bool PointPillarsDetection::Detect(const DetectionOptions& options,
     }
     prev_world_clouds_.emplace_back(cur_world_cloud_ptr);
   }
-  AINFO << "num points after fusing: " << num_points;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "num points after fusing: " << num_points;
   fuse_time_ = timer.toc(true);
 
   // shuffle points and cut off
@@ -198,7 +204,8 @@ bool PointPillarsDetection::Detect(const DetectionOptions& options,
              &out_detections, &out_labels);
   collect_time_ = timer.toc(true);
 
-  AINFO << "PointPillars: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "PointPillars: "
         << "\n"
         << "down sample: " << downsample_time_ << "\t"
         << "fuse: " << fuse_time_ << "\t"

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -45,8 +44,9 @@ using apollo::hdmap::PathOverlap;
 
 Stage::StageStatus YieldSignStageCreep::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: Creep";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: Creep";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
@@ -56,7 +56,8 @@ Stage::StageStatus YieldSignStageCreep::Process(
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "YieldSignStageCreep planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "YieldSignStageCreep planning error";
   }
 
   if (GetContext()->current_yield_sign_overlap_ids.empty()) {
@@ -87,7 +88,8 @@ Stage::StageStatus YieldSignStageCreep::Process(
   auto* task = dynamic_cast<CreepDecider*>(FindTask(TaskConfig::CREEP_DECIDER));
 
   if (task == nullptr) {
-    AERROR << "task is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "task is nullptr";
     return FinishStage();
   }
 

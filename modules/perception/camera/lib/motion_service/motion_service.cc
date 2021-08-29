@@ -31,14 +31,16 @@ namespace perception {
 namespace camera {
 
 bool MotionService::Init() {
-  AINFO << "start to init MotionService.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "start to init MotionService.";
   // node_.reset(new cyber::Node("MotionService"));
   vehicle_planemotion_ = new PlaneMotion(motion_buffer_size_);
 
   // the macro READ_CONF would return cyber::FAIL if config not exists
   apollo::perception::onboard::MotionService motion_service_param;
   if (!GetProtoConfig(&motion_service_param)) {
-    AINFO << "load lane detection component proto param failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "load lane detection component proto param failed";
     return false;
   }
 
@@ -52,7 +54,8 @@ bool MotionService::Init() {
                           input_camera_channel_names_str,
                           boost::algorithm::is_any_of(","));
   if (input_camera_channel_names_.size() != camera_names_.size()) {
-    AERROR << "wrong input_camera_channel_names_.size(): "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "wrong input_camera_channel_names_.size(): "
            << input_camera_channel_names_.size();
     return cyber::FAIL;
   }
@@ -75,7 +78,8 @@ bool MotionService::Init() {
   // initialize writer to output channel
   writer_ = node_->CreateWriter<Motion_Service>(
       motion_service_param.output_topic_channel_name());
-  AINFO << "init MotionService success.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "init MotionService success.";
   return true;
 }
 
@@ -84,7 +88,8 @@ void MotionService::OnReceiveImage(const ImageMsgType &message,
                                    const std::string &camera_name) {
   std::lock_guard<std::mutex> lock(mutex_);
   const double curr_timestamp = message->measurement_time() + timestamp_offset_;
-  ADEBUG << "image received: camera_name: " << camera_name
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "image received: camera_name: " << camera_name
          << " image ts: " << curr_timestamp;
   camera_timestamp_ = curr_timestamp;
 }
@@ -93,7 +98,8 @@ void MotionService::OnReceiveImage(const ImageMsgType &message,
 // compute motion between camera time stamps
 void MotionService::OnLocalization(const LocalizationMsgType &message) {
   std::lock_guard<std::mutex> lock(mutex_);
-  ADEBUG << "localization received: localization ts: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "localization received: localization ts: "
          << message->measurement_time();
   const auto &velocity = message->pose().linear_velocity();
   // Get base::VehicleStatus
@@ -132,23 +138,27 @@ void MotionService::OnLocalization(const LocalizationMsgType &message) {
   // double camera_timestamp = camera_shared_data_->GetLatestTimestamp();
   double camera_timestamp = 0;
   camera_timestamp = camera_timestamp_;
-  ADEBUG << "motion processed for camera timestamp: " << camera_timestamp;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "motion processed for camera timestamp: " << camera_timestamp;
 
   if (start_flag_) {
     if (std::abs(camera_timestamp - pre_camera_timestamp_) <
         std::numeric_limits<double>::epsilon()) {
-      ADEBUG << "Motion_status: accum";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Motion_status: accum";
       vehicle_planemotion_->add_new_motion(
           pre_camera_timestamp_, camera_timestamp, PlaneMotion::ACCUM_MOTION,
           &vehicle_status);
     } else if (camera_timestamp > pre_camera_timestamp_) {
-      ADEBUG << "Motion_status: accum_push";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Motion_status: accum_push";
       vehicle_planemotion_->add_new_motion(
           pre_camera_timestamp_, camera_timestamp,
           PlaneMotion::ACCUM_PUSH_MOTION, &vehicle_status);
       PublishEvent(camera_timestamp);
     } else {
-      ADEBUG << "Motion_status: pop";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Motion_status: pop";
       vehicle_planemotion_->add_new_motion(pre_camera_timestamp_,
                                            camera_timestamp, PlaneMotion::RESET,
                                            &vehicle_status);

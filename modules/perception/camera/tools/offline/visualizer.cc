@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -61,12 +60,13 @@ Eigen::Matrix3d Camera2CarHomograph(Eigen::Matrix3d intrinsic,
                                     Eigen::Matrix4d extrinsic_camera2lidar,
                                     Eigen::Matrix4d extrinsic_lidar2imu,
                                     double pitch_adj) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "intrinsic parameter of camera: " << intrinsic;
-  AINFO << "extrinsic parameter of camera to lidar: " << extrinsic_camera2lidar;
-  AINFO << "extrinsic parameter of lidar to imu: " << extrinsic_lidar2imu;
-  // rotate 90 degree around z axis to make x point forward
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "intrinsic parameter of camera: " << intrinsic;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "extrinsic parameter of camera to lidar: " << extrinsic_camera2lidar;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "extrinsic parameter of lidar to imu: " << extrinsic_lidar2imu;
+   // rotate 90 degree around z axis to make x point forward
   Eigen::Matrix4d Rz;
   Rz << 0, 1, 0, 0, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1;
   Eigen::Matrix4d extrinsic_camera2car;
@@ -76,8 +76,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   Rx << 1, 0, 0, 0, 0, cos(pitch_adj), -sin(pitch_adj), 0, 0, sin(pitch_adj),
       cos(pitch_adj), 0, 0, 0, 0, 1;
   extrinsic_camera2car = extrinsic_camera2car * Rx;
-  AINFO << "extrinsic parameter from camera to car: " << extrinsic_camera2car;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "extrinsic parameter from camera to car: " << extrinsic_camera2car;
+ 
   // compute the homography matrix, such that H [u, v, 1]' ~ [X_l, Y_l, 1]
   Eigen::Matrix3d K = intrinsic;
   Eigen::Matrix3d R = extrinsic_camera2car.block(0, 0, 3, 3);
@@ -91,11 +92,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool Visualizer::Init(const std::vector<std::string> &camera_names,
                       TransformServer *tf_server) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   tf_server_ = tf_server;
   if (tf_server_ == nullptr) {
-    AERROR << "tf_server is unavailable";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tf_server is unavailable";
     return false;
   }
   last_timestamp_ = 0;
@@ -121,8 +121,6 @@ bool Visualizer::Init_all_info_single_camera(
     const Eigen::Matrix4d &ex_lidar2imu, const double pitch_adj_degree,
     const double yaw_adj_degree, const double roll_adj_degree,
     const int image_height, const int image_width) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   image_height_ = image_height;
   image_width_ = image_width;
   intrinsic_map_ = intrinsic_map;
@@ -141,11 +139,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   draw_range_circle();
 
-  AINFO << "world_h_: " << world_h_;
-  AINFO << "wide_pixel_: " << wide_pixel_;
-  AINFO << "small_h_: " << small_h_;
-  AINFO << "small_w_: " << small_w_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "world_h_: " << world_h_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "wide_pixel_: " << wide_pixel_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "small_h_: " << small_h_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "small_w_: " << small_w_;
+ 
   visual_camera_ = visual_camera;
   // Set camera specific parameters
   for (auto camera_name : camera_names) {
@@ -156,18 +158,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
     // 1. transform camera->lidar
     ex_camera2lidar_[camera_name] = extrinsic_map_.at(camera_name);
-    AINFO << "ex_camera2lidar_ = " << extrinsic_map_.at(camera_name);
-
-    AINFO << "ex_lidar2imu_ =" << ex_lidar2imu_;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ex_camera2lidar_ = " << extrinsic_map_.at(camera_name);
+ 
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ex_lidar2imu_ =" << ex_lidar2imu_;
+ 
     // 2. transform camera->lidar->imu
     ex_camera2imu_ = ex_lidar2imu_ * ex_camera2lidar_[camera_name];
-    AINFO << "ex_camera2imu_ =" << ex_camera2imu_;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ex_camera2imu_ =" << ex_camera2imu_;
+ 
     // intrinsic camera parameter
     K_[camera_name] = intrinsic_map_.at(camera_name).cast<double>();
-    AINFO << "intrinsic K_ =" << K_[camera_name];
-    // homography_ground2image_.setIdentity();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "intrinsic K_ =" << K_[camera_name];
+     // homography_ground2image_.setIdentity();
     // homography_image2ground_.setIdentity();
 
     // rotate 90 degree around z axis to make x point forward
@@ -180,16 +186,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     // 3. transform camera->lidar->imu->car
     ex_camera2car_ = ex_imu2car_ * ex_camera2imu_;
 
-    AINFO << "ex_camera2car_ =" << ex_camera2car_;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ex_camera2car_ =" << ex_camera2car_;
+ 
     // Adjust angle
     adjust_angles(camera_name, pitch_adj_degree, yaw_adj_degree,
                   roll_adj_degree);
 
-    AINFO << "homography_image2ground_ ="
-          << homography_image2ground_[camera_name];
-    AINFO << "homography_ground2image_ ="
-          << homography_ground2image_[camera_name];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "homography_image2ground_ ="
+           << homography_image2ground_[camera_name];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "homography_ground2image_ ="
+           << homography_ground2image_[camera_name];
 
     // compute FOV points
     p_fov_1_.x = 0;
@@ -204,11 +213,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     p_fov_4_.x = image_width_ - 1;
     p_fov_4_.y = image_height_ - 1;
 
-    AINFO << "p_fov_1_ =" << p_fov_1_;
-    AINFO << "p_fov_2_ =" << p_fov_2_;
-    AINFO << "p_fov_3_ =" << p_fov_3_;
-    AINFO << "p_fov_4_ =" << p_fov_4_;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "p_fov_1_ =" << p_fov_1_;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "p_fov_2_ =" << p_fov_2_;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "p_fov_3_ =" << p_fov_3_;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "p_fov_4_ =" << p_fov_4_;
+ 
     vp1_[camera_name](0) = 1024.0;
     if (K_[camera_name](0, 0) >= 1.0) {
       vp1_[camera_name](1) =
@@ -223,9 +236,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     vp2_[camera_name](0) = vp1_[camera_name](0);
     vp2_[camera_name](1) = -vp1_[camera_name](1);
 
-    AINFO << "vanishing point 1:" << vp1_[camera_name];
-    AINFO << "vanishing point 2:" << vp2_[camera_name];
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "vanishing point 1:" << vp1_[camera_name];
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "vanishing point 2:" << vp2_[camera_name];
+ 
     pitch_adj_degree_[camera_name] = pitch_adj_degree;
     yaw_adj_degree_[camera_name] = yaw_adj_degree;
     roll_adj_degree_[camera_name] = roll_adj_degree;
@@ -242,8 +257,6 @@ bool Visualizer::adjust_angles(const std::string &camera_name,
                                const double pitch_adj_degree,
                                const double yaw_adj_degree,
                                const double roll_adj_degree) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Convert degree angles to radian angles
   double pitch_adj_radian = pitch_adj_degree * degree_to_radian_factor_;
   double yaw_adj_radian = yaw_adj_degree * degree_to_radian_factor_;
@@ -302,17 +315,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   // homography_ground2image_.block(0, 2, 3, 1)
   //   = projection_matrix_.block(0, 3, 3, 1);
 
-  // AINFO << "homography_ground2image_: ";
-  // AINFO << homography_ground2image_;
-
+      
   // homography_image2ground_ = homography_ground2image_.inverse();
 
   return true;
 }
 
 bool Visualizer::SetDirectory(const std::string &path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!cyber::common::EnsureDirectory(path)) {
     return false;
   }
@@ -323,8 +332,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 std::string Visualizer::type_to_string(const base::ObjectType type) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   switch (type) {
     case base::ObjectType::UNKNOWN:
       return "UNKN";
@@ -345,8 +352,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 std::string Visualizer::sub_type_to_string(const base::ObjectSubType type) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   switch (type) {
     case base::ObjectSubType::UNKNOWN:
       return "UNKN";
@@ -379,8 +384,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool Visualizer::reset_key() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   use_class_color_ = true;
   capture_screen_ = false;
   capture_video_ = false;
@@ -408,8 +411,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 double Visualizer::regularize_angle(const double radian_angle) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (radian_angle <= -M_PI) {
     return radian_angle + M_PI * 2.0;
   } else if (radian_angle > M_PI) {
@@ -423,8 +424,6 @@ bool Visualizer::euler_to_quaternion(Eigen::Vector4d *quaternion,
                                      const double pitch_radian,
                                      const double yaw_radian,
                                      const double roll_radian) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // // Option 1. ZYX Euler to quortonian
   // double cy = cos(yaw_radian * 0.5);
   // double sy = sin(yaw_radian * 0.5);
@@ -438,8 +437,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   // quaternion(2) = cy * cp * sr - sy * sp * cr;  // Q.z
   // quaternion(3) = cy * cp * cr + sy * sp * sr;  // Q.w
 
-  // AINFO << "fast quaternion(x, y, z, w): ("
-  //       << quaternion(0) << ", "
+     //       << quaternion(0) << ", "
   //       << quaternion(1) << ", "
   //       << quaternion(2) << ", "
   //       << quaternion(3) << ")";
@@ -456,15 +454,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       0, 0, 0, 1;
   Eigen::Matrix3d R;
   R = Rz * Ry * Rx;
-  AINFO << "Rotation matrix R: " << R;
-  double qw = 0.5 * sqrt(1.0 + R(0, 0) + R(1, 1) + R(2, 2));
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Rotation matrix R: " << R;
+   double qw = 0.5 * sqrt(1.0 + R(0, 0) + R(1, 1) + R(2, 2));
   if (fabs(qw) > 1.0e-6) {
     (*quaternion)(0) = 0.25 * (R(2, 1) - R(1, 2)) / qw;  // Q.x
     (*quaternion)(1) = 0.25 * (R(0, 2) - R(2, 0)) / qw;  // Q.y
     (*quaternion)(2) = 0.25 * (R(1, 0) - R(0, 1)) / qw;  // Q.z
     (*quaternion)(3) = qw;                               // Q.w
-    AINFO << "quaternion(x, y, z, w): (" << (*quaternion)(0) << ", "
-          << (*quaternion)(1) << ", " << (*quaternion)(2) << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "quaternion(x, y, z, w): (" << (*quaternion)(0) << ", "
+           << (*quaternion)(1) << ", " << (*quaternion)(2) << ", "
           << (*quaternion)(3) << ")";
   } else {
     double qx = 0.5 * sqrt(1.0 + R(0, 0) - R(1, 1) - R(2, 2));
@@ -476,35 +476,36 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     (*quaternion)(1) = 0.25 * (R(0, 1) + R(1, 0)) / qx;  // Q.y
     (*quaternion)(2) = 0.25 * (R(0, 2) + R(2, 0)) / qx;  // Q.z
     (*quaternion)(3) = 0.25 * (R(2, 1) - R(1, 2)) / qx;  // Q.w
-    AINFO << "second quaternion(x, y, z, w): (" << (*quaternion)(0) << ", "
-          << (*quaternion)(1) << ", " << (*quaternion)(2) << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "second quaternion(x, y, z, w): (" << (*quaternion)(0) << ", "
+           << (*quaternion)(1) << ", " << (*quaternion)(2) << ", "
           << (*quaternion)(3) << ")";
   }
   return true;
 }
 
 bool Visualizer::copy_backup_file(const std::string &filename) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   static int index = 0;
   // int last_index = 0;
   // std::string files = filename + "*";
   // for (const auto &file : std::filesysfs::directory_iterator(files)) {
-  //     AINFO << file.path() << std::endl;
-  //     // Extract index
+     //     // Extract index
   //     last_index = get_index(file.path());
   // }
   // index = last_index;
 
   ++index;
   std::string yaml_bak_file = absl::StrCat(filename, "__", index);
-  AINFO << "yaml_backup_file: " << yaml_bak_file;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "yaml_backup_file: " << yaml_bak_file;
+ 
   if (!cyber::common::Copy(filename, yaml_bak_file)) {
-    AERROR << "Cannot backup the file: " << filename;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot backup the file: " << filename;
   } else {
-    AINFO << "Backup file: " << filename << " saved successfully.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Backup file: " << filename << " saved successfully.";
+   }
 
   return true;
 }
@@ -515,15 +516,14 @@ bool Visualizer::save_extrinsic_in_yaml(const std::string &camera_name,
                                         const double pitch_radian,
                                         const double yaw_radian,
                                         const double roll_radian) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string yaml_file =
       FLAGS_obs_sensor_intrinsic_path + "/" + camera_name + "_extrinsics.yaml";
 
   copy_backup_file(yaml_file);
 
-  AINFO << "extrinsic: " << extrinsic;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "extrinsic: " << extrinsic;
+ 
   // Save data
   // Option 1. Save using streaming
   std::ofstream y_file(yaml_file);
@@ -555,8 +555,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // try{
   //   if (node.IsNull()) {
-  //     AINFO << "Load " << yaml_file << " failed! please check!";
-  //     return false;
+     //     return false;
   //   }
   //   // Replace rotation only
   //   node["transform"]["rotation"]["x"].as<double>() = quaternion(0);
@@ -566,20 +565,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   //
   //   node.SaveFile(yaml_file);
   //   if (node.IsNull()) {
-  //     AINFO << "Save " << yaml_file << " failed! please check!";
-  //     return false;
+     //     return false;
   //   }
   // } catch (YAML::InvalidNode &in) {
-  //   AERROR << "load/save camera extrisic file " << yaml_file
-  //          << " with error, YAML::InvalidNode exception";
+    //          << " with error, YAML::InvalidNode exception";
   //   return false;
   // } catch (YAML::TypedBadConversion<double> &bc) {
-  //   AERROR << "load camera extrisic file " << yaml_file
-  //          << " with error, YAML::TypedBadConversion exception";
+    //          << " with error, YAML::TypedBadConversion exception";
   //   return false;
   // } catch (YAML::Exception &e) {
-  //   AERROR << "load camera extrisic file " << yaml_file
-  //          << " with error, YAML exception:" << e.what();
+    //          << " with error, YAML exception:" << e.what();
   //   return false;
   // }
 
@@ -589,8 +584,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool Visualizer::save_manual_calibration_parameter(
     const std::string &camera_name, const double pitch_adj_degree,
     const double yaw_adj_degree, const double roll_adj_degree) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Convert degree angles to radian angles
   double pitch_adj_radian = pitch_adj_degree * degree_to_radian_factor_;
   double yaw_adj_radian = yaw_adj_degree * degree_to_radian_factor_;
@@ -604,13 +597,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   double old_roll_radian = regularize_angle(
       atan2(-R(2, 0), sqrt(R(2, 1) * R(2, 1) + R(2, 2) * R(2, 2))));
   double old_yaw_radian = regularize_angle(atan2(R(1, 0), R(0, 0)));
-  AINFO << "Old pitch: " << old_pitch_radian * radian_to_degree_factor_;
-  AINFO << "Old yaw: " << old_yaw_radian * radian_to_degree_factor_;
-  AINFO << "Old roll: " << old_roll_radian * radian_to_degree_factor_;
-  AINFO << "Adjusted pitch: " << pitch_adj_degree;
-  AINFO << "Adjusted yaw: " << yaw_adj_degree;
-  AINFO << "Adjusted roll: " << roll_adj_degree;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Old pitch: " << old_pitch_radian * radian_to_degree_factor_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Old yaw: " << old_yaw_radian * radian_to_degree_factor_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Old roll: " << old_roll_radian * radian_to_degree_factor_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Adjusted pitch: " << pitch_adj_degree;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Adjusted yaw: " << yaw_adj_degree;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Adjusted roll: " << roll_adj_degree;
+ 
   // Convert value here since the coordinate system is different
 
   // Apply changed angles to each angle
@@ -619,15 +618,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   double new_yaw_radian = regularize_angle(old_yaw_radian - yaw_adj_radian);
   double new_roll_radian = regularize_angle(old_roll_radian + roll_adj_radian);
 
-  AINFO << "New pitch: " << new_pitch_radian * radian_to_degree_factor_;
-  AINFO << "New yaw: " << new_yaw_radian * radian_to_degree_factor_;
-  AINFO << "New roll: " << new_roll_radian * radian_to_degree_factor_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "New pitch: " << new_pitch_radian * radian_to_degree_factor_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "New yaw: " << new_yaw_radian * radian_to_degree_factor_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "New roll: " << new_roll_radian * radian_to_degree_factor_;
+ 
   Eigen::Vector4d quaternion;
   euler_to_quaternion(&quaternion, new_pitch_radian, new_yaw_radian,
                       new_roll_radian);
-  AINFO << "Quaternion X: " << quaternion(0) << ", Y: " << quaternion(1)
-        << ", Z: " << quaternion(2) << ", W: " << quaternion(3);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Quaternion X: " << quaternion(0) << ", Y: " << quaternion(1)
+         << ", Z: " << quaternion(2) << ", W: " << quaternion(3);
   // Save the file
   // Yaw and Roll are swapped.
   save_extrinsic_in_yaml(camera_name, ex_camera2lidar_[camera_name], quaternion,
@@ -637,10 +640,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool Visualizer::key_handler(const std::string &camera_name, const int key) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Pressed Key: " << key;
-  if (key <= 0) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Pressed Key: " << key;
+   if (key <= 0) {
     return false;
   }
   switch (key) {
@@ -725,8 +727,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       } else {
         visual_camera_ = camera_names_[0];
       }
-      AINFO << "Current pitch: " << pitch_adj_degree_[camera_name];
-      break;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Current pitch: " << pitch_adj_degree_[camera_name];
+       break;
     case KEY_DOWN_NUM_LOCK_ON:
     case KEY_DOWN:
       if (manual_calibration_mode_ &&
@@ -735,48 +738,54 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       } else {
         visual_camera_ = camera_names_[1];
       }
-      AINFO << "Current pitch: " << pitch_adj_degree_[camera_name];
-      break;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Current pitch: " << pitch_adj_degree_[camera_name];
+       break;
     case KEY_RIGHT_NUM_LOCK_ON:
     case KEY_RIGHT:
       if (manual_calibration_mode_ &&
           yaw_adj_degree_[camera_name] + 0.05 <= max_yaw_degree_) {
         yaw_adj_degree_[camera_name] -= 0.05;
       }
-      AINFO << "Current yaw: " << yaw_adj_degree_[camera_name];
-      break;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Current yaw: " << yaw_adj_degree_[camera_name];
+       break;
     case KEY_LEFT_NUM_LOCK_ON:
     case KEY_LEFT:
       if (manual_calibration_mode_ &&
           yaw_adj_degree_[camera_name] - 0.05 >= min_yaw_degree_) {
         yaw_adj_degree_[camera_name] += 0.05;
       }
-      AINFO << "Current yaw: " << yaw_adj_degree_[camera_name];
-      break;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Current yaw: " << yaw_adj_degree_[camera_name];
+       break;
     case KEY_SHIFT_LEFT_NUM_LOCK_ON:
     case KEY_SHIFT_RIGHT:
       if (manual_calibration_mode_ &&
           roll_adj_degree_[camera_name] + 0.05 <= max_roll_degree_) {
         roll_adj_degree_[camera_name] -= 0.05;
       }
-      AINFO << "Current roll: " << roll_adj_degree_[camera_name];
-      break;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Current roll: " << roll_adj_degree_[camera_name];
+       break;
     case KEY_SHIFT_RIGHT_NUM_LOCK_ON:
     case KEY_SHIFT_LEFT:
       if (manual_calibration_mode_ &&
           roll_adj_degree_[camera_name] - 0.05 >= min_roll_degree_) {
         roll_adj_degree_[camera_name] += 0.05;
       }
-      AINFO << "Current roll: " << roll_adj_degree_[camera_name];
-      break;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Current roll: " << roll_adj_degree_[camera_name];
+       break;
     case KEY_CTRL_S_NUM_LOCK_ON:
     case KEY_CTRL_S:
       if (manual_calibration_mode_) {
         save_manual_calibration_parameter(
             visual_camera_, pitch_adj_degree_[camera_name],
             yaw_adj_degree_[camera_name], roll_adj_degree_[camera_name]);
-        AINFO << "Saved calibration parameters(pyr): ("
-              << pitch_adj_degree_[camera_name] << ", "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Saved calibration parameters(pyr): ("
+               << pitch_adj_degree_[camera_name] << ", "
               << yaw_adj_degree_[camera_name] << ", "
               << roll_adj_degree_[camera_name] << ")";
       }
@@ -887,8 +896,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // Draw trajectory of each object
 bool Visualizer::DrawTrajectories(const base::ObjectPtr &object,
                                   const base::MotionBufferPtr motion_buffer) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (object->drop_num == 0 || motion_buffer == nullptr ||
       motion_buffer->size() == 0) {
     return false;
@@ -915,8 +922,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Visualizer::Draw2Dand3D(const cv::Mat &img, const CameraFrame &frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cv::Mat image = img.clone();
   Eigen::Affine3d pose;
   if (!tf_server_->QueryPos(frame.timestamp, &pose)) {
@@ -999,8 +1004,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Visualizer::ShowResult(const cv::Mat &img, const CameraFrame &frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cv::Mat image = img.clone();
   std::string camera_name = frame.data_provider->sensor_name();
 
@@ -1017,8 +1020,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       char path[1000];
       static int k = 0;
       snprintf(path, sizeof(path), "%s/%06d.jpg", path_.c_str(), k++);
-      AINFO << "A snapshot of visualizer saved at " << path;
-      cv::imwrite(path, bigimg);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "A snapshot of visualizer saved at " << path;
+       cv::imwrite(path, bigimg);
     }
 
     if (cv_imshow_img_) {
@@ -1045,8 +1049,6 @@ void Visualizer::Draw2Dand3D_all_info_single_camera(
     const CameraFrame &frame, const Eigen::Matrix3d &intrinsic,
     const Eigen::Matrix4d &extrinsic, const Eigen::Affine3d &world2camera,
     const base::MotionBufferPtr motion_buffer) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cv::Mat image_2D = img.clone();  // All clone should be replaced with global
 
   // plot FOV
@@ -1147,8 +1149,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     // compute 8 vetices in camera coodinates
     Eigen::Vector3d pos;
 
-    ADEBUG << "object->track_id: " << object->track_id;
-    // Draw 3D position using homography or direct distance from CNN
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "object->track_id: " << object->track_id;
+     // Draw 3D position using homography or direct distance from CNN
     double theta_ray;
     double theta;
     cv::Point c_2D;
@@ -1157,35 +1160,43 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       pos << object->camera_supplement.local_center(0),
           object->camera_supplement.local_center(1),
           object->camera_supplement.local_center(2);
-      ADEBUG << "Camera pos: (" << pos(0) << ", " << pos(1) << ", " << pos(2)
-             << ")";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Camera pos: (" << pos(0) << ", " << pos(1) << ", " << pos(2)
+              << ")";
       theta_ray = atan2(pos(0), pos(2));
       theta = object->camera_supplement.alpha + theta_ray;
       // compute obstacle center in lidar ground
       c_2D.x = static_cast<int>(rect.x + rect.width / 2);
       c_2D.y = static_cast<int>(rect.y + rect.height);
-      ADEBUG << "Image Footprint c_2D: (" << c_2D.x << ", " << c_2D.y << ")";
-      c_2D_l = image2ground(camera_name, c_2D);
-      ADEBUG << "Image Footprint position: (" << c_2D_l(0) << ", " << c_2D_l(1)
-             << ")";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Image Footprint c_2D: (" << c_2D.x << ", " << c_2D.y << ")";
+       c_2D_l = image2ground(camera_name, c_2D);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Image Footprint position: (" << c_2D_l(0) << ", " << c_2D_l(1)
+              << ")";
     } else {
       pos = world2camera * object->center;
       theta_ray = atan2(pos(0), pos(2));
       theta = object->camera_supplement.alpha + theta_ray;
-      ADEBUG << "Direct pos: (" << pos(0) << ", " << pos(1) << ", " << pos(2)
-             << ")";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Direct pos: (" << pos(0) << ", " << pos(1) << ", " << pos(2)
+              << ")";
 
       // compute obstacle center in lidar ground
       c_2D_l(0) = pos(2);
       c_2D_l(1) = -pos(0);
-      ADEBUG << "Direct center position: (" << c_2D_l(0) << ", " << c_2D_l(1)
-             << ")";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Direct center position: (" << c_2D_l(0) << ", " << c_2D_l(1)
+              << ")";
     }
-    ADEBUG << "theta_ray: " << theta_ray * 180 / M_PI << " degree";
-    ADEBUG << "object->camera_supplement.alpha: "
-           << object->camera_supplement.alpha * 180 / M_PI << " degree";
-    ADEBUG << "theta: " << theta * 180 / M_PI << " = "
-           << object->camera_supplement.alpha * 180 / M_PI << " + "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "theta_ray: " << theta_ray * 180 / M_PI << " degree";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "object->camera_supplement.alpha: "
+            << object->camera_supplement.alpha * 180 / M_PI << " degree";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "theta: " << theta * 180 / M_PI << " = "
+            << object->camera_supplement.alpha * 180 / M_PI << " + "
            << theta_ray * 180 / M_PI;
 
     float distance =
@@ -1300,8 +1311,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     Eigen::Vector2d v_2d;
     v_2d << v(0) + pos_2d(0), v(1) + pos_2d(1);
 
-    AINFO << "v.norm: " << v.norm();
-    if (show_trajectory_ && motion_buffer != nullptr &&
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "v.norm: " << v.norm();
+     if (show_trajectory_ && motion_buffer != nullptr &&
         motion_buffer->size() > 0 && v.norm() > speed_limit_) {
       DrawTrajectories(object, motion_buffer);
     }
@@ -1403,8 +1415,6 @@ void Visualizer::ShowResult_all_info_single_camera(
     const cv::Mat &img, const CameraFrame &frame,
     const base::MotionBufferPtr motion_buffer,
     const Eigen::Affine3d &world2camera) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (frame.timestamp - last_timestamp_ < 0.02) return;
 
   world_image_ = cv::Mat(world_h_, wide_pixel_, CV_8UC3, black_color);
@@ -1478,7 +1488,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         intrinsic_map_.at(camera_name).cast<double>(),
         extrinsic_map_.at(camera_name), world2camera, motion_buffer);
   } else {
-    AERROR << "Failed to find necessuary intrinsic or extrinsic params.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find necessuary intrinsic or extrinsic params.";
   }
 
   // copy visual results into visualization panel
@@ -1512,8 +1523,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           char path[1000];
           static int k = 0;
           snprintf(path, sizeof(path), "%s/%06d.jpg", path_.c_str(), k++);
-          AINFO << "snapshot is saved at " << path;
-          cv::imwrite(path, bigimg);
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "snapshot is saved at " << path;
+           cv::imwrite(path, bigimg);
         }
         all_camera_recieved_ = 0x0;
       }  // if (camera_name == visual_camera)
@@ -1522,8 +1534,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Visualizer::draw_range_circle() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cv::circle(world_image_, cv::Point(wide_pixel_ / 2, world_h_), 1 * m2pixel_,
              deep_sky_blue_color, 1);
   for (int i = 20; i < 300; i += 20) {
@@ -1539,23 +1549,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void Visualizer::draw_selected_image_boundary(const int width, int const height,
                                               cv::Mat *image) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cv::Rect image_boundary(0, 0, width, height);
   cv::rectangle(*image, image_boundary, light_green_color, 4);
 }
 
 cv::Point Visualizer::world_point_to_bigimg(const Eigen::Vector2d &p) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cv::Point point;
   point.x = static_cast<int>(-p(1) * m2pixel_ + wide_pixel_ * 0.5);
   point.y = static_cast<int>(world_h_ - p(0) * m2pixel_);
   return point;
 }
 cv::Point Visualizer::world_point_to_bigimg(const Eigen::Vector4f &p) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cv::Point point;
   point.x = (wide_pixel_ >> 1) -
             static_cast<int>(p(1) * static_cast<float>(m2pixel_));
@@ -1565,8 +1569,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Eigen::Vector2d Visualizer::image2ground(const std::string &camera_name,
                                          cv::Point p_img) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector3d p_homo;
 
   p_homo << p_img.x, p_img.y, 1;
@@ -1582,8 +1584,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 cv::Point Visualizer::ground2image(const std::string &camera_name,
                                    Eigen::Vector2d p_ground) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector3d p_homo;
 
   p_homo << p_ground(0), p_ground(1), 1;

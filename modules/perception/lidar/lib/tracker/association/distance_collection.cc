@@ -163,7 +163,8 @@ float HistogramDistance(const TrackedObjectConstPtr& last_object,
       new_object->shape_features;
 
   if (old_object_shape_features.size() != new_object_shape_features.size()) {
-    AINFO << "sizes of compared features not matched. TrackObjectDistance";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sizes of compared features not matched. TrackObjectDistance";
     return 100;
   }
 
@@ -271,7 +272,6 @@ float BboxIouDistance(const TrackedObjectConstPtr& last_object,
 //      dist_vec.push_back(static_cast<float>(dist));
 //    }
 //    float min_dist = *(std::min_element(dist_vec.begin(), dist_vec.end()));
-//    ADEBUG << "min_dist calculated for track id " << track_dat.track_id_
 //           << " object id " << cur_obj->track_id << " distance " << min_dist;
 //    return min_dist;
 //  }

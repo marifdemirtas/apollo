@@ -63,7 +63,8 @@ size_t SppClusterList::HeightCut(float max_gap, size_t start_id) {
       }
     }
   }
-  AINFO << "Split " << count << " clusters in 3d";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Split " << count << " clusters in 3d";
   return count;
 }
 

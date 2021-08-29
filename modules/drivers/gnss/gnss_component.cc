@@ -33,13 +33,15 @@ bool GnssDriverComponent::Init() {
                                  config_file_path_);
     return false;
   }
-  AINFO << "Gnss config: " << gnss_config.DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Gnss config: " << gnss_config.DebugString();
 
   raw_stream_.reset(new RawStream(gnss_config, node_));
 
   if (!raw_stream_->Init()) {
     monitor_logger_buffer_.ERROR("Init gnss stream failed");
-    AERROR << "Init gnss stream failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init gnss stream failed";
     return false;
   }
   raw_stream_->Start();

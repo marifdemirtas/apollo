@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,8 +28,6 @@ namespace inference {
 
 BatchStream::BatchStream(int batchSize, int maxBatches, std::string dataPath)
     : mBatchSize(batchSize), mMaxBatches(maxBatches), mPath(dataPath) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   FILE *file = fopen((mPath + "Batch0").c_str(), "rb");
   if (file != nullptr) {
     int d[4];
@@ -45,13 +42,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 }
 
-BatchStream::BatchStream() : mPath("") {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+BatchStream::BatchStream() : mPath("") {}
 
 void BatchStream::reset(int firstBatch) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (mPath != "") {
     mBatchCount = 0;
     mFileCount = 0;
@@ -61,8 +54,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool BatchStream::next() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (mBatchCount == mMaxBatches) {
     return false;
   }
@@ -87,8 +78,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void BatchStream::skip(int skipCount) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (mBatchSize >= mDims.n() && mBatchSize % mDims.n() == 0 &&
       mFileBatchPos == mDims.n()) {
     mFileCount += skipCount * mBatchSize / mDims.n();
@@ -103,8 +92,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool BatchStream::update() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string inputFileName = absl::StrCat(mPath, "Batch", mFileCount++);
   FILE *file = fopen(inputFileName.c_str(), "rb");
   if (file == nullptr) {

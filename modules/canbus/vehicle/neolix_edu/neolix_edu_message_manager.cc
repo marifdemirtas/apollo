@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -45,8 +44,6 @@ namespace canbus {
 namespace neolix_edu {
 
 Neolix_eduMessageManager::Neolix_eduMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Control Messages
   AddSendProtocolData<Adsbrakecommand46, true>();
   AddSendProtocolData<Adsdiagnosis628, true>();
@@ -73,9 +70,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   AddRecvProtocolData<Pas2nddata312, true>();
 }
 
-Neolix_eduMessageManager::~Neolix_eduMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Neolix_eduMessageManager::~Neolix_eduMessageManager() {}
 
 }  // namespace neolix_edu
 }  // namespace canbus

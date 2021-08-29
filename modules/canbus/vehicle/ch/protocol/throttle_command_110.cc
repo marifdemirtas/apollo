@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,28 +26,20 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Throttlecommand110::ID = 0x110;
 
 // public
-Throttlecommand110::Throttlecommand110() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Throttlecommand110::Throttlecommand110() { Reset(); }
 
 uint32_t Throttlecommand110::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Throttlecommand110::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_throttle_pedal_en_ctrl(data, throttle_pedal_en_ctrl_);
   set_p_throttle_pedal_cmd(data, throttle_pedal_cmd_);
 }
 
 void Throttlecommand110::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // you should check this manually
   throttle_pedal_en_ctrl_ =
       Throttle_command_110::THROTTLE_PEDAL_EN_CTRL_DISABLE;
@@ -57,8 +48,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Throttlecommand110* Throttlecommand110::set_throttle_pedal_en_ctrl(
     Throttle_command_110::Throttle_pedal_en_ctrlType throttle_pedal_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   throttle_pedal_en_ctrl_ = throttle_pedal_en_ctrl;
   return this;
 }
@@ -71,8 +60,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void Throttlecommand110::set_p_throttle_pedal_en_ctrl(
     uint8_t* data,
     Throttle_command_110::Throttle_pedal_en_ctrlType throttle_pedal_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = throttle_pedal_en_ctrl;
 
   Byte to_set(data + 0);
@@ -81,8 +68,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Throttlecommand110* Throttlecommand110::set_throttle_pedal_cmd(
     int throttle_pedal_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   throttle_pedal_cmd_ = throttle_pedal_cmd;
   return this;
 }
@@ -93,8 +78,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'intel', 'physical_unit': '%'}
 void Throttlecommand110::set_p_throttle_pedal_cmd(uint8_t* data,
                                                   int throttle_pedal_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   throttle_pedal_cmd = ProtocolData::BoundedValue(0, 100, throttle_pedal_cmd);
   int x = throttle_pedal_cmd;
 

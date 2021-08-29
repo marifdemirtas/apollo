@@ -121,7 +121,8 @@ bool CheckInsidePnCJunction(const ReferenceLineInfo& reference_line_info) {
   static constexpr double kIntersectionPassDist = 2.0;  // unit: m
   const double distance_adc_pass_intersection =
       adc_back_edge_s - pnc_junction_overlap.end_s;
-  ADEBUG << "distance_adc_pass_intersection[" << distance_adc_pass_intersection
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "distance_adc_pass_intersection[" << distance_adc_pass_intersection
          << "] pnc_junction_overlap[" << pnc_junction_overlap.object_id
          << "] start_s[" << pnc_junction_overlap.start_s << "]";
 
@@ -138,7 +139,8 @@ void GetFilesByPath(const boost::filesystem::path& path,
     return;
   }
   if (boost::filesystem::is_regular_file(path)) {
-    AINFO << "Found record file: " << path.c_str();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Found record file: " << path.c_str();
     files->push_back(path.c_str());
     return;
   }

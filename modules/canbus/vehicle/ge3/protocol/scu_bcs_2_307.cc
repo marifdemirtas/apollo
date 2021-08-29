@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,15 +25,11 @@ namespace ge3 {
 
 using ::apollo::drivers::canbus::Byte;
 
-Scubcs2307::Scubcs2307() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Scubcs2307::Scubcs2307() {}
 const int32_t Scubcs2307::ID = 0x307;
 
 void Scubcs2307::Parse(const std::uint8_t* bytes, int32_t length,
                        ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_ge3()->mutable_scu_bcs_2_307()->set_bcs_vehspdvd(
       bcs_vehspdvd(bytes, length));
   chassis->mutable_ge3()->mutable_scu_bcs_2_307()->set_bcs_yawrate(
@@ -54,8 +49,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': '-'}
 Scu_bcs_2_307::Bcs_vehspdvdType Scubcs2307::bcs_vehspdvd(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 1);
 
@@ -70,8 +63,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': 'rad/s'}
 double Scubcs2307::bcs_yawrate(const std::uint8_t* bytes,
                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
 
@@ -89,8 +80,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_range': '[0|240]', 'bit': 39, 'type': 'double', 'order':
 // 'motorola', 'physical_unit': 'km/h'}
 double Scubcs2307::bcs_vehspd(const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 
@@ -109,8 +98,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'm/s^2'}
 double Scubcs2307::bcs_vehlongaccel(const std::uint8_t* bytes,
                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -129,8 +116,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'm/s^2'}
 double Scubcs2307::bcs_vehlataccel(const std::uint8_t* bytes,
                                    int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 

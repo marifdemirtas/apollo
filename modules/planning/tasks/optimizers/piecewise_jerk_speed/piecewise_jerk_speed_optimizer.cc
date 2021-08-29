@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -59,7 +58,8 @@ Status PiecewiseJerkSpeedOptimizer::Process(const PathData& path_data,
 
   if (path_data.discretized_path().empty()) {
     const std::string msg = "Empty path data";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   StGraphData& st_graph_data = *reference_line_info_->mutable_st_graph_data();
@@ -124,7 +124,8 @@ Status PiecewiseJerkSpeedOptimizer::Process(const PathData& path_data,
     if (s_lower_bound > s_upper_bound) {
       const std::string msg =
           "s_lower_bound larger than s_upper_bound on STGraph";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       speed_data->clear();
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
@@ -161,7 +162,8 @@ Status PiecewiseJerkSpeedOptimizer::Process(const PathData& path_data,
   // Solve the problem
   if (!piecewise_jerk_problem.Optimize()) {
     const std::string msg = "Piecewise jerk speed optimizer failed!";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     speed_data->clear();
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
@@ -171,8 +173,9 @@ Status PiecewiseJerkSpeedOptimizer::Process(const PathData& path_data,
   const std::vector<double>& ds = piecewise_jerk_problem.opt_dx();
   const std::vector<double>& dds = piecewise_jerk_problem.opt_ddx();
   for (int i = 0; i < num_of_knots; ++i) {
-    ADEBUG << "For t[" << i * delta_t << "], s = " << s[i] << ", v = " << ds[i]
-           << ", a = " << dds[i];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "For t[" << i * delta_t << "], s = " << s[i] << ", v = " << ds[i]
+            << ", a = " << dds[i];
   }
   speed_data->clear();
   speed_data->AppendSpeedPoint(s[0], 0.0, ds[0], dds[0], 0.0);

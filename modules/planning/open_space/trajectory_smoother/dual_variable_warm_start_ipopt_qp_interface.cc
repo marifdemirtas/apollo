@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -93,24 +92,28 @@ bool DualVariableWarmStartIPOPTQPInterface::get_nlp_info(
   }
   nnz_jac_g = tmp + num_of_variables_;
 
-  ADEBUG << "nnz_jac_g : " << nnz_jac_g;
-  index_style = IndexStyleEnum::C_STYLE;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "nnz_jac_g : " << nnz_jac_g;
+   index_style = IndexStyleEnum::C_STYLE;
   return true;
 }
 
 bool DualVariableWarmStartIPOPTQPInterface::get_starting_point(
     int n, bool init_x, double* x, bool init_z, double* z_L, double* z_U, int m,
     bool init_lambda, double* lambda) {
-  ADEBUG << "get_starting_point";
-  ACHECK(init_x) << "Warm start init_x setting failed";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_starting_point";
+   ACHECK(init_x) << "Warm start init_x setting failed";
   ACHECK(!init_z) << "Warm start init_z setting failed";
   ACHECK(!init_lambda) << "Warm start init_lambda setting failed";
 
   int l_index = l_start_index_;
   int n_index = n_start_index_;
-  ADEBUG << "l_start_index_ : " << l_start_index_;
-  ADEBUG << "n_start_index_ : " << n_start_index_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "l_start_index_ : " << l_start_index_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "n_start_index_ : " << n_start_index_;
+ 
   // 1. lagrange constraint l, obstacles_edges_sum_ * (horizon_+1)
   for (int i = 0; i < horizon_ + 1; ++i) {
     for (int j = 0; j < obstacles_edges_sum_; ++j) {
@@ -127,8 +130,9 @@ bool DualVariableWarmStartIPOPTQPInterface::get_starting_point(
     }
   }
 
-  ADEBUG << "get_starting_point out";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_starting_point out";
+   return true;
 }
 
 bool DualVariableWarmStartIPOPTQPInterface::get_bounds_info(int n, double* x_l,
@@ -145,8 +149,9 @@ bool DualVariableWarmStartIPOPTQPInterface::get_bounds_info(int n, double* x_l,
       ++variable_index;
     }
   }
-  ADEBUG << "variable_index after adding lagrange l : " << variable_index;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding lagrange l : " << variable_index;
+ 
   // 2. lagrange constraint n, [0, 4*obstacles_num-1] * [0, horizon_]
   for (int i = 0; i < horizon_ + 1; ++i) {
     for (int j = 0; j < 4 * obstacles_num_; ++j) {
@@ -155,8 +160,9 @@ bool DualVariableWarmStartIPOPTQPInterface::get_bounds_info(int n, double* x_l,
       ++variable_index;
     }
   }
-  ADEBUG << "variable_index after adding lagrange n : " << variable_index;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding lagrange n : " << variable_index;
+ 
   int constraint_index = 0;
   for (int i = 0; i < horizon_ + 1; ++i) {
     for (int j = 0; j < obstacles_num_; ++j) {
@@ -189,8 +195,9 @@ bool DualVariableWarmStartIPOPTQPInterface::get_bounds_info(int n, double* x_l,
     n_index++;
   }
 
-  ADEBUG << "constraint_index after adding obstacles constraints: "
-         << constraint_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after adding obstacles constraints: "
+          << constraint_index;
 
   return true;
 }
@@ -249,8 +256,9 @@ bool DualVariableWarmStartIPOPTQPInterface::eval_jac_g(int n, const double* x,
                                                        int nele_jac, int* iRow,
                                                        int* jCol,
                                                        double* values) {
-  ADEBUG << "eval_jac_g";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_jac_g";
+ 
   if (values == nullptr) {
     int nz_index = 0;
     int constraint_index = 0;
@@ -339,8 +347,9 @@ bool DualVariableWarmStartIPOPTQPInterface::eval_jac_g(int n, const double* x,
 
     CHECK_EQ(constraint_index, m) << "No. of constraints wrong in eval_jac_g.";
 
-    ADEBUG << "nz_index here : " << nz_index << " nele_jac is : " << nele_jac;
-  } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "nz_index here : " << nz_index << " nele_jac is : " << nele_jac;
+   } else {
     std::fill(values, values + nele_jac, 0.0);
     int nz_index = 0;
 
@@ -382,8 +391,9 @@ bool DualVariableWarmStartIPOPTQPInterface::eval_jac_g(int n, const double* x,
         values[nz_index] = -1.0;  // w2
         ++nz_index;
 
-        ADEBUG << "eval_jac_g, after adding part 2";
-        // 1. G' * mu + R' * lambda == 0, part 2
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_jac_g, after adding part 2";
+         // 1. G' * mu + R' * lambda == 0, part 2
 
         // with respect to l
         for (int k = 0; k < current_edges_num; ++k) {
@@ -442,12 +452,14 @@ bool DualVariableWarmStartIPOPTQPInterface::eval_jac_g(int n, const double* x,
       ++nz_index;
     }
 
-    ADEBUG << "eval_jac_g, fulfilled obstacle constraint values";
-    CHECK_EQ(nz_index, nele_jac);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_jac_g, fulfilled obstacle constraint values";
+     CHECK_EQ(nz_index, nele_jac);
   }
 
-  ADEBUG << "eval_jac_g done";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_jac_g done";
+   return true;
 }
 
 bool DualVariableWarmStartIPOPTQPInterface::eval_h(
@@ -494,8 +506,9 @@ void DualVariableWarmStartIPOPTQPInterface::finalize_solution(
       ++variable_index;
     }
   }
-  ADEBUG << "variable_index after adding lagrange l : " << variable_index;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding lagrange l : " << variable_index;
+ 
   // 2. lagrange constraint n, [0, 4*obstacles_num-1] * [0, horizon_]
   for (int i = 0; i < horizon_ + 1; ++i) {
     for (int j = 0; j < 4 * obstacles_num_; ++j) {
@@ -503,8 +516,9 @@ void DualVariableWarmStartIPOPTQPInterface::finalize_solution(
       ++variable_index;
     }
   }
-  ADEBUG << "variable_index after adding lagrange n : " << variable_index;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding lagrange n : " << variable_index;
+ 
   // memory deallocation of ADOL-C variables
   delete[] obj_lam;
   free(rind_L);
@@ -561,14 +575,16 @@ void DualVariableWarmStartIPOPTQPInterface::check_solution(
       // G' * mu + R' * A * lambda == 0
       if (g_l[constraint_index + 0] > g[constraint_index + 0] ||
           g_u[constraint_index + 0] < g[constraint_index + 0]) {
-        AERROR << "G' * mu + R' * A * lambda == 0 constraint fails, "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "G' * mu + R' * A * lambda == 0 constraint fails, "
                << "constraint_index: " << constraint_index + 0
                << ", g: " << g[constraint_index + 0];
       }
 
       if (g_l[constraint_index + 1] > g[constraint_index + 1] ||
           g_u[constraint_index + 1] < g[constraint_index + 1]) {
-        AERROR << "G' * mu + R' * A * lambda == 0 constraint fails, "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "G' * mu + R' * A * lambda == 0 constraint fails, "
                << "constraint_index: " << constraint_index + 1
                << ", g: " << g[constraint_index + 1];
       }
@@ -576,7 +592,8 @@ void DualVariableWarmStartIPOPTQPInterface::check_solution(
       // -g' * mu + (A * t - b) * lambda) >= d_min
       if (g_l[constraint_index + 2] > g[constraint_index + 2] ||
           g_u[constraint_index + 2] < g[constraint_index + 2]) {
-        AERROR << "-g' * mu + (A * t - b) * lambda) >= d_min constraint fails, "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "-g' * mu + (A * t - b) * lambda) >= d_min constraint fails, "
                << "constraint_index: " << constraint_index + 2
                << ", g: " << g[constraint_index + 2];
       }
@@ -589,7 +606,8 @@ void DualVariableWarmStartIPOPTQPInterface::check_solution(
   for (int i = 0; i < lambda_horizon_; ++i) {
     if (g_l[constraint_index] > g[constraint_index] ||
         g_u[constraint_index] < g[constraint_index]) {
-      AERROR << "lambda box constraint fails, "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "lambda box constraint fails, "
              << "constraint_index: " << constraint_index
              << ", g: " << g[constraint_index];
     }
@@ -600,7 +618,8 @@ void DualVariableWarmStartIPOPTQPInterface::check_solution(
   for (int i = 0; i < miu_horizon_; ++i) {
     if (g_l[constraint_index] > g[constraint_index] ||
         g_u[constraint_index] < g[constraint_index]) {
-      AERROR << "miu box constraint fails, "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "miu box constraint fails, "
              << "constraint_index: " << constraint_index
              << ", g: " << g[constraint_index];
     }
@@ -613,8 +632,9 @@ void DualVariableWarmStartIPOPTQPInterface::check_solution(
 template <class T>
 bool DualVariableWarmStartIPOPTQPInterface::eval_obj(int n, const T* x,
                                                      T* obj_value) {
-  ADEBUG << "eval_obj";
-  *obj_value = 0.0;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_obj";
+   *obj_value = 0.0;
   int l_index = l_start_index_;
   for (int i = 0; i < horizon_ + 1; ++i) {
     int edges_counter = 0;
@@ -648,8 +668,9 @@ bool DualVariableWarmStartIPOPTQPInterface::eval_obj(int n, const T* x,
 template <class T>
 bool DualVariableWarmStartIPOPTQPInterface::eval_constraints(int n, const T* x,
                                                              int m, T* g) {
-  ADEBUG << "eval_constraints";
-  // state start index
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_constraints";
+   // state start index
 
   // 1. Three obstacles related equal constraints, one equality constraints,
   // [0, horizon_] * [0, obstacles_num_-1] * 4

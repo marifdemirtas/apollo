@@ -49,7 +49,8 @@ void SensorDataManager::AddSensorMeasurements(
   SensorPtr sensor_ptr = nullptr;
   if (it == sensors_.end()) {
     if (!sensor_manager_->IsSensorExist(sensor_id)) {
-      AERROR << "Failed to find sensor " << sensor_id << " in sensor manager.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find sensor " << sensor_id << " in sensor manager.";
       return;
     }
     sensor_ptr.reset(new Sensor(sensor_info));
@@ -80,7 +81,8 @@ void SensorDataManager::GetLatestSensorFrames(
     double timestamp, const std::string& sensor_id,
     std::vector<SensorFramePtr>* frames) const {
   if (frames == nullptr) {
-    AERROR << "Nullptr error.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Nullptr error.";
     return;
   }
   const auto it = sensors_.find(sensor_id);
@@ -93,7 +95,8 @@ void SensorDataManager::GetLatestSensorFrames(
 void SensorDataManager::GetLatestFrames(
     double timestamp, std::vector<SensorFramePtr>* frames) const {
   if (frames == nullptr) {
-    AERROR << "Nullptr error.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Nullptr error.";
     return;
   }
 
@@ -118,13 +121,15 @@ void SensorDataManager::GetLatestFrames(
 bool SensorDataManager::GetPose(const std::string& sensor_id, double timestamp,
                                 Eigen::Affine3d* pose) const {
   if (pose == nullptr) {
-    AERROR << "Nullptr error.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Nullptr error.";
     return false;
   }
 
   const auto it = sensors_.find(sensor_id);
   if (it == sensors_.end()) {
-    AERROR << "Failed to find sensor " << sensor_id << " for get pose.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find sensor " << sensor_id << " for get pose.";
     return false;
   }
 

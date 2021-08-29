@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -34,15 +33,14 @@ using apollo::data::RecordProcessor;
 using apollo::data::SmartRecordTrigger;
 
 int main(int argc, char** argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::ParseCommandLineFlags(&argc, &argv, true);
   if (FLAGS_restored_output_dir.empty()) {
     FLAGS_restored_output_dir =
         absl::StrCat(FLAGS_source_records_dir, "_restored");
   }
-  AINFO << "input dir: " << FLAGS_source_records_dir
-        << ". output dir: " << FLAGS_restored_output_dir
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "input dir: " << FLAGS_source_records_dir
+         << ". output dir: " << FLAGS_restored_output_dir
         << ". config file: " << FLAGS_smart_recorder_config_filename
         << ". program name: " << argv[0];
   SmartRecordTrigger trigger_conf;
@@ -56,11 +54,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         FLAGS_source_records_dir, FLAGS_restored_output_dir));
   }
   if (!processor->Init(trigger_conf)) {
-    AERROR << "failed to init record processor";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to init record processor";
     return -1;
   }
   if (!processor->Process()) {
-    AERROR << "failed to process records";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to process records";
     return -1;
   }
   return 0;

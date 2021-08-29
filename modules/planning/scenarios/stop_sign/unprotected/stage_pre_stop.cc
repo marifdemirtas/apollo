@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -54,14 +53,16 @@ using StopSignLaneVehicles =
 
 Stage::StageStatus StopSignUnprotectedStagePreStop::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: PreStop";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: PreStop";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "StopSignUnprotectedStagePreStop planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "StopSignUnprotectedStagePreStop planning error";
   }
 
   const auto& reference_line_info = frame->reference_line_info().front();
@@ -106,8 +107,9 @@ Stage::StageStatus StopSignUnprotectedStagePreStop::Process(
     for (const std::string& vehicle_id : vehicle.second) {
       s = s.empty() ? vehicle_id : s + "," + vehicle_id;
     }
-    ADEBUG << "watch_vehicles: lane_id[" << associated_lane_id << "] vehicle["
-           << s << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "watch_vehicles: lane_id[" << associated_lane_id << "] vehicle["
+            << s << "]";
   }
 
   // pass vehicles being watched to DECIDER_RULE_BASED_STOP task
@@ -145,8 +147,9 @@ int StopSignUnprotectedStagePreStop::AddWatchVehicle(
       obstacle_type != PerceptionObstacle::UNKNOWN_MOVABLE &&
       obstacle_type != PerceptionObstacle::BICYCLE &&
       obstacle_type != PerceptionObstacle::VEHICLE) {
-    ADEBUG << "obstacle_id[" << perception_obstacle_id << "] type["
-           << obstacle_type_name << "]. skip";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle_id[" << perception_obstacle_id << "] type["
+            << obstacle_type_name << "]. skip";
     return 0;
   }
 
@@ -158,8 +161,9 @@ int StopSignUnprotectedStagePreStop::AddWatchVehicle(
   if (HDMapUtil::BaseMap().GetNearestLaneWithHeading(
           point, 5.0, perception_obstacle.theta(), M_PI / 3.0, &obstacle_lane,
           &obstacle_s, &obstacle_l) != 0) {
-    ADEBUG << "obstacle_id[" << perception_obstacle_id << "] type["
-           << obstacle_type_name
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle_id[" << perception_obstacle_id << "] type["
+            << obstacle_type_name
            << "]: Failed to find nearest lane from map for position: "
            << point.DebugString() << "; heading[" << perception_obstacle.theta()
            << "]";
@@ -176,8 +180,9 @@ int StopSignUnprotectedStagePreStop::AddWatchVehicle(
         return assc_lane.first.get()->id().id() == obstable_lane_id;
       });
   if (assoc_lane_it == GetContext()->associated_lanes.end()) {
-    ADEBUG << "obstacle_id[" << perception_obstacle_id << "] type["
-           << obstacle_type_name << "] lane_id[" << obstable_lane_id
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle_id[" << perception_obstacle_id << "] type["
+            << obstacle_type_name << "] lane_id[" << obstable_lane_id
            << "] not associated with current stop_sign. skip";
     return -1;
   }
@@ -186,7 +191,8 @@ int StopSignUnprotectedStagePreStop::AddWatchVehicle(
   auto over_lap_info = assoc_lane_it->second.get()->GetObjectOverlapInfo(
       obstacle_lane.get()->id());
   if (over_lap_info == nullptr) {
-    AERROR << "can't find over_lap_info for id: " << obstable_lane_id;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "can't find over_lap_info for id: " << obstable_lane_id;
     return -1;
   }
   const double stop_line_s = over_lap_info->lane_overlap_info().start_s();
@@ -195,8 +201,9 @@ int StopSignUnprotectedStagePreStop::AddWatchVehicle(
 
   if (distance_to_stop_line >
       scenario_config_.watch_vehicle_max_valid_stop_distance()) {
-    ADEBUG << "obstacle_id[" << perception_obstacle_id << "] type["
-           << obstacle_type_name << "] distance_to_stop_line["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle_id[" << perception_obstacle_id << "] type["
+            << obstacle_type_name << "] distance_to_stop_line["
            << distance_to_stop_line << "]; stop_line_s" << stop_line_s
            << "]; obstacle_end_s[" << obstacle_end_s
            << "] too far from stop line. skip";
@@ -208,8 +215,9 @@ int StopSignUnprotectedStagePreStop::AddWatchVehicle(
       (*watch_vehicles)[obstacle_lane->id().id()];
   if (std::find(vehicles.begin(), vehicles.end(), perception_obstacle_id) ==
       vehicles.end()) {
-    ADEBUG << "AddWatchVehicle: lane[" << obstacle_lane->id().id()
-           << "] obstacle_id[" << perception_obstacle_id << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "AddWatchVehicle: lane[" << obstacle_lane->id().id()
+            << "] obstacle_id[" << perception_obstacle_id << "]";
     (*watch_vehicles)[obstacle_lane->id().id()].push_back(
         perception_obstacle_id);
   }
@@ -228,20 +236,23 @@ bool StopSignUnprotectedStagePreStop::CheckADCStop(
                                         .vehicle_param()
                                         .max_abs_speed_when_stopped();
   if (adc_speed > max_adc_stop_speed) {
-    ADEBUG << "ADC not stopped: speed[" << adc_speed << "]";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC not stopped: speed[" << adc_speed << "]";
+     return false;
   }
 
   // check stop close enough to stop line of the stop_sign
   const double distance_stop_line_to_adc_front_edge =
       stop_line_s - adc_front_edge_s;
-  ADEBUG << "distance_stop_line_to_adc_front_edge["
-         << distance_stop_line_to_adc_front_edge << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "distance_stop_line_to_adc_front_edge["
+          << distance_stop_line_to_adc_front_edge << "]";
 
   if (distance_stop_line_to_adc_front_edge >
       scenario_config_.max_valid_stop_distance()) {
-    ADEBUG << "not a valid stop. too far from stop line.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "not a valid stop. too far from stop line.";
+     return false;
   }
 
   // TODO(all): check no BICYCLE in between.

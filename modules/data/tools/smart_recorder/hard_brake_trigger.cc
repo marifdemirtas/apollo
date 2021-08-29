@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -29,13 +28,9 @@ namespace data {
 
 using apollo::canbus::Chassis;
 
-HardBrakeTrigger::HardBrakeTrigger() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- trigger_name_ = "HardBrakeTrigger"; }
+HardBrakeTrigger::HardBrakeTrigger() { trigger_name_ = "HardBrakeTrigger"; }
 
 void HardBrakeTrigger::Pull(const cyber::record::RecordMessage& msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!trigger_obj_->enabled()) {
     return;
   }
@@ -52,24 +47,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     EnqueueMessage(speed);
 
     if (IsHardBrake()) {
-      AINFO << "hard break trigger is pulled: " << msg.time << " - "
-            << msg.channel_name;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "hard break trigger is pulled: " << msg.time << " - "
+             << msg.channel_name;
       TriggerIt(msg.time);
     }
   }
 }
 
 bool HardBrakeTrigger::IsNoisy(const float speed) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const float pre_speed_mps =
       (current_speed_queue_.empty() ? 0.0f : current_speed_queue_.back());
   return fabs(pre_speed_mps - speed) > noisy_diff_;
 }
 
 bool HardBrakeTrigger::IsHardBrake() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (current_speed_queue_.size() < queue_size_ ||
       history_speed_queue_.size() < queue_size_) {
     return false;
@@ -80,8 +72,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void HardBrakeTrigger::EnqueueMessage(const float speed) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   current_speed_queue_.emplace_back(speed);
   current_total_ += speed;
   if (current_speed_queue_.size() > queue_size_) {

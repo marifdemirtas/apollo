@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -34,14 +33,16 @@ using apollo::common::TrajectoryPoint;
 
 Stage::StageStatus ParkAndGoStageCruise::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: Cruise";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: Cruise";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "ParkAndGoStageCruise planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ParkAndGoStageCruise planning error";
   }
 
   const ReferenceLineInfo& reference_line_info =
@@ -74,8 +75,9 @@ ParkAndGoStageCruise::CheckADCParkAndGoCruiseCompleted(
 
   const double kLBuffer = 0.5;
   if (std::fabs(adc_position_sl.l()) < kLBuffer) {
-    ADEBUG << "cruise completed";
-    return CRUISE_COMPLETE;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "cruise completed";
+     return CRUISE_COMPLETE;
   }
 
   /* loose heading check, so that ADC can enter LANE_FOLLOW scenario sooner
@@ -86,13 +88,16 @@ ParkAndGoStageCruise::CheckADCParkAndGoCruiseCompleted(
   const auto reference_point =
       reference_line.GetReferencePoint(adc_position_sl.s());
   const auto path_point = reference_point.ToPathPoint(adc_position_sl.s());
-  ADEBUG << "adc_position_sl.l():[" << adc_position_sl.l() << "]";
-  ADEBUG << "adc_heading - path_point.theta():[" << adc_heading << "]"
-         << "[" << path_point.theta() << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc_position_sl.l():[" << adc_position_sl.l() << "]";
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc_heading - path_point.theta():[" << adc_heading << "]"
+          << "[" << path_point.theta() << "]";
   const double kHeadingBuffer = 0.1;
   if (std::fabs(adc_heading - path_point.theta()) < kHeadingBuffer) {
-    ADEBUG << "cruise completed";
-    return CRUISE_COMPLETE;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "cruise completed";
+     return CRUISE_COMPLETE;
   }
   */
 

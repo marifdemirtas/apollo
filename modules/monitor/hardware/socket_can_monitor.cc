@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -45,8 +44,6 @@ namespace {
 
 // Test Socket CAN on an open handler.
 bool SocketCanHandlerTest(const int dev_handler, std::string* message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // init config and state
   // 1. set receive message_id filter, ie white list
   struct can_filter filter[1];
@@ -93,8 +90,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 // Open a Socket CAN handler and test.
 bool SocketCanTest(std::string* message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const int dev_handler = socket(PF_CAN, SOCK_RAW, CAN_RAW);
   if (dev_handler < 0) {
     *message = "Open can device failed";
@@ -109,13 +104,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 SocketCanMonitor::SocketCanMonitor()
     : RecurrentRunner(FLAGS_socket_can_monitor_name,
-                      FLAGS_socket_can_monitor_interval) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+                      FLAGS_socket_can_monitor_interval) {}
 
 void SocketCanMonitor::RunOnce(const double current_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto manager = MonitorManager::Instance();
   Component* component = apollo::common::util::FindOrNull(
       *manager->GetStatus()->mutable_components(),

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -44,29 +43,31 @@ ErrorCode ChController::Init(
     const VehicleParameter& params,
     CanSender<::apollo::canbus::ChassisDetail>* const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail>* const message_manager) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (is_initialized_) {
-    AINFO << "ChController has already been initiated.";
-    return ErrorCode::CANBUS_ERROR;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ChController has already been initiated.";
+     return ErrorCode::CANBUS_ERROR;
   }
 
   vehicle_params_.CopyFrom(
       common::VehicleConfigHelper::Instance()->GetConfig().vehicle_param());
   params_.CopyFrom(params);
   if (!params_.has_driving_mode()) {
-    AERROR << "Vehicle conf pb not set driving_mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Vehicle conf pb not set driving_mode.";
     return ErrorCode::CANBUS_ERROR;
   }
 
   if (can_sender == nullptr) {
-    AERROR << "Canbus sender is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Canbus sender is null.";
     return ErrorCode::CANBUS_ERROR;
   }
   can_sender_ = can_sender;
 
   if (message_manager == nullptr) {
-    AERROR << "protocol manager is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "protocol manager is null.";
     return ErrorCode::CANBUS_ERROR;
   }
   message_manager_ = message_manager;
@@ -75,35 +76,40 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   brake_command_111_ = dynamic_cast<Brakecommand111*>(
       message_manager_->GetMutableProtocolDataById(Brakecommand111::ID));
   if (brake_command_111_ == nullptr) {
-    AERROR << "Brakecommand111 does not exist in the ChMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Brakecommand111 does not exist in the ChMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   gear_command_114_ = dynamic_cast<Gearcommand114*>(
       message_manager_->GetMutableProtocolDataById(Gearcommand114::ID));
   if (gear_command_114_ == nullptr) {
-    AERROR << "Gearcommand114 does not exist in the ChMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Gearcommand114 does not exist in the ChMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   steer_command_112_ = dynamic_cast<Steercommand112*>(
       message_manager_->GetMutableProtocolDataById(Steercommand112::ID));
   if (steer_command_112_ == nullptr) {
-    AERROR << "Steercommand112 does not exist in the ChMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Steercommand112 does not exist in the ChMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   throttle_command_110_ = dynamic_cast<Throttlecommand110*>(
       message_manager_->GetMutableProtocolDataById(Throttlecommand110::ID));
   if (throttle_command_110_ == nullptr) {
-    AERROR << "Throttlecommand110 does not exist in the ChMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Throttlecommand110 does not exist in the ChMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   turnsignal_command_113_ = dynamic_cast<Turnsignalcommand113*>(
       message_manager_->GetMutableProtocolDataById(Turnsignalcommand113::ID));
   if (turnsignal_command_113_ == nullptr) {
-    AERROR << "Turnsignalcommand113 does not exist in the ChMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Turnsignalcommand113 does not exist in the ChMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
@@ -115,21 +121,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                           false);
 
   // need sleep to ensure all messages received
-  AINFO << "ChController is initialized.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ChController is initialized.";
+ 
   is_initialized_ = true;
   return ErrorCode::OK;
 }
 
-ChController::~ChController() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+ChController::~ChController() {}
 
 bool ChController::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "ChController has NOT been initiated.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ChController has NOT been initiated.";
     return false;
   }
   const auto& update_func = [this] { SecurityDogThreadFunc(); };
@@ -139,23 +143,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void ChController::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "ChController stops or starts improperly!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ChController stops or starts improperly!";
     return;
   }
 
   if (thread_ != nullptr && thread_->joinable()) {
     thread_->join();
     thread_.reset();
-    AINFO << "ChController stopped.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ChController stopped.";
+   }
 }
 
 Chassis ChController::chassis() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis_.Clear();
 
   ChassisDetail chassis_detail;
@@ -270,18 +272,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void ChController::Emergency() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
 }
 
 ErrorCode ChController::EnableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
-    AINFO << "already in COMPLETE_AUTO_DRIVE mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "already in COMPLETE_AUTO_DRIVE mode";
+     return ErrorCode::OK;
   }
 
   brake_command_111_->set_brake_pedal_en_ctrl(
@@ -290,55 +289,54 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       Throttle_command_110::THROTTLE_PEDAL_EN_CTRL_ENABLE);
   steer_command_112_->set_steer_angle_en_ctrl(
       Steer_command_112::STEER_ANGLE_EN_CTRL_ENABLE);
-  AINFO << "\n\n\n set enable \n\n\n";
-  can_sender_->Update();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\n\n\n set enable \n\n\n";
+   can_sender_->Update();
   const int32_t flag =
       CHECK_RESPONSE_STEER_UNIT_FLAG | CHECK_RESPONSE_SPEED_UNIT_FLAG;
   if (!CheckResponse(flag, true)) {
-    AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
     Emergency();
     set_chassis_error_code(Chassis::CHASSIS_ERROR);
     return ErrorCode::CANBUS_ERROR;
   } else {
     set_driving_mode(Chassis::COMPLETE_AUTO_DRIVE);
-    AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
+     return ErrorCode::OK;
   }
 }
 
 ErrorCode ChController::DisableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ResetProtocol();
   can_sender_->Update();
   set_driving_mode(Chassis::COMPLETE_MANUAL);
   set_chassis_error_code(Chassis::NO_ERROR);
-  AINFO << "Switch to COMPLETE_MANUAL OK!";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_MANUAL OK!";
+   return ErrorCode::OK;
 }
 
 ErrorCode ChController::EnableSteeringOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AFATAL << "SteeringOnlyMode Not supported!";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "SteeringOnlyMode Not supported!";
+   return ErrorCode::OK;
 }
 
 ErrorCode ChController::EnableSpeedOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AFATAL << "SpeedOnlyMode Not supported!";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "SpeedOnlyMode Not supported!";
+   return ErrorCode::OK;
 }
 
 // NEUTRAL, REVERSE, DRIVE
 void ChController::Gear(Chassis::GearPosition gear_position) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_SPEED_ONLY)) {
-    AINFO << "this drive mode no need to set gear.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "this drive mode no need to set gear.";
+     return;
   }
 
   // ADD YOUR OWN CAR CHASSIS OPERATION
@@ -360,7 +358,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       break;
     }
     case Chassis::GEAR_INVALID: {
-      AERROR << "Gear command is invalid!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Gear command is invalid!";
       gear_command_114_->set_gear_cmd(Gear_command_114::GEAR_CMD_NEUTRAL);
       break;
     }
@@ -376,13 +375,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // acceleration:0.0 ~ 7.0, unit:m/s^2
 // acceleration_spd:60 ~ 100, suggest: 90
 void ChController::Brake(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Update brake value based on mode
   if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_SPEED_ONLY)) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
   // ADD YOUR OWN CAR CHASSIS OPERATION
   brake_command_111_->set_brake_pedal_cmd(static_cast<int>(pedal));
@@ -391,32 +389,28 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // drive with old acceleration
 // gas:0.00~99.99 unit:
 void ChController::Throttle(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
   // ADD YOUR OWN CAR CHASSIS OPERATION
   throttle_command_110_->set_throttle_pedal_cmd(static_cast<int>(pedal));
 }
 
-void ChController::Acceleration(double acc) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+void ChController::Acceleration(double acc) {}
 
 // ch default, -23 ~ 23, left:+, right:-
 // need to be compatible with control module, so reverse
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 void ChController::Steer(double angle) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_STEER_ONLY)) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
   const double real_angle = vehicle_params_.max_steer_angle() * angle / 100.0;
   // reverse sign
@@ -428,45 +422,33 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // angle:-99.99~0.00~99.99, unit:, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void ChController::Steer(double angle, double angle_spd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!(driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
         driving_mode() == Chassis::AUTO_STEER_ONLY)) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
   // ADD YOUR OWN CAR CHASSIS OPERATION
   const double real_angle = vehicle_params_.max_steer_angle() * angle / 100.0;
   steer_command_112_->set_steer_angle_cmd(real_angle);
 }
 
-void ChController::SetEpbBreak(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+void ChController::SetEpbBreak(const ControlCommand& command) {}
 
-void ChController::SetBeam(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+void ChController::SetBeam(const ControlCommand& command) {}
 
-void ChController::SetHorn(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+void ChController::SetHorn(const ControlCommand& command) {}
 
-void ChController::SetTurningSignal(const ControlCommand& command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+void ChController::SetTurningSignal(const ControlCommand& command) {}
 
-void ChController::ResetProtocol() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- message_manager_->ResetSendMessages(); }
+void ChController::ResetProtocol() { message_manager_->ResetSendMessages(); }
 
 bool ChController::CheckChassisError() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ChassisDetail chassis_detail;
   message_manager_->GetSensorData(&chassis_detail);
   if (!chassis_detail.has_ch()) {
-    AERROR_EVERY(100) << "ChassisDetail has NO ch vehicle info."
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "ChassisDetail has NO ch vehicle info."
                       << chassis_detail.DebugString();
     return false;
   }
@@ -504,13 +486,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void ChController::SecurityDogThreadFunc() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int32_t vertical_ctrl_fail = 0;
   int32_t horizontal_ctrl_fail = 0;
 
   if (can_sender_ == nullptr) {
-    AERROR << "Fail to run SecurityDogThreadFunc() because can_sender_ is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to run SecurityDogThreadFunc() because can_sender_ is "
               "nullptr.";
     return;
   }
@@ -565,14 +546,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (elapsed < default_period) {
       std::this_thread::sleep_for(default_period - elapsed);
     } else {
-      AERROR << "Too much time consumption in ChController looping process:"
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Too much time consumption in ChController looping process:"
              << elapsed.count();
     }
   }
 }
 bool ChController::CheckResponse(const int32_t flags, bool need_wait) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int32_t retry_num = 20;
   ChassisDetail chassis_detail;
   bool is_eps_online = false;
@@ -581,7 +561,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   do {
     if (message_manager_->GetSensorData(&chassis_detail) != ErrorCode::OK) {
-      AERROR_EVERY(100) << "get chassis detail failed.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "get chassis detail failed.";
       return false;
     }
     bool check_ok = true;
@@ -604,8 +585,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (check_ok) {
       return true;
     } else {
-      AINFO << "Need to check response again.";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Need to check response again.";
+     }
     if (need_wait) {
       --retry_num;
       std::this_thread::sleep_for(
@@ -613,38 +595,31 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
   } while (need_wait && retry_num);
 
-  AINFO << "check_response fail: is_eps_online:" << is_eps_online
-        << ", is_vcu_online:" << is_vcu_online
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "check_response fail: is_eps_online:" << is_eps_online
+         << ", is_vcu_online:" << is_vcu_online
         << ", is_esp_online:" << is_esp_online;
 
   return false;
 }
 
 void ChController::set_chassis_error_mask(const int32_t mask) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t ChController::chassis_error_mask() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode ChController::chassis_error_code() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
 }
 
 void ChController::set_chassis_error_code(
     const Chassis::ErrorCode& error_code) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
 }

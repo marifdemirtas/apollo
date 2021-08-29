@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -34,10 +33,9 @@ using apollo::common::Status;
 using apollo::cyber::Clock;
 
 void ControllerAgent::RegisterControllers(const ControlConf *control_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Only support MPC controller or Lat + Lon controllers as of now";
-  for (auto active_controller : control_conf->active_controllers()) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Only support MPC controller or Lat + Lon controllers as of now";
+   for (auto active_controller : control_conf->active_controllers()) {
     switch (active_controller) {
       case ControlConf::MPC_CONTROLLER:
         controller_factory_.Register(
@@ -55,16 +53,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
             []() -> Controller * { return new LonController(); });
         break;
       default:
-        AERROR << "Unknown active controller type:" << active_controller;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknown active controller type:" << active_controller;
     }
   }
 }
 
 Status ControllerAgent::InitializeConf(const ControlConf *control_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!control_conf) {
-    AERROR << "control_conf is null";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "control_conf is null";
     return Status(ErrorCode::CONTROL_INIT_ERROR, "Failed to load config");
   }
   control_conf_ = control_conf;
@@ -74,7 +72,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (controller) {
       controller_list_.emplace_back(std::move(controller));
     } else {
-      AERROR << "Controller: " << controller_type << "is not supported";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Controller: " << controller_type << "is not supported";
       return Status(ErrorCode::CONTROL_INIT_ERROR,
                     "Invalid controller type:" + controller_type);
     }
@@ -84,8 +83,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Status ControllerAgent::Init(std::shared_ptr<DependencyInjector> injector,
                              const ControlConf *control_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   injector_ = injector;
   RegisterControllers(control_conf);
   ACHECK(InitializeConf(control_conf).ok()) << "Failed to initialize config.";
@@ -94,12 +91,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       return Status(ErrorCode::CONTROL_INIT_ERROR, "Controller is null.");
     }
     if (!controller->Init(injector, control_conf_).ok()) {
-      AERROR << "Controller <" << controller->Name() << "> init failed!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Controller <" << controller->Name() << "> init failed!";
       return Status(ErrorCode::CONTROL_INIT_ERROR,
                     "Failed to init Controller:" + controller->Name());
     }
-    AINFO << "Controller <" << controller->Name() << "> init done!";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Controller <" << controller->Name() << "> init done!";
+   }
   return Status::OK();
 }
 
@@ -107,28 +106,27 @@ Status ControllerAgent::ComputeControlCommand(
     const localization::LocalizationEstimate *localization,
     const canbus::Chassis *chassis, const planning::ADCTrajectory *trajectory,
     control::ControlCommand *cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (auto &controller : controller_list_) {
-    ADEBUG << "controller:" << controller->Name() << " processing ...";
-    double start_timestamp = Clock::NowInSeconds();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "controller:" << controller->Name() << " processing ...";
+     double start_timestamp = Clock::NowInSeconds();
     controller->ComputeControlCommand(localization, chassis, trajectory, cmd);
     double end_timestamp = Clock::NowInSeconds();
     const double time_diff_ms = (end_timestamp - start_timestamp) * 1000;
 
-    ADEBUG << "controller: " << controller->Name()
-           << " calculation time is: " << time_diff_ms << " ms.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "controller: " << controller->Name()
+            << " calculation time is: " << time_diff_ms << " ms.";
     cmd->mutable_latency_stats()->add_controller_time_ms(time_diff_ms);
   }
   return Status::OK();
 }
 
 Status ControllerAgent::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (auto &controller : controller_list_) {
-    ADEBUG << "controller:" << controller->Name() << " reset...";
-    controller->Reset();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "controller:" << controller->Name() << " reset...";
+     controller->Reset();
   }
   return Status::OK();
 }

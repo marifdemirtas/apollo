@@ -28,12 +28,14 @@ namespace drivers {
 namespace velodyne {
 
 bool VelodyneDriverComponent::Init() {
-  AINFO << "Velodyne driver component init";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Velodyne driver component init";
   Config velodyne_config;
   if (!GetProtoConfig(&velodyne_config)) {
     return false;
   }
-  AINFO << "Velodyne config: " << velodyne_config.DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Velodyne config: " << velodyne_config.DebugString();
   // start the driver
   std::shared_ptr<::apollo::cyber::Node> node =
       apollo::cyber::CreateNode("lidar_drivers");

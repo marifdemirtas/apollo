@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -970,13 +969,15 @@ void PiecewiseJerkSpeedNonlinearIpoptInterface::finalize_solution(
     lower_s_mean_intrusion /= static_cast<double>(num_of_points_);
     upper_s_mean_intrusion /= static_cast<double>(num_of_points_);
 
-    ADEBUG << "lower soft s boundary average intrustion is ["
-           << lower_s_mean_intrusion << "] with highest value of ["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "lower soft s boundary average intrustion is ["
+            << lower_s_mean_intrusion << "] with highest value of ["
            << lower_s_highest_intrusion << "] at time ["
            << delta_t_ * static_cast<double>(lower_s_highest_intrustion_index)
            << "].";
-    ADEBUG << "upper soft s boundary average intrustion is ["
-           << upper_s_mean_intrusion << "] with highest value of ["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "upper soft s boundary average intrustion is ["
+            << upper_s_mean_intrusion << "] with highest value of ["
            << upper_s_highest_intrusion << "] at time ["
            << delta_t_ * static_cast<double>(upper_s_highest_intrustion_index)
            << "].";

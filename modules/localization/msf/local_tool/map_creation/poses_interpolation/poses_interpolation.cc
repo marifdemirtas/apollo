@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -24,16 +23,12 @@
 namespace apollo {
 namespace localization {
 namespace msf {
-PosesInterpolation::PosesInterpolation() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+PosesInterpolation::PosesInterpolation() {}
 
 bool PosesInterpolation::Init(const std::string &input_poses_path,
                               const std::string &ref_timestamps_path,
                               const std::string &out_poses_path,
                               const std::string &extrinsic_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   this->input_poses_path_ = input_poses_path;
   this->ref_timestamps_path_ = ref_timestamps_path;
   this->out_poses_path_ = out_poses_path;
@@ -41,7 +36,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   bool success = velodyne::LoadExtrinsic(extrinsic_path_, &velodyne_extrinsic_);
   if (!success) {
-    AERROR << "Load lidar extrinsic failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Load lidar extrinsic failed.";
     return false;
   }
 
@@ -49,8 +45,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void PosesInterpolation::DoInterpolation() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Load input poses
   ::apollo::common::EigenVector3dVec input_stds;
   velodyne::LoadPosesAndStds(input_poses_path_, &input_poses_, &input_stds,
@@ -69,10 +63,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void PosesInterpolation::LoadPCDTimestamp() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   FILE *file = fopen(ref_timestamps_path_.c_str(), "r");
   if (file) {
     unsigned int index;
@@ -84,13 +74,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
     fclose(file);
   } else {
-    AINFO << "Can't open file to read: " << ref_timestamps_path_;
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Can't open file to read: " << ref_timestamps_path_;
+   }
 }
 
 void PosesInterpolation::WritePCDPoses() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::ofstream fout;
   fout.open(out_poses_path_.c_str(), std::ofstream::out);
 
@@ -115,7 +104,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
     fout.close();
   } else {
-    AERROR << "Can't open file to write: " << out_poses_path_ << std::endl;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can't open file to write: " << out_poses_path_ << std::endl;
   }
 }  // namespace msf
 
@@ -126,8 +116,6 @@ void PosesInterpolation::PoseInterpolationByTime(
     const std::vector<unsigned int> &ref_indexes,
     std::vector<unsigned int> *out_indexes, std::vector<double> *out_timestamps,
     ::apollo::common::EigenAffine3dVec *out_poses) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   out_indexes->clear();
   out_timestamps->clear();
   out_poses->clear();
@@ -175,8 +163,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       AWARN << "[WARN] No more poses. Exit now.";
       break;
     }
-    ADEBUG << "Frame_id: " << i;
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Frame_id: " << i;
+   }
 }
 
 }  // namespace msf

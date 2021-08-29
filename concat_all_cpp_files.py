@@ -20,7 +20,7 @@ def create_concat_cyber():
                 shutil.copyfileobj(fd, wfd)
 
 def get_files():
-    with open('cpp_modules_list_final.txt', 'r') as f:
+    with open('cpp_modules_list_wo_test.txt', 'r') as f:
         files = [d[:-1] for d in f.readlines()]
         return files
 
@@ -59,14 +59,14 @@ def add_logging():
 def read():
     files = get_files()
     print()
-    with open('all_module_cpp_files_concat_logged.cc','r') as wfd:
+    with open('all_module_cpp_files_concat_log.cc','r') as wfd:
         file_contents = wfd.read().split(start_token_file)[1:]
         for i, fc in enumerate(file_contents):
             if i % 60 == 0:
                 print("%5 gone")
             f, c = fc.split(start_token_content)
             with open(f, 'w') as fd:
-                fd.write('#include <iostream>\n' + c)
+                fd.write(c)
 
 def fix():
     files = get_files()

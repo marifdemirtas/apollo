@@ -51,7 +51,8 @@ std::unique_ptr<LidarDriver> LidarDriverFactory::CreateLidarDriver(
     const apollo::drivers::lidar::config& parameter) {
   auto factory = CreateObject(parameter.brand(), node, parameter);
   if (!factory) {
-    AERROR << "Failed to create lidar with parameter: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create lidar with parameter: "
            << parameter.DebugString();
   }
   return factory;

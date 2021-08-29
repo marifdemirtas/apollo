@@ -27,10 +27,12 @@ using apollo::drivers::Image;
 
 bool ImageDecompressComponent::Init() {
   if (!GetProtoConfig(&config_)) {
-    AERROR << "Parse config file failed: " << ConfigFilePath();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Parse config file failed: " << ConfigFilePath();
     return false;
   }
-  AINFO << "Decompress config: \n" << config_.DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Decompress config: \n" << config_.DebugString();
   writer_ = node_->CreateWriter<Image>(config_.channel_name());
   return true;
 }

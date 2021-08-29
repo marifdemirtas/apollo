@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace neolix_edu {
 
 using ::apollo::drivers::canbus::Byte;
 
-Vcudrivereport52::Vcudrivereport52() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Vcudrivereport52::Vcudrivereport52() {}
 const int32_t Vcudrivereport52::ID = 0x52;
 
 void Vcudrivereport52::Parse(const std::uint8_t* bytes, int32_t length,
                              ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_neolix_edu()
       ->mutable_vcu_drive_report_52()
       ->set_drive_enable_resp(drive_enable_resp(bytes, length));
@@ -81,8 +76,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 bool Vcudrivereport52::drive_enable_resp(const std::uint8_t* bytes,
                                          int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 
@@ -99,8 +92,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|7]', 'bit': 6, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Vcu_drive_report_52::Control_mode_respType Vcudrivereport52::control_mode_resp(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 3);
 
@@ -117,8 +108,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|3]', 'bit': 9, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Vcu_drive_report_52::Vcu_real_shiftType Vcudrivereport52::vcu_real_shift(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 2);
 
@@ -133,8 +122,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 bool Vcudrivereport52::vcu_real_shift_valid(const std::uint8_t* bytes,
                                             int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(2, 1);
 
@@ -148,8 +135,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 bool Vcudrivereport52::vcu_real_torque_valid(const std::uint8_t* bytes,
                                              int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(3, 1);
 
@@ -162,8 +147,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 23, 'type': 'double', 'order': 'motorola', 'physical_unit': 'Nm'}
 double Vcudrivereport52::vcu_real_torque(const std::uint8_t* bytes,
                                          int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -182,8 +165,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 bool Vcudrivereport52::vcu_limitedtorquemode(const std::uint8_t* bytes,
                                              int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 1);
 
@@ -196,8 +177,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|0]', 'bit': 51, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vcudrivereport52::vcu_driverept_alivecounter(const std::uint8_t* bytes,
                                                  int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 4);
 
@@ -210,8 +189,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|0]', 'bit': 63, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vcudrivereport52::vcu_driverept_checksum(const std::uint8_t* bytes,
                                              int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ bool FrameStatistics::_s_roi_is_main_lanes = false;
 
 double cal_point_based_jaccard_index(unsigned int n1, unsigned int n2,
                                      unsigned int overlap) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (n1 + n2 <= overlap) {
     return 0;
   }
@@ -37,26 +34,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void FrameStatistics::set_jaccard_index_threshold(double threshold) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _s_jaccard_index_threshold = threshold;
 }
 
 void FrameStatistics::set_jaccard_index_percentile(double percentile) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _s_jaccard_index_percentile = percentile;
 }
 
 void FrameStatistics::set_roi_is_main_lanes(bool value) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _s_roi_is_main_lanes = value;
 }
 
 double FrameStatistics::jaccard_index_percentile() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (_jaccard_indices.empty()) {
     return 0.0;
   }
@@ -71,8 +60,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool FrameStatistics::find_association() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::size_t objects_num = objects.size();
   std::size_t gt_objects_num = gt_objects.size();
 
@@ -228,8 +215,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   return true;
 }
 bool FrameStatistics::cal_meta_statistics() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   _meta_stat.reset();
   std::vector<unsigned int> gt_object_range_indices(_gt_object_position.size(),
                                                     0);

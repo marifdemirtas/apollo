@@ -37,7 +37,8 @@ bool DstManager::AddApp(const std::string &app_name,
   dst_data.fod_subsets_ = fod_subsets;
   BuildSubsetsIndMap(&dst_data);
   if (dst_data.subsets_ind_map_.size() != dst_data.fod_subsets_.size()) {
-    AERROR << boost::format(
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << boost::format(
                   "Dst %s: The input fod subsets"
                   " have repetitive elements.") %
                   app_name;
@@ -66,7 +67,8 @@ bool DstManager::IsAppAdded(const std::string &app_name) {
 
 DstCommonDataPtr DstManager::GetAppDataPtr(const std::string &app_name) {
   if (!IsAppAdded(app_name)) {
-    AERROR << "app_name is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "app_name is not available";
     return nullptr;
   }
   auto iter = dst_common_data_.find(app_name);
@@ -160,7 +162,8 @@ bool DstManager::ComputeRelations(DstCommonData *dst_data) {
         inter_inds.push_back(j);
         auto find_res = dst_data->subsets_ind_map_.find(inter_res);
         if (find_res == dst_data->subsets_ind_map_.end()) {
-          AERROR << boost::format(
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << boost::format(
               "Dst: The input set "
               "of fod subsets has no closure under the operation "
               "intersection");
@@ -225,7 +228,8 @@ double Dst::GetIndBfmass(size_t ind) const {
 bool Dst::SetBbaVec(const std::vector<double> &bba_vec) {
   SelfCheck();
   if (bba_vec.size() != dst_data_ptr_->fod_subsets_.size()) {
-    AERROR << boost::format("input bba_vec size: %d !=  Dst subsets size: %d") %
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << boost::format("input bba_vec size: %d !=  Dst subsets size: %d") %
                   bba_vec.size() % dst_data_ptr_->fod_subsets_.size();
     return false;
   }
@@ -252,7 +256,8 @@ bool Dst::SetBba(const std::map<uint64_t, double> &bba_map) {
     double belief_mass = bba_map_iter.second;
     auto find_res = subsets_ind_map.find(fod_subset);
     if (find_res == subsets_ind_map.end()) {
-      AERROR << "the input bba map has invalid fod subset";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the input bba map has invalid fod subset";
       return false;
     }
     if (belief_mass < 0.0) {
@@ -322,15 +327,13 @@ void Dst::ComputeSptPlsUct() const {
     double &uct = uncertainty_vec_[i];
     const auto &subset_inds = subset_relations[i];
     const auto &inter_inds = inter_relations[i];
-    // AINFO << boost::format("inter_size: (%d %d)") % i % inter_inds.size();
-    for (auto subset_ind : subset_inds) {
+        for (auto subset_ind : subset_inds) {
       spt += bba_vec_[subset_ind];
     }
     for (auto inter_ind : inter_inds) {
       pls += bba_vec_[inter_ind];
     }
-    // AINFO << boost::format("pls: (%d %lf)") % i % pls;
-    uct = pls - spt;
+        uct = pls - spt;
   }
 }
 
@@ -360,7 +363,8 @@ void Dst::Normalize() {
   SelfCheck();
   double mass_sum = std::accumulate(bba_vec_.begin(), bba_vec_.end(), 0.0);
   if (mass_sum == 0.0) {
-    ADEBUG << "mass_sum equal 0!!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "mass_sum equal 0!!";
   }
   for (auto &belief_mass : bba_vec_) {
     belief_mass /= mass_sum;
@@ -378,17 +382,14 @@ Dst operator+(const Dst &lhs, const Dst &rhs) {
   const auto &combination_relations = lhs.dst_data_ptr_->combination_relations_;
   for (size_t i = 0; i < resbba_vec_.size(); ++i) {
     const auto &combination_pairs = combination_relations[i];
-    // AINFO << "pairs size: " << combination_pairs.size();
-    double &belief_mass = resbba_vec_[i];
+        double &belief_mass = resbba_vec_[i];
     belief_mass = 0.0;
     for (auto combination_pair : combination_pairs) {
-      // AINFO << boost::format("(%d %d)") % combination_pair.first
-      //     % combination_pair.second;
+            //     % combination_pair.second;
       belief_mass += lhs.GetIndBfmass(combination_pair.first) *
                      rhs.GetIndBfmass(combination_pair.second);
     }
-    // AINFO << boost::format("belief_mass: %lf") % belief_mass;
-  }
+      }
   res.Normalize();
   return res;
 }
@@ -398,7 +399,8 @@ Dst operator*(const Dst &dst, double w) {
   Dst res(dst.app_name_);
   // check w
   if (w < 0.0 || w > 1.0) {
-    AERROR << boost::format(
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << boost::format(
                   "the weight of bba %lf is not valid, return default bba") %
                   w;
     return res;

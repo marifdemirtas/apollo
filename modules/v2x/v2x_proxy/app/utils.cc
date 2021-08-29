@@ -54,14 +54,16 @@ bool InternalData::TrafficLightProc(
     return false;
   }
   if (!msg->has_gps_x_m() || !msg->has_gps_y_m()) {
-    AERROR << "Error::v2x traffic_light ignore, gps point is null";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Error::v2x traffic_light ignore, gps point is null";
     return false;
   }
   ::apollo::common::PointENU point;
   point.set_x(msg->gps_x_m());
   point.set_y(msg->gps_y_m());
   if (0 == msg->single_traffic_light_size()) {
-    AERROR << "Error::v2x traffic_light ignore, size of single light is 0.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Error::v2x traffic_light ignore, size of single light is 0.";
     return false;
   }
   if (0 == msg->single_traffic_light(0).traffic_light_type_size()) {
@@ -74,19 +76,22 @@ bool InternalData::TrafficLightProc(
   }
   std::vector<::apollo::hdmap::SignalInfoConstPtr> signals;
   if (0 != hdmap->GetForwardNearestSignalsOnLane(point, distance, &signals)) {
-    AERROR << "Error::v2x traffic_light ignore, hdmap get no signals."
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Error::v2x traffic_light ignore, hdmap get no signals."
            << "traffic light size : " << signals.size() << " "
            << std::setiosflags(std::ios::fixed) << std::setprecision(11)
            << "Point:x=" << point.x() << ",y=" << point.y();
     return false;
   }
   if (signals.empty()) {
-    AERROR << "Get traffic light size : " << signals.size() << " "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Get traffic light size : " << signals.size() << " "
            << std::setiosflags(std::ios::fixed) << std::setprecision(11)
            << "Point:x=" << point.x() << ",y=" << point.y();
     return false;
   }
-  AINFO << "the size of traffic light from HDMap is: " << signals.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "the size of traffic light from HDMap is: " << signals.size();
   auto tl_type = msg->single_traffic_light(0).traffic_light_type(0);
   auto color = msg->single_traffic_light(0).color();
   auto remaining_time = msg->single_traffic_light(0).color_remaining_time_s();
@@ -143,7 +148,8 @@ bool InternalData::ProcTrafficlight(
   }
   int num_os_traffic_light = os_traffic_light->road_traffic_light_size();
   if (0 == num_os_traffic_light) {
-    AERROR << "Ignored no traffic light contained after conventor.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ignored no traffic light contained after conventor.";
     return false;
   }
   std::shared_ptr<OSLight> sim_traffic_light_data = nullptr;
@@ -156,7 +162,8 @@ bool InternalData::ProcTrafficlight(
   for (int i = 0; i < num_os_traffic_light; i++) {
     auto os_current_light = os_traffic_light->mutable_road_traffic_light(i);
     if (!TrafficLightProc(hdmap, distance, os_current_light)) {
-      AERROR << "Traffic light proc failed";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Traffic light proc failed";
       continue;
     }
     if (os_current_light->single_traffic_light_size() > 0) {
@@ -166,7 +173,8 @@ bool InternalData::ProcTrafficlight(
     }
   }
   tmp_os_traffic_light->set_confidence(IsRushHour() ? 0.5 : 1.0);
-  AINFO << "all traffic light send to os BEFORE is: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "all traffic light send to os BEFORE is: "
         << os_traffic_light->DebugString();
   if (0 == tmp_os_traffic_light->road_traffic_light_size()) {
     return false;
@@ -175,7 +183,8 @@ bool InternalData::ProcTrafficlight(
   tmp_os_traffic_light->set_intersection_id(cur_junction_id);
   // enter a new junction, need to clear the list
   if (cur_junction_id != intersection_id_) {
-    AINFO << "Enter New Juncion: " << cur_junction_id;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Enter New Juncion: " << cur_junction_id;
     oslight_ = nullptr;
     intersection_id_ = cur_junction_id;
     int num_traffic_light = tmp_os_traffic_light->road_traffic_light_size();
@@ -187,7 +196,8 @@ bool InternalData::ProcTrafficlight(
       msg_timestamp_[i] = x2v_traffic_light->header().timestamp_sec();
     }
   } else {
-    ADEBUG << "Same Juncion: " << cur_junction_id;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Same Juncion: " << cur_junction_id;
     if (flag_u_turn) {
       for (unsigned int i = 0; i < kBufferSize; i++) {
         msg_timestamp_[i] = 0.0;
@@ -225,7 +235,8 @@ bool InternalData::ProcTrafficlight(
               current_msg_single_traffic_light->color()) {
             if (current_msg_single_traffic_light->color_remaining_time_s() >
                 last_msg_single_traffic_light.color_remaining_time_s()) {
-              AINFO << "correct the remaining time";
+              AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "correct the remaining time";
               current_msg_single_traffic_light->set_color_remaining_time_s(
                   last_msg_single_traffic_light.color_remaining_time_s());
             }
@@ -286,7 +297,8 @@ bool InternalData::ProcPlanningMessage(
                                          ? last_os_light->intersection_id()
                                          : -1);
   (*res_light)->mutable_header()->set_frame_id(res_frame_id);
-  AINFO << "Selected road attr: " << ::apollo::common::Direction_Name(attr);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Selected road attr: " << ::apollo::common::Direction_Name(attr);
   std::set<std::string> idset;
   for (int idx = 0; idx < last_os_light->road_traffic_light_size(); idx++) {
     const auto &road_tl = last_os_light->road_traffic_light(idx);
@@ -355,14 +367,17 @@ bool FindAllRoadId(const std::shared_ptr<::apollo::hdmap::HDMap> &hdmap,
   ::apollo::hdmap::LaneInfoConstPtr start_laneinfo_tmp = start_laneinfo;
   while (true) {
     if (0 == start_laneinfo_tmp->lane().successor_id_size()) {
-      AINFO << "The lane has no successor";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The lane has no successor";
       return false;
     }
     id = start_laneinfo_tmp->lane().successor_id(0);
-    AINFO << "Lane id " << id.id();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Lane id " << id.id();
     start_laneinfo_tmp = hdmap->GetLaneById(id);
     if (start_laneinfo_tmp == nullptr) {
-      AINFO << "Get lane by id is null.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Get lane by id is null.";
       return false;
     }
     result_id_set->insert(start_laneinfo_tmp->road_id().id());
@@ -372,12 +387,14 @@ bool FindAllRoadId(const std::shared_ptr<::apollo::hdmap::HDMap> &hdmap,
       for (const auto &item : *result_id_set) {
         ss << item << " ";
       }
-      AINFO << ss.str();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << ss.str();
       return true;
     }
     road_counter++;
     if (road_counter > max_road_count) {
-      AINFO << "not find the end road id after try " << road_counter;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "not find the end road id after try " << road_counter;
       return false;
     }
   }
@@ -392,7 +409,8 @@ bool CheckCarInSet(const std::shared_ptr<::apollo::hdmap::HDMap> &hdmap,
   auto car_laneinfo_tmp = car_laneinfo;
   while (true) {
     if (id_set.count(car_laneinfo_tmp->road_id().id()) == 1) {
-      AINFO << "find the car is in the speed limit region";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "find the car is in the speed limit region";
       return true;
     }
     if (car_laneinfo_tmp->lane().successor_id_size() == 0) {
@@ -400,7 +418,8 @@ bool CheckCarInSet(const std::shared_ptr<::apollo::hdmap::HDMap> &hdmap,
       return false;
     }
     id = car_laneinfo_tmp->lane().successor_id(0);
-    AINFO << "Lane id " << id.id();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Lane id " << id.id();
     car_laneinfo_tmp = hdmap->GetLaneById(id);
     if (car_laneinfo_tmp == nullptr) {
       AWARN << "Get lane by id is null.";
@@ -454,17 +473,22 @@ bool GetRsuInfo(const std::shared_ptr<::apollo::hdmap::HDMap> &hdmap,
   if (0 != hdmap->GetForwardNearestRSUs(point, distance, heading,
                                         max_heading_difference, &rsus) ||
       rsus.empty()) {
-    AINFO << "no rsu is found";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "no rsu is found";
     return false;
   }
-  AINFO << "Get " << rsus.size() << " rsu(s)";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Get " << rsus.size() << " rsu(s)";
   if (rsu_whitelist.find(rsus[0]->id().id() + "_tl") == rsu_whitelist.cend()) {
-    AINFO << "This rsu id '" << rsus[0]->id().id()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "This rsu id '" << rsus[0]->id().id()
           << "' is not in the white list";
     return false;
   }
-  AINFO << "This RSU is in the white list";
-  AINFO << "Junction id " << rsus[0]->rsu().junction_id().id();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "This RSU is in the white list";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Junction id " << rsus[0]->rsu().junction_id().id();
   auto junction_info = hdmap->GetJunctionById(rsus[0]->rsu().junction_id());
   if (nullptr == junction_info) {
     return false;

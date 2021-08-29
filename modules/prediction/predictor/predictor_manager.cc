@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -49,7 +48,8 @@ void GroupObstaclesByObstacleId(const int obstacle_id,
                                 IdObstacleListMap* const id_obstacle_map) {
   Obstacle* obstacle_ptr = obstacles_container->GetObstacle(obstacle_id);
   if (obstacle_ptr == nullptr) {
-    AERROR << "Null obstacle [" << obstacle_id << "] found";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null obstacle [" << obstacle_id << "] found";
     return;
   }
   int id_mod = obstacle_id % FLAGS_max_thread_num;
@@ -74,13 +74,15 @@ void PredictorManager::RegisterPredictors() {
 void PredictorManager::Init(const PredictionConf& config) {
   for (const auto& conf : config.obstacle_conf()) {
     if (!conf.has_obstacle_type()) {
-      AERROR << "Obstacle config [" << conf.ShortDebugString()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle config [" << conf.ShortDebugString()
              << "] has not defined obstacle type.";
       continue;
     }
 
     if (!conf.has_predictor_type()) {
-      AERROR << "Obstacle config [" << conf.ShortDebugString()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle config [" << conf.ShortDebugString()
              << "] has not defined predictor type.";
       continue;
     }
@@ -106,20 +108,27 @@ void PredictorManager::Init(const PredictionConf& config) {
     }
   }
 
-  AINFO << "Defined vehicle on lane obstacle predictor ["
-        << vehicle_on_lane_predictor_ << "].";
-  AINFO << "Defined vehicle off lane obstacle predictor ["
-        << vehicle_off_lane_predictor_ << "].";
-  AINFO << "Defined bicycle on lane obstacle predictor ["
-        << cyclist_on_lane_predictor_ << "].";
-  AINFO << "Defined bicycle off lane obstacle predictor ["
-        << cyclist_off_lane_predictor_ << "].";
-  AINFO << "Defined pedestrian obstacle predictor [" << pedestrian_predictor_
-        << "].";
-  AINFO << "Defined default on lane obstacle predictor ["
-        << default_on_lane_predictor_ << "].";
-  AINFO << "Defined default off lane obstacle predictor ["
-        << default_off_lane_predictor_ << "].";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Defined vehicle on lane obstacle predictor ["
+         << vehicle_on_lane_predictor_ << "].";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Defined vehicle off lane obstacle predictor ["
+         << vehicle_off_lane_predictor_ << "].";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Defined bicycle on lane obstacle predictor ["
+         << cyclist_on_lane_predictor_ << "].";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Defined bicycle off lane obstacle predictor ["
+         << cyclist_off_lane_predictor_ << "].";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Defined pedestrian obstacle predictor [" << pedestrian_predictor_
+         << "].";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Defined default on lane obstacle predictor ["
+         << default_on_lane_predictor_ << "].";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Defined default off lane obstacle predictor ["
+         << default_off_lane_predictor_ << "].";
 }
 
 Predictor* PredictorManager::GetPredictor(
@@ -151,8 +160,9 @@ void PredictorManager::PredictObstacles(
        perception_obstacles.perception_obstacle()) {
     int id = perception_obstacle.id();
     if (id < 0) {
-      ADEBUG << "The obstacle has invalid id [" << id << "].";
-      continue;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "The obstacle has invalid id [" << id << "].";
+       continue;
     }
 
     PredictionObstacle prediction_obstacle;
@@ -218,7 +228,8 @@ void PredictorManager::PredictObstaclesInParallel(
     int id = perception_obstacle.id();
     auto prediction_obstacle_ptr = id_prediction_obstacle_map[id];
     if (prediction_obstacle_ptr == nullptr) {
-      AERROR << "Prediction obstacle [" << id << "] not found.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Prediction obstacle [" << id << "] not found.";
       continue;
     }
     prediction_obstacle_ptr->set_predicted_period(
@@ -238,13 +249,15 @@ void PredictorManager::PredictObstacle(
   prediction_obstacle->set_timestamp(obstacle->timestamp());
 
   if (obstacle->ToIgnore()) {
-    ADEBUG << "Ignore obstacle [" << obstacle->id() << "]";
-    RunEmptyPredictor(adc_trajectory_container, obstacle, obstacles_container);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Ignore obstacle [" << obstacle->id() << "]";
+     RunEmptyPredictor(adc_trajectory_container, obstacle, obstacles_container);
     prediction_obstacle->mutable_priority()->set_priority(
         ObstaclePriority::IGNORE);
   } else if (obstacle->IsStill()) {
-    ADEBUG << "Still obstacle [" << obstacle->id() << "]";
-    RunEmptyPredictor(adc_trajectory_container, obstacle, obstacles_container);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Still obstacle [" << obstacle->id() << "]";
+     RunEmptyPredictor(adc_trajectory_container, obstacle, obstacles_container);
   } else {
     switch (obstacle->type()) {
       case PerceptionObstacle::VEHICLE: {
@@ -330,8 +343,9 @@ std::unique_ptr<Predictor> PredictorManager::CreatePredictor(
 void PredictorManager::RegisterPredictor(
     const ObstacleConf::PredictorType& type) {
   predictors_[type] = CreatePredictor(type);
-  AINFO << "Predictor [" << type << "] is registered.";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Predictor [" << type << "] is registered.";
+ }
 
 const PredictionObstacles& PredictorManager::prediction_obstacles() {
   return prediction_obstacles_;
@@ -408,7 +422,8 @@ void PredictorManager::RunVehiclePredictor(
                            obstacles_container)) {
       return;
     } else {
-      AERROR << "Obstacle: " << obstacle->id()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle: " << obstacle->id()
              << " caution predictor failed, downgrade to normal level!";
     }
   }
@@ -423,7 +438,8 @@ void PredictorManager::RunVehiclePredictor(
   }
 
   if (predictor == nullptr) {
-    AERROR << "Nullptr found for obstacle [" << obstacle->id() << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Nullptr found for obstacle [" << obstacle->id() << "]";
     return;
   }
   predictor->Predict(adc_trajectory_container, obstacle, obstacles_container);
@@ -439,7 +455,8 @@ void PredictorManager::RunPedestrianPredictor(
   Predictor* predictor = nullptr;
   predictor = GetPredictor(pedestrian_predictor_);
   if (predictor == nullptr) {
-    AERROR << "Nullptr found for obstacle [" << obstacle->id() << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Nullptr found for obstacle [" << obstacle->id() << "]";
     return;
   }
   predictor->Predict(adc_trajectory_container, obstacle, obstacles_container);
@@ -455,7 +472,8 @@ void PredictorManager::RunCyclistPredictor(
     predictor = GetPredictor(cyclist_off_lane_predictor_);
   }
   if (predictor == nullptr) {
-    AERROR << "Nullptr found for obstacle [" << obstacle->id() << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Nullptr found for obstacle [" << obstacle->id() << "]";
     return;
   }
   predictor->Predict(adc_trajectory_container, obstacle, obstacles_container);
@@ -471,7 +489,8 @@ void PredictorManager::RunDefaultPredictor(
     predictor = GetPredictor(default_off_lane_predictor_);
   }
   if (predictor == nullptr) {
-    AERROR << "Nullptr found for obstacle [" << obstacle->id() << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Nullptr found for obstacle [" << obstacle->id() << "]";
     return;
   }
   predictor->Predict(adc_trajectory_container, obstacle, obstacles_container);
@@ -482,7 +501,8 @@ void PredictorManager::RunEmptyPredictor(
     ObstaclesContainer* obstacles_container) {
   Predictor* predictor = GetPredictor(ObstacleConf::EMPTY_PREDICTOR);
   if (predictor == nullptr) {
-    AERROR << "Nullptr found for obstacle [" << obstacle->id() << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Nullptr found for obstacle [" << obstacle->id() << "]";
     return;
   }
   predictor->Predict(adc_trajectory_container, obstacle, obstacles_container);

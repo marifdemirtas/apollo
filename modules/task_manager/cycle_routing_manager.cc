@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -38,8 +37,9 @@ common::Status CycleRoutingManager::Init(
   original_routing_request_ = cycle_routing_task.routing_request();
   map_service_.reset(new apollo::dreamview::MapService());
 
-  AINFO << "New cycle routing task: cycle " << cycle_ << ", begin point "
-        << begin_point_.pose().x() << " " << begin_point_.pose().y()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "New cycle routing task: cycle " << cycle_ << ", begin point "
+         << begin_point_.pose().x() << " " << begin_point_.pose().y()
         << ", end point " << end_point_.pose().x() << " "
         << end_point_.pose().y();
 
@@ -49,8 +49,9 @@ common::Status CycleRoutingManager::Init(
 bool CycleRoutingManager::GetNewRouting(
     const localization::Pose& pose,
     routing::RoutingRequest* new_routing_request) {
-  AINFO << "GetNewRouting: localization_pose: " << pose.position().x() << " "
-        << pose.position().y() << ", begin point " << begin_point_.pose().x()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GetNewRouting: localization_pose: " << pose.position().x() << " "
+         << pose.position().y() << ", begin point " << begin_point_.pose().x()
         << " " << begin_point_.pose().y() << ", end point "
         << end_point_.pose().x() << " " << end_point_.pose().y()
         << ", threshold " << FLAGS_threshold_for_destination_check
@@ -59,15 +60,17 @@ bool CycleRoutingManager::GetNewRouting(
   if (is_allowed_to_route_) {
     if (CheckPointDistanceInThreshold(begin_point_.pose(), pose.position(),
                                       FLAGS_threshold_for_destination_check)) {
-      AINFO << "GetNewRouting: reach begin point"
-            << "Remaining cycles: " << cycle_;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GetNewRouting: reach begin point"
+             << "Remaining cycles: " << cycle_;
       new_routing_request->CopyFrom(original_routing_request_);
       auto cur_point = new_routing_request->mutable_waypoint(0);
       if (!map_service_->ConstructLaneWayPointWithHeading(
               pose.position().x(), pose.position().y(), pose.heading(),
               cur_point)) {
-        AINFO << "GetNewRouting: construct begin lane way point fail!";
-        return false;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GetNewRouting: construct begin lane way point fail!";
+         return false;
       }
       is_allowed_to_route_ = false;
       return true;
@@ -75,15 +78,17 @@ bool CycleRoutingManager::GetNewRouting(
   } else {
     if (CheckPointDistanceInThreshold(end_point_.pose(), pose.position(),
                                       FLAGS_threshold_for_destination_check)) {
-      AINFO << "GetNewRouting: reach end point"
-            << "Remaining cycles: " << cycle_;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GetNewRouting: reach end point"
+             << "Remaining cycles: " << cycle_;
       new_routing_request->clear_waypoint();
       auto cur_point = new_routing_request->add_waypoint();
       if (!map_service_->ConstructLaneWayPointWithHeading(
               pose.position().x(), pose.position().y(), pose.heading(),
               cur_point)) {
-        AINFO << "GetNewRouting: construct end lane way point fail!";
-        return false;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GetNewRouting: construct end lane way point fail!";
+         return false;
       }
       auto next_point = new_routing_request->add_waypoint();
       next_point->CopyFrom(begin_point_);

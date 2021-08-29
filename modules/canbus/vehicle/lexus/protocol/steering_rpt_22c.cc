@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Steeringrpt22c::Steeringrpt22c() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Steeringrpt22c::Steeringrpt22c() {}
 const int32_t Steeringrpt22c::ID = 0x22C;
 
 void Steeringrpt22c::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_lexus()->mutable_steering_rpt_22c()->set_vehicle_fault(
       vehicle_fault(bytes, length));
   chassis->mutable_lexus()->mutable_steering_rpt_22c()->set_pacmod_fault(
@@ -66,8 +61,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringrpt22c::vehicle_fault(const std::uint8_t* bytes,
                                    int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(6, 1);
 
@@ -80,8 +73,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringrpt22c::pacmod_fault(const std::uint8_t* bytes,
                                   int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
 
@@ -94,8 +85,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringrpt22c::override_active(const std::uint8_t* bytes,
                                      int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
 
@@ -108,8 +97,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 4, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringrpt22c::output_reported_fault(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 1);
 
@@ -122,8 +109,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 3, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringrpt22c::input_output_fault(const std::uint8_t* bytes,
                                         int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
 
@@ -135,8 +120,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 bool Steeringrpt22c::enabled(const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 
@@ -149,8 +132,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 2, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Steeringrpt22c::command_output_fault(const std::uint8_t* bytes,
                                           int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
 
@@ -163,8 +144,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 15, 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad'}
 double Steeringrpt22c::manual_input(const std::uint8_t* bytes,
                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -185,8 +164,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 31, 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad'}
 double Steeringrpt22c::commanded_value(const std::uint8_t* bytes,
                                        int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 
@@ -207,8 +184,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 47, 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad'}
 double Steeringrpt22c::output_value(const std::uint8_t* bytes,
                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);
 

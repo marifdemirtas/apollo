@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,8 +29,6 @@ DEFINE_string(output_dir, "/tmp/", "output map directory");
 using apollo::hdmap::Map;
 
 static void ShiftMap(Map* map_pb) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (auto& lane : *(map_pb->mutable_lane())) {
     for (auto& segment : *(lane.mutable_central_curve()->mutable_segment())) {
       for (auto& point : *(segment.mutable_line_segment()->mutable_point())) {
@@ -67,8 +64,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 static void OutputMap(const Map& map_pb) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const std::string txt_file = FLAGS_output_dir + "/base_map.txt";
   const std::string bin_file = FLAGS_output_dir + "/base_map.bin";
   ACHECK(apollo::cyber::common::SetProtoToASCIIFile(map_pb, txt_file));
@@ -76,8 +71,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int main(int32_t argc, char** argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::InitGoogleLogging(argv[0]);
   FLAGS_alsologtostderr = true;
   FLAGS_v = 3;
@@ -90,5 +83,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       << "Fail to open:" << map_file;
   ShiftMap(&map_pb);
   OutputMap(map_pb);
-  AINFO << "modified map at:" << FLAGS_output_dir;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "modified map at:" << FLAGS_output_dir;
+ }

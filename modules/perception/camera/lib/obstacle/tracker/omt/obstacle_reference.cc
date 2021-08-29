@@ -88,19 +88,22 @@ void ObstacleReference::UpdateReference(const CameraFrame *frame,
       continue;
     }
     if (box.ymax >= img_height_ + 1) {
-      AERROR << "box.ymax (" << box.ymax << ") is larger than img_height_ + 1 ("
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "box.ymax (" << box.ymax << ") is larger than img_height_ + 1 ("
              << img_height_ + 1 << ")";
       return;
     }
     if (box.xmax >= img_width_ + 1) {
-      AERROR << "box.xmax (" << box.xmax << ") is larger than img_width_ + 1 ("
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "box.xmax (" << box.xmax << ") is larger than img_width_ + 1 ("
              << img_width_ + 1 << ")";
       return;
     }
     float x = box.Center().x;
     float y = box.ymax;
 
-    AINFO << "Target: " << target.id
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Target: " << target.id
           << " can be Ref. Type: " << base::kSubType2NameMap.at(obj->sub_type);
     int y_discrete =
         static_cast<int>(y / static_cast<float>(ref_param_.down_sampling()));
@@ -150,7 +153,8 @@ void ObstacleReference::CorrectSize(CameraFrame *frame) {
 
   for (auto &obj : frame->detected_objects) {
     float volume_object = obj->size[0] * obj->size[1] * obj->size[2];
-    ADEBUG << "Det " << frame->frame_id << " (" << obj->id << ") "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Det " << frame->frame_id << " (" << obj->id << ") "
            << "ori size:" << obj->size.transpose() << " "
            << "type: " << static_cast<int>(obj->sub_type) << " "
            << volume_object << " " << frame->data_provider->sensor_name();
@@ -248,13 +252,15 @@ void ObstacleReference::CorrectSize(CameraFrame *frame) {
       }
 
       if (height.empty()) {
-        AERROR << "height vector is empty";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "height vector is empty";
         continue;
       }
       std::sort(height.begin(), height.end());
       int nr_hs = static_cast<int>(height.size());
       float h_updated = height[nr_hs / 2];
-      AINFO << "Estimate " << h_updated << " with " << height.size();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Estimate " << h_updated << " with " << height.size();
       obj->size[2] =
           std::min(h_updated, kMaxTemplateHWL.at(obj->sub_type).at(0));
       obj->size[2] =
@@ -274,7 +280,8 @@ void ObstacleReference::CorrectSize(CameraFrame *frame) {
       obj->size[1] = tmplt[1] * scale_factor;
       obj->size[0] = tmplt[2] * scale_factor;
     }
-    ADEBUG << "correct size:" << obj->size.transpose();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "correct size:" << obj->size.transpose();
   }
 }
 }  // namespace camera

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,29 +27,21 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Adcmotioncontrollimits112::ID = 0x12;
 
 // public
-Adcmotioncontrollimits112::Adcmotioncontrollimits112() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Adcmotioncontrollimits112::Adcmotioncontrollimits112() { Reset(); }
 
 uint32_t Adcmotioncontrollimits112::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 10 * 1000;
   return PERIOD;
 }
 
 void Adcmotioncontrollimits112::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_adc_cmd_throttlecommandlimit(data, adc_cmd_throttlecommandlimit_);
   set_p_adc_cmd_steeringrate(data, adc_cmd_steeringrate_);
   set_p_adc_cmd_steerwheelanglelimit(data, adc_cmd_steerwheelanglelimit_);
 }
 
 void Adcmotioncontrollimits112::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  you should check this manually
   adc_cmd_throttlecommandlimit_ = 0.0;
   adc_cmd_steeringrate_ = 0.0;
@@ -60,8 +51,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 Adcmotioncontrollimits112*
 Adcmotioncontrollimits112::set_adc_cmd_throttlecommandlimit(
     double adc_cmd_throttlecommandlimit) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   adc_cmd_throttlecommandlimit_ = adc_cmd_throttlecommandlimit;
   return this;
 }
@@ -72,8 +61,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'double', 'order': 'intel', 'physical_unit': '%'}
 void Adcmotioncontrollimits112::set_p_adc_cmd_throttlecommandlimit(
     uint8_t* data, double adc_cmd_throttlecommandlimit) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   adc_cmd_throttlecommandlimit =
       ProtocolData::BoundedValue(0.0, 100.0, adc_cmd_throttlecommandlimit);
   int x = static_cast<int>(adc_cmd_throttlecommandlimit / 0.500000);
@@ -84,8 +71,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Adcmotioncontrollimits112* Adcmotioncontrollimits112::set_adc_cmd_steeringrate(
     double adc_cmd_steeringrate) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   adc_cmd_steeringrate_ = adc_cmd_steeringrate;
   return this;
 }
@@ -96,8 +81,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'double', 'order': 'intel', 'physical_unit': 'deg/s'}
 void Adcmotioncontrollimits112::set_p_adc_cmd_steeringrate(
     uint8_t* data, double adc_cmd_steeringrate) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   adc_cmd_steeringrate =
       ProtocolData::BoundedValue(0.0, 3276.75, adc_cmd_steeringrate);
   int x = static_cast<int>(adc_cmd_steeringrate / 0.050000);
@@ -116,8 +99,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 Adcmotioncontrollimits112*
 Adcmotioncontrollimits112::set_adc_cmd_steerwheelanglelimit(
     double adc_cmd_steerwheelanglelimit) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   adc_cmd_steerwheelanglelimit_ = adc_cmd_steerwheelanglelimit;
   return this;
 }
@@ -129,8 +110,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': 'deg'}
 void Adcmotioncontrollimits112::set_p_adc_cmd_steerwheelanglelimit(
     uint8_t* data, double adc_cmd_steerwheelanglelimit) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   adc_cmd_steerwheelanglelimit =
       ProtocolData::BoundedValue(0.0, 1275.0, adc_cmd_steerwheelanglelimit);
   int x = static_cast<int>(adc_cmd_steerwheelanglelimit / 5.000000);

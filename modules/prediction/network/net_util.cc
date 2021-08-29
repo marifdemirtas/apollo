@@ -65,18 +65,21 @@ std::function<float(float)> serialize_to_function(const std::string& str) {
 
 bool LoadTensor(const TensorParameter& tensor_pb, Eigen::MatrixXf* matrix) {
   if (tensor_pb.data().empty() || tensor_pb.shape().empty()) {
-    AERROR << "Fail to load the necessary fields!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to load the necessary fields!";
     return false;
   }
   if (tensor_pb.shape_size() < 2) {
-    ADEBUG << "Load tensor size: (1, " << tensor_pb.shape(0) << ")";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Load tensor size: (1, " << tensor_pb.shape(0) << ")";
     matrix->resize(1, tensor_pb.shape(0));
     for (int i = 0; i < tensor_pb.shape(0); ++i) {
       (*matrix)(0, i) = static_cast<float>(tensor_pb.data(i));
     }
     return true;
   }
-  ADEBUG << "Load tensor size: (" << tensor_pb.shape(0) << ", "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Load tensor size: (" << tensor_pb.shape(0) << ", "
          << tensor_pb.shape(1) << ")";
   CHECK_EQ(tensor_pb.shape_size(), 2);
   matrix->resize(tensor_pb.shape(0), tensor_pb.shape(1));
@@ -91,10 +94,12 @@ bool LoadTensor(const TensorParameter& tensor_pb, Eigen::MatrixXf* matrix) {
 
 bool LoadTensor(const TensorParameter& tensor_pb, Eigen::VectorXf* vector) {
   if (tensor_pb.data().empty() || tensor_pb.shape().empty()) {
-    AERROR << "Fail to load the necessary fields!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to load the necessary fields!";
     return false;
   }
-  ADEBUG << "Load tensor size: (" << tensor_pb.shape(0) << ", 1)";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Load tensor size: (" << tensor_pb.shape(0) << ", 1)";
   CHECK_EQ(tensor_pb.shape_size(), 1);
   if (tensor_pb.shape_size() == 1) {
     vector->resize(tensor_pb.shape(0));
@@ -108,7 +113,8 @@ bool LoadTensor(const TensorParameter& tensor_pb, Eigen::VectorXf* vector) {
 bool LoadTensor(const TensorParameter& tensor_pb,
                 std::vector<Eigen::MatrixXf>* const tensor3d) {
   if (tensor_pb.data().empty() || tensor_pb.shape_size() != 3) {
-    AERROR << "Fail to load the necessary fields!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to load the necessary fields!";
     return false;
   }
   int num_depth = tensor_pb.shape(0);

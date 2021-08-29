@@ -126,7 +126,8 @@ ProjectionCacheObject* TrackObjectDistance::BuildProjectionCacheObject(
       measurement_sensor_id, measurement_timestamp, projection_sensor_id,
       projection_timestamp, lidar_object_id);
   if (cache_object == nullptr) {
-    AERROR << "Failed to build projection cache object";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to build projection cache object";
     return nullptr;
   }
   size_t start_ind = projection_cache_.GetPoint2dsSize();
@@ -306,12 +307,14 @@ float TrackObjectDistance::Compute(const TrackPtr& fused_track,
                                    const TrackObjectDistanceOptions& options) {
   FusedObjectPtr fused_object = fused_track->GetFusedObject();
   if (fused_object == nullptr) {
-    AERROR << "fused object is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fused object is nullptr";
     return (std::numeric_limits<float>::max)();
   }
   Eigen::Vector3d* ref_point = options.ref_point;
   if (ref_point == nullptr) {
-    AERROR << "reference point is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "reference point is nullptr";
     return (std::numeric_limits<float>::max)();
   }
   float distance = (std::numeric_limits<float>::max)();
@@ -358,7 +361,8 @@ float TrackObjectDistance::Compute(const TrackPtr& fused_track,
     }
 
   } else {
-    AERROR << "fused sensor type is not support";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fused sensor type is not support";
   }
   return min_distance;
 }
@@ -375,7 +379,8 @@ float TrackObjectDistance::ComputeLidarLidar(
                                .head(2)
                                .norm();
   if (center_distance > s_lidar2lidar_association_center_dist_threshold_) {
-    ADEBUG << "center distance exceed lidar2lidar tight threshold: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "center distance exceed lidar2lidar tight threshold: "
            << "center_dist@" << center_distance << ", "
            << "tight_threh@"
            << s_lidar2lidar_association_center_dist_threshold_;
@@ -383,7 +388,8 @@ float TrackObjectDistance::ComputeLidarLidar(
   }
   float distance =
       ComputePolygonDistance3d(fused_object, sensor_object, ref_pos, range);
-  ADEBUG << "ComputeLidarLidar distance: " << distance;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ComputeLidarLidar distance: " << distance;
   return distance;
 }
 
@@ -399,7 +405,8 @@ float TrackObjectDistance::ComputeLidarRadar(
                                .head(2)
                                .norm();
   if (center_distance > s_lidar2radar_association_center_dist_threshold_) {
-    ADEBUG << "center distance exceed lidar2radar tight threshold: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "center distance exceed lidar2radar tight threshold: "
            << "center_dist@" << center_distance << ", "
            << "tight_threh@"
            << s_lidar2radar_association_center_dist_threshold_;
@@ -407,7 +414,8 @@ float TrackObjectDistance::ComputeLidarRadar(
   }
   float distance =
       ComputePolygonDistance3d(fused_object, sensor_object, ref_pos, range);
-  ADEBUG << "ComputeLidarRadar distance: " << distance;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ComputeLidarRadar distance: " << distance;
   return distance;
 }
 
@@ -422,7 +430,8 @@ float TrackObjectDistance::ComputeRadarRadar(
                                .head(2)
                                .norm();
   if (center_distance > s_radar2radar_association_center_dist_threshold_) {
-    ADEBUG << "center distance exceed radar2radar tight threshold: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "center distance exceed radar2radar tight threshold: "
            << "center_dist@" << center_distance << ", "
            << "tight_threh@"
            << s_radar2radar_association_center_dist_threshold_;
@@ -430,7 +439,8 @@ float TrackObjectDistance::ComputeRadarRadar(
   }
   float distance =
       ComputePolygonDistance3d(fused_object, sensor_object, ref_pos, range);
-  ADEBUG << "ComputeRadarRadar distance: " << distance;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ComputeRadarRadar distance: " << distance;
   return distance;
 }
 
@@ -449,17 +459,20 @@ float TrackObjectDistance::ComputeLidarCamera(
   // 1. get camera intrinsic and pose
   base::BaseCameraModelPtr camera_model = QueryCameraModel(camera);
   if (camera_model == nullptr) {
-    AERROR << "Failed to get camera model for " << camera->GetSensorId();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get camera model for " << camera->GetSensorId();
     return distance;
   }
   Eigen::Matrix4d world2camera_pose;
   if (!QueryWorld2CameraPose(camera, &world2camera_pose)) {
-    AERROR << "Failed to query camera pose";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to query camera pose";
     return distance;
   }
   Eigen::Matrix4d lidar2world_pose;
   if (!QueryLidar2WorldPose(lidar, &lidar2world_pose)) {
-    AERROR << "Failed to query lidar pose";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to query lidar pose";
     return distance;
   }
   Eigen::Matrix4d lidar2camera_pose =
@@ -473,14 +486,16 @@ float TrackObjectDistance::ComputeLidarCamera(
   const base::Point2DF camera_bbox_ct = camera_bbox.Center();
   const Eigen::Vector2d box2d_ct =
       Eigen::Vector2d(camera_bbox_ct.x, camera_bbox_ct.y);
-  ADEBUG << "object cloud size : " << cloud.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "object cloud size : " << cloud.size();
   if (cloud.size() > 0) {
     // 2.1 if cloud is not empty, calculate distance according to pts box
     // similarity
     ProjectionCacheObject* cache_object = QueryProjectionCacheObject(
         lidar, camera, camera_model, measurement_is_lidar);
     if (cache_object == nullptr) {
-      AERROR << "Failed to query projection cached object";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to query projection cached object";
       return distance;
     }
     double similarity =
@@ -506,7 +521,8 @@ float TrackObjectDistance::ComputeLidarCamera(
       distance = std::numeric_limits<float>::max();
     }
   }
-  ADEBUG << "ComputeLidarCamera distance: " << distance;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ComputeLidarCamera distance: " << distance;
   return distance;
 }
 
@@ -519,7 +535,8 @@ float TrackObjectDistance::ComputeRadarCamera(
   // 1. get camera model and pose
   base::BaseCameraModelPtr camera_model = QueryCameraModel(camera);
   if (camera_model == nullptr) {
-    AERROR << "Failed to get camera model for " << camera->GetSensorId();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get camera model for " << camera->GetSensorId();
     return distance;
   }
   Eigen::Matrix4d world2camera_pose;
@@ -592,7 +609,8 @@ float TrackObjectDistance::ComputeRadarCamera(
   }
   distance = distance_thresh_ * static_cast<float>(1.0 - fused_similarity) /
              (1.0f - rc_similarity2distance_penalize_thresh_);
-  ADEBUG << "ComputeRadarCamera distance: " << distance;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ComputeRadarCamera distance: " << distance;
   return distance;
 }
 
@@ -621,7 +639,8 @@ double TrackObjectDistance::ComputeLidarCameraSimilarity(
   // 1. get camera intrinsic and pose
   base::BaseCameraModelPtr camera_model = QueryCameraModel(camera);
   if (camera_model == nullptr) {
-    AERROR << "Failed to get camera model for " << camera->GetSensorId();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get camera model for " << camera->GetSensorId();
     return similarity;
   }
   Eigen::Matrix4d world2camera_pose;
@@ -663,7 +682,8 @@ double TrackObjectDistance::ComputeRadarCameraSimilarity(
   // 1. get camera intrinsic and pose
   base::BaseCameraModelPtr camera_model = QueryCameraModel(camera);
   if (camera_model == nullptr) {
-    AERROR << "Failed to get camera model for " << camera->GetSensorId();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get camera model for " << camera->GetSensorId();
     return similarity;
   }
   Eigen::Matrix4d world2camera_pose;

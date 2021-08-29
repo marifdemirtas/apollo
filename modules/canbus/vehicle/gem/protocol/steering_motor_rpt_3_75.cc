@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace gem {
 
 using ::apollo::drivers::canbus::Byte;
 
-Steeringmotorrpt375::Steeringmotorrpt375() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Steeringmotorrpt375::Steeringmotorrpt375() {}
 const int32_t Steeringmotorrpt375::ID = 0x75;
 
 void Steeringmotorrpt375::Parse(const std::uint8_t* bytes, int32_t length,
                                 ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_gem()->mutable_steering_motor_rpt_3_75()->set_torque_output(
       torque_output(bytes, length));
   chassis->mutable_gem()->mutable_steering_motor_rpt_3_75()->set_torque_input(
@@ -49,8 +44,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': 'N-m'}
 double Steeringmotorrpt375::torque_output(const std::uint8_t* bytes,
                                           int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -82,8 +75,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': 'N-m'}
 double Steeringmotorrpt375::torque_input(const std::uint8_t* bytes,
                                          int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 

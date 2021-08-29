@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,14 +26,13 @@ namespace perception {
 namespace onboard {
 
 bool RadarDetectionComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   RadarComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
     return false;
   }
-  AINFO << "Radar Component Configs: " << comp_config.DebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Radar Component Configs: " << comp_config.DebugString();
+ 
   // To load component configs
   tf_child_frame_id_ = comp_config.tf_child_frame_id();
   radar_forward_distance_ = comp_config.radar_forward_distance();
@@ -45,7 +43,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!common::SensorManager::Instance()->GetSensorInfo(
           comp_config.radar_name(), &radar_info_)) {
-    AERROR << "Failed to get sensor info, sensor name: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get sensor info, sensor name: "
            << comp_config.radar_name();
     return false;
   }
@@ -64,10 +63,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool RadarDetectionComponent::Proc(const std::shared_ptr<ContiRadar>& message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Enter radar preprocess, message timestamp: "
-        << message->header().timestamp_sec() << " current timestamp "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Enter radar preprocess, message timestamp: "
+         << message->header().timestamp_sec() << " current timestamp "
         << Clock::NowInSeconds();
   auto out_message = std::make_shared<SensorFrameMessage>();
 
@@ -75,15 +73,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     return false;
   }
   writer_->Write(out_message);
-  AINFO << "Send radar processing output message.";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Send radar processing output message.";
+   return true;
 }
 
 bool RadarDetectionComponent::InitAlgorithmPlugin() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "onboard radar_preprocessor: " << preprocessor_method_;
-  if (FLAGS_obs_enable_hdmap_input) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "onboard radar_preprocessor: " << preprocessor_method_;
+   if (FLAGS_obs_enable_hdmap_input) {
     hdmap_input_ = map::HDMapInput::Instance();
     ACHECK(hdmap_input_->Init()) << "Failed to init hdmap input.";
   }
@@ -101,15 +99,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   radar_perception_.reset(radar_perception);
   ACHECK(radar_perception_->Init(pipeline_name_))
       << "Failed to init radar perception.";
-  AINFO << "Init algorithm plugin successfully.";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Init algorithm plugin successfully.";
+   return true;
 }
 
 bool RadarDetectionComponent::InternalProc(
     const std::shared_ptr<ContiRadar>& in_message,
     std::shared_ptr<SensorFrameMessage> out_message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PERF_FUNCTION_WITH_INDICATOR(radar_info_.name);
   ContiRadar raw_obstacles = *in_message;
   {
@@ -119,8 +116,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   double timestamp = in_message->header().timestamp_sec();
   const double cur_time = Clock::NowInSeconds();
   const double start_latency = (cur_time - timestamp) * 1e3;
-  AINFO << "FRAME_STATISTICS:Radar:Start:msg_time[" << timestamp
-        << "]:cur_time[" << cur_time << "]:cur_latency[" << start_latency
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "FRAME_STATISTICS:Radar:Start:msg_time[" << timestamp
+         << "]:cur_time[" << cur_time << "]:cur_latency[" << start_latency
         << "]";
   PERF_BLOCK_START();
   // Init preprocessor_options
@@ -143,14 +141,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   Eigen::Affine3d radar_trans;
   if (!radar2world_trans_.GetSensor2worldTrans(timestamp, &radar_trans)) {
     out_message->error_code_ = apollo::common::ErrorCode::PERCEPTION_ERROR_TF;
-    AERROR << "Failed to get pose at time: " << timestamp;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get pose at time: " << timestamp;
     return true;
   }
   Eigen::Affine3d radar2novatel_trans;
   if (!radar2novatel_trans_.GetTrans(timestamp, &radar2novatel_trans, "novatel",
                                      tf_child_frame_id_)) {
     out_message->error_code_ = apollo::common::ErrorCode::PERCEPTION_ERROR_TF;
-    AERROR << "Failed to get radar2novatel trans at time: " << timestamp;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get radar2novatel trans at time: " << timestamp;
     return true;
   }
   PERF_BLOCK_END_WITH_INDICATOR(radar_info_.name, "GetSensor2worldTrans");
@@ -161,7 +161,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (!GetCarLocalizationSpeed(timestamp,
                                &(options.detector_options.car_linear_speed),
                                &(options.detector_options.car_angular_speed))) {
-    AERROR << "Failed to call get_car_speed. [timestamp: " << timestamp;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to call get_car_speed. [timestamp: " << timestamp;
     // return false;
   }
   PERF_BLOCK_END_WITH_INDICATOR(radar_info_.name, "GetCarSpeed");
@@ -184,7 +185,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                                    &radar_objects)) {
     out_message->error_code_ =
         apollo::common::ErrorCode::PERCEPTION_ERROR_PROCESS;
-    AERROR << "RadarDetector Proc failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RadarDetector Proc failed.";
     return true;
   }
   out_message->frame_.reset(new base::Frame());
@@ -196,8 +198,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const double end_timestamp = Clock::NowInSeconds();
   const double end_latency =
       (end_timestamp - in_message->header().timestamp_sec()) * 1e3;
-  AINFO << "FRAME_STATISTICS:Radar:End:msg_time["
-        << in_message->header().timestamp_sec() << "]:cur_time["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "FRAME_STATISTICS:Radar:End:msg_time["
+         << in_message->header().timestamp_sec() << "]:cur_time["
         << end_timestamp << "]:cur_latency[" << end_latency << "]";
   PERF_BLOCK_END_WITH_INDICATOR(radar_info_.name, "radar_perception");
 
@@ -207,21 +210,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool RadarDetectionComponent::GetCarLocalizationSpeed(
     double timestamp, Eigen::Vector3f* car_linear_speed,
     Eigen::Vector3f* car_angular_speed) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (car_linear_speed == nullptr) {
-    AERROR << "car_linear_speed is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "car_linear_speed is not available";
     return false;
   }
   (*car_linear_speed) = Eigen::Vector3f::Zero();
   if (car_linear_speed == nullptr) {
-    AERROR << "car_linear_speed is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "car_linear_speed is not available";
     return false;
   }
   (*car_angular_speed) = Eigen::Vector3f::Zero();
   std::shared_ptr<LocalizationEstimate const> loct_ptr;
   if (!localization_subscriber_.LookupNearest(timestamp, &loct_ptr)) {
-    AERROR << "Cannot get car speed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot get car speed.";
     return false;
   }
   (*car_linear_speed)[0] =

@@ -123,7 +123,8 @@ void ObstacleDetector::Infer() {
   tensor_image = tensor_image.to(device);
   tensor_image = tensor_image.permute({0, 3, 1, 2}).contiguous();
 
-  AINFO << tensor_image[0][0].sizes();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << tensor_image[0][0].sizes();
   tensor_image[0][0] = tensor_image[0][0].div_(58.395);
   tensor_image[0][1] = tensor_image[0][1].div_(57.12);
   tensor_image[0][2] = tensor_image[0][2].div_(57.375);
@@ -132,9 +133,11 @@ void ObstacleDetector::Infer() {
   torch_inputs.push_back(std::make_tuple(tensor_K.to(device),
                                          tensor_ratio.to(device)));
 
-  AINFO << "Start to do inference";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Start to do inference";
   auto outputs = net_.forward(torch_inputs).toTuple()->elements();
-  AINFO << "Finished inference";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Finished inference";
 
   for (u_int i = 0; i < output_names_.size(); i++) {
     torch::Tensor output_tensor = outputs[i].toTensor();

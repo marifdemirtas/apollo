@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -54,7 +53,8 @@ void YieldSignScenario::Init() {
   Scenario::Init();
 
   if (!GetScenarioConfig()) {
-    AERROR << "fail to get scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to get scenario specific config";
     return;
   }
 
@@ -62,7 +62,8 @@ void YieldSignScenario::Init() {
       injector_->planning_context()->planning_status().yield_sign();
 
   if (yield_sign_status.current_yield_sign_overlap_id().empty()) {
-    AERROR << "Could not find yield-sign(s)";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Could not find yield-sign(s)";
     return;
   }
 
@@ -75,7 +76,8 @@ void YieldSignScenario::Init() {
         HDMapUtil::BaseMap().GetYieldSignById(
             hdmap::MakeMapId(yield_sign_overlap_id));
     if (!yield_sign) {
-      AERROR << "Could not find yield sign: " << yield_sign_overlap_id;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Could not find yield sign: " << yield_sign_overlap_id;
     }
 
     context_.current_yield_sign_overlap_ids.push_back(yield_sign_overlap_id);
@@ -121,7 +123,8 @@ std::unique_ptr<Stage> YieldSignScenario::CreateStage(
  */
 bool YieldSignScenario::GetScenarioConfig() {
   if (!config_.has_yield_sign_config()) {
-    AERROR << "miss scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "miss scenario specific config";
     return false;
   }
   context_.scenario_config.CopyFrom(config_.yield_sign_config());

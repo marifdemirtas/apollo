@@ -203,7 +203,8 @@ NovatelParser::NovatelParser() {
   ins_.mutable_linear_velocity_covariance()->Resize(9, FLOAT_NAN);
 
   if (1 != init_raw(&raw_)) {
-    AFATAL << "memory allocation error for observation data structure.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "memory allocation error for observation data structure.";
   }
 }
 
@@ -218,7 +219,8 @@ NovatelParser::NovatelParser(const config::Config& config) {
   }
 
   if (1 != init_raw(&raw_)) {
-    AFATAL << "memory allocation error for observation data structure.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "memory allocation error for observation data structure.";
   }
 }
 
@@ -266,7 +268,8 @@ Parser::MessageType NovatelParser::GetMessage(MessagePtr* message_ptr) {
               reinterpret_cast<novatel::ShortHeader*>(buffer_.data())
                   ->message_length;
         } else {
-          AERROR << "Incorrect header_length_. Should never reach here.";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect header_length_. Should never reach here.";
           buffer_.clear();
         }
         header_length_ = 0;
@@ -295,7 +298,8 @@ bool NovatelParser::check_crc() {
 
 Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
   if (!check_crc()) {
-    AERROR << "CRC check failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "CRC check failed.";
     return MessageType::NONE;
   }
 
@@ -322,7 +326,8 @@ Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
   switch (message_id) {
     case novatel::BESTGNSSPOS:
       if (message_length != sizeof(novatel::BestPos)) {
-        AERROR << "Incorrect message_length";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect message_length";
         break;
       }
       if (HandleGnssBestpos(reinterpret_cast<novatel::BestPos*>(message),
@@ -335,7 +340,8 @@ Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
     case novatel::BESTPOS:
     case novatel::PSRPOS:
       if (message_length != sizeof(novatel::BestPos)) {
-        AERROR << "Incorrect message_length";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect message_length";
         break;
       }
       if (HandleBestPos(reinterpret_cast<novatel::BestPos*>(message), gps_week,
@@ -349,7 +355,8 @@ Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
     case novatel::BESTVEL:
     case novatel::PSRVEL:
       if (message_length != sizeof(novatel::BestVel)) {
-        AERROR << "Incorrect message_length";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect message_length";
         break;
       }
       if (HandleBestVel(reinterpret_cast<novatel::BestVel*>(message), gps_week,
@@ -363,7 +370,8 @@ Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
     case novatel::CORRIMUDATAS:
     case novatel::IMURATECORRIMUS:
       if (message_length != sizeof(novatel::CorrImuData)) {
-        AERROR << "Incorrect message_length";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect message_length";
         break;
       }
 
@@ -376,7 +384,8 @@ Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
     case novatel::INSCOV:
     case novatel::INSCOVS:
       if (message_length != sizeof(novatel::InsCov)) {
-        AERROR << "Incorrect message_length";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect message_length";
         break;
       }
 
@@ -389,7 +398,8 @@ Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
     case novatel::INSPVA:
     case novatel::INSPVAS:
       if (message_length != sizeof(novatel::InsPva)) {
-        AERROR << "Incorrect message_length";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect message_length";
         break;
       }
 
@@ -402,7 +412,8 @@ Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
     case novatel::RAWIMUX:
     case novatel::RAWIMUSX:
       if (message_length != sizeof(novatel::RawImuX)) {
-        AERROR << "Incorrect message_length";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect message_length";
         break;
       }
 
@@ -415,7 +426,8 @@ Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
     case novatel::RAWIMU:
     case novatel::RAWIMUS:
       if (message_length != sizeof(novatel::RawImu)) {
-        AERROR << "Incorrect message_length";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect message_length";
         break;
       }
 
@@ -427,7 +439,8 @@ Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
 
     case novatel::INSPVAX:
       if (message_length != sizeof(novatel::InsPvaX)) {
-        AERROR << "Incorrect message_length";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect message_length";
         break;
       }
 
@@ -440,7 +453,8 @@ Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
 
     case novatel::BDSEPHEMERIS:
       if (message_length != sizeof(novatel::BDS_Ephemeris)) {
-        AERROR << "Incorrect BDSEPHEMERIS message_length";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect BDSEPHEMERIS message_length";
         break;
       }
       if (HandleBdsEph(reinterpret_cast<novatel::BDS_Ephemeris*>(message))) {
@@ -451,7 +465,8 @@ Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
 
     case novatel::GPSEPHEMERIS:
       if (message_length != sizeof(novatel::GPS_Ephemeris)) {
-        AERROR << "Incorrect GPSEPHEMERIS message_length";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect GPSEPHEMERIS message_length";
         break;
       }
       if (HandleGpsEph(reinterpret_cast<novatel::GPS_Ephemeris*>(message))) {
@@ -462,7 +477,8 @@ Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
 
     case novatel::GLOEPHEMERIS:
       if (message_length != sizeof(novatel::GLO_Ephemeris)) {
-        AERROR << "Incorrect GLOEPHEMERIS message length";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect GLOEPHEMERIS message length";
         break;
       }
       if (HandleGloEph(reinterpret_cast<novatel::GLO_Ephemeris*>(message))) {
@@ -481,7 +497,8 @@ Parser::MessageType NovatelParser::PrepareMessage(MessagePtr* message_ptr) {
 
     case novatel::HEADING:
       if (message_length != sizeof(novatel::Heading)) {
-        AERROR << "Incorrect message_length";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Incorrect message_length";
         break;
       }
       if (HandleHeading(reinterpret_cast<novatel::Heading*>(message), gps_week,
@@ -526,8 +543,7 @@ bool NovatelParser::HandleGnssBestpos(const novatel::BestPos* pos,
 
   double seconds = gps_week * SECONDS_PER_WEEK + gps_millisecs * 1e-3;
   bestpos_.set_measurement_time(seconds);
-  // AINFO << "Best gnss pose:\r\n" << bestpos_.DebugString();
-  return true;
+    return true;
 }
 
 bool NovatelParser::HandleBestPos(const novatel::BestPos* pos,
@@ -541,11 +557,13 @@ bool NovatelParser::HandleBestPos(const novatel::BestPos* pos,
   gnss_.set_num_sats(pos->num_sats_in_solution);
   if (solution_status_ != pos->solution_status) {
     solution_status_ = pos->solution_status;
-    AINFO << "Solution status: " << static_cast<int>(solution_status_);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Solution status: " << static_cast<int>(solution_status_);
   }
   if (position_type_ != pos->position_type) {
     position_type_ = pos->position_type;
-    AINFO << "Position type: " << static_cast<int>(position_type_);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Position type: " << static_cast<int>(position_type_);
   }
   gnss_.set_solution_status(static_cast<uint32_t>(pos->solution_status));
   if (pos->solution_status == novatel::SolutionStatus::SOL_COMPUTED) {
@@ -599,7 +617,8 @@ bool NovatelParser::HandleBestPos(const novatel::BestPos* pos,
     gnss_.set_position_type(0);
   }
   if (pos->datum_id != novatel::DatumId::WGS84) {
-    AERROR_EVERY(5) << "Unexpected Datum Id: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(5) << "Unexpected Datum Id: "
                     << static_cast<int>(pos->datum_id);
   }
 
@@ -615,11 +634,13 @@ bool NovatelParser::HandleBestVel(const novatel::BestVel* vel,
                                   uint16_t gps_week, uint32_t gps_millisecs) {
   if (velocity_type_ != vel->velocity_type) {
     velocity_type_ = vel->velocity_type;
-    AINFO << "Velocity type: " << static_cast<int>(velocity_type_);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Velocity type: " << static_cast<int>(velocity_type_);
   }
   if (!gnss_.has_velocity_latency() ||
       gnss_.velocity_latency() != vel->latency) {
-    AINFO << "Velocity latency: " << static_cast<int>(vel->latency);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Velocity latency: " << static_cast<int>(vel->latency);
     gnss_.set_velocity_latency(vel->latency);
   }
   double yaw = azimuth_deg_to_yaw_rad(vel->track_over_ground);
@@ -671,7 +692,8 @@ bool NovatelParser::HandleInsCov(const novatel::InsCov* cov) {
 bool NovatelParser::HandleInsPva(const novatel::InsPva* pva) {
   if (ins_status_ != pva->status) {
     ins_status_ = pva->status;
-    AINFO << "INS status: " << static_cast<int>(ins_status_);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "INS status: " << static_cast<int>(ins_status_);
   }
   ins_.mutable_position()->set_lon(pva->longitude);
   ins_.mutable_position()->set_lat(pva->latitude);
@@ -725,13 +747,15 @@ bool NovatelParser::HandleRawImuX(const novatel::RawImuX* imu) {
   if (is_zero(gyro_scale_)) {
     config::ImuType imu_type = imu_type_;
     novatel::ImuParameter param = novatel::GetImuParameter(imu_type);
-    AINFO << "IMU type: " << config::ImuType_Name(imu_type) << "; "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "IMU type: " << config::ImuType_Name(imu_type) << "; "
           << "Gyro scale: " << param.gyro_scale << "; "
           << "Accel scale: " << param.accel_scale << "; "
           << "Sampling rate: " << param.sampling_rate_hz << ".";
 
     if (is_zero(param.sampling_rate_hz)) {
-      AERROR_EVERY(5) << "Unsupported IMU type: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(5) << "Unsupported IMU type: "
                       << config::ImuType_Name(imu_type);
       return false;
     }
@@ -772,7 +796,8 @@ bool NovatelParser::HandleRawImuX(const novatel::RawImuX* imu) {
                  imu_.mutable_angular_velocity());
       break;
     default:
-      AERROR_EVERY(5) << "Unsupported IMU frame mapping: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(5) << "Unsupported IMU frame mapping: "
                       << imu_frame_mapping_;
   }
   imu_measurement_time_previous_ = time;
@@ -788,7 +813,8 @@ bool NovatelParser::HandleRawImu(const novatel::RawImu* imu) {
     novatel::ImuParameter param = novatel::GetImuParameter(imu_type_);
 
     if (is_zero(param.sampling_rate_hz)) {
-      AERROR_EVERY(5) << "Unsupported IMU type ADUS16488.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(5) << "Unsupported IMU type ADUS16488.";
       return false;
     }
     gyro_scale = param.gyro_scale * param.sampling_rate_hz;
@@ -833,7 +859,8 @@ bool NovatelParser::HandleRawImu(const novatel::RawImu* imu) {
                  imu_.mutable_angular_velocity());
       break;
     default:
-      AERROR_EVERY(5) << "Unsupported IMU frame mapping: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(5) << "Unsupported IMU frame mapping: "
                       << imu_frame_mapping_;
   }
   imu_measurement_time_previous_ = time;
@@ -1037,7 +1064,8 @@ bool NovatelParser::DecodeGnssObservation(const uint8_t* obs_data,
               band_obs->set_pseudo_type(
                   apollo::drivers::gnss::PseudoType::PRECISION_CODE);
             } else {
-              AINFO << "Code " << raw_.obs.data[i].code[i] << ", in seq " << j
+              AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Code " << raw_.obs.data[i].code[i] << ", in seq " << j
                     << ", gnss type " << static_cast<int>(gnss_type);
             }
 

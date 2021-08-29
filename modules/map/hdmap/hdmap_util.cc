@@ -37,7 +37,8 @@ std::string FindFirstExist(const std::string& dir, const std::string& files) {
       return file_path;
     }
   }
-  AERROR << "No existing file found in " << dir << "/" << files
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No existing file found in " << dir << "/" << files
          << ". Fallback to first candidate as default result.";
   ACHECK(!candidates.empty()) << "Please specify at least one map.";
   return absl::StrCat(FLAGS_map_dir, "/", candidates[0]);
@@ -72,17 +73,20 @@ std::string RoutingMapFile() {
 std::unique_ptr<HDMap> CreateMap(const std::string& map_file_path) {
   std::unique_ptr<HDMap> hdmap(new HDMap());
   if (hdmap->LoadMapFromFile(map_file_path) != 0) {
-    AERROR << "Failed to load HDMap " << map_file_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load HDMap " << map_file_path;
     return nullptr;
   }
-  AINFO << "Load HDMap success: " << map_file_path;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Load HDMap success: " << map_file_path;
   return hdmap;
 }
 
 std::unique_ptr<HDMap> CreateMap(const MapMsg& map_msg) {
   std::unique_ptr<HDMap> hdmap(new HDMap());
   if (hdmap->LoadMapFromProto(map_msg.hdmap()) != 0) {
-    AERROR << "Failed to load RelativeMap: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load RelativeMap: "
            << map_msg.header().ShortDebugString();
     return nullptr;
   }
@@ -115,11 +119,13 @@ const HDMap* HDMapUtil::BaseMapPtr() {
     std::lock_guard<std::mutex> lock(base_map_mutex_);
     auto* relative_map = AdapterManager::GetRelativeMap();
     if (!relative_map) {
-      AERROR << "RelativeMap adapter is not registered";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RelativeMap adapter is not registered";
       return nullptr;
     }
     if (relative_map->Empty()) {
-      AERROR << "RelativeMap is empty";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RelativeMap is empty";
       return nullptr;
     }
     const auto& latest = relative_map->GetLatestObserved();

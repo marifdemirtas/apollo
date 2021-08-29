@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2018 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -79,8 +78,6 @@ namespace canbus {
 namespace lexus {
 
 LexusMessageManager::LexusMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Control Messages
   AddSendProtocolData<Accelcmd100, true>();
   AddSendProtocolData<Brakecmd104, true>();
@@ -142,9 +139,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   AddRecvProtocolData<Yawraterpt40d, true>();
 }
 
-LexusMessageManager::~LexusMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+LexusMessageManager::~LexusMessageManager() {}
 
 }  // namespace lexus
 }  // namespace canbus

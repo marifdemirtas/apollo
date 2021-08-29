@@ -54,10 +54,14 @@ bool CNNSegmentation::Init(const SegmentationInitOptions& options) {
   }
 
   CHECK(GetConfigs(&param_file, &proto_file, &weight_file, &engine_file));
-  AINFO << "--    param_file: " << param_file;
-  AINFO << "--    proto_file: " << proto_file;
-  AINFO << "--    weight_file: " << weight_file;
-  AINFO << "--    engine_file: " << engine_file;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "--    param_file: " << param_file;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "--    proto_file: " << proto_file;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "--    weight_file: " << weight_file;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "--    engine_file: " << engine_file;
 
   // get cnnseg params
   ACHECK(GetProtoFromFile(param_file, &cnnseg_param_))
@@ -139,7 +143,8 @@ bool CNNSegmentation::Init(const SegmentationInitOptions& options) {
   /*if (cnnseg_param_.fill_recall_with_ncut()) {
      secondary_segmentor.reset(new NCutSegmentation());
      if(!secondary_segmentor->Init(SegmentationInitOptions())) {
-         AERROR<<"initialized secondary segmentor fails";
+         AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR<<"initialized secondary segmentor fails";
          return false;
      }
   }*/
@@ -199,7 +204,8 @@ bool CNNSegmentation::InitClusterAndBackgroundSegmentation() {
   worker_.Bind([&]() {
     Timer timer;
     ROIFilterOptions roi_filter_options;
-    AINFO << "before roi filter";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "before roi filter";
     if (lidar_frame_ref_->hdmap_struct != nullptr &&
         roi_filter_->Filter(roi_filter_options, lidar_frame_ref_)) {
       roi_cloud_->CopyPointCloud(*lidar_frame_ref_->cloud,
@@ -207,7 +213,8 @@ bool CNNSegmentation::InitClusterAndBackgroundSegmentation() {
       roi_world_cloud_->CopyPointCloud(*lidar_frame_ref_->world_cloud,
                                        lidar_frame_ref_->roi_indices);
     } else {
-      AINFO << "Fail to call roi filter, use origin cloud.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Fail to call roi filter, use origin cloud.";
       lidar_frame_ref_->roi_indices.indices.resize(original_cloud_->size());
       // we manually fill roi indices with all cloud point indices
       std::iota(lidar_frame_ref_->roi_indices.indices.begin(),
@@ -220,7 +227,8 @@ bool CNNSegmentation::InitClusterAndBackgroundSegmentation() {
     lidar_frame_ref_->world_cloud = roi_world_cloud_;
 
     roi_filter_time_ = timer.toc(true);
-    AINFO << "after roi filter";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "after roi filter";
     GroundDetectorOptions ground_detector_options;
     ground_detector_->Detect(ground_detector_options, lidar_frame_ref_);
     if (lidar_frame_ref_->cloud != original_cloud_) {
@@ -230,7 +238,8 @@ bool CNNSegmentation::InitClusterAndBackgroundSegmentation() {
       lidar_frame_ref_->world_cloud = original_world_cloud_;
     }
     ground_detector_time_ = timer.toc(true);
-    AINFO << "Roi-filter time: " << roi_filter_time_
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Roi-filter time: " << roi_filter_time_
           << "\tGround-detector time: " << ground_detector_time_;
     return true;
   });
@@ -267,23 +276,28 @@ bool CNNSegmentation::Segment(const SegmentationOptions& options,
                               LidarFrame* frame) {
   // check input
   if (frame == nullptr) {
-    AERROR << "Input null frame ptr.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input null frame ptr.";
     return false;
   }
   if (frame->cloud == nullptr) {
-    AERROR << "Input null frame cloud.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input null frame cloud.";
     return false;
   }
   if (frame->world_cloud == nullptr) {
-    AERROR << "Input null frame world cloud.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input null frame world cloud.";
     return false;
   }
   if (frame->cloud->size() == 0) {
-    AERROR << "Input none points.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input none points.";
     return false;
   }
   if (frame->cloud->size() != frame->world_cloud->size()) {
-    AERROR << "Cloud size and world cloud size not consistent.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cloud size and world cloud size not consistent.";
     return false;
   }
   // record input cloud and lidar frame
@@ -302,7 +316,8 @@ bool CNNSegmentation::Segment(const SegmentationOptions& options,
   mapping_time_ = timer.toc(true);
 
   if (cudaSetDevice(gpu_id_) != cudaSuccess) {
-    AERROR << "Failed to set device to " << gpu_id_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to set device to " << gpu_id_;
     return false;
   }
 
@@ -317,7 +332,8 @@ bool CNNSegmentation::Segment(const SegmentationOptions& options,
   // processing clustering
   GetObjectsFromSppEngine(&frame->segmented_objects);
 
-  AINFO << "CNNSEG: mapping: " << mapping_time_ << "\t"
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "CNNSEG: mapping: " << mapping_time_ << "\t"
         << " feature: " << feature_time_ << "\t"
         << " infer: " << infer_time_ << "\t"
         << " fg-seg: " << fg_seg_time_ << "\t"
@@ -339,7 +355,8 @@ void CNNSegmentation::GetObjectsFromSppEngine(
   // copy height from roi cloud to origin cloud,
   // note ground points include other noise points
   // filtered by ground detection post process
-  AINFO << "Use origin cloud and copy height";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Use origin cloud and copy height";
   for (std::size_t i = 0; i < lidar_frame_ref_->roi_indices.indices.size();
        ++i) {
     const int roi_id = lidar_frame_ref_->roi_indices.indices[i];
@@ -362,7 +379,8 @@ void CNNSegmentation::GetObjectsFromSppEngine(
         original_cloud_, lidar_frame_ref_->roi_indices,
         lidar_frame_ref_->non_ground_indices);
     if (num_foreground == 0) {
-      ADEBUG << "No foreground segmentation output";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "No foreground segmentation output";
     }
   }
 

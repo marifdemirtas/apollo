@@ -63,7 +63,8 @@ void BaseMapNode::InitMapMatrix(const BaseMapConfig* map_config) {
 void BaseMapNode::Finalize() {
   if (is_changed_) {
     Save();
-    AINFO << "Save Map Node to disk: " << map_node_config_->node_index_ << ".";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Save Map Node to disk: " << map_node_config_->node_index_ << ".";
   }
 }
 
@@ -123,7 +124,8 @@ bool BaseMapNode::Save() {
     is_changed_ = false;
     return success;
   } else {
-    AERROR << "Can't write to file: " << path << ".";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can't write to file: " << path << ".";
     return false;
   }
 }
@@ -169,7 +171,8 @@ bool BaseMapNode::Load(const char* filename) {
     data_is_ready_ = success;
     return success;
   } else {
-    AERROR << "Can't find the file: " << filename;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can't find the file: " << filename;
     return false;
   }
 }
@@ -277,11 +280,13 @@ size_t BaseMapNode::LoadBodyBinary(std::vector<unsigned char>* buf) {
   std::vector<unsigned char> buf_uncompressed;
   int ret = compression_strategy_->Decode(buf, &buf_uncompressed);
   if (ret < 0) {
-    AERROR << "compression Decode error: " << ret;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "compression Decode error: " << ret;
     return 0;
   }
   uncompressed_file_body_size_ = buf_uncompressed.size();
-  AINFO << "map node compress ratio: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "map node compress ratio: "
         << static_cast<float>(buf->size()) /
                static_cast<float>(uncompressed_file_body_size_);
 

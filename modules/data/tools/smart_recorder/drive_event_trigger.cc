@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,13 +25,9 @@ namespace data {
 
 using apollo::common::DriveEvent;
 
-DriveEventTrigger::DriveEventTrigger() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- trigger_name_ = "DriveEventTrigger"; }
+DriveEventTrigger::DriveEventTrigger() { trigger_name_ = "DriveEventTrigger"; }
 
 void DriveEventTrigger::Pull(const cyber::record::RecordMessage& msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!trigger_obj_->enabled()) {
     return;
   }
@@ -42,8 +37,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     drive_event_msg.ParseFromString(msg.content);
     const uint64_t header_time = static_cast<uint64_t>(
         SecondsToNanoSeconds(drive_event_msg.header().timestamp_sec()));
-    AINFO << "drive event trigger is pulled: " << header_time << " - "
-          << msg.channel_name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "drive event trigger is pulled: " << header_time << " - "
+           << msg.channel_name;
     TriggerIt(header_time);
   }
 }

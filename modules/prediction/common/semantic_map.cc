@@ -334,7 +334,8 @@ void SemanticMap::DrawHistory(const ObstacleHistory& history,
       DrawRect(feature, decay_color, base_x, base_y, img);
     } else {
       if (feature.polygon_point_size() == 0) {
-        AERROR << "No polygon points in feature, please check!";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No polygon points in feature, please check!";
         continue;
       }
       DrawPoly(feature, decay_color, base_x, base_y, img);

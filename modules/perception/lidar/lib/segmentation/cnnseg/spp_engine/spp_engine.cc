@@ -60,7 +60,8 @@ size_t SppEngine::ProcessConnectedComponentCluster(
   worker_.WakeUp();
   size_t num = detector_2d_cc_.Detect(&labels_2d_);
   if (num == 0) {
-    ADEBUG << "No object detected";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "No object detected";
     // Later will decide if return this function here
   }
   double detect_time = timer.toc(true);
@@ -113,7 +114,8 @@ size_t SppEngine::ProcessConnectedComponentCluster(
   clusters_.RemoveEmptyClusters();
   double remove_time = timer.toc(true);
 
-  AINFO << "SegForeground: sync1 " << sync_time1 << "\tdetect: " << detect_time
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "SegForeground: sync1 " << sync_time1 << "\tdetect: " << detect_time
         << "\tsync2: " << sync_time2 << "\tfilter: " << filter_time
         << "\tchz: " << chz_time << "\tmapping: " << mapping_time
         << "\tremove: " << remove_time;
@@ -125,7 +127,8 @@ size_t SppEngine::ProcessForegroundSegmentation(
     const base::PointFCloudConstPtr point_cloud) {
   mask_.clear();
   ProcessConnectedComponentCluster(point_cloud, mask_);
-  AINFO << "Foreground: " << clusters_.size() << " clusters";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Foreground: " << clusters_.size() << " clusters";
   return clusters_.size();
 }
 

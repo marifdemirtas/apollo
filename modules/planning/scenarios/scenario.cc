@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -58,8 +57,9 @@ void Scenario::Init() {
         << "stage type : " << ScenarioConfig::StageType_Name(stage_type)
         << " has no config";
   }
-  ADEBUG << "init stage "
-         << ScenarioConfig::StageType_Name(config_.stage_type(0));
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "init stage "
+          << ScenarioConfig::StageType_Name(config_.stage_type(0));
   current_stage_ =
       CreateStage(*stage_config_map_[config_.stage_type(0)], injector_);
 }
@@ -77,7 +77,8 @@ Scenario::ScenarioStatus Scenario::Process(
   auto ret = current_stage_->Process(planning_init_point, frame);
   switch (ret) {
     case Stage::ERROR: {
-      AERROR << "Stage '" << current_stage_->Name() << "' returns error";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Stage '" << current_stage_->Name() << "' returns error";
       scenario_status_ = STATUS_UNKNOWN;
       break;
     }
@@ -88,14 +89,16 @@ Scenario::ScenarioStatus Scenario::Process(
     case Stage::FINISHED: {
       auto next_stage = current_stage_->NextStage();
       if (next_stage != current_stage_->stage_type()) {
-        AINFO << "switch stage from " << current_stage_->Name() << " to "
-              << ScenarioConfig::StageType_Name(next_stage);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "switch stage from " << current_stage_->Name() << " to "
+               << ScenarioConfig::StageType_Name(next_stage);
         if (next_stage == ScenarioConfig::NO_STAGE) {
           scenario_status_ = STATUS_DONE;
           return scenario_status_;
         }
         if (stage_config_map_.find(next_stage) == stage_config_map_.end()) {
-          AERROR << "Failed to find config for stage: " << next_stage;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find config for stage: " << next_stage;
           scenario_status_ = STATUS_UNKNOWN;
           return scenario_status_;
         }

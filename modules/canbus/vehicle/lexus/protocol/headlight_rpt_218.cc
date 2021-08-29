@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Headlightrpt218::Headlightrpt218() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Headlightrpt218::Headlightrpt218() {}
 const int32_t Headlightrpt218::ID = 0x218;
 
 void Headlightrpt218::Parse(const std::uint8_t* bytes, int32_t length,
                             ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_lexus()->mutable_headlight_rpt_218()->set_vehicle_fault(
       vehicle_fault(bytes, length));
   chassis->mutable_lexus()->mutable_headlight_rpt_218()->set_pacmod_fault(
@@ -66,8 +61,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Headlightrpt218::vehicle_fault(const std::uint8_t* bytes,
                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(6, 1);
 
@@ -80,8 +73,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Headlightrpt218::pacmod_fault(const std::uint8_t* bytes,
                                    int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
 
@@ -94,8 +85,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Headlightrpt218::override_active(const std::uint8_t* bytes,
                                       int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
 
@@ -108,8 +97,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 4, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Headlightrpt218::output_reported_fault(const std::uint8_t* bytes,
                                             int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 1);
 
@@ -122,8 +109,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 3, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Headlightrpt218::input_output_fault(const std::uint8_t* bytes,
                                          int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
 
@@ -135,8 +120,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 bool Headlightrpt218::enabled(const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 
@@ -149,8 +132,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 2, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Headlightrpt218::command_output_fault(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
 
@@ -165,8 +146,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 Headlight_rpt_218::Output_valueType Headlightrpt218::output_value(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 
@@ -182,8 +161,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 Headlight_rpt_218::Manual_inputType Headlightrpt218::manual_input(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -199,8 +176,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 Headlight_rpt_218::Commanded_valueType Headlightrpt218::commanded_value(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 

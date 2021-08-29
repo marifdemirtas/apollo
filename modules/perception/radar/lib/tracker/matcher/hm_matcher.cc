@@ -36,9 +36,11 @@ bool HMMatcher::Init() {
   auto config_manager = lib::ConfigManager::Instance();
   std::string model_name = name_;
   const lib::ModelConfig *model_config = nullptr;
-  AINFO << "matcher name: " << name_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "matcher name: " << name_;
   if (!config_manager->GetModelConfig(model_name, &model_config)) {
-    AERROR << "not found model: " << model_name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "not found model: " << model_name;
     return false;
   }
 

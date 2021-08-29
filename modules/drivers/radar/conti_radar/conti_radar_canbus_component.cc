@@ -52,8 +52,10 @@ bool ContiRadarCanbusComponent::Init() {
     return OnError("Unable to load canbus conf file: " + ConfigFilePath());
   }
 
-  AINFO << "The canbus conf file is loaded: " << ConfigFilePath();
-  ADEBUG << "Canbus_conf:" << conti_radar_conf_.ShortDebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The canbus conf file is loaded: " << ConfigFilePath();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Canbus_conf:" << conti_radar_conf_.ShortDebugString();
 
   // Init can client
   auto can_factory = CanClientFactory::Instance();
@@ -63,7 +65,8 @@ bool ContiRadarCanbusComponent::Init() {
   if (!can_client_) {
     return OnError("Failed to create can client.");
   }
-  AINFO << "Can client is successfully created.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Can client is successfully created.";
   conti_radar_writer_ =
       node_->CreateWriter<ContiRadar>(conti_radar_conf_.radar_channel());
   pose_reader_ = node_->CreateReader<LocalizationEstimate>(
@@ -79,14 +82,16 @@ bool ContiRadarCanbusComponent::Init() {
   }
   sensor_message_manager_->set_radar_conf(conti_radar_conf_.radar_conf());
   sensor_message_manager_->set_can_client(can_client_);
-  AINFO << "Sensor message manager is successfully created.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Sensor message manager is successfully created.";
 
   if (can_receiver_.Init(can_client_.get(), sensor_message_manager_.get(),
                          conti_radar_conf_.can_conf().enable_receiver_log()) !=
       ErrorCode::OK) {
     return OnError("Failed to init can receiver.");
   }
-  AINFO << "The can receiver is successfully initialized.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The can receiver is successfully initialized.";
 
   start_success_ = Start();
   return start_success_;
@@ -105,16 +110,19 @@ bool ContiRadarCanbusComponent::Start() {
   if (can_client_->Start() != ErrorCode::OK) {
     return OnError("Failed to start can client");
   }
-  AINFO << "Can client is started.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Can client is started.";
   if (ConfigureRadar() != ErrorCode::OK) {
     return OnError("Failed to configure radar.");
   }
-  AINFO << "The radar is successfully configured.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The radar is successfully configured.";
   // 2. start receive first then send
   if (can_receiver_.Start() != ErrorCode::OK) {
     return OnError("Failed to start can receiver.");
   }
-  AINFO << "Can receiver is started.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Can receiver is started.";
 
   // last step: publish monitor messages
   monitor_logger_buffer_.INFO("Canbus is started.");
@@ -132,7 +140,8 @@ void ContiRadarCanbusComponent::Stop() {
 // Send the error to monitor and return it
 bool ContiRadarCanbusComponent::OnError(const std::string& error_msg) {
   monitor_logger_buffer_.ERROR(error_msg);
-  AERROR << error_msg;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_msg;
   return false;
 }
 
@@ -156,7 +165,8 @@ void ContiRadarCanbusComponent::PoseCallback(
   float yaw_rate = static_cast<float>(pose_msg->pose().angular_velocity().z() *
                                       180.0f / M_PI);
 
-  AINFO << "radar speed:" << speed << ";yaw rate:" << yaw_rate;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "radar speed:" << speed << ";yaw rate:" << yaw_rate;
   MotionInputSpeed300 input_speed;
   input_speed.SetSpeed(speed);
   SenderMessage<ContiRadar> sender_message_speed(MotionInputSpeed300::ID,

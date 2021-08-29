@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -92,7 +91,8 @@ bool ReferenceLine::Stitch(const ReferenceLine& other) {
   bool last_join = last_sl.s() > 0 && last_sl.s() < other.Length();
 
   if (!first_join && !last_join) {
-    AERROR << "These reference lines are not connected.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "These reference lines are not connected.";
     return false;
   }
 
@@ -102,7 +102,8 @@ bool ReferenceLine::Stitch(const ReferenceLine& other) {
   static constexpr double kStitchingError = 1e-1;
   if (first_join) {
     if (first_sl.l() > kStitchingError) {
-      AERROR << "lateral stitching error on first join of reference line too "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "lateral stitching error on first join of reference line too "
                 "big, stitching fails";
       return false;
     }
@@ -114,7 +115,8 @@ bool ReferenceLine::Stitch(const ReferenceLine& other) {
   }
   if (last_join) {
     if (last_sl.l() > kStitchingError) {
-      AERROR << "lateral stitching error on first join of reference line too "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "lateral stitching error on first join of reference line too "
                 "big, stitching fails";
       return false;
     }
@@ -147,7 +149,8 @@ bool ReferenceLine::Segment(const common::math::Vec2d& point,
                             const double look_forward) {
   common::SLPoint sl;
   if (!XYToSL(point, &sl)) {
-    AERROR << "Failed to project point: " << point.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to project point: " << point.DebugString();
     return false;
   }
   return Segment(sl.s(), look_backward, look_forward);
@@ -170,7 +173,8 @@ bool ReferenceLine::Segment(const double s, const double look_backward,
                                      s + look_forward));
 
   if (end_index - start_index < 2) {
-    AERROR << "Too few reference points after shrinking.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Too few reference points after shrinking.";
     return false;
   }
 
@@ -217,10 +221,6 @@ common::FrenetFramePoint ReferenceLine::GetFrenetPoint(
 
 std::pair<std::array<double, 3>, std::array<double, 3>>
 ReferenceLine::ToFrenetFrame(const common::TrajectoryPoint& traj_point) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ACHECK(!reference_points_.empty());
 
   common::SLPoint sl_point;
@@ -240,8 +240,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 ReferencePoint ReferenceLine::GetNearestReferencePoint(const double s) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto& accumulated_s = map_path_.accumulated_s();
   if (s < accumulated_s.front() - 1e-2) {
     AWARN << "The requested s: " << s << " < 0.";
@@ -387,7 +385,8 @@ ReferencePoint ReferenceLine::GetReferencePoint(const double x,
 bool ReferenceLine::SLToXY(const SLPoint& sl_point,
                            common::math::Vec2d* const xy_point) const {
   if (map_path_.num_points() < 2) {
-    AERROR << "The reference line has too few points.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The reference line has too few points.";
     return false;
   }
 
@@ -403,7 +402,8 @@ bool ReferenceLine::XYToSL(const common::math::Vec2d& xy_point,
   double s = 0.0;
   double l = 0.0;
   if (!map_path_.GetProjection(xy_point, &s, &l)) {
-    AERROR << "Cannot get nearest point from path.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot get nearest point from path.";
     return false;
   }
   sl_point->set_s(s);
@@ -552,8 +552,9 @@ double ReferenceLine::GetDrivingWidth(const SLBoundary& sl_boundary) const {
   double driving_width = std::max(lane_left_width - sl_boundary.end_l(),
                                   lane_right_width + sl_boundary.start_l());
   driving_width = std::min(lane_left_width + lane_right_width, driving_width);
-  ADEBUG << "Driving width [" << driving_width << "].";
-  return driving_width;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Driving width [" << driving_width << "].";
+   return driving_width;
 }
 
 bool ReferenceLine::IsOnLane(const common::math::Vec2d& vec2d_point) const {
@@ -636,7 +637,8 @@ bool ReferenceLine::GetApproximateSLBoundary(
   double distance = 0.0;
   if (!map_path_.GetProjectionWithHueristicParams(box.center(), start_s, end_s,
                                                   &s, &l, &distance)) {
-    AERROR << "Cannot get projection point from path.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot get projection point from path.";
     return false;
   }
 
@@ -681,7 +683,8 @@ bool ReferenceLine::GetSLBoundary(const common::math::Box2d& box,
   for (const auto& point : corners) {
     SLPoint sl_point;
     if (!XYToSL(point, &sl_point)) {
-      AERROR << "Failed to get projection for point: " << point.DebugString()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get projection for point: " << point.DebugString()
              << " on reference line.";
       return false;
     }
@@ -697,7 +700,8 @@ bool ReferenceLine::GetSLBoundary(const common::math::Box2d& box,
     const auto p_mid = (p0 + p1) * 0.5;
     SLPoint sl_point_mid;
     if (!XYToSL(p_mid, &sl_point_mid)) {
-      AERROR << "Failed to get projection for point: " << p_mid.DebugString()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get projection for point: " << p_mid.DebugString()
              << " on reference line.";
       return false;
     }
@@ -712,8 +716,6 @@ bool ReferenceLine::GetSLBoundary(const common::math::Box2d& box,
 
     // sl_point is outside of polygon; add to the vertex list
     if (v0.CrossProd(v1) < 0.0) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
       *sl_boundary->add_boundary_point() = sl_point_mid;
     }
   }
@@ -746,7 +748,8 @@ bool ReferenceLine::GetSLBoundary(const hdmap::Polygon& polygon,
   for (const auto& point : polygon.point()) {
     SLPoint sl_point;
     if (!XYToSL(point, &sl_point)) {
-      AERROR << "Failed to get projection for point: " << point.DebugString()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get projection for point: " << point.DebugString()
              << " on reference line.";
       return false;
     }
@@ -765,7 +768,8 @@ bool ReferenceLine::GetSLBoundary(const hdmap::Polygon& polygon,
 bool ReferenceLine::HasOverlap(const common::math::Box2d& box) const {
   SLBoundary sl_boundary;
   if (!GetSLBoundary(box, &sl_boundary)) {
-    AERROR << "Failed to get sl boundary for box: " << box.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get sl boundary for box: " << box.DebugString();
     return false;
   }
   if (sl_boundary.end_s() < 0 || sl_boundary.start_s() > Length()) {
@@ -779,11 +783,13 @@ bool ReferenceLine::HasOverlap(const common::math::Box2d& box) const {
   double lane_right_width = 0.0;
   const double mid_s = (sl_boundary.start_s() + sl_boundary.end_s()) / 2.0;
   if (mid_s < 0 || mid_s > Length()) {
-    ADEBUG << "ref_s is out of range: " << mid_s;
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ref_s is out of range: " << mid_s;
+     return false;
   }
   if (!map_path_.GetLaneWidth(mid_s, &lane_left_width, &lane_right_width)) {
-    AERROR << "Failed to get width at s = " << mid_s;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get width at s = " << mid_s;
     return false;
   }
   if (sl_boundary.start_l() > 0) {

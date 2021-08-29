@@ -41,13 +41,15 @@ using apollo::common::util::PointFactory;
 
 bool PathData::SetDiscretizedPath(DiscretizedPath path) {
   if (reference_line_ == nullptr) {
-    AERROR << "Should NOT set discretized path when reference line is nullptr. "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Should NOT set discretized path when reference line is nullptr. "
               "Please set reference line first.";
     return false;
   }
   discretized_path_ = std::move(path);
   if (!XYToSL(discretized_path_, &frenet_path_)) {
-    AERROR << "Fail to transfer discretized path to frenet path.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to transfer discretized path to frenet path.";
     return false;
   }
   DCHECK_EQ(discretized_path_.size(), frenet_path_.size());
@@ -56,13 +58,15 @@ bool PathData::SetDiscretizedPath(DiscretizedPath path) {
 
 bool PathData::SetFrenetPath(FrenetFramePath frenet_path) {
   if (reference_line_ == nullptr) {
-    AERROR << "Should NOT set frenet path when reference line is nullptr. "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Should NOT set frenet path when reference line is nullptr. "
               "Please set reference line first.";
     return false;
   }
   frenet_path_ = std::move(frenet_path);
   if (!SLToXY(frenet_path_, &discretized_path_)) {
-    AERROR << "Fail to transfer frenet path to discretized path.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to transfer frenet path to discretized path.";
     return false;
   }
   DCHECK_EQ(discretized_path_.size(), frenet_path_.size());
@@ -73,12 +77,14 @@ bool PathData::SetPathPointDecisionGuide(
     std::vector<std::tuple<double, PathPointType, double>>
         path_point_decision_guide) {
   if (reference_line_ == nullptr) {
-    AERROR << "Should NOT set path_point_decision_guide when reference line is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Should NOT set path_point_decision_guide when reference line is "
               "nullptr. ";
     return false;
   }
   if (frenet_path_.empty() || discretized_path_.empty()) {
-    AERROR << "Should NOT set path_point_decision_guide when frenet_path or "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Should NOT set path_point_decision_guide when frenet_path or "
               "world frame trajectory is empty. ";
     return false;
   }
@@ -117,11 +123,13 @@ bool PathData::GetPathPointWithRefS(const double ref_s,
   ACHECK(reference_line_);
   DCHECK_EQ(discretized_path_.size(), frenet_path_.size());
   if (ref_s < 0) {
-    AERROR << "ref_s[" << ref_s << "] should be > 0";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ref_s[" << ref_s << "] should be > 0";
     return false;
   }
   if (ref_s > frenet_path_.back().s()) {
-    AERROR << "ref_s is larger than the length of frenet_path_ length ["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ref_s is larger than the length of frenet_path_ length ["
            << frenet_path_.back().s() << "].";
     return false;
   }
@@ -178,7 +186,8 @@ bool PathData::SLToXY(const FrenetFramePath &frenet_path,
         PointFactory::ToSLPoint(frenet_point.s(), frenet_point.l());
     common::math::Vec2d cartesian_point;
     if (!reference_line_->SLToXY(sl_point, &cartesian_point)) {
-      AERROR << "Fail to convert sl point to xy point";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to convert sl point to xy point";
       return false;
     }
     const ReferencePoint ref_point =
@@ -186,7 +195,8 @@ bool PathData::SLToXY(const FrenetFramePath &frenet_path,
     const double theta = CartesianFrenetConverter::CalculateTheta(
         ref_point.heading(), ref_point.kappa(), frenet_point.l(),
         frenet_point.dl());
-    ADEBUG << "frenet_point: " << frenet_point.ShortDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "frenet_point: " << frenet_point.ShortDebugString();
     const double kappa = CartesianFrenetConverter::CalculateKappa(
         ref_point.kappa(), ref_point.dkappa(), frenet_point.l(),
         frenet_point.dl(), frenet_point.ddl());
@@ -219,7 +229,8 @@ bool PathData::XYToSL(const DiscretizedPath &discretized_path,
     if (!frenet_point.has_s()) {
       SLPoint sl_point;
       if (!reference_line_->XYToSL(path_point, &sl_point)) {
-        AERROR << "Fail to transfer cartesian point to frenet point.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to transfer cartesian point to frenet point.";
         return false;
       }
       common::FrenetFramePoint frenet_point;

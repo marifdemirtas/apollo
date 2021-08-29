@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -48,10 +47,9 @@ bool GetProtobufFloatByFieldName(const google::protobuf::Message& message,
                                  const google::protobuf::Descriptor* descriptor,
                                  const google::protobuf::Reflection* reflection,
                                  const std::string& field_name, float* value) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!descriptor) {
-    AERROR << "Protobuf descriptor not found";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Protobuf descriptor not found";
     return false;
   }
 
@@ -66,7 +64,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     int value_in_int = reflection->GetEnumValue(message, field_descriptor);
     *value = static_cast<float>(value_in_int);
   } else {
-    AERROR << field_name << " has unsupported conversion type: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << field_name << " has unsupported conversion type: "
            << field_descriptor->cpp_type();
     return false;
   }
@@ -77,8 +76,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool IsCompliedWithCriterion(float actual_value,
                              const ComparisonOperator& comparison_operator,
                              float target_value) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   switch (comparison_operator) {
     case ComparisonOperator::EQUAL:
       return std::fabs(actual_value - target_value) <
@@ -94,7 +91,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     case ComparisonOperator::NOT_EQUAL:
       return (actual_value != target_value);
     default:
-      AERROR << "Unsupported comparison operator found:" << comparison_operator;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unsupported comparison operator found:" << comparison_operator;
       return false;
   }
 }
@@ -104,19 +102,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 DataCollectionMonitor::DataCollectionMonitor()
     : FuelMonitor(FLAGS_data_collection_monitor_name),
       node_(cyber::CreateNode("data_collection_monitor")) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   InitReaders();
   LoadConfiguration();
 }
 
-DataCollectionMonitor::~DataCollectionMonitor() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Stop(); }
+DataCollectionMonitor::~DataCollectionMonitor() { Stop(); }
 
 void DataCollectionMonitor::InitReaders() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   node_->CreateReader<Chassis>(FLAGS_chassis_topic,
                                [this](const std::shared_ptr<Chassis>& chassis) {
                                  this->OnChassis(chassis);
@@ -124,8 +116,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void DataCollectionMonitor::LoadConfiguration() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const std::string& vehicle_dir =
       VehicleManager::Instance()->GetVehicleDataPath();
   std::string data_collection_config_path =
@@ -143,12 +133,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   ConstructCategories();
 
-  ADEBUG << "Configuration loaded.";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Configuration loaded.";
+ }
 
 void DataCollectionMonitor::ConstructCategories() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   scenario_to_categories_.clear();
 
   for (const auto& scenario_iter : data_collection_table_.scenario()) {
@@ -163,8 +152,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void DataCollectionMonitor::ConstructCategoriesHelper(
     const std::string& scenario_name, const Scenario& scenario, int feature_idx,
     std::string current_category_name, const Category& current_category) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (feature_idx == scenario.feature_size()) {
     scenario_to_categories_[scenario_name].insert(
         {current_category_name, current_category});
@@ -197,8 +184,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void DataCollectionMonitor::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!enabled_) {
     category_consecutive_frame_count_.clear();
     category_frame_count_.clear();
@@ -209,15 +194,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void DataCollectionMonitor::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   enabled_ = false;
-  AINFO << "DataCollectionMonitor stopped";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "DataCollectionMonitor stopped";
+ }
 
 void DataCollectionMonitor::OnChassis(const std::shared_ptr<Chassis>& chassis) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!enabled_) {
     return;
   }
@@ -269,8 +251,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool DataCollectionMonitor::IsCompliedWithCriteria(
     const std::shared_ptr<Chassis>& chassis, const Category& category) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto& vehicle_param = VehicleConfigHelper::GetConfig().vehicle_param();
   const auto* vehicle_param_descriptor = vehicle_param.GetDescriptor();
   const auto* vehicle_param_reflection = vehicle_param.GetReflection();
@@ -279,8 +259,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const auto* chassis_reflection = chassis->GetReflection();
 
   for (const auto& range : category) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     for (const auto& criterion : range.criterion()) {
       float target_value;
       if (criterion.has_value()) {
@@ -310,8 +288,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 nlohmann::json DataCollectionMonitor::GetProgressAsJson() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   boost::unique_lock<boost::shared_mutex> reader_lock(mutex_);
   return current_progress_json_;
 }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -39,8 +38,6 @@ AffineConstraint::AffineConstraint(const Eigen::MatrixXd& constraint_matrix,
 }
 
 void AffineConstraint::SetIsEquality(const double is_equality) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   is_equality_ = is_equality;
 }
 
@@ -56,10 +53,13 @@ bool AffineConstraint::AddConstraint(
     const Eigen::MatrixXd& constraint_matrix,
     const Eigen::MatrixXd& constraint_boundary) {
   if (constraint_matrix.rows() != constraint_boundary.rows()) {
-    AERROR << "Fail to add constraint because constraint matrix rows != "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to add constraint because constraint matrix rows != "
               "constraint boundary rows.";
-    AERROR << "constraint matrix rows = " << constraint_matrix.rows();
-    AERROR << "constraint boundary rows = " << constraint_boundary.rows();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "constraint matrix rows = " << constraint_matrix.rows();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "constraint boundary rows = " << constraint_boundary.rows();
     return false;
   }
 
@@ -69,14 +69,18 @@ bool AffineConstraint::AddConstraint(
     return true;
   }
   if (constraint_matrix_.cols() != constraint_matrix.cols()) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "constraint_matrix_ cols and constraint_matrix cols do not match.";
-    AERROR << "constraint_matrix_.cols() = " << constraint_matrix_.cols();
-    AERROR << "constraint_matrix.cols() = " << constraint_matrix.cols();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "constraint_matrix_.cols() = " << constraint_matrix_.cols();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "constraint_matrix.cols() = " << constraint_matrix.cols();
     return false;
   }
   if (constraint_boundary.cols() != 1) {
-    AERROR << "constraint_boundary.cols() should be 1.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "constraint_boundary.cols() should be 1.";
     return false;
   }
 

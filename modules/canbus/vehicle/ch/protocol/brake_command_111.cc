@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,28 +26,20 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Brakecommand111::ID = 0x111;
 
 // public
-Brakecommand111::Brakecommand111() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Brakecommand111::Brakecommand111() { Reset(); }
 
 uint32_t Brakecommand111::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Brakecommand111::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_brake_pedal_en_ctrl(data, brake_pedal_en_ctrl_);
   set_p_brake_pedal_cmd(data, brake_pedal_cmd_);
 }
 
 void Brakecommand111::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // you should check this manually
   brake_pedal_en_ctrl_ = Brake_command_111::BRAKE_PEDAL_EN_CTRL_DISABLE;
   brake_pedal_cmd_ = 0;
@@ -56,8 +47,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Brakecommand111* Brakecommand111::set_brake_pedal_en_ctrl(
     Brake_command_111::Brake_pedal_en_ctrlType brake_pedal_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   brake_pedal_en_ctrl_ = brake_pedal_en_ctrl;
   return this;
 }
@@ -70,8 +59,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void Brakecommand111::set_p_brake_pedal_en_ctrl(
     uint8_t* data,
     Brake_command_111::Brake_pedal_en_ctrlType brake_pedal_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = brake_pedal_en_ctrl;
 
   Byte to_set(data + 0);
@@ -79,8 +66,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Brakecommand111* Brakecommand111::set_brake_pedal_cmd(int brake_pedal_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   brake_pedal_cmd_ = brake_pedal_cmd;
   return this;
 }
@@ -91,8 +76,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'intel', 'physical_unit': '%'}
 void Brakecommand111::set_p_brake_pedal_cmd(uint8_t* data,
                                             int brake_pedal_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   brake_pedal_cmd = ProtocolData::BoundedValue(0, 100, brake_pedal_cmd);
   int x = brake_pedal_cmd;
 

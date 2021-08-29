@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,29 +21,25 @@ namespace fusion {
 
 bool ObstacleMultiSensorFusion::Init(
     const ObstacleMultiSensorFusionParam& param) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (fusion_ != nullptr) {
-    AINFO << "Already inited";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already inited";
+     return true;
   }
   fusion_ = BaseFusionSystemRegisterer::GetInstanceByName(param.fusion_method);
 
   FusionInitOptions init_options;
   init_options.main_sensors = param.main_sensors;
   if (fusion_ == nullptr || !fusion_->Init(init_options)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-    AINFO << "Failed to Get Instance or Initialize " << param.fusion_method;
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to Get Instance or Initialize " << param.fusion_method;
+     return false;
   }
   return true;
 }
 
 bool ObstacleMultiSensorFusion::Process(const base::FrameConstPtr& frame,
                                         std::vector<base::ObjectPtr>* objects) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   FusionOptions options;
   return fusion_->Fuse(options, frame, objects);
 }

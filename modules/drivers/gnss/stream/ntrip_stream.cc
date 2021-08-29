@@ -86,13 +86,15 @@ bool NtripStream::Connect() {
     return true;
   }
   if (!tcp_stream_) {
-    AERROR << "New tcp stream failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "New tcp stream failed.";
     return true;
   }
 
   if (!tcp_stream_->Connect()) {
     status_ = Stream::Status::DISCONNECTED;
-    AERROR << "Tcp connect failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Tcp connect failed.";
     return false;
   }
 
@@ -105,12 +107,14 @@ bool NtripStream::Connect() {
   if (size != login_data_.size()) {
     tcp_stream_->Disconnect();
     status_ = Stream::Status::ERROR;
-    AERROR << "Send ntrip request failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Send ntrip request failed.";
     return false;
   }
 
   bzero(buffer, sizeof(buffer));
-  AINFO << "Read ntrip response.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Read ntrip response.";
   size = tcp_stream_->read(buffer, sizeof(buffer) - 1);
   while ((size == 0) && (try_times < 3)) {
     sleep(1);
@@ -121,29 +125,34 @@ bool NtripStream::Connect() {
   if (!size) {
     tcp_stream_->Disconnect();
     status_ = Stream::Status::DISCONNECTED;
-    AERROR << "No response from ntripcaster.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No response from ntripcaster.";
     return false;
   }
 
   if (std::strstr(reinterpret_cast<char*>(buffer), "ICY 200 OK\r\n")) {
     status_ = Stream::Status::CONNECTED;
     is_login_ = true;
-    AINFO << "Ntrip login successfully.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Ntrip login successfully.";
     return true;
   }
 
   if (std::strstr(reinterpret_cast<char*>(buffer), "SOURCETABLE 200 OK\r\n")) {
-    AERROR << "Mountpoint " << mountpoint_ << " not exist.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Mountpoint " << mountpoint_ << " not exist.";
   }
 
   if (std::strstr(reinterpret_cast<char*>(buffer), "HTTP/")) {
-    AERROR << "Authentication failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Authentication failed.";
   }
 
-  AINFO << "No expect data.";
-  AINFO << "Recv data length: " << size;
-  // AINFO << "Data from server: " << reinterpret_cast<char*>(buffer);
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "No expect data.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Recv data length: " << size;
+  
   tcp_stream_->Disconnect();
   status_ = Stream::Status::ERROR;
   return false;
@@ -163,17 +172,20 @@ bool NtripStream::Disconnect() {
 }
 
 void NtripStream::Reconnect() {
-  AINFO << "Reconnect ntrip caster.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Reconnect ntrip caster.";
   std::unique_lock<std::mutex> lock(internal_mutex_);
   Disconnect();
   Connect();
   if (status_ != Stream::Status::CONNECTED) {
-    AINFO << "Reconnect ntrip caster failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Reconnect ntrip caster failed.";
     return;
   }
 
   data_active_s_ = cyber::Time::Now().ToSecond();
-  AINFO << "Reconnect ntrip caster success.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Reconnect ntrip caster success.";
 }
 
 size_t NtripStream::read(uint8_t* buffer, size_t max_length) {
@@ -201,7 +213,8 @@ size_t NtripStream::read(uint8_t* buffer, size_t max_length) {
 
   // timeout detect
   if ((cyber::Time::Now().ToSecond() - data_active_s_) > timeout_s_) {
-    AINFO << "Ntrip timeout.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Ntrip timeout.";
     Reconnect();
   }
 
@@ -214,7 +227,8 @@ size_t NtripStream::write(const uint8_t* buffer, size_t length) {
   }
   std::unique_lock<std::mutex> lock(internal_mutex_, std::defer_lock);
   if (!lock.try_lock()) {
-    AINFO << "Try lock failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Try lock failed.";
     return 0;
   }
 
@@ -227,7 +241,8 @@ size_t NtripStream::write(const uint8_t* buffer, size_t length) {
   size_t ret = tcp_stream_->write(reinterpret_cast<const uint8_t*>(data.data()),
                                   data.size());
   if (ret != data.size()) {
-    AERROR << "Send ntrip data size " << data.size() << ", return " << ret;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Send ntrip data size " << data.size() << ", return " << ret;
     status_ = Stream::Status::ERROR;
     return 0;
   }

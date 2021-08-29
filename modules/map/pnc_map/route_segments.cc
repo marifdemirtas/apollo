@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -33,36 +32,22 @@ namespace {
 constexpr double kSegmentationEpsilon = 0.2;
 }  // namespace
 
-const std::string &RouteSegments::Id() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return id_; }
+const std::string &RouteSegments::Id() const { return id_; }
 
-void RouteSegments::SetId(const std::string &id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- id_ = id; }
+void RouteSegments::SetId(const std::string &id) { id_ = id; }
 
-void RouteSegments::SetCanExit(bool can_exit) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- can_exit_ = can_exit; }
+void RouteSegments::SetCanExit(bool can_exit) { can_exit_ = can_exit; }
 
-bool RouteSegments::CanExit() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return can_exit_; }
+bool RouteSegments::CanExit() const { return can_exit_; }
 
-bool RouteSegments::StopForDestination() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return stop_for_destination_; }
+bool RouteSegments::StopForDestination() const { return stop_for_destination_; }
 
 void RouteSegments::SetStopForDestination(bool stop_for_destination) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   stop_for_destination_ = stop_for_destination;
 }
 
 bool RouteSegments::WithinLaneSegment(const LaneSegment &lane_segment,
                                       const LaneWaypoint &waypoint) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return waypoint.lane &&
          lane_segment.lane->id().id() == waypoint.lane->id().id() &&
          lane_segment.start_s - kSegmentationEpsilon <= waypoint.s &&
@@ -71,8 +56,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool RouteSegments::WithinLaneSegment(const LaneSegment &lane_segment,
                                       const routing::LaneWaypoint &waypoint) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return lane_segment.lane && lane_segment.lane->id().id() == waypoint.id() &&
          lane_segment.start_s - kSegmentationEpsilon <= waypoint.s() &&
          lane_segment.end_s + kSegmentationEpsilon >= waypoint.s();
@@ -80,8 +63,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool RouteSegments::WithinLaneSegment(const routing::LaneSegment &lane_segment,
                                       const LaneWaypoint &waypoint) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return waypoint.lane && lane_segment.id() == waypoint.lane->id().id() &&
          lane_segment.start_s() - kSegmentationEpsilon <= waypoint.s &&
          lane_segment.end_s() + kSegmentationEpsilon >= waypoint.s;
@@ -89,16 +70,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool RouteSegments::WithinLaneSegment(const routing::LaneSegment &lane_segment,
                                       const routing::LaneWaypoint &waypoint) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return lane_segment.id() == waypoint.id() &&
          lane_segment.start_s() - kSegmentationEpsilon <= waypoint.s() &&
          lane_segment.end_s() + kSegmentationEpsilon >= waypoint.s();
 }
 
 bool RouteSegments::Stitch(const RouteSegments &other) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto first_waypoint = FirstWaypoint();
   bool has_overlap = IsWaypointOnSegment(other.FirstWaypoint());
   if (other.IsWaypointOnSegment(first_waypoint)) {
@@ -126,52 +103,34 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 const LaneWaypoint &RouteSegments::RouteEndWaypoint() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return route_end_waypoint_;
 }
 
-bool RouteSegments::IsOnSegment() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return is_on_segment_; }
+bool RouteSegments::IsOnSegment() const { return is_on_segment_; }
 
 void RouteSegments::SetIsOnSegment(bool on_segment) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   is_on_segment_ = on_segment;
 }
 
-bool RouteSegments::IsNeighborSegment() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return is_neighbor_; }
+bool RouteSegments::IsNeighborSegment() const { return is_neighbor_; }
 
 void RouteSegments::SetIsNeighborSegment(bool is_neighbor) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   is_neighbor_ = is_neighbor;
 }
 
 void RouteSegments::SetRouteEndWaypoint(const LaneWaypoint &waypoint) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   route_end_waypoint_ = waypoint;
 }
 
 LaneWaypoint RouteSegments::FirstWaypoint() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return LaneWaypoint(front().lane, front().start_s, 0.0);
 }
 
 LaneWaypoint RouteSegments::LastWaypoint() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return LaneWaypoint(back().lane, back().end_s, 0.0);
 }
 
 void RouteSegments::SetProperties(const RouteSegments &other) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   route_end_waypoint_ = other.RouteEndWaypoint();
   can_exit_ = other.CanExit();
   is_on_segment_ = other.IsOnSegment();
@@ -182,8 +141,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 double RouteSegments::Length(const RouteSegments &segments) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double s = 0.0;
   for (const auto &seg : segments) {
     s += seg.Length();
@@ -194,14 +151,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool RouteSegments::GetProjection(const common::PointENU &point_enu,
                                   common::SLPoint *sl_point,
                                   LaneWaypoint *waypoint) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return GetProjection({point_enu.x(), point_enu.y()}, sl_point, waypoint);
 }
 
 bool RouteSegments::IsConnectedSegment(const RouteSegments &other) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (empty() || other.empty()) {
     return false;
   }
@@ -223,12 +176,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool RouteSegments::Shrink(const common::math::Vec2d &point,
                            const double look_backward,
                            const double look_forward) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   common::SLPoint sl_point;
   LaneWaypoint waypoint;
   if (!GetProjection(point, &sl_point, &waypoint)) {
-    AERROR << "failed to project " << point.DebugString() << " to segment";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to project " << point.DebugString() << " to segment";
     return false;
   }
   return Shrink(sl_point.s(), look_backward, look_forward);
@@ -236,8 +188,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool RouteSegments::Shrink(const double s, const double look_backward,
                            const double look_forward) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LaneWaypoint waypoint;
   if (!GetWaypoint(s, &waypoint)) {
     return false;
@@ -248,8 +198,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool RouteSegments::Shrink(const double s, const LaneWaypoint &waypoint,
                            const double look_backward,
                            const double look_forward) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double acc_s = 0.0;
   auto iter = begin();
   while (iter != end() && acc_s + iter->Length() < s - look_backward) {
@@ -295,8 +243,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool RouteSegments::GetWaypoint(const double s, LaneWaypoint *waypoint) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double accumulated_s = 0.0;
   bool has_projection = false;
   for (auto iter = begin(); iter != end();
@@ -321,8 +267,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool RouteSegments::GetProjection(const common::math::Vec2d &point,
                                   common::SLPoint *sl_point,
                                   LaneWaypoint *waypoint) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double min_l = std::numeric_limits<double>::infinity();
   double accumulated_s = 0.0;
   bool has_projection = false;
@@ -331,7 +275,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     double lane_s = 0.0;
     double lane_l = 0.0;
     if (!iter->lane->GetProjection(point, &lane_s, &lane_l)) {
-      AERROR << "Failed to get projection from point " << point.DebugString()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get projection from point " << point.DebugString()
              << " on lane " << iter->lane->id().id();
       return false;
     }
@@ -354,32 +299,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void RouteSegments::SetPreviousAction(routing::ChangeLaneType action) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   previous_action_ = action;
 }
 
 routing::ChangeLaneType RouteSegments::PreviousAction() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return previous_action_;
 }
 
 void RouteSegments::SetNextAction(routing::ChangeLaneType action) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   next_action_ = action;
 }
 
 routing::ChangeLaneType RouteSegments::NextAction() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return next_action_;
 }
 
 bool RouteSegments::IsWaypointOnSegment(const LaneWaypoint &waypoint) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (auto iter = begin(); iter != end(); ++iter) {
     if (WithinLaneSegment(*iter, waypoint)) {
       return true;
@@ -389,8 +324,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool RouteSegments::CanDriveFrom(const LaneWaypoint &waypoint) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto point = waypoint.lane->GetSmoothPoint(waypoint.s);
 
   // 0 if waypoint is on segment, ok
@@ -403,7 +336,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   common::SLPoint route_sl;
   bool has_projection = GetProjection(point, &route_sl, &segment_waypoint);
   if (!has_projection) {
-    AERROR << "No projection from waypoint: " << waypoint.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No projection from waypoint: " << waypoint.DebugString();
     return false;
   }
   static constexpr double kMaxLaneWidth = 10.0;
@@ -417,8 +351,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   double heading_diff =
       common::math::AngleDiff(waypoint_heading, segment_heading);
   if (std::fabs(heading_diff) > M_PI / 2) {
-    ADEBUG << "Angle diff too large:" << heading_diff;
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Angle diff too large:" << heading_diff;
+     return false;
   }
 
   // 3. the waypoint and the projected lane should not be separated apart.
@@ -437,13 +372,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (route_sl.l() < 0) {  // waypoint at right side
     if (dist >
         waypoint_left_width + segment_right_width + kLaneSeparationDistance) {
-      AERROR << "waypoint is too far to reach: " << dist;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "waypoint is too far to reach: " << dist;
       return false;
     }
   } else {  // waypoint at left side
     if (dist >
         waypoint_right_width + segment_left_width + kLaneSeparationDistance) {
-      AERROR << "waypoint is too far to reach: " << dist;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "waypoint is too far to reach: " << dist;
       return false;
     }
   }

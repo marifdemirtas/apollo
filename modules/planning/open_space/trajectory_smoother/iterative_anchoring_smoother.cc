@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -59,7 +58,8 @@ bool IterativeAnchoringSmoother::Smooth(
     const std::vector<std::vector<Vec2d>>& obstacles_vertices_vec,
     DiscretizedTrajectory* discretized_trajectory) {
   if (xWS.cols() < 2) {
-    AERROR << "reference points size smaller than two, smoother early "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "reference points size smaller than two, smoother early "
               "returned";
     return false;
   }
@@ -113,12 +113,14 @@ bool IterativeAnchoringSmoother::Smooth(
 
   const size_t interpolated_size = interpolated_warm_start_point2ds.size();
   if (interpolated_size < 4) {
-    AERROR << "interpolated_warm_start_path smaller than 4, can't enforce "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "interpolated_warm_start_path smaller than 4, can't enforce "
               "heading continuity";
     return false;
   } else if (interpolated_size < 6) {
-    ADEBUG << "interpolated_warm_start_path smaller than 4, can't enforce "
-              "initial zero kappa";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "interpolated_warm_start_path smaller than 4, can't enforce "
+               "initial zero kappa";
     enforce_initial_kappa_ = false;
   } else {
     enforce_initial_kappa_ = true;
@@ -131,14 +133,16 @@ bool IterativeAnchoringSmoother::Smooth(
   DiscretizedPath interpolated_warm_start_path;
   if (!SetPathProfile(interpolated_warm_start_point2ds,
                       &interpolated_warm_start_path)) {
-    AERROR << "Set path profile fails";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Set path profile fails";
     return false;
   }
 
   // Generate feasible bounds for each path point
   std::vector<double> bounds;
   if (!GenerateInitialBounds(interpolated_warm_start_path, &bounds)) {
-    AERROR << "Generate initial bounds failed, path point to close to obstacle";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Generate initial bounds failed, path point to close to obstacle";
     return false;
   }
 
@@ -147,10 +151,10 @@ bool IterativeAnchoringSmoother::Smooth(
   input_colliding_point_index_.clear();
   if (!CheckCollisionAvoidance(interpolated_warm_start_path,
                                &input_colliding_point_index_)) {
-    AERROR << "Interpolated input path points colliding with obstacle";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Interpolated input path points colliding with obstacle";
     // if (!ReAnchoring(colliding_point_index, &interpolated_warm_start_path)) {
-    //   AERROR << "Fail to reanchor colliding input path points";
-    //   return false;
+        //   return false;
     // }
   }
 
@@ -166,8 +170,9 @@ bool IterativeAnchoringSmoother::Smooth(
   const auto path_smooth_end_timestamp = std::chrono::system_clock::now();
   std::chrono::duration<double> path_smooth_diff =
       path_smooth_end_timestamp - path_smooth_start_timestamp;
-  ADEBUG << "iterative anchoring path smoother time: "
-         << path_smooth_diff.count() * 1000.0 << " ms.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "iterative anchoring path smoother time: "
+          << path_smooth_diff.count() * 1000.0 << " ms.";
 
   const auto speed_smooth_start_timestamp = std::chrono::system_clock::now();
 
@@ -188,8 +193,9 @@ bool IterativeAnchoringSmoother::Smooth(
   const auto speed_smooth_end_timestamp = std::chrono::system_clock::now();
   std::chrono::duration<double> speed_smooth_diff =
       speed_smooth_end_timestamp - speed_smooth_start_timestamp;
-  ADEBUG << "iterative anchoring speed smoother time: "
-         << speed_smooth_diff.count() * 1000.0 << " ms.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "iterative anchoring speed smoother time: "
+          << speed_smooth_diff.count() * 1000.0 << " ms.";
 
   // Combine path and speed
   if (!CombinePathAndSpeed(smoothed_path_points, smoothed_speeds,
@@ -201,11 +207,13 @@ bool IterativeAnchoringSmoother::Smooth(
 
   const auto end_timestamp = std::chrono::system_clock::now();
   std::chrono::duration<double> diff = end_timestamp - start_timestamp;
-  ADEBUG << "iterative anchoring smoother total time: " << diff.count() * 1000.0
-         << " ms.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "iterative anchoring smoother total time: " << diff.count() * 1000.0
+          << " ms.";
 
-  ADEBUG << "discretized_trajectory size " << discretized_trajectory->size();
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "discretized_trajectory size " << discretized_trajectory->size();
+   return true;
 }
 
 void IterativeAnchoringSmoother::AdjustStartEndHeading(
@@ -257,8 +265,9 @@ bool IterativeAnchoringSmoother::ReAnchoring(
     DiscretizedPath* path_points) {
   CHECK_NOTNULL(path_points);
   if (colliding_point_index.empty()) {
-    ADEBUG << "no point needs to be re-anchored";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "no point needs to be re-anchored";
+     return true;
   }
 
   CHECK_GT(path_points->size(),
@@ -267,11 +276,13 @@ bool IterativeAnchoringSmoother::ReAnchoring(
 
   for (const auto index : colliding_point_index) {
     if (index == 0 || index == path_points->size() - 1) {
-      AERROR << "Initial and end points collision avoid condition failed.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Initial and end points collision avoid condition failed.";
       return false;
     }
     if (index == 1 || index == path_points->size() - 2) {
-      AERROR << "second to last point or second point pos reanchored. Heading "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "second to last point or second point pos reanchored. Heading "
                 "discontinuity might "
                 "happen";
     }
@@ -373,7 +384,8 @@ bool IterativeAnchoringSmoother::ReAnchoring(
     }
 
     if (!reanchoring_success) {
-      AERROR << "interpolated points at index " << index
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "interpolated points at index " << index
              << "can't be successfully reanchored";
       return false;
     }
@@ -444,7 +456,8 @@ bool IterativeAnchoringSmoother::SmoothPath(
 
   while (!is_collision_free) {
     if (counter > max_iteration_num) {
-      AERROR << "Maximum iteration reached, path smoother early stops";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Maximum iteration reached, path smoother early stops";
       return true;
     }
 
@@ -453,12 +466,14 @@ bool IterativeAnchoringSmoother::SmoothPath(
     std::vector<double> opt_x;
     std::vector<double> opt_y;
     if (!fem_pos_smoother.Solve(raw_point2d, flexible_bounds, &opt_x, &opt_y)) {
-      AERROR << "Smoothing path fails";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Smoothing path fails";
       return false;
     }
 
     if (opt_x.size() < 2 || opt_y.size() < 2) {
-      AERROR << "Return by fem_pos_smoother is wrong. Size smaller than 2 ";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Return by fem_pos_smoother is wrong. Size smaller than 2 ";
       return false;
     }
 
@@ -471,15 +486,17 @@ bool IterativeAnchoringSmoother::SmoothPath(
     }
 
     if (!SetPathProfile(smoothed_point2d, smoothed_path_points)) {
-      AERROR << "Set path profile fails";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Set path profile fails";
       return false;
     }
 
     is_collision_free =
         CheckCollisionAvoidance(*smoothed_path_points, &colliding_point_index);
 
-    ADEBUG << "loop iteration number is " << counter;
-    ++counter;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "loop iteration number is " << counter;
+     ++counter;
   }
   return true;
 }
@@ -517,8 +534,9 @@ bool IterativeAnchoringSmoother::CheckCollisionAvoidance(
       for (const LineSegment2d& linesegment : obstacle_linesegments) {
         if (ego_box.HasOverlap(linesegment)) {
           colliding_point_index->push_back(i);
-          ADEBUG << "point at " << i << "collied with LineSegment "
-                 << linesegment.DebugString();
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "point at " << i << "collied with LineSegment "
+                  << linesegment.DebugString();
           is_colliding = true;
           break;
         }
@@ -629,7 +647,8 @@ bool IterativeAnchoringSmoother::SmoothSpeed(const double init_a,
   const double total_t = 2 * path_length / max_reverse_acc * 10;
 
   if (total_t + delta_t >= delta_t * std::numeric_limits<size_t>::max()) {
-    AERROR << "Number of knots overflow. total_t: " << total_t
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Number of knots overflow. total_t: " << total_t
            << ", delta_t: " << delta_t;
     return false;
   }
@@ -672,7 +691,8 @@ bool IterativeAnchoringSmoother::SmoothSpeed(const double init_a,
 
   // Solve the problem
   if (!piecewise_jerk_problem.Optimize()) {
-    AERROR << "Piecewise jerk speed optimizer failed!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Piecewise jerk speed optimizer failed!";
     return false;
   }
 
@@ -687,7 +707,8 @@ bool IterativeAnchoringSmoother::SmoothSpeed(const double init_a,
   const double sEpislon = 1.0e-1;
   for (size_t i = 1; i < num_of_knots; ++i) {
     if (s[i - 1] - s[i] > kEpislon) {
-      AERROR << "unexpected decreasing s in speed smoothing at time "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unexpected decreasing s in speed smoothing at time "
              << static_cast<double>(i) * delta_t << "with total time "
              << total_t;
       return false;
@@ -713,15 +734,18 @@ bool IterativeAnchoringSmoother::CombinePathAndSpeed(
   const double time_horizon =
       speed_points.TotalTime() + kDenseTimeResolution * 1.0e-6;
   if (path_points.empty()) {
-    AERROR << "path data is empty";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "path data is empty";
     return false;
   }
-  ADEBUG << "speed_points.TotalTime() " << speed_points.TotalTime();
-  for (double cur_rel_time = 0.0; cur_rel_time < time_horizon;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "speed_points.TotalTime() " << speed_points.TotalTime();
+   for (double cur_rel_time = 0.0; cur_rel_time < time_horizon;
        cur_rel_time += kDenseTimeResolution) {
     common::SpeedPoint speed_point;
     if (!speed_points.EvaluateByTime(cur_rel_time, &speed_point)) {
-      AERROR << "Fail to get speed point with relative time " << cur_rel_time;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get speed point with relative time " << cur_rel_time;
       return false;
     }
 
@@ -738,9 +762,11 @@ bool IterativeAnchoringSmoother::CombinePathAndSpeed(
     trajectory_point.set_relative_time(speed_point.t());
     discretized_trajectory->AppendTrajectoryPoint(trajectory_point);
   }
-  ADEBUG << "path length before combine " << path_points.Length();
-  ADEBUG << "trajectory length after combine "
-         << discretized_trajectory->GetSpatialLength();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "path length before combine " << path_points.Length();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "trajectory length after combine "
+          << discretized_trajectory->GetSpatialLength();
   return true;
 }
 
@@ -785,7 +811,8 @@ bool IterativeAnchoringSmoother::GenerateStopProfileFromPolynomial(
     }
     return true;
   }
-  AERROR << "GenerateStopProfileFromPolynomial fails.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "GenerateStopProfileFromPolynomial fails.";
   return false;
 }
 

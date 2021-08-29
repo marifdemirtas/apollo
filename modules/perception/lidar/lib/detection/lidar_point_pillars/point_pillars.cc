@@ -468,14 +468,16 @@ void PointPillars::InitTRT() {
   OnnxToTRTModel(pfe_onnx_file_, &pfe_engine_);
   OnnxToTRTModel(rpn_onnx_file_, &rpn_engine_);
   if (pfe_engine_ == nullptr || rpn_engine_ == nullptr) {
-    AERROR << "Failed to load ONNX file.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load ONNX file.";
   }
 
   // create execution context from the engine
   pfe_context_ = pfe_engine_->createExecutionContext();
   rpn_context_ = rpn_engine_->createExecutionContext();
   if (pfe_context_ == nullptr || rpn_context_ == nullptr) {
-    AERROR << "Failed to create TensorRT Execution Context.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create TensorRT Execution Context.";
   }
 }
 
@@ -610,7 +612,8 @@ void PointPillars::DoInference(const float* in_points_array,
                                std::vector<float>* out_detections,
                                std::vector<int>* out_labels) {
   if (device_id_ < 0) {
-    AERROR << "Torch is not using GPU!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Torch is not using GPU!";
     return;
   }
 

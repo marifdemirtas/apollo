@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -94,12 +93,16 @@ void printMatrix(const int r, const int c, const std::vector<c_float>& P_data,
     }
   }
 
-  AINFO << "row number: " << r;
-  AINFO << "col number: " << c;
-  for (int i = 0; i < r; ++i) {
-    AINFO << "row number: " << i;
-    AINFO << tmp.row(i);
-  }
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "row number: " << r;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "col number: " << c;
+   for (int i = 0; i < r; ++i) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "row number: " << i;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << tmp.row(i);
+   }
 }
 
 void DualVariableWarmStartOSQPInterface::assembleA(
@@ -131,8 +134,9 @@ bool DualVariableWarmStartOSQPInterface::optimize() {
   std::vector<c_int> P_indptr;
   assemble_P(&P_data, &P_indices, &P_indptr);
   if (check_mode_) {
-    AINFO << "print P_data in whole: ";
-    printMatrix(kNumParam, kNumParam, P_data, P_indices, P_indptr);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "print P_data in whole: ";
+     printMatrix(kNumParam, kNumParam, P_data, P_indices, P_indptr);
   }
   // assemble q, linear term in objective
   c_float q[kNumParam];
@@ -146,8 +150,9 @@ bool DualVariableWarmStartOSQPInterface::optimize() {
   std::vector<c_int> A_indptr;
   assemble_constraint(&A_data, &A_indices, &A_indptr);
   if (check_mode_) {
-    AINFO << "print A_data in whole: ";
-    printMatrix(kNumConst, kNumParam, A_data, A_indices, A_indptr);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "print A_data in whole: ";
+     printMatrix(kNumConst, kNumParam, A_data, A_indices, A_indptr);
     assembleA(kNumConst, kNumParam, A_data, A_indices, A_indptr);
   }
 
@@ -270,28 +275,32 @@ void DualVariableWarmStartOSQPInterface::check_solution(
 
   for (int idx = r1_index; idx < r2_index; ++idx) {
     if (std::abs(g(idx, 0)) > 1e-6) {
-      AERROR << "G' * mu + R' * A * lambda == 0 constraint fails, "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "G' * mu + R' * A * lambda == 0 constraint fails, "
              << "constraint_index: " << idx << ", g: " << g(idx, 0);
     }
   }
 
   for (int idx = r2_index; idx < r3_index; ++idx) {
     if (g(idx, 0) < min_safety_distance_) {
-      AERROR << "-g' * mu + (A * t - b) * lambda) >= d_min constraint fails, "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "-g' * mu + (A * t - b) * lambda) >= d_min constraint fails, "
              << "constraint_index: " << idx << ", g: " << g(idx, 0);
     }
   }
 
   for (int idx = r3_index; idx < r4_index; ++idx) {
     if (g(idx, 0) < 0) {
-      AERROR << "lambda box constraint fails, "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "lambda box constraint fails, "
              << "constraint_index: " << idx << ", g: " << g(idx, 0);
     }
   }
 
   for (int idx = r4_index; idx < num_of_constraints_; ++idx) {
     if (g(idx, 0) < 0) {
-      AERROR << "miu box constraint fails, "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "miu box constraint fails, "
              << "constraint_index: " << idx << ", g: " << g(idx, 0);
     }
   }

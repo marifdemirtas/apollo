@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -53,7 +52,8 @@ bool DpRoadGraph::FindPathTunnel(const common::TrajectoryPoint &init_point,
 
   init_point_ = init_point;
   if (!reference_line_.XYToSL(init_point_.path_point(), &init_sl_point_)) {
-    AERROR << "Fail to create init_sl_point from : "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to create init_sl_point from : "
            << init_point.DebugString();
     return false;
   }
@@ -66,7 +66,8 @@ bool DpRoadGraph::FindPathTunnel(const common::TrajectoryPoint &init_point,
 
   std::vector<DpRoadGraphNode> min_cost_path;
   if (!GenerateMinCostPath(obstacles, &min_cost_path)) {
-    AERROR << "Fail to generate graph!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to generate graph!";
     return false;
   }
   std::vector<common::FrenetFramePoint> frenet_path;
@@ -111,7 +112,8 @@ bool DpRoadGraph::GenerateMinCostPath(
   std::vector<std::vector<common::SLPoint>> path_waypoints;
   if (!waypoint_sampler_->SamplePathWaypoints(init_point_, &path_waypoints) ||
       path_waypoints.size() < 1) {
-    AERROR << "Fail to sample path waypoints! reference_line_length = "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to sample path waypoints! reference_line_length = "
            << reference_line_.Length();
     return false;
   }
@@ -188,8 +190,9 @@ bool DpRoadGraph::GenerateMinCostPath(
   std::reverse(min_cost_path->begin(), min_cost_path->end());
 
   for (const auto &node : *min_cost_path) {
-    ADEBUG << "min_cost_path: " << node.sl_point.ShortDebugString();
-    planning_debug_->mutable_planning_data()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "min_cost_path: " << node.sl_point.ShortDebugString();
+     planning_debug_->mutable_planning_data()
         ->mutable_dp_poly_graph()
         ->add_min_cost_point()
         ->CopyFrom(node.sl_point);

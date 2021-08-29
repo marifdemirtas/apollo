@@ -47,8 +47,10 @@ apollo::common::Status UltrasonicRadarCanbus::Init(
     return OnError("Unable to load canbus conf file: " + config_path);
   }
 
-  AINFO << "The canbus conf file is loaded: " << config_path;
-  ADEBUG << "Canbus_conf:" << ultrasonic_radar_conf_.ShortDebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The canbus conf file is loaded: " << config_path;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Canbus_conf:" << ultrasonic_radar_conf_.ShortDebugString();
 
   // Init can client
   auto can_factory = CanClientFactory::Instance();
@@ -58,7 +60,8 @@ apollo::common::Status UltrasonicRadarCanbus::Init(
   if (!can_client_) {
     return OnError("Failed to create can client.");
   }
-  AINFO << "Can client is successfully created.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Can client is successfully created.";
 
   sensor_message_manager_ = std::unique_ptr<UltrasonicRadarMessageManager>(
       new UltrasonicRadarMessageManager(ultrasonic_radar_conf_.entrance_num(),
@@ -67,7 +70,8 @@ apollo::common::Status UltrasonicRadarCanbus::Init(
     return OnError("Failed to create message manager.");
   }
   sensor_message_manager_->set_can_client(can_client_);
-  AINFO << "Sensor message manager is successfully created.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Sensor message manager is successfully created.";
 
   bool enable_receiver_log =
       ultrasonic_radar_conf_.can_conf().enable_receiver_log();
@@ -75,7 +79,8 @@ apollo::common::Status UltrasonicRadarCanbus::Init(
                          enable_receiver_log) != ErrorCode::OK) {
     return OnError("Failed to init can receiver.");
   }
-  AINFO << "The can receiver is successfully initialized.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The can receiver is successfully initialized.";
 
   return Status::OK();
 }
@@ -85,13 +90,15 @@ apollo::common::Status UltrasonicRadarCanbus::Start() {
   if (can_client_->Start() != ErrorCode::OK) {
     return OnError("Failed to start can client");
   }
-  AINFO << "Can client is started.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Can client is started.";
 
   // 2. start receive first then send
   if (can_receiver_.Start() != ErrorCode::OK) {
     return OnError("Failed to start can receiver.");
   }
-  AINFO << "Can receiver is started.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Can receiver is started.";
 
   // last step: publish monitor messages
   monitor_logger_buffer_.INFO("Canbus is started.");

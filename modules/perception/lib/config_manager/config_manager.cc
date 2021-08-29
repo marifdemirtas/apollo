@@ -57,13 +57,15 @@ bool ConfigManager::InitInternal() {
 
   std::string config_module_path =
       GetAbsolutePath(work_root_, FLAGS_config_manager_path);
-  AINFO << "WORK_ROOT: " << work_root_
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "WORK_ROOT: " << work_root_
         << " config_root_path: " << config_module_path;
 
   std::vector<std::string> model_config_files;
   if (!common::GetFileList(config_module_path, "config_manager.config",
                            &model_config_files)) {
-    AERROR << "config_root_path : " << config_module_path
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "config_root_path : " << config_module_path
            << " get file list error.";
     return false;
   }
@@ -71,7 +73,8 @@ bool ConfigManager::InitInternal() {
   for (const auto &model_config_file : model_config_files) {
     ModelConfigFileListProto file_list_proto;
     if (!GetProtoFromASCIIFile(model_config_file, &file_list_proto)) {
-      AERROR << "Invalid ModelConfigFileListProto file: " << model_config_file;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid ModelConfigFileListProto file: " << model_config_file;
       return false;
     }
 
@@ -81,7 +84,8 @@ bool ConfigManager::InitInternal() {
           GetAbsolutePath(work_root_, model_config_path);
       MultiModelConfigProto multi_model_config_proto;
       if (!GetProtoFromASCIIFile(abs_path, &multi_model_config_proto)) {
-        AERROR << "Invalid MultiModelConfigProto file: " << abs_path;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid MultiModelConfigProto file: " << abs_path;
         return false;
       }
 
@@ -92,7 +96,8 @@ bool ConfigManager::InitInternal() {
           return false;
         }
 
-        AINFO << "load ModelConfig succ. name: " << model_config->name();
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "load ModelConfig succ. name: " << model_config->name();
 
         auto result =
             model_config_map_.emplace(model_config->name(), model_config);
@@ -104,7 +109,8 @@ bool ConfigManager::InitInternal() {
     }
   }
 
-  AINFO << "finish to load ModelConfigs. NumModels: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "finish to load ModelConfigs. NumModels: "
         << model_config_map_.size();
 
   inited_ = true;
@@ -207,7 +213,8 @@ bool ModelConfig::Reset(const ModelConfigProto &proto) {
     array_bool_param_map_.emplace(pair.name(), values);
   }
 
-  AINFO << "reset ModelConfig. model_name: " << name_
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "reset ModelConfig. model_name: " << name_
         << " integer_param_map's size: " << integer_param_map_.size()
         << " string_param_map's size: " << string_param_map_.size()
         << " double_param_map's size: " << double_param_map_.size()

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -36,8 +35,6 @@ namespace canbus {
 namespace ch {
 
 ChMessageManager::ChMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Control Messages
   AddSendProtocolData<Brakecommand111, true>();
   AddSendProtocolData<Controlcommand115, true>();
@@ -57,9 +54,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   AddRecvProtocolData<Turnsignalstatus513, true>();
 }
 
-ChMessageManager::~ChMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+ChMessageManager::~ChMessageManager() {}
 
 }  // namespace ch
 }  // namespace canbus

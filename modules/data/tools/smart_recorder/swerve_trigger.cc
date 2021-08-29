@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -31,13 +30,9 @@ using apollo::canbus::Chassis;
 constexpr float MAX_STEER_PER = 100.0;
 constexpr float MIN_STEER_PER = -100.0;
 
-SwerveTrigger::SwerveTrigger() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- trigger_name_ = "SwerveTrigger"; }
+SwerveTrigger::SwerveTrigger() { trigger_name_ = "SwerveTrigger"; }
 
 void SwerveTrigger::Pull(const cyber::record::RecordMessage& msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!trigger_obj_->enabled()) {
     return;
   }
@@ -54,16 +49,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     EnqueueMessage(steer_per);
 
     if (IsSwerve()) {
-      AINFO << "swerve trigger is pulled: " << msg.time << " - "
-            << msg.channel_name;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "swerve trigger is pulled: " << msg.time << " - "
+             << msg.channel_name;
       TriggerIt(msg.time);
     }
   }
 }
 
 bool SwerveTrigger::IsNoisy(const float steer) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (steer > MAX_STEER_PER || steer < MIN_STEER_PER) {
     return true;
   }
@@ -73,8 +67,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool SwerveTrigger::IsSwerve() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (current_steer_queue_.size() < queue_size_ ||
       history_steer_queue_.size() < queue_size_) {
     return false;
@@ -86,8 +78,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 // TODO(Leisheng Mu): reuse the code with hard_brake_trigger in next iteration
 void SwerveTrigger::EnqueueMessage(const float steer) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   current_steer_queue_.emplace_back(steer);
   current_total_ += steer;
   if (current_steer_queue_.size() > queue_size_) {

@@ -203,19 +203,22 @@ void show_lane_ccs(const std::vector<unsigned char>& lane_map,
     msg += cv::format("[%d %d] ", i, pixels.size());
   }
   cv::imwrite(save_path, lane_draw);
-  AINFO << msg;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << msg;
 }
 
 void output_laneline_to_json(const std::vector<base::LaneLine>& lane_objects,
                              const std::string& save_path) {
   FILE* file_save = fopen(save_path.c_str(), "wt");
   if (!file_save) {
-    AERROR << "Failed to open file: " << save_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to open file: " << save_path;
     return;
   }
 
   int lane_line_size = static_cast<int>(lane_objects.size());
-  AINFO << "lane line num: " << lane_line_size;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lane line num: " << lane_line_size;
   std::string msg = "lane line info: ";
   fprintf(file_save, "[\n");
   for (int j = 0; j < lane_line_size; ++j) {
@@ -286,11 +289,13 @@ void output_laneline_to_txt(const std::vector<base::LaneLine>& lane_objects,
                             const std::string& save_path) {
   FILE* file_save = fopen(save_path.c_str(), "wt");
   if (!file_save) {
-    AERROR << "Failed to open file: " << save_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to open file: " << save_path;
     return;
   }
   int lane_line_size = static_cast<int>(lane_objects.size());
-  AINFO << "lane line num: " << lane_line_size;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lane line num: " << lane_line_size;
   fprintf(file_save, "lane_line_num=%d\n", lane_line_size);
   for (int j = 0; j < lane_line_size; ++j) {
     base::LaneLineCubicCurve curve_camera = lane_objects[j].curve_camera_coord;

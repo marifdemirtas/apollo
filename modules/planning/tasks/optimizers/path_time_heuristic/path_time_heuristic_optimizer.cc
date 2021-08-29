@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -51,7 +50,8 @@ bool PathTimeHeuristicOptimizer::SearchPathTimeGraph(
       reference_line_info_->path_decision()->obstacles().Items(), init_point_);
 
   if (!st_graph.Search(speed_data).ok()) {
-    AERROR << "failed to search graph with dynamic programming.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to search graph with dynamic programming.";
     return false;
   }
   return true;
@@ -64,14 +64,16 @@ Status PathTimeHeuristicOptimizer::Process(
 
   if (path_data.discretized_path().empty()) {
     const std::string msg = "Empty path data";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
   if (!SearchPathTimeGraph(speed_data)) {
     const std::string msg = absl::StrCat(
         Name(), ": Failed to search graph with dynamic programming.");
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     RecordDebugInfo(*speed_data, reference_line_info_->mutable_st_graph_data()
                                      ->mutable_st_graph_debug());
     return Status(ErrorCode::PLANNING_ERROR, msg);

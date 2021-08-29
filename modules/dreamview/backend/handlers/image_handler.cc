@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -70,8 +69,6 @@ void ImageHandler::OnImage(
 }
 
 void ImageHandler::OnImageFront(const std::shared_ptr<Image> &image) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (FLAGS_use_navigation_mode) {
     // Navigation mode
     OnImage(image);
@@ -79,8 +76,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void ImageHandler::OnImageShort(const std::shared_ptr<CompressedImage> &image) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!FLAGS_use_navigation_mode) {
     // Regular mode
     OnImage(image);
@@ -89,8 +84,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 ImageHandler::ImageHandler()
     : requests_(0), node_(cyber::CreateNode("image_handler")) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   node_->CreateReader<Image>(
       FLAGS_image_front_topic,
       [this](const std::shared_ptr<Image> &image) { OnImageFront(image); });
@@ -103,8 +96,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool ImageHandler::handleGet(CivetServer *server, struct mg_connection *conn) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   requests_++;
 
   mg_printf(conn,

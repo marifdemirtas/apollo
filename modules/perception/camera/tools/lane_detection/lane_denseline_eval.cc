@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -41,16 +40,16 @@ int lane_postprocessor_eval() {
   base::BrownCameraDistortionModel model;
   if (!common::LoadBrownCameraIntrinsic("params/front_6mm_intrinsics.yaml",
                                         &model)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-    AERROR << "LoadBrownCameraIntrinsic Error!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "LoadBrownCameraIntrinsic Error!";
     return -1;
   }
   init_options.base_camera_model = model.get_camera_model();
 
   std::shared_ptr<DenselineLaneDetector> detector(new DenselineLaneDetector);
-  AINFO << "Detector: " << detector->Name();
-  detector->Init(init_options);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Detector: " << detector->Name();
+   detector->Init(init_options);
   // Initialize lane postprocessor
   std::shared_ptr<DenselineLanePostprocessor> lane_postprocessor;
   lane_postprocessor.reset(new DenselineLanePostprocessor);
@@ -104,8 +103,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         continue;
       }
     }
-    AINFO << "Process file: " << FLAGS_file_title;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Process file: " << FLAGS_file_title;
+ 
     // Image data initialized
     CameraFrame frame;
     cv::Mat img = cv::imread(impath);
@@ -162,8 +162,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     apollo::common::time timer;
     timer.Start();
     detector->Detect(detetor_options, &frame);
-    AINFO << "Detector finished!";
-    timer.End("LaneDetector");
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Detector finished!";
+     timer.End("LaneDetector");
 
     timer.Start();
     // Postprocess
@@ -183,8 +184,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     const std::vector<std::vector<LanePointInfo>>& detect_laneline_point_set =
         lane_postprocessor->GetLanelinePointSet();
     if (FLAGS_lane_line_debug) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
       save_img_path = absl::StrCat(FLAGS_save_dir, "/", FLAGS_file_title, "_0_",
                                    FLAGS_file_ext_name, ".jpg");
       const std::vector<LanePointInfo>& infer_point_set =
@@ -194,34 +193,23 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       save_img_path = absl::StrCat(FLAGS_save_dir, "/", FLAGS_file_title, "_1_",
                                    FLAGS_file_ext_name, ".jpg");
       show_detect_point_set(img, detect_laneline_point_set, save_img_path);
-      AINFO << "detect_laneline_point_set num: "
-            << detect_laneline_point_set.size();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "detect_laneline_point_set num: "
+             << detect_laneline_point_set.size();
     }
     // Draw the lane map, draw the connected_components
     if (FLAGS_lane_cc_debug) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
       save_img_path = absl::StrCat(FLAGS_save_dir, "/", FLAGS_file_title, "_2_",
                                    FLAGS_file_ext_name, ".jpg");
       show_lane_ccs(lane_map, lane_map_width, lane_map_height, lane_ccs,
                     select_lane_ccs, save_img_path);
     }
     if (FLAGS_lane_line_debug) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
       save_img_path = absl::StrCat(FLAGS_save_dir, "/", FLAGS_file_title, "_5_",
                                    FLAGS_file_ext_name, ".jpg");
       show_lane_lines(img, frame.lane_objects, save_img_path);
     }
     if (FLAGS_lane_result_output) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
       std::string save_path =
           absl::StrCat(FLAGS_save_dir, "/", FLAGS_file_title, ".txt");
       output_laneline_to_json(frame.lane_objects, save_path);
@@ -236,8 +224,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }  // namespace apollo
 
 int main(int argc, char** argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::ParseCommandLineFlags(&argc, &argv, true);
   FLAGS_alsologtostderr = true;
   google::InitGoogleLogging(argv[0]);

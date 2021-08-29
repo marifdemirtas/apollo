@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -40,12 +39,14 @@ bool PredictorSubmodule::Init() {
 
   PredictionConf prediction_conf;
   if (!ComponentBase::GetProtoConfig(&prediction_conf)) {
-    AERROR << "Unable to load prediction conf file: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to load prediction conf file: "
            << ComponentBase::ConfigFilePath();
     return false;
   }
-  ADEBUG << "Prediction config file is loaded into: "
-         << prediction_conf.ShortDebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Prediction config file is loaded into: "
+          << prediction_conf.ShortDebugString();
   if (!MessageProcess::InitPredictors(predictor_manager_.get(),
                                       prediction_conf)) {
     return false;
@@ -84,8 +85,9 @@ bool PredictorSubmodule::Proc(
   predictor_writer_->Write(prediction_obstacles);
 
   const apollo::cyber::Time& end_time = Clock::Now();
-  ADEBUG << "End to end time = "
-         << (end_time - frame_start_time).ToSecond() * 1000 << " ms";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "End to end time = "
+          << (end_time - frame_start_time).ToSecond() * 1000 << " ms";
 
   return true;
 }

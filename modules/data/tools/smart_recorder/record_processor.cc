@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -39,25 +38,24 @@ using cyber::record::RecordWriter;
 RecordProcessor::RecordProcessor(const std::string& source_record_dir,
                                  const std::string& restored_output_dir)
     : source_record_dir_(source_record_dir),
-      restored_output_dir_(restored_output_dir) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+      restored_output_dir_(restored_output_dir) {}
 
 bool RecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Init input/output
   if (!DirectoryExists(source_record_dir_)) {
-    AERROR << "source record dir does not exist: " << source_record_dir_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "source record dir does not exist: " << source_record_dir_;
     return false;
   }
   if (!EnsureDirectory(restored_output_dir_)) {
-    AERROR << "unable to open output dir: " << restored_output_dir_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unable to open output dir: " << restored_output_dir_;
     return false;
   }
   // Init triggers
   if (!InitTriggers(trigger_conf)) {
-    AERROR << "unable to init triggers";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unable to init triggers";
     return false;
   }
   // Init writer
@@ -68,9 +66,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   writer_->SetSizeOfFileSegmentation(
       trigger_conf.segment_setting().size_segment() * kMBToKB);
   const std::string output_file = GetDefaultOutputFile();
-  AINFO << "output file path: " << output_file;
-  if (!writer_->Open(output_file)) {
-    AERROR << "failed to open file for writing: " << output_file;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "output file path: " << output_file;
+   if (!writer_->Open(output_file)) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to open file for writing: " << output_file;
     return false;
   }
   // Init intervals pool
@@ -81,8 +81,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool RecordProcessor::InitTriggers(const SmartRecordTrigger& trigger_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   triggers_.push_back(std::unique_ptr<TriggerBase>(new DriveEventTrigger));
   triggers_.push_back(std::unique_ptr<TriggerBase>(new EmergencyModeTrigger));
   triggers_.push_back(std::unique_ptr<TriggerBase>(new HardBrakeTrigger));
@@ -91,7 +89,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   triggers_.push_back(std::unique_ptr<TriggerBase>(new SwerveTrigger));
   for (const auto& trigger : triggers_) {
     if (!trigger->Init(trigger_conf)) {
-      AERROR << "unable to initiate trigger and collect channels";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unable to initiate trigger and collect channels";
       return false;
     }
   }
@@ -100,8 +99,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool RecordProcessor::ShouldRestore(
     const cyber::record::RecordMessage& msg) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (const auto& trigger : triggers_) {
     if (trigger->ShouldRestore(msg)) {
       return true;

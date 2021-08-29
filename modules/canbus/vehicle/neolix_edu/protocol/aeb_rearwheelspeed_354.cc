@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace neolix_edu {
 
 using ::apollo::drivers::canbus::Byte;
 
-Aebrearwheelspeed354::Aebrearwheelspeed354() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Aebrearwheelspeed354::Aebrearwheelspeed354() {}
 const int32_t Aebrearwheelspeed354::ID = 0x354;
 
 void Aebrearwheelspeed354::Parse(const std::uint8_t* bytes, int32_t length,
                                  ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_neolix_edu()
       ->mutable_aeb_rearwheelspeed_354()
       ->set_wheelspeed_rl_valid(wheelspeed_rl_valid(bytes, length));
@@ -69,8 +64,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': 'bit'}
 bool Aebrearwheelspeed354::wheelspeed_rl_valid(const std::uint8_t* bytes,
                                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(7, 1);
 
@@ -83,8 +76,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 22, 'type': 'double', 'order': 'motorola', 'physical_unit': 'km/h'}
 double Aebrearwheelspeed354::wheelspeed_rl(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 7);
 
@@ -103,8 +94,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': 'bit'}
 bool Aebrearwheelspeed354::wheelspeed_rr_valid(const std::uint8_t* bytes,
                                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(7, 1);
 
@@ -117,8 +106,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 38, 'type': 'double', 'order': 'motorola', 'physical_unit': 'km/h'}
 double Aebrearwheelspeed354::wheelspeed_rr(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 7);
 
@@ -137,8 +124,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'double', 'order': 'motorola', 'physical_unit': 'bit'}
 double Aebrearwheelspeed354::wheelspeed_rl_direct(const std::uint8_t* bytes,
                                                   int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(4, 2);
 
@@ -152,8 +137,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'double', 'order': 'motorola', 'physical_unit': 'bit'}
 double Aebrearwheelspeed354::wheelspeed_rr_direct(const std::uint8_t* bytes,
                                                   int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(6, 2);
 
@@ -166,8 +149,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Aebrearwheelspeed354::alivecounter_rear(const std::uint8_t* bytes,
                                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 4);
 
@@ -180,8 +161,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'double', 'order': 'motorola', 'physical_unit': ''}
 double Aebrearwheelspeed354::checksum_rear(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
 

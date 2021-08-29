@@ -44,7 +44,8 @@ void GraphSegmentor::Init(const float initial_threshold) {
 void GraphSegmentor::SegmentGraph(const int num_vertices, const int num_edges,
                                   Edge* edges, bool need_sort) {
   if (edges == nullptr) {
-    AERROR << "Input Null Edges.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input Null Edges.";
     return;
   }
 

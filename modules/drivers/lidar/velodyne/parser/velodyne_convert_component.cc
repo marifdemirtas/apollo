@@ -42,12 +42,14 @@ bool VelodyneConvertComponent::Init() {
   for (int i = 0; i < pool_size_; i++) {
     auto point_cloud = point_cloud_pool_->GetObject();
     if (point_cloud == nullptr) {
-      AERROR << "fail to getobject, i: " << i;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to getobject, i: " << i;
       return false;
     }
     point_cloud->mutable_point()->Reserve(140000);
   }
-  AINFO << "Point cloud comp convert init success";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Point cloud comp convert init success";
   return true;
 }
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2019 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,8 +36,6 @@ namespace canbus {
 namespace wey {
 
 WeyMessageManager::WeyMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Control Messages
   AddSendProtocolData<Ads1111, true>();
   AddSendProtocolData<Ads338e, true>();
@@ -58,9 +55,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   AddRecvProtocolData<Vinresp3393, true>();
 }
 
-WeyMessageManager::~WeyMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+WeyMessageManager::~WeyMessageManager() {}
 
 }  // namespace wey
 }  // namespace canbus

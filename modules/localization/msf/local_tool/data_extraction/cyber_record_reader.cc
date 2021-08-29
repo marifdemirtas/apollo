@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,26 +25,18 @@ namespace msf {
 
 using cyber::record::RecordReader;
 
-CyberRecordReader::CyberRecordReader() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+CyberRecordReader::CyberRecordReader() {}
 
-CyberRecordReader::~CyberRecordReader() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+CyberRecordReader::~CyberRecordReader() {}
 
 void CyberRecordReader::Subscribe(
     const std::string &topic,
     const std::function<void(const std::string &)> call_back) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   call_back_map_[topic] = call_back;
   topics_.push_back(topic);
 }
 
 void CyberRecordReader::Read(const std::string &file_name) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   RecordReader reader(file_name);
   cyber::record::RecordMessage message;
   while (reader.ReadMessage(&message)) {
@@ -57,8 +48,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void CyberRecordReader::Read(const std::vector<std::string> &file_names) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (const std::string &file_name : file_names) {
     Read(file_name);
   }

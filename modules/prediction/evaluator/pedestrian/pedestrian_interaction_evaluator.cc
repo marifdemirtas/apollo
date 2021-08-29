@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -61,8 +60,9 @@ void PedestrianInteractionEvaluator::Clear() {
 void PedestrianInteractionEvaluator::LoadModel() {
   torch::set_num_threads(1);
   if (FLAGS_use_cuda && torch::cuda::is_available()) {
-    ADEBUG << "CUDA is available";
-    device_ = torch::Device(torch::kCUDA);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "CUDA is available";
+     device_ = torch::Device(torch::kCUDA);
   }
 
   torch_position_embedding_ = torch::jit::load(
@@ -89,7 +89,8 @@ bool PedestrianInteractionEvaluator::Evaluate(
 
   int id = obstacle_ptr->id();
   if (!obstacle_ptr->latest_feature().IsInitialized()) {
-    AERROR << "Obstacle [" << id << "] has no latest feature.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no latest feature.";
     return false;
   }
   Feature* latest_feature_ptr = obstacle_ptr->mutable_latest_feature();
@@ -104,8 +105,9 @@ bool PedestrianInteractionEvaluator::Evaluate(
       PredictionConstants::kDumpDataForLearning) {
     FeatureOutput::InsertDataForLearning(*latest_feature_ptr, feature_values,
                                          "pedestrian", nullptr);
-    ADEBUG << "Saving extracted features for learning locally.";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Saving extracted features for learning locally.";
+     return true;
   }
 
   static constexpr double kShortTermPredictionTimeResolution = 0.4;

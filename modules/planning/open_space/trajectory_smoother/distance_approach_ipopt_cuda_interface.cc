@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -116,23 +115,29 @@ DistanceApproachIPOPTCUDAInterface::DistanceApproachIPOPTCUDAInterface(
 bool DistanceApproachIPOPTCUDAInterface::get_nlp_info(
     int& n, int& m, int& nnz_jac_g, int& nnz_h_lag,
     IndexStyleEnum& index_style) {
-  ADEBUG << "get_nlp_info";
-  // n1 : states variables, 4 * (N+1)
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_nlp_info";
+   // n1 : states variables, 4 * (N+1)
   int n1 = 4 * (horizon_ + 1);
-  ADEBUG << "n1: " << n1;
-  // n2 : control inputs variables
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "n1: " << n1;
+   // n2 : control inputs variables
   int n2 = 2 * horizon_;
-  ADEBUG << "n2: " << n2;
-  // n3 : sampling time variables
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "n2: " << n2;
+   // n3 : sampling time variables
   int n3 = horizon_ + 1;
-  ADEBUG << "n3: " << n3;
-  // n4 : dual multiplier associated with obstacle shape
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "n3: " << n3;
+   // n4 : dual multiplier associated with obstacle shape
   lambda_horizon_ = obstacles_edges_num_.sum() * (horizon_ + 1);
-  ADEBUG << "lambda_horizon_: " << lambda_horizon_;
-  // n5 : dual multipier associated with car shape, obstacles_num*4 * (N+1)
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "lambda_horizon_: " << lambda_horizon_;
+   // n5 : dual multipier associated with car shape, obstacles_num*4 * (N+1)
   miu_horizon_ = obstacles_num_ * 4 * (horizon_ + 1);
-  ADEBUG << "miu_horizon_: " << miu_horizon_;
-  // m1 : dynamics constatins
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "miu_horizon_: " << miu_horizon_;
+   // m1 : dynamics constatins
   int m1 = 4 * horizon_;
 
   // m2 : control rate constraints (only steering)
@@ -150,11 +155,13 @@ bool DistanceApproachIPOPTCUDAInterface::get_nlp_info(
 
   // number of variables
   n = num_of_variables_;
-  ADEBUG << "num_of_variables_ " << num_of_variables_;
-  // number of constraints
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "num_of_variables_ " << num_of_variables_;
+   // number of constraints
   m = num_of_constraints_;
-  ADEBUG << "num_of_constraints_ " << num_of_constraints_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "num_of_constraints_ " << num_of_constraints_;
+ 
   generate_tapes(n, m, &nnz_h_lag);
   // // number of nonzero in Jacobian.
   int tmp = 0;
@@ -168,16 +175,18 @@ bool DistanceApproachIPOPTCUDAInterface::get_nlp_info(
               (num_of_variables_ - (horizon_ + 1) + 2);
 
   index_style = IndexStyleEnum::C_STYLE;
-  ADEBUG << "get_nlp_info out";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_nlp_info out";
+   return true;
 }
 
 bool DistanceApproachIPOPTCUDAInterface::get_bounds_info(int n, double* x_l,
                                                          double* x_u, int m,
                                                          double* g_l,
                                                          double* g_u) {
-  ADEBUG << "get_bounds_info";
-  ACHECK(XYbounds_.size() == 4)
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_bounds_info";
+   ACHECK(XYbounds_.size() == 4)
       << "XYbounds_ size is not 4, but" << XYbounds_.size();
 
   // Variables: includes state, u, sample time and lagrange multipliers
@@ -217,8 +226,9 @@ bool DistanceApproachIPOPTCUDAInterface::get_bounds_info(int n, double* x_l,
     x_u[variable_index + i] = 2e19;
   }
   variable_index += 4;
-  ADEBUG << "variable_index after adding state variables : " << variable_index;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding state variables : " << variable_index;
+ 
   // 2. control variables, 2 * [0, horizon_-1]
   for (int i = 0; i < horizon_; ++i) {
     // u1
@@ -231,8 +241,9 @@ bool DistanceApproachIPOPTCUDAInterface::get_bounds_info(int n, double* x_l,
 
     variable_index += 2;
   }
-  ADEBUG << "variable_index after adding control variables : "
-         << variable_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding control variables : "
+          << variable_index;
 
   // 3. sampling time variables, 1 * [0, horizon_]
   for (int i = 0; i < horizon_ + 1; ++i) {
@@ -240,9 +251,11 @@ bool DistanceApproachIPOPTCUDAInterface::get_bounds_info(int n, double* x_l,
     x_u[variable_index] = 2e19;
     ++variable_index;
   }
-  ADEBUG << "variable_index after adding sample time : " << variable_index;
-  ADEBUG << "sample time fix time status is : " << use_fix_time_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding sample time : " << variable_index;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "sample time fix time status is : " << use_fix_time_;
+ 
   // 4. lagrange constraint l, [0, obstacles_edges_sum_ - 1] * [0,
   // horizon_]
   for (int i = 0; i < horizon_ + 1; ++i) {
@@ -252,8 +265,9 @@ bool DistanceApproachIPOPTCUDAInterface::get_bounds_info(int n, double* x_l,
       ++variable_index;
     }
   }
-  ADEBUG << "variable_index after adding lagrange l : " << variable_index;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding lagrange l : " << variable_index;
+ 
   // 5. lagrange constraint n, [0, 4*obstacles_num-1] * [0, horizon_]
   for (int i = 0; i < horizon_ + 1; ++i) {
     for (int j = 0; j < 4 * obstacles_num_; ++j) {
@@ -263,8 +277,9 @@ bool DistanceApproachIPOPTCUDAInterface::get_bounds_info(int n, double* x_l,
       ++variable_index;
     }
   }
-  ADEBUG << "variable_index after adding lagrange n : " << variable_index;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding lagrange n : " << variable_index;
+ 
   // Constraints: includes four state Euler forward constraints, three
   // Obstacle related constraints
 
@@ -276,8 +291,9 @@ bool DistanceApproachIPOPTCUDAInterface::get_bounds_info(int n, double* x_l,
   }
   constraint_index += 4 * horizon_;
 
-  ADEBUG << "constraint_index after adding Euler forward dynamics constraints: "
-         << constraint_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after adding Euler forward dynamics constraints: "
+          << constraint_index;
 
   // 2. Control rate limit constraints, 1 * [0, horizons-1], only apply
   // steering rate as of now
@@ -287,8 +303,9 @@ bool DistanceApproachIPOPTCUDAInterface::get_bounds_info(int n, double* x_l,
     ++constraint_index;
   }
 
-  ADEBUG << "constraint_index after adding steering rate constraints: "
-         << constraint_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after adding steering rate constraints: "
+          << constraint_index;
 
   // 3. Time constraints 1 * [0, horizons-1]
   for (int i = 0; i < horizon_; ++i) {
@@ -297,8 +314,9 @@ bool DistanceApproachIPOPTCUDAInterface::get_bounds_info(int n, double* x_l,
     ++constraint_index;
   }
 
-  ADEBUG << "constraint_index after adding time constraints: "
-         << constraint_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after adding time constraints: "
+          << constraint_index;
 
   // 4. Three obstacles related equal constraints, one equality constraints,
   // [0, horizon_] * [0, obstacles_num_-1] * 4
@@ -385,17 +403,20 @@ bool DistanceApproachIPOPTCUDAInterface::get_bounds_info(int n, double* x_l,
     constraint_index++;
   }
 
-  ADEBUG << "constraint_index after adding obstacles constraints: "
-         << constraint_index;
-  ADEBUG << "get_bounds_info_ out";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after adding obstacles constraints: "
+          << constraint_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_bounds_info_ out";
+   return true;
 }
 
 bool DistanceApproachIPOPTCUDAInterface::get_starting_point(
     int n, bool init_x, double* x, bool init_z, double* z_L, double* z_U, int m,
     bool init_lambda, double* lambda) {
-  ADEBUG << "get_starting_point";
-  ACHECK(init_x) << "Warm start init_x setting failed";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_starting_point";
+   ACHECK(init_x) << "Warm start init_x setting failed";
 
   CHECK_EQ(horizon_, uWS_.cols());
   CHECK_EQ(horizon_ + 1, xWS_.cols());
@@ -436,8 +457,9 @@ bool DistanceApproachIPOPTCUDAInterface::get_starting_point(
       x[n_start_index_ + index + j] = n_warm_up_(j, i);
     }
   }
-  ADEBUG << "get_starting_point out";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_starting_point out";
+   return true;
 }
 
 bool DistanceApproachIPOPTCUDAInterface::eval_f(int n, const double* x,
@@ -457,8 +479,9 @@ bool DistanceApproachIPOPTCUDAInterface::eval_grad_f_hand(int n,
                                                           const double* x,
                                                           bool new_x,
                                                           double* grad_f) {
-  ADEBUG << "eval_grad_f by hand";
-  // Objective is from eval_f:
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_grad_f by hand";
+   // Objective is from eval_f:
   // min control inputs
   // min input rate
   // min time (if the time step is not fixed)
@@ -469,7 +492,8 @@ bool DistanceApproachIPOPTCUDAInterface::eval_grad_f_hand(int n,
   int state_index = state_start_index_;
 
   if (grad_f == nullptr) {
-    AERROR << "grad_f pt is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "grad_f pt is nullptr";
     return false;
   } else {
     std::fill(grad_f, grad_f + n, 0.0);
@@ -569,8 +593,9 @@ bool DistanceApproachIPOPTCUDAInterface::eval_jac_g_par(int n, const double* x,
                                                         int nele_jac, int* iRow,
                                                         int* jCol,
                                                         double* values) {
-  ADEBUG << "eval_jac_g";
-  CHECK_EQ(n, num_of_variables_)
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_jac_g";
+   CHECK_EQ(n, num_of_variables_)
       << "No. of variables wrong in eval_jac_g. n : " << n;
   CHECK_EQ(m, num_of_constraints_)
       << "No. of constraints wrong in eval_jac_g. n : " << m;
@@ -1206,8 +1231,9 @@ bool DistanceApproachIPOPTCUDAInterface::eval_jac_g_par(int n, const double* x,
       time_index++;
     }
 
-    ADEBUG << "After fulfilled control rate constraints derivative, nz_index : "
-           << nz_index << " nele_jac : " << nele_jac;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "After fulfilled control rate constraints derivative, nz_index : "
+            << nz_index << " nele_jac : " << nele_jac;
 
     // 3. Time constraints [0, horizon_ -1]
     time_index = time_start_index_;
@@ -1223,8 +1249,9 @@ bool DistanceApproachIPOPTCUDAInterface::eval_jac_g_par(int n, const double* x,
       time_index++;
     }
 
-    ADEBUG << "After fulfilled time constraints derivative, nz_index : "
-           << nz_index << " nele_jac : " << nele_jac;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "After fulfilled time constraints derivative, nz_index : "
+            << nz_index << " nele_jac : " << nele_jac;
 
     // 4. Three obstacles related equal constraints, one equality constraints,
     // [0, horizon_] * [0, obstacles_num_-1] * 4
@@ -1428,12 +1455,14 @@ bool DistanceApproachIPOPTCUDAInterface::eval_jac_g_par(int n, const double* x,
       nz_index++;
     }
 
-    ADEBUG << "eval_jac_g, fulfilled obstacle constraint values";
-    CHECK_EQ(nz_index, static_cast<int>(nele_jac));
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_jac_g, fulfilled obstacle constraint values";
+     CHECK_EQ(nz_index, static_cast<int>(nele_jac));
   }
 
-  ADEBUG << "eval_jac_g done";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_jac_g done";
+   return true;
 }  // NOLINT
 
 bool DistanceApproachIPOPTCUDAInterface::eval_jac_g_ser(int n, const double* x,
@@ -1441,8 +1470,9 @@ bool DistanceApproachIPOPTCUDAInterface::eval_jac_g_ser(int n, const double* x,
                                                         int nele_jac, int* iRow,
                                                         int* jCol,
                                                         double* values) {
-  ADEBUG << "eval_jac_g";
-  CHECK_EQ(n, num_of_variables_)
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_jac_g";
+   CHECK_EQ(n, num_of_variables_)
       << "No. of variables wrong in eval_jac_g. n : " << n;
   CHECK_EQ(m, num_of_constraints_)
       << "No. of constraints wrong in eval_jac_g. n : " << m;
@@ -2058,8 +2088,9 @@ bool DistanceApproachIPOPTCUDAInterface::eval_jac_g_ser(int n, const double* x,
       time_index++;
     }
 
-    ADEBUG << "After fulfilled control rate constraints derivative, nz_index : "
-           << nz_index << " nele_jac : " << nele_jac;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "After fulfilled control rate constraints derivative, nz_index : "
+            << nz_index << " nele_jac : " << nele_jac;
 
     // 3. Time constraints [0, horizon_ -1]
     time_index = time_start_index_;
@@ -2075,8 +2106,9 @@ bool DistanceApproachIPOPTCUDAInterface::eval_jac_g_ser(int n, const double* x,
       time_index++;
     }
 
-    ADEBUG << "After fulfilled time constraints derivative, nz_index : "
-           << nz_index << " nele_jac : " << nele_jac;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "After fulfilled time constraints derivative, nz_index : "
+            << nz_index << " nele_jac : " << nele_jac;
 
     // 4. Three obstacles related equal constraints, one equality constraints,
     // [0, horizon_] * [0, obstacles_num_-1] * 4
@@ -2257,12 +2289,14 @@ bool DistanceApproachIPOPTCUDAInterface::eval_jac_g_ser(int n, const double* x,
       nz_index++;
     }
 
-    ADEBUG << "eval_jac_g, fulfilled obstacle constraint values";
-    CHECK_EQ(nz_index, static_cast<int>(nele_jac));
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_jac_g, fulfilled obstacle constraint values";
+     CHECK_EQ(nz_index, static_cast<int>(nele_jac));
   }
 
-  ADEBUG << "eval_jac_g done";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_jac_g done";
+   return true;
 }  // NOLINT
 
 bool DistanceApproachIPOPTCUDAInterface::eval_h(int n, const double* x,
@@ -2277,8 +2311,9 @@ bool DistanceApproachIPOPTCUDAInterface::eval_h(int n, const double* x,
 #if USE_GPU == 1
     fill_lower_left(iRow, jCol, rind_L, cind_L, nnz_L);
 #else
-    AFATAL << "CUDA enabled without GPU!";
-#endif
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "CUDA enabled without GPU!";
+ #endif
   } else {
     // return the values. This is a symmetric matrix, fill the lower left
     // triangle only
@@ -2287,8 +2322,9 @@ bool DistanceApproachIPOPTCUDAInterface::eval_h(int n, const double* x,
 #if USE_GPU == 1
     data_transfer(&obj_lam[1], lambda, m);
 #else
-    AFATAL << "CUDA enabled without GPU!";
-#endif
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "CUDA enabled without GPU!";
+ #endif
 
     set_param_vec(tag_L, m + 1, obj_lam);
     sparse_hess(tag_L, n, 1, const_cast<double*>(x), &nnz_L, &rind_L, &cind_L,
@@ -2311,8 +2347,9 @@ void DistanceApproachIPOPTCUDAInterface::finalize_solution(
     const double* z_U, int m, const double* g, const double* lambda,
     double obj_value, const Ipopt::IpoptData* ip_data,
     Ipopt::IpoptCalculatedQuantities* ip_cq) {
-  ADEBUG << "finalize_solution";
-  int state_index = state_start_index_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "finalize_solution";
+   int state_index = state_start_index_;
   int control_index = control_start_index_;
   int time_index = time_start_index_;
   int dual_l_index = l_start_index_;
@@ -2365,15 +2402,17 @@ void DistanceApproachIPOPTCUDAInterface::finalize_solution(
   free(cind_L);
   free(hessval);
 
-  ADEBUG << "finalize_solution done!";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "finalize_solution done!";
+ }
 
 void DistanceApproachIPOPTCUDAInterface::get_optimization_results(
     Eigen::MatrixXd* state_result, Eigen::MatrixXd* control_result,
     Eigen::MatrixXd* time_result, Eigen::MatrixXd* dual_l_result,
     Eigen::MatrixXd* dual_n_result) const {
-  ADEBUG << "get_optimization_results";
-  *state_result = state_result_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_optimization_results";
+   *state_result = state_result_;
   *control_result = control_result_;
   *time_result = time_result_;
   *dual_l_result = dual_l_result_;
@@ -2427,18 +2466,23 @@ void DistanceApproachIPOPTCUDAInterface::get_optimization_results(
     }
   }
 
-  ADEBUG << "state_diff_max: " << state_diff_max;
-  ADEBUG << "control_diff_max: " << control_diff_max;
-  ADEBUG << "dual_l_diff_max: " << l_diff_max;
-  ADEBUG << "dual_n_diff_max: " << n_diff_max;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "state_diff_max: " << state_diff_max;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "control_diff_max: " << control_diff_max;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "dual_l_diff_max: " << l_diff_max;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "dual_n_diff_max: " << n_diff_max;
+ }
 
 //***************    start ADOL-C part ***********************************
 template <class T>
 bool DistanceApproachIPOPTCUDAInterface::eval_obj(int n, const T* x,
                                                   T* obj_value) {
-  ADEBUG << "eval_obj";
-  // Objective is :
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_obj";
+   // Objective is :
   // min control inputs
   // min input rate
   // min time (if the time step is not fixed)
@@ -2505,15 +2549,17 @@ bool DistanceApproachIPOPTCUDAInterface::eval_obj(int n, const T* x,
     time_index++;
   }
 
-  ADEBUG << "objective value after this iteration : " << *obj_value;
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "objective value after this iteration : " << *obj_value;
+   return true;
 }
 
 template <class T>
 bool DistanceApproachIPOPTCUDAInterface::eval_constraints(int n, const T* x,
                                                           int m, T* g) {
-  ADEBUG << "eval_constraints";
-  // state start index
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "eval_constraints";
+   // state start index
   int state_index = state_start_index_;
 
   // control start index.
@@ -2569,8 +2615,9 @@ bool DistanceApproachIPOPTCUDAInterface::eval_constraints(int n, const T* x,
     state_index += 4;
   }
 
-  ADEBUG << "constraint_index after adding Euler forward dynamics constraints "
-            "updated: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after adding Euler forward dynamics constraints "
+             "updated: "
          << constraint_index;
 
   // 2. Control rate limit constraints, 1 * [0, horizons-1], only apply
@@ -2601,8 +2648,9 @@ bool DistanceApproachIPOPTCUDAInterface::eval_constraints(int n, const T* x,
     time_index++;
   }
 
-  ADEBUG << "constraint_index after adding time constraints "
-            "updated: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after adding time constraints "
+             "updated: "
          << constraint_index;
 
   // 4. Three obstacles related equal constraints, one equality constraints,
@@ -2663,8 +2711,9 @@ bool DistanceApproachIPOPTCUDAInterface::eval_constraints(int n, const T* x,
     }
     state_index += 4;
   }
-  ADEBUG << "constraint_index after obstacles avoidance constraints "
-            "updated: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after obstacles avoidance constraints "
+             "updated: "
          << constraint_index;
 
   // 5. load variable bounds as constraints
@@ -2743,8 +2792,9 @@ bool DistanceApproachIPOPTCUDAInterface::check_g(int n, const double* x, int m,
     x_u_tmp[idx] = x_u_tmp[idx] + delta_v;
     x_l_tmp[idx] = x_l_tmp[idx] - delta_v;
     if (x[idx] > x_u_tmp[idx] || x[idx] < x_l_tmp[idx]) {
-      ADEBUG << "x idx unfeasible: " << idx << ", x: " << x[idx]
-             << ", lower: " << x_l_tmp[idx] << ", upper: " << x_u_tmp[idx];
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "x idx unfeasible: " << idx << ", x: " << x[idx]
+              << ", lower: " << x_l_tmp[idx] << ", upper: " << x_u_tmp[idx];
     }
   }
 
@@ -2782,23 +2832,36 @@ bool DistanceApproachIPOPTCUDAInterface::check_g(int n, const double* x, int m,
   // miu_horizon_
   int m11 = m10 + miu_horizon_;
 
-  ADEBUG << "dynamics constatins to: " << m1;
-  ADEBUG << "control rate constraints (only steering) to: " << m2;
-  ADEBUG << "sampling time equality constraints to: " << m3;
-  ADEBUG << "obstacle constraints to: " << m4;
-  ADEBUG << "start conf constraints to: " << m5;
-  ADEBUG << "constraints on x,y,v to: " << m6;
-  ADEBUG << "end constraints to: " << m7;
-  ADEBUG << "control bnd to: " << m8;
-  ADEBUG << "time interval constraints to: " << m9;
-  ADEBUG << "lambda constraints to: " << m10;
-  ADEBUG << "miu constraints to: " << m11;
-  ADEBUG << "total variables: " << num_of_variables_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "dynamics constatins to: " << m1;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "control rate constraints (only steering) to: " << m2;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "sampling time equality constraints to: " << m3;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle constraints to: " << m4;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "start conf constraints to: " << m5;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraints on x,y,v to: " << m6;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "end constraints to: " << m7;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "control bnd to: " << m8;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "time interval constraints to: " << m9;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "lambda constraints to: " << m10;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "miu constraints to: " << m11;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "total variables: " << num_of_variables_;
+ 
   for (int idx = 0; idx < m; ++idx) {
     if (g[idx] > g_u_tmp[idx] + delta_v || g[idx] < g_l_tmp[idx] - delta_v) {
-      ADEBUG << "constratins idx unfeasible: " << idx << ", g: " << g[idx]
-             << ", lower: " << g_l_tmp[idx] << ", upper: " << g_u_tmp[idx];
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constratins idx unfeasible: " << idx << ", g: " << g[idx]
+              << ", lower: " << g_l_tmp[idx] << ", upper: " << g_u_tmp[idx];
     }
   }
   return true;

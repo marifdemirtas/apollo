@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,28 +30,18 @@ using apollo::common::Status;
 using apollo::common::VehicleConfigHelper;
 using cyber::common::PathExists;
 
-Dreamview::~Dreamview() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Stop(); }
+Dreamview::~Dreamview() { Stop(); }
 
 void Dreamview::TerminateProfilingMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Stop();
   AWARN << "Profiling timer called shutdown!";
 }
 
 Status Dreamview::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   VehicleConfigHelper::Init();
 
   if (FLAGS_dreamview_profiling_mode &&
       FLAGS_dreamview_profiling_duration > 0.0) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     exit_timer_.reset(new cyber::Timer(
         FLAGS_dreamview_profiling_duration,
         [this]() { this->TerminateProfilingMode(); }, false));
@@ -78,7 +67,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     options.push_back("ssl_certificate");
     options.push_back(FLAGS_ssl_certificate);
   } else if (FLAGS_ssl_certificate.size() > 0) {
-    AERROR << "Certificate file " << FLAGS_ssl_certificate
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Certificate file " << FLAGS_ssl_certificate
            << " does not exist!";
   }
   server_.reset(new CivetServer(options));
@@ -116,8 +106,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Status Dreamview::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sim_world_updater_->Start();
   point_cloud_updater_->Start();
   hmi_->Start();
@@ -129,8 +117,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Dreamview::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   server_->close();
   sim_control_->Stop();
   point_cloud_updater_->Stop();

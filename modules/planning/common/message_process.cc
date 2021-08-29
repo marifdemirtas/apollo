@@ -97,7 +97,8 @@ void MessageProcess::Close() {
     // offline process logging
     const std::string msg = absl::StrCat(
         "Total learning_data_frame number: ", total_learning_data_frame_num_);
-    AINFO << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << msg;
     log_file_ << msg << std::endl;
     auto end_time = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end_time - start_time_;
@@ -144,7 +145,8 @@ void MessageProcess::OnLocalization(const LocalizationEstimate& le) {
     const std::string msg = absl::StrCat(
         "missing localization too long: time_stamp[",
         le.header().timestamp_sec(),  "] time_diff[", time_diff, "]");
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     if (FLAGS_planning_offline_learning) {
       log_file_ << msg << std::endl;
     }
@@ -161,7 +163,8 @@ void MessageProcess::OnLocalization(const LocalizationEstimate& le) {
     localizations_.pop_front();
   }
 
-  ADEBUG << "OnLocalization: size[" << localizations_.size() << "] time_diff["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OnLocalization: size[" << localizations_.size() << "] time_diff["
          << localizations_.back().header().timestamp_sec() -
                 localizations_.front().header().timestamp_sec()
          << "]";
@@ -210,8 +213,7 @@ void MessageProcess::OnPrediction(
   // add to obstacle history
   // for (const auto& m : obstacle_history_map_) {
   //  for (const auto& p :  m.second) {
-  //    AERROR << "obstacle_history_map_: " << m.first << "; "
-  //           << p.DebugString();
+    //           << p.DebugString();
   //  }
   // }
 
@@ -248,7 +250,8 @@ void MessageProcess::OnPrediction(
           obstacle_history_map_[m.first].back().timestamp_sec(),
           "] timestamp_sec[", obstacle_trajectory_point.timestamp_sec(),
           "] time_diff[",  time_diff,  "]");
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       if (FLAGS_planning_offline_learning) {
         log_file_ << msg << std::endl;
       }
@@ -267,7 +270,8 @@ void MessageProcess::OnPrediction(
 
 void MessageProcess::OnRoutingResponse(
     const apollo::routing::RoutingResponse& routing_response) {
-  ADEBUG << "routing_response received at frame["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "routing_response received at frame["
          << total_learning_data_frame_num_ << "]";
   routing_response_.CopyFrom(routing_response);
 }
@@ -317,13 +321,13 @@ void MessageProcess::OnStoryTelling(
     yield_sign_tag->set_distance(stories.close_to_yield_sign().distance());
   }
 
-  ADEBUG << planning_tag_.DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << planning_tag_.DebugString();
 }
 
 void MessageProcess::OnTrafficLightDetection(
     const TrafficLightDetection& traffic_light_detection) {
-  // AINFO << "traffic_light_detection received at frame["
-  //      << total_learning_data_frame_num_ << "]";
+    //      << total_learning_data_frame_num_ << "]";
   traffic_light_detection_message_timestamp_ =
       traffic_light_detection.header().timestamp_sec();
   traffic_lights_.clear();
@@ -347,7 +351,8 @@ void MessageProcess::ProcessOfflineData(const std::string& record_file) {
 
   RecordReader reader(record_file);
   if (!reader.IsValid()) {
-    AERROR << "Fail to open " << record_file;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to open " << record_file;
     return;
   }
 
@@ -567,7 +572,8 @@ void MessageProcess::GenerateObstaclePrediction(
               "] obstacle_id[", obstacle_id, "] last_relative_time[",
               last_relative_time, "] relative_time[",
               obstacle_trajectory_point.relative_time(), "]");
-          AERROR << msg;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
           if (FLAGS_planning_offline_learning) {
             log_file_ << msg << std::endl;
           }
@@ -617,7 +623,8 @@ void MessageProcess::GenerateObstacleFeature(
     const std::string msg = absl::StrCat(
         "fail to get ADC current info: frame_num[",
         learning_data_frame->frame_num(), "]");
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     if (FLAGS_planning_offline_learning) {
       log_file_ << msg << std::endl;
     }
@@ -657,7 +664,8 @@ bool MessageProcess::GenerateLocalRouting(
       routing_response_.road(0).passage(0).segment_size() == 0) {
     const std::string msg = absl::StrCat(
         "DISCARD: invalid routing_response. frame_num[", frame_num, "]");
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     if (FLAGS_planning_offline_learning) {
       log_file_ << msg << std::endl;
     }
@@ -667,11 +675,13 @@ bool MessageProcess::GenerateLocalRouting(
   // calculate road_length
   std::vector<std::pair<std::string, double>> road_lengths;
   for (int i = 0; i < routing_response_.road_size(); ++i) {
-    ADEBUG << "road_id[" << routing_response_.road(i).id() << "] passage_size["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "road_id[" << routing_response_.road(i).id() << "] passage_size["
            << routing_response_.road(i).passage_size() << "]";
     double road_length = 0.0;
     for (int j = 0; j < routing_response_.road(i).passage_size(); ++j) {
-      ADEBUG << "   passage: segment_size["
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "   passage: segment_size["
              << routing_response_.road(i).passage(j).segment_size() << "]";
       double passage_length = 0;
       for (int k = 0; k < routing_response_.road(i).passage(j).segment_size();
@@ -679,18 +689,21 @@ bool MessageProcess::GenerateLocalRouting(
         const auto& segment = routing_response_.road(i).passage(j).segment(k);
         passage_length += (segment.end_s() - segment.start_s());
       }
-      ADEBUG << "      passage_length[" << passage_length << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "      passage_length[" << passage_length << "]";
       road_length = std::max(road_length, passage_length);
     }
 
     road_lengths.push_back(
         std::make_pair(routing_response_.road(i).id(), road_length));
-    ADEBUG << "   road_length[" << road_length << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "   road_length[" << road_length << "]";
   }
 
   /* debug
   for (size_t i = 0; i < road_lengths.size(); ++i) {
-    AERROR << i << ": " << road_lengths[i].first << "; "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << i << ": " << road_lengths[i].first << "; "
            << road_lengths[i].second;
   }
   */
@@ -707,13 +720,15 @@ bool MessageProcess::GenerateLocalRouting(
     const std::string msg = absl::StrCat(
         "DISCARD: fail to locate ADC on routing. frame_num[",
         frame_num, "]");
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     if (FLAGS_planning_offline_learning) {
       log_file_ << msg << std::endl;
     }
     return false;
   }
-  ADEBUG << "adc_road_index[" << adc_road_index << "] adc_passage_index["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc_road_index[" << adc_road_index << "] adc_passage_index["
          << adc_passage_index << "] adc_passage_s[" << adc_passage_s << "]";
 
   constexpr double kLocalRoutingForwardLength = 200.0;
@@ -731,7 +746,8 @@ bool MessageProcess::GenerateLocalRouting(
     } else {
       local_routing_start_road_index = i;
       local_routing_start_road_s = road_length - backward_length;
-      ADEBUG << "local_routing_start_road_index["
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "local_routing_start_road_index["
              << local_routing_start_road_index
              << "] local_routing_start_road_s["
              << local_routing_start_road_s << "]";
@@ -755,14 +771,16 @@ bool MessageProcess::GenerateLocalRouting(
       local_routing_end_road_s =
           (i == adc_road_index ? adc_passage_s + forwardward_length
                                : forwardward_length);
-      ADEBUG << "local_routing_end_road_index[" << local_routing_end_road_index
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "local_routing_end_road_index[" << local_routing_end_road_index
              << "] local_routing_end_road_s["
              << local_routing_end_road_s << "]";
       break;
     }
   }
 
-  ADEBUG << "local_routing: start_road_index[" << local_routing_start_road_index
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "local_routing: start_road_index[" << local_routing_start_road_index
          << "] start_road_s[" << local_routing_start_road_s
          << "] end_road_index[" << local_routing_end_road_index
          << "] end_road_s[" << local_routing_end_road_s << "]";
@@ -795,7 +813,8 @@ bool MessageProcess::GenerateLocalRouting(
         }
 
         local_routing_passage->add_segment()->CopyFrom(lane_segment);
-        ADEBUG << "ADD road[" << i << "] id[" << road.id() << "] passage[" << j
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADD road[" << i << "] id[" << road.id() << "] passage[" << j
                << "] id[" << lane_segment.id() << "] length["
                << lane_segment.end_s() - lane_segment.start_s() << "]";
 
@@ -804,14 +823,16 @@ bool MessageProcess::GenerateLocalRouting(
           // adc_road_index, pick the passage where ADC is
           if (j == adc_passage_index) {
             local_routing_lane_ids->push_back(lane_segment.id());
-            ADEBUG << "ADD local_routing_lane_ids: road[" << i
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADD local_routing_lane_ids: road[" << i
                    << "] passage[" << j << "]: " << lane_segment.id();
             last_passage_index = j;
           }
         } else {
           if (road.passage_size() == 1) {
             // single passage
-            ADEBUG << "ADD local_routing_lane_ids: road[" << i
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADD local_routing_lane_ids: road[" << i
                    << "] passage[" << j << "]: " << lane_segment.id();
             local_routing_lane_ids->push_back(lane_segment.id());
             last_passage_index = j;
@@ -822,7 +843,8 @@ bool MessageProcess::GenerateLocalRouting(
               if (j == adc_passage_index ||
                   (j == road.passage_size() - 1 &&
                   j < adc_passage_index)) {
-                ADEBUG << "ADD local_routing_lane_ids: road[" << i
+                AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADD local_routing_lane_ids: road[" << i
                        << "] passage[" << j << "] adc_passage_index["
                        << adc_passage_index << "] passage_size["
                        << road.passage_size() << "]: " << lane_segment.id();
@@ -834,7 +856,8 @@ bool MessageProcess::GenerateLocalRouting(
               if (j == last_passage_index + 1 ||
                   (j == road.passage_size() - 1 &&
                   j < last_passage_index + 1)) {
-                ADEBUG << "ADD local_routing_lane_ids: road[" << i
+                AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADD local_routing_lane_ids: road[" << i
                        << "] passage[" << j << "] last_passage_index["
                        << last_passage_index << "] passage_size["
                        << road.passage_size() << "]: " << lane_segment.id();
@@ -865,7 +888,8 @@ bool MessageProcess::GenerateLocalRouting(
         const std::string msg = absl::StrCat(
             "DISCARD: fail to find local_routing_lane on map. frame_num[",
             frame_num, "] lane[", lane_id, "]");
-        AERROR << msg;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
         if (FLAGS_planning_offline_learning) {
           log_file_ << msg << std::endl;
         }
@@ -901,7 +925,8 @@ void MessageProcess::GenerateRoutingFeature(
   if (local_routing_lane_id_size == 0) {
     const std::string msg = absl::StrCat(
         "empty local_routing. frame_num[", frame_num, "]");
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     if (FLAGS_planning_offline_learning) {
       log_file_ << msg << std::endl;
     }
@@ -910,12 +935,14 @@ void MessageProcess::GenerateRoutingFeature(
     const std::string msg = absl::StrCat(
         "LARGE local_routing. frame_num[", frame_num,
         "] local_routing_lane_id_size[", local_routing_lane_id_size, "]");
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     if (FLAGS_planning_offline_learning) {
       log_file_ << msg << std::endl;
     }
   }
-  ADEBUG << "local_routing: frame_num[" << frame_num
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "local_routing: frame_num[" << frame_num
          << "] size[" << routing->local_routing_lane_id_size() << "]";
 }
 
@@ -1129,13 +1156,13 @@ void MessageProcess::GenerateADCTrajectoryPoints(
         "too few adc_trajectory_points: frame_num[",
         learning_data_frame->frame_num(), "] size[",
         adc_trajectory_points.size(), "]");
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     if (FLAGS_planning_offline_learning) {
       log_file_ << msg << std::endl;
     }
   }
-  // AINFO << "number of ADC trajectory points in one frame: "
-  //      << trajectory_point_index;
+    //      << trajectory_point_index;
 }
 
 void MessageProcess::GeneratePlanningTag(
@@ -1204,7 +1231,8 @@ bool MessageProcess::GenerateLearningDataFrame(
 
   const double end_timestamp = Clock::NowInSeconds();
   const double time_diff_ms = (end_timestamp - start_timestamp) * 1000;
-  ADEBUG << "MessageProcess: start_timestamp[" << start_timestamp
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "MessageProcess: start_timestamp[" << start_timestamp
          << "] end_timestamp[" << end_timestamp << "] time_diff_ms["
          << time_diff_ms << "]";
   return true;

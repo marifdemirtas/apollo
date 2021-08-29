@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -45,22 +44,12 @@ PointCloudUpdater::PointCloudUpdater(WebSocketHandler *websocket,
       point_cloud_str_(""),
       future_ready_(true),
       simworld_updater_(simworld_updater) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   RegisterMessageHandlers();
 }
 
-PointCloudUpdater::~PointCloudUpdater() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Stop(); }
+PointCloudUpdater::~PointCloudUpdater() { Stop(); }
 
 void PointCloudUpdater::LoadLidarHeight(const std::string &file_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!cyber::common::PathExists(file_path)) {
     AWARN << "No such file: " << FLAGS_lidar_height_yaml
           << ". Using default lidar height:" << kDefaultLidarHeight;
@@ -73,8 +62,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (config["vehicle"] && config["vehicle"]["parameters"]) {
     boost::unique_lock<boost::shared_mutex> writer_lock(mutex_);
     lidar_height_ = config["vehicle"]["parameters"]["height"].as<float>();
-    AINFO << "Lidar height is updated to " << lidar_height_;
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Lidar height is updated to " << lidar_height_;
+     return;
   }
 
   AWARN << "Fail to load the lidar height yaml file: "
@@ -85,10 +75,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void PointCloudUpdater::RegisterMessageHandlers() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Send current point_cloud status to the new client.
   websocket_->RegisterConnectionReadyHandler(
       [this](WebSocketHandler::Connection *conn) {
@@ -135,8 +121,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void PointCloudUpdater::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_reader_ = node_->CreateReader<LocalizationEstimate>(
       FLAGS_localization_topic,
       [this](const std::shared_ptr<LocalizationEstimate> &msg) {
@@ -152,8 +136,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void PointCloudUpdater::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (enabled_) {
     async_future_.wait();
   }
@@ -161,8 +143,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr PointCloudUpdater::ConvertPCLPointCloud(
     const std::shared_ptr<drivers::PointCloud> &point_cloud) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_ptr(
       new pcl::PointCloud<pcl::PointXYZ>);
   pcl_ptr->width = point_cloud->width();
@@ -187,8 +167,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void PointCloudUpdater::UpdatePointCloud(
     const std::shared_ptr<drivers::PointCloud> &point_cloud) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!enabled_) {
     return;
   }
@@ -201,8 +179,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_ptr;
   // Check if last filter process has finished before processing new data.
   if (enable_voxel_filter_) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     if (future_ready_) {
       future_ready_ = false;
       // transform from drivers::PointCloud to pcl::PointCloud
@@ -212,10 +188,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       async_future_ = std::move(f);
     }
   } else {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     pcl_ptr = ConvertPCLPointCloud(point_cloud);
     this->FilterPointCloud(pcl_ptr);
   }
@@ -232,8 +204,6 @@ void PointCloudUpdater::FilterPointCloud(
       use per beam random sample for organized cloud(TODO)
   */
   if (enable_voxel_filter_) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     pcl::VoxelGrid<pcl::PointXYZ> voxel_grid;
     voxel_grid.setInputCloud(pcl_ptr);
     voxel_grid.setLeafSize(static_cast<float>(FLAGS_voxel_filter_size),
@@ -267,8 +237,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void PointCloudUpdater::UpdateLocalizationTime(
     const std::shared_ptr<LocalizationEstimate> &localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   last_localization_time_ = localization->header().timestamp_sec();
 }
 }  // namespace dreamview

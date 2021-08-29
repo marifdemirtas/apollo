@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -72,7 +71,8 @@ bool Rerouting::ChangeLaneFailRerouting() {
   const auto& reference_line = reference_line_info_->reference_line();
   common::SLPoint sl_point;
   if (!reference_line.XYToSL(point, &sl_point)) {
-    AERROR << "Failed to project point: " << point.ShortDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to project point: " << point.ShortDebugString();
     return false;
   }
   if (!reference_line.IsOnLane(sl_point)) {
@@ -87,8 +87,9 @@ bool Rerouting::ChangeLaneFailRerouting() {
       config_.rerouting().prepare_rerouting_time();
   const double prepare_distance = speed * prepare_rerouting_time;
   if (sl_point.s() > adc_s + prepare_distance) {
-    ADEBUG << "No need rerouting now because still can drive for time: "
-           << prepare_rerouting_time << " seconds";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "No need rerouting now because still can drive for time: "
+            << prepare_rerouting_time << " seconds";
     return true;
   }
   // 6. Check if we have done rerouting before
@@ -96,18 +97,21 @@ bool Rerouting::ChangeLaneFailRerouting() {
                         ->mutable_planning_status()
                         ->mutable_rerouting();
   if (rerouting == nullptr) {
-    AERROR << "rerouting is nullptr.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "rerouting is nullptr.";
     return false;
   }
   double current_time = Clock::NowInSeconds();
   if (rerouting->has_last_rerouting_time() &&
       (current_time - rerouting->last_rerouting_time() <
        config_.rerouting().cooldown_time())) {
-    ADEBUG << "Skip rerouting and wait for previous rerouting result";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip rerouting and wait for previous rerouting result";
+     return true;
   }
   if (!frame_->Rerouting(injector_->planning_context())) {
-    AERROR << "Failed to send rerouting request";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to send rerouting request";
     return false;
   }
 

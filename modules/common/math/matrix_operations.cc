@@ -42,20 +42,23 @@ bool ContinuousToDiscrete(const Eigen::MatrixXd &m_a,
                           Eigen::MatrixXd *ptr_a_d, Eigen::MatrixXd *ptr_b_d,
                           Eigen::MatrixXd *ptr_c_d, Eigen::MatrixXd *ptr_d_d) {
   if (ts <= 0.0) {
-    AERROR << "ContinuousToDiscrete : ts is less than or equal to zero";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ContinuousToDiscrete : ts is less than or equal to zero";
     return false;
   }
 
   // Only matrix_a is mandatory to be non-zeros in matrix
   // conversion.
   if (m_a.rows() == 0) {
-    AERROR << "ContinuousToDiscrete: matrix_a size 0 ";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ContinuousToDiscrete: matrix_a size 0 ";
     return false;
   }
 
   if (m_a.cols() != m_b.rows() || m_b.cols() != m_d.cols() ||
       m_c.rows() != m_d.rows() || m_a.cols() != m_c.cols()) {
-    AERROR << "ContinuousToDiscrete: matrix dimensions mismatch";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ContinuousToDiscrete: matrix dimensions mismatch";
     return false;
   }
 

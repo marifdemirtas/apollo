@@ -58,18 +58,21 @@ bool ROIBoundaryFilter::Init(const ObjectFilterInitOptions& options) {
 bool ROIBoundaryFilter::Filter(const ObjectFilterOptions& options,
                                LidarFrame* frame) {
   if (!frame) {
-    AINFO << "Lidar frame is nullptr.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Lidar frame is nullptr.";
     return false;
   }
   if (!frame->hdmap_struct) {
-    AINFO << "HDMap struct is nullptr.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "HDMap struct is nullptr.";
     return true;
   }
   if (frame->hdmap_struct->road_boundary.size() +
           frame->hdmap_struct->road_polygons.size() +
           frame->hdmap_struct->junction_polygons.size() ==
       0) {
-    AINFO << "Donot find roi polygons, skip boundary filter.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Donot find roi polygons, skip boundary filter.";
     for (auto& object : frame->segmented_objects) {
       object->lidar_supplement.is_in_roi = true;
     }
@@ -99,7 +102,8 @@ bool ROIBoundaryFilter::Filter(const ObjectFilterOptions& options,
     }
   }
   objects.resize(count);
-  AINFO << "Roi boundary filter, " << objects_valid_flag_.size() << " to "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Roi boundary filter, " << objects_valid_flag_.size() << " to "
         << count;
   return true;
 }
@@ -184,7 +188,8 @@ void ROIBoundaryFilter::FilterObjectsOutsideBoundary(
         }
       }
       if (!(*objects_valid_flag)[i]) {
-        ADEBUG << "Roi boundary filter: min_dist_to_boundary exceed "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Roi boundary filter: min_dist_to_boundary exceed "
                << distance_to_boundary_threshold_ << ", id " << obj->id
                << ", center " << obj->center.head<2>().transpose()
                << ", distance " << min_dist_to_boundary;
@@ -227,7 +232,8 @@ void ROIBoundaryFilter::FilterObjectsInsideBoundary(
         }
       }
       if (!(*objects_valid_flag)[i]) {
-        ADEBUG << "Roi boundary filter: inside_distance within "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Roi boundary filter: inside_distance within "
                << inside_threshold_ << ", id " << obj->id << ", center "
                << obj->center.head<2>().transpose() << ", distance "
                << min_dist_to_boundary;
@@ -243,7 +249,8 @@ void ROIBoundaryFilter::FilterObjectsByConfidence(
   for (size_t i = 0; i < objects.size(); ++i) {
     if (objects_cross_roi_[i] || !objects[i]->lidar_supplement.is_in_roi) {
       if (objects[i]->confidence < confidence_threshold_) {
-        ADEBUG << "Roi boundary filter: confidence " << objects[i]->confidence
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Roi boundary filter: confidence " << objects[i]->confidence
                << " below " << confidence_threshold_ << ", id "
                << objects[i]->id << ", center "
                << objects[i]->center.head<2>().transpose() << " cross roi "

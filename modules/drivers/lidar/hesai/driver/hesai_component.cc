@@ -21,16 +21,19 @@ namespace hesai {
 
 bool HesaiComponent::Init() {
   if (!GetProtoConfig(&hesai_conf_)) {
-    AERROR << "load config error, file:" << config_file_path_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "load config error, file:" << config_file_path_;
     return false;
   }
 
-  AINFO << "conf:" << hesai_conf_.DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "conf:" << hesai_conf_.DebugString();
 
   driver_.reset(new HesaiDriver(node_, hesai_conf_));
 
   if (!driver_->Init()) {
-    AERROR << "driver init error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "driver init error";
     return false;
   }
   return true;

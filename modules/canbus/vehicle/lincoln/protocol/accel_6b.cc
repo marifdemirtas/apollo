@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,8 +31,6 @@ const int32_t Accel6b::ID = 0x6B;
 
 void Accel6b::Parse(const std::uint8_t *bytes, int32_t length,
                     ChassisDetail *chassis_detail) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis_detail->mutable_vehicle_spd()->set_lat_acc(
       lateral_acceleration(bytes, length));
   chassis_detail->mutable_vehicle_spd()->set_long_acc(
@@ -44,32 +41,24 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 double Accel6b::lateral_acceleration(const std::uint8_t *bytes,
                                      const int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   DCHECK_GE(length, 2);
   return parse_two_frames(bytes[0], bytes[1]);
 }
 
 double Accel6b::longitudinal_acceleration(const std::uint8_t *bytes,
                                           const int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   DCHECK_GE(length, 4);
   return parse_two_frames(bytes[2], bytes[3]);
 }
 
 double Accel6b::vertical_acceleration(const std::uint8_t *bytes,
                                       const int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   DCHECK_GE(length, 6);
   return parse_two_frames(bytes[4], bytes[5]);
 }
 
 double Accel6b::parse_two_frames(const std::uint8_t low_byte,
                                  const std::uint8_t high_byte) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte high_frame(&high_byte);
   int32_t high = high_frame.get_byte(0, 8);
   Byte low_frame(&low_byte);

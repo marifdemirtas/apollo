@@ -34,7 +34,8 @@ bool ProjectFeature::Init(const FeatureExtractorInitOptions &options) {
   std::string efx_config = GetAbsolutePath(options.root_dir, options.conf_file);
   ACHECK(cyber::common::GetProtoFromFile(efx_config, &param_))
       << "Read config failed: " << efx_config;
-  AINFO << "Load config Success: " << param_.ShortDebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Load config Success: " << param_.ShortDebugString();
   std::string proto_file =
       GetAbsolutePath(options.root_dir, param_.proto_file());
   std::string weight_file =
@@ -44,7 +45,8 @@ bool ProjectFeature::Init(const FeatureExtractorInitOptions &options) {
   input_names.push_back(param_.input_blob());
   output_names.push_back(param_.feat_blob());
   const auto &model_type = param_.model_type();
-  AINFO << "model_type=" << model_type;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "model_type=" << model_type;
   inference_.reset(inference::CreateInferenceByName(
       model_type, proto_file, weight_file, output_names, input_names,
       options.root_dir));

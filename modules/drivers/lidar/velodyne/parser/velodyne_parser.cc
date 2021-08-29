@@ -31,7 +31,8 @@ uint64_t VelodyneParser::GetGpsStamp(double current_packet_stamp,
     // in lidar
     if (std::abs(*previous_packet_stamp - current_packet_stamp) > 3599000000) {
       *gps_base_usec += static_cast<uint64_t>(3600 * 1e6);
-      AINFO << "Base time plus 3600s. Model: " << config_.model() << std::fixed
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Base time plus 3600s. Model: " << config_.model() << std::fixed
             << ". current:" << current_packet_stamp
             << ", last time:" << *previous_packet_stamp;
     } else {
@@ -41,7 +42,8 @@ uint64_t VelodyneParser::GetGpsStamp(double current_packet_stamp,
     }
   } else if (*previous_packet_stamp != 0 &&
              current_packet_stamp - *previous_packet_stamp > 100000) {  // 100ms
-    AERROR << "Current stamp:" << std::fixed << current_packet_stamp
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Current stamp:" << std::fixed << current_packet_stamp
            << " ahead previous stamp:" << *previous_packet_stamp
            << " over 100ms. GPS time stamp incorrect!";
   }
@@ -94,7 +96,8 @@ void VelodyneParser::setup() {
     calibration_.read(config_.calibration_file());
 
     if (!calibration_.initialized_) {
-      AFATAL << "Unable to open calibration file: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "Unable to open calibration file: "
              << config_.calibration_file();
     }
   }
@@ -214,7 +217,8 @@ VelodyneParser *VelodyneParserFactory::CreateParser(Config source_config) {
   } else if (config.model() == VLS128) {
     return new Velodyne128Parser(config);
   } else {
-    AERROR << "invalid model, must be 64E_S2|64E_S3S"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "invalid model, must be 64E_S2|64E_S3S"
            << "|64E_S3D_STRONGEST|64E_S3D_LAST|64E_S3D_DUAL|HDL32E|VLP16";
     return nullptr;
   }

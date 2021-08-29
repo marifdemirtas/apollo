@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace wey {
 
 using ::apollo::drivers::canbus::Byte;
 
-Status310::Status310() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Status310::Status310() {}
 const int32_t Status310::ID = 0x310;
 
 void Status310::Parse(const std::uint8_t* bytes, int32_t length,
                       ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_wey()->mutable_status_310()->set_longitudeaccvalid(
       longitudeaccvalid(bytes, length));
   chassis->mutable_wey()->mutable_status_310()->set_lateralaccevalid(
@@ -119,8 +114,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 Status_310::LongitudeaccvalidType Status310::longitudeaccvalid(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(7, 1);
 
@@ -136,8 +129,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 Status_310::LateralaccevalidType Status310::lateralaccevalid(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(7, 1);
 
@@ -153,8 +144,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 Status_310::VehdynyawratevalidType Status310::vehdynyawratevalid(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(6, 1);
 
@@ -170,8 +159,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 Status_310::FlwheelspdvalidType Status310::flwheelspdvalid(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
 
@@ -187,8 +174,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 Status_310::FrwheelspdvalidType Status310::frwheelspdvalid(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(5, 1);
 
@@ -204,8 +189,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::RlwheelspdvalidType Status310::rlwheelspdvalid(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
 
@@ -221,8 +204,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::RrwheelspdvalidType Status310::rrwheelspdvalid(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
 
@@ -238,8 +219,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 0, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Status_310::VehiclespdvalidType Status310::vehiclespdvalid(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 
@@ -259,8 +238,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::LongitudedrivingmodeType Status310::longitudedrivingmode(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(5, 2);
 
@@ -276,8 +253,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Status_310::EngspdvalidType Status310::engspdvalid(const std::uint8_t* bytes,
                                                    int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(3, 2);
 
@@ -292,8 +267,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 Status_310::AccepedaloverrideType Status310::accepedaloverride(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(3, 1);
 
@@ -311,8 +284,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 9, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Status_310::BrakepedalstatusType Status310::brakepedalstatus(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 2);
 
@@ -328,8 +299,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 Status_310::EspbrakelightstsType Status310::espbrakelightsts(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(5, 1);
 
@@ -345,8 +314,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 20, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Status_310::EpbswtpositionvalidType Status310::epbswtpositionvalid(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(4, 1);
 
@@ -362,8 +329,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 Status_310::EpbstsType Status310::epbsts(const std::uint8_t* bytes,
                                          int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(1, 2);
 
@@ -378,8 +343,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'enum', 'order': 'motorola', 'physical_unit': ''}
 Status_310::CurrentgearvalidType Status310::currentgearvalid(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(1, 1);
 
@@ -395,8 +358,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::EpstrqsnsrstsType Status310::epstrqsnsrsts(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(7, 1);
 
@@ -413,8 +374,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::Eps_interferdetdvalidType Status310::eps_interferdetdvalid(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(6, 1);
 
@@ -431,8 +390,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::EpshandsdetnstsType Status310::epshandsdetnsts(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(3, 1);
 
@@ -449,8 +406,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::Eps_handsdetnstsvalidType Status310::eps_handsdetnstsvalid(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(2, 1);
 
@@ -467,8 +422,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::SteerwheelanglesignType Status310::steerwheelanglesign(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 1);
 
@@ -484,8 +437,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 Status_310::SteerwheelspdsignType Status310::steerwheelspdsign(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 1);
 
@@ -501,8 +452,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::DriverdoorstsType Status310::driverdoorsts(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(7, 1);
 
@@ -518,8 +467,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::RldoorstsType Status310::rldoorsts(const std::uint8_t* bytes,
                                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(6, 1);
 
@@ -534,8 +481,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::PassengerdoorstsType Status310::passengerdoorsts(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(5, 1);
 
@@ -550,8 +495,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 44, 'type': 'enum', 'order': 'motorola', 'physical_unit':''}
 Status_310::RrdoorstsType Status310::rrdoorsts(const std::uint8_t* bytes,
                                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(4, 1);
 
@@ -566,8 +509,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|3]', 'bit': 43, 'type': 'enum', 'order': 'motorola', 'physical_unit':''}
 Status_310::FrontfoglmpstsType Status310::frontfoglmpsts(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(2, 2);
 
@@ -583,8 +524,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::RearfoglmpstsType Status310::rearfoglmpsts(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(3, 1);
 
@@ -600,8 +539,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::LowbeamstsType Status310::lowbeamsts(const std::uint8_t* bytes,
                                                  int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(1, 1);
 
@@ -616,8 +553,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::HighbeamstsType Status310::highbeamsts(const std::uint8_t* bytes,
                                                    int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(7, 1);
 
@@ -632,8 +567,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::LeftturnlampstsType Status310::leftturnlampsts(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(6, 1);
 
@@ -649,8 +582,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::RightturnlampstsType Status310::rightturnlampsts(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(4, 1);
 
@@ -667,8 +598,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::Bcm_availstsType Status310::bcm_availsts(const std::uint8_t* bytes,
                                                      int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(1, 2);
 
@@ -684,8 +613,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Status_310::BrakelmpstsType Status310::brakelmpsts(const std::uint8_t* bytes,
                                                    int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 1);
 

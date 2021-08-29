@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ namespace lidar {
 
 bool LidarObstacleDetection::Init(
     const LidarObstacleDetectionInitOptions& options) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto& sensor_name = options.sensor_name;
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -65,8 +62,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 LidarProcessResult LidarObstacleDetection::Process(
     const LidarObstacleDetectionOptions& options, LidarFrame* frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PointCloudPreprocessorOptions preprocessor_options;
   preprocessor_options.sensor2novatel_extrinsics =
       options.sensor2novatel_extrinsics;
@@ -81,8 +76,6 @@ LidarProcessResult LidarObstacleDetection::Process(
     const LidarObstacleDetectionOptions& options,
     const std::shared_ptr<apollo::drivers::PointCloud const>& message,
     LidarFrame* frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto& sensor_name = options.sensor_name;
 
   PERF_FUNCTION_WITH_INDICATOR(options.sensor_name);
@@ -101,8 +94,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 LidarProcessResult LidarObstacleDetection::ProcessCommon(
     const LidarObstacleDetectionOptions& options, LidarFrame* frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto& sensor_name = options.sensor_name;
 
   PERF_BLOCK_START();

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,10 +26,6 @@ DEFINE_double(qz, 0, "quaternion z");
 DEFINE_double(qw, 0, "quaternion w");
 
 int main(int32_t argc, char** argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::InitGoogleLogging(argv[0]);
   FLAGS_alsologtostderr = true;
   FLAGS_v = 3;
@@ -39,10 +34,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   apollo::common::math::EulerAnglesZXY<double> euler(FLAGS_qw, FLAGS_qx,
                                                      FLAGS_qy, FLAGS_qz);
-  AINFO << "roll: " << euler.roll() << " pitch:" << euler.pitch()
-        << " yaw:" << euler.yaw();
-  AINFO << "heading: "
-        << apollo::common::math::QuaternionToHeading(FLAGS_qw, FLAGS_qx,
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "roll: " << euler.roll() << " pitch:" << euler.pitch()
+         << " yaw:" << euler.yaw();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "heading: "
+         << apollo::common::math::QuaternionToHeading(FLAGS_qw, FLAGS_qx,
                                                      FLAGS_qy, FLAGS_qz)
         << " heading degree: "
         << 180.0 / M_PI *

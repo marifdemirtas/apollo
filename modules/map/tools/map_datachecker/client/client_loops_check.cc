@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,8 +27,6 @@ namespace hdmap {
 
 LoopsChecker::LoopsChecker(const std::string& time_flag_file)
     : time_flag_file_(time_flag_file) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   YAML::Node node = YAML::LoadFile(FLAGS_client_conf_yaml);
   std::string server_addr =
       node["grpc_host_port"]["grpc_host"].as<std::string>() + ":" +
@@ -40,36 +37,36 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int LoopsChecker::SyncStart(bool* reached) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::vector<std::pair<double, double>> time_ranges = GetTimeRanges();
   size_t pair_count = time_ranges.size();
   if (pair_count == 0) {
-    AINFO << "there is no time range";
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "there is no time range";
+     return -1;
   }
   int ret = Start(time_ranges);
   if (ret != 0) {
-    AINFO << "loops check start failed";
-    fprintf(USER_STREAM, "loops check start failed\n");
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "loops check start failed";
+     fprintf(USER_STREAM, "loops check start failed\n");
     return -1;
   }
   return PeriodicCheck(reached);
 }
 
 int LoopsChecker::PeriodicCheck(bool* reached) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int ret = 0;
   while (true) {
     double progress = 0.0;
     ret = Check(&progress, reached);
     if (ret != 0) {
-      AERROR << "loops check failed";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "loops check failed";
       break;
     }
-    AINFO << "loops check progress: [" << progress << "]";
-    fprintf(USER_STREAM, "loops check progress: %.2lf%%\n", progress * 100);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "loops check progress: [" << progress << "]";
+     fprintf(USER_STREAM, "loops check progress: %.2lf%%\n", progress * 100);
     if (fabs(progress - 1.0) < 1e-8) {
       break;
     }
@@ -80,24 +77,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
   ret = Stop();
   if (ret != 0) {
-    AERROR << "loops check stop failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "loops check stop failed";
     return -1;
   }
   return 0;
 }
 
 std::vector<std::pair<double, double>> LoopsChecker::GetTimeRanges() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::vector<std::pair<double, double>> result;
   std::vector<std::pair<double, double>> empty;
   std::vector<std::string> lines = GetFileLines(time_flag_file_);
   size_t record_count = lines.size();
   if (record_count == 0 || (record_count & 1) != 0) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-    AINFO << "record_count should be even number";
-    fprintf(USER_STREAM,
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "record_count should be even number";
+     fprintf(USER_STREAM,
             "The command start and stop should be appear in pairs\n");
     return empty;
   }
@@ -107,7 +102,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     double start_time = 0.0;
     sscanf(split_str[0].c_str(), "%lf", &start_time);
     if (split_str[1] != "start") {
-      AERROR << "state machine was broken";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "state machine was broken";
       fprintf(USER_STREAM,
               "The data collect command start and stop should be appear in "
               "pairs\n");
@@ -117,7 +113,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     double end_time = 0.0;
     sscanf(split_str[0].c_str(), "%lf", &end_time);
     if (split_str[1] != "stop") {
-      AERROR << "state machine was broken";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "state machine was broken";
       fprintf(USER_STREAM,
               "The data collect command start and stop should be appear in "
               "pairs\n");
@@ -130,13 +127,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 int LoopsChecker::GrpcStub(LoopsVerifyRequest* request,
                            LoopsVerifyResponse* response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   grpc::ClientContext context;
   grpc::Status status;
   status = service_stub_->ServiceLoopsVerify(&context, *request, response);
   if (status.error_code() == grpc::StatusCode::UNAVAILABLE) {
-    AERROR << "FATAL Error. Map grpc service is UNAVAILABLE.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "FATAL Error. Map grpc service is UNAVAILABLE.";
     fprintf(USER_STREAM, "You should start server first\n");
     return -1;
   }
@@ -149,27 +145,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 int LoopsChecker::Start(
     const std::vector<std::pair<double, double>>& time_ranges) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LoopsVerifyRequest request;
   request.set_cmd(CmdType::START);
   for (size_t i = 0; i < time_ranges.size(); i++) {
     VerifyRange* range = request.add_range();
     range->set_start_time(time_ranges[i].first);
     range->set_end_time(time_ranges[i].second);
-    AINFO << "range[" << i << "] is [" << time_ranges[i].first << ","
-          << time_ranges[i].second << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "range[" << i << "] is [" << time_ranges[i].first << ","
+           << time_ranges[i].second << "]";
   }
   LoopsVerifyResponse response;
   return GrpcStub(&request, &response);
 }
 int LoopsChecker::Check(double* progress, bool* reached) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LoopsVerifyRequest request;
   request.set_cmd(CmdType::CHECK);
-  AINFO << "loops check request: "
-        << "cmd: [" << request.cmd() << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "loops check request: "
+         << "cmd: [" << request.cmd() << "]";
   LoopsVerifyResponse response;
   int ret = GrpcStub(&request, &response);
   *progress = response.progress();
@@ -180,12 +174,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int LoopsChecker::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LoopsVerifyRequest request;
   request.set_cmd(CmdType::STOP);
-  AINFO << "loops check request: "
-        << "cmd: [" << request.cmd() << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "loops check request: "
+         << "cmd: [" << request.cmd() << "]";
   LoopsVerifyResponse response;
   return GrpcStub(&request, &response);
 }

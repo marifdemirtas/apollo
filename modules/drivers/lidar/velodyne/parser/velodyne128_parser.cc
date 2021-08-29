@@ -45,7 +45,8 @@ void Velodyne128Parser::GeneratePointcloud(
   size_t size = out_msg->point_size();
   if (size == 0) {
     // we discard this pointcloud if empty
-    AERROR << "All points is NAN!Please check velodyne:" << config_.model();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "All points is NAN!Please check velodyne:" << config_.model();
     return;
   } else {
     const auto timestamp =

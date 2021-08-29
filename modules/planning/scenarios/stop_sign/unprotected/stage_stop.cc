@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -52,14 +51,16 @@ using StopSignLaneVehicles =
 
 Stage::StageStatus StopSignUnprotectedStageStop::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: Stop";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: Stop";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "StopSignUnprotectedPreStop planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "StopSignUnprotectedPreStop planning error";
   }
 
   const auto& reference_line_info = frame->reference_line_info().front();
@@ -91,8 +92,9 @@ Stage::StageStatus StopSignUnprotectedStageStop::Process(
   // check on wait-time
   auto start_time = GetContext()->stop_start_time;
   const double wait_time = Clock::NowInSeconds() - start_time;
-  ADEBUG << "stop_start_time[" << start_time << "] wait_time[" << wait_time
-         << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop_start_time[" << start_time << "] wait_time[" << wait_time
+          << "]";
   if (wait_time < scenario_config_.stop_duration_sec()) {
     return Stage::RUNNING;
   }
@@ -114,8 +116,9 @@ Stage::StageStatus StopSignUnprotectedStageStop::Process(
       s = s.empty() ? vehicle : s + "," + vehicle;
     }
     const std::string& associated_lane_id = watch_vehicle.first;
-    ADEBUG << "watch_vehicles: lane_id[" << associated_lane_id << "] vehicle["
-           << s << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "watch_vehicles: lane_id[" << associated_lane_id << "] vehicle["
+            << s << "]";
   }
 
   // remove duplicates (caused when same vehicle on mutiple lanes)
@@ -172,7 +175,8 @@ int StopSignUnprotectedStageStop::RemoveWatchVehicle(
         assoc_lane_it->second.get()->GetObjectOverlapInfo(
             hdmap::MakeMapId(associated_lane_id));
     if (stop_sign_over_lap_info == nullptr) {
-      AERROR << "can't find stop_sign_over_lap_info for id: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "can't find stop_sign_over_lap_info for id: "
              << associated_lane_id;
       continue;
     }
@@ -193,8 +197,9 @@ int StopSignUnprotectedStageStop::RemoveWatchVehicle(
       const PerceptionObstacle* perception_obstacle =
           path_decision.FindPerceptionObstacle(perception_obstacle_id);
       if (!perception_obstacle) {
-        ADEBUG << "mark ERASE obstacle_id[" << perception_obstacle_id
-               << "] not exist";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "mark ERASE obstacle_id[" << perception_obstacle_id
+                << "] not exist";
         remove_vehicles.push_back(perception_obstacle_id);
         continue;
       }
@@ -207,18 +212,21 @@ int StopSignUnprotectedStageStop::RemoveWatchVehicle(
 
       double distance =
           common::util::DistanceXY(stop_sign_point, obstacle_point);
-      ADEBUG << "obstacle_id[" << perception_obstacle_id << "] distance["
-             << distance << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle_id[" << perception_obstacle_id << "] distance["
+              << distance << "]";
 
       // TODO(all): move 10.0 to conf
       if (distance > 10.0) {
-        ADEBUG << "mark ERASE obstacle_id[" << perception_obstacle_id << "]";
-        remove_vehicles.push_back(perception_obstacle_id);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "mark ERASE obstacle_id[" << perception_obstacle_id << "]";
+         remove_vehicles.push_back(perception_obstacle_id);
       }
     }
     for (const auto& perception_obstacle_id : remove_vehicles) {
-      ADEBUG << "ERASE obstacle_id[" << perception_obstacle_id << "]";
-      vehicles.erase(
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ERASE obstacle_id[" << perception_obstacle_id << "]";
+       vehicles.erase(
           std::remove(vehicles.begin(), vehicles.end(), perception_obstacle_id),
           vehicles.end());
     }

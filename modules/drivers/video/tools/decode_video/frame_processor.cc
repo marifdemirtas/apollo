@@ -40,24 +40,28 @@ FrameProcessor::FrameProcessor(const std::string& input_video_file,
 
 bool FrameProcessor::ProcessStream() const {
   if (input_video_buffer_.empty()) {
-    AERROR << "error: failed to read from input video file";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error: failed to read from input video file";
     return false;
   }
   AVCodecParserContext* codec_parser = av_parser_init(AV_CODEC_ID_H265);
   if (codec_parser == nullptr) {
-    AERROR << "error: failed to init AVCodecParserContext";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error: failed to init AVCodecParserContext";
     return false;
   }
   AVPacket apt;
   av_init_packet(&apt);
   const std::unique_ptr<H265Decoder> decoder(new H265Decoder());
   if (!decoder->Init()) {
-    AERROR << "error: failed to init decoder";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error: failed to init decoder";
     return false;
   }
   uint32_t local_size = static_cast<uint32_t>(input_video_buffer_.size());
   uint8_t* local_data = const_cast<uint8_t*>(input_video_buffer_.data());
-  AINFO << "decoding: video size = " << local_size;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "decoding: video size = " << local_size;
   int frame_num = 0;
   int warn_frame_num = 0;
   std::vector<uint8_t> jpeg_buffer;
@@ -69,7 +73,8 @@ bool FrameProcessor::ProcessStream() const {
       apt.data = local_data;
       apt.size = local_size;
     }
-    AINFO << "frame " << frame_num << ": frame_len=" << frame_len
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "frame " << frame_num << ": frame_len=" << frame_len
           << ". left_size=" << local_size;
     const auto decoding_result =
         decoder->Process(apt.data, apt.size, &jpeg_buffer);
@@ -90,10 +95,12 @@ bool FrameProcessor::ProcessStream() const {
     // When retry to decode from buffer, we do not care if it succeeds or not
     decoder->Process(nullptr, 0, &jpeg_buffer);
     WriteOutputJpgFile(jpeg_buffer, GetOutputFile(frame_num));
-    AINFO << "frame " << frame_num << ": read from buffer";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "frame " << frame_num << ": read from buffer";
     ++frame_num;
   }
-  AINFO << "total frames: " << frame_num;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "total frames: " << frame_num;
   av_parser_close(codec_parser);
   return true;
 }

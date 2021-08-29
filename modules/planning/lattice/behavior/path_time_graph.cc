@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -125,8 +124,9 @@ void PathTimeGraph::SetStaticObstacle(
       sl_boundary.end_s() < path_range_.first ||
       sl_boundary.start_l() > left_width ||
       sl_boundary.end_l() < -right_width) {
-    ADEBUG << "Obstacle [" << obstacle_id << "] is out of range.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << obstacle_id << "] is out of range.";
+     return;
   }
 
   path_time_obstacle_map_[obstacle_id].set_id(obstacle_id);
@@ -139,8 +139,9 @@ void PathTimeGraph::SetStaticObstacle(
   path_time_obstacle_map_[obstacle_id].set_upper_right_point(SetPathTimePoint(
       obstacle_id, sl_boundary.end_s(), FLAGS_trajectory_time_length));
   static_obs_sl_boundaries_.push_back(std::move(sl_boundary));
-  ADEBUG << "ST-Graph mapping static obstacle: " << obstacle_id
-         << ", start_s : " << sl_boundary.start_s()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ST-Graph mapping static obstacle: " << obstacle_id
+          << ", start_s : " << sl_boundary.start_s()
          << ", end_s : " << sl_boundary.end_s()
          << ", start_l : " << sl_boundary.start_l()
          << ", end_l : " << sl_boundary.end_l();

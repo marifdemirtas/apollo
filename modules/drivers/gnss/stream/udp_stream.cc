@@ -73,7 +73,8 @@ void UdpStream::open() {
   int fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
   if (fd < 0) {
     // error
-    AERROR << "Create socket failed, errno: " << errno << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Create socket failed, errno: " << errno << ", "
            << strerror(errno);
     return;
   }
@@ -83,14 +84,16 @@ void UdpStream::open() {
     int flags = fcntl(fd, F_GETFL, 0);
     if (flags == -1) {
       ::close(fd);
-      AERROR << "fcntl get flag failed, errno: " << errno << ", "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fcntl get flag failed, errno: " << errno << ", "
              << strerror(errno);
       return;
     }
 
     if (fcntl(fd, F_SETFL, flags & ~O_NONBLOCK) == -1) {
       ::close(fd);
-      AERROR << "fcntl set block failed, errno: " << errno << ", "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fcntl set block failed, errno: " << errno << ", "
              << strerror(errno);
       return;
     }
@@ -100,7 +103,8 @@ void UdpStream::open() {
     if (setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO,
                    reinterpret_cast<char*>(&block_to), sizeof(block_to)) < 0) {
       ::close(fd);
-      AERROR << "setsockopt set rcv timeout failed, errno: " << errno << ", "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "setsockopt set rcv timeout failed, errno: " << errno << ", "
              << strerror(errno);
       return;
     }
@@ -108,7 +112,8 @@ void UdpStream::open() {
     if (setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO,
                    reinterpret_cast<char*>(&block_to), sizeof(block_to)) < 0) {
       ::close(fd);
-      AERROR << "setsockopt set snd timeout failed, errno: " << errno << ", "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "setsockopt set snd timeout failed, errno: " << errno << ", "
              << strerror(errno);
       return;
     }
@@ -116,14 +121,16 @@ void UdpStream::open() {
     int flags = fcntl(fd, F_GETFL, 0);
     if (flags == -1) {
       ::close(fd);
-      AERROR << "fcntl get flag failed, errno: " << errno << ", "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fcntl get flag failed, errno: " << errno << ", "
              << strerror(errno);
       return;
     }
 
     if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1) {
       ::close(fd);
-      AERROR << "fcntl set non block failed, errno: " << errno << ", "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fcntl set non block failed, errno: " << errno << ", "
              << strerror(errno);
       return;
     }

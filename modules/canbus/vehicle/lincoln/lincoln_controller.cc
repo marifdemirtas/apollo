@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -52,28 +51,30 @@ ErrorCode LincolnController::Init(
     const VehicleParameter &params,
     CanSender<::apollo::canbus::ChassisDetail> *const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail> *const message_manager) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (is_initialized_) {
-    AINFO << "LincolnController has already been initiated.";
-    return ErrorCode::CANBUS_ERROR;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "LincolnController has already been initiated.";
+     return ErrorCode::CANBUS_ERROR;
   }
   vehicle_params_.CopyFrom(
       common::VehicleConfigHelper::Instance()->GetConfig().vehicle_param());
   params_.CopyFrom(params);
   if (!params_.has_driving_mode()) {
-    AERROR << "Vehicle conf pb not set driving_mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Vehicle conf pb not set driving_mode.";
     return ErrorCode::CANBUS_ERROR;
   }
 
   if (can_sender == nullptr) {
-    AERROR << "Canbus sender is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Canbus sender is null.";
     return ErrorCode::CANBUS_ERROR;
   }
   can_sender_ = can_sender;
 
   if (message_manager == nullptr) {
-    AERROR << "Protocol manager is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Protocol manager is null.";
     return ErrorCode::CANBUS_ERROR;
   }
   message_manager_ = message_manager;
@@ -82,34 +83,39 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   brake_60_ = dynamic_cast<Brake60 *>(
       message_manager_->GetMutableProtocolDataById(Brake60::ID));
   if (brake_60_ == nullptr) {
-    AERROR << "Brake60 does not exist in the LincolnMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Brake60 does not exist in the LincolnMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   throttle_62_ = dynamic_cast<Throttle62 *>(
       message_manager_->GetMutableProtocolDataById(Throttle62::ID));
   if (throttle_62_ == nullptr) {
-    AERROR << "Throttle62 does not exist in the LincolnMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Throttle62 does not exist in the LincolnMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   steering_64_ = dynamic_cast<Steering64 *>(
       message_manager_->GetMutableProtocolDataById(Steering64::ID));
   if (steering_64_ == nullptr) {
-    AERROR << "Steering64 does not exist in the LincolnMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Steering64 does not exist in the LincolnMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
   gear_66_ = dynamic_cast<Gear66 *>(
       message_manager_->GetMutableProtocolDataById(Gear66::ID));
   if (gear_66_ == nullptr) {
-    AERROR << "Gear66 does not exist in the LincolnMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Gear66 does not exist in the LincolnMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
   turnsignal_68_ = dynamic_cast<Turnsignal68 *>(
       message_manager_->GetMutableProtocolDataById(Turnsignal68::ID));
   if (turnsignal_68_ == nullptr) {
-    AERROR << "Turnsignal68 does not exist in the LincolnMessageManager!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Turnsignal68 does not exist in the LincolnMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
 
@@ -120,18 +126,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   can_sender_->AddMessage(Turnsignal68::ID, turnsignal_68_, false);
 
   // Need to sleep to ensure all messages received
-  AINFO << "Controller is initialized.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Controller is initialized.";
+ 
   gear_tmp_ = Chassis::GEAR_INVALID;
   is_initialized_ = true;
   return ErrorCode::OK;
 }
 
 bool LincolnController::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "LincolnController has NOT been initiated.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "LincolnController has NOT been initiated.";
     return false;
   }
   const auto &update_func = [this] { SecurityDogThreadFunc(); };
@@ -141,23 +147,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LincolnController::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!is_initialized_) {
-    AERROR << "LincolnController stops or starts improperly!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "LincolnController stops or starts improperly!";
     return;
   }
 
   if (thread_ != nullptr && thread_->joinable()) {
     thread_->join();
     thread_.reset();
-    AINFO << "LincolnController stopped.";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "LincolnController stopped.";
+   }
 }
 
 Chassis LincolnController::chassis() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis_.Clear();
 
   ChassisDetail chassis_detail;
@@ -391,8 +395,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LincolnController::Emergency() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_driving_mode(Chassis::EMERGENCY_MODE);
   ResetProtocol();
   if (chassis_error_code() == Chassis::NO_ERROR) {
@@ -401,11 +403,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 ErrorCode LincolnController::EnableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE) {
-    AINFO << "Already in COMPLETE_AUTO_DRIVE mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in COMPLETE_AUTO_DRIVE mode";
+     return ErrorCode::OK;
   }
   brake_60_->set_enable();
   throttle_62_->set_enable();
@@ -415,35 +416,35 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const int32_t flag =
       CHECK_RESPONSE_STEER_UNIT_FLAG | CHECK_RESPONSE_SPEED_UNIT_FLAG;
   if (!CheckResponse(flag, true)) {
-    AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to COMPLETE_AUTO_DRIVE mode.";
     CheckChassisError();
     Emergency();
     return ErrorCode::CANBUS_ERROR;
   }
   set_driving_mode(Chassis::COMPLETE_AUTO_DRIVE);
-  AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_AUTO_DRIVE mode ok.";
+   return ErrorCode::OK;
 }
 
 ErrorCode LincolnController::DisableAutoMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ResetProtocol();
   can_sender_->Update();
   set_driving_mode(Chassis::COMPLETE_MANUAL);
   set_chassis_error_code(Chassis::NO_ERROR);
-  AINFO << "Switch to COMPLETE_MANUAL ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to COMPLETE_MANUAL ok.";
+   return ErrorCode::OK;
 }
 
 ErrorCode LincolnController::EnableSteeringOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_STEER_ONLY) {
     set_driving_mode(Chassis::AUTO_STEER_ONLY);
-    AINFO << "Already in AUTO_STEER_ONLY mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in AUTO_STEER_ONLY mode";
+     return ErrorCode::OK;
   }
   brake_60_->set_disable();
   throttle_62_->set_disable();
@@ -451,24 +452,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   can_sender_->Update();
   if (!CheckResponse(CHECK_RESPONSE_STEER_UNIT_FLAG, true)) {
-    AERROR << "Failed to switch to AUTO_STEER_ONLY mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to AUTO_STEER_ONLY mode.";
     CheckChassisError();
     Emergency();
     return ErrorCode::CANBUS_ERROR;
   }
   set_driving_mode(Chassis::AUTO_STEER_ONLY);
-  AINFO << "Switch to AUTO_STEER_ONLY mode ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to AUTO_STEER_ONLY mode ok.";
+   return ErrorCode::OK;
 }
 
 ErrorCode LincolnController::EnableSpeedOnlyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() == Chassis::COMPLETE_AUTO_DRIVE ||
       driving_mode() == Chassis::AUTO_SPEED_ONLY) {
     set_driving_mode(Chassis::AUTO_SPEED_ONLY);
-    AINFO << "Already in AUTO_SPEED_ONLY mode";
-    return ErrorCode::OK;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Already in AUTO_SPEED_ONLY mode";
+     return ErrorCode::OK;
   }
   brake_60_->set_enable();
   throttle_62_->set_enable();
@@ -476,24 +478,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   can_sender_->Update();
   if (!CheckResponse(CHECK_RESPONSE_SPEED_UNIT_FLAG, true)) {
-    AERROR << "Failed to switch to AUTO_SPEED_ONLY mode.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to switch to AUTO_SPEED_ONLY mode.";
     CheckChassisError();
     Emergency();
     return ErrorCode::CANBUS_ERROR;
   }
   set_driving_mode(Chassis::AUTO_SPEED_ONLY);
-  AINFO << "Switch to AUTO_SPEED_ONLY mode ok.";
-  return ErrorCode::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Switch to AUTO_SPEED_ONLY mode ok.";
+   return ErrorCode::OK;
 }
 
 // NEUTRAL, REVERSE, DRIVE
 void LincolnController::Gear(Chassis::GearPosition ref_gear_position) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "This drive mode no need to set gear.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "This drive mode no need to set gear.";
+     return;
   }
 
   ChassisDetail chassis_detail;
@@ -540,7 +543,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       break;
     }
     case Chassis::GEAR_INVALID: {
-      AERROR << "Gear command is invalid!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Gear command is invalid!";
       gear_66_->set_gear_none();
       break;
     }
@@ -557,12 +561,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // acceleration_spd:60 ~ 100, suggest: 90
 // -> pedal
 void LincolnController::Brake(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
   brake_60_->set_pedal(pedal);
 }
@@ -570,12 +573,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // drive with old acceleration
 // gas:0.00~99.99 unit:%
 void LincolnController::Throttle(double pedal) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
   throttle_62_->set_pedal(pedal);
 }
@@ -583,12 +585,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // drive with acceleration/deceleration
 // acc:-7.0 ~ 5.0, unit:m/s^2
 void LincolnController::Acceleration(double acc) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_SPEED_ONLY) {
-    AINFO << "The current drive mode does not need to set acceleration.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current drive mode does not need to set acceleration.";
+     return;
   }
   // None
 }
@@ -598,12 +599,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // steering with old angle speed
 // angle:-99.99~0.00~99.99, unit:%, left:-, right:+
 void LincolnController::Steer(double angle) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
   const double real_angle =
       vehicle_params_.max_steer_angle() / M_PI * 180 * angle / 100.0;
@@ -615,12 +615,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // angle:-99.99~0.00~99.99, unit:%, left:-, right:+
 // angle_spd:0.00~99.99, unit:deg/s
 void LincolnController::Steer(double angle, double angle_spd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (driving_mode() != Chassis::COMPLETE_AUTO_DRIVE &&
       driving_mode() != Chassis::AUTO_STEER_ONLY) {
-    AINFO << "The current driving mode does not need to set steer.";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The current driving mode does not need to set steer.";
+     return;
   }
   const double real_angle =
       vehicle_params_.max_steer_angle() / M_PI * 180 * angle / 100.0;
@@ -635,8 +634,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LincolnController::SetEpbBreak(const ControlCommand &command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.parking_brake()) {
     // None
   } else {
@@ -645,8 +642,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LincolnController::SetBeam(const ControlCommand &command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.signal().high_beam()) {
     // None
   } else if (command.signal().low_beam()) {
@@ -657,8 +652,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LincolnController::SetHorn(const ControlCommand &command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (command.signal().horn()) {
     // None
   } else {
@@ -667,8 +660,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LincolnController::SetTurningSignal(const ControlCommand &command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Set Turn Signal
   auto signal = command.signal().turn_signal();
   if (signal == common::VehicleSignal::TURN_LEFT) {
@@ -681,14 +672,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LincolnController::ResetProtocol() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   message_manager_->ResetSendMessages();
 }
 
 bool LincolnController::CheckChassisError() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ChassisDetail chassis_detail;
   message_manager_->GetSensorData(&chassis_detail);
 
@@ -714,7 +701,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       ((chassis_detail.eps().connector_fault()) << (++error_cnt));
 
   if (!chassis_detail.has_brake()) {
-    AERROR_EVERY(100) << "ChassisDetail has NO brake."
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "ChassisDetail has NO brake."
                       << chassis_detail.DebugString();
     return false;
   }
@@ -736,7 +724,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       ((chassis_detail.brake().connector_fault()) << (++error_cnt));
 
   if (!chassis_detail.has_gas()) {
-    AERROR_EVERY(100) << "ChassisDetail has NO gas."
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "ChassisDetail has NO gas."
                       << chassis_detail.DebugString();
     return false;
   }
@@ -756,7 +745,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       ((chassis_detail.gas().connector_fault()) << (++error_cnt));
 
   if (!chassis_detail.has_gear()) {
-    AERROR_EVERY(100) << "ChassisDetail has NO gear."
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "ChassisDetail has NO gear."
                       << chassis_detail.DebugString();
     return false;
   }
@@ -770,7 +760,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (steer_fault) {
     set_chassis_error_code(Chassis::CHASSIS_ERROR_ON_STEER);
-    AERROR_EVERY(100) << "Steering fault detected: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "Steering fault detected: "
                       << chassis_detail.eps().watchdog_fault() << ", "
                       << chassis_detail.eps().channel_1_fault() << ", "
                       << chassis_detail.eps().channel_2_fault() << ", "
@@ -780,7 +771,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (brake_fault) {
     set_chassis_error_code(Chassis::CHASSIS_ERROR_ON_BRAKE);
-    AERROR_EVERY(100) << "Brake fault detected: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "Brake fault detected: "
                       << chassis_detail.brake().watchdog_fault() << ", "
                       << chassis_detail.brake().channel_1_fault() << ", "
                       << chassis_detail.brake().channel_2_fault() << ", "
@@ -790,7 +782,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (throttle_fault) {
     set_chassis_error_code(Chassis::CHASSIS_ERROR_ON_THROTTLE);
-    AERROR_EVERY(100) << "Throttle fault detected: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "Throttle fault detected: "
                       << chassis_detail.gas().watchdog_fault() << ", "
                       << chassis_detail.gas().channel_1_fault() << ", "
                       << chassis_detail.gas().channel_2_fault() << ", "
@@ -799,7 +792,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (gear_fault) {
     set_chassis_error_code(Chassis::CHASSIS_ERROR_ON_GEAR);
-    AERROR_EVERY(100) << "Gear fault detected: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "Gear fault detected: "
                       << chassis_detail.gear().canbus_fault();
   }
 
@@ -811,10 +805,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LincolnController::SecurityDogThreadFunc() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (can_sender_ == nullptr) {
-    AERROR << "Failed to run SecurityDogThreadFunc() because can_sender_ is "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to run SecurityDogThreadFunc() because can_sender_ is "
               "nullptr.";
     return;
   }
@@ -870,7 +863,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       std::this_thread::sleep_for(default_period - elapsed);
       start = cyber::Time::Now().ToMicrosecond();
     } else {
-      AERROR_EVERY(100)
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100)
           << "Too much time consumption in LincolnController looping process:"
           << elapsed.count();
       start = end;
@@ -879,8 +873,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool LincolnController::CheckResponse(const int32_t flags, bool need_wait) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // for Lincoln, CheckResponse commonly takes 300ms. We leave a 100ms buffer
   // for it.
   int32_t retry_num = 20;
@@ -891,7 +883,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   do {
     if (message_manager_->GetSensorData(&chassis_detail) != ErrorCode::OK) {
-      AERROR_EVERY(100) << "Get chassis detail failed.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "Get chassis detail failed.";
       return false;
     }
     bool check_ok = true;
@@ -914,53 +907,45 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     if (check_ok) {
       return true;
     }
-    AINFO << "Need to check response again.";
-    if (need_wait) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Need to check response again.";
+     if (need_wait) {
       --retry_num;
       std::this_thread::sleep_for(
           std::chrono::duration<double, std::milli>(20));
     }
   } while (need_wait && retry_num);
 
-  AINFO << "check_response fail: is_eps_online:" << is_eps_online
-        << ", is_vcu_online:" << is_vcu_online
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "check_response fail: is_eps_online:" << is_eps_online
+         << ", is_vcu_online:" << is_vcu_online
         << ", is_esp_online:" << is_esp_online;
   return false;
 }
 
 void LincolnController::set_chassis_error_mask(const int32_t mask) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   chassis_error_mask_ = mask;
 }
 
 int32_t LincolnController::chassis_error_mask() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_mask_mutex_);
   return chassis_error_mask_;
 }
 
 Chassis::ErrorCode LincolnController::chassis_error_code() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   return chassis_error_code_;
 }
 
 void LincolnController::set_chassis_error_code(
     const Chassis::ErrorCode &error_code) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(chassis_error_code_mutex_);
   chassis_error_code_ = error_code;
 }
 
 bool LincolnController::CheckSafetyError(
     const ::apollo::canbus::ChassisDetail &chassis_detail) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   bool safety_error =
       chassis_detail.safety().is_passenger_door_open() ||
       chassis_detail.safety().is_rearleft_door_open() ||
@@ -970,8 +955,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       (chassis_detail.safety().is_passenger_detected() &&
        (!chassis_detail.safety().is_passenger_airbag_enabled() ||
         !chassis_detail.safety().is_passenger_buckled()));
-  ADEBUG << "Vehicle safety error status is : " << safety_error;
-  return safety_error;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Vehicle safety error status is : " << safety_error;
+   return safety_error;
 }
 
 }  // namespace lincoln

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -71,8 +70,6 @@ ReaderAndMessagePair CreateReaderAndLatestsMessage(const std::string& channel) {
 // We have to specify exact type of each channel. This function is a wrapper for
 // those only need a ReaderBase.
 ReaderAndMessagePair GetReaderAndLatestMessage(const std::string& channel) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   static const auto channel_function_map =
       std::unordered_map<std::string, std::function<ReaderAndMessagePair(
                                           const std::string& channel)>>{
@@ -112,15 +109,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     return (entry->second)(channel);
   }
 
-  AERROR << "Channel is not handled by ChannelMonitor: " << channel;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Channel is not handled by ChannelMonitor: " << channel;
   return {nullptr, nullptr};
 }
 
 bool ValidateFields(const google::protobuf::Message& message,
                     const std::vector<std::string>& fields,
                     const size_t field_step) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (field_step >= fields.size()) {
     return true;
   }
@@ -153,13 +149,9 @@ ChannelMonitor::ChannelMonitor(
     const std::shared_ptr<LatencyMonitor>& latency_monitor)
     : RecurrentRunner(FLAGS_channel_monitor_name,
                       FLAGS_channel_monitor_interval),
-      latency_monitor_(latency_monitor) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+      latency_monitor_(latency_monitor) {}
 
 void ChannelMonitor::RunOnce(const double current_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto manager = MonitorManager::Instance();
   const auto& mode = manager->GetHMIMode();
   auto* components = manager->GetStatus()->mutable_components();
@@ -180,8 +172,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void ChannelMonitor::UpdateStatus(
     const apollo::dreamview::ChannelMonitorConfig& config,
     ComponentStatus* status, const bool update_freq, const double freq) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   status->clear_status();
 
   const auto reader_message_pair = GetReaderAndLatestMessage(config.name());

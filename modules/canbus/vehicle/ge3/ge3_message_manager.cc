@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2019 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,8 +36,6 @@ namespace canbus {
 namespace ge3 {
 
 Ge3MessageManager::Ge3MessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Control Messages
   AddSendProtocolData<Pcbcm201, true>();
   AddSendProtocolData<Pcbcs202, true>();
@@ -60,9 +57,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   AddRecvProtocolData<Scuvcu2313, true>();
 }
 
-Ge3MessageManager::~Ge3MessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Ge3MessageManager::~Ge3MessageManager() {}
 
 }  // namespace ge3
 }  // namespace canbus

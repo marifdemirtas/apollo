@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,16 +27,12 @@ namespace neolix_edu {
 
 using ::apollo::drivers::canbus::Byte;
 
-Vcuvehiclefaultresponse201::Vcuvehiclefaultresponse201() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Vcuvehiclefaultresponse201::Vcuvehiclefaultresponse201() {}
 const int32_t Vcuvehiclefaultresponse201::ID = 0x201;
 
 void Vcuvehiclefaultresponse201::Parse(const std::uint8_t* bytes,
                                        int32_t length,
                                        ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_neolix_edu()
       ->mutable_vcu_vehicle_fault_response_201()
       ->set_vehicle_error_indicationsvcu(
@@ -106,8 +101,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehiclefaultresponse201::vehicle_error_indicationsvcu(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 4);
 
@@ -122,8 +115,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehiclefaultresponse201::brake_system_errorehb(const std::uint8_t* bytes,
                                                       int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 4);
 
@@ -138,8 +129,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 int Vcuvehiclefaultresponse201::eps_error(const std::uint8_t* bytes,
                                           int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 4);
 
@@ -154,8 +143,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 int Vcuvehiclefaultresponse201::motor_error(const std::uint8_t* bytes,
                                             int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(4, 4);
 
@@ -170,8 +157,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 int Vcuvehiclefaultresponse201::epb_error(const std::uint8_t* bytes,
                                           int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 4);
 
@@ -186,8 +171,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehiclefaultresponse201::high_voltage_battery_errorbcu(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(4, 4);
 
@@ -201,8 +184,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 bool Vcuvehiclefaultresponse201::automode_exit_reason_losscommuni(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 1);
 
@@ -216,8 +197,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 bool Vcuvehiclefaultresponse201::automode_exit_reason_reqsignalno(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(1, 1);
 
@@ -231,8 +210,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 bool Vcuvehiclefaultresponse201::automode_exit_reason_low_power(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(2, 1);
 
@@ -246,8 +223,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 bool Vcuvehiclefaultresponse201::automode_exit_reason_highvolt(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(3, 1);
 
@@ -261,8 +236,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 bool Vcuvehiclefaultresponse201::automode_exit_reason_vehicle_flt(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(4, 1);
 
@@ -276,8 +249,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 bool Vcuvehiclefaultresponse201::automode_exit_reason_press_emerg(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(5, 1);
 
@@ -291,8 +262,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 bool Vcuvehiclefaultresponse201::automode_exit_reason_press_remot(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(6, 1);
 
@@ -306,8 +275,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 bool Vcuvehiclefaultresponse201::automode_exit_reason_pdu_control(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(7, 1);
 
@@ -320,8 +287,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|0]', 'bit': 51, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehiclefaultresponse201::vcu_faultrept_alivecounter(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 4);
 
@@ -334,8 +299,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|0]', 'bit': 63, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vcuvehiclefaultresponse201::vcu_faultrept_checksum(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
 

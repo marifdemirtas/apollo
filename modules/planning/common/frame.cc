@@ -85,15 +85,18 @@ const common::VehicleState &Frame::vehicle_state() const {
 
 bool Frame::Rerouting(PlanningContext *planning_context) {
   if (FLAGS_use_navigation_mode) {
-    AERROR << "Rerouting not supported in navigation mode";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Rerouting not supported in navigation mode";
     return false;
   }
   if (local_view_.routing == nullptr) {
-    AERROR << "No previous routing available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No previous routing available";
     return false;
   }
   if (!hdmap_) {
-    AERROR << "Invalid HD Map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid HD Map.";
     return false;
   }
   auto request = local_view_.routing->routing_request();
@@ -105,7 +108,8 @@ bool Frame::Rerouting(PlanningContext *planning_context) {
   hdmap::LaneInfoConstPtr lane;
   if (hdmap_->GetNearestLaneWithHeading(point, 5.0, vehicle_state_.heading(),
                                         M_PI / 3.0, &lane, &s, &l) != 0) {
-    AERROR << "Failed to find nearest lane from map at position: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find nearest lane from map at position: "
            << point.DebugString() << ", heading:" << vehicle_state_.heading();
     return false;
   }
@@ -119,7 +123,8 @@ bool Frame::Rerouting(PlanningContext *planning_context) {
     request.add_waypoint()->CopyFrom(waypoint);
   }
   if (request.waypoint_size() <= 1) {
-    AERROR << "Failed to find future waypoints";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find future waypoints";
     return false;
   }
 
@@ -192,7 +197,8 @@ bool Frame::CreateReferenceLineInfo(
   bool has_valid_reference_line = false;
   for (auto &ref_info : reference_line_info_) {
     if (!ref_info.Init(obstacles())) {
-      AERROR << "Failed to init reference line";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to init reference line";
     } else {
       has_valid_reference_line = true;
     }
@@ -208,7 +214,8 @@ const Obstacle *Frame::CreateStopObstacle(
     ReferenceLineInfo *const reference_line_info,
     const std::string &obstacle_id, const double obstacle_s) {
   if (reference_line_info == nullptr) {
-    AERROR << "reference_line_info nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "reference_line_info nullptr";
     return nullptr;
   }
 
@@ -231,12 +238,14 @@ const Obstacle *Frame::CreateStopObstacle(const std::string &obstacle_id,
                                           const std::string &lane_id,
                                           const double lane_s) {
   if (!hdmap_) {
-    AERROR << "Invalid HD Map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid HD Map.";
     return nullptr;
   }
   const auto lane = hdmap_->GetLaneById(hdmap::MakeMapId(lane_id));
   if (!lane) {
-    AERROR << "Failed to find lane[" << lane_id << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find lane[" << lane_id << "]";
     return nullptr;
   }
 
@@ -263,7 +272,8 @@ const Obstacle *Frame::CreateStaticObstacle(
     const std::string &obstacle_id, const double obstacle_start_s,
     const double obstacle_end_s) {
   if (reference_line_info == nullptr) {
-    AERROR << "reference_line_info nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "reference_line_info nullptr";
     return nullptr;
   }
 
@@ -275,7 +285,8 @@ const Obstacle *Frame::CreateStaticObstacle(
   sl_point.set_l(0.0);
   common::math::Vec2d obstacle_start_xy;
   if (!reference_line.SLToXY(sl_point, &obstacle_start_xy)) {
-    AERROR << "Failed to get start_xy from sl: " << sl_point.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get start_xy from sl: " << sl_point.DebugString();
     return nullptr;
   }
 
@@ -284,7 +295,8 @@ const Obstacle *Frame::CreateStaticObstacle(
   sl_point.set_l(0.0);
   common::math::Vec2d obstacle_end_xy;
   if (!reference_line.SLToXY(sl_point, &obstacle_end_xy)) {
-    AERROR << "Failed to get end_xy from sl: " << sl_point.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get end_xy from sl: " << sl_point.DebugString();
     return nullptr;
   }
 
@@ -292,7 +304,8 @@ const Obstacle *Frame::CreateStaticObstacle(
   double right_lane_width = 0.0;
   if (!reference_line.GetLaneWidth(obstacle_start_s, &left_lane_width,
                                    &right_lane_width)) {
-    AERROR << "Failed to get lane width at s[" << obstacle_start_s << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get lane width at s[" << obstacle_start_s << "]";
     return nullptr;
   }
 
@@ -313,7 +326,8 @@ const Obstacle *Frame::CreateStaticVirtualObstacle(const std::string &id,
   auto *ptr =
       obstacles_.Add(id, *Obstacle::CreateStaticVirtualObstacles(id, box));
   if (!ptr) {
-    AERROR << "Failed to create virtual obstacle " << id;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create virtual obstacle " << id;
   }
   return ptr;
 }
@@ -327,12 +341,14 @@ Status Frame::Init(
   // TODO(QiL): refactor this to avoid redundant nullptr checks in scenarios.
   auto status = InitFrameData(vehicle_state_provider, ego_info);
   if (!status.ok()) {
-    AERROR << "failed to init frame:" << status.ToString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to init frame:" << status.ToString();
     return status;
   }
   if (!CreateReferenceLineInfo(reference_lines, segments)) {
     const std::string msg = "Failed to init reference line info.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   future_route_waypoints_ = future_route_waypoints;
@@ -352,10 +368,12 @@ Status Frame::InitFrameData(
   CHECK_NOTNULL(hdmap_);
   vehicle_state_ = vehicle_state_provider->vehicle_state();
   if (!util::IsVehicleStateValid(vehicle_state_)) {
-    AERROR << "Adc init point is not set";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Adc init point is not set";
     return Status(ErrorCode::PLANNING_ERROR, "Adc init point is not set");
   }
-  ADEBUG << "Enabled align prediction time ? : " << std::boolalpha
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Enabled align prediction time ? : " << std::boolalpha
          << FLAGS_align_prediction_time;
 
   if (FLAGS_align_prediction_time) {
@@ -372,7 +390,8 @@ Status Frame::InitFrameData(
     if (collision_obstacle != nullptr) {
       const std::string msg = absl::StrCat(
           "Found collision with obstacle: ", collision_obstacle->Id());
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       monitor_logger_buffer_.ERROR(msg);
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
@@ -412,7 +431,8 @@ std::string Frame::DebugString() const {
 
 void Frame::RecordInputDebug(planning_internal::Debug *debug) {
   if (!debug) {
-    ADEBUG << "Skip record input into debug";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip record input into debug";
     return;
   }
   auto *planning_debug_data = debug->mutable_planning_data();
@@ -482,7 +502,8 @@ void Frame::ReadTrafficLights() {
   const double delay = traffic_light_detection->header().timestamp_sec() -
                        Clock::NowInSeconds();
   if (delay > FLAGS_signal_expire_time_sec) {
-    ADEBUG << "traffic signals msg is expired, delay = " << delay
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "traffic signals msg is expired, delay = " << delay
            << " seconds.";
     return;
   }

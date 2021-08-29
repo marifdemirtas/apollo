@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -59,8 +58,9 @@ class ObstacleContainer {
     // vertices using H-representation
     if (!ObsHRep(obstacles_num_, obstacles_edges_num_, obstacles_vertices_vec_,
                  &obstacles_A_, &obstacles_b_)) {
-      AINFO << "Fail to present obstacle in hyperplane";
-      return false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Fail to present obstacle in hyperplane";
+       return false;
     }
     return true;
   }
@@ -70,8 +70,9 @@ class ObstacleContainer {
                const std::vector<std::vector<Vec2d>>& obstacles_vertices_vec,
                Eigen::MatrixXd* A_all, Eigen::MatrixXd* b_all) {
     if (obstacles_num != obstacles_vertices_vec.size()) {
-      AINFO << "obstacles_num != obstacles_vertices_vec.size()";
-      return false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "obstacles_num != obstacles_vertices_vec.size()";
+       return false;
     }
 
     A_all->resize(obstacles_edges_num.sum(), 2);
@@ -142,8 +143,9 @@ class ObstacleContainer {
     // the obstacles are hard coded into vertice sets of 3, 2, 3, 2
     if (!(VPresentationObstacle(ROI_distance_approach_parking_boundary) &&
           HPresentationObstacle())) {
-      AINFO << "obstacle presentation fails";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "obstacle presentation fails";
+     }
   }
 
   const std::vector<std::vector<Vec2d>>& GetObstacleVec() const {
@@ -230,8 +232,6 @@ void AddObstacle(ObstacleContainer* obstacles_ptr,
 
 double InterpolateUsingLinearApproximation(const double p0, const double p1,
                                            const double w) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return p0 * (1.0 - w) + p1 * w;
 }
 
@@ -263,8 +263,6 @@ bool DistanceSmoothing(
     Eigen::MatrixXd* control_result_ds_, Eigen::MatrixXd* time_result_ds_,
     Eigen::MatrixXd* dual_l_result_ds_, Eigen::MatrixXd* dual_n_result_ds_,
     double& dual_time, double& ipopt_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // load Warm Start result(horizon is the "N", not the size of step points)
   size_t horizon_ = hybrid_a_star_result->x.size() - 1;
   // nominal sampling time
@@ -313,18 +311,24 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       steer[i] = hybrid_a_star_result->steer[i / extend_size];
       a[i] = hybrid_a_star_result->a[i / extend_size];
     }
-    ADEBUG << "hybrid A x: ";
-    for (size_t i = 0; i < hybrid_a_star_result->x.size(); ++i) {
-      ADEBUG << "i: " << i << ", val: " << hybrid_a_star_result->x[i];
-    }
-    ADEBUG << "interpolated x: \n" << x;
-
-    ADEBUG << "hybrid A steer: ";
-    for (size_t i = 0; i < hybrid_a_star_result->steer.size(); ++i) {
-      ADEBUG << "i: " << i << ", val: " << hybrid_a_star_result->steer[i];
-    }
-    ADEBUG << "interpolated steer: \n" << steer;
-  } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "hybrid A x: ";
+     for (size_t i = 0; i < hybrid_a_star_result->x.size(); ++i) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "i: " << i << ", val: " << hybrid_a_star_result->x[i];
+     }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "interpolated x: \n" << x;
+ 
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "hybrid A steer: ";
+     for (size_t i = 0; i < hybrid_a_star_result->steer.size(); ++i) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "i: " << i << ", val: " << hybrid_a_star_result->steer[i];
+     }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "interpolated steer: \n" << steer;
+   } else {
     x = Eigen::Map<Eigen::VectorXd, Eigen::Unaligned>(
         hybrid_a_star_result->x.data(), horizon_ + 1);
     y = Eigen::Map<Eigen::VectorXd, Eigen::Unaligned>(
@@ -385,9 +389,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         obstacles.GetbMatrix(), xWS, &l_warm_up, &n_warm_up, &s_warm_up);
 
     if (dual_variable_warm_start_status) {
-      AINFO << "Dual variable problem solved successfully!";
-    } else {
-      AERROR << "Dual variable problem solving failed";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Dual variable problem solved successfully!";
+     } else {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Dual variable problem solving failed";
       return false;
     }
   } else {
@@ -412,7 +418,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   ipopt_time = std::chrono::duration<double>(t3 - t2).count() * 1000;
 
   if (!status) {
-    AERROR << "Distance fail";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Distance fail";
     return false;
   }
   return true;
@@ -427,8 +434,9 @@ bool DistancePlan(HybridAStar* hybridA_ptr, ObstacleContainer* obstacles_ptr,
       FLAGS_planner_open_space_config_filename, &planner_open_space_config_))
       << "Failed to load open space config file "
       << FLAGS_planner_open_space_config_filename;
-  AINFO << "FLAGS_planner_open_space_config_filename: "
-        << FLAGS_planner_open_space_config_filename;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "FLAGS_planner_open_space_config_filename: "
+         << FLAGS_planner_open_space_config_filename;
 
   double hybrid_total = 0.0;
   double dual_total = 0.0;
@@ -444,8 +452,9 @@ bool DistancePlan(HybridAStar* hybridA_ptr, ObstacleContainer* obstacles_ptr,
   if (!hybridA_ptr->Plan(sx, sy, sphi, ex, ey, ephi, XYbounds_,
                          obstacles_ptr->GetObstacleVec(),
                          &hybrid_astar_result)) {
-    AINFO << "Hybrid A Star fails";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Hybrid A Star fails";
+     return false;
   }
   const auto end_timestamp = std::chrono::system_clock::now();
   std::chrono::duration<double> time_diff = end_timestamp - start_timestamp;
@@ -497,8 +506,7 @@ bool DistancePlan(HybridAStar* hybridA_ptr, ObstacleContainer* obstacles_ptr,
     // }
     // for (auto& result : results) {
     //   if (!result.get()) {
-    //     AERROR << "Failure in a piece of trajectory.";
-    //     return false;
+        //     return false;
     //   }
     // }
 
@@ -514,9 +522,11 @@ bool DistancePlan(HybridAStar* hybridA_ptr, ObstacleContainer* obstacles_ptr,
       double piece_wise_ephi = partition_trajectories[i].phi.back();
 
       if (planner_open_space_config_.enable_check_parallel_trajectory()) {
-        AINFO << "trajectory idx: " << i;
-        AINFO << "trajectory pt number: " << partition_trajectories[i].x.size();
-      }
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "trajectory idx: " << i;
+         AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "trajectory pt number: " << partition_trajectories[i].x.size();
+       }
 
       if (!DistanceSmoothing(planner_open_space_config_, *obstacles_ptr,
                              piece_wise_sx, piece_wise_sy, piece_wise_sphi,
@@ -535,11 +545,13 @@ bool DistancePlan(HybridAStar* hybridA_ptr, ObstacleContainer* obstacles_ptr,
     size_t trajectory_point_size = 0;
     for (size_t i = 0; i < size; ++i) {
       if (state_result_ds_vec[i].cols() < 2) {
-        AERROR << "state horizon smaller than 2";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "state horizon smaller than 2";
         return false;
       }
-      AINFO << "trajectory idx: "
-            << "idx range: " << trajectory_point_size << ", "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "trajectory idx: "
+             << "idx range: " << trajectory_point_size << ", "
             << trajectory_point_size +
                    static_cast<size_t>(state_result_ds_vec[i].cols()) - 1;
       trajectory_point_size +=
@@ -631,7 +643,8 @@ void DistanceGetResult(ResultContainer* result_ptr,
   result_ptr->LoadHybridAResult();
   size_t size = result_ptr->GetX()->size();
   size_t size_by_distance = result_ptr->PrepareStateResult()->cols();
-  AERROR_IF(size != size_by_distance)
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_IF(size != size_by_distance)
       << "sizes by hybrid A and distance approach not consistent";
   for (size_t i = 0; i < size; ++i) {
     x[i] = result_ptr->GetX()->at(i);

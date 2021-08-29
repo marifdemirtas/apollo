@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -55,7 +54,8 @@ Status RTKReplayPlanner::Plan(const TrajectoryPoint& planning_start_point,
         (it->IsDrivable() && it->IsChangeLanePath() &&
          it->trajectory().GetSpatialLength() > FLAGS_change_lane_min_length);
     if (!has_plan) {
-      AERROR << "Fail to plan for lane change.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to plan for lane change.";
     }
   }
 
@@ -67,7 +67,8 @@ Status RTKReplayPlanner::Plan(const TrajectoryPoint& planning_start_point,
       status = PlanOnReferenceLine(planning_start_point, frame,
                                    &reference_line_info);
       if (status != Status::OK()) {
-        AERROR << "planner failed to make a driving plan for: "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "planner failed to make a driving plan for: "
                << reference_line_info.Lanes().Id();
       }
     }
@@ -83,7 +84,8 @@ Status RTKReplayPlanner::PlanOnReferenceLine(
         "RTKReplayPlanner doesn't have a recorded trajectory or "
         "the recorded trajectory doesn't have enough valid trajectory "
         "points.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -131,7 +133,8 @@ void RTKReplayPlanner::ReadTrajectoryFile(const std::string& filename) {
 
   std::ifstream file_in(filename.c_str());
   if (!file_in.is_open()) {
-    AERROR << "RTKReplayPlanner cannot open trajectory file: " << filename;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RTKReplayPlanner cannot open trajectory file: " << filename;
     return;
   }
 
@@ -148,9 +151,11 @@ void RTKReplayPlanner::ReadTrajectoryFile(const std::string& filename) {
     const std::vector<std::string> tokens =
         absl::StrSplit(line, absl::ByAnyChar("\t "));
     if (tokens.size() < 11) {
-      AERROR << "RTKReplayPlanner parse line failed; the data dimension does "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "RTKReplayPlanner parse line failed; the data dimension does "
                 "not match.";
-      AERROR << line;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << line;
       continue;
     }
 

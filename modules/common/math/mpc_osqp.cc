@@ -45,8 +45,10 @@ MpcOsqp::MpcOsqp(const Eigen::MatrixXd &matrix_a,
       eps_abs_(eps_abs) {
   state_dim_ = matrix_b.rows();
   control_dim_ = matrix_b.cols();
-  ADEBUG << "state_dim" << state_dim_;
-  ADEBUG << "control_dim_" << control_dim_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "state_dim" << state_dim_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "control_dim_" << control_dim_;
   num_param_ = state_dim_ * (horizon_ + 1) + control_dim_ * horizon_;
 }
 
@@ -100,8 +102,10 @@ void MpcOsqp::CalculateGradient() {
     gradient_.block(i * state_dim_, 0, state_dim_, 1) =
         -1.0 * matrix_q_ * matrix_x_ref_;
   }
-  ADEBUG << "Gradient_mat";
-  ADEBUG << gradient_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Gradient_mat";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << gradient_;
 }
 
 // equality constraints x(k+1) = A*x(k)
@@ -116,13 +120,16 @@ void MpcOsqp::CalculateEqualityConstraint(std::vector<c_float> *A_data,
       state_dim_ * (horizon_ + 1) + control_dim_ * horizon_);
   Eigen::MatrixXd state_identity_mat = Eigen::MatrixXd::Identity(
       state_dim_ * (horizon_ + 1), state_dim_ * (horizon_ + 1));
-  ADEBUG << "state_identity_mat" << state_identity_mat;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "state_identity_mat" << state_identity_mat;
 
   matrix_constraint.block(0, 0, state_dim_ * (horizon_ + 1),
                           state_dim_ * (horizon_ + 1)) =
       -1 * state_identity_mat;
-  ADEBUG << "matrix_constraint";
-  ADEBUG << matrix_constraint;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "matrix_constraint";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << matrix_constraint;
 
   Eigen::MatrixXd control_identity_mat =
       Eigen::MatrixXd::Identity(control_dim_, control_dim_);
@@ -131,24 +138,30 @@ void MpcOsqp::CalculateEqualityConstraint(std::vector<c_float> *A_data,
     matrix_constraint.block((i + 1) * state_dim_, i * state_dim_, state_dim_,
                             state_dim_) = matrix_a_;
   }
-  ADEBUG << "matrix_constraint with A";
-  ADEBUG << matrix_constraint;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "matrix_constraint with A";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << matrix_constraint;
 
   for (size_t i = 0; i < horizon_; i++) {
     matrix_constraint.block((i + 1) * state_dim_,
                             i * control_dim_ + (horizon_ + 1) * state_dim_,
                             state_dim_, control_dim_) = matrix_b_;
   }
-  ADEBUG << "matrix_constraint with B";
-  ADEBUG << matrix_constraint;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "matrix_constraint with B";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << matrix_constraint;
 
   Eigen::MatrixXd all_identity_mat =
       Eigen::MatrixXd::Identity(num_param_, num_param_);
 
   matrix_constraint.block(state_dim_ * (horizon_ + 1), 0, num_param_,
                           num_param_) = all_identity_mat;
-  ADEBUG << "matrix_constraint with I";
-  ADEBUG << matrix_constraint;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "matrix_constraint with I";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << matrix_constraint;
 
   std::vector<std::vector<std::pair<c_int, c_float>>> columns;
   columns.resize(num_param_ + 1);
@@ -163,8 +176,10 @@ void MpcOsqp::CalculateEqualityConstraint(std::vector<c_float> *A_data,
         ++value_index;
       }
   }
-  ADEBUG << "value_index";
-  ADEBUG << value_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "value_index";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << value_index;
   int ind_A = 0;
   for (size_t i = 0; i < num_param_; ++i) {
     A_indptr->emplace_back(ind_A);
@@ -189,12 +204,14 @@ void MpcOsqp::CalculateConstraintVectors() {
     upperInequality.block(control_dim_ * i + state_dim_ * (horizon_ + 1), 0,
                           control_dim_, 1) = matrix_u_upper_;
   }
-  ADEBUG << " matrix_u_lower_";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " matrix_u_lower_";
   for (size_t i = 0; i < horizon_ + 1; i++) {
     lowerInequality.block(state_dim_ * i, 0, state_dim_, 1) = matrix_x_lower_;
     upperInequality.block(state_dim_ * i, 0, state_dim_, 1) = matrix_x_upper_;
   }
-  ADEBUG << " matrix_x_lower_";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " matrix_x_lower_";
 
   // evaluate the lower and the upper equality vectors
   Eigen::VectorXd lowerEquality =
@@ -203,17 +220,20 @@ void MpcOsqp::CalculateConstraintVectors() {
   lowerEquality.block(0, 0, state_dim_, 1) = -1 * matrix_initial_x_;
   upperEquality = lowerEquality;
   lowerEquality = lowerEquality;
-  ADEBUG << " matrix_initial_x_";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " matrix_initial_x_";
 
   // merge inequality and equality vectors
   lowerBound_ = Eigen::MatrixXd::Zero(
       2 * state_dim_ * (horizon_ + 1) + control_dim_ * horizon_, 1);
   lowerBound_ << lowerEquality, lowerInequality;
-  ADEBUG << " lowerBound_ ";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " lowerBound_ ";
   upperBound_ = Eigen::MatrixXd::Zero(
       2 * state_dim_ * (horizon_ + 1) + control_dim_ * horizon_, 1);
   upperBound_ << upperEquality, upperInequality;
-  ADEBUG << " upperBound_";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " upperBound_";
 }
 
 OSQPSettings *MpcOsqp::Settings() {
@@ -246,26 +266,32 @@ OSQPData *MpcOsqp::Data() {
     std::vector<c_float> P_data;
     std::vector<c_int> P_indices;
     std::vector<c_int> P_indptr;
-    ADEBUG << "before CalculateKernel";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "before CalculateKernel";
     CalculateKernel(&P_data, &P_indices, &P_indptr);
-    ADEBUG << "CalculateKernel done";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "CalculateKernel done";
     data->P =
         csc_matrix(kernel_dim, kernel_dim, P_data.size(), CopyData(P_data),
                    CopyData(P_indices), CopyData(P_indptr));
-    ADEBUG << "Get P matrix";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Get P matrix";
     data->q = gradient_.data();
-    ADEBUG << "before CalculateEqualityConstraint";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "before CalculateEqualityConstraint";
     std::vector<c_float> A_data;
     std::vector<c_int> A_indices;
     std::vector<c_int> A_indptr;
     CalculateEqualityConstraint(&A_data, &A_indices, &A_indptr);
-    ADEBUG << "CalculateEqualityConstraint done";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "CalculateEqualityConstraint done";
     data->A =
         csc_matrix(state_dim_ * (horizon_ + 1) + state_dim_ * (horizon_ + 1) +
                        control_dim_ * horizon_,
                    kernel_dim, A_data.size(), CopyData(A_data),
                    CopyData(A_indices), CopyData(A_indptr));
-    ADEBUG << "Get A matrix";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Get A matrix";
     data->l = lowerBound_.data();
     data->u = upperBound_.data();
     return data;
@@ -279,47 +305,63 @@ void MpcOsqp::FreeData(OSQPData *data) {
 }
 
 bool MpcOsqp::Solve(std::vector<double> *control_cmd) {
-  ADEBUG << "Before Calc Gradient";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Before Calc Gradient";
   CalculateGradient();
-  ADEBUG << "After Calc Gradient";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "After Calc Gradient";
   CalculateConstraintVectors();
-  ADEBUG << "MPC2Matrix";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "MPC2Matrix";
 
   OSQPData *data = Data();
-  ADEBUG << "OSQP data done";
-  ADEBUG << "OSQP data n" << data->n;
-  ADEBUG << "OSQP data m" << data->m;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OSQP data done";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OSQP data n" << data->n;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OSQP data m" << data->m;
   for (int i = 0; i < data->n; ++i) {
-    ADEBUG << "OSQP data q" << i << ":" << (data->q)[i];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OSQP data q" << i << ":" << (data->q)[i];
   }
-  ADEBUG << "OSQP data l" << data->l;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OSQP data l" << data->l;
   for (int i = 0; i < data->m; ++i) {
-    ADEBUG << "OSQP data l" << i << ":" << (data->l)[i];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OSQP data l" << i << ":" << (data->l)[i];
   }
-  ADEBUG << "OSQP data u" << data->u;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OSQP data u" << data->u;
   for (int i = 0; i < data->m; ++i) {
-    ADEBUG << "OSQP data u" << i << ":" << (data->u)[i];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OSQP data u" << i << ":" << (data->u)[i];
   }
 
   OSQPSettings *settings = Settings();
-  ADEBUG << "OSQP setting done";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OSQP setting done";
   OSQPWorkspace *osqp_workspace = nullptr;
   // osqp_setup(&osqp_workspace, data, settings);
   osqp_workspace = osqp_setup(data, settings);
-  ADEBUG << "OSQP workspace ready";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "OSQP workspace ready";
   osqp_solve(osqp_workspace);
 
   auto status = osqp_workspace->info->status_val;
-  ADEBUG << "status:" << status;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "status:" << status;
   // check status
   if (status < 0 || (status != 1 && status != 2)) {
-    AERROR << "failed optimization status:\t" << osqp_workspace->info->status;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed optimization status:\t" << osqp_workspace->info->status;
     osqp_cleanup(osqp_workspace);
     FreeData(data);
     c_free(settings);
     return false;
   } else if (osqp_workspace->solution == nullptr) {
-    AERROR << "The solution from OSQP is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The solution from OSQP is nullptr";
     osqp_cleanup(osqp_workspace);
     FreeData(data);
     c_free(settings);
@@ -329,7 +371,8 @@ bool MpcOsqp::Solve(std::vector<double> *control_cmd) {
   size_t first_control = state_dim_ * (horizon_ + 1);
   for (size_t i = 0; i < control_dim_; ++i) {
     control_cmd->at(i) = osqp_workspace->solution->x[i + first_control];
-    ADEBUG << "control_cmd:" << i << ":" << control_cmd->at(i);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "control_cmd:" << i << ":" << control_cmd->at(i);
   }
 
   // Cleanup

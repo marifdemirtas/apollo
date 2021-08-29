@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -31,14 +30,10 @@ namespace hdmap {
 
 ChannelVerify::ChannelVerify(std::shared_ptr<JsonConf> sp_conf)
     : sp_conf_(sp_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Reset();
 }
 
 void ChannelVerify::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return_state_ = ErrorCode::SUCCESS;
   checked_records_.clear();
   sp_vec_check_result_ =
@@ -47,13 +42,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 ErrorCode ChannelVerify::Check(
     const std::string& record_dir_or_record_full_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::vector<std::string> records_path;
   records_path = GetRecordsPath(record_dir_or_record_full_path);
   if (records_path.empty()) {
-    AINFO << "have no data file to check";
-    return_state_ = ErrorCode::ERROR_VERIFY_NO_RECORDERS;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "have no data file to check";
+     return_state_ = ErrorCode::ERROR_VERIFY_NO_RECORDERS;
     return return_state_;
   }
   IncrementalCheck(records_path);
@@ -63,28 +57,28 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 std::shared_ptr<std::vector<OneRecordChannelCheckResult>>
 ChannelVerify::get_check_result() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return sp_vec_check_result_;
 }
 
 int ChannelVerify::IncrementalCheck(
     const std::vector<std::string>& records_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::vector<std::string> not_check_records_path;
-  AINFO << "all records path:";
-  for (size_t i = 0; i < records_path.size(); ++i) {
-    AINFO << "[" << i << "]: " << records_path[i];
-    if (IsRecordFile(records_path[i]) && !IsRecordChecked(records_path[i])) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "all records path:";
+   for (size_t i = 0; i < records_path.size(); ++i) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "[" << i << "]: " << records_path[i];
+     if (IsRecordFile(records_path[i]) && !IsRecordChecked(records_path[i])) {
       not_check_records_path.push_back(records_path[i]);
     }
   }
 
-  AINFO << "not_check_records_path:";
-  for (size_t i = 0; i < not_check_records_path.size(); ++i) {
-    AINFO << "[" << i << "]: " << not_check_records_path[i];
-    OneRecordChannelCheckResult check_result =
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "not_check_records_path:";
+   for (size_t i = 0; i < not_check_records_path.size(); ++i) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "[" << i << "]: " << not_check_records_path[i];
+     OneRecordChannelCheckResult check_result =
         CheckRecordChannels(not_check_records_path[i]);
     if (check_result.record_path.empty()) {
       continue;
@@ -96,15 +90,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool ChannelVerify::IsRecordFile(const std::string& record_path) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!boost::filesystem::exists(record_path)) {
-    AINFO << "path [" << record_path << "] does not exist";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "path [" << record_path << "] does not exist";
+     return false;
   }
   if (!boost::filesystem::is_regular_file(record_path)) {
-    AINFO << "path [" << record_path << "] is not a regular file";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "path [" << record_path << "] is not a regular file";
+     return false;
   }
   // To avoid disk overhead caused by opening files twice, the real
   // file checking is placed in the function [ChannelVerify::get_record_info]
@@ -113,16 +107,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 std::vector<std::string> ChannelVerify::GetRecordsPath(
     const std::string& record_dir_or_record_full_path) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // record_dir_or_record_full_path is record fullpath or
   // directory which contains some records
   std::vector<std::string> records_path;
   // 1. check record_dir_or_record_full_path is valid or not
   boost::filesystem::path path(record_dir_or_record_full_path);
   if (!boost::filesystem::exists(path)) {
-    AINFO << "record path [" << record_dir_or_record_full_path
-          << "] does not exist";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "record path [" << record_dir_or_record_full_path
+           << "] does not exist";
     return records_path;
   }
 
@@ -141,26 +134,24 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool ChannelVerify::IsRecordChecked(const std::string& record_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return !checked_records_.insert(record_path).second;
 }
 
 std::shared_ptr<CyberRecordInfo> ChannelVerify::GetRecordInfo(
     const std::string& record_path) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!IsRecordFile(record_path)) {
-    AINFO << "get_record_info failed.[" << record_path
-          << "] is not record file";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "get_record_info failed.[" << record_path
+           << "] is not record file";
     return nullptr;
   }
   std::shared_ptr<CyberRecordInfo> sp_record_info(new CyberRecordInfo);
   std::shared_ptr<apollo::cyber::record::RecordReader> sp_reader =
       std::make_shared<apollo::cyber::record::RecordReader>(record_path);
   if (sp_reader == nullptr || !sp_reader->IsValid()) {
-    AINFO << "open record [" << record_path << "] failed";
-    return nullptr;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "open record [" << record_path << "] failed";
+     return nullptr;
   }
   std::shared_ptr<apollo::cyber::record::RecordViewer> sp_viewer(
       new apollo::cyber::record::RecordViewer(sp_reader));
@@ -185,8 +176,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 OneRecordChannelCheckResult ChannelVerify::CheckRecordChannels(
     const std::string& record_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   OneRecordChannelCheckResult check_result;
   std::shared_ptr<CyberRecordInfo> sp_record_info = GetRecordInfo(record_path);
   if (sp_record_info == nullptr) {
@@ -210,18 +199,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       }
     }
     if (!channel_in_list_found) {  // topic
-      AINFO << record_path << " lacks [" << channel_in_list << "]";
-      check_result.lack_channels.push_back(channel_in_list);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << record_path << " lacks [" << channel_in_list << "]";
+       check_result.lack_channels.push_back(channel_in_list);
     } else {  // rate
       double actual_rate =
           static_cast<double>((channels[j].msgnum)) / sp_record_info->duration;
       if (actual_rate < 1e-8) {
         actual_rate = 0.0;
-        AINFO << "msgnum:" << channels[j].msgnum
-              << ",duration:" << sp_record_info->duration;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "msgnum:" << channels[j].msgnum
+               << ",duration:" << sp_record_info->duration;
       }
-      AINFO << record_path << " [" << channel_in_list
-            << "] expected rate: " << channel_expected_rate
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << record_path << " [" << channel_in_list
+             << "] expected rate: " << channel_expected_rate
             << ", actual rate: " << actual_rate;
       if (actual_rate <
           channel_expected_rate * sp_conf_->topic_rate_tolerance) {
@@ -233,9 +225,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   return check_result;
 }
 
-ErrorCode ChannelVerify::GetReturnState() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return return_state_; }
+ErrorCode ChannelVerify::GetReturnState() const { return return_state_; }
 
 }  // namespace hdmap
 }  // namespace apollo

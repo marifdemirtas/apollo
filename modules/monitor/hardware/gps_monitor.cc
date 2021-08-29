@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -35,13 +34,9 @@ using apollo::drivers::gnss::GnssBestPose;
 using apollo::drivers::gnss::SolutionType;
 
 GpsMonitor::GpsMonitor()
-    : RecurrentRunner(FLAGS_gps_monitor_name, FLAGS_gps_monitor_interval) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : RecurrentRunner(FLAGS_gps_monitor_name, FLAGS_gps_monitor_interval) {}
 
 void GpsMonitor::RunOnce(const double current_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto manager = MonitorManager::Instance();
   Component* component = apollo::common::util::FindOrNull(
       *manager->GetStatus()->mutable_components(), FLAGS_gps_component_name);

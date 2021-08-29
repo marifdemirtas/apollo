@@ -104,7 +104,8 @@ void MapService::UpdateOffsets() {
   y_offset_ = 0.0;
   std::ifstream ifs(FLAGS_map_dir + kMetaFileName);
   if (!ifs.is_open()) {
-    AINFO << "Failed to open map meta file: " << kMetaFileName;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to open map meta file: " << kMetaFileName;
   } else {
     nlohmann::json json;
     ifs >> json;
@@ -141,7 +142,8 @@ void MapService::UpdateOffsets() {
       }
     }
   }
-  AINFO << "Updated with map: x_offset " << x_offset_ << ", y_offset "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Updated with map: x_offset " << x_offset_ << ", y_offset "
         << y_offset_;
 }
 
@@ -164,62 +166,72 @@ void MapService::CollectMapElementIds(const PointENU &point, double radius,
 
   std::vector<LaneInfoConstPtr> lanes;
   if (SimMap()->GetLanes(point, radius, &lanes) != 0) {
-    AERROR << "Fail to get lanes from sim_map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get lanes from sim_map.";
   }
   ExtractRoadAndLaneIds(lanes, ids->mutable_lane(), ids->mutable_road());
 
   std::vector<ClearAreaInfoConstPtr> clear_areas;
   if (SimMap()->GetClearAreas(point, radius, &clear_areas) != 0) {
-    AERROR << "Fail to get clear areas from sim_map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get clear areas from sim_map.";
   }
   ExtractIds(clear_areas, ids->mutable_clear_area());
 
   std::vector<CrosswalkInfoConstPtr> crosswalks;
   if (SimMap()->GetCrosswalks(point, radius, &crosswalks) != 0) {
-    AERROR << "Fail to get crosswalks from sim_map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get crosswalks from sim_map.";
   }
   ExtractIds(crosswalks, ids->mutable_crosswalk());
 
   std::vector<JunctionInfoConstPtr> junctions;
   if (SimMap()->GetJunctions(point, radius, &junctions) != 0) {
-    AERROR << "Fail to get junctions from sim_map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get junctions from sim_map.";
   }
   ExtractIds(junctions, ids->mutable_junction());
 
   std::vector<PNCJunctionInfoConstPtr> pnc_junctions;
   if (SimMap()->GetPNCJunctions(point, radius, &pnc_junctions) != 0) {
-    AERROR << "Fail to get pnc junctions from sim_map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get pnc junctions from sim_map.";
   }
   ExtractIds(pnc_junctions, ids->mutable_pnc_junction());
 
   std::vector<ParkingSpaceInfoConstPtr> parking_spaces;
   if (SimMap()->GetParkingSpaces(point, radius, &parking_spaces) != 0) {
-    AERROR << "Fail to get parking space from sim_map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get parking space from sim_map.";
   }
   ExtractIds(parking_spaces, ids->mutable_parking_space());
 
   std::vector<SpeedBumpInfoConstPtr> speed_bumps;
   if (SimMap()->GetSpeedBumps(point, radius, &speed_bumps) != 0) {
-    AERROR << "Fail to get speed bump from sim_map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get speed bump from sim_map.";
   }
   ExtractIds(speed_bumps, ids->mutable_speed_bump());
 
   std::vector<SignalInfoConstPtr> signals;
   if (SimMap()->GetSignals(point, radius, &signals) != 0) {
-    AERROR << "Failed to get signals from sim_map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get signals from sim_map.";
   }
 
   ExtractIds(signals, ids->mutable_signal());
 
   std::vector<StopSignInfoConstPtr> stop_signs;
   if (SimMap()->GetStopSigns(point, radius, &stop_signs) != 0) {
-    AERROR << "Failed to get stop signs from sim_map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get stop signs from sim_map.";
   }
   ExtractIds(stop_signs, ids->mutable_stop_sign());
 
   std::vector<YieldSignInfoConstPtr> yield_signs;
   if (SimMap()->GetYieldSigns(point, radius, &yield_signs) != 0) {
-    AERROR << "Failed to get yield signs from sim_map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get yield signs from sim_map.";
   }
   ExtractIds(yield_signs, ids->mutable_yield());
 }
@@ -339,7 +351,8 @@ bool MapService::GetNearestLane(const double x, const double y,
   point.set_y(y);
   if (!MapReady() ||
       HDMap()->GetNearestLane(point, nearest_lane, nearest_s, nearest_l) < 0) {
-    AERROR << "Failed to get nearest lane!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get nearest lane!";
     return false;
   }
   return true;
@@ -359,7 +372,8 @@ bool MapService::GetNearestLaneWithHeading(const double x, const double y,
   if (!MapReady() || HDMap()->GetNearestLaneWithHeading(
                          point, kSearchRadius, heading, kMaxHeadingDiff,
                          nearest_lane, nearest_s, nearest_l) < 0) {
-    AERROR << "Failed to get nearest lane with heading.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get nearest lane with heading.";
     return false;
   }
   return true;
@@ -368,7 +382,8 @@ bool MapService::GetNearestLaneWithHeading(const double x, const double y,
 bool MapService::GetPathsFromRouting(const RoutingResponse &routing,
                                      std::vector<Path> *paths) const {
   if (!CreatePathsFromRouting(routing, paths)) {
-    AERROR << "Unable to get paths from routing!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to get paths from routing!";
     return false;
   }
   return true;
@@ -443,7 +458,8 @@ bool MapService::CheckRoutingPoint(const double x, const double y) const {
 
 bool MapService::CheckRoutingPointLaneType(LaneInfoConstPtr lane) const {
   if (lane->lane().type() != Lane::CITY_DRIVING) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "Failed to construct LaneWayPoint for RoutingRequest: Expected lane "
         << lane->id().id() << " to be CITY_DRIVING, but was "
         << apollo::hdmap::Lane::LaneType_Name(lane->lane().type());
@@ -492,7 +508,8 @@ bool MapService::AddPathFromPassageRegion(
   for (const auto &segment : passage_region.segment()) {
     auto lane_ptr = HDMap()->GetLaneById(hdmap::MakeMapId(segment.id()));
     if (!lane_ptr) {
-      AERROR << "Failed to find lane: " << segment.id();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find lane: " << segment.id();
       return false;
     }
     if (segment.start_s() >= segment.end_s()) {

@@ -184,11 +184,13 @@ bool Fusion::ComputeAssociateMatrix(
       const base::Object &obj2_ptr = in2_objects[j];
       double score = 0;
       if (!CheckDisScore(obj1_ptr, obj2_ptr, &score)) {
-        AERROR << "V2X Fusion: check dis score failed";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "V2X Fusion: check dis score failed";
       }
       if (score_params_.check_type() &&
           !CheckTypeScore(obj1_ptr, obj2_ptr, &score)) {
-        AERROR << "V2X Fusion: check type failed";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "V2X Fusion: check type failed";
       }
       (*association_mat)(i, j) =
           (score >= score_params_.min_score()) ? score : 0;

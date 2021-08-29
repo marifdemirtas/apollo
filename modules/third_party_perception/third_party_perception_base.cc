@@ -58,13 +58,15 @@ Status ThirdPartyPerception::Start() { return Status::OK(); }
 void ThirdPartyPerception::Stop() {}
 
 void ThirdPartyPerception::OnChassis(const Chassis& message) {
-  ADEBUG << "Received chassis data: run chassis callback.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received chassis data: run chassis callback.";
   std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
   chassis_.CopyFrom(message);
 }
 
 void ThirdPartyPerception::OnLocalization(const LocalizationEstimate& message) {
-  ADEBUG << "Received localization data: run localization callback.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received localization data: run localization callback.";
   std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
   localization_.CopyFrom(message);
 }

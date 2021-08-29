@@ -27,7 +27,8 @@ bool ROIServiceFilter::Init(const ROIFilterInitOptions& options) {
   roi_service_ = std::dynamic_pointer_cast<ROIService>(
       SceneManager::Instance().Service("ROIService"));
   if (roi_service_ == nullptr) {
-    AERROR << "ROi service is nullptr, Init scene manager first !";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ROi service is nullptr, Init scene manager first !";
     return false;
   }
   return true;
@@ -36,12 +37,14 @@ bool ROIServiceFilter::Init(const ROIFilterInitOptions& options) {
 bool ROIServiceFilter::Filter(const ROIFilterOptions& options,
                               LidarFrame* frame) {
   if (frame == nullptr || frame->world_cloud == nullptr) {
-    AERROR << "Frame is nullptr.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Frame is nullptr.";
     return false;
   }
   roi_service_->GetServiceContentCopy(&roi_service_content_);
   if (!roi_service_content_.IsServiceReady()) {
-    AERROR << "service is not ready.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "service is not ready.";
     return false;
   }
 

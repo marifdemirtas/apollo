@@ -54,7 +54,8 @@ void Velodyne32Parser::GeneratePointcloud(
   int size = out_msg->point_size();
   if (size == 0) {
     // we discard this pointcloud if empty
-    AERROR << "All points is NAN!Please check velodyne:" << config_.model();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "All points is NAN!Please check velodyne:" << config_.model();
   } else {
     // take the last point's timestamp as the whole frame's measurement time.
     uint64_t timestamp = out_msg->point(size - 1).timestamp();
@@ -80,7 +81,8 @@ uint64_t Velodyne32Parser::GetTimestamp(double base_time, float time_offset,
     // in lidar
     if (std::abs(previous_firing_stamp_ - t) > 3599000000) {
       gps_base_usec_ += static_cast<uint64_t>(3600 * 1e6);
-      AINFO << "Base time plus 3600s. Model: " << config_.model() << std::fixed
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Base time plus 3600s. Model: " << config_.model() << std::fixed
             << ". current:" << t << ", last time:" << previous_firing_stamp_;
     } else if (config_.model() != VLP32C ||
                (previous_firing_stamp_ - t > 34.560f) ||
@@ -91,7 +93,8 @@ uint64_t Velodyne32Parser::GetTimestamp(double base_time, float time_offset,
     }
   } else if (previous_firing_stamp_ != 0 &&
              t - previous_firing_stamp_ > 100000) {  // 100ms
-    AERROR << "Current stamp:" << std::fixed << t
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Current stamp:" << std::fixed << t
            << " ahead previous stamp:" << previous_firing_stamp_
            << " over 100ms. GPS time stamp incorrect!";
   }
@@ -151,8 +154,7 @@ void Velodyne32Parser::UnpackVLP32C(const VelodynePacket& pkt,
           raw_distance.raw_distance * VLP32_DISTANCE_RESOLUTION;
       float distance = real_distance + corrections.dist_correction;
 
-      // AINFO << "raw_distance:" << raw_distance.raw_distance << ", distance:"
-      // << distance;
+            // << distance;
       if (raw_distance.raw_distance == 0 ||
           !is_scan_valid(azimuth_corrected, distance)) {
         if (config_.organized()) {

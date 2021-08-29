@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,14 +21,10 @@ namespace perception {
 namespace inference {
 
 void Inference::set_max_batch_size(const int &batch_size) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   max_batch_size_ = batch_size;
 }
 
-void Inference::set_gpu_id(const int &gpu_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- gpu_id_ = gpu_id; }
+void Inference::set_gpu_id(const int &gpu_id) { gpu_id_ = gpu_id; }
 
 }  // namespace inference
 }  // namespace perception

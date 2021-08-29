@@ -52,7 +52,8 @@ double PredictionMap::CurvatureOnLane(const std::string& lane_id,
                                       const double s) {
   std::shared_ptr<const hdmap::LaneInfo> lane_info = LaneById(lane_id);
   if (lane_info == nullptr) {
-    AERROR << "Null lane_info ptr found";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Null lane_info ptr found";
     return 0.0;
   }
   return lane_info->Curvature(s);
@@ -674,7 +675,8 @@ std::shared_ptr<const LaneInfo> PredictionMap::LaneWithSmallestAverageCurvature(
   size_t sample_size = FLAGS_sample_size_for_average_lane_curvature;
   std::shared_ptr<const hdmap::LaneInfo> selected_lane_info = lane_infos[0];
   if (selected_lane_info == nullptr) {
-    AERROR << "Lane Vector first element: selected_lane_info is nullptr.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Lane Vector first element: selected_lane_info is nullptr.";
     return nullptr;
   }
   double smallest_curvature =

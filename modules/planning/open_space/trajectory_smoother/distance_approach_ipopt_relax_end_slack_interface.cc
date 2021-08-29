@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -19,8 +18,7 @@
  * @file
  */
 #include "modules/planning/open_space/trajectory_smoother/distance_approach_ipopt_relax_end_slack_interface.h"
-// #define ADEBUG AERROR
-namespace apollo {
+ namespace apollo {
 namespace planning {
 
 DistanceApproachIPOPTRelaxEndSlackInterface::
@@ -121,23 +119,29 @@ DistanceApproachIPOPTRelaxEndSlackInterface::
 bool DistanceApproachIPOPTRelaxEndSlackInterface::get_nlp_info(
     int& n, int& m, int& nnz_jac_g, int& nnz_h_lag,
     IndexStyleEnum& index_style) {
-  ADEBUG << "get_nlp_info";
-  // n1 : states variables, 4 * (N+1)
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_nlp_info";
+   // n1 : states variables, 4 * (N+1)
   int n1 = 4 * (horizon_ + 1);
-  ADEBUG << "n1: " << n1;
-  // n2 : control inputs variables
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "n1: " << n1;
+   // n2 : control inputs variables
   int n2 = 2 * horizon_;
-  ADEBUG << "n2: " << n2;
-  // n3 : sampling time variables
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "n2: " << n2;
+   // n3 : sampling time variables
   int n3 = horizon_ + 1;
-  ADEBUG << "n3: " << n3;
-  // n4 : dual multiplier associated with obstacle shape
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "n3: " << n3;
+   // n4 : dual multiplier associated with obstacle shape
   lambda_horizon_ = obstacles_edges_num_.sum() * (horizon_ + 1);
-  ADEBUG << "lambda_horizon_: " << lambda_horizon_;
-  // n5 : dual multipier associated with car shape, obstacles_num*4 * (N+1)
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "lambda_horizon_: " << lambda_horizon_;
+   // n5 : dual multipier associated with car shape, obstacles_num*4 * (N+1)
   miu_horizon_ = obstacles_num_ * 4 * (horizon_ + 1);
-  ADEBUG << "miu_horizon_: " << miu_horizon_;
-  // n6 : slack variables related to safety min distance
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "miu_horizon_: " << miu_horizon_;
+   // n6 : slack variables related to safety min distance
   slack_horizon_ = obstacles_num_ * (horizon_ + 1);
 
   // m1 : dynamics constatins
@@ -156,11 +160,13 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::get_nlp_info(
 
   // number of variables
   n = num_of_variables_;
-  ADEBUG << "num_of_variables_ " << num_of_variables_;
-  // number of constraints
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "num_of_variables_ " << num_of_variables_;
+   // number of constraints
   m = num_of_constraints_;
-  ADEBUG << "num_of_constraints_ " << num_of_constraints_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "num_of_constraints_ " << num_of_constraints_;
+ 
   generate_tapes(n, m, &nnz_jac_g, &nnz_h_lag);
 
   index_style = IndexStyleEnum::C_STYLE;
@@ -169,8 +175,9 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::get_nlp_info(
 
 bool DistanceApproachIPOPTRelaxEndSlackInterface::get_bounds_info(
     int n, double* x_l, double* x_u, int m, double* g_l, double* g_u) {
-  ADEBUG << "get_bounds_info";
-  ACHECK(XYbounds_.size() == 4)
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_bounds_info";
+   ACHECK(XYbounds_.size() == 4)
       << "XYbounds_ size is not 4, but" << XYbounds_.size();
 
   // Variables: includes state, u, sample time and lagrange multipliers
@@ -210,8 +217,9 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::get_bounds_info(
     x_u[variable_index + i] = 2e19;
   }
   variable_index += 4;
-  ADEBUG << "variable_index after adding state variables : " << variable_index;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding state variables : " << variable_index;
+ 
   // 2. control variables, 2 * [0, horizon_-1]
   for (int i = 0; i < horizon_; ++i) {
     // steer
@@ -224,8 +232,9 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::get_bounds_info(
 
     variable_index += 2;
   }
-  ADEBUG << "variable_index after adding control variables : "
-         << variable_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding control variables : "
+          << variable_index;
 
   // 3. sampling time variables, 1 * [0, horizon_]
   for (int i = 0; i < horizon_ + 1; ++i) {
@@ -233,9 +242,11 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::get_bounds_info(
     x_u[variable_index] = 2e19;
     ++variable_index;
   }
-  ADEBUG << "variable_index after adding sample time : " << variable_index;
-  ADEBUG << "sample time fix time status is : " << use_fix_time_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding sample time : " << variable_index;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "sample time fix time status is : " << use_fix_time_;
+ 
   // 4. lagrange constraint l, [0, obstacles_edges_sum_ - 1] * [0,
   // horizon_]
   for (int i = 0; i < horizon_ + 1; ++i) {
@@ -245,8 +256,9 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::get_bounds_info(
       ++variable_index;
     }
   }
-  ADEBUG << "variable_index after adding lagrange l : " << variable_index;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding lagrange l : " << variable_index;
+ 
   // 5. lagrange constraint n, [0, 4*obstacles_num-1] * [0, horizon_]
   for (int i = 0; i < horizon_ + 1; ++i) {
     for (int j = 0; j < 4 * obstacles_num_; ++j) {
@@ -256,8 +268,9 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::get_bounds_info(
       ++variable_index;
     }
   }
-  ADEBUG << "variable_index after adding lagrange n : " << variable_index;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding lagrange n : " << variable_index;
+ 
   // 6. slack variable constraint s, obstacles_num * (horizon_ + 1)
   for (int i = 0; i < horizon_ + 1; ++i) {
     for (int j = 0; j < obstacles_num_; ++j) {
@@ -266,8 +279,9 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::get_bounds_info(
       ++variable_index;
     }
   }
-  ADEBUG << "variable_index after adding slack s: " << variable_index;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "variable_index after adding slack s: " << variable_index;
+ 
   // Constraints: includes four state Euler forward constraints, three
   // Obstacle related constraints
 
@@ -279,8 +293,9 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::get_bounds_info(
   }
   constraint_index += 4 * horizon_;
 
-  ADEBUG << "constraint_index after adding Euler forward dynamics constraints: "
-         << constraint_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after adding Euler forward dynamics constraints: "
+          << constraint_index;
 
   // 2. Control rate limit constraints, 1 * [0, horizons-1], only apply
   // steering rate as of now
@@ -290,8 +305,9 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::get_bounds_info(
     ++constraint_index;
   }
 
-  ADEBUG << "constraint_index after adding steering rate constraints: "
-         << constraint_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after adding steering rate constraints: "
+          << constraint_index;
 
   // 3. Time constraints 1 * [0, horizons-1]
   for (int i = 0; i < horizon_; ++i) {
@@ -300,8 +316,9 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::get_bounds_info(
     ++constraint_index;
   }
 
-  ADEBUG << "constraint_index after adding time constraints: "
-         << constraint_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after adding time constraints: "
+          << constraint_index;
 
   // 4. Three obstacles related equal constraints, one equality constraints,
   // [0, horizon_] * [0, obstacles_num_-1] * 4
@@ -394,17 +411,20 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::get_bounds_info(
     ++constraint_index;
   }
 
-  ADEBUG << "constraint_index after adding obstacles constraints: "
-         << constraint_index;
-  ADEBUG << "get_bounds_info_ out";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after adding obstacles constraints: "
+          << constraint_index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_bounds_info_ out";
+   return true;
 }
 
 bool DistanceApproachIPOPTRelaxEndSlackInterface::get_starting_point(
     int n, bool init_x, double* x, bool init_z, double* z_L, double* z_U, int m,
     bool init_lambda, double* lambda) {
-  ADEBUG << "get_starting_point";
-  ACHECK(init_x) << "Warm start init_x setting failed";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_starting_point";
+   ACHECK(init_x) << "Warm start init_x setting failed";
 
   CHECK_EQ(horizon_, uWS_.cols());
   CHECK_EQ(horizon_ + 1, xWS_.cols());
@@ -454,8 +474,9 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::get_starting_point(
     }
   }
 
-  ADEBUG << "get_starting_point out";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_starting_point out";
+   return true;
 }
 
 bool DistanceApproachIPOPTRelaxEndSlackInterface::eval_f(int n, const double* x,
@@ -508,7 +529,8 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::eval_jac_g(
 bool DistanceApproachIPOPTRelaxEndSlackInterface::eval_jac_g_ser(
     int n, const double* x, bool new_x, int m, int nele_jac, int* iRow,
     int* jCol, double* values) {
-  AERROR << "NOT READY";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "NOT READY";
   return false;
 }
 
@@ -560,8 +582,9 @@ void DistanceApproachIPOPTRelaxEndSlackInterface::finalize_solution(
 
   // enable_constraint_check_: for debug only
   if (enable_constraint_check_) {
-    ADEBUG << "final resolution constraint checking";
-    check_g(n, x, m, g);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "final resolution constraint checking";
+     check_g(n, x, m, g);
   }
   // 1. state variables, 4 * [0, horizon]
   // 2. control variables, 2 * [0, horizon_-1]
@@ -632,8 +655,9 @@ void DistanceApproachIPOPTRelaxEndSlackInterface::get_optimization_results(
     Eigen::MatrixXd* time_result, Eigen::MatrixXd* dual_l_result,
     Eigen::MatrixXd* dual_n_result) const {
   // TODO(RHe): extract slack variables for further study
-  ADEBUG << "get_optimization_results";
-  *state_result = state_result_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_optimization_results";
+   *state_result = state_result_;
   *control_result = control_result_;
   *time_result = time_result_;
   *dual_l_result = dual_l_result_;
@@ -687,11 +711,15 @@ void DistanceApproachIPOPTRelaxEndSlackInterface::get_optimization_results(
     }
   }
 
-  ADEBUG << "state_diff_max: " << state_diff_max;
-  ADEBUG << "control_diff_max: " << control_diff_max;
-  ADEBUG << "dual_l_diff_max: " << l_diff_max;
-  ADEBUG << "dual_n_diff_max: " << n_diff_max;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "state_diff_max: " << state_diff_max;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "control_diff_max: " << control_diff_max;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "dual_l_diff_max: " << l_diff_max;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "dual_n_diff_max: " << n_diff_max;
+ }
 
 //***************    start ADOL-C part ***********************************
 template <class T>
@@ -837,8 +865,9 @@ void DistanceApproachIPOPTRelaxEndSlackInterface::eval_constraints(int n,
     state_index += 4;
   }
 
-  ADEBUG << "constraint_index after adding Euler forward dynamics constraints "
-            "updated: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after adding Euler forward dynamics constraints "
+             "updated: "
          << constraint_index;
 
   // 2. Control rate limit constraints, 1 * [0, horizons-1], only apply
@@ -869,8 +898,9 @@ void DistanceApproachIPOPTRelaxEndSlackInterface::eval_constraints(int n,
     time_index++;
   }
 
-  ADEBUG << "constraint_index after adding time constraints "
-            "updated: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after adding time constraints "
+             "updated: "
          << constraint_index;
 
   // 4. Three obstacles related equal constraints, one equality constraints,
@@ -933,8 +963,9 @@ void DistanceApproachIPOPTRelaxEndSlackInterface::eval_constraints(int n,
     }
     state_index += 4;
   }
-  ADEBUG << "constraint_index after obstacles avoidance constraints "
-            "updated: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint_index after obstacles avoidance constraints "
+             "updated: "
          << constraint_index;
 
   // 5. load variable bounds as constraints
@@ -1020,8 +1051,9 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::check_g(int n,
     x_u_tmp[idx] = x_u_tmp[idx] + delta_v;
     x_l_tmp[idx] = x_l_tmp[idx] - delta_v;
     if (x[idx] > x_u_tmp[idx] || x[idx] < x_l_tmp[idx]) {
-      AINFO << "x idx unfeasible: " << idx << ", x: " << x[idx]
-            << ", lower: " << x_l_tmp[idx] << ", upper: " << x_u_tmp[idx];
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "x idx unfeasible: " << idx << ", x: " << x[idx]
+             << ", lower: " << x_l_tmp[idx] << ", upper: " << x_u_tmp[idx];
     }
   }
 
@@ -1064,24 +1096,38 @@ bool DistanceApproachIPOPTRelaxEndSlackInterface::check_g(int n,
 
   CHECK_EQ(m12, num_of_constraints_);
 
-  AINFO << "dynamics constatins to: " << m1;
-  AINFO << "control rate constraints (only steering) to: " << m2;
-  AINFO << "sampling time equality constraints to: " << m3;
-  AINFO << "obstacle constraints to: " << m4;
-  AINFO << "start conf constraints to: " << m5;
-  AINFO << "constraints on x,y,v to: " << m6;
-  AINFO << "end constraints to: " << m7;
-  AINFO << "control bnd to: " << m8;
-  AINFO << "time interval constraints to: " << m9;
-  AINFO << "lambda constraints to: " << m10;
-  AINFO << "miu constraints to: " << m11;
-  AINFO << "slack constraint to: " << m12;
-  AINFO << "total constraints: " << num_of_constraints_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "dynamics constatins to: " << m1;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "control rate constraints (only steering) to: " << m2;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sampling time equality constraints to: " << m3;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "obstacle constraints to: " << m4;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "start conf constraints to: " << m5;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "constraints on x,y,v to: " << m6;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "end constraints to: " << m7;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "control bnd to: " << m8;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "time interval constraints to: " << m9;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lambda constraints to: " << m10;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "miu constraints to: " << m11;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "slack constraint to: " << m12;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "total constraints: " << num_of_constraints_;
+ 
   for (int idx = 0; idx < m; ++idx) {
     if (g[idx] > g_u_tmp[idx] + delta_v || g[idx] < g_l_tmp[idx] - delta_v) {
-      AINFO << "constratins idx unfeasible: " << idx << ", g: " << g[idx]
-            << ", lower: " << g_l_tmp[idx] << ", upper: " << g_u_tmp[idx];
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "constratins idx unfeasible: " << idx << ", g: " << g[idx]
+             << ", lower: " << g_l_tmp[idx] << ", upper: " << g_u_tmp[idx];
     }
   }
   return true;

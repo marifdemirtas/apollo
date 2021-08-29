@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -38,14 +37,10 @@ using apollo::common::Status;
 using apollo::cyber::Clock;
 
 std::string PostprocessorSubmodule::Name() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return FLAGS_postprocessor_submodule_name;
 }
 
 bool PostprocessorSubmodule::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ACHECK(cyber::common::GetProtoFromFile(FLAGS_control_common_conf_file,
                                          &control_common_conf_))
       << "Unable to load control common conf file: "
@@ -59,8 +54,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool PostprocessorSubmodule::Proc(
     const std::shared_ptr<ControlCommand>& control_core_command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto start_time = Clock::Instance()->Now();
   ControlCommand control_command;
   // get all fields from control_core_command for now

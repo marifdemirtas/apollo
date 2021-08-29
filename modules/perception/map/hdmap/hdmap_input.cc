@@ -74,11 +74,13 @@ bool HDMapInput::InitHDMap() {
   const lib::ModelConfig* model_config = nullptr;
   if (!lib::ConfigManager::Instance()->GetModelConfig(model_name,
                                                       &model_config)) {
-    AERROR << "Failed to find model: " << model_name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find model: " << model_name;
     return false;
   }
   if (!model_config->get_value("hdmap_sample_step", &hdmap_sample_step_)) {
-    AERROR << "hdmap_sample_step not found.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "hdmap_sample_step not found.";
     hdmap_sample_step_ = 5;
   }
 
@@ -89,17 +91,21 @@ bool HDMapInput::InitHDMap() {
   // Option2: Load own map with different hdmap_sample_step_
   // Load hdmap path from global_flagfile.txt
   hdmap_file_ = absl::StrCat(FLAGS_map_dir, "/base_map.bin");
-  AINFO << "hdmap_file_: " << hdmap_file_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "hdmap_file_: " << hdmap_file_;
   if (!apollo::cyber::common::PathExists(hdmap_file_)) {
-    AERROR << "Failed to find hadmap file: " << hdmap_file_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find hadmap file: " << hdmap_file_;
     return false;
   }
   if (hdmap_->LoadMapFromFile(hdmap_file_) != 0) {
-    AERROR << "Failed to load hadmap file: " << hdmap_file_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load hadmap file: " << hdmap_file_;
     return false;
   }
 
-  AINFO << "Load hdmap file: " << hdmap_file_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Load hdmap file: " << hdmap_file_;
   return true;
 }
 
@@ -108,7 +114,8 @@ bool HDMapInput::GetRoiHDMapStruct(
     std::shared_ptr<base::HdmapStruct> hdmap_struct_ptr) {
   lib::MutexLock lock(&mutex_);
   if (hdmap_.get() == nullptr) {
-    AERROR << "hdmap is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "hdmap is not available";
     return false;
   }
   // Get original road boundary and junction
@@ -120,7 +127,8 @@ bool HDMapInput::GetRoiHDMapStruct(
   point.set_z(pointd.z);
   if (hdmap_->GetRoadBoundaries(point, distance, &road_boundary_vec,
                                 &junctions_vec) != 0) {
-    AERROR << "Failed to get road boundary, point: " << point.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get road boundary, point: " << point.DebugString();
     return false;
   }
   if (hdmap_struct_ptr == nullptr) {
@@ -166,7 +174,8 @@ void HDMapInput::MergeBoundaryJunction(
     const LineBoundary& left_boundary = boundary[i]->left_boundary;
     const std::vector<apollo::common::PointENU>& left_line_points =
         left_boundary.line_points;
-    ADEBUG << "Input left road_boundary size = " << left_line_points.size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Input left road_boundary size = " << left_line_points.size();
     step = left_line_points.size() > 2 ? hdmap_sample_step_ : 1;
     for (unsigned int idx = 0; idx < left_line_points.size(); idx += step) {
       PointD pointd;
@@ -184,13 +193,15 @@ void HDMapInput::MergeBoundaryJunction(
           .push_back(
               road_boundaries_ptr->at(polygons_index).left_boundary[index]);
     }
-    ADEBUG << "Left road_boundary downsample size = "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Left road_boundary downsample size = "
            << road_boundaries_ptr->at(polygons_index).left_boundary.size();
     temp_cloud->clear();
     const LineBoundary& right_boundary = boundary[i]->right_boundary;
     const std::vector<apollo::common::PointENU>& right_line_points =
         right_boundary.line_points;
-    ADEBUG << "Input right road_boundary size = " << right_line_points.size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Input right road_boundary size = " << right_line_points.size();
     step = right_line_points.size() > 2 ? hdmap_sample_step_ : 1;
     for (unsigned int idx = 0; idx < right_line_points.size(); idx += step) {
       PointD pointd;
@@ -210,7 +221,8 @@ void HDMapInput::MergeBoundaryJunction(
                                              .right_boundary.size() -
                                          1 - index]);
     }
-    ADEBUG << "Right road_boundary downsample size = "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Right road_boundary downsample size = "
            << road_boundaries_ptr->at(polygons_index).right_boundary.size();
     ++polygons_index;
   }
@@ -305,7 +317,8 @@ void HDMapInput::DownsamplePoints(const base::PointDCloudPtr& raw_cloud_ptr,
   }
   // The last point
   polygon_ptr->push_back(raw_cloud[raw_cloud_size - 1]);
-  AINFO << "Downsample road boundary points from " << raw_cloud_size << " to "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Downsample road boundary points from " << raw_cloud_size << " to "
         << polygon_ptr->size();
 }
 
@@ -370,8 +383,7 @@ bool HDMapInput::GetNearestLaneDirection(const base::PointD& pointd,
   // int status = hdmap_->GetNearestLane(point, &nearest_lane,
   //     &nearest_s, &nearest_l);
   // if (status != 0) {
-  //   AINFO << "Failed to get nearest lane for point " <<
-  //   point.DebugString();
+    //   point.DebugString();
   //   return false;
   // }
   // // get lane heading of nearest s
@@ -393,16 +405,19 @@ bool HDMapInput::GetSignalsFromHDMap(
   std::vector<SignalInfoConstPtr> forward_signals;
   if (hdmap_->GetForwardNearestSignalsOnLane(point, forward_distance,
                                              &forward_signals) != 0) {
-    AERROR << "Failed to call HDMap::get_signal. point: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to call HDMap::get_signal. point: "
            << point.ShortDebugString();
     return false;
   }
   signals->reserve(forward_signals.size());
   for (auto& signal_info : forward_signals) {
     signals->push_back(signal_info->signal());
-    ADEBUG << "Signal: " << signals->back().DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Signal: " << signals->back().DebugString();
   }
-  ADEBUG << "get_signal success. num_signals: " << signals->size()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get_signal success. num_signals: " << signals->size()
          << " point: " << point.ShortDebugString();
   return true;
 }
@@ -412,7 +427,8 @@ bool HDMapInput::GetSignals(const Eigen::Vector3d& pointd,
                             std::vector<apollo::hdmap::Signal>* signals) {
   lib::MutexLock lock(&mutex_);
   if (hdmap_.get() == nullptr) {
-    AERROR << "hdmap is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "hdmap is not available";
     return false;
   }
   return GetSignalsFromHDMap(pointd, forward_distance, signals);

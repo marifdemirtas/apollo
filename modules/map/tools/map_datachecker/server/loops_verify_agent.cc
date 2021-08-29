@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,8 +25,6 @@ namespace hdmap {
 LoopsVerifyAgent::LoopsVerifyAgent(
     std::shared_ptr<JsonConf> sp_conf,
     std::shared_ptr<PoseCollectionAgent> sp_pose_collection_agent) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sp_conf_ = sp_conf;
   sp_pose_collection_agent_ = sp_pose_collection_agent;
 }
@@ -35,10 +32,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 grpc::Status LoopsVerifyAgent::ProcessGrpcRequest(
     grpc::ServerContext *context, LoopsVerifyRequest *request,
     LoopsVerifyResponse *response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "LoopsVerifyAgent request is: " << request->DebugString();
-  switch (request->cmd()) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "LoopsVerifyAgent request is: " << request->DebugString();
+   switch (request->cmd()) {
     case CmdType::START:
       StartVerify(request, response);
       break;
@@ -51,20 +47,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     default:
       response->set_progress(0.0);
       response->set_code(ErrorCode::ERROR_REQUEST);
-      AERROR << "command error";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "command error";
   }
-  AINFO << "LoopsVerifyAgent response is: " << response->DebugString();
-  return grpc::Status::OK;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "LoopsVerifyAgent response is: " << response->DebugString();
+   return grpc::Status::OK;
 }
 
 void LoopsVerifyAgent::StartVerify(LoopsVerifyRequest *request,
                                    LoopsVerifyResponse *response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Call StartVerify";
-  if (GetState() == LoopsVerifyAgentState::RUNNING) {
-    AINFO << "Verify is working, do not need start again";
-    response->set_progress(0.0);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Call StartVerify";
+   if (GetState() == LoopsVerifyAgentState::RUNNING) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Verify is working, do not need start again";
+     response->set_progress(0.0);
     response->set_code(ErrorCode::ERROR_REPEATED_START);
   }
 
@@ -81,19 +79,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LoopsVerifyAgent::CheckVerify(LoopsVerifyRequest *request,
                                    LoopsVerifyResponse *response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Call CheckVerify";
-  if (GetState() == LoopsVerifyAgentState::IDLE) {
-    AINFO << "Verify does not work, start first";
-    response->set_progress(0.0);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Call CheckVerify";
+   if (GetState() == LoopsVerifyAgentState::IDLE) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Verify does not work, start first";
+     response->set_progress(0.0);
     response->set_code(ErrorCode::ERROR_CHECK_BEFORE_START);
     return;
   }
 
   if (sp_laps_checker_ == nullptr) {
-    AINFO << "sp_laps_checker_ is preparing, check later";
-    response->set_progress(0.0);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "sp_laps_checker_ is preparing, check later";
+     response->set_progress(0.0);
     response->set_code(ErrorCode::SUCCESS);
     return;
   }
@@ -110,8 +109,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (std::abs(1.0 - progress) < 1e-8) {
     double confidence = sp_laps_checker_->GetConfidence();
     size_t lap = sp_laps_checker_->GetLap();
-    AINFO << "acquired lap: " << lap << ", conf: " << confidence;
-    LoopResult *loop_result = response->mutable_loop_result();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "acquired lap: " << lap << ", conf: " << confidence;
+     LoopResult *loop_result = response->mutable_loop_result();
 
     loop_result->set_loop_num(static_cast<double>(lap));
     bool is_reached = lap >= GetLoopsToCheck(request);
@@ -134,10 +134,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LoopsVerifyAgent::StopVerify(LoopsVerifyRequest *request,
                                   LoopsVerifyResponse *response) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "call StopVerify";
-  response->set_code(ErrorCode::SUCCESS);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "call StopVerify";
+   response->set_code(ErrorCode::SUCCESS);
   SetState(LoopsVerifyAgentState::IDLE);
   if (sp_laps_checker_ == nullptr) {
     response->set_progress(0.0);
@@ -147,8 +146,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (std::abs(1.0 - sp_laps_checker_->GetProgress()) < 1e-8) {
     double conf = sp_laps_checker_->GetConfidence();
     size_t lap = sp_laps_checker_->GetLap();
-    AINFO << "acquired lap: " << lap << ", conf: " << conf;
-    LoopResult *loop_result = response->mutable_loop_result();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "acquired lap: " << lap << ", conf: " << conf;
+     LoopResult *loop_result = response->mutable_loop_result();
     loop_result->set_loop_num(static_cast<double>(lap));
     bool is_reached = lap >= GetLoopsToCheck(request);
     loop_result->set_is_reached(is_reached);
@@ -170,8 +170,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 std::shared_ptr<std::vector<std::pair<double, double>>>
 LoopsVerifyAgent::get_verify_range(LoopsVerifyRequest *request) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::shared_ptr<std::vector<std::pair<double, double>>> sp_range(
       new std::vector<std::pair<double, double>>());
   for (const VerifyRange &range : request->range()) {
@@ -181,8 +179,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 size_t LoopsVerifyAgent::GetLoopsToCheck(LoopsVerifyRequest *request) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   size_t loops_to_check = 0;
   DataType data_type = request->type();
   if (data_type == DataType::MAP_MAKING) {
@@ -198,11 +194,10 @@ double LoopsVerifyAgent::GetRangeIndex(
     std::shared_ptr<std::vector<std::pair<double, double>>> sp_range,
     std::vector<bool> *sp_range_index,
     std::shared_ptr<std::vector<FramePose>> sp_vec_poses) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (sp_range == nullptr) {
-    AINFO << "error, sp_range is null";
-    return -1.0;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "error, sp_range is null";
+     return -1.0;
   }
   std::vector<std::pair<double, double>> &range = *sp_range;
   size_t size = range.size();
@@ -210,8 +205,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   double max_time = std::numeric_limits<double>::min();
   for (size_t i = 0; i < size; ++i) {
     if (range[i].first >= range[i].second) {
-      AINFO << "range error, [" << range[i].first << "," << range[i].second
-            << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "range error, [" << range[i].first << "," << range[i].second
+             << "]";
       continue;
     }
     if (range[i].first < min_time) {
@@ -221,22 +217,26 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       max_time = range[i].second;
     }
   }
-  AINFO << "[get_range_index] min_time:" << min_time << ", max_time"
-        << max_time;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "[get_range_index] min_time:" << min_time << ", max_time"
+         << max_time;
 
   std::vector<bool> &range_index = *sp_range_index;
   if (size == 0 || max_time <= 0) {
-    AINFO << "time range vector size is 0 or time range error";
-    if (sp_vec_poses->size() > 0) {
-      AINFO << "set index to check all poses";
-      min_time = sp_vec_poses->front().time_stamp;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "time range vector size is 0 or time range error";
+     if (sp_vec_poses->size() > 0) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "set index to check all poses";
+       min_time = sp_vec_poses->front().time_stamp;
       max_time = sp_vec_poses->back().time_stamp;
       int index_size = static_cast<int>(max_time - min_time + 1);
       range_index.resize(index_size, true);
     }
   } else {
-    AINFO << "time range vector size > 0";
-    int index_size = static_cast<int>(max_time - min_time + 1);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "time range vector size > 0";
+     int index_size = static_cast<int>(max_time - min_time + 1);
     range_index.resize(index_size, false);
     for (int i = 0; i < static_cast<int>(size); ++i) {
       int start_time = static_cast<int>(range[i].first - min_time);
@@ -246,31 +246,33 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       }
     }
   }
-  AINFO << "returned min_time:" << min_time;
-  return min_time;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "returned min_time:" << min_time;
+   return min_time;
 }
 
 int LoopsVerifyAgent::GetPosesToCheck(
     std::shared_ptr<std::vector<std::pair<double, double>>> sp_range,
     std::vector<FramePose> *sp_poses) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (sp_pose_collection_agent_ == nullptr) {
-    AINFO << "error, sp_pose_collection_agent is null";
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "error, sp_pose_collection_agent is null";
+     return -1;
   }
   std::shared_ptr<std::vector<FramePose>> sp_vec_poses =
       sp_pose_collection_agent_->GetPoses();
   if (sp_vec_poses == nullptr || sp_vec_poses->size() == 0) {
-    AINFO << "error, no pose";
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "error, no pose";
+     return -1;
   }
 
   std::vector<bool> range_index;
   double min_time = GetRangeIndex(sp_range, &range_index, sp_vec_poses);
   if (min_time == std::numeric_limits<double>::max() || range_index.empty()) {
-    AINFO << "min_time: " << min_time
-          << ", range_index size: " << range_index.size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "min_time: " << min_time
+           << ", range_index size: " << range_index.size();
     return -1;
   }
   std::vector<FramePose> &vec_poses = *sp_vec_poses;
@@ -293,8 +295,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 int LoopsVerifyAgent::DoStartVerify(
     std::shared_ptr<std::vector<std::pair<double, double>>> sp_range,
     double loops_to_check) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   clock_t start = clock();
   std::vector<FramePose> all_poses;
   GetPosesToCheck(sp_range, &all_poses);
@@ -304,16 +304,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   sp_laps_checker_->Check();
 
   double duration = (static_cast<double>(clock() - start)) / CLOCKS_PER_SEC;
-  AINFO << "checking laps cost " << duration << " seconds";
-  return 0;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "checking laps cost " << duration << " seconds";
+   return 0;
 }
 
-void LoopsVerifyAgent::SetState(LoopsVerifyAgentState state) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- state_ = state; }
-LoopsVerifyAgentState LoopsVerifyAgent::GetState() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return state_; }
+void LoopsVerifyAgent::SetState(LoopsVerifyAgentState state) { state_ = state; }
+LoopsVerifyAgentState LoopsVerifyAgent::GetState() { return state_; }
 
 }  // namespace hdmap
 }  // namespace apollo

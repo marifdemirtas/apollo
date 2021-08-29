@@ -132,7 +132,8 @@ void TrajectoryAnalyzer::ToTrajectoryFrame(const double x, const double y,
 
   double one_minus_kappa_r_d = 1 - ref_point.kappa() * (*ptr_d);
   if (one_minus_kappa_r_d <= 0.0) {
-    AERROR << "TrajectoryAnalyzer::ToTrajectoryFrame "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TrajectoryAnalyzer::ToTrajectoryFrame "
               "found fatal reference and actual difference. "
               "Control output might be unstable:"
            << " ref_point.kappa:" << ref_point.kappa()

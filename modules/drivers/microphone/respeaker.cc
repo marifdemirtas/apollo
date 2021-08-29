@@ -24,9 +24,12 @@ PaError err;
 
 // Helper functions
 void report_error(PaError err, const std::string &func_name) {
-  AERROR << "an error occured while calling " << func_name;
-  AERROR << "error number: " << err;
-  AERROR << "error message: " << Pa_GetErrorText(err);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "an error occured while calling " << func_name;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error number: " << err;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error message: " << Pa_GetErrorText(err);
 }
 
 // Stream
@@ -73,7 +76,8 @@ Respeaker::~Respeaker() { Pa_Terminate(); }
 void Respeaker::init(
     const std::shared_ptr<const MicrophoneConfig> &microphone_config) {
   if (microphone_config->microphone_model() != MicrophoneConfig::RESPEAKER) {
-    AERROR << "Microphone driver only supports respeaker model in config file";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Microphone driver only supports respeaker model in config file";
   }
   err = Pa_Initialize();
   if (err != paNoError) {
@@ -103,7 +107,8 @@ const PaSampleFormat Respeaker::get_format_from_width(int width,
     default:
       break;
   }
-  AERROR << "invalid width: " << width;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "invalid width: " << width;
   return -1;
 }
 
@@ -119,7 +124,8 @@ const PaDeviceIndex Respeaker::get_respeaker_index() const {
       return real_index;
     }
   }
-  AERROR << "respeaker device not found";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "respeaker device not found";
   return -1;
 }
 
@@ -128,7 +134,8 @@ const PaDeviceInfo *Respeaker::get_device_info(
   const PaDeviceInfo *device_info =
       reinterpret_cast<const PaDeviceInfo *>(Pa_GetDeviceInfo(index));
   if (!device_info) {
-    AERROR << "internal error: invalid device index" << index;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "internal error: invalid device index" << index;
   }
 
   return device_info;
@@ -151,7 +158,8 @@ const PaHostApiInfo *Respeaker::get_host_api_info(
   const PaHostApiInfo *pa_host_api_info =
       reinterpret_cast<const PaHostApiInfo *>(Pa_GetHostApiInfo(index));
   if (!pa_host_api_info) {
-    AERROR << "internal error: invalid Host Api Index " << index;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "internal error: invalid Host Api Index " << index;
   }
   return pa_host_api_info;
 }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -71,13 +70,15 @@ Status SpeedBoundsDecider::Process(
   if (boundary_mapper.ComputeSTBoundary(path_decision).code() ==
       ErrorCode::PLANNING_ERROR) {
     const std::string msg = "Mapping obstacle failed.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   auto time2 = std::chrono::system_clock::now();
   std::chrono::duration<double> diff = time2 - time1;
-  ADEBUG << "Time for ST Boundary Mapping = " << diff.count() * 1000
-         << " msec.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Time for ST Boundary Mapping = " << diff.count() * 1000
+          << " msec.";
 
   std::vector<const STBoundary *> boundaries;
   for (auto *obstacle : path_decision->obstacles().Items()) {
@@ -104,7 +105,8 @@ Status SpeedBoundsDecider::Process(
            .GetSpeedLimits(path_decision->obstacles(), &speed_limit)
            .ok()) {
     const std::string msg = "Getting speed limits failed!";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -168,8 +170,9 @@ double SpeedBoundsDecider::SetSpeedFallbackDistance(
 void SpeedBoundsDecider::RecordSTGraphDebug(
     const StGraphData &st_graph_data, STGraphDebug *st_graph_debug) const {
   if (!FLAGS_enable_record_debug || !st_graph_debug) {
-    ADEBUG << "Skip record debug info";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip record debug info";
+     return;
   }
 
   for (const auto &boundary : st_graph_data.st_boundaries()) {

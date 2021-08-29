@@ -31,7 +31,8 @@ namespace control {
 
 bool Interpolation2D::Init(const DataType &xyz) {
   if (xyz.empty()) {
-    AERROR << "empty input.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "empty input.";
     return false;
   }
   for (const auto &t : xyz) {
@@ -70,7 +71,8 @@ double Interpolation2D::Interpolate(const KeyType &xy) const {
 double Interpolation2D::InterpolateYz(const std::map<double, double> &yz_table,
                                       double y) const {
   if (yz_table.empty()) {
-    AERROR << "Unable to interpolateYz because yz_table is empty.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to interpolateYz because yz_table is empty.";
     return y;
   }
   double max_y = yz_table.rbegin()->first;

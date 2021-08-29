@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -155,12 +154,14 @@ bool GridSearch::GenerateAStarPath(
   }
 
   if (final_node_ == nullptr) {
-    AERROR << "Grid A searching return null ptr(open_set ran out)";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Grid A searching return null ptr(open_set ran out)";
     return false;
   }
   LoadGridAStarResult(result);
-  ADEBUG << "explored node num is " << explored_node_num;
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "explored node num is " << explored_node_num;
+   return true;
 }
 
 bool GridSearch::GenerateDpMap(
@@ -211,8 +212,9 @@ bool GridSearch::GenerateDpMap(
       }
     }
   }
-  ADEBUG << "explored node num is " << explored_node_num;
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "explored node num is " << explored_node_num;
+   return true;
 }
 
 double GridSearch::CheckDpMap(const double sx, const double sy) {

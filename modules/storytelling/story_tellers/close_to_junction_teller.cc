@@ -250,7 +250,8 @@ void CloseToJunctionTeller::Update(Stories* stories) {
           config_.topic_config().planning_trajectory_topic());
   const auto trajectory = planning_reader->GetLatestObserved();
   if (trajectory == nullptr || trajectory->trajectory_point().empty()) {
-    AERROR << "Planning trajectory not ready.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Planning trajectory not ready.";
     return;
   }
 
@@ -259,26 +260,30 @@ void CloseToJunctionTeller::Update(Stories* stories) {
   // CloseToClearArea
   if (!clear_area_id_.empty() && clear_area_distance_ >= 0) {
     if (!stories->has_close_to_clear_area()) {
-      AINFO << "Enter CloseToClearArea story";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Enter CloseToClearArea story";
     }
     auto* story = stories->mutable_close_to_clear_area();
     story->set_id(clear_area_id_);
     story->set_distance(clear_area_distance_);
   } else if (stories->has_close_to_clear_area()) {
-    AINFO << "Exit CloseToClearArea story";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Exit CloseToClearArea story";
     stories->clear_close_to_clear_area();
   }
 
   // CloseToCrosswalk
   if (!crosswalk_id_.empty() && crosswalk_distance_ >= 0) {
     if (!stories->has_close_to_crosswalk()) {
-      AINFO << "Enter CloseToCrosswalk story";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Enter CloseToCrosswalk story";
     }
     auto* story = stories->mutable_close_to_crosswalk();
     story->set_id(crosswalk_id_);
     story->set_distance(crosswalk_distance_);
   } else if (stories->has_close_to_crosswalk()) {
-    AINFO << "Exit CloseToCrosswalk story";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Exit CloseToCrosswalk story";
     stories->clear_close_to_crosswalk();
   }
 
@@ -286,7 +291,8 @@ void CloseToJunctionTeller::Update(Stories* stories) {
   if ((!junction_id_.empty() && junction_distance_ >= 0) ||
       (!pnc_junction_id_.empty() && pnc_junction_distance_ >= 0)) {
     if (!stories->has_close_to_junction()) {
-      AINFO << "Enter CloseToJunction story";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Enter CloseToJunction story";
     }
     auto* story = stories->mutable_close_to_junction();
     if (!pnc_junction_id_.empty() && pnc_junction_distance_ >= 0) {
@@ -299,46 +305,53 @@ void CloseToJunctionTeller::Update(Stories* stories) {
       story->set_distance(junction_distance_);
     }
   } else if (stories->has_close_to_junction()) {
-    AINFO << "Exit CloseToJunction story";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Exit CloseToJunction story";
     stories->clear_close_to_junction();
   }
 
   // CloseToSignal
   if (!signal_id_.empty() && signal_distance_ >= 0) {
     if (!stories->has_close_to_signal()) {
-      AINFO << "Enter CloseToSignal story";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Enter CloseToSignal story";
     }
     auto* story = stories->mutable_close_to_signal();
     story->set_id(signal_id_);
     story->set_distance(signal_distance_);
   } else if (stories->has_close_to_signal()) {
-    AINFO << "Exit CloseToSignal story";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Exit CloseToSignal story";
     stories->clear_close_to_signal();
   }
 
   // CloseToStopSign
   if (!stop_sign_id_.empty() && stop_sign_distance_ >= 0) {
     if (!stories->has_close_to_stop_sign()) {
-      AINFO << "Enter CloseToStopSign story";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Enter CloseToStopSign story";
     }
     auto* story = stories->mutable_close_to_stop_sign();
     story->set_id(stop_sign_id_);
     story->set_distance(stop_sign_distance_);
   } else if (stories->has_close_to_stop_sign()) {
-    AINFO << "Exit CloseToStopSign story";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Exit CloseToStopSign story";
     stories->clear_close_to_stop_sign();
   }
 
   // CloseToYieldSign
   if (!yield_sign_id_.empty() && yield_sign_distance_ >= 0) {
     if (!stories->has_close_to_yield_sign()) {
-      AINFO << "Enter CloseToYieldSign story";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Enter CloseToYieldSign story";
     }
     auto* story = stories->mutable_close_to_yield_sign();
     story->set_id(yield_sign_id_);
     story->set_distance(yield_sign_distance_);
   } else if (stories->has_close_to_yield_sign()) {
-    AINFO << "Exit CloseToYieldSign story";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Exit CloseToYieldSign story";
     stories->clear_close_to_yield_sign();
   }
 }

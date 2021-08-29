@@ -37,7 +37,8 @@ bool SmartereyeComponent::Init() {
                                                camera_config_.get())) {
     return false;
   }
-  AINFO << "SmartereyeDevice config: " << camera_config_->DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "SmartereyeDevice config: " << camera_config_->DebugString();
 
   camera_device_.reset(new SmartereyeDevice());
   camera_device_->init(camera_config_);
@@ -186,7 +187,8 @@ void SmartereyeComponent::processFrame(int frameId, char *image, char *extended,
     case FrameId::LaneExt: {
       FrameDataExtHead *header = reinterpret_cast<FrameDataExtHead *>(extended);
       LdwDataPack *ldwDataPack = reinterpret_cast<LdwDataPack *>(header->data);
-      AINFO << "ldw degree is: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ldw degree is: "
             << ldwDataPack->roadway.left_Lane.left_Boundary.degree;
       SmartereyeLanemark pbSmartereyeLanemark;
       pbSmartereyeLanemark.mutable_lane_road_data()
@@ -235,7 +237,8 @@ void SmartereyeComponent::processFrame(int frameId, char *image, char *extended,
                                      height);
       bool mIsLaneDetected =
           RoadwayPainter::paintRoadway(header->data, rgbBuf, width, height);
-      AINFO << mIsLaneDetected;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << mIsLaneDetected;
 
       Image pb_image;
       pb_image.mutable_header()->set_frame_id(
@@ -261,21 +264,27 @@ void SmartereyeComponent::processFrame(int frameId, char *image,
                                        int frameFormat) {
   switch (frameId) {
     case FrameId::Lane: {
-      AINFO << "case FrameId::Lane:";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "case FrameId::Lane:";
       LdwDataPack *ldwDataPack = reinterpret_cast<LdwDataPack *>(image);
       int degree = ldwDataPack->roadway.left_Lane.left_Boundary.degree;
-      AINFO << "ldw degree is: " << degree;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "ldw degree is: " << degree;
     } break;
     case FrameId::Obstacle: {
-      AINFO << "case FrameId::Obstacle:";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "case FrameId::Obstacle:";
       int blockNum = (reinterpret_cast<int *>(image))[0];
-      AINFO << "blockNum is: " << blockNum;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "blockNum is: " << blockNum;
     } break;
     case FrameId::Disparity: {
-      AINFO << "case FrameId::Disparity:";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "case FrameId::Disparity:";
     } break;
     case FrameId::CalibLeftCamera: {
-      AINFO << "case FrameId::CalibLeftCamera:";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "case FrameId::CalibLeftCamera:";
     } break;
     default:
       break;

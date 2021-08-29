@@ -50,10 +50,12 @@ void Yolov4ObstacleDetector::LoadInputShape(
                              static_cast<float>(aligned_pixel) / 2.0f) /
             aligned_pixel * aligned_pixel;
 
-  AINFO << "image_height=" << image_height << ", "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "image_height=" << image_height << ", "
         << "image_width=" << image_width << ", "
         << "roi_ratio=" << roi_ratio;
-  AINFO << "offset_y=" << offset_y_ << ", height=" << height_
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "offset_y=" << offset_y_ << ", height=" << height_
         << ", width=" << width_;
 }
 
@@ -125,12 +127,14 @@ bool Yolov4ObstacleDetector::InitNet(const yolo::YoloParam &yolo_param,
 
   // init Net
   const auto &model_type = model_param.model_type();
-  AINFO << "model_type=" << model_type;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "model_type=" << model_type;
   inference_.reset(inference::CreateInferenceByName(model_type, proto_file,
                                                     weight_file, output_names,
                                                     input_names, model_root));
   if (nullptr == inference_.get()) {
-    AERROR << "Failed to init CNNAdapter";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to init CNNAdapter";
     return false;
   }
   inference_->set_gpu_id(gpu_id_);
@@ -259,7 +263,8 @@ bool Yolov4ObstacleDetector::Init(const ObstacleDetectorInitOptions &options) {
   std::string config_path =
       GetAbsolutePath(options.root_dir, options.conf_file);
   if (!cyber::common::GetProtoFromFile(config_path, &yolo_param_)) {
-    AERROR << "read proto_config fail";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "read proto_config fail";
     return false;
   }
   const auto &model_param = yolo_param_.model_param();
@@ -320,12 +325,14 @@ bool Yolov4ObstacleDetector::Detect(const ObstacleDetectorOptions &options,
 
   Timer timer;
   if (cudaSetDevice(gpu_id_) != cudaSuccess) {
-    AERROR << "Failed to set device to " << gpu_id_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to set device to " << gpu_id_;
     return false;
   }
 
   auto input_blob = inference_->get_blob(yolo_param_.net_param().input_blob());
-  AINFO << "Start: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Start: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
   DataProvider::ImageOptions image_options;
   image_options.target_color = base::Color::BGR;
   image_options.crop_roi = base::RectI(
@@ -333,26 +340,32 @@ bool Yolov4ObstacleDetector::Detect(const ObstacleDetectorOptions &options,
       static_cast<int>(base_camera_model_->get_height()) - offset_y_);
   image_options.do_crop = true;
   frame->data_provider->GetImage(image_options, image_.get());
-  AINFO << "GetImageBlob: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GetImageBlob: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
   inference::ResizeGPU(*image_, input_blob, frame->data_provider->src_width(),
                        0);
-  AINFO << "Resize: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Resize: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
 
   /////////////////////////// detection part ///////////////////////////
   inference_->Infer();
-  AINFO << "Network Forward: " << static_cast<double>(timer.Toc()) * 0.001
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Network Forward: " << static_cast<double>(timer.Toc()) * 0.001
         << "ms";
   get_objects_gpu(yolo_blobs_, stream_, types_, nms_, yolo_param_.model_param(),
                   light_vis_conf_threshold_, light_swt_conf_threshold_,
                   overlapped_.get(), idx_sm_.get(), &(frame->detected_objects));
 
-  AINFO << "GetObj: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GetObj: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
   filter_bbox(min_dims_, &(frame->detected_objects));
   FeatureExtractorOptions feat_options;
   feat_options.normalized = true;
-  AINFO << "Post1: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Post1: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
   feature_extractor_->Extract(feat_options, frame);
-  AINFO << "Extract: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Extract: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
   recover_bbox(frame->data_provider->src_width(),
                frame->data_provider->src_height() - offset_y_, offset_y_,
                &frame->detected_objects);
@@ -379,7 +392,8 @@ bool Yolov4ObstacleDetector::Detect(const ObstacleDetectorOptions &options,
       obj->camera_supplement.cut_off_ratios[3] = 0;
     }
   }
-  AINFO << "Post2: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Post2: " << static_cast<double>(timer.Toc()) * 0.001 << "ms";
 
   return true;
 }

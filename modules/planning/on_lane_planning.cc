@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -110,8 +109,6 @@ Status OnLanePlanning::Init(const PlanningConfig& config) {
   // dispatch planner
   planner_ = planner_dispatcher_->DispatchPlanner(config_, injector_);
   if (!planner_) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     return Status(
         ErrorCode::PLANNING_ERROR,
         "planning is not initialized with config : " + config_.DebugString());
@@ -147,7 +144,8 @@ Status OnLanePlanning::InitFrame(const uint32_t sequence_num,
   if (!reference_line_provider_->GetReferenceLines(&reference_lines,
                                                    &segments)) {
     const std::string msg = "Failed to create reference line";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   DCHECK_EQ(reference_lines.size(), segments.size());
@@ -159,7 +157,8 @@ Status OnLanePlanning::InitFrame(const uint32_t sequence_num,
     if (!ref_line.Segment(Vec2d(vehicle_state.x(), vehicle_state.y()),
                           FLAGS_look_backward_distance, forward_limit)) {
       const std::string msg = "Fail to shrink reference line.";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
   }
@@ -167,7 +166,8 @@ Status OnLanePlanning::InitFrame(const uint32_t sequence_num,
     if (!seg.Shrink(Vec2d(vehicle_state.x(), vehicle_state.y()),
                     FLAGS_look_backward_distance, forward_limit)) {
       const std::string msg = "Fail to shrink routing segments.";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
   }
@@ -176,7 +176,8 @@ Status OnLanePlanning::InitFrame(const uint32_t sequence_num,
       injector_->vehicle_state(), reference_lines, segments,
       reference_line_provider_->FutureRouteWaypoints(), injector_->ego_info());
   if (!status.ok()) {
-    AERROR << "failed to init frame:" << status.ToString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to init frame:" << status.ToString();
     return status;
   }
   return Status::OK();
@@ -218,12 +219,14 @@ void OnLanePlanning::RunOnce(const LocalView& local_view,
           .count();
 
   // localization
-  ADEBUG << "Get localization:"
-         << local_view_.localization_estimate->DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Get localization:"
+          << local_view_.localization_estimate->DebugString();
 
   // chassis
-  ADEBUG << "Get chassis:" << local_view_.chassis->DebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Get chassis:" << local_view_.chassis->DebugString();
+ 
   Status status = injector_->vehicle_state()->Update(
       *local_view_.localization_estimate, *local_view_.chassis);
 
@@ -237,7 +240,8 @@ void OnLanePlanning::RunOnce(const LocalView& local_view,
     const std::string msg =
         "Update VehicleStateProvider failed "
         "or the vehicle state is out dated.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     ptr_trajectory_pb->mutable_decision()
         ->mutable_main_decision()
         ->mutable_not_ready()
@@ -257,8 +261,9 @@ void OnLanePlanning::RunOnce(const LocalView& local_view,
 
   if (util::IsDifferentRouting(last_routing_, *local_view_.routing)) {
     last_routing_ = *local_view_.routing;
-    ADEBUG << "last_routing_:" << last_routing_.ShortDebugString();
-    injector_->history()->Clear();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "last_routing_:" << last_routing_.ShortDebugString();
+     injector_->history()->Clear();
     injector_->planning_context()->mutable_planning_status()->Clear();
     reference_line_provider_->UpdateRoutingResponse(*local_view_.routing);
     planner_->Init(config_);
@@ -270,7 +275,8 @@ void OnLanePlanning::RunOnce(const LocalView& local_view,
   // early return when reference line fails to update after rerouting
   if (failed_to_update_reference_line) {
     const std::string msg = "Failed to update reference line after rerouting.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     ptr_trajectory_pb->mutable_decision()
         ->mutable_main_decision()
         ->mutable_not_ready()
@@ -313,7 +319,8 @@ void OnLanePlanning::RunOnce(const LocalView& local_view,
       Clock::NowInSeconds() - start_timestamp);
 
   if (!status.ok()) {
-    AERROR << status.ToString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << status.ToString();
     if (FLAGS_publish_estop) {
       // "estop" signal check in function "Control::ProduceControlCommand()"
       // estop_ = estop_ || local_view_.trajectory.estop().is_estop();
@@ -356,25 +363,30 @@ void OnLanePlanning::RunOnce(const LocalView& local_view,
   status = Plan(start_timestamp, stitching_trajectory, ptr_trajectory_pb);
 
   for (const auto& p : ptr_trajectory_pb->trajectory_point()) {
-    ADEBUG << p.DebugString();
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << p.DebugString();
+   }
   const auto end_system_timestamp =
       std::chrono::duration<double>(
           std::chrono::system_clock::now().time_since_epoch())
           .count();
   const auto time_diff_ms =
       (end_system_timestamp - start_system_timestamp) * 1000;
-  ADEBUG << "total planning time spend: " << time_diff_ms << " ms.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "total planning time spend: " << time_diff_ms << " ms.";
+ 
   ptr_trajectory_pb->mutable_latency_stats()->set_total_time_ms(time_diff_ms);
-  ADEBUG << "Planning latency: "
-         << ptr_trajectory_pb->latency_stats().DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Planning latency: "
+          << ptr_trajectory_pb->latency_stats().DebugString();
 
   if (!status.ok()) {
     status.Save(ptr_trajectory_pb->mutable_header()->mutable_status());
-    AERROR << "Planning failed:" << status.ToString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Planning failed:" << status.ToString();
     if (FLAGS_publish_estop) {
-      AERROR << "Planning failed and set estop";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Planning failed and set estop";
       // "estop" signal check in function "Control::ProduceControlCommand()"
       // estop_ = estop_ || local_view_.trajectory.estop().is_estop();
       // we should add more information to ensure the estop being triggered.
@@ -391,8 +403,9 @@ void OnLanePlanning::RunOnce(const LocalView& local_view,
 
   if (frame_->open_space_info().is_on_open_space_trajectory()) {
     FillPlanningPb(start_timestamp, ptr_trajectory_pb);
-    ADEBUG << "Planning pb:" << ptr_trajectory_pb->header().DebugString();
-    frame_->set_current_frame_planned_trajectory(*ptr_trajectory_pb);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Planning pb:" << ptr_trajectory_pb->header().DebugString();
+     frame_->set_current_frame_planned_trajectory(*ptr_trajectory_pb);
   } else {
     auto* ref_line_task =
         ptr_trajectory_pb->mutable_latency_stats()->add_task_stats();
@@ -402,8 +415,9 @@ void OnLanePlanning::RunOnce(const LocalView& local_view,
     // TODO(all): integrate reverse gear
     ptr_trajectory_pb->set_gear(canbus::Chassis::GEAR_DRIVE);
     FillPlanningPb(start_timestamp, ptr_trajectory_pb);
-    ADEBUG << "Planning pb:" << ptr_trajectory_pb->header().DebugString();
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Planning pb:" << ptr_trajectory_pb->header().DebugString();
+ 
     frame_->set_current_frame_planned_trajectory(*ptr_trajectory_pb);
     if (FLAGS_enable_planning_smoother) {
       planning_smoother_.Smooth(injector_->frame_history(), frame_.get(),
@@ -536,8 +550,9 @@ Status OnLanePlanning::Plan(
     if (FLAGS_enable_record_debug) {
       // ptr_debug->MergeFrom(frame_->open_space_info().debug_instance());
       frame_->mutable_open_space_info()->RecordDebug(ptr_debug);
-      ADEBUG << "Open space debug information added!";
-      // call open space info load debug
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Open space debug information added!";
+       // call open space info load debug
       // TODO(Runxin): create a new flag to enable openspace chart
       ExportOpenSpaceChart(ptr_trajectory_pb->debug(), *ptr_trajectory_pb,
                            ptr_debug);
@@ -547,7 +562,8 @@ Status OnLanePlanning::Plan(
     const auto* target_ref_info = frame_->FindTargetReferenceLineInfo();
     if (!best_ref_info) {
       const std::string msg = "planner failed to make a driving plan";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       if (last_publishable_trajectory_) {
         last_publishable_trajectory_->Clear();
       }
@@ -632,8 +648,9 @@ Status OnLanePlanning::Plan(
     last_publishable_trajectory_.reset(new PublishableTrajectory(
         current_time_stamp, best_ref_info->trajectory()));
 
-    ADEBUG << "current_time_stamp: " << current_time_stamp;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "current_time_stamp: " << current_time_stamp;
+ 
     last_publishable_trajectory_->PrependTrajectoryPoints(
         std::vector<TrajectoryPoint>(stitching_trajectory.begin(),
                                      stitching_trajectory.end() - 1));
@@ -979,8 +996,6 @@ void OnLanePlanning::AddPartitionedTrajectory(
   // Draw fallback trajectory compared with the partitioned and potential
   // collision_point (line with only one point)
   if (open_space_debug.is_fallback_trajectory()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     auto* collision_line = chart->add_line();
     collision_line->set_label("FutureCollisionPoint");
     auto* future_collision_point = collision_line->add_point();
@@ -1025,8 +1040,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void OnLanePlanning::AddStitchSpeedProfile(
     planning_internal::Debug* debug_chart) {
   if (!injector_->frame_history()->Latest()) {
-    AINFO << "Planning frame is empty!";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Planning frame is empty!";
+     return;
   }
 
   // if open space info provider success run

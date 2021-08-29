@@ -147,7 +147,8 @@ void Target::Update2D(CameraFrame *frame) {
     state = image_center.get_state();
     center.x = static_cast<float>(state(0));
     center.y = static_cast<float>(state(1));
-    ADEBUG << "2d move:" << id << " " << state(2) << " " << state(3);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "2d move:" << id << " " << state(2) << " " << state(3);
 
     auto shape = image_wh.get_state();
     rect.width = static_cast<float>(shape(0));
@@ -166,7 +167,8 @@ void Target::Update3D(CameraFrame *frame) {
     direction.AddMeasure(z);
     z = direction.get_state();
     float theta = static_cast<float>(std::atan2(z[0], z[1]) / 2.0);
-    AINFO << "dir " << id << " " << object->theta << " " << theta;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "dir " << id << " " << object->theta << " " << theta;
     object->theta = theta;
     object->direction[0] = static_cast<float>(cos(object->theta));
     object->direction[1] = static_cast<float>(sin(object->theta));
@@ -186,7 +188,8 @@ void Target::Update3D(CameraFrame *frame) {
       world_center.measure_noise_.setIdentity();
       world_center.measure_noise_ *= dis_err;
       world_center.Correct(z);
-      ADEBUG << "Velocity: " << id << " " << z.transpose() << " "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Velocity: " << id << " " << z.transpose() << " "
              << world_center.get_state().transpose();
 
       // const position kalman correct
@@ -220,18 +223,22 @@ void Target::Update3D(CameraFrame *frame) {
       double speed1 = std::sqrt(vel(0) * vel(0) + vel(1) * vel(1));
       double speed2 = std::sqrt(x(2) * x(2) + x(3) * x(3));
       double ratio = (Equal(speed1, 0)) ? 0 : speed2 / speed1;
-      ADEBUG << "Target: " << id << " " << vel.transpose() << " , "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Target: " << id << " " << vel.transpose() << " , "
              << x.block<2, 1>(2, 0).transpose();
       if (ratio > target_param_.too_large_velocity_ratio()) {
         world_center.MagicVelocity(vel);
-        ADEBUG << "Velocity too large";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Velocity too large";
       } else if (ratio > target_param_.large_velocity_ratio()) {
         vel(0) = (x(2) + vel(0)) / 2;
         vel(1) = (x(3) + vel(1)) / 2;
         world_center.MagicVelocity(vel);
-        ADEBUG << "Velocity large";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Velocity large";
       } else {
-        ADEBUG << "Velocity normal";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Velocity normal";
       }
     }
 
@@ -302,7 +309,8 @@ void Target::Update3D(CameraFrame *frame) {
   }
 
   // debug velocity
-  ADEBUG << "obj_speed--id: " << id << " " << object->velocity.head(2).norm();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obj_speed--id: " << id << " " << object->velocity.head(2).norm();
 }
 
 void Target::UpdateType(CameraFrame *frame) {
@@ -324,7 +332,8 @@ void Target::UpdateType(CameraFrame *frame) {
     auto max_prob = std::max_element(type_probs.begin(), type_probs.end());
     auto index = static_cast<int>(std::distance(type_probs.begin(), max_prob));
     type = static_cast<base::ObjectSubType>(index);
-    ADEBUG << "Target " << id << " change type from "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Target " << id << " change type from "
            << static_cast<int>(object->sub_type) << " to "
            << static_cast<int>(type);
     object->sub_type = type;
@@ -341,7 +350,8 @@ void Target::UpdateType(CameraFrame *frame) {
     } else {
       object->size = world_lwh.get_state().block<3, 1>(1, 0).cast<float>();
     }
-    ADEBUG << " size is " << world_lwh.get_state().transpose();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " size is " << world_lwh.get_state().transpose();
   }
 }
 
@@ -358,13 +368,15 @@ void Target::ClappingTrackVelocity(const base::ObjectPtr &obj) {
     double vel_heading_angle_change =
         std::min(std::fabs(vel_heading_angle_change_1),
                  std::fabs(vel_heading_angle_change_2));
-    ADEBUG << "obj_id: " << obj->track_id
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obj_id: " << obj->track_id
            << " vel_heading_angle, 1: " << vel_heading_angle_change_1
            << " 2: " << vel_heading_angle_change_2
            << " final: " << vel_heading_angle_change;
     if (vel_heading_angle_change >
         target_param_.abnormal_velocity_heading_angle_threshold()) {
-      ADEBUG << "omt set zero velocity because vel_heading_angle_change >"
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "omt set zero velocity because vel_heading_angle_change >"
                 " abnormal_velocity_heading_angle_threshold : "
              << target_param_.abnormal_velocity_heading_angle_threshold();
       obj->velocity = Eigen::Vector3f::Zero();
@@ -374,7 +386,8 @@ void Target::ClappingTrackVelocity(const base::ObjectPtr &obj) {
 
   // check static
   if (CheckStatic()) {
-    ADEBUG << "omt set zero velocity because of small speed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "omt set zero velocity because of small speed.";
     obj->velocity = Eigen::Vector3f::Zero();
     return;
   }

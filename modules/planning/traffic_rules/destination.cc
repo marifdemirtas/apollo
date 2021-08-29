@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -62,7 +61,8 @@ int Destination::MakeDecisions(Frame* frame,
 
   const auto& routing = frame->local_view().routing;
   if (routing->routing_request().waypoint_size() < 2) {
-    AERROR << "routing_request has no end";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "routing_request has no end";
     return -1;
   }
 
@@ -74,8 +74,9 @@ int Destination::MakeDecisions(Frame* frame,
   const auto& dest =
       injector_->planning_context()->mutable_planning_status()->destination();
   if (adc_sl.start_s() > dest_sl.s() && !dest.has_passed_destination()) {
-    ADEBUG << "Destination at back, but we have not reached destination yet";
-    return 0;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Destination at back, but we have not reached destination yet";
+     return 0;
   }
 
   const std::string stop_wall_id = FLAGS_destination_obstacle_id;
@@ -88,8 +89,9 @@ int Destination::MakeDecisions(Frame* frame,
         pull_over_status.position().has_x() &&
         pull_over_status.position().has_y()) {
       // build stop decision based on pull-over position
-      ADEBUG << "BuildStopDecision: pull-over position";
-      common::SLPoint pull_over_sl;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "BuildStopDecision: pull-over position";
+       common::SLPoint pull_over_sl;
       reference_line.XYToSL(pull_over_status.position(), &pull_over_sl);
 
       const double stop_line_s = pull_over_sl.s() +
@@ -107,8 +109,9 @@ int Destination::MakeDecisions(Frame* frame,
   }
 
   // build stop decision
-  ADEBUG << "BuildStopDecision: destination";
-  const double dest_lane_s =
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "BuildStopDecision: destination";
+   const double dest_lane_s =
       std::fmax(0.0, routing_end.s() - FLAGS_virtual_stop_wall_length -
                          config_.destination().stop_distance());
   util::BuildStopDecision(stop_wall_id, routing_end.id(), dest_lane_s,

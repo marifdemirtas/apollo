@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,21 +27,15 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Brakecommand101::ID = 0x101;
 
 // public
-Brakecommand101::Brakecommand101() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Brakecommand101::Brakecommand101() { Reset(); }
 
 uint32_t Brakecommand101::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Brakecommand101::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_aeb_en_ctrl(data, aeb_en_ctrl_);
   set_p_brake_dec(data, brake_dec_);
   set_p_brake_pedal_target(data, brake_pedal_target_);
@@ -53,8 +46,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Brakecommand101::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(All) :  you should check this manually
   aeb_en_ctrl_ = Brake_command_101::AEB_EN_CTRL_DISABLE_AEB;
   brake_dec_ = 0.0;
@@ -65,8 +56,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Brakecommand101* Brakecommand101::set_aeb_en_ctrl(
     Brake_command_101::Aeb_en_ctrlType aeb_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   aeb_en_ctrl_ = aeb_en_ctrl;
   return this;
 }
@@ -77,8 +66,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 void Brakecommand101::set_p_aeb_en_ctrl(
     uint8_t* data, Brake_command_101::Aeb_en_ctrlType aeb_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = aeb_en_ctrl;
 
   Byte to_set(data + 0);
@@ -86,8 +73,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Brakecommand101* Brakecommand101::set_brake_dec(double brake_dec) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   brake_dec_ = brake_dec;
   return this;
 }
@@ -96,8 +81,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'Brake_Dec', 'offset': 0.0, 'order': 'motorola', 'physical_range': '[0|10]',
 // 'physical_unit': 'm/s^2', 'precision': 0.01, 'type': 'double'}
 void Brakecommand101::set_p_brake_dec(uint8_t* data, double brake_dec) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   brake_dec = ProtocolData::BoundedValue(0.0, 10.0, brake_dec);
   int x = brake_dec / 0.010000;
   uint8_t t = 0;
@@ -113,8 +96,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Brakecommand101* Brakecommand101::set_checksum_101(int checksum_101) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   checksum_101_ = checksum_101;
   return this;
 }
@@ -123,8 +104,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'CheckSum_101', 'offset': 0.0, 'order': 'motorola', 'physical_range':
 // '[0|255]', 'physical_unit': '', 'precision': 1.0, 'type': 'int'}
 void Brakecommand101::set_p_checksum_101(uint8_t* data, int checksum_101) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   checksum_101 = ProtocolData::BoundedValue(0, 255, checksum_101);
   int x = checksum_101;
 
@@ -134,8 +113,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Brakecommand101* Brakecommand101::set_brake_pedal_target(
     double brake_pedal_target) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   brake_pedal_target_ = brake_pedal_target;
   return this;
 }
@@ -145,8 +122,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|100]', 'physical_unit': '%', 'precision': 0.1, 'type': 'double'}
 void Brakecommand101::set_p_brake_pedal_target(uint8_t* data,
                                                double brake_pedal_target) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   brake_pedal_target =
       ProtocolData::BoundedValue(0.0, 100.0, brake_pedal_target);
   int x = brake_pedal_target / 0.100000;
@@ -164,8 +139,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Brakecommand101* Brakecommand101::set_brake_en_ctrl(
     Brake_command_101::Brake_en_ctrlType brake_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   brake_en_ctrl_ = brake_en_ctrl;
   return this;
 }
@@ -176,8 +149,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'physical_unit': '', 'precision': 1.0, 'type': 'enum'}
 void Brakecommand101::set_p_brake_en_ctrl(
     uint8_t* data, Brake_command_101::Brake_en_ctrlType brake_en_ctrl) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = brake_en_ctrl;
 
   Byte to_set(data + 0);

@@ -43,7 +43,8 @@ bool CompensatorComponent::Init() {
   for (int i = 0; i < pool_size_; ++i) {
     auto point_cloud = compensator_pool_->GetObject();
     if (point_cloud == nullptr) {
-      AERROR << "fail to getobject:" << i;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to getobject:" << i;
       return false;
     }
     point_cloud->mutable_point()->Reserve(140000);
@@ -71,7 +72,8 @@ bool CompensatorComponent::Proc(
     const auto diff = end_time - start_time;
     const auto meta_diff =
         end_time - Time(point_cloud_compensated->header().lidar_timestamp());
-    AINFO << "compenstator diff (ms):" << (diff.ToNanosecond() / 1e6)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "compenstator diff (ms):" << (diff.ToNanosecond() / 1e6)
           << ";meta (ns):"
           << point_cloud_compensated->header().lidar_timestamp()
           << ";meta diff (ms): " << (meta_diff.ToNanosecond() / 1e6);

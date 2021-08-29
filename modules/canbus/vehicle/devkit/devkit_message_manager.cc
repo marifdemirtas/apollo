@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -42,8 +41,6 @@ namespace canbus {
 namespace devkit {
 
 DevkitMessageManager::DevkitMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Control Messages
   AddSendProtocolData<Brakecommand101, true>();
   AddSendProtocolData<Gearcommand103, true>();
@@ -67,9 +64,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   AddRecvProtocolData<Wheelspeedreport506, true>();
 }
 
-DevkitMessageManager::~DevkitMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+DevkitMessageManager::~DevkitMessageManager() {}
 
 }  // namespace devkit
 }  // namespace canbus

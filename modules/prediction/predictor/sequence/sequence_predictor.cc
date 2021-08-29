@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -80,23 +79,26 @@ void SequencePredictor::FilterLaneSequences(
     const LaneSequence& sequence = lane_graph.lane_sequence(i);
     if (sequence.lane_type() == apollo::hdmap::Lane::PARKING) {
       (*enable_lane_sequence)[i] = false;
-      ADEBUG << "Ignore lane sequence [" << ToString(sequence) << "].";
-      continue;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Ignore lane sequence [" << ToString(sequence) << "].";
+       continue;
     }
     lane_change_type[i] = GetLaneChangeType(lane_id, sequence);
 
     if (lane_change_type[i] != LaneChangeType::LEFT &&
         lane_change_type[i] != LaneChangeType::RIGHT &&
         lane_change_type[i] != LaneChangeType::ONTO_LANE) {
-      ADEBUG << "Ignore lane sequence [" << ToString(sequence) << "].";
-      continue;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Ignore lane sequence [" << ToString(sequence) << "].";
+       continue;
     }
 
     // The obstacle has interference with ADC within a small distance
     double distance = GetLaneChangeDistanceWithADC(sequence, ego_vehicle_ptr,
                                                    adc_trajectory_container);
-    ADEBUG << "Distance to ADC " << std::fixed << std::setprecision(6)
-           << distance;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Distance to ADC " << std::fixed << std::setprecision(6)
+            << distance;
     if (distance > 0.0 && distance < FLAGS_lane_change_dist) {
       bool obs_within_its_own_lane = true;
       for (int j = 0; j < feature.polygon_point_size(); j++) {
@@ -125,8 +127,9 @@ void SequencePredictor::FilterLaneSequences(
 
       if (obs_within_its_own_lane) {
         (*enable_lane_sequence)[i] = false;
-        ADEBUG << "Filter trajectory [" << ToString(sequence)
-               << "] due to small distance " << distance << ".";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Filter trajectory [" << ToString(sequence)
+                << "] due to small distance " << distance << ".";
       }
     }
   }
@@ -138,8 +141,9 @@ void SequencePredictor::FilterLaneSequences(
     const LaneSequence& sequence = lane_graph.lane_sequence(i);
 
     if (!(*enable_lane_sequence)[i]) {
-      ADEBUG << "Disabled lane sequence [" << ToString(sequence) << "].";
-      continue;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Disabled lane sequence [" << ToString(sequence) << "].";
+       continue;
     }
 
     double probability = sequence.probability();
@@ -163,8 +167,9 @@ void SequencePredictor::FilterLaneSequences(
     const LaneSequence& sequence = lane_graph.lane_sequence(i);
 
     if (!(*enable_lane_sequence)[i]) {
-      ADEBUG << "Disabled lane sequence [" << ToString(sequence) << "].";
-      continue;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Disabled lane sequence [" << ToString(sequence) << "].";
+       continue;
     }
 
     double probability = sequence.probability();
@@ -205,8 +210,9 @@ double SequencePredictor::GetLaneChangeDistanceWithADC(
     const LaneSequence& lane_sequence, const Obstacle* ego_vehicle_ptr,
     const ADCTrajectoryContainer* adc_trajectory_container) {
   if (!adc_trajectory_container->HasOverlap(lane_sequence)) {
-    ADEBUG << "The sequence [" << ToString(lane_sequence)
-           << "] has no overlap with ADC.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "The sequence [" << ToString(lane_sequence)
+            << "] has no overlap with ADC.";
     return std::numeric_limits<double>::max();
   }
 
@@ -223,13 +229,15 @@ double SequencePredictor::GetLaneChangeDistanceWithADC(
     if (PredictionMap::GetProjection(adc_position,
                                      PredictionMap::LaneById(obstacle_lane_id),
                                      &lane_s, &lane_l)) {
-      ADEBUG << "Distance with ADC is " << std::fabs(lane_s - obstacle_lane_s);
-      return obstacle_lane_s - lane_s;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Distance with ADC is " << std::fabs(lane_s - obstacle_lane_s);
+       return obstacle_lane_s - lane_s;
     }
   }
 
-  ADEBUG << "Invalid ADC pose.";
-  return std::numeric_limits<double>::max();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Invalid ADC pose.";
+   return std::numeric_limits<double>::max();
 }
 
 bool SequencePredictor::LaneSequenceWithMaxProb(const LaneChangeType& type,
@@ -265,7 +273,8 @@ void SequencePredictor::DrawConstantAccelerationTrajectory(
   const Feature& feature = obstacle.latest_feature();
   if (!feature.has_position() || !feature.has_velocity() ||
       !feature.position().has_x() || !feature.position().has_y()) {
-    AERROR << "Obstacle [" << obstacle.id()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle.id()
            << " is missing position or velocity";
     return;
   }
@@ -280,7 +289,8 @@ void SequencePredictor::DrawConstantAccelerationTrajectory(
   double lane_s = 0.0;
   double lane_l = 0.0;
   if (!PredictionMap::GetProjection(position, lane_info, &lane_s, &lane_l)) {
-    AERROR << "Failed in getting lane s and lane l";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed in getting lane s and lane l";
     return;
   }
   size_t total_num = static_cast<size_t>(total_time / period);
@@ -290,7 +300,8 @@ void SequencePredictor::DrawConstantAccelerationTrajectory(
     double theta = M_PI;
     if (!PredictionMap::SmoothPointFromLane(lane_id, lane_s, lane_l, &point,
                                             &theta)) {
-      AERROR << "Unable to get smooth point from lane [" << lane_id
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to get smooth point from lane [" << lane_id
              << "] with s [" << lane_s << "] and l [" << lane_l << "]";
       break;
     }
@@ -340,8 +351,9 @@ double SequencePredictor::GetLaneSequenceCurvatureByS(
       return lane_info_ptr->Curvature(lane_s);
     }
   }
-  ADEBUG << "Outside lane sequence range, use 0.0 to approximate.";
-  return 0.0;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Outside lane sequence range, use 0.0 to approximate.";
+   return 0.0;
 }
 
 bool SequencePredictor::GetLongitudinalPolynomial(

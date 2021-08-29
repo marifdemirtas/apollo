@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -37,8 +36,9 @@ Routing::Routing()
 
 apollo::common::Status Routing::Init() {
   const auto routing_map_file = apollo::hdmap::RoutingMapFile();
-  AINFO << "Use routing topology graph path: " << routing_map_file;
-  navigator_ptr_.reset(new Navigator(routing_map_file));
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Use routing topology graph path: " << routing_map_file;
+   navigator_ptr_.reset(new Navigator(routing_map_file));
 
   hdmap_ = apollo::hdmap::HDMapUtil::BaseMapPtr();
   ACHECK(hdmap_) << "Failed to load map file:" << apollo::hdmap::BaseMapFile();
@@ -47,15 +47,15 @@ apollo::common::Status Routing::Init() {
 }
 
 apollo::common::Status Routing::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!navigator_ptr_->IsReady()) {
-    AERROR << "Navigator is not ready!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Navigator is not ready!";
     return apollo::common::Status(ErrorCode::ROUTING_ERROR,
                                   "Navigator not ready");
   }
-  AINFO << "Routing service is ready.";
-  monitor_logger_buffer_.INFO("Routing started");
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Routing service is ready.";
+   monitor_logger_buffer_.INFO("Routing started");
   return apollo::common::Status::OK();
 }
 
@@ -84,7 +84,8 @@ std::vector<RoutingRequest> Routing::FillLaneInfoIfMissing(
       }
     }
     if (lanes.empty()) {
-      AERROR << "Failed to find nearest lane from map at position: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to find nearest lane from map at position: "
              << point.DebugString();
       return fixed_requests;  // return empty vector
     }
@@ -124,8 +125,9 @@ std::vector<RoutingRequest> Routing::FillLaneInfoIfMissing(
   }
 
   for (const auto& fixed_request : fixed_requests) {
-    ADEBUG << "Fixed routing request:" << fixed_request.DebugString();
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Fixed routing request:" << fixed_request.DebugString();
+   }
   return fixed_requests;
 }
 
@@ -165,15 +167,17 @@ bool Routing::FillParkingID(RoutingResponse* routing_response) {
       return true;
     }
   }
-  ADEBUG << "Failed to fill parking ID";
-  return false;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Failed to fill parking ID";
+   return false;
 }
 
 bool Routing::Process(const std::shared_ptr<RoutingRequest>& routing_request,
                       RoutingResponse* const routing_response) {
   CHECK_NOTNULL(routing_response);
-  AINFO << "Get new routing request:" << routing_request->DebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Get new routing request:" << routing_request->DebugString();
+ 
   const auto& fixed_requests = FillLaneInfoIfMissing(*routing_request);
   double min_routing_length = std::numeric_limits<double>::max();
   for (const auto& fixed_request : fixed_requests) {
@@ -193,7 +197,8 @@ bool Routing::Process(const std::shared_ptr<RoutingRequest>& routing_request,
     return true;
   }
 
-  AERROR << "Failed to search route with navigator.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to search route with navigator.";
   monitor_logger_buffer_.WARN("Routing failed! " +
                               routing_response->status().msg());
   return false;

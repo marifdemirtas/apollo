@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -27,15 +26,11 @@ namespace devkit {
 
 using ::apollo::drivers::canbus::Byte;
 
-Ultrsensor2508::Ultrsensor2508() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Ultrsensor2508::Ultrsensor2508() {}
 const int32_t Ultrsensor2508::ID = 0x508;
 
 void Ultrsensor2508::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_devkit()
       ->mutable_ultr_sensor_2_508()
       ->set_uiuss9_tof_indirect(uiuss9_tof_indirect(bytes, length));
@@ -55,8 +50,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 23, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor2508::uiuss9_tof_indirect(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -74,8 +67,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor2508::uiuss8_tof_indirect(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -93,8 +84,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 55, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor2508::uiuss11_tof_indirect(const std::uint8_t* bytes,
                                             int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
 
@@ -112,8 +101,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 39, 'type': 'double', 'order': 'motorola', 'physical_unit': 'cm'}
 double Ultrsensor2508::uiuss10_tof_indirect(const std::uint8_t* bytes,
                                             int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 

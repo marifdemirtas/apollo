@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -56,7 +55,8 @@ bool FemPosDeviationSmoother::QpWithOsqp(
     const std::vector<double>& bounds, std::vector<double>* opt_x,
     std::vector<double>* opt_y) {
   if (opt_x == nullptr || opt_y == nullptr) {
-    AERROR << "opt_x or opt_y is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "opt_x or opt_y is nullptr";
     return false;
   }
 
@@ -89,7 +89,8 @@ bool FemPosDeviationSmoother::SqpWithOsqp(
     const std::vector<double>& bounds, std::vector<double>* opt_x,
     std::vector<double>* opt_y) {
   if (opt_x == nullptr || opt_y == nullptr) {
-    AERROR << "opt_x or opt_y is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "opt_x or opt_y is nullptr";
     return false;
   }
 
@@ -138,7 +139,8 @@ bool FemPosDeviationSmoother::NlpWithIpopt(
     const std::vector<double>& bounds, std::vector<double>* opt_x,
     std::vector<double>* opt_y) {
   if (opt_x == nullptr || opt_y == nullptr) {
-    AERROR << "opt_x or opt_y is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "opt_x or opt_y is nullptr";
     return false;
   }
 
@@ -169,7 +171,8 @@ bool FemPosDeviationSmoother::NlpWithIpopt(
 
   Ipopt::ApplicationReturnStatus status = app->Initialize();
   if (status != Ipopt::Solve_Succeeded) {
-    AERROR << "*** Error during initialization!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "*** Error during initialization!";
     return false;
   }
 
@@ -179,9 +182,11 @@ bool FemPosDeviationSmoother::NlpWithIpopt(
       status == Ipopt::Solved_To_Acceptable_Level) {
     // Retrieve some statistics about the solve
     Ipopt::Index iter_count = app->Statistics()->IterationCount();
-    ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
-  } else {
-    AERROR << "Solver fails with return code: " << static_cast<int>(status);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
+   } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Solver fails with return code: " << static_cast<int>(status);
     return false;
   }
   smoother->get_optimization_results(opt_x, opt_y);

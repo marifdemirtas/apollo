@@ -46,7 +46,8 @@ DstExistenceFusion::DstExistenceFusion(TrackPtr track)
 bool DstExistenceFusion::Init() {
   BaseInitOptions options;
   if (!GetFusionInitOptions("DstExistenceFusion", &options)) {
-    AERROR << "GetFusionInitOptions failed ";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "GetFusionInitOptions failed ";
     return false;
   }
 
@@ -57,19 +58,22 @@ bool DstExistenceFusion::Init() {
   DstExistenceFusionConfig params;
 
   if (!cyber::common::GetProtoFromFile(config, &params)) {
-    AERROR << "Read config failed: " << config;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Read config failed: " << config;
     return false;
   }
   for (auto valid_dist : params.camera_valid_dist()) {
     std::string camera_id = valid_dist.camera_name();
     options_.camera_max_valid_dist_[camera_id] = valid_dist.valid_dist();
-    AINFO << "dst existence fusion params: " << camera_id
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "dst existence fusion params: " << camera_id
           << " max valid dist: " << options_.camera_max_valid_dist_[camera_id];
   }
 
   options_.track_object_max_match_distance_ =
       params.track_object_max_match_distance();
-  AINFO << "dst existence fusion params: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "dst existence fusion params: "
         << " track_object_max_match_distance: "
         << options_.track_object_max_match_distance_;
 
@@ -106,10 +110,12 @@ void DstExistenceFusion::UpdateWithMeasurement(
        {ExistenceDstMaps::EXISTUNKNOWN, 1 - obj_exist_prob}});
   // TODO(all) hard code for fused exist bba
   const double exist_fused_w = 1.0;
-  ADEBUG << " before update exist prob: " << GetExistenceProbability();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " before update exist prob: " << GetExistenceProbability();
   fused_existence_ =
       fused_existence_ + existence_evidence * exist_fused_w * association_prob;
-  ADEBUG << " update with, EXIST prob: " << GetExistenceProbability()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " update with, EXIST prob: " << GetExistenceProbability()
          << " obj_id " << measurement->GetBaseObject()->track_id
          << " association_prob: " << association_prob << " decay: " << decay
          << " exist_prob: " << obj_exist_prob
@@ -155,12 +161,14 @@ void DstExistenceFusion::UpdateWithoutMeasurement(const std::string &sensor_id,
     //   min_match_dist_score = std::max(1 - min_match_dist /
     //   options_.track_object_max_match_distance_, 0.0);
     // }
-    ADEBUG << " before update exist prob: " << GetExistenceProbability()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " before update exist prob: " << GetExistenceProbability()
            << " min_match_dist: " << min_match_dist
            << " min_match_dist_score: " << min_match_dist_score;
     fused_existence_ = fused_existence_ + existence_evidence * unexist_fused_w *
                                               (1 - min_match_dist_score);
-    ADEBUG << " update without, EXIST prob: " << GetExistenceProbability()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " update without, EXIST prob: " << GetExistenceProbability()
            << " 1 - match_dist_score: " << 1 - min_match_dist_score
            << " sensor_id: " << sensor_id << " dist_decay: " << dist_decay
            << " track_id: " << track_ref_->GetTrackId();
@@ -177,12 +185,14 @@ double DstExistenceFusion::ComputeDistDecay(base::ObjectConstPtr obj,
   bool status = SensorDataManager::Instance()->GetPose(sensor_id, timestamp,
                                                        &sensor2world_pose);
   if (!status) {
-    AERROR << "Failed to get pose";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get pose";
     return dist_decay;
   }
   Eigen::Matrix4d world2sensor_pose = sensor2world_pose.matrix().inverse();
   if (!world2sensor_pose.allFinite()) {
-    AERROR << boost::format(
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << boost::format(
                   "The obtained camera pose is invalid. sensor_id : %s"
                   " timestamp %16.6f") %
                   sensor_id % timestamp;
@@ -207,7 +217,8 @@ double DstExistenceFusion::ComputeFeatureInfluence(
   double velocity_fact = sigmoid_fun(velocity);
   velocity_fact = velocity > 4.0 ? velocity_fact : 0.0;
   double confidence = measurement->GetBaseObject()->confidence;
-  ADEBUG << " sensor_id: " << measurement->GetSensorId()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << " sensor_id: " << measurement->GetSensorId()
          << " velocity: " << velocity << " velocity_fact: " << velocity_fact
          << " confidence: " << confidence;
   return velocity_fact * confidence;
@@ -312,7 +323,8 @@ void DstExistenceFusion::UpdateToicWithCameraMeasurement(
                  " dist for sensor type: %s") %
                  sensor_id;
   } else {
-    ADEBUG << "camera dist: " << sensor_id << " " << max_dist_it->second;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "camera dist: " << sensor_id << " " << max_dist_it->second;
   }
   if (status && max_dist_it != options_.camera_max_valid_dist_.end()) {
     SensorObjectConstPtr lidar_object = track_ref_->GetLatestLidarObject();
@@ -389,7 +401,8 @@ void DstExistenceFusion::UpdateExistenceState() {
   } else if (!track_ref_->GetCameraObjects().empty()) {
     toic_score_ = 0.5;
   } else {
-    AERROR << boost::format("this fused object: %d has no sensor objects") %
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << boost::format("this fused object: %d has no sensor objects") %
                   track_ref_->GetTrackId();
     toic_score_ = 0.5;
   }

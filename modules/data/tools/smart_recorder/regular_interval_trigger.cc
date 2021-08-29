@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -23,14 +22,10 @@ namespace apollo {
 namespace data {
 
 RegularIntervalTrigger::RegularIntervalTrigger() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   trigger_name_ = "RegularIntervalTrigger";
 }
 
 void RegularIntervalTrigger::Pull(const cyber::record::RecordMessage& msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!trigger_obj_->enabled()) {
     return;
   }
@@ -41,8 +36,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (msg.time - current_recording_time_ >
       SecondsToNanoSeconds(recording_interval_)) {
     current_recording_time_ = msg.time;
-    AINFO << "regular interval trigger is pulled: " << msg.time;
-    TriggerIt(msg.time);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "regular interval trigger is pulled: " << msg.time;
+     TriggerIt(msg.time);
   }
 }
 

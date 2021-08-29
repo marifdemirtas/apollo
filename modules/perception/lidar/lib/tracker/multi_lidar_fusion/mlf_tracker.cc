@@ -46,7 +46,8 @@ bool MlfTracker::Init(const MlfTrackerInitOptions options) {
     MlfFilterInitOptions filter_init_options;
     ACHECK(filter->Init(filter_init_options));
     filters_.push_back(filter);
-    AINFO << "MlfTracker add filter: " << filter->Name();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "MlfTracker add filter: " << filter->Name();
   }
 
   return true;

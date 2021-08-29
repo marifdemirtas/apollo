@@ -29,7 +29,8 @@ void Convert::init(const Config& velodyne_config) {
 
   parser_.reset(VelodyneParserFactory::CreateParser(config_));
   if (parser_.get() == nullptr) {
-    AFATAL << "Create parser failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "Create parser failed.";
     return;
   }
   parser_->setup();
@@ -39,12 +40,14 @@ void Convert::init(const Config& velodyne_config) {
 void Convert::ConvertPacketsToPointcloud(
     const std::shared_ptr<VelodyneScan>& scan_msg,
     std::shared_ptr<PointCloud> point_cloud) {
-  ADEBUG << "Convert scan msg seq " << scan_msg->header().sequence_num();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Convert scan msg seq " << scan_msg->header().sequence_num();
 
   parser_->GeneratePointcloud(scan_msg, point_cloud);
 
   if (point_cloud == nullptr || point_cloud->point().empty()) {
-    AERROR << "point cloud has no point";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "point cloud has no point";
     return;
   }
 

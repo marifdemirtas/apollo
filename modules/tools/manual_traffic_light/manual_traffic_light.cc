@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -43,17 +42,14 @@ DEFINE_double(traffic_light_distance, 1000.0,
               "only retrieves traffic lights within this distance");
 
 class ManualTrafficLight final : public apollo::cyber::TimerComponent {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
  public:
   bool Init() {
     localization_reader_ = node_->CreateReader<LocalizationEstimate>(
         FLAGS_localization_topic,
         [this](const std::shared_ptr<LocalizationEstimate> &localization) {
-          ADEBUG << "Received chassis data: run chassis callback.";
-          OnLocalization(localization);
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received chassis data: run chassis callback.";
+           OnLocalization(localization);
         });
 
     traffic_light_detection_writer_ =
@@ -72,10 +68,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       result = GetTrafficLightsWithinDistance(&signals);
     }
     if (!result) {
-      ADEBUG << "Failed to get traffic signals from current location on map";
-    } else {
-      ADEBUG << "Received " << signals.size() << " traffic lights";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Failed to get traffic signals from current location on map";
+     } else {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received " << signals.size() << " traffic lights";
+     }
     std::vector<std::string> signal_ids;
     for (const auto &ptr : signals) {
       signal_ids.emplace_back(ptr->id().id());
@@ -87,8 +85,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
     TrafficLightDetection traffic_light_detection;
     TrafficLight::Color color = GetKeyBoardColorInput();
-    ADEBUG << "Color: " << TrafficLight::Color_Name(color);
-    if (updated_) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Color: " << TrafficLight::Color_Name(color);
+     if (updated_) {
       updated_ = false;
       const char *print_color = is_green_ ? ANSI_GREEN : ANSI_RED;
       std::cout << print_color
@@ -125,7 +124,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     static apollo::hdmap::Map map_proto;
     static std::vector<SignalInfoConstPtr> map_traffic_lights;
     if (map_proto.lane().empty() && map_traffic_lights.empty()) {
-      AERROR << "signal size: " << map_proto.signal_size();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "signal size: " << map_proto.signal_size();
       if (absl::EndsWith(map_filename, ".xml")) {
         if (!apollo::hdmap::adapter::OpendriveAdapter::LoadData(map_filename,
                                                                 &map_proto)) {
@@ -138,7 +138,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       for (const auto &signal : map_proto.signal()) {
         const auto *hdmap = HDMapUtil::BaseMapPtr();
         if (!hdmap) {
-          AERROR << "Invalid HD Map.";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid HD Map.";
           return false;
         }
         map_traffic_lights.push_back(hdmap->GetSignalById(signal.id()));
@@ -152,19 +153,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       std::vector<SignalInfoConstPtr> *traffic_lights) {
     CHECK_NOTNULL(traffic_lights);
     if (!has_localization_) {
-      AERROR << "No localization received";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No localization received";
       return false;
     }
     const auto *hdmap = HDMapUtil::BaseMapPtr();
     if (!hdmap) {
-      AERROR << "Invalid HD Map.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid HD Map.";
       return false;
     }
     auto position = localization_.pose().position();
     int ret = hdmap->GetForwardNearestSignalsOnLane(
         position, FLAGS_traffic_light_distance, traffic_lights);
     if (ret != 0) {
-      AERROR << "failed to get signals from position: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to get signals from position: "
              << position.ShortDebugString()
              << " with distance: " << FLAGS_traffic_light_distance << " on map";
       return false;
@@ -192,7 +196,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     struct pollfd fd = {STDIN_FILENO, POLLIN, revent};
     switch (poll(&fd, 1, 100)) {
       case -1:
-        AERROR << "Failed to read keybapoard";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to read keybapoard";
         break;
       case 0:
         break;

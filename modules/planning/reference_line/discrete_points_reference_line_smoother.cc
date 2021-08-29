@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -67,12 +66,14 @@ bool DiscretePointsReferenceLineSmoother::Smooth(
                             &smoothed_point2d);
       break;
     default:
-      AERROR << "Smoother type not defined";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Smoother type not defined";
       return false;
   }
 
   if (!status) {
-    AERROR << "discrete_points reference line smoother fails";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "discrete_points reference line smoother fails";
     return false;
   }
 
@@ -84,9 +85,8 @@ bool DiscretePointsReferenceLineSmoother::Smooth(
   ReferencePoint::RemoveDuplicates(&ref_points);
 
   if (ref_points.size() < 2) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-    AERROR << "Fail to generate smoothed reference line.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to generate smoothed reference line.";
     return false;
   }
 
@@ -116,12 +116,14 @@ bool DiscretePointsReferenceLineSmoother::CosThetaSmooth(
   bool status = smoother.Solve(raw_point2d, box_bounds, &opt_x, &opt_y);
 
   if (!status) {
-    AERROR << "Costheta reference line smoothing failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Costheta reference line smoothing failed";
     return false;
   }
 
   if (opt_x.size() < 2 || opt_y.size() < 2) {
-    AERROR << "Return by Costheta smoother is wrong. Size smaller than 2 ";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Return by Costheta smoother is wrong. Size smaller than 2 ";
     return false;
   }
 
@@ -157,12 +159,14 @@ bool DiscretePointsReferenceLineSmoother::FemPosSmooth(
   bool status = smoother.Solve(raw_point2d, box_bounds, &opt_x, &opt_y);
 
   if (!status) {
-    AERROR << "Fem Pos reference line smoothing failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fem Pos reference line smoothing failed";
     return false;
   }
 
   if (opt_x.size() < 2 || opt_y.size() < 2) {
-    AERROR << "Return by fem pos smoother is wrong. Size smaller than 2 ";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Return by fem pos smoother is wrong. Size smaller than 2 ";
     return false;
   }
 

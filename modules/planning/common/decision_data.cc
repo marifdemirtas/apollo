@@ -37,7 +37,8 @@ bool DecisionData::IsValidTrajectoryPoint(
 bool DecisionData::IsValidTrajectory(const prediction::Trajectory& trajectory) {
   for (const auto& point : trajectory.trajectory_point()) {
     if (!IsValidTrajectoryPoint(point)) {
-      AERROR << " TrajectoryPoint: " << trajectory.ShortDebugString()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << " TrajectoryPoint: " << trajectory.ShortDebugString()
              << " is NOT valid.";
       return false;
     }
@@ -65,7 +66,8 @@ DecisionData::DecisionData(
     int trajectory_index = 0;
     for (const auto& trajectory : prediction_obstacle.trajectory()) {
       if (!IsValidTrajectory(trajectory)) {
-        AERROR << "obj:" << perception_id;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "obj:" << perception_id;
         continue;
       }
       const std::string obstacle_id =
@@ -98,7 +100,8 @@ std::vector<Obstacle*> DecisionData::GetObstacleByType(
   for (const std::string& id : ids) {
     ret.emplace_back(GetObstacleById(id));
     if (ret.back() == nullptr) {
-      AERROR << "Ignore. can't find obstacle by id: " << id;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Ignore. can't find obstacle by id: " << id;
       ret.pop_back();
     }
   }

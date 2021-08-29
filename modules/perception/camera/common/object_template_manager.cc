@@ -64,7 +64,8 @@ bool ObjectTemplateManager::Init(
       cyber::common::GetAbsolutePath(options.root_dir, options.conf_file);
   ObjectTemplateMeta proto;
   if (!cyber::common::GetProtoFromFile(config, &proto)) {
-    AERROR << "Read config failed: " << config;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Read config failed: " << config;
     return false;
   }
 
@@ -175,7 +176,8 @@ bool ObjectTemplateManager::Init(
   type_refined_by_ref_ = kTypeRefinedByRef;
 
   inited_ = true;
-  AINFO << "Init object_template_manager success.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Init object_template_manager success.";
   return true;
 }
 
@@ -287,7 +289,8 @@ float ObjectTemplateManager::VehObjHwlBySearchTemplates(float *hwl, int *index,
   if (score_best < kFloatEpsilon || dh_ratio_check > max_dim_change_ratio_) {
     return -1.0f;
   }
-  ADEBUG << dh_ratio << ", " << dw_ratio << ", " << dl_ratio;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << dh_ratio << ", " << dw_ratio << ", " << dl_ratio;
 
   hwl[0] = veh_hwl_[i_best_by_3];
   hwl[1] = veh_hwl_[i_best_by_3 + 1];

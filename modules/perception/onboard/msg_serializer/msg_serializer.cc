@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -39,8 +38,6 @@ bool MsgSerializer::SerializeMsg(double timestamp, uint64_t lidar_timestamp,
                                  const std::vector<base::ObjectPtr> &objects,
                                  const apollo::common::ErrorCode &error_code,
                                  PerceptionObstacles *obstacles) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double publish_time = Clock::NowInSeconds();
   ::apollo::common::Header *header = obstacles->mutable_header();
   header->set_timestamp_sec(publish_time);
@@ -54,7 +51,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   for (const auto &obj : objects) {
     PerceptionObstacle *obstacle = obstacles->add_perception_obstacle();
     if (!ConvertObjectToPb(obj, obstacle)) {
-      AERROR << "ConvertObjectToPb failed, Object:" << obj->ToString();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ConvertObjectToPb failed, Object:" << obj->ToString();
       return false;
     }
   }
@@ -63,8 +61,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool MsgSerializer::ConvertObjectToPb(const base::ObjectPtr &object_ptr,
                                       PerceptionObstacle *pb_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (object_ptr == nullptr || pb_msg == nullptr) {
     return false;
   }
@@ -198,8 +194,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 //    const apollo::prediction::Trajectory &src_traj =
 //        object_ptr->feature->predicted_trajectory(0);
 //  (*target_traj->mutable_trajectory_point()) = (src_traj.trajectory_point());
-//    ADEBUG << "Inserting Trajectores in PB with point size "
-//           << src_traj.trajectory_point_size();
+ //           << src_traj.trajectory_point_size();
 //  }
 
   return true;

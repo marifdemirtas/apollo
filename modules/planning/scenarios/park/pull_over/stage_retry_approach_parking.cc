@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -45,14 +44,16 @@ Stage::StageStatus PullOverStageRetryApproachParking::FinishStage() {
 
 Stage::StageStatus PullOverStageRetryApproachParking::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: RetryApproachParking";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: RetryApproachParking";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "PullOverStageRetryApproachParking planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PullOverStageRetryApproachParking planning error";
   }
 
   if (CheckADCStop(*frame)) {
@@ -70,8 +71,9 @@ bool PullOverStageRetryApproachParking::CheckADCStop(const Frame& frame) {
                                         .vehicle_param()
                                         .max_abs_speed_when_stopped();
   if (adc_speed > max_adc_stop_speed) {
-    ADEBUG << "ADC not stopped: speed[" << adc_speed << "]";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC not stopped: speed[" << adc_speed << "]";
+     return false;
   }
 
   // check stop close enough to stop line of the stop_sign
@@ -83,8 +85,9 @@ bool PullOverStageRetryApproachParking::CheckADCStop(const Frame& frame) {
 
   if (distance_stop_line_to_adc_front_edge >
       scenario_config_.max_valid_stop_distance()) {
-    ADEBUG << "not a valid stop. too far from stop line.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "not a valid stop. too far from stop line.";
+     return false;
   }
   return true;
 }

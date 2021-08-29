@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,35 +27,25 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Turncmd63::ID = 0x63;
 
 // public
-Turncmd63::Turncmd63() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Turncmd63::Turncmd63() { Reset(); }
 
 uint32_t Turncmd63::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Turncmd63::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_turn_signal_cmd(data, turn_signal_cmd_);
 }
 
 void Turncmd63::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) :you should check this manually
   turn_signal_cmd_ = Turn_cmd_63::TURN_SIGNAL_CMD_NONE;
 }
 
 Turncmd63* Turncmd63::set_turn_signal_cmd(
     Turn_cmd_63::Turn_signal_cmdType turn_signal_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   turn_signal_cmd_ = turn_signal_cmd;
   return this;
 }
@@ -68,8 +57,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 7, 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 void Turncmd63::set_p_turn_signal_cmd(
     uint8_t* data, Turn_cmd_63::Turn_signal_cmdType turn_signal_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   uint8_t x = turn_signal_cmd;
 
   Byte to_set(data + 0);

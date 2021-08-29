@@ -46,17 +46,20 @@ using apollo::cyber::common::GetProtoFromFile;
 using Eigen::MatrixXf;
 
 NCut::NCut() {}
-NCut::~NCut() { ADEBUG << "NCut destructor done"; }
+NCut::~NCut() { AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "NCut destructor done"; }
 
 bool NCut::Init(const NCutParam &param) {
   if (!Configure(param)) {
-    AERROR << "failed to load ncut config.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to load ncut config.";
     return false;
   }
 
   _classifier.reset(new LRClassifier);
   if (!_classifier->init()) {
-    AERROR << "failed to init FrameClassifierPipeline.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to init FrameClassifierPipeline.";
     return false;
   }
   return true;
@@ -79,7 +82,8 @@ bool NCut::Configure(const NCutParam &ncut_param_) {
   _felzenszwalb_k = ncut_param_.felzenszwalb_k();
   _felzenszwalb_min_size = ncut_param_.felzenszwalb_min_size();
 
-  AINFO << "NCut Parameters" << ncut_param_.DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "NCut Parameters" << ncut_param_.DebugString();
   return true;
 }
 
@@ -101,10 +105,12 @@ void NCut::Segment(base::PointFCloudConstPtr cloud) {
     pids[i] = static_cast<int>(i);
   }
   _cloud_obstacles = base::PointFCloudPtr(new base::PointFCloud(*cloud, pids));
-  AINFO << "cloud obstacle size in ncut segment is "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "cloud obstacle size in ncut segment is "
         << _cloud_obstacles->size();
 #ifdef DEBUG_NCUT
-  ADEBUG << "segment enter ... input cloud size " << cloud->size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "segment enter ... input cloud size " << cloud->size();
 // visualize_points(pids);
 #endif
   // .1 super pixels
@@ -114,15 +120,18 @@ void NCut::Segment(base::PointFCloudConstPtr cloud) {
                        &_cluster_points);
 #ifdef DEBUG_NCUT
   // visualize_segments_from_points(_cluster_points);
-  ADEBUG << "super pixels " << _cluster_points.size();
-  AINFO << "super pixels done " << omp_get_wtime() - start_t;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "super pixels " << _cluster_points.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "super pixels done " << omp_get_wtime() - start_t;
   start_t = omp_get_wtime();
 #endif
 
   // .2 precompute skeleton and bbox
   PrecomputeAllSkeletonAndBbox();
 #ifdef DEBUG_NCUT
-  AINFO << "precompute skeleton and bbox done " << omp_get_wtime() - start_t;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "precompute skeleton and bbox done " << omp_get_wtime() - start_t;
   start_t = omp_get_wtime();
 #endif
   // .3 grach cut
@@ -131,7 +140,8 @@ void NCut::Segment(base::PointFCloudConstPtr cloud) {
   NormalizedCut(_ncuts_stop_threshold, true, &segment_clusters,
                 &segment_labels);
 #ifdef DEBUG_NCUT
-  AINFO << "normalized_cut done, #segments " << segment_clusters.size()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "normalized_cut done, #segments " << segment_clusters.size()
         << ", time: " << omp_get_wtime() - start_t;
   start_t = omp_get_wtime();
 #endif
@@ -369,7 +379,8 @@ void NCut::NormalizedCut(float ncuts_threshold, bool use_classifier,
     curr = job_stack.top();
     job_stack.pop();
 #ifdef DEBUG_NCUT
-    AINFO << "curr size " << curr->size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "curr size " << curr->size();
 // visualize_cluster(curr);
 #endif
     std::string seg_label;
@@ -399,7 +410,8 @@ void NCut::NormalizedCut(float ncuts_threshold, bool use_classifier,
       }
       double cost = GetMinNcuts(my_weights, curr, seg1, seg2);
 #ifdef DEBUG_NCUT
-      AINFO << "N cut cost is " << cost << ", seg1 size " << seg1->size()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "N cut cost is " << cost << ", seg1 size " << seg1->size()
             << ", seg2 size " << seg2->size();
       if (curr->size() < 50) {
         std::cout << "seg1: ";

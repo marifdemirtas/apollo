@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -54,8 +53,6 @@ using apollo::common::LatencyStat;
 using apollo::common::LatencyTrack;
 
 LatencyStat GenerateStat(const std::vector<uint64_t>& numbers) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LatencyStat stat;
   uint64_t min_number = (1UL << 63), max_number = 0, sum = 0;
   for (const auto number : numbers) {
@@ -73,8 +70,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void SetStat(const LatencyStat& src, LatencyStat* dst) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   dst->set_min_duration(src.min_duration());
   dst->set_max_duration(src.max_duration());
   dst->set_aver_duration(src.aver_duration());
@@ -84,8 +79,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void SetLatency(const std::string& latency_name,
                 const std::vector<uint64_t>& latency_values,
                 LatencyTrack* track) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto* latency_track = track->add_latency_track();
   latency_track->set_latency_name(latency_name);
   SetStat(GenerateStat(latency_values), latency_track->mutable_latency_stat());
@@ -95,13 +88,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 LatencyMonitor::LatencyMonitor()
     : RecurrentRunner(FLAGS_latency_monitor_name,
-                      FLAGS_latency_monitor_interval) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+                      FLAGS_latency_monitor_interval) {}
 
 void LatencyMonitor::RunOnce(const double current_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   static auto reader =
       MonitorManager::Instance()->CreateReader<LatencyRecordMap>(
           FLAGS_latency_recording_topic);
@@ -133,8 +122,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LatencyMonitor::UpdateStat(
     const std::shared_ptr<LatencyRecordMap>& records) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto module_name = records->module_name();
   for (const auto& record : records->latency_records()) {
     track_map_[record.message_id()].emplace(record.begin_time(),
@@ -153,8 +140,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LatencyMonitor::PublishLatencyReport() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   static auto writer = MonitorManager::Instance()->CreateWriter<LatencyReport>(
       FLAGS_latency_reporting_topic);
   apollo::common::util::FillHeader("LatencyReport", &latency_report_);
@@ -167,8 +152,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LatencyMonitor::AggregateLatency() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   static const std::string kE2EStartPoint = FLAGS_pointcloud_topic;
   std::unordered_map<std::string, std::vector<uint64_t>> modules_track;
   std::unordered_map<std::string, std::vector<uint64_t>> e2es_track;
@@ -232,8 +215,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool LatencyMonitor::GetFrequency(const std::string& channel_name,
                                   double* freq) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (freq_map_.find(channel_name) == freq_map_.end()) {
     return false;
   }

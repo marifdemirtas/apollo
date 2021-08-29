@@ -61,7 +61,8 @@ void ContiArsPreprocessor::SkipObjects(
     }
   }
   if (raw_obstacles.contiobs_size() > corrected_obstacles->contiobs_size()) {
-    AINFO << "skip objects: " << raw_obstacles.contiobs_size() << "-> "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "skip objects: " << raw_obstacles.contiobs_size() << "-> "
           << corrected_obstacles->contiobs_size();
   }
 }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,24 +24,18 @@ namespace apollo {
 namespace hdmap {
 
 PoseCollectionAgent::PoseCollectionAgent(std::shared_ptr<JsonConf> sp_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sp_pj_transformer_ = std::make_shared<PJTransformer>(50);
   sp_conf_ = sp_conf;
   Reset();
 }
 
 void PoseCollectionAgent::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sp_pose_collection_ = std::make_shared<PoseCollection>(sp_conf_);
 }
 
 void PoseCollectionAgent::OnBestgnssposCallback(
     const std::shared_ptr<const apollo::drivers::gnss::GnssBestPose>
         &bestgnsspos) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (sp_pose_collection_ == nullptr) {
     sp_pose_collection_ = std::make_shared<PoseCollection>(sp_conf_);
   }
@@ -52,8 +45,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   FramePose pose;
   if (sp_conf_->use_system_time) {
     pose.time_stamp = UnixNow();
-    AINFO << "system time: " << pose.time_stamp;
-  } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "system time: " << pose.time_stamp;
+   } else {
     pose.time_stamp = time_stamp;
   }
   pose.latitude = bestgnsspos->latitude();
@@ -85,8 +79,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 std::shared_ptr<std::vector<FramePose>> PoseCollectionAgent::GetPoses() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (sp_pose_collection_ == nullptr) {
     return nullptr;
   }

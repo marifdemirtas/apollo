@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -71,7 +70,7 @@ std::ostream &operator<<(
 #define GET_ELEMENT_BY_ID(TYPE)                                     \
   const TYPE##InfoConstPtr Get##TYPE(const std::string &id) {       \
     auto ret = HDMapUtil::BaseMap().Get##TYPE##ById(MakeMapId(id)); \
-    AERROR_IF(ret == nullptr)                                       \
+ AERROR_IF(ret == nullptr)                                       \
         << "failed to find " << #TYPE << " with id: " << id;        \
     return ret;                                                     \
   }
@@ -80,7 +79,8 @@ class MapUtil {
  public:
   const OverlapInfo *GetOverlap(const std::string &overlap_id) const {
     auto ret = HDMapUtil::BaseMap().GetOverlapById(MakeMapId(overlap_id));
-    AERROR_IF(ret == nullptr) << "failed to find overlap[" << overlap_id << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_IF(ret == nullptr) << "failed to find overlap[" << overlap_id << "]";
     return ret.get();
   }
 
@@ -144,11 +144,13 @@ class MapUtil {
   void PrintOverlap(const std::string &overlap_id) {
     const auto *overlap_ptr = GetOverlap(FLAGS_overlap);
     if (overlap_ptr == nullptr) {
-      AERROR << "overlap_ptr is nullptr.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "overlap_ptr is nullptr.";
       return;
     }
-    ADEBUG << "overlap[" << overlap_ptr->id().id() << "] info["
-           << overlap_ptr->overlap().DebugString() << "]" << std::endl;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "overlap[" << overlap_ptr->id().id() << "] info["
+            << overlap_ptr->overlap().DebugString() << "]" << std::endl;
 
     for (const auto &object_info : overlap_ptr->overlap().object()) {
       if (object_info.has_lane_overlap_info()) {
@@ -269,8 +271,6 @@ class MapUtil {
 }  // namespace apollo
 
 int main(int argc, char *argv[]) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::InitGoogleLogging(argv[0]);
   google::ParseCommandLineFlags(&argc, &argv, true);
   const std::string map_file = apollo::hdmap::BaseMapFile();

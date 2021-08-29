@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace apollo {
 namespace data {
 
 SmallTopicsTrigger::SmallTopicsTrigger() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   trigger_name_ = "SmallTopicsTrigger";
 }
 
 bool SmallTopicsTrigger::ShouldRestore(
     const cyber::record::RecordMessage& msg) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const std::set<std::string>& small_channels =
       ChannelPool::Instance()->GetSmallChannels();
   return trigger_obj_->enabled() &&

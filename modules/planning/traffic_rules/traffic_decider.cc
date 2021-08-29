@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -132,14 +131,17 @@ void TrafficDecider::BuildPlanningTarget(
           stop_code == StopReasonCode::STOP_REASON_REFERENCE_END ||
           stop_code == StopReasonCode::STOP_REASON_SIGNAL) {
         stop_point.set_type(StopPoint::HARD);
-        ADEBUG << "Hard stop at: " << min_s
-               << "REASON: " << StopReasonCode_Name(stop_code);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Hard stop at: " << min_s
+                << "REASON: " << StopReasonCode_Name(stop_code);
       } else if (stop_code == StopReasonCode::STOP_REASON_YELLOW_SIGNAL) {
         stop_point.set_type(StopPoint::SOFT);
-        ADEBUG << "Soft stop at: " << min_s << "  STOP_REASON_YELLOW_SIGNAL";
-      } else {
-        ADEBUG << "No planning target found at reference line.";
-      }
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Soft stop at: " << min_s << "  STOP_REASON_YELLOW_SIGNAL";
+       } else {
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "No planning target found at reference line.";
+       }
     }
   }
   if (min_s != std::numeric_limits<double>::infinity()) {
@@ -161,18 +163,21 @@ Status TrafficDecider::Execute(
 
   for (const auto &rule_config : rule_configs_.config()) {
     if (!rule_config.enabled()) {
-      ADEBUG << "Rule " << rule_config.rule_id() << " not enabled";
-      continue;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Rule " << rule_config.rule_id() << " not enabled";
+       continue;
     }
     auto rule = s_rule_factory.CreateObject(rule_config.rule_id(), rule_config,
                                             injector);
     if (!rule) {
-      AERROR << "Could not find rule " << rule_config.DebugString();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Could not find rule " << rule_config.DebugString();
       continue;
     }
     rule->ApplyRule(frame, reference_line_info);
-    ADEBUG << "Applied rule "
-           << TrafficRuleConfig::RuleId_Name(rule_config.rule_id());
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Applied rule "
+            << TrafficRuleConfig::RuleId_Name(rule_config.rule_id());
   }
 
   BuildPlanningTarget(reference_line_info);

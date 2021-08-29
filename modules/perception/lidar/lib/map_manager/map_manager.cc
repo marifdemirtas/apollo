@@ -43,7 +43,8 @@ bool MapManager::Init(const MapManagerInitOptions& options) {
   roi_search_distance_ = config.roi_search_distance();
   hdmap_input_ = map::HDMapInput::Instance();
   if (!hdmap_input_->Init()) {
-    AINFO << "Failed to init hdmap input.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to init hdmap input.";
     return false;
   }
   return true;
@@ -51,19 +52,22 @@ bool MapManager::Init(const MapManagerInitOptions& options) {
 
 bool MapManager::Update(const MapManagerOptions& options, LidarFrame* frame) {
   if (!frame) {
-    AINFO << "Frame is nullptr.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Frame is nullptr.";
     return false;
   }
   if (!(frame->hdmap_struct)) {
     frame->hdmap_struct.reset(new base::HdmapStruct);
   }
   if (!hdmap_input_) {
-    AINFO << "Hdmap input is nullptr";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Hdmap input is nullptr";
     return false;
   }
   if (update_pose_) {
     if (!QueryPose(&(frame->lidar2world_pose))) {
-      AINFO << "Failed to query updated pose.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to query updated pose.";
     }
   }
   base::PointD point;
@@ -76,7 +80,8 @@ bool MapManager::Update(const MapManagerOptions& options, LidarFrame* frame) {
     frame->hdmap_struct->road_boundary.clear();
     frame->hdmap_struct->hole_polygons.clear();
     frame->hdmap_struct->junction_polygons.clear();
-    AINFO << "Failed to get roi from hdmap.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to get roi from hdmap.";
   }
   return true;
 }

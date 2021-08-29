@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -26,13 +25,9 @@
 namespace apollo {
 namespace data {
 
-IntervalPool::IntervalPool() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+IntervalPool::IntervalPool() {}
 
 void IntervalPool::AddInterval(const Interval& interval) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (pool_.empty() || interval.begin_time > pool_iter_->end_time) {
     pool_.push_back(interval);
     pool_iter_ = std::prev(pool_.end());
@@ -45,8 +40,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void IntervalPool::AddInterval(const uint64_t begin_time,
                                const uint64_t end_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   struct Interval interval;
   interval.begin_time = begin_time;
   interval.end_time = end_time;
@@ -54,8 +47,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void IntervalPool::ReorgIntervals() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Sort the intervals by begin_time ascending
   std::sort(pool_.begin(), pool_.end(),
             [](const Interval& x, const Interval& y) {
@@ -66,8 +57,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool IntervalPool::MessageFallIntoRange(const uint64_t msg_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // For each message comes for checking, the logic is:
   // 1. Add end_time of any intervals whose begin_time is smaller
   //    than message time to the helper set
@@ -86,20 +75,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void IntervalPool::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pool_.clear();
   pool_iter_ = pool_.begin();
   accu_end_values_.clear();
 }
 
 void IntervalPool::PrintIntervals() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto idx = 0;
   for (const auto& interval : pool_) {
-    AINFO << "Interval " << ++idx << ": " << interval.begin_time << " - "
-          << interval.end_time;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Interval " << ++idx << ": " << interval.begin_time << " - "
+           << interval.end_time;
   }
 }
 
@@ -108,12 +94,11 @@ void IntervalPool::LogIntervalEvent(const std::string& name,
                                     const uint64_t msg_time,
                                     const uint64_t backward_time,
                                     const uint64_t forward_time) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::ofstream logfile(interval_event_log_file_path_,
                         std::ios::out | std::ios::app);
   if (!logfile) {
-    AERROR << "Failed to write " << interval_event_log_file_path_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to write " << interval_event_log_file_path_;
     return;
   }
   logfile << std::fixed << std::setprecision(9);
@@ -124,8 +109,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Interval IntervalPool::GetNextInterval() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (pool_.empty()) {
     struct Interval interval;
     interval.begin_time = 0;

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -101,12 +100,16 @@ void DualVariableWarmStartSlackOSQPInterface::printMatrix(
     }
   }
 
-  AINFO << "row number: " << r;
-  AINFO << "col number: " << c;
-  for (int i = 0; i < r; ++i) {
-    AINFO << "row number: " << i;
-    AINFO << tmp.row(i);
-  }
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "row number: " << r;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "col number: " << c;
+   for (int i = 0; i < r; ++i) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "row number: " << i;
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << tmp.row(i);
+   }
 }
 
 void DualVariableWarmStartSlackOSQPInterface::assembleA(
@@ -138,8 +141,9 @@ bool DualVariableWarmStartSlackOSQPInterface::optimize() {
   std::vector<c_int> P_indptr;
   assembleP(&P_data, &P_indices, &P_indptr);
   if (check_mode_) {
-    AINFO << "print P_data in whole: ";
-    printMatrix(num_of_variables_, num_of_variables_, P_data, P_indices,
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "print P_data in whole: ";
+     printMatrix(num_of_variables_, num_of_variables_, P_data, P_indices,
                 P_indptr);
   }
   // assemble q, linear term in objective, \sum{beta * slacks}
@@ -157,8 +161,9 @@ bool DualVariableWarmStartSlackOSQPInterface::optimize() {
   std::vector<c_int> A_indptr;
   assembleConstraint(&A_data, &A_indices, &A_indptr);
   if (check_mode_) {
-    AINFO << "print A_data in whole: ";
-    printMatrix(num_of_constraints_, num_of_variables_, A_data, A_indices,
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "print A_data in whole: ";
+     printMatrix(num_of_constraints_, num_of_variables_, A_data, A_indices,
                 A_indptr);
     assembleA(num_of_constraints_, num_of_variables_, A_data, A_indices,
               A_indptr);
@@ -518,8 +523,10 @@ void DualVariableWarmStartSlackOSQPInterface::get_optimization_results(
     }
   }
 
-  ADEBUG << "max_s: " << max_s;
-  ADEBUG << "min_s: " << min_s;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "max_s: " << max_s;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "min_s: " << min_s;
+ }
 }  // namespace planning
 }  // namespace apollo

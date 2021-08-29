@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -28,22 +27,20 @@ namespace localization {
 
 using apollo::cyber::Clock;
 
-MSFLocalizationComponent::MSFLocalizationComponent() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+MSFLocalizationComponent::MSFLocalizationComponent() {}
 
 bool MSFLocalizationComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   publisher_.reset(new LocalizationMsgPublisher(this->node_));
 
   if (!InitConfig()) {
-    AERROR << "Init Config failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init Config failed.";
     return false;
   }
 
   if (!InitIO()) {
-    AERROR << "Init IO failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init IO failed.";
     return false;
   }
 
@@ -51,19 +48,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool MSFLocalizationComponent::InitConfig() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   lidar_topic_ = FLAGS_lidar_topic;
   bestgnsspos_topic_ = FLAGS_gnss_best_pose_topic;
   gnss_heading_topic_ = FLAGS_heading_topic;
 
   if (!publisher_->InitConfig()) {
-    AERROR << "Init publisher config failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init publisher config failed.";
     return false;
   }
 
   if (!localization_.Init().ok()) {
-    AERROR << "Init class MSFLocalization failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init class MSFLocalization failed.";
     return false;
   }
 
@@ -71,8 +68,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool MSFLocalizationComponent::InitIO() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cyber::ReaderConfig reader_config;
   reader_config.channel_name = lidar_topic_;
   reader_config.pending_queue_size = 1;
@@ -100,7 +95,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   // init writer
   if (!publisher_->InitIO()) {
-    AERROR << "Init publisher io failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init publisher io failed.";
     return false;
   }
 
@@ -111,21 +107,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool MSFLocalizationComponent::Proc(
     const std::shared_ptr<drivers::gnss::Imu>& imu_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_.OnRawImuCache(imu_msg);
   return true;
 }
 
 LocalizationMsgPublisher::LocalizationMsgPublisher(
     const std::shared_ptr<cyber::Node>& node)
-    : node_(node), tf2_broadcaster_(node) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : node_(node), tf2_broadcaster_(node) {}
 
 bool LocalizationMsgPublisher::InitConfig() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_topic_ = FLAGS_localization_topic;
   broadcast_tf_frame_id_ = FLAGS_broadcast_tf_frame_id;
   broadcast_tf_child_frame_id_ = FLAGS_broadcast_tf_child_frame_id;
@@ -137,8 +127,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool LocalizationMsgPublisher::InitIO() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_talker_ =
       node_->CreateWriter<LocalizationEstimate>(localization_topic_);
 
@@ -155,8 +143,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LocalizationMsgPublisher::PublishPoseBroadcastTF(
     const LocalizationEstimate& localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // broadcast tf message
   apollo::transform::TransformStamped tf2_msg;
 
@@ -181,18 +167,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LocalizationMsgPublisher::PublishPoseBroadcastTopic(
     const LocalizationEstimate& localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double cur_system_time = localization.header().timestamp_sec();
   if (pre_system_time_ > 0.0 && cur_system_time - pre_system_time_ > 0.02) {
-    AERROR << std::setprecision(16)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << std::setprecision(16)
            << "the localization processing time enlonged more than 2 times "
               "according to system time, "
            << "the pre system time and current system time: "
            << pre_system_time_ << " " << cur_system_time;
   } else if (pre_system_time_ > 0.0 &&
              cur_system_time - pre_system_time_ < 0.0) {
-    AERROR << std::setprecision(16)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << std::setprecision(16)
            << "published localization message's time is eary than last imu "
               "message "
               "according to system time, "
@@ -205,22 +191,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LocalizationMsgPublisher::PublishLocalizationMsfGnss(
     const LocalizationEstimate& localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   gnss_local_talker_->Write(localization);
 }
 
 void LocalizationMsgPublisher::PublishLocalizationMsfLidar(
     const LocalizationEstimate& localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   lidar_local_talker_->Write(localization);
 }
 
 void LocalizationMsgPublisher::PublishLocalizationStatus(
     const LocalizationStatus& localization_status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_status_talker_->Write(localization_status);
 }
 

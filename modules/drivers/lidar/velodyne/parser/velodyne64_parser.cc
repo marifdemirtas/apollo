@@ -87,7 +87,8 @@ void Velodyne64Parser::SetBaseTimeFromPackets(const VelodynePacket& pkt) {
       break;
   }
 
-  AINFO << "Get base time from packets. Obtained (" << year << "." << month
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Get base time from packets. Obtained (" << year << "." << month
         << "." << day << " " << hour << ":" << minute << ":" << second;
 
   if (status_type == GPS_STATUS && year > 0 && month > 0 && day > 0 &&
@@ -106,8 +107,7 @@ void Velodyne64Parser::SetBaseTimeFromPackets(const VelodynePacket& pkt) {
     time.tm_min = 0;
     time.tm_sec = 0;
 
-    //    AINFO << "Set base unix time: (%d.%d.%d %d:%d:%d)", time.tm_year,
-    //        time.tm_mon, time.tm_mday, time.tm_hour, time.tm_min, time.tm_sec;
+        //        time.tm_mon, time.tm_mday, time.tm_hour, time.tm_min, time.tm_sec;
 
     uint64_t unix_base = static_cast<uint64_t>(timegm(&time));
     for (int i = 0; i < 4; ++i) {
@@ -177,7 +177,8 @@ void Velodyne64Parser::GeneratePointcloud(
       CheckGpsStatus(scan_msg->firing_pkts(static_cast<int>(i)));
       Unpack(scan_msg->firing_pkts(static_cast<int>(i)), pointcloud);
       last_time_stamp_ = pointcloud->measurement_time();
-      ADEBUG << "stamp: " << std::fixed << last_time_stamp_;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stamp: " << std::fixed << last_time_stamp_;
     }
   }
 
@@ -187,7 +188,8 @@ void Velodyne64Parser::GeneratePointcloud(
     int size = pointcloud->point_size();
     if (size == 0) {
       // we discard this pointcloud if empty
-      AERROR << "All points is NAN! Please check velodyne:" << config_.model();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "All points is NAN! Please check velodyne:" << config_.model();
     } else {
       uint64_t timestamp = pointcloud->point(size - 1).timestamp();
       pointcloud->set_measurement_time(static_cast<double>(timestamp) / 1e9);
@@ -239,7 +241,8 @@ int Velodyne64Parser::IntensityCompensate(const LaserCorrection& corrections,
 
 void Velodyne64Parser::Unpack(const VelodynePacket& pkt,
                               std::shared_ptr<PointCloud> pc) {
-  ADEBUG << "Received packet, time: " << pkt.stamp();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received packet, time: " << pkt.stamp();
 
   // const RawPacket* raw = (const RawPacket*)&pkt.data[0];
   const RawPacket* raw = (const RawPacket*)pkt.data().c_str();

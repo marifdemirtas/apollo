@@ -52,7 +52,8 @@ bool ObjMapper::SolveCenterFromNearestVerticalEdge(const float *bbox,
   float height_bbox = bbox[3] - bbox[1];
   float width_bbox = bbox[2] - bbox[0];
   if (width_bbox <= 0.0f || height_bbox <= 0.0f) {
-    AERROR << "width or height of bbox is 0";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "width or height of bbox is 0";
     return false;
   }
 

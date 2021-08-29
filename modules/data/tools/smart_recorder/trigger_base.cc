@@ -25,7 +25,8 @@ namespace data {
 bool TriggerBase::Init(const SmartRecordTrigger& trigger_conf) {
   LockTrigger(trigger_conf);
   if (trigger_obj_ == nullptr) {
-    AERROR << "failed to lock trigger " << GetTriggerName();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to lock trigger " << GetTriggerName();
     return false;
   }
   return true;

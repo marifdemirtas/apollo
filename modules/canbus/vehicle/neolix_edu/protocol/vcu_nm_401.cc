@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace neolix_edu {
 
 using ::apollo::drivers::canbus::Byte;
 
-Vcunm401::Vcunm401() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Vcunm401::Vcunm401() {}
 const int32_t Vcunm401::ID = 0x401;
 
 void Vcunm401::Parse(const std::uint8_t* bytes, int32_t length,
                      ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_neolix_edu()->mutable_vcu_nm_401()->set_vcu_sleepcommand(
       vcu_sleepcommand(bytes, length));
 }
@@ -47,8 +42,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': 'bit'}
 bool Vcunm401::vcu_sleepcommand(const std::uint8_t* bytes,
                                 int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 

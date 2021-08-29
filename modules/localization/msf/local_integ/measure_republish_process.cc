@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -42,17 +41,11 @@ MeasureRepublishProcess::MeasureRepublishProcess()
       local_utm_zone_id_(50),
       is_trans_gpstime_to_utctime_(true),
       map_height_time_(0.0),
-      gnss_mode_(GnssMode::NOVATEL) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+      gnss_mode_(GnssMode::NOVATEL) {}
 
-MeasureRepublishProcess::~MeasureRepublishProcess() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+MeasureRepublishProcess::~MeasureRepublishProcess() {}
 
 Status MeasureRepublishProcess::Init(const LocalizationIntegParam& params) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   local_utm_zone_id_ = params.utm_zone_id;
   is_trans_gpstime_to_utctime_ = params.is_trans_gpstime_to_utctime;
   gnss_mode_ = GnssMode(params.gnss_mode);
@@ -64,18 +57,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   novatel_heading_time_ = 0.0;
 
   std::ifstream imu_ant_fin(params.ant_imu_leverarm_file.c_str());
-  AINFO << "the ant_imu_leverarm file: " << params.ant_imu_leverarm_file.c_str()
-        << std::endl;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "the ant_imu_leverarm file: " << params.ant_imu_leverarm_file.c_str()
+         << std::endl;
   if (imu_ant_fin) {
     bool success = LoadImuGnssAntennaExtrinsic(params.ant_imu_leverarm_file,
                                                &imu_gnssant_extrinsic_);
     if (!success) {
-      AERROR << "IntegratedLocalization: Fail to access the lever arm "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "IntegratedLocalization: Fail to access the lever arm "
                 "between imu and gnss extrinsic file: "
              << params.ant_imu_leverarm_file;
     }
-    AINFO << "gnss and imu lever arm in vehicle frame: "
-          << " " << imu_gnssant_extrinsic_.ant_num << " "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "gnss and imu lever arm in vehicle frame: "
+           << " " << imu_gnssant_extrinsic_.ant_num << " "
           << imu_gnssant_extrinsic_.transform_1.translation()[0] << " "
           << imu_gnssant_extrinsic_.transform_1.translation()[1] << " "
           << imu_gnssant_extrinsic_.transform_1.translation()[2] << " "
@@ -83,8 +79,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           << imu_gnssant_extrinsic_.transform_2.translation()[1] << " "
           << imu_gnssant_extrinsic_.transform_2.translation()[2];
   } else {
-    AINFO << "the ant_imu_leverarm_file does not existence!";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "the ant_imu_leverarm_file does not existence!";
+   }
 
   double vehicle_to_imu_quatern[4] = {
       params.vehicle_to_imu_quatern.w, params.vehicle_to_imu_quatern.x,
@@ -120,8 +117,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       dcm[2][0] * lever_arm_x + dcm[2][1] * lever_arm_y +
       dcm[2][2] * lever_arm_z;
 
-  AINFO << "gnss and imu lever arm in imu frame: "
-        << " " << imu_gnssant_extrinsic_.ant_num << " "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "gnss and imu lever arm in imu frame: "
+         << " " << imu_gnssant_extrinsic_.ant_num << " "
         << imu_gnssant_extrinsic_.transform_1.translation()[0] << " "
         << imu_gnssant_extrinsic_.transform_1.translation()[1] << " "
         << imu_gnssant_extrinsic_.transform_1.translation()[2] << " "
@@ -138,8 +136,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool MeasureRepublishProcess::NovatelBestgnssposProcess(
     const GnssBestPose& bestgnsspos_msg, MeasureData* measure) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (gnss_mode_ != GnssMode::NOVATEL) {
     return false;
   }
@@ -170,14 +166,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       send_init_bestgnsspose_ = true;
     } else {
       if (!CalculateVelFromBestgnsspose(bestgnsspos_msg, measure)) {
-        AINFO << "Waiting calculate velocity successfully...";
-        return false;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Waiting calculate velocity successfully...";
+         return false;
       }
     }
   }
 
-  ADEBUG << std::setprecision(16)
-         << "MeasureDataRepublish Debug Log: bestgnsspos msg: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << std::setprecision(16)
+          << "MeasureDataRepublish Debug Log: bestgnsspos msg: "
          << "[time:" << measure->time << "]"
          << "[x:" << measure->gnss_pos.longitude * RAD_TO_DEG << "]"
          << "[y:" << measure->gnss_pos.latitude * RAD_TO_DEG << "]"
@@ -192,8 +190,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void MeasureRepublishProcess::GnssLocalProcess(
     const MeasureData& gnss_local_msg, MeasureData* measure) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (gnss_mode_ != GnssMode::SELF) {
     return;
   }
@@ -205,8 +201,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     measure_data.time = TimeUtil::Gps2Unix(measure_data.time);
   }
 
-  AINFO << "the gnss velocity: " << measure_data.gnss_vel.ve << " "
-        << measure_data.gnss_vel.vn << " " << measure_data.gnss_vel.vu;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "the gnss velocity: " << measure_data.gnss_vel.ve << " "
+         << measure_data.gnss_vel.vn << " " << measure_data.gnss_vel.vu;
 
   measure_data.gnss_att.pitch = 0.0;
   measure_data.gnss_att.roll = 0.0;
@@ -225,14 +222,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   double ve_std = std::sqrt(measure_data.variance[3][3]);
   double vn_std = std::sqrt(measure_data.variance[4][4]);
   double vu_std = std::sqrt(measure_data.variance[5][5]);
-  AINFO << "the gnss velocity std: " << ve_std << " " << vn_std << " "
-        << vu_std;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "the gnss velocity std: " << ve_std << " " << vn_std << " "
+         << vu_std;
 
   bool is_sins_align = IsSinsAlign();
 
   if (is_sins_align) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     measure_data.measure_type = MeasureType::GNSS_POS_ONLY;
     height_mutex_.lock();
     if ((measure_data.time - 1.0 < map_height_time_)) {
@@ -250,8 +246,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       measure_data.gnss_vel.ve = 0.0;
       measure_data.gnss_vel.vn = 0.0;
       measure_data.gnss_vel.vu = 0.0;
-      AINFO << "send sins init position using rtk-gnss position!";
-      *measure = measure_data;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "send sins init position using rtk-gnss position!";
+       *measure = measure_data;
       return;
     }
 
@@ -263,13 +260,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
     if (gnss_local_msg.measure_type != MeasureType::GNSS_POS_VEL &&
         gnss_local_msg.measure_type != MeasureType::ENU_VEL_ONLY) {
-      AERROR << "gnss does not have velocity,"
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "gnss does not have velocity,"
              << "the gnss velocity std: " << ve_std << " " << vn_std << " "
              << vu_std;
       return;
     }
     if (!gnss_local_msg.is_have_variance) {
-      AERROR << "gnss velocity does not have velocity variance!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "gnss velocity does not have velocity variance!";
       return;
     } else {
       if ((ve_std > 0.1) || (vn_std > 0.1)) {
@@ -298,11 +297,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         delta_yaw = delta_yaw + rad_round;
       }
 
-      AINFO << "yaw from position difference: " << yaw_from_vel * RAD_TO_DEG;
-      double delta_time = measure_data.time - pre_measure_time;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "yaw from position difference: " << yaw_from_vel * RAD_TO_DEG;
+       double delta_time = measure_data.time - pre_measure_time;
       if (delta_time < 1.0e-10) {
-        AINFO << "the delta time is too small: " << delta_time;
-      }
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "the delta time is too small: " << delta_time;
+       }
       double yaw_incr = delta_yaw / delta_time;
       // 0.0872rad = 5deg
       static constexpr double rad_5deg = 5 * DEG_TO_RAD;
@@ -321,8 +322,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
   *measure = measure_data;
 
-  ADEBUG << std::setprecision(16)
-         << "MeasureDataRepublish Debug Log: rtkgnss msg: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << std::setprecision(16)
+          << "MeasureDataRepublish Debug Log: rtkgnss msg: "
          << "[time:" << measure_data.time << "]"
          << "[x:" << measure_data.gnss_pos.longitude * RAD_TO_DEG << "]"
          << "[y:" << measure_data.gnss_pos.latitude * RAD_TO_DEG << "]"
@@ -333,8 +335,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void MeasureRepublishProcess::IntegPvaProcess(const InsPva& inspva_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const InsPva& integ_pva = inspva_msg;
 
   std::lock_guard<std::mutex> lock(integ_pva_mutex_);
@@ -348,8 +348,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool MeasureRepublishProcess::LidarLocalProcess(
     const LocalizationEstimate& lidar_local_msg, MeasureData* measure) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(measure);
 
   MeasureData measure_data;
@@ -398,8 +396,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   *measure = measure_data;
 
-  ADEBUG << std::setprecision(16)
-         << "MeasureDataRepublish Debug Log: lidarLocal msg: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << std::setprecision(16)
+          << "MeasureDataRepublish Debug Log: lidarLocal msg: "
          << "[time:" << measure_data.time << "]"
          << "[x:" << measure_data.gnss_pos.longitude * RAD_TO_DEG << "]"
          << "[y:" << measure_data.gnss_pos.latitude * RAD_TO_DEG << "]"
@@ -413,18 +412,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool MeasureRepublishProcess::IsSinsAlign() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(integ_pva_mutex_);
   return !integ_pva_list_.empty() && integ_pva_list_.back().init_and_alignment;
 }
 
 void MeasureRepublishProcess::TransferXYZFromBestgnsspose(
     const GnssBestPose& bestgnsspos_msg, MeasureData* measure) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(measure);
 
   measure->time = bestgnsspos_msg.measurement_time();
@@ -456,8 +449,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void MeasureRepublishProcess::TransferFirstMeasureFromBestgnsspose(
     const GnssBestPose& bestgnsspos_msg, MeasureData* measure) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(measure);
 
   TransferXYZFromBestgnsspose(bestgnsspos_msg, measure);
@@ -469,14 +460,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   measure->gnss_vel.ve = 0.0;
   measure->gnss_vel.vn = 0.0;
   measure->gnss_vel.vu = 0.0;
-  AINFO << "Novatel bestgnsspose publish: "
-        << "send sins init position using novatel bestgnsspos!";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Novatel bestgnsspose publish: "
+         << "send sins init position using novatel bestgnsspos!";
 }
 
 bool MeasureRepublishProcess::CalculateVelFromBestgnsspose(
     const GnssBestPose& bestgnsspos_msg, MeasureData* measure) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(measure);
 
   TransferXYZFromBestgnsspose(bestgnsspos_msg, measure);
@@ -521,8 +511,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       (measure->gnss_pos.height - pre_bestgnsspose_.gnss_pos.height) * inv_time;
 
   pre_bestgnsspose_ = *measure;
-  AINFO << "novatel bestgnsspos velocity: " << measure->gnss_vel.ve << " "
-        << measure->gnss_vel.vn << " " << measure->gnss_vel.vu;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "novatel bestgnsspos velocity: " << measure->gnss_vel.ve << " "
+         << measure->gnss_vel.vn << " " << measure->gnss_vel.vu;
 
   static double pre_yaw_from_vel = 0.0;
   double yaw_from_vel = atan2(measure->gnss_vel.ve, measure->gnss_vel.vn);
@@ -541,8 +532,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       delta_yaw = delta_yaw + rad_round;
     }
 
-    AINFO << "yaw calculated from position difference: "
-          << yaw_from_vel * RAD_TO_DEG;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "yaw calculated from position difference: "
+           << yaw_from_vel * RAD_TO_DEG;
     static constexpr double rad_5deg = 5 * DEG_TO_RAD;
     if (delta_yaw > rad_5deg || delta_yaw < -rad_5deg) {
       AWARN << "novatel bestgnsspos delta yaw is large! "
@@ -561,26 +553,27 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool MeasureRepublishProcess::GnssHeadingProcess(
     const drivers::gnss::Heading& heading_msg, MeasureData* measure_data,
     int* status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if ((imu_gnssant_extrinsic_.ant_num == 1)) {
     return false;
   }
   int solution_status = heading_msg.solution_status();
   int position_type = heading_msg.position_type();
-  AINFO << "the heading solution_status and position_type: " << solution_status
-        << " " << position_type;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "the heading solution_status and position_type: " << solution_status
+         << " " << position_type;
 
   if (solution_status != 0) {
     *status = 93;
-    AINFO << "the heading's solution_status is not computed: "
-          << solution_status;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "the heading's solution_status is not computed: "
+           << solution_status;
     return false;
   }
   *status = position_type;
   if ((position_type == 0) || (position_type == 1)) {
-    AINFO << "the heading's solution_type is invalid or fixed: "
-          << position_type;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "the heading's solution_type is invalid or fixed: "
+           << position_type;
     return false;
   }
   measure_data->time = heading_msg.measurement_time();
@@ -598,8 +591,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   height_mutex_.unlock();
 
   if (delta_time_between_height < 1.0) {
-    AINFO << "the heading time and delta time: " << std::setprecision(15)
-          << measure_data->time << " " << delta_time_between_height;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "the heading time and delta time: " << std::setprecision(15)
+           << measure_data->time << " " << delta_time_between_height;
     return false;
   }
 
@@ -626,16 +620,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                imu_gnssant_extrinsic_.transform_2.translation()[1] -
                    imu_gnssant_extrinsic_.transform_1.translation()[1]) *
         57.295779513082323;
-    AINFO << "imu_gnssant_extrinsic_: "
-          << imu_gnssant_extrinsic_.transform_2.translation()[0] << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "imu_gnssant_extrinsic_: "
+           << imu_gnssant_extrinsic_.transform_2.translation()[0] << ", "
           << imu_gnssant_extrinsic_.transform_1.translation()[0] << ", "
           << imu_gnssant_extrinsic_.transform_2.translation()[1] << ", "
           << imu_gnssant_extrinsic_.transform_2.translation()[1];
-    AINFO << "the yaw between double ant yaw and vehicle: "
-          << imu_ant_yaw_angle;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "the yaw between double ant yaw and vehicle: "
+           << imu_ant_yaw_angle;
   }
-  AINFO << "novatel heading is: " << std::setprecision(15) << measure_data->time
-        << " " << std::setprecision(6) << gnss_yaw;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "novatel heading is: " << std::setprecision(15) << measure_data->time
+         << " " << std::setprecision(6) << gnss_yaw;
   if (gnss_yaw > 180) {
     // the novatel yaw angle is 0-360deg
     gnss_yaw -= 360.0;
@@ -648,14 +645,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   measure_data->measure_type = MeasureType::GNSS_DOUBLE_ANT_YAW;
   measure_data->is_have_variance = true;
   // 3.046174197867086e-04 = (pi / 180)^2
-  AINFO << "the novatel heading std: " << std::setprecision(15)
-        << measure_data->time << " " << heading_std;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "the novatel heading std: " << std::setprecision(15)
+         << measure_data->time << " " << heading_std;
   measure_data->variance[8][8] =
       heading_std * heading_std * 3.046174197867086e-04;
   measure_data->gnss_att.yaw = -gnss_yaw * 0.017453292519943;
 
-  AINFO << "measure data heading is: " << std::setprecision(15)
-        << measure_data->time << " " << std::setprecision(6)
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "measure data heading is: " << std::setprecision(15)
+         << measure_data->time << " " << std::setprecision(6)
         << measure_data->gnss_att.yaw;
 
   return true;
@@ -663,8 +662,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool MeasureRepublishProcess::LoadImuGnssAntennaExtrinsic(
     std::string file_path, VehicleGnssAntExtrinsic* extrinsic) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   YAML::Node confige = YAML::LoadFile(file_path);
   if (confige["leverarm"]) {
     if (confige["leverarm"]["primary"]["offset"]) {
@@ -719,8 +716,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool MeasureRepublishProcess::CheckBestgnssPoseXYStd(
     const GnssBestPose& bestgnsspos_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // check the standard deviation of xy
   if ((bestgnsspos_msg.longitude_std_dev() > GNSS_XY_STD_THRESHOLD) ||
       (bestgnsspos_msg.latitude_std_dev() > GNSS_XY_STD_THRESHOLD)) {
@@ -734,22 +729,23 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool MeasureRepublishProcess::CheckBestgnssposeStatus(
     const GnssBestPose& bestgnsspos_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int gnss_solution_status = static_cast<int>(bestgnsspos_msg.sol_status());
   int gnss_position_type = static_cast<int>(bestgnsspos_msg.sol_type());
-  AINFO << "the gnss solution_status and position_type: "
-        << gnss_solution_status << " " << gnss_position_type;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "the gnss solution_status and position_type: "
+         << gnss_solution_status << " " << gnss_position_type;
 
   if (gnss_solution_status != 0) {
-    AINFO << "novatel gnsspos's solution_status is not computed: "
-          << gnss_solution_status;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "novatel gnsspos's solution_status is not computed: "
+           << gnss_solution_status;
     return false;
   }
   if (gnss_position_type == 0 || gnss_position_type == 1 ||
       gnss_position_type == 2) {
-    AINFO << "novatel gnsspos's solution_type is invalid "
-          << "or xy fixed or height fixed: " << gnss_position_type;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "novatel gnsspos's solution_type is invalid "
+           << "or xy fixed or height fixed: " << gnss_position_type;
     return false;
   }
 

@@ -141,7 +141,8 @@ double Distance(const Point& point1, const Point& point2) {
 double GetNearestLaneHeading(const PointENU& point_enu) {
   auto* hdmap = HDMapUtil::BaseMapPtr();
   if (hdmap == nullptr) {
-    AERROR << "Failed to get nearest lane for point "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get nearest lane for point "
            << point_enu.DebugString();
     return -1.0;
   }
@@ -155,7 +156,8 @@ double GetNearestLaneHeading(const PointENU& point_enu) {
       hdmap->GetNearestLane(point_enu, &nearest_lane, &nearest_s, &nearest_l);
   // TODO(lizh): make it a formal status below
   if (status != 0) {
-    AERROR << "Failed to get nearest lane for point "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get nearest lane for point "
            << point_enu.DebugString();
     return -1.0;
   }
@@ -166,7 +168,8 @@ double GetNearestLaneHeading(const PointENU& point_enu) {
 double GetNearestLaneHeading(const Point& point) {
   auto* hdmap = HDMapUtil::BaseMapPtr();
   if (hdmap == nullptr) {
-    AERROR << "Failed to get nearest lane for point " << point.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get nearest lane for point " << point.DebugString();
     return -1.0;
   }
 
@@ -181,7 +184,8 @@ double GetNearestLaneHeading(const Point& point) {
 double GetNearestLaneHeading(const double x, const double y, const double z) {
   auto* hdmap = HDMapUtil::BaseMapPtr();
   if (hdmap == nullptr) {
-    AERROR << "Failed to get nearest lane for point (" << x << ", " << y << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get nearest lane for point (" << x << ", " << y << ", "
            << z << ")";
     return -1.0;
   }
@@ -197,7 +201,8 @@ double GetNearestLaneHeading(const double x, const double y, const double z) {
 double GetLateralDistanceToNearestLane(const Point& point) {
   auto* hdmap = HDMapUtil::BaseMapPtr();
   if (hdmap == nullptr) {
-    AERROR << "Failed to get nearest lane for point " << point.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get nearest lane for point " << point.DebugString();
     return -1.0;
   }
 
@@ -214,10 +219,12 @@ double GetLateralDistanceToNearestLane(const Point& point) {
       hdmap->GetNearestLane(point_enu, &nearest_lane, &nearest_s, &nearest_l);
   // TODO(lizh): make it a formal status below
   if (status != 0) {
-    AERROR << "Failed to get nearest lane for point " << point.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get nearest lane for point " << point.DebugString();
     return -1.0;
   }
-  AINFO << "Dist: " << nearest_l;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Dist: " << nearest_l;
   return nearest_l;
 }
 

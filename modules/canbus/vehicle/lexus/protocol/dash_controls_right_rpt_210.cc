@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,21 +27,15 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Dashcontrolsrightrpt210::ID = 0x210;
 
 // public
-Dashcontrolsrightrpt210::Dashcontrolsrightrpt210() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Dashcontrolsrightrpt210::Dashcontrolsrightrpt210() { Reset(); }
 
 uint32_t Dashcontrolsrightrpt210::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Dashcontrolsrightrpt210::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_output_value(data, output_value_);
   set_p_commanded_value(data, commanded_value_);
   set_p_vehicle_fault(data, vehicle_fault_);
@@ -56,8 +49,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Dashcontrolsrightrpt210::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) you should check this manually
   output_value_ = Dash_controls_right_rpt_210::OUTPUT_VALUE_DASH_CONTROL_NONE;
   commanded_value_ =
@@ -74,8 +65,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_output_value(
     Dash_controls_right_rpt_210::Output_valueType output_value) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   output_value_ = output_value;
   return this;
 }
@@ -89,8 +78,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_output_value(
     uint8_t* data, Dash_controls_right_rpt_210::Output_valueType output_value) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = output_value;
 
   Byte to_set(data + 3);
@@ -99,8 +86,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_commanded_value(
     Dash_controls_right_rpt_210::Commanded_valueType commanded_value) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   commanded_value_ = commanded_value;
   return this;
 }
@@ -115,8 +100,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void Dashcontrolsrightrpt210::set_p_commanded_value(
     uint8_t* data,
     Dash_controls_right_rpt_210::Commanded_valueType commanded_value) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = commanded_value;
 
   Byte to_set(data + 2);
@@ -125,8 +108,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_vehicle_fault(
     bool vehicle_fault) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   vehicle_fault_ = vehicle_fault;
   return this;
 }
@@ -136,8 +117,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_vehicle_fault(uint8_t* data,
                                                   bool vehicle_fault) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = vehicle_fault;
 
   Byte to_set(data + 0);
@@ -146,8 +125,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_pacmod_fault(
     bool pacmod_fault) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pacmod_fault_ = pacmod_fault;
   return this;
 }
@@ -157,8 +134,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_pacmod_fault(uint8_t* data,
                                                  bool pacmod_fault) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = pacmod_fault;
 
   Byte to_set(data + 0);
@@ -167,8 +142,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_override_active(
     bool override_active) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   override_active_ = override_active;
   return this;
 }
@@ -178,8 +151,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_override_active(uint8_t* data,
                                                     bool override_active) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = override_active;
 
   Byte to_set(data + 0);
@@ -188,8 +159,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_output_reported_fault(
     bool output_reported_fault) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   output_reported_fault_ = output_reported_fault;
   return this;
 }
@@ -199,8 +168,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 4, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_output_reported_fault(
     uint8_t* data, bool output_reported_fault) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = output_reported_fault;
 
   Byte to_set(data + 0);
@@ -209,8 +176,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_input_output_fault(
     bool input_output_fault) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   input_output_fault_ = input_output_fault;
   return this;
 }
@@ -220,8 +185,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 3, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_input_output_fault(
     uint8_t* data, bool input_output_fault) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = input_output_fault;
 
   Byte to_set(data + 0);
@@ -229,8 +192,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_enabled(bool enabled) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   enabled_ = enabled;
   return this;
 }
@@ -239,8 +200,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_enabled(uint8_t* data, bool enabled) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = enabled;
 
   Byte to_set(data + 0);
@@ -249,8 +208,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_command_output_fault(
     bool command_output_fault) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   command_output_fault_ = command_output_fault;
   return this;
 }
@@ -260,8 +217,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|1]', 'bit': 2, 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_command_output_fault(
     uint8_t* data, bool command_output_fault) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = command_output_fault;
 
   Byte to_set(data + 0);
@@ -270,8 +225,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Dashcontrolsrightrpt210* Dashcontrolsrightrpt210::set_manual_input(
     Dash_controls_right_rpt_210::Manual_inputType manual_input) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   manual_input_ = manual_input;
   return this;
 }
@@ -285,8 +238,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 void Dashcontrolsrightrpt210::set_p_manual_input(
     uint8_t* data, Dash_controls_right_rpt_210::Manual_inputType manual_input) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = manual_input;
 
   Byte to_set(data + 1);

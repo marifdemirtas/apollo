@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace lexus {
 
 using ::apollo::drivers::canbus::Byte;
 
-Steeringmotorrpt3406::Steeringmotorrpt3406() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Steeringmotorrpt3406::Steeringmotorrpt3406() {}
 const int32_t Steeringmotorrpt3406::ID = 0x406;
 
 void Steeringmotorrpt3406::Parse(const std::uint8_t* bytes, int32_t length,
                                  ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_lexus()
       ->mutable_steering_motor_rpt_3_406()
       ->set_torque_output(torque_output(bytes, length));
@@ -51,8 +46,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': 'N-m'}
 double Steeringmotorrpt3406::torque_output(const std::uint8_t* bytes,
                                            int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -84,8 +77,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': 'N-m'}
 double Steeringmotorrpt3406::torque_input(const std::uint8_t* bytes,
                                           int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 

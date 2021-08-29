@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -237,7 +236,8 @@ Status OpenSpaceTrajectoryPartition::Process() {
                              &current_trajectory_point_index)) {
         const std::string msg =
             "Fail to find nearest trajectory point to follow";
-        AERROR << msg;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
         return Status(ErrorCode::PLANNING_ERROR, msg);
       }
     }
@@ -248,16 +248,18 @@ Status OpenSpaceTrajectoryPartition::Process() {
 
   auto trajectory = &(chosen_partitioned_trajectory->first);
 
-  ADEBUG << "chosen_partitioned_trajectory [" << trajectory->size() << "]";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "chosen_partitioned_trajectory [" << trajectory->size() << "]";
+ 
   if (FLAGS_use_gear_shift_trajectory) {
     if (InsertGearShiftTrajectory(flag_change_to_next, current_trajectory_index,
                                   open_space_info.partitioned_trajectories(),
                                   chosen_partitioned_trajectory) &&
         chosen_partitioned_trajectory->first.size() != 0) {
       trajectory = &(chosen_partitioned_trajectory->first);
-      ADEBUG << "After InsertGearShiftTrajectory [" << trajectory->size()
-             << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "After InsertGearShiftTrajectory [" << trajectory->size()
+              << "]";
       return Status::OK();
     }
   }
@@ -306,8 +308,6 @@ void OpenSpaceTrajectoryPartition::InterpolateTrajectory(
 }
 
 void OpenSpaceTrajectoryPartition::UpdateVehicleInfo() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const common::VehicleState& vehicle_state = frame_->vehicle_state();
   ego_theta_ = vehicle_state.heading();
   ego_x_ = vehicle_state.x();
@@ -327,7 +327,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool OpenSpaceTrajectoryPartition::EncodeTrajectory(
     const DiscretizedTrajectory& trajectory, std::string* const encoding) {
   if (trajectory.empty()) {
-    AERROR << "Fail to encode trajectory because it is empty";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to encode trajectory because it is empty";
     return false;
   }
   static constexpr double encoding_origin_x = 58700.0;
@@ -550,13 +551,15 @@ bool OpenSpaceTrajectoryPartition::CheckReachTrajectoryEnd(
         *current_trajectory_index = trajectories_index + 1;
         *current_trajectory_point_index = 0;
       }
-      ADEBUG << "Reach the end of a trajectory, switching to next one";
-      return true;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Reach the end of a trajectory, switching to next one";
+       return true;
     }
   }
 
-  ADEBUG << "Vehicle did not reach end of a trajectory with conditions for "
-            "lateral distance_check: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Vehicle did not reach end of a trajectory with conditions for "
+             "lateral distance_check: "
          << (lateral_offset < lateral_offset_to_midpoint_)
          << " and actual lateral distance: " << lateral_offset
          << "; longitudinal distance_check: "
@@ -577,7 +580,8 @@ bool OpenSpaceTrajectoryPartition::UseFailSafeSearch(
     const std::vector<TrajGearPair>& partitioned_trajectories,
     const std::vector<std::string>& trajectories_encodings,
     size_t* current_trajectory_index, size_t* current_trajectory_point_index) {
-  AERROR << "Trajectory partition fail, using failsafe search";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Trajectory partition fail, using failsafe search";
   const size_t trajectories_size = partitioned_trajectories.size();
   std::priority_queue<std::pair<std::pair<size_t, size_t>, double>,
                       std::vector<std::pair<std::pair<size_t, size_t>, double>>,
@@ -702,8 +706,9 @@ void OpenSpaceTrajectoryPartition::GenerateGearShiftTrajectory(
     point.set_a(0.0);
     gear_switch_idle_time_trajectory->first.emplace_back(point);
   }
-  ADEBUG << "gear_switch_idle_time_trajectory"
-         << gear_switch_idle_time_trajectory->first.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "gear_switch_idle_time_trajectory"
+          << gear_switch_idle_time_trajectory->first.size();
   gear_switch_idle_time_trajectory->second = gear_position;
 }
 

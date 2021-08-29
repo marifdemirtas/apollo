@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -22,21 +21,19 @@ namespace apollo {
 namespace localization {
 
 RTKLocalizationComponent::RTKLocalizationComponent()
-    : localization_(new RTKLocalization()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : localization_(new RTKLocalization()) {}
 
 bool RTKLocalizationComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   tf2_broadcaster_.reset(new apollo::transform::TransformBroadcaster(node_));
   if (!InitConfig()) {
-    AERROR << "Init Config falseed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init Config falseed.";
     return false;
   }
 
   if (!InitIO()) {
-    AERROR << "Init Interval falseed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init Interval falseed.";
     return false;
   }
 
@@ -44,15 +41,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool RTKLocalizationComponent::InitConfig() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   rtk_config::Config rtk_config;
   if (!apollo::cyber::common::GetProtoFromFile(config_file_path_,
                                                &rtk_config)) {
     return false;
   }
-  AINFO << "Rtk localization config: " << rtk_config.DebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Rtk localization config: " << rtk_config.DebugString();
+ 
   localization_topic_ = rtk_config.localization_topic();
   localization_status_topic_ = rtk_config.localization_status_topic();
   imu_topic_ = rtk_config.imu_topic();
@@ -67,8 +63,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool RTKLocalizationComponent::InitIO() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   corrected_imu_listener_ = node_->CreateReader<localization::CorrectedImu>(
       imu_topic_, std::bind(&RTKLocalization::ImuCallback, localization_.get(),
                             std::placeholders::_1));
@@ -91,8 +85,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool RTKLocalizationComponent::Proc(
     const std::shared_ptr<localization::Gps>& gps_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_->GpsCallback(gps_msg);
 
   if (localization_->IsServiceStarted()) {
@@ -105,16 +97,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     PublishPoseBroadcastTopic(localization);
     PublishPoseBroadcastTF(localization);
     PublishLocalizationStatus(localization_status);
-    ADEBUG << "[OnTimer]: Localization message publish success!";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "[OnTimer]: Localization message publish success!";
+   }
 
   return true;
 }
 
 void RTKLocalizationComponent::PublishPoseBroadcastTF(
     const LocalizationEstimate& localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // broadcast tf message
   apollo::transform::TransformStamped tf2_msg;
 
@@ -139,15 +130,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void RTKLocalizationComponent::PublishPoseBroadcastTopic(
     const LocalizationEstimate& localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_talker_->Write(localization);
 }
 
 void RTKLocalizationComponent::PublishLocalizationStatus(
     const LocalizationStatus& localization_status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_status_talker_->Write(localization_status);
 }
 

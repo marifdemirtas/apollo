@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -43,10 +42,9 @@ std::vector<std::string> sub_type_string = {"UNKNOWN",
 
 void WriteCamera2World(std::ofstream &fout, int frame_num,
                        const Eigen::Affine3d &pose) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!fout.is_open()) {
-    AERROR << "Cannot write Camera2World!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot write Camera2World!";
     return;
   }
   fout << frame_num;
@@ -69,10 +67,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void WriteTracking(std::ofstream &fout, int frame_num,
                    const std::vector<base::ObjectPtr> &tracked_object) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!fout.is_open()) {
-    AERROR << "Cannot write tracking!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot write tracking!";
     return;
   }
   char output[500];
@@ -97,15 +94,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 int WriteDetections(const bool enabled, const std::string &out_path,
                     const std::vector<base::ObjectPtr> &objects) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!enabled) {
     return -1;
   }
   std::ofstream outf(out_path, std::ofstream::out);
-  AINFO << "Write detection to: " << out_path;
-  if (!outf.is_open()) {
-    AERROR << "Cannot open output file: " << out_path;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Write detection to: " << out_path;
+   if (!outf.is_open()) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot open output file: " << out_path;
     return -1;
   }
 
@@ -137,7 +134,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         outf << "Pedestrian";
         break;
       default:
-        AERROR << "Unknown object type: " << static_cast<int>(obj->type);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknown object type: " << static_cast<int>(obj->type);
         outf << "Unknown";
     }
 
@@ -183,8 +181,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 int WriteDetections(const bool enabled, const std::string &out_path,
                     CameraFrame *frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!enabled) {
     return -1;
   }
@@ -193,7 +189,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
   std::ofstream outf(out_path, std::ofstream::out);
   if (!outf.is_open()) {
-    AERROR << "Cannot open output file: " << out_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot open output file: " << out_path;
     return -1;
   }
   outf << frame->frame_id << std::endl;
@@ -201,8 +198,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const float *feature_ptr = frame->track_feature_blob->cpu_data();
   int feature_dim =
       frame->track_feature_blob->count() / frame->track_feature_blob->num();
-  AINFO << "Feature dim: " << feature_dim;
-  for (const auto &obj : frame->detected_objects) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Feature dim: " << feature_dim;
+   for (const auto &obj : frame->detected_objects) {
     base::RectF rect(obj->camera_supplement.box);
     outf << " " << rect.x;
     outf << " " << rect.y;
@@ -220,19 +218,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 int WriteLanelines(const bool enabled, const std::string &save_path,
                    const std::vector<base::LaneLine> &lane_objects) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!enabled) {
     return -1;
   }
   FILE *file_save = fopen(save_path.data(), "wt");
   if (file_save == nullptr) {
-    AERROR << "Failed to open lane save path: " << save_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to open lane save path: " << save_path;
     return -1;
   }
   int lane_line_size = static_cast<int>(lane_objects.size());
-  AINFO << "Lane line num: " << lane_line_size;
-  fprintf(file_save, "[\n");
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Lane line num: " << lane_line_size;
+   fprintf(file_save, "[\n");
   for (int j = 0; j < lane_line_size; ++j) {
     const base::LaneLineCubicCurve &curve_camera =
         lane_objects[j].curve_camera_coord;
@@ -300,8 +298,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 int WriteCalibrationOutput(bool enabled, const std::string &out_path,
                            const CameraFrame *frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!enabled) {
     return -1;
   }
@@ -309,13 +305,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   float camera_ground_height = 0.f;
   if (!frame->calibration_service->QueryCameraToGroundHeightAndPitchAngle(
           &camera_ground_height, &pitch_angle)) {
-    AERROR << "Failed to query camera to ground height and pitch.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to query camera to ground height and pitch.";
     return -1;
   }
 
   FILE *file_save = fopen(out_path.data(), "wt");
   if (file_save == nullptr) {
-    AERROR << "Failed to open output path: " << out_path.data();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to open output path: " << out_path.data();
     return -1;
   }
   fprintf(file_save, "camera_ground_height:\t%f\n", camera_ground_height);
@@ -327,14 +325,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void WriteFusionTracking(std::ofstream &fout, int frame_num,
                          const std::string &camera_name,
                          const std::vector<base::ObjectPtr> &tracked_object) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!fout.is_open()) {
-    AERROR << "Failed to write tracking!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to write tracking!";
     return;
   }
-  AINFO << "Write track results: " << frame_num;
-  if (camera_name == "front_12mm") {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Write track results: " << frame_num;
+   if (camera_name == "front_12mm") {
     for (size_t i = 0; i < tracked_object.size(); ++i) {
       base::ObjectPtr ptr = tracked_object[i];
       char output[300];
@@ -374,7 +372,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       fout << output << std::endl;
     }
   } else {
-    AERROR << "Unknown camera name: " << camera_name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknown camera name: " << camera_name;
   }
 }
 }  // namespace camera

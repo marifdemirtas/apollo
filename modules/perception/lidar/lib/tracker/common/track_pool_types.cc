@@ -25,7 +25,8 @@ __attribute__((constructor)) void TrackPoolInitialize() {
   TrackedObjectPool::Instance();
   TrackDataPool::Instance();
   MlfTrackDataPool::Instance();
-  AINFO << "Initialize track pool.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Initialize track pool.";
 }
 
 }  // namespace lidar

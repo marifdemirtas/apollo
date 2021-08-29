@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,14 +31,16 @@ namespace network {
 
 bool Layer::Load(const LayerParameter& layer_pb) {
   if (!layer_pb.has_name()) {
-    ADEBUG << "Set name at default";
-    name_ = "layer";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Set name at default";
+     name_ = "layer";
   } else {
     name_ = layer_pb.name();
   }
   if (!layer_pb.has_order_number()) {
-    ADEBUG << "Set order number at default";
-    order_number_ = -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Set order number at default";
+     order_number_ = -1;
   } else {
     order_number_ = layer_pb.order_number();
   }
@@ -48,7 +49,8 @@ bool Layer::Load(const LayerParameter& layer_pb) {
 
 bool Dense::Load(const LayerParameter& layer_pb) {
   if (!Layer::Load(layer_pb)) {
-    AERROR << "Fail to Load LayerParameter!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load LayerParameter!";
     return false;
   }
   DenseParameter dense_pb = layer_pb.dense();
@@ -57,11 +59,13 @@ bool Dense::Load(const LayerParameter& layer_pb) {
 
 bool Dense::Load(const DenseParameter& dense_pb) {
   if (!dense_pb.has_weights() || !LoadTensor(dense_pb.weights(), &weights_)) {
-    AERROR << "Fail to Load weights!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load weights!";
     return false;
   }
   if (!dense_pb.has_bias() || !LoadTensor(dense_pb.bias(), &bias_)) {
-    AERROR << "Fail to Load bias!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load bias!";
     return false;
   }
   if (!dense_pb.has_use_bias()) {
@@ -71,8 +75,9 @@ bool Dense::Load(const DenseParameter& dense_pb) {
     use_bias_ = dense_pb.use_bias();
   }
   if (!dense_pb.has_activation()) {
-    ADEBUG << "Set activation as linear function";
-    kactivation_ = serialize_to_function("linear");
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Set activation as linear function";
+     kactivation_ = serialize_to_function("linear");
   } else {
     kactivation_ = serialize_to_function(dense_pb.activation());
   }
@@ -94,7 +99,8 @@ void Dense::Run(const std::vector<Eigen::MatrixXf>& inputs,
 
 bool Conv1d::Load(const LayerParameter& layer_pb) {
   if (!Layer::Load(layer_pb)) {
-    AERROR << "Fail to Load LayerParameter!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load LayerParameter!";
     return false;
   }
   Conv1dParameter conv1d_pb = layer_pb.conv1d();
@@ -103,11 +109,13 @@ bool Conv1d::Load(const LayerParameter& layer_pb) {
 
 bool Conv1d::Load(const Conv1dParameter& conv1d_pb) {
   if (!conv1d_pb.has_kernel() || !LoadTensor(conv1d_pb.kernel(), &kernel_)) {
-    AERROR << "Fail to Load kernel!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load kernel!";
     return false;
   }
   if (!conv1d_pb.has_bias() || !LoadTensor(conv1d_pb.bias(), &bias_)) {
-    AERROR << "Fail to Load bias!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load bias!";
     return false;
   }
   if (!conv1d_pb.has_use_bias()) {
@@ -154,7 +162,8 @@ void Conv1d::Run(const std::vector<Eigen::MatrixXf>& inputs,
 
 bool MaxPool1d::Load(const LayerParameter& layer_pb) {
   if (!Layer::Load(layer_pb)) {
-    AERROR << "Fail to Load LayerParameter!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load LayerParameter!";
     return false;
   }
   MaxPool1dParameter maxpool1d_pb = layer_pb.maxpool1d();
@@ -168,8 +177,9 @@ bool MaxPool1d::Load(const MaxPool1dParameter& maxpool1d_pb) {
   if (maxpool1d_pb.has_stride() && maxpool1d_pb.stride() > 0) {
     stride_ = maxpool1d_pb.stride();
   } else {
-    ADEBUG << "No valid stride found, use kernel size, instead";
-    stride_ = maxpool1d_pb.kernel_size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "No valid stride found, use kernel size, instead";
+     stride_ = maxpool1d_pb.kernel_size();
   }
   return true;
 }
@@ -197,7 +207,8 @@ void MaxPool1d::Run(const std::vector<Eigen::MatrixXf>& inputs,
 
 bool AvgPool1d::Load(const LayerParameter& layer_pb) {
   if (!Layer::Load(layer_pb)) {
-    AERROR << "Fail to Load LayerParameter!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load LayerParameter!";
     return false;
   }
   AvgPool1dParameter avgpool1d_pb = layer_pb.avgpool1d();
@@ -211,8 +222,9 @@ bool AvgPool1d::Load(const AvgPool1dParameter& avgpool1d_pb) {
   if (avgpool1d_pb.has_stride() && avgpool1d_pb.stride() > 0) {
     stride_ = avgpool1d_pb.stride();
   } else {
-    ADEBUG << "No valid stride found, use kernel size, instead";
-    stride_ = avgpool1d_pb.kernel_size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "No valid stride found, use kernel size, instead";
+     stride_ = avgpool1d_pb.kernel_size();
   }
   return true;
 }
@@ -240,7 +252,8 @@ void AvgPool1d::Run(const std::vector<Eigen::MatrixXf>& inputs,
 
 bool Activation::Load(const LayerParameter& layer_pb) {
   if (!Layer::Load(layer_pb)) {
-    AERROR << "Fail to Load the layer parameters!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load the layer parameters!";
     return false;
   }
   if (!layer_pb.has_activation()) {
@@ -269,7 +282,8 @@ void Activation::Run(const std::vector<Eigen::MatrixXf>& inputs,
 
 bool BatchNormalization::Load(const LayerParameter& layer_pb) {
   if (!Layer::Load(layer_pb)) {
-    AERROR << "Fail to Load the layer parameters!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load the layer parameters!";
     return false;
   }
 
@@ -280,22 +294,26 @@ bool BatchNormalization::Load(const LayerParameter& layer_pb) {
   scale_ = bn_pb.scale();
   momentum_ = bn_pb.momentum();
   if (!bn_pb.has_mu() || !LoadTensor(bn_pb.mu(), &mu_)) {
-    AERROR << "Fail to Load mu!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load mu!";
     return false;
   }
   if (!bn_pb.has_sigma() || !LoadTensor(bn_pb.sigma(), &sigma_)) {
-    AERROR << "Fail to Load sigma!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load sigma!";
     return false;
   }
   if (scale_) {
     if (!bn_pb.has_gamma() || !LoadTensor(bn_pb.gamma(), &gamma_)) {
-      AERROR << "Fail to Load gamma!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load gamma!";
       return false;
     }
   }
   if (center_) {
     if (!bn_pb.has_beta() || !LoadTensor(bn_pb.beta(), &beta_)) {
-      AERROR << "Fail to Load beta!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load beta!";
       return false;
     }
   }
@@ -319,107 +337,127 @@ void BatchNormalization::Run(const std::vector<Eigen::MatrixXf>& inputs,
 
 bool LSTM::Load(const LayerParameter& layer_pb) {
   if (!Layer::Load(layer_pb)) {
-    AERROR << "Fail to Load the layer parameters!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load the layer parameters!";
     return false;
   }
   LSTMParameter lstm_pb = layer_pb.lstm();
   if (!lstm_pb.has_units()) {
-    ADEBUG << "Fail to Load the number of units.";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Fail to Load the number of units.";
+     return false;
   } else {
     units_ = lstm_pb.units();
   }
   if (!lstm_pb.has_return_sequences()) {
-    ADEBUG << "Set return_sequences at default.";
-    return_sequences_ = false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Set return_sequences at default.";
+     return_sequences_ = false;
   } else {
     return_sequences_ = lstm_pb.return_sequences();
   }
   if (!lstm_pb.has_stateful()) {
-    ADEBUG << "Set stateful at default.";
-    stateful_ = false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Set stateful at default.";
+     stateful_ = false;
   } else {
     stateful_ = lstm_pb.stateful();
   }
   if (!lstm_pb.has_activation()) {
-    ADEBUG << "Set activation function as tanh.";
-    kactivation_ = serialize_to_function("tanh");
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Set activation function as tanh.";
+     kactivation_ = serialize_to_function("tanh");
   } else {
     kactivation_ = serialize_to_function(lstm_pb.activation());
   }
   if (!lstm_pb.has_recurrent_activation()) {
-    ADEBUG << "Set recurrent_activation function as hard_tanh.";
-    krecurrent_activation_ = serialize_to_function("hard_tanh");
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Set recurrent_activation function as hard_tanh.";
+     krecurrent_activation_ = serialize_to_function("hard_tanh");
   } else {
     krecurrent_activation_ =
         serialize_to_function(lstm_pb.recurrent_activation());
   }
   if (!lstm_pb.has_use_bias()) {
-    ADEBUG << "Set use_bias as true.";
-    use_bias_ = true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Set use_bias as true.";
+     use_bias_ = true;
   } else {
     use_bias_ = lstm_pb.use_bias();
   }
   if (!lstm_pb.has_unit_forget_bias()) {
-    ADEBUG << "Set unit forget bias as true.";
-    unit_forget_bias_ = true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Set unit forget bias as true.";
+     unit_forget_bias_ = true;
   } else {
     unit_forget_bias_ = lstm_pb.unit_forget_bias();
   }
   if (!lstm_pb.has_weights_input() ||
       !LoadTensor(lstm_pb.weights_input(), &wi_)) {
-    AERROR << "Fail to Load input weights!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load input weights!";
     return false;
   }
   if (!lstm_pb.has_weights_forget() ||
       !LoadTensor(lstm_pb.weights_forget(), &wf_)) {
-    AERROR << "Fail to Load forget weights!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load forget weights!";
     return false;
   }
   if (!lstm_pb.has_weights_cell() ||
       !LoadTensor(lstm_pb.weights_cell(), &wc_)) {
-    AERROR << "Fail to Load cell weights!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load cell weights!";
     return false;
   }
   if (!lstm_pb.has_weights_output() ||
       !LoadTensor(lstm_pb.weights_output(), &wo_)) {
-    AERROR << "Fail to Load output weights!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load output weights!";
     return false;
   }
   if (!lstm_pb.has_bias_input() || !LoadTensor(lstm_pb.bias_input(), &bi_)) {
-    AERROR << "Fail to Load input bias!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load input bias!";
     return false;
   }
   if (!lstm_pb.has_bias_forget() || !LoadTensor(lstm_pb.bias_forget(), &bf_)) {
-    AERROR << "Fail to Load forget bias!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load forget bias!";
     return false;
   }
   if (!lstm_pb.has_bias_cell() || !LoadTensor(lstm_pb.bias_cell(), &bc_)) {
-    AERROR << "Fail to Load cell bias!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load cell bias!";
     return false;
   }
   if (!lstm_pb.has_bias_output() || !LoadTensor(lstm_pb.bias_output(), &bo_)) {
-    AERROR << "Fail to Load output bias!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load output bias!";
     return false;
   }
   if (!lstm_pb.has_recurrent_weights_input() ||
       !LoadTensor(lstm_pb.recurrent_weights_input(), &r_wi_)) {
-    AERROR << "Fail to Load recurrent input weights!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load recurrent input weights!";
     return false;
   }
   if (!lstm_pb.has_recurrent_weights_forget() ||
       !LoadTensor(lstm_pb.recurrent_weights_forget(), &r_wf_)) {
-    AERROR << "Fail to Load recurrent forget weights!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load recurrent forget weights!";
     return false;
   }
   if (!lstm_pb.has_recurrent_weights_cell() ||
       !LoadTensor(lstm_pb.recurrent_weights_cell(), &r_wc_)) {
-    AERROR << "Fail to Load recurrent cell weights!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load recurrent cell weights!";
     return false;
   }
   if (!lstm_pb.has_recurrent_weights_output() ||
       !LoadTensor(lstm_pb.recurrent_weights_output(), &r_wo_)) {
-    AERROR << "Fail to Load recurrent output weights!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load recurrent output weights!";
     return false;
   }
   ResetState();
@@ -487,7 +525,8 @@ void LSTM::SetState(const std::vector<Eigen::MatrixXf>& states) {
 
 bool Flatten::Load(const LayerParameter& layer_pb) {
   if (!Layer::Load(layer_pb)) {
-    AERROR << "Fail to Load the layer parameters!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load the layer parameters!";
     return false;
   }
   return true;
@@ -504,12 +543,14 @@ void Flatten::Run(const std::vector<Eigen::MatrixXf>& inputs,
 
 bool Input::Load(const LayerParameter& layer_pb) {
   if (!Layer::Load(layer_pb)) {
-    AERROR << "Fail to Load the layer parameters!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load the layer parameters!";
     return false;
   }
   InputParameter input_pb = layer_pb.input();
   if (input_pb.input_shape_size() < 1) {
-    AERROR << "Fail to Load input shape of InputLayer!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load input shape of InputLayer!";
     return false;
   } else {
     input_shape_.resize(input_pb.input_shape_size());
@@ -518,14 +559,16 @@ bool Input::Load(const LayerParameter& layer_pb) {
     }
   }
   if (!input_pb.has_dtype()) {
-    ADEBUG << "Set the type of input as float!";
-    dtype_ = "float32";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Set the type of input as float!";
+     dtype_ = "float32";
   } else {
     dtype_ = input_pb.dtype();
   }
   if (!input_pb.has_sparse()) {
-    ADEBUG << "set the sparse of input as false!";
-    sparse_ = false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "set the sparse of input as false!";
+     sparse_ = false;
   } else {
     sparse_ = input_pb.sparse();
   }
@@ -541,12 +584,14 @@ void Input::Run(const std::vector<Eigen::MatrixXf>& inputs,
 
 bool Concatenate::Load(const LayerParameter& layer_pb) {
   if (!Layer::Load(layer_pb)) {
-    AERROR << "Fail to Load the layer parameters!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load the layer parameters!";
     return false;
   }
   ConcatenateParameter concat_pb = layer_pb.concatenate();
   if (!concat_pb.has_axis()) {
-    AERROR << "Fail to Load the concatenate!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to Load the concatenate!";
     return false;
   }
   axis_ = concat_pb.axis();

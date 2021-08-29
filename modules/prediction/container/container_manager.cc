@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -61,8 +60,9 @@ std::unique_ptr<Container> ContainerManager::CreateContainer(
 void ContainerManager::RegisterContainer(
     const AdapterConfig::MessageType& type) {
   containers_[static_cast<int>(type)] = CreateContainer(type);
-  AINFO << "Container [" << type << "] is registered.";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Container [" << type << "] is registered.";
+ }
 
 }  // namespace prediction
 }  // namespace apollo

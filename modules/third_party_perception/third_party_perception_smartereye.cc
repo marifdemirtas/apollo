@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -48,23 +47,26 @@ ThirdPartyPerceptionSmartereye::ThirdPartyPerceptionSmartereye(
 
 void ThirdPartyPerceptionSmartereye::OnSmartereye(
               const apollo::drivers::SmartereyeObstacles& message) {
-  ADEBUG << "Received smartereye data: run smartereye callback.";
-  std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received smartereye data: run smartereye callback.";
+   std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
   eye_obstacles_ = conversion_smartereye::SmartereyeToPerceptionObstacles(
       message, smartereye_lanemark_, localization_, chassis_);
 }
 
 void ThirdPartyPerceptionSmartereye::OnSmartereyeLanemark(
               const apollo::drivers::SmartereyeLanemark& message) {
-  ADEBUG << "Received smartereye data: run smartereye callback.";
-  std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received smartereye data: run smartereye callback.";
+   std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
   smartereye_lanemark_.CopyFrom(message);
 }
 
 bool ThirdPartyPerceptionSmartereye::Process(
             PerceptionObstacles* const response) {
-  ADEBUG << "Timer is triggered: publish PerceptionObstacles";
-  CHECK_NOTNULL(response);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Timer is triggered: publish PerceptionObstacles";
+   CHECK_NOTNULL(response);
 
   std::lock_guard<std::mutex> lock(third_party_perception_mutex_);
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,15 +24,11 @@ namespace canbus {
 
 std::unique_ptr<VehicleController>
 WeyVehicleFactory::CreateVehicleController() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return std::unique_ptr<VehicleController>(new wey::WeyController());
 }
 
 std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>
 WeyVehicleFactory::CreateMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>(
       new wey::WeyMessageManager());
 }

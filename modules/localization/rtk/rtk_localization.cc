@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,15 +30,11 @@ using apollo::cyber::Clock;
 using ::Eigen::Vector3d;
 
 RTKLocalization::RTKLocalization()
-    : map_offset_{
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-0.0, 0.0, 0.0},
+    : map_offset_{0.0, 0.0, 0.0},
       monitor_logger_(
           apollo::common::monitor::MonitorMessageItem::LOCALIZATION) {}
 
 void RTKLocalization::InitConfig(const rtk_config::Config &config) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   imu_list_max_size_ = config.imu_list_max_size();
   gps_imu_time_diff_threshold_ = config.gps_imu_time_diff_threshold();
   map_offset_[0] = config.map_offset_x();
@@ -49,8 +44,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void RTKLocalization::GpsCallback(
     const std::shared_ptr<localization::Gps> &gps_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double time_delay = last_received_timestamp_sec_
                           ? Clock::NowInSeconds() - last_received_timestamp_sec_
                           : last_received_timestamp_sec_;
@@ -64,7 +57,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     std::unique_lock<std::mutex> lock(imu_list_mutex_);
 
     if (imu_list_.empty()) {
-      AERROR << "IMU message buffer is empty.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "IMU message buffer is empty.";
       if (service_started_) {
         monitor_logger_.ERROR("IMU message buffer is empty.");
       }
@@ -76,7 +70,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     std::unique_lock<std::mutex> lock(gps_status_list_mutex_);
 
     if (gps_status_list_.empty()) {
-      AERROR << "Gps status message buffer is empty.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Gps status message buffer is empty.";
       if (service_started_) {
         monitor_logger_.ERROR("Gps status message buffer is empty.");
       }
@@ -100,8 +95,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void RTKLocalization::GpsStatusCallback(
     const std::shared_ptr<drivers::gnss::InsStat> &status_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::unique_lock<std::mutex> lock(gps_status_list_mutex_);
   if (gps_status_list_.size() < gps_status_list_max_size_) {
     gps_status_list_.push_back(*status_msg);
@@ -113,8 +106,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void RTKLocalization::ImuCallback(
     const std::shared_ptr<localization::CorrectedImu> &imu_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::unique_lock<std::mutex> lock(imu_list_mutex_);
   if (imu_list_.size() < imu_list_max_size_) {
     imu_list_.push_back(*imu_msg);
@@ -124,26 +115,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 }
 
-bool RTKLocalization::IsServiceStarted() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return service_started_; }
+bool RTKLocalization::IsServiceStarted() { return service_started_; }
 
 void RTKLocalization::GetLocalization(LocalizationEstimate *localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   *localization = last_localization_result_;
 }
 
 void RTKLocalization::GetLocalizationStatus(
     LocalizationStatus *localization_status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   *localization_status = last_localization_status_result_;
 }
 
 void RTKLocalization::RunWatchDog(double gps_timestamp) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!enable_watch_dog_) {
     return;
   }
@@ -185,7 +168,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (msg_delay &&
       (last_reported_timestamp_sec_ < 1. ||
        Clock::NowInSeconds() > last_reported_timestamp_sec_ + 1.)) {
-    AERROR << "gps/imu frame Delay!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "gps/imu frame Delay!";
     last_reported_timestamp_sec_ = Clock::NowInSeconds();
   }
 }
@@ -193,8 +177,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void RTKLocalization::PrepareLocalizationMsg(
     const localization::Gps &gps_msg, LocalizationEstimate *localization,
     LocalizationStatus *localization_status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // find the matching gps and imu message
   double gps_time_stamp = gps_msg.header().timestamp_sec();
   CorrectedImu imu_msg;
@@ -208,8 +190,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void RTKLocalization::FillLocalizationMsgHeader(
     LocalizationEstimate *localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto *header = localization->mutable_header();
   double timestamp = apollo::cyber::Clock::NowInSeconds();
   header->set_module_name(module_name_);
@@ -220,8 +200,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void RTKLocalization::FillLocalizationStatusMsg(
     const drivers::gnss::InsStat &status,
     LocalizationStatus *localization_status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   apollo::common::Header *header = localization_status->mutable_header();
   double timestamp = apollo::cyber::Clock::NowInSeconds();
   header->set_timestamp_sec(timestamp);
@@ -256,8 +234,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void RTKLocalization::ComposeLocalizationMsg(
     const localization::Gps &gps_msg, const localization::CorrectedImu &imu_msg,
     LocalizationEstimate *localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization->Clear();
 
   FillLocalizationMsgHeader(localization);
@@ -314,7 +290,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         mutable_pose->mutable_linear_acceleration_vrf()->CopyFrom(
             imu.linear_acceleration());
       } else {
-        AERROR << "[PrepareLocalizationMsg]: "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "[PrepareLocalizationMsg]: "
                << "fail to convert linear_acceleration";
       }
     }
@@ -336,7 +313,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         mutable_pose->mutable_angular_velocity_vrf()->CopyFrom(
             imu.angular_velocity());
       } else {
-        AERROR << "[PrepareLocalizationMsg]: fail to convert angular_velocity";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "[PrepareLocalizationMsg]: fail to convert angular_velocity";
       }
     }
 
@@ -349,10 +327,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool RTKLocalization::FindMatchingIMU(const double gps_timestamp_sec,
                                       CorrectedImu *imu_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (imu_msg == nullptr) {
-    AERROR << "imu_msg should NOT be nullptr.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "imu_msg should NOT be nullptr.";
     return false;
   }
 
@@ -361,7 +338,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   lock.unlock();
 
   if (imu_list.empty()) {
-    AERROR << "Cannot find Matching IMU. "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot find Matching IMU. "
            << "IMU message Queue is empty! GPS timestamp[" << gps_timestamp_sec
            << "]";
     return false;
@@ -379,7 +357,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (imu_it != imu_list.end()) {  // found one
     if (imu_it == imu_list.begin()) {
-      AERROR << "IMU queue too short or request too old. "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "IMU queue too short or request too old. "
              << "Oldest timestamp[" << imu_list.front().header().timestamp_sec()
              << "], Newest timestamp["
              << imu_list.back().header().timestamp_sec() << "], GPS timestamp["
@@ -390,11 +369,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       auto imu_it_1 = imu_it;
       imu_it_1--;
       if (!(*imu_it).has_header() || !(*imu_it_1).has_header()) {
-        AERROR << "imu1 and imu_it_1 must both have header.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "imu1 and imu_it_1 must both have header.";
         return false;
       }
       if (!InterpolateIMU(*imu_it_1, *imu_it, gps_timestamp_sec, imu_msg)) {
-        AERROR << "failed to interpolate IMU";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to interpolate IMU";
         return false;
       }
     }
@@ -402,19 +383,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     // give the newest imu, without extrapolation
     *imu_msg = imu_list.back();
     if (imu_msg == nullptr) {
-      AERROR << "Fail to get latest observed imu_msg.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get latest observed imu_msg.";
       return false;
     }
 
     if (!imu_msg->has_header()) {
-      AERROR << "imu_msg must have header.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "imu_msg must have header.";
       return false;
     }
 
     if (std::fabs(imu_msg->header().timestamp_sec() - gps_timestamp_sec) >
         gps_imu_time_diff_threshold_) {
       // 20ms threshold to report error
-      AERROR << "Cannot find Matching IMU. IMU messages too old. "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot find Matching IMU. IMU messages too old. "
              << "Newest timestamp[" << imu_list.back().header().timestamp_sec()
              << "], GPS timestamp[" << gps_timestamp_sec << "]";
     }
@@ -427,21 +411,22 @@ bool RTKLocalization::InterpolateIMU(const CorrectedImu &imu1,
                                      const CorrectedImu &imu2,
                                      const double timestamp_sec,
                                      CorrectedImu *imu_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!(imu1.header().has_timestamp_sec() &&
         imu2.header().has_timestamp_sec())) {
-    AERROR << "imu1 and imu2 has no header or no timestamp_sec in header";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "imu1 and imu2 has no header or no timestamp_sec in header";
     return false;
   }
   if (timestamp_sec < imu1.header().timestamp_sec()) {
-    AERROR << "[InterpolateIMU1]: the given time stamp["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "[InterpolateIMU1]: the given time stamp["
            << FORMAT_TIMESTAMP(timestamp_sec)
            << "] is older than the 1st message["
            << FORMAT_TIMESTAMP(imu1.header().timestamp_sec()) << "]";
     *imu_msg = imu1;
   } else if (timestamp_sec > imu2.header().timestamp_sec()) {
-    AERROR << "[InterpolateIMU2]: the given time stamp[" << timestamp_sec
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "[InterpolateIMU2]: the given time stamp[" << timestamp_sec
            << "] is newer than the 2nd message["
            << imu2.header().timestamp_sec() << "]";
     *imu_msg = imu2;
@@ -498,8 +483,6 @@ T RTKLocalization::InterpolateXYZ(const T &p1, const T &p2,
 
 bool RTKLocalization::FindNearestGpsStatus(const double gps_timestamp_sec,
                                            drivers::gnss::InsStat *status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(status);
 
   std::unique_lock<std::mutex> lock(gps_status_list_mutex_);

@@ -42,12 +42,14 @@ void LatencyRecorder::AppendLatencyRecord(const uint64_t message_id,
 
     // FIXME(storypku): IsRealityMode|MockTime
     if (!cyber::common::GlobalData::Instance()->IsRealityMode()) {
-      AERROR_EVERY(kErrorReduceBase) << "latency begin_time: " << begin_time
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(kErrorReduceBase) << "latency begin_time: " << begin_time
                                      << " >= end_time: " << end_time << ", "
                                      << kErrorReduceBase << " times";
       return;
     }
-    AERROR << "latency begin_time: " << begin_time
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "latency begin_time: " << begin_time
            << " >= end_time: " << end_time;
     return;
   }
@@ -76,7 +78,8 @@ std::shared_ptr<apollo::cyber::Writer<LatencyRecordMap>>
 LatencyRecorder::CreateWriter() {
   const std::string node_name_prefix = "latency_recorder";
   if (module_name_.empty()) {
-    AERROR << "missing module name for sending latency records";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "missing module name for sending latency records";
     return nullptr;
   }
   if (node_ == nullptr) {
@@ -85,7 +88,8 @@ LatencyRecorder::CreateWriter() {
     node_ = apollo::cyber::CreateNode(absl::StrCat(
         node_name_prefix, module_name_, current_time_.ToNanosecond()));
     if (node_ == nullptr) {
-      AERROR << "unable to create node for latency recording";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unable to create node for latency recording";
       return nullptr;
     }
   }

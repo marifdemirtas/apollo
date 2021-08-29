@@ -21,10 +21,12 @@ namespace apollo {
 namespace hdmap {
 
 std::shared_ptr<JsonConf> ParseJson(std::string conf_path) {
-  AINFO << "parsing json config";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "parsing json config";
   boost::filesystem::path path(conf_path);
   if (!boost::filesystem::exists(path)) {
-    AERROR << "json config file " << conf_path << " does not exist";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "json config file " << conf_path << " does not exist";
     return nullptr;
   }
 
@@ -77,10 +79,12 @@ std::shared_ptr<JsonConf> ParseJson(std::string conf_path) {
     conf->laps_number_additional = pt.get<int>("laps_number_additional");
     conf->laps_rate_thresh = pt.get<double>("laps_rate_thresh");
   } catch (const boost::property_tree::json_parser_error& e) {
-    AERROR << e.what();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << e.what();
     return nullptr;
   } catch (const std::exception& e) {
-    AERROR << e.what();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << e.what();
     return nullptr;
   }
   return conf;

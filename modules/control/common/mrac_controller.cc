@@ -41,7 +41,8 @@ double MracController::Control(const double command, const Matrix state,
   // check if the current sampling time is valid and the reference/adaption
   // model well set up during the initialization
   if (ts_ <= 0.0 || !reference_model_enabled_ || !adaption_model_enabled_) {
-    AERROR << "MRAC: model build failed; will work as a unity compensator. The "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "MRAC: model build failed; will work as a unity compensator. The "
               "reference_model building status: "
            << reference_model_enabled_
            << "; The adaption_model building status: "
@@ -196,7 +197,8 @@ Status MracController::SetReferenceModel(const MracConf &mrac_conf) {
         " in configuration file are not reasonable with respect to the "
         "reference model order: ",
         model_order_);
-    AERROR << error_msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_msg;
     return Status(ErrorCode::CONTROL_INIT_ERROR, error_msg);
   }
   tau_reference_ = mrac_conf.reference_time_constant();
@@ -218,7 +220,8 @@ Status MracController::SetAdaptionModel(const MracConf &mrac_conf) {
         ", state gain number: ", x_size,
         ", and anti-windup compensation gain number: ", aw_size,
         " in configuration file do not match the model number: ", model_order_);
-    AERROR << error_msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_msg;
     return Status(ErrorCode::CONTROL_INIT_ERROR, error_msg);
   }
   for (int i = 0; i < model_order_; ++i) {
@@ -244,7 +247,8 @@ Status MracController::BuildReferenceModel() {
     const auto error_msg =
         absl::StrCat("mrac controller error: reference model order ",
                      model_order_, " is beyond the designed range");
-    AERROR << error_msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_msg;
     return Status(ErrorCode::CONTROL_INIT_ERROR, error_msg);
   }
   if (model_order_ == 1) {
@@ -264,7 +268,8 @@ Status MracController::BuildAdaptionModel() {
     const auto error_msg =
         absl::StrCat("mrac controller error: adaption model order ",
                      model_order_, " is beyond the designed range");
-    AERROR << error_msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_msg;
     return Status(ErrorCode::CONTROL_INIT_ERROR, error_msg);
   }
   if (model_order_ == 1) {
@@ -276,7 +281,8 @@ Status MracController::BuildAdaptionModel() {
     const std::string error_msg =
         "Solution of the algebraic Lyapunov equation is not symmetric positive "
         "definite";
-    AERROR << error_msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << error_msg;
     return Status(ErrorCode::CONTROL_INIT_ERROR, error_msg);
   }
   return Status::OK();

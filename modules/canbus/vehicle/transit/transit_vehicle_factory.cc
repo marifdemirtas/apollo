@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -27,15 +26,11 @@ namespace canbus {
 
 std::unique_ptr<VehicleController>
 TransitVehicleFactory::CreateVehicleController() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return std::unique_ptr<VehicleController>(new transit::TransitController());
 }
 
 std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>
 TransitVehicleFactory::CreateMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return std::unique_ptr<MessageManager<::apollo::canbus::ChassisDetail>>(
       new transit::TransitMessageManager());
 }

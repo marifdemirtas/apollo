@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -28,43 +27,29 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Turnsignal68::ID = 0x68;
 
 uint32_t Turnsignal68::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   static const uint32_t PERIOD = 50 * 1000;
   return PERIOD;
 }
 
-int32_t Turnsignal68::turn_cmd() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return turn_cmd_; }
+int32_t Turnsignal68::turn_cmd() const { return turn_cmd_; }
 
 void Turnsignal68::UpdateData(uint8_t *data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_turn_cmd_p(data, turn_cmd_);
 }
 
-void Turnsignal68::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- turn_cmd_ = 0; }
+void Turnsignal68::Reset() { turn_cmd_ = 0; }
 
 Turnsignal68 *Turnsignal68::set_turn_none() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   turn_cmd_ = 0x00;
   return this;
 }
 
 Turnsignal68 *Turnsignal68::set_turn_left() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   turn_cmd_ = 0x01;
   return this;
 }
 
 Turnsignal68 *Turnsignal68::set_turn_right() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   turn_cmd_ = 0x02;
   return this;
 }
@@ -72,8 +57,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 // private
 void Turnsignal68::set_turn_cmd_p(uint8_t *data, int32_t turn_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   turn_cmd = ProtocolData::BoundedValue(0, 3, turn_cmd);
   Byte frame(data + 0);
   frame.set_value(static_cast<uint8_t>(turn_cmd), 0, 2);

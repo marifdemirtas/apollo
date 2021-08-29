@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -89,7 +88,8 @@ bool Stage::ExecuteTaskOnReferenceLine(
     const common::TrajectoryPoint& planning_start_point, Frame* frame) {
   for (auto& reference_line_info : *frame->mutable_reference_line_info()) {
     if (!reference_line_info.IsDrivable()) {
-      AERROR << "The generated path is not drivable";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The generated path is not drivable";
       return false;
     }
 
@@ -100,13 +100,16 @@ bool Stage::ExecuteTaskOnReferenceLine(
 
       const double end_timestamp = Clock::NowInSeconds();
       const double time_diff_ms = (end_timestamp - start_timestamp) * 1000;
-      ADEBUG << "after task[" << task->Name()
-             << "]: " << reference_line_info.PathSpeedDebugString();
-      ADEBUG << task->Name() << " time spend: " << time_diff_ms << " ms.";
-      RecordDebugInfo(&reference_line_info, task->Name(), time_diff_ms);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "after task[" << task->Name()
+              << "]: " << reference_line_info.PathSpeedDebugString();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << task->Name() << " time spend: " << time_diff_ms << " ms.";
+       RecordDebugInfo(&reference_line_info, task->Name(), time_diff_ms);
 
       if (!ret.ok()) {
-        AERROR << "Failed to run tasks[" << task->Name()
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to run tasks[" << task->Name()
                << "], Error message: " << ret.error_message();
         break;
       }
@@ -124,7 +127,8 @@ bool Stage::ExecuteTaskOnReferenceLine(
     if (!reference_line_info.CombinePathAndSpeedProfile(
             planning_start_point.relative_time(),
             planning_start_point.path_point().s(), &trajectory)) {
-      AERROR << "Fail to aggregate planning trajectory.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to aggregate planning trajectory.";
       return false;
     }
     reference_line_info.SetTrajectory(trajectory);
@@ -152,12 +156,14 @@ bool Stage::ExecuteTaskOnReferenceLineForOnlineLearning(
 
     const double end_timestamp = Clock::NowInSeconds();
     const double time_diff_ms = (end_timestamp - start_timestamp) * 1000;
-    ADEBUG << "task[" << task->Name() << "] time spent: " << time_diff_ms
-           << " ms.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "task[" << task->Name() << "] time spent: " << time_diff_ms
+            << " ms.";
     RecordDebugInfo(&picked_reference_line_info, task->Name(), time_diff_ms);
 
     if (!ret.ok()) {
-      AERROR << "Failed to run tasks[" << task->Name()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to run tasks[" << task->Name()
              << "], Error message: " << ret.error_message();
       break;
     }
@@ -181,7 +187,8 @@ bool Stage::ExecuteTaskOnOpenSpace(Frame* frame) {
   for (auto* task : task_list_) {
     ret = task->Execute(frame);
     if (!ret.ok()) {
-      AERROR << "Failed to run tasks[" << task->Name()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to run tasks[" << task->Name()
              << "], Error message: " << ret.error_message();
       return false;
     }
@@ -222,11 +229,13 @@ void Stage::RecordDebugInfo(ReferenceLineInfo* reference_line_info,
                             const std::string& name,
                             const double time_diff_ms) {
   if (!FLAGS_enable_record_debug) {
-    ADEBUG << "Skip record debug info";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip record debug info";
+     return;
   }
   if (reference_line_info == nullptr) {
-    AERROR << "Reference line info is null.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Reference line info is null.";
     return;
   }
 

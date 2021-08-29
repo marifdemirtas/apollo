@@ -46,7 +46,8 @@ double ComputePtsBoxLocationSimilarity(const ProjectionCachePtr& cache,
   size_t check_augmented_iou_minimum_pts_num = 20;
   float augmented_buffer = 25.0f;
   if (object->Empty()) {
-    ADEBUG << "cache object is empty!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "cache object is empty!";
     return min_p;
   }
   Eigen::Vector2d mean_pixel_dist(0.0, 0.0);
@@ -58,14 +59,16 @@ double ComputePtsBoxLocationSimilarity(const ProjectionCachePtr& cache,
     float augmented_iou =
         CalculateAugmentedIOUBBox(velo_bbox, camera_bbox, augmented_buffer);
     if (augmented_iou < kFloatEpsilon) {
-      ADEBUG << "augmented iou is empty!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "augmented iou is empty!";
       return min_p;
     }
   }
   for (size_t i = start_ind; i < end_ind; ++i) {
     auto* velo_pt2d = cache->GetPoint2d(i);
     if (velo_pt2d == nullptr) {
-      AERROR << "query pt from projection cache failed!";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "query pt from projection cache failed!";
       continue;
     }
     if (velo_pt2d->x() >= camera_bbox.xmin &&
@@ -82,7 +85,8 @@ double ComputePtsBoxLocationSimilarity(const ProjectionCachePtr& cache,
     mean_pixel_dist += diff;
   }
   mean_pixel_dist /= static_cast<double>(object->Size());
-  ADEBUG << "mean_pixel_dist is: " << mean_pixel_dist;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "mean_pixel_dist is: " << mean_pixel_dist;
   // normalize according to box size
   Eigen::Vector2d box_size = Eigen::Vector2d(
       camera_bbox.xmax - camera_bbox.xmin, camera_bbox.ymax - camera_bbox.ymin);
@@ -135,7 +139,8 @@ double ComputePtsBoxShapeSimilarity(const ProjectionCachePtr& cache,
   double square_norm_box_size_diff =
       box_size_diff.x() * box_size_diff.x() / x_std_dev / x_std_dev +
       box_size_diff.y() * box_size_diff.y() / y_std_dev / y_std_dev;
-  ADEBUG << "camera_box_size@(" << camera_box_size(0) << ","
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "camera_box_size@(" << camera_box_size(0) << ","
          << camera_box_size(1) << "); "
          << "velo_box_size@(" << velo_box_size.x() << "," << velo_box_size.y()
          << "); "
@@ -164,7 +169,8 @@ double ComputePtsBoxSimilarity(const ProjectionCachePtr& cache,
       ComputePtsBoxShapeSimilarity(cache, object, camera_bbox);
   double fused_similarity =
       FuseTwoProbabilities(location_similarity, shape_similarity);
-  ADEBUG << "fused_similarity@" << fused_similarity << ", location_similarity@"
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "fused_similarity@" << fused_similarity << ", location_similarity@"
          << location_similarity << ", shape_similarity@" << shape_similarity;
   return fused_similarity;
 }

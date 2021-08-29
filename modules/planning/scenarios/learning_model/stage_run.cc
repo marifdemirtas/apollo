@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -32,15 +31,17 @@ using apollo::common::TrajectoryPoint;
 
 Stage::StageStatus LearningModelSampleStageRun::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: Run";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: Run";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
   bool plan_ok =
       ExecuteTaskOnReferenceLineForOnlineLearning(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "LearningModelSampleStageRun planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "LearningModelSampleStageRun planning error";
     return Stage::RUNNING;
   }
 

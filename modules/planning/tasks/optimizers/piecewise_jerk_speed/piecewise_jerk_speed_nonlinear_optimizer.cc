@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -59,13 +58,15 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::Process(
     SpeedData* const speed_data) {
   if (speed_data == nullptr) {
     const std::string msg = "Null speed_data pointer";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
   if (path_data.discretized_path().empty()) {
     const std::string msg = "Speed Optimizer receives empty path data";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -91,8 +92,9 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::Process(
 
   const auto qp_end = std::chrono::system_clock::now();
   std::chrono::duration<double> qp_diff = qp_end - qp_start;
-  ADEBUG << "speed qp optimization takes " << qp_diff.count() * 1000.0 << " ms";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "speed qp optimization takes " << qp_diff.count() * 1000.0 << " ms";
+ 
   if (!qp_smooth_status.ok()) {
     speed_data->clear();
     return qp_smooth_status;
@@ -108,8 +110,9 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::Process(
     const auto curvature_smooth_end = std::chrono::system_clock::now();
     std::chrono::duration<double> curvature_smooth_diff =
         curvature_smooth_end - curvature_smooth_start;
-    ADEBUG << "path curvature smoothing for nlp optimization takes "
-           << curvature_smooth_diff.count() * 1000.0 << " ms";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "path curvature smoothing for nlp optimization takes "
+            << curvature_smooth_diff.count() * 1000.0 << " ms";
 
     if (!path_curvature_smooth_status.ok()) {
       speed_data->clear();
@@ -123,8 +126,9 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::Process(
     const auto speed_limit_smooth_end = std::chrono::system_clock::now();
     std::chrono::duration<double> speed_limit_smooth_diff =
         speed_limit_smooth_end - speed_limit_smooth_start;
-    ADEBUG << "speed limit smoothing for nlp optimization takes "
-           << speed_limit_smooth_diff.count() * 1000.0 << " ms";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "speed limit smoothing for nlp optimization takes "
+            << speed_limit_smooth_diff.count() * 1000.0 << " ms";
 
     if (!speed_limit_smooth_status.ok()) {
       speed_data->clear();
@@ -138,8 +142,9 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::Process(
 
     const auto nlp_end = std::chrono::system_clock::now();
     std::chrono::duration<double> nlp_diff = nlp_end - nlp_start;
-    ADEBUG << "speed nlp optimization takes " << nlp_diff.count() * 1000.0
-           << " ms";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "speed nlp optimization takes " << nlp_diff.count() * 1000.0
+            << " ms";
 
     if (!nlp_smooth_status.ok()) {
       speed_data->clear();
@@ -239,7 +244,8 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::SetUpStatesAndBounds(
             if (!speed_data.EvaluateByTime(curr_t, &sp)) {
               const std::string msg =
                   "rough speed profile estimation for soft follow fence failed";
-              AERROR << msg;
+              AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
               return Status(ErrorCode::PLANNING_ERROR, msg);
             }
             s_soft_upper_bound =
@@ -258,7 +264,8 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::SetUpStatesAndBounds(
       if (s_lower_bound > s_upper_bound) {
         const std::string msg =
             "s_lower_bound larger than s_upper_bound on STGraph";
-        AERROR << msg;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
         return Status(ErrorCode::PLANNING_ERROR, msg);
       }
       s_soft_bounds_.emplace_back(s_soft_lower_bound, s_soft_upper_bound);
@@ -296,7 +303,8 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::SetUpStatesAndBounds(
       if (s_lower_bound > s_upper_bound) {
         const std::string msg =
             "s_lower_bound larger than s_upper_bound on STGraph";
-        AERROR << msg;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
         return Status(ErrorCode::PLANNING_ERROR, msg);
       }
       s_bounds_.emplace_back(s_lower_bound, s_upper_bound);
@@ -313,7 +321,8 @@ bool PiecewiseJerkSpeedNonlinearOptimizer::CheckSpeedLimitFeasibility() {
   static constexpr double kEpsilon = 1e-6;
   const double init_speed_limit = speed_limit_.GetSpeedLimitByS(s_init_);
   if (init_speed_limit + kEpsilon < s_dot_init_) {
-    AERROR << "speed limit [" << init_speed_limit
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "speed limit [" << init_speed_limit
            << "] lower than initial speed[" << s_dot_init_ << "]";
     return false;
   }
@@ -347,7 +356,8 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::SmoothSpeedLimit() {
 
   if (!piecewise_jerk_problem.Optimize(4000)) {
     const std::string msg = "Smoothing speed limit failed";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -403,7 +413,8 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::SmoothPathCurvature(
 
   if (!piecewise_jerk_problem.Optimize(1000)) {
     const std::string msg = "Smoothing path curvature failed";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -463,7 +474,8 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::OptimizeByQP(
     const std::string msg =
         "Speed Optimization by Quadratic Programming failed. "
         "st boundary is infeasible.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -506,7 +518,8 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::OptimizeByNLP(
         warm_start_velocity.size() != warm_start_acceleration.size()) {
       const std::string msg =
           "Piecewise jerk speed nonlinear optimizer warm start invalid!";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
     std::vector<std::vector<double>> warm_start;
@@ -552,7 +565,8 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::OptimizeByNLP(
   if (status != Ipopt::Solve_Succeeded) {
     const std::string msg =
         "Piecewise jerk speed nonlinear optimizer failed during initialization";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -561,28 +575,34 @@ Status PiecewiseJerkSpeedNonlinearOptimizer::OptimizeByNLP(
 
   const auto end_timestamp = std::chrono::system_clock::now();
   std::chrono::duration<double> diff = end_timestamp - start_timestamp;
-  ADEBUG << "*** The optimization problem take time: " << diff.count() * 1000.0
-         << " ms.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The optimization problem take time: " << diff.count() * 1000.0
+          << " ms.";
 
   if (status == Ipopt::Solve_Succeeded ||
       status == Ipopt::Solved_To_Acceptable_Level) {
     // Retrieve some statistics about the solve
     Ipopt::Index iter_count = app->Statistics()->IterationCount();
-    ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
-    Ipopt::Number final_obj = app->Statistics()->FinalObjective();
-    ADEBUG << "*** The final value of the objective function is " << final_obj
-           << '.';
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
+     Ipopt::Number final_obj = app->Statistics()->FinalObjective();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The final value of the objective function is " << final_obj
+            << '.';
   } else {
     const auto& ipopt_return_status =
         IpoptReturnStatus_Name(static_cast<IpoptReturnStatus>(status));
     if (ipopt_return_status.empty()) {
-      AERROR << "Solver ends with unknown failure code: "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Solver ends with unknown failure code: "
              << static_cast<int>(status);
     } else {
-      AERROR << "Solver failure case is : " << ipopt_return_status;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Solver failure case is : " << ipopt_return_status;
     }
     const std::string msg = "Piecewise jerk speed nonlinear optimizer failed";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 

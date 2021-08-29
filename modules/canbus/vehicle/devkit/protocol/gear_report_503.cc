@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -27,15 +26,11 @@ namespace devkit {
 
 using ::apollo::drivers::canbus::Byte;
 
-Gearreport503::Gearreport503() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Gearreport503::Gearreport503() {}
 const int32_t Gearreport503::ID = 0x503;
 
 void Gearreport503::Parse(const std::uint8_t* bytes, int32_t length,
                           ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_devkit()->mutable_gear_report_503()->set_gear_flt(
       gear_flt(bytes, length));
   chassis->mutable_devkit()->mutable_gear_report_503()->set_gear_actual(
@@ -48,8 +43,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 Gear_report_503::Gear_fltType Gearreport503::gear_flt(const std::uint8_t* bytes,
                                                       int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -65,8 +58,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 Gear_report_503::Gear_actualType Gearreport503::gear_actual(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 3);
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /* Copyright 2018 The Apollo Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,8 +52,6 @@ namespace canbus {
 namespace gem {
 
 GemMessageManager::GemMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Control Messages
   AddSendProtocolData<Accelcmd67, true>();
   AddSendProtocolData<Brakecmd6b, true>();
@@ -90,9 +87,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   AddRecvProtocolData<Yawraterpt81, true>();
 }
 
-GemMessageManager::~GemMessageManager() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+GemMessageManager::~GemMessageManager() {}
 
 }  // namespace gem
 }  // namespace canbus

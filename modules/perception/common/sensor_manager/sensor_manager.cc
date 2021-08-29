@@ -50,7 +50,8 @@ bool SensorManager::Init() {
 
   MultiSensorMeta sensor_list_proto;
   if (!GetProtoFromASCIIFile(file_path, &sensor_list_proto)) {
-    AERROR << "Invalid MultiSensorMeta file: " << FLAGS_obs_sensor_meta_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid MultiSensorMeta file: " << FLAGS_obs_sensor_meta_path;
     return false;
   }
 
@@ -65,7 +66,8 @@ bool SensorManager::Init() {
     auto pair = sensor_info_map_.insert(
         make_pair(sensor_meta_proto.name(), sensor_info));
     if (!pair.second) {
-      AERROR << "Duplicate sensor name error.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Duplicate sensor name error.";
       return false;
     }
 
@@ -74,7 +76,8 @@ bool SensorManager::Init() {
           new BrownCameraDistortionModel());
       auto intrinsic_file = IntrinsicPath(sensor_info.frame_id);
       if (!LoadBrownCameraIntrinsic(intrinsic_file, distort_model.get())) {
-        AERROR << "Failed to load camera intrinsic:" << intrinsic_file;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load camera intrinsic:" << intrinsic_file;
         return false;
       }
       distort_model_map_.insert(make_pair(
@@ -88,13 +91,15 @@ bool SensorManager::Init() {
 
   for (const SensorMeta& sensor_meta_proto : sensor_list_proto.sensor_meta()) {
     if (!AddSensorInfo(sensor_meta_proto)) {
-      AERROR << "Failed to add sensor_info: " << sensor_meta_proto.name();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to add sensor_info: " << sensor_meta_proto.name();
       return false;
     }
   }
 
   inited_ = true;
-  AINFO << "Init sensor_manager success.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Init sensor_manager success.";
   return true;
 }
 
@@ -105,7 +110,8 @@ bool SensorManager::IsSensorExist(const std::string& name) const {
 bool SensorManager::GetSensorInfo(const std::string& name,
                                   SensorInfo* sensor_info) const {
   if (sensor_info == nullptr) {
-    AERROR << "Nullptr error.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Nullptr error.";
     return false;
   }
 

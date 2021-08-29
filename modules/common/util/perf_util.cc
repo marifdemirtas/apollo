@@ -55,7 +55,8 @@ void Timer::Start() { start_time_ = Time::Now(); }
 int64_t Timer::End(const std::string& msg) {
   end_time_ = Time::Now();
   int64_t elapsed_time = (end_time_ - start_time_).ToNanosecond() / 1e6;
-  ADEBUG << "TIMER " << msg << " elapsed_time: " << elapsed_time << " ms";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "TIMER " << msg << " elapsed_time: " << elapsed_time << " ms";
 
   // start new timer.
   start_time_ = end_time_;

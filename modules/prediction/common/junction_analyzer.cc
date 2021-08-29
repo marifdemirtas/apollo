@@ -176,7 +176,8 @@ double JunctionAnalyzer::ComputeJunctionRange() {
   CHECK_NOTNULL(junction_info_ptr_);
   if (!junction_info_ptr_->junction().has_polygon() ||
       junction_info_ptr_->junction().polygon().point_size() < 3) {
-    AERROR << "Junction [" << GetJunctionId()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Junction [" << GetJunctionId()
            << "] has not enough polygon points to compute range";
     return FLAGS_defualt_junction_range;
   }

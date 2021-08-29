@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,33 +29,35 @@ using apollo::control::ControlCommand;
 using apollo::monitor::SystemStatus;
 
 bool GuardianComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!GetProtoConfig(&guardian_conf_)) {
-    AERROR << "Unable to load canbus conf file: " << ConfigFilePath();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to load canbus conf file: " << ConfigFilePath();
     return false;
   }
 
   chassis_reader_ = node_->CreateReader<Chassis>(
       FLAGS_chassis_topic, [this](const std::shared_ptr<Chassis>& chassis) {
-        ADEBUG << "Received chassis data: run chassis callback.";
-        std::lock_guard<std::mutex> lock(mutex_);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received chassis data: run chassis callback.";
+         std::lock_guard<std::mutex> lock(mutex_);
         chassis_.CopyFrom(*chassis);
       });
 
   control_cmd_reader_ = node_->CreateReader<ControlCommand>(
       FLAGS_control_command_topic,
       [this](const std::shared_ptr<ControlCommand>& cmd) {
-        ADEBUG << "Received control data: run control callback.";
-        std::lock_guard<std::mutex> lock(mutex_);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received control data: run control callback.";
+         std::lock_guard<std::mutex> lock(mutex_);
         control_cmd_.CopyFrom(*cmd);
       });
 
   system_status_reader_ = node_->CreateReader<SystemStatus>(
       FLAGS_system_status_topic,
       [this](const std::shared_ptr<SystemStatus>& status) {
-        ADEBUG << "Received system status data: run system status callback.";
-        std::lock_guard<std::mutex> lock(mutex_);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received system status data: run system status callback.";
+         std::lock_guard<std::mutex> lock(mutex_);
         last_status_received_s_ = Time::Now().ToSecond();
         system_status_.CopyFrom(*status);
       });
@@ -67,8 +68,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool GuardianComponent::Proc() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   constexpr double kSecondsTillTimeout(2.5);
 
   bool safety_mode_triggered = false;
@@ -83,11 +82,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 
   if (safety_mode_triggered) {
-    ADEBUG << "Safety mode triggered, enable safety mode";
-    TriggerSafetyMode();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Safety mode triggered, enable safety mode";
+     TriggerSafetyMode();
   } else {
-    ADEBUG << "Safety mode not triggered, bypass control command";
-    PassThroughControlCommand();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Safety mode not triggered, bypass control command";
+     PassThroughControlCommand();
   }
 
   common::util::FillHeader(node_->Name(), &guardian_cmd_);
@@ -96,23 +97,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void GuardianComponent::PassThroughControlCommand() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(mutex_);
   guardian_cmd_.mutable_control_command()->CopyFrom(control_cmd_);
 }
 
 void GuardianComponent::TriggerSafetyMode() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Safety state triggered, with system safety mode trigger time : "
-        << system_status_.safety_mode_trigger_time();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Safety state triggered, with system safety mode trigger time : "
+         << system_status_.safety_mode_trigger_time();
   std::lock_guard<std::mutex> lock(mutex_);
   bool sensor_malfunction = false, obstacle_detected = false;
   if (!chassis_.surround().sonar_enabled() ||
       chassis_.surround().sonar_fault()) {
-    AINFO << "Ultrasonic sensor not enabled for faulted, will do emergency "
-             "stop!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Ultrasonic sensor not enabled for faulted, will do emergency "
+              "stop!";
     sensor_malfunction = true;
   } else {
     // TODO(QiL) : Load for config
@@ -120,8 +119,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       if ((chassis_.surround().sonar_range(i) > 0.0 &&
            chassis_.surround().sonar_range(i) < 2.5) ||
           chassis_.surround().sonar_range(i) > 30) {
-        AINFO << "Object detected or ultrasonic sensor fault output, will do "
-                 "emergency stop!";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Object detected or ultrasonic sensor fault output, will do "
+                  "emergency stop!";
         obstacle_detected = true;
       }
     }
@@ -135,18 +135,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   // TODO(QiL) : Remove this one once hardware re-alignment is done.
   sensor_malfunction = false;
   obstacle_detected = false;
-  AINFO << "Temporarily ignore the ultrasonic sensor output during hardware "
-           "re-alignment!";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Temporarily ignore the ultrasonic sensor output during hardware "
+            "re-alignment!";
 
   if (system_status_.require_emergency_stop() || sensor_malfunction ||
       obstacle_detected) {
-    AINFO << "Emergency stop triggered! with system status from monitor as : "
-          << system_status_.require_emergency_stop();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Emergency stop triggered! with system status from monitor as : "
+           << system_status_.require_emergency_stop();
     guardian_cmd_.mutable_control_command()->set_brake(
         guardian_conf_.guardian_cmd_emergency_stop_percentage());
   } else {
-    AINFO << "Soft stop triggered! with system status from monitor as : "
-          << system_status_.require_emergency_stop();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Soft stop triggered! with system status from monitor as : "
+           << system_status_.require_emergency_stop();
     guardian_cmd_.mutable_control_command()->set_brake(
         guardian_conf_.guardian_cmd_soft_stop_percentage());
   }

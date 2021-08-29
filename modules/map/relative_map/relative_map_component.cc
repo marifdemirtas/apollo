@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -27,8 +26,6 @@ using apollo::localization::LocalizationEstimate;
 using apollo::perception::PerceptionObstacles;
 
 bool RelativeMapComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   vehicle_state_provider_ = std::make_shared<common::VehicleStateProvider>();
   InitReaders();
   return relative_map_.Init(vehicle_state_provider_.get()).ok() &&
@@ -36,8 +33,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool RelativeMapComponent::Proc() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto map_msg = std::make_shared<MapMsg>();
   if (!relative_map_.Process(map_msg.get())) {
     return false;
@@ -48,33 +43,35 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool RelativeMapComponent::InitReaders() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   perception_reader_ = node_->CreateReader<PerceptionObstacles>(
       FLAGS_perception_obstacle_topic,
       [this](const std::shared_ptr<PerceptionObstacles>& perception_obstacles) {
-        ADEBUG << "Received perception data: run perception callback.";
-        relative_map_.OnPerception(*perception_obstacles.get());
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received perception data: run perception callback.";
+         relative_map_.OnPerception(*perception_obstacles.get());
       });
 
   chassis_reader_ = node_->CreateReader<Chassis>(
       FLAGS_chassis_topic, [this](const std::shared_ptr<Chassis>& chassis) {
-        ADEBUG << "Received chassis data: run chassis callback.";
-        relative_map_.OnChassis(*chassis.get());
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received chassis data: run chassis callback.";
+         relative_map_.OnChassis(*chassis.get());
       });
 
   localization_reader_ = node_->CreateReader<LocalizationEstimate>(
       FLAGS_localization_topic,
       [this](const std::shared_ptr<LocalizationEstimate>& localization) {
-        ADEBUG << "Received chassis data: run chassis callback.";
-        relative_map_.OnLocalization(*localization.get());
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received chassis data: run chassis callback.";
+         relative_map_.OnLocalization(*localization.get());
       });
 
   navigation_reader_ = node_->CreateReader<NavigationInfo>(
       FLAGS_navigation_topic,
       [this](const std::shared_ptr<NavigationInfo>& navigation_info) {
-        ADEBUG << "Received chassis data: run chassis callback.";
-        relative_map_.OnNavigationInfo(*navigation_info.get());
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received chassis data: run chassis callback.";
+         relative_map_.OnNavigationInfo(*navigation_info.get());
       });
 
   relative_map_writer_ = node_->CreateWriter<MapMsg>(FLAGS_relative_map_topic);

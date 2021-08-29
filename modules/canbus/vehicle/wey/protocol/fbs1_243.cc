@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace wey {
 
 using ::apollo::drivers::canbus::Byte;
 
-Fbs1243::Fbs1243() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Fbs1243::Fbs1243() {}
 const int32_t Fbs1243::ID = 0x243;
 
 void Fbs1243::Parse(const std::uint8_t* bytes, int32_t length,
                     ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_wey()->mutable_fbs1_243()->set_longitudeacce(
       longitudeacce(bytes, length));
   chassis->mutable_wey()->mutable_fbs1_243()->set_lateralacce(
@@ -54,8 +49,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // False, 'physical_range': '[-21.592|21.592]', 'bit': 7, 'type': 'double',
 // 'order': 'motorola', 'physical_unit': 'm/s^2'}
 double Fbs1243::longitudeacce(const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -73,8 +66,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'is_signed_var': False, 'physical_range': '[-21.592|21.592]', 'bit': 23,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'm/s^2'}
 double Fbs1243::lateralacce(const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -92,8 +83,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // False, 'physical_range': '[-2.093|2.093]', 'bit': 39, 'type': 'double',
 // 'order': 'motorola', 'physical_unit': 'rad/s'}
 double Fbs1243::vehdynyawrate(const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 
@@ -111,8 +100,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // False, 'physical_range': '[0|299.98125]', 'bit': 55, 'type': 'double',
 // 'order': 'motorola', 'physical_unit': 'Km/h'}
 double Fbs1243::flwheelspd(const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
 
@@ -133,8 +120,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 Fbs1_243::FrwheeldirectionType Fbs1243::frwheeldirection(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 2);
 

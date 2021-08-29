@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -63,13 +62,9 @@ LocalizationLidarProcess::LocalizationLidarProcess()
       unstable_threshold_(0.3),
       out_map_count_(0),
       forecast_integ_state_(ForecastState::NOT_VALID),
-      forecast_timer_(-1) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+      forecast_timer_(-1) {}
 
 LocalizationLidarProcess::~LocalizationLidarProcess() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   delete locator_;
   locator_ = nullptr;
 
@@ -78,8 +73,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Status LocalizationLidarProcess::Init(const LocalizationIntegParam& params) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // initial_success_ = false;
   map_path_ = params.map_path;
   lidar_extrinsic_file_ = params.lidar_extrinsic_file;
@@ -116,7 +109,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   bool success = LoadLidarExtrinsic(lidar_extrinsic_file_, &lidar_extrinsic_);
   if (!success) {
-    AERROR << "LocalizationLidar: Fail to access the lidar"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "LocalizationLidar: Fail to access the lidar"
               " extrinsic file: "
            << lidar_extrinsic_file_;
     return Status(common::LOCALIZATION_ERROR_LIDAR,
@@ -159,8 +153,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 double LocalizationLidarProcess::ComputeDeltaYawLimit(
     const int64_t index_cur, const int64_t index_stable, const double limit_min,
     const double limit_max) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (index_cur > index_stable) {
     return limit_min;
   }
@@ -171,10 +163,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocalizationLidarProcess::PcdProcess(const LidarFrame& lidar_frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!CheckState()) {
-    AERROR << "PcdProcess: Receive an invalid lidar msg!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PcdProcess: Receive an invalid lidar msg!";
     return;
   }
 
@@ -186,8 +177,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!GetPredictPose(lidar_frame.measurement_time, &cur_predict_location_,
                       &forecast_integ_state_)) {
-    AINFO << "PcdProcess: Discard a lidar msg because can't get predict pose. "
-          << "More info see log in function GetPredictPose.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "PcdProcess: Discard a lidar msg because can't get predict pose. "
+           << "More info see log in function GetPredictPose.";
     return;
   }
 
@@ -219,8 +211,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void LocalizationLidarProcess::GetResult(int* lidar_status,
                                          TransformD* location,
                                          Matrix3D* covariance) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(lidar_status);
   CHECK_NOTNULL(location);
   CHECK_NOTNULL(covariance);
@@ -231,8 +221,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int LocalizationLidarProcess::GetResult(LocalizationEstimate* lidar_local_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (lidar_local_msg == nullptr) {
     return static_cast<int>(LidarState::NOT_VALID);
   }
@@ -279,28 +267,23 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocalizationLidarProcess::IntegPvaProcess(const InsPva& sins_pva_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pose_forecastor_->PushInspvaData(sins_pva_msg);
 }
 
 void LocalizationLidarProcess::RawImuProcess(const ImuData& imu_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   pose_forecastor_->PushImuData(imu_msg);
 }
 
 bool LocalizationLidarProcess::GetPredictPose(const double lidar_time,
                                               TransformD* predict_pose,
                                               ForecastState* forecast_state) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(predict_pose);
   CHECK_NOTNULL(forecast_state);
 
   double latest_imu_time = pose_forecastor_->GetLastestImuTime();
   if (latest_imu_time - lidar_time > imu_lidar_max_delay_time_) {
-    AERROR << std::setprecision(16) << "LocalizationLidar GetPredictPose: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << std::setprecision(16) << "LocalizationLidar GetPredictPose: "
            << "Lidar msg too old! "
            << "lidar time: " << lidar_time
            << "delay time: " << latest_imu_time - lidar_time;
@@ -329,14 +312,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 
   if (state < 0) {
-    AINFO << "LocalizationLidar GetPredictPose: "
-          << "Receive a lidar msg, but can't query predict pose.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "LocalizationLidar GetPredictPose: "
+           << "Receive a lidar msg, but can't query predict pose.";
     *forecast_state = ForecastState::NOT_VALID;
     return false;
   }
 
   if (std::abs(forecast_pose.x) < 10.0 || std::abs(forecast_pose.y) < 10.0) {
-    AERROR << "LocalizationLidar Fatal Error: invalid pose!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "LocalizationLidar Fatal Error: invalid pose!";
     return false;
   }
 
@@ -350,8 +335,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     *forecast_state = ForecastState::INITIAL;
   } else {
     *forecast_state = ForecastState::INCREMENT;
-    AINFO << "The delta translation input lidar localization: " << lidar_time
-          << " " << forecast_pose.x - pre_location_.translation()(0) << " "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "The delta translation input lidar localization: " << lidar_time
+           << " " << forecast_pose.x - pre_location_.translation()(0) << " "
           << forecast_pose.y - pre_location_.translation()(1) << " "
           << forecast_pose.z - pre_location_.translation()(2);
   }
@@ -359,13 +345,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   return true;
 }
 
-bool LocalizationLidarProcess::CheckState() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- return true; }
+bool LocalizationLidarProcess::CheckState() { return true; }
 
 void LocalizationLidarProcess::UpdateState(const int ret, const double time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (ret == 0) {  // OK
     double location_score = 0.0;
     locator_->GetResult(&location_, &location_covariance_, &location_score);
@@ -428,15 +410,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       reinit_flag_ = true;
     }
   } else {  // NOT_VALID
-    AERROR << "LocalizationLidar: The reflection map load failed!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "LocalizationLidar: The reflection map load failed!";
     lidar_status_ = LidarState::NOT_VALID;
   }
 }
 
 bool LocalizationLidarProcess::LoadLidarExtrinsic(const std::string& file_path,
                                                   TransformD* lidar_extrinsic) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(lidar_extrinsic);
 
   YAML::Node config = YAML::LoadFile(file_path);
@@ -464,8 +445,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool LocalizationLidarProcess::LoadLidarHeight(const std::string& file_path,
                                                LidarHeight* height) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(height);
 
   if (!cyber::common::PathExists(file_path)) {

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -34,8 +33,6 @@ DEFINE_string(image_ext, ".jpg", "path of image ext");
 DEFINE_string(res_dir, "./result.dat", "path of result");
 
 int main(int argc, char **argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::ParseCommandLineFlags(&argc, &argv, true);
   std::vector<cv::Scalar> color_table;
   color_table.push_back(cv::Scalar(0, 97, 255));    // for other >0 mask values
@@ -50,8 +47,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   cudaDeviceProp prop;
   cudaGetDeviceProperties(&prop, 0);
-  AINFO << prop.name;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << prop.name;
+ 
   apollo::perception::inference::Inference *rt_net;
   const std::string input_blob_name = "data";
   std::vector<std::string> inputs{"data"};
@@ -63,8 +61,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   apollo::perception::inference::load_data<std::string>(FLAGS_names_file,
                                                         &outputs);
   for (auto &name : outputs) {
-    ADEBUG << name;
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << name;
+   }
 
   if (FLAGS_int8) {
     apollo::perception::inference::BatchStream stream(2, 50, "./batches/");
@@ -93,8 +92,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   for (auto &image_file : image_lists) {
     cv::Mat img =
         cv::imread(FLAGS_image_root + image_file + FLAGS_image_ext, CV_8UC1);
-    ADEBUG << img.channels();
-    cv::Rect roi(0, offset_y, img.cols, img.rows - offset_y);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << img.channels();
+     cv::Rect roi(0, offset_y, img.cols, img.rows - offset_y);
     cv::Mat img_roi = img(roi);
     img_roi.copyTo(img);
     cv::resize(img, img, cv::Size(width, height));

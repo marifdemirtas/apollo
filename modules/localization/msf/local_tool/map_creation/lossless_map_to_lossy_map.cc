@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -35,8 +34,6 @@ namespace localization {
 namespace msf {
 
 MapNodeIndex GetMapIndexFromMapFolder(const std::string& map_folder) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   MapNodeIndex index;
   char buf[100];
   sscanf(map_folder.c_str(), "/%03u/%05s/%02d/%08u/%08u", &index.resolution_id_,
@@ -45,15 +42,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (zone == "south") {
     index.zone_id_ = -index.zone_id_;
   }
-  ADEBUG << index;
-  return index;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << index;
+   return index;
 }
 
 bool GetAllMapIndex(const std::string& src_map_folder,
                     const std::string& dst_map_folder,
                     std::list<MapNodeIndex>* buf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string src_map_path = src_map_folder + "/map";
   std::string dst_map_path = dst_map_folder + "/map";
   boost::filesystem::path src_map_path_boost(src_map_path);
@@ -95,8 +91,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }  // namespace apollo
 
 int main(int argc, char** argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   boost::program_options::options_description boost_desc("Allowed options");
   boost_desc.add_options()("help", "produce help message")(
       "srcdir", boost::program_options::value<std::string>(),
@@ -112,7 +106,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (boost_args.count("help") || !boost_args.count("srcdir") ||
       !boost_args.count("dstdir")) {
-    AERROR << boost_desc;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << boost_desc;
     return 0;
   }
 
@@ -128,7 +123,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   lossless_map.InitMapNodeCaches(12, 24);
   lossless_map.AttachMapNodePool(&lossless_map_node_pool);
   if (!lossless_map.SetMapFolderPath(src_map_folder)) {
-    AERROR << "Reflectance map folder is invalid!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Reflectance map folder is invalid!";
     return -1;
   }
 
@@ -141,23 +137,26 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   std::list<MapNodeIndex> buf;
   apollo::localization::msf::GetAllMapIndex(src_map_folder, dst_map_folder,
                                             &buf);
-  AINFO << "index size: " << buf.size();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "index size: " << buf.size();
+ 
   PyramidMapConfig config_transform_lossy("lossless_map");
   config_transform_lossy.Load(src_map_folder + "config.xml");
   config_transform_lossy.map_version_ = "lossy_map";
   config_transform_lossy.Save(dst_map_folder + "config.xml");
 
-  AINFO << "lossy map directory structure has built.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lossy map directory structure has built.";
+ 
   PyramidMapNodePool lossy_map_node_pool(25, 8);
   lossy_map_node_pool.Initial(&config_transform_lossy);
   PyramidMap lossy_map(&config_transform_lossy);
   lossy_map.InitMapNodeCaches(12, 24);
   lossy_map.AttachMapNodePool(&lossy_map_node_pool);
   if (!lossy_map.SetMapFolderPath(dst_map_folder)) {
-    AINFO << "lossy_map config xml not exist";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lossy_map config xml not exist";
+   }
 
   int index = 0;
   auto itr = buf.begin();

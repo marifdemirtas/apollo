@@ -25,18 +25,21 @@ KalmanFilter::KalmanFilter() : BaseFilter("KalmanFilter") {}
 bool KalmanFilter::Init(const Eigen::VectorXd &initial_belief_states,
                         const Eigen::MatrixXd &initial_uncertainty) {
   if (initial_uncertainty.rows() != initial_uncertainty.cols()) {
-    AERROR << "the cols and rows of uncertainty martix should be equal";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the cols and rows of uncertainty martix should be equal";
     return false;
   }
   states_num_ = static_cast<int>(initial_uncertainty.rows());
 
   if (states_num_ <= 0) {
-    AERROR << "state_num should be greater than zero";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "state_num should be greater than zero";
     return false;
   }
 
   if (states_num_ != initial_belief_states.rows()) {
-    AERROR << "the rows of state should be equal to state_num";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the rows of state should be equal to state_num";
     return false;
   }
 
@@ -62,23 +65,28 @@ bool KalmanFilter::Init(const Eigen::VectorXd &initial_belief_states,
 bool KalmanFilter::Predict(const Eigen::MatrixXd &transform_matrix,
                            const Eigen::MatrixXd &env_uncertainty_matrix) {
   if (!init_) {
-    AERROR << "Predict: Kalman Filter initialize not successfully";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Predict: Kalman Filter initialize not successfully";
     return false;
   }
   if (transform_matrix.rows() != states_num_) {
-    AERROR << "the rows of transform matrix should be equal to state_num";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the rows of transform matrix should be equal to state_num";
     return false;
   }
   if (transform_matrix.cols() != states_num_) {
-    AERROR << "the cols of transform matrix should be equal to state_num";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the cols of transform matrix should be equal to state_num";
     return false;
   }
   if (env_uncertainty_matrix.rows() != states_num_) {
-    AERROR << "the rows of env uncertainty should be equal to state_num";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the rows of env uncertainty should be equal to state_num";
     return false;
   }
   if (env_uncertainty_matrix.cols() != states_num_) {
-    AERROR << "the cols of env uncertainty should be equal to state_num";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the cols of env uncertainty should be equal to state_num";
     return false;
   }
   transform_matrix_ = transform_matrix;
@@ -93,20 +101,24 @@ bool KalmanFilter::Predict(const Eigen::MatrixXd &transform_matrix,
 bool KalmanFilter::Correct(const Eigen::VectorXd &cur_observation,
                            const Eigen::MatrixXd &cur_observation_uncertainty) {
   if (!init_) {
-    AERROR << "Correct: Kalman Filter initialize not successfully";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Correct: Kalman Filter initialize not successfully";
     return false;
   }
   if (cur_observation.rows() != states_num_) {
-    AERROR << "the rows of current observation should be equal to state_num";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the rows of current observation should be equal to state_num";
     return false;
   }
   if (cur_observation_uncertainty.rows() != states_num_) {
-    AERROR << "the rows of current observation uncertainty "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the rows of current observation uncertainty "
               "should be equal to state_num";
     return false;
   }
   if (cur_observation_uncertainty.cols() != states_num_) {
-    AERROR << "the cols of current observation uncertainty "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the cols of current observation uncertainty "
               "should be equal to state_num";
     return false;
   }
@@ -130,12 +142,14 @@ bool KalmanFilter::Correct(const Eigen::VectorXd &cur_observation,
 
 bool KalmanFilter::SetControlMatrix(const Eigen::MatrixXd &control_matrix) {
   if (!init_) {
-    AERROR << "SetControlMatrix: Kalman Filter initialize not successfully";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "SetControlMatrix: Kalman Filter initialize not successfully";
     return false;
   }
   if (control_matrix.rows() != states_num_ ||
       control_matrix.cols() != states_num_) {
-    AERROR << "the rows/cols of control matrix should be equal to state_num";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "the rows/cols of control matrix should be equal to state_num";
     return false;
   }
   c_matrix_ = control_matrix;

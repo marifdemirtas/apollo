@@ -1,4 +1,3 @@
-#include <iostream>
 /**
  * Copyright (c) 2019 LG Electronics, Inc.
  *
@@ -27,19 +26,13 @@ Server::Server(Node* node)
       endpoint(boost::asio::ip::tcp::v4(), (uint16_t)FLAGS_port),
       acceptor(io, endpoint),
       socket(io) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   signals.add(SIGTERM);
   signals.add(SIGINT);
 }
 
-Server::~Server() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Server::~Server() {}
 
 void Server::run() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   signals.async_wait(boost::bind(&Server::stop, shared_from_this(),
                                  boost::asio::placeholders::error,
                                  boost::asio::placeholders::signal_number));
@@ -50,34 +43,31 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Server::stop(const boost::system::error_code& ec, int signal_number) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (ec) {
-    AERROR << "Error waiting on signals: " << ec.message();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Error waiting on signals: " << ec.message();
   } else {
-    AINFO << "Signal " << signal_number << " received, stopping server";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Signal " << signal_number << " received, stopping server";
+   }
   acceptor.close();
   clients.stop_all();
 }
 
 void Server::begin_accept() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   acceptor.async_accept(socket,
                         boost::bind(&Server::end_accept, shared_from_this(),
                                     boost::asio::placeholders::error));
 }
 
 void Server::end_accept(const boost::system::error_code& ec) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!acceptor.is_open()) {
     return;
   }
 
   if (ec) {
-    AERROR << "Error accepting connection: " << ec.message();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Error accepting connection: " << ec.message();
   } else {
     auto client = std::make_shared<Client>(&node, &clients, std::move(socket));
     clients.start(client);

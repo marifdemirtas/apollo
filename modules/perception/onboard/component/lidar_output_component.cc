@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -22,8 +21,6 @@ namespace perception {
 namespace onboard {
 
 bool LidarOutputComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   writer_ =
       node_->CreateWriter<PerceptionObstacles>("/apollo/perception/obstacles");
   return true;
@@ -31,19 +28,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool LidarOutputComponent::Proc(
     const std::shared_ptr<SensorFrameMessage>& message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::shared_ptr<PerceptionObstacles> out_message(new PerceptionObstacles);
 
   if (message->frame_ == nullptr) {
-    AERROR << "Failed to get frame in message.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get frame in message.";
     return false;
   }
 
   if (!MsgSerializer::SerializeMsg(
           message->timestamp_, message->lidar_timestamp_, message->seq_num_,
           message->frame_->objects, message->error_code_, out_message.get())) {
-    AERROR << "Failed to serialize PerceptionObstacles object.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to serialize PerceptionObstacles object.";
     return false;
   }
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -25,27 +24,26 @@ namespace apollo {
 namespace hdmap {
 
 PJTransformer::PJTransformer(int zone_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // init projPJ
   std::stringstream stream;
   stream << "+proj=utm +zone=" << zone_id << " +ellps=WGS84" << std::endl;
   pj_utm_ = pj_init_plus(stream.str().c_str());
   if (pj_utm_ == nullptr) {
-    AERROR << "proj4 init failed!" << stream.str() << std::endl;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "proj4 init failed!" << stream.str() << std::endl;
     return;
   }
   pj_latlong_ = pj_init_plus("+proj=latlong +ellps=WGS84");
   if (pj_latlong_ == nullptr) {
-    AERROR << "proj4 pj_latlong init failed!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "proj4 pj_latlong init failed!";
     return;
   }
-  AINFO << "proj4 init success" << std::endl;
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "proj4 init success" << std::endl;
+ }
 
 PJTransformer::~PJTransformer() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (pj_latlong_) {
     pj_free(pj_latlong_);
     pj_latlong_ = nullptr;
@@ -57,10 +55,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 int PJTransformer::LatlongToUtm(int64_t point_count, int point_offset,
                                 double *x, double *y, double *z) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!pj_latlong_ || !pj_utm_) {
-    AERROR << "pj_latlong_:" << pj_latlong_ << "pj_utm_:" << pj_utm_
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "pj_latlong_:" << pj_latlong_ << "pj_utm_:" << pj_utm_
            << std::endl;
     return -1;
   }

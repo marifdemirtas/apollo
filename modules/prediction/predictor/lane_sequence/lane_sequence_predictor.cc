@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -49,7 +48,8 @@ bool LaneSequencePredictor::Predict(
   const Feature& feature = obstacle->latest_feature();
 
   if (!feature.has_lane() || !feature.lane().has_lane_graph()) {
-    AERROR << "Obstacle [" << obstacle->id() << " has no lane graph.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle->id() << " has no lane graph.";
     return false;
   }
 
@@ -67,19 +67,22 @@ bool LaneSequencePredictor::Predict(
   for (int i = 0; i < num_lane_sequence; ++i) {
     const LaneSequence& sequence = feature.lane().lane_graph().lane_sequence(i);
     if (sequence.lane_segment().empty()) {
-      AERROR << "Empty lane segments.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Empty lane segments.";
       continue;
     }
 
     if (!enable_lane_sequence[i]) {
-      ADEBUG << "Lane sequence [" << ToString(sequence)
-             << "] with probability [" << sequence.probability()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Lane sequence [" << ToString(sequence)
+              << "] with probability [" << sequence.probability()
              << "] is disqualified.";
       continue;
     }
 
-    ADEBUG << "Obstacle [" << obstacle->id()
-           << "] will draw a lane sequence trajectory [" << ToString(sequence)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << obstacle->id()
+            << "] will draw a lane sequence trajectory [" << ToString(sequence)
            << "] with probability [" << sequence.probability() << "].";
 
     std::vector<TrajectoryPoint> points;
@@ -125,7 +128,8 @@ void LaneSequencePredictor::DrawLaneSequenceTrajectoryPoints(
   const Feature& feature = obstacle.latest_feature();
   if (!feature.has_position() || !feature.has_velocity() ||
       !feature.position().has_x() || !feature.position().has_y()) {
-    AERROR << "Obstacle [" << obstacle.id()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << obstacle.id()
            << " is missing position or velocity";
     return;
   }
@@ -140,7 +144,8 @@ void LaneSequencePredictor::DrawLaneSequenceTrajectoryPoints(
   double lane_s = 0.0;
   double lane_l = 0.0;
   if (!PredictionMap::GetProjection(position, lane_info, &lane_s, &lane_l)) {
-    AERROR << "Failed in getting lane s and lane l";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed in getting lane s and lane l";
     return;
   }
   double approach_rate = FLAGS_go_approach_rate;
@@ -154,7 +159,8 @@ void LaneSequencePredictor::DrawLaneSequenceTrajectoryPoints(
     double theta = M_PI;
     if (!PredictionMap::SmoothPointFromLane(lane_id, lane_s, lane_l, &point,
                                             &theta)) {
-      AERROR << "Unable to get smooth point from lane [" << lane_id
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to get smooth point from lane [" << lane_id
              << "] with s [" << lane_s << "] and l [" << lane_l << "]";
       break;
     }

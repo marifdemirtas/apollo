@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -75,8 +74,9 @@ void Buffer::SubscriptionCallbackImpl(
   std::string authority =
       "cyber_tf";  // msg_evt.getPublisherName(); // lookup the authority
   if (now.ToNanosecond() < last_update_.ToNanosecond()) {
-    AINFO << "Detected jump back in time. Clearing TF buffer.";
-    clear();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Detected jump back in time. Clearing TF buffer.";
+     clear();
     // cache static transform stamped again.
     for (auto& msg : static_msgs_) {
       setTransform(msg, authority, true);
@@ -116,7 +116,8 @@ void Buffer::SubscriptionCallbackImpl(
       setTransform(trans_stamped, authority, is_static);
     } catch (tf2::TransformException& ex) {
       std::string temp = ex.what();
-      AERROR << "Failure to set received transform:" << temp.c_str();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failure to set received transform:" << temp.c_str();
     }
   }
 }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,21 +27,15 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Headlightcmd118::ID = 0x118;
 
 // public
-Headlightcmd118::Headlightcmd118() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Headlightcmd118::Headlightcmd118() { Reset(); }
 
 uint32_t Headlightcmd118::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Headlightcmd118::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_ignore_overrides(data, ignore_overrides_);
   set_p_enable(data, enable_);
   set_p_clear_override(data, clear_override_);
@@ -51,8 +44,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Headlightcmd118::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) you should check this manually
   ignore_overrides_ = false;
   enable_ = false;
@@ -62,8 +53,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Headlightcmd118* Headlightcmd118::set_ignore_overrides(bool ignore_overrides) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ignore_overrides_ = ignore_overrides;
   return this;
 }
@@ -73,8 +62,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Headlightcmd118::set_p_ignore_overrides(uint8_t* data,
                                              bool ignore_overrides) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   uint8_t x = ignore_overrides;
 
   Byte to_set(data + 0);
@@ -82,8 +69,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Headlightcmd118* Headlightcmd118::set_enable(bool enable) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   enable_ = enable;
   return this;
 }
@@ -92,8 +77,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Headlightcmd118::set_p_enable(uint8_t* data, bool enable) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   uint8_t x = enable;
 
   Byte to_set(data + 0);
@@ -101,8 +84,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Headlightcmd118* Headlightcmd118::set_clear_override(bool clear_override) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   clear_override_ = clear_override;
   return this;
 }
@@ -111,8 +92,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 2,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Headlightcmd118::set_p_clear_override(uint8_t* data, bool clear_override) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   uint8_t x = clear_override;
 
   Byte to_set(data + 0);
@@ -120,8 +99,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Headlightcmd118* Headlightcmd118::set_clear_faults(bool clear_faults) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   clear_faults_ = clear_faults;
   return this;
 }
@@ -130,8 +107,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 3,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Headlightcmd118::set_p_clear_faults(uint8_t* data, bool clear_faults) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   uint8_t x = clear_faults;
 
   Byte to_set(data + 0);
@@ -140,8 +115,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Headlightcmd118* Headlightcmd118::set_headlight_cmd(
     Headlight_cmd_118::Headlight_cmdType headlight_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   headlight_cmd_ = headlight_cmd;
   return this;
 }
@@ -153,8 +126,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 void Headlightcmd118::set_p_headlight_cmd(
     uint8_t* data, Headlight_cmd_118::Headlight_cmdType headlight_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   uint8_t x = headlight_cmd;
 
   Byte to_set(data + 1);

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -46,14 +45,16 @@ PullOverStageApproach::PullOverStageApproach(
 
 Stage::StageStatus PullOverStageApproach::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: Approach";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: Approach";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "PullOverStageApproach planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PullOverStageApproach planning error";
   }
 
   const auto& reference_line_info = frame->reference_line_info().front();
@@ -119,8 +120,9 @@ Stage::StageStatus PullOverStageApproach::Process(
           "PULL-OVER-scenario", frame,
           &(frame->mutable_reference_line_info()->front()));
 
-      ADEBUG << "Build a stop fence to pause ADC at a better position: id["
-             << virtual_obstacle_id << "] s[" << stop_line_s << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Build a stop fence to pause ADC at a better position: id["
+              << virtual_obstacle_id << "] s[" << stop_line_s << "]";
 
       const double adc_front_edge_s =
           reference_line_info.AdcSlBoundary().end_s();

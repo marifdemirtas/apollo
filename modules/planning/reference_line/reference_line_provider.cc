@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -57,9 +56,7 @@ using apollo::hdmap::MapPathPoint;
 using apollo::hdmap::PncMap;
 using apollo::hdmap::RouteSegments;
 
-ReferenceLineProvider::~ReferenceLineProvider() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+ReferenceLineProvider::~ReferenceLineProvider() {}
 
 ReferenceLineProvider::ReferenceLineProvider(
     const common::VehicleStateProvider *vehicle_state_provider,
@@ -121,7 +118,8 @@ bool ReferenceLineProvider::Start() {
     return true;
   }
   if (!is_initialized_) {
-    AERROR << "ReferenceLineProvider has NOT been initiated.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ReferenceLineProvider has NOT been initiated.";
     return false;
   }
 
@@ -142,7 +140,8 @@ void ReferenceLineProvider::UpdateReferenceLine(
     const std::list<ReferenceLine> &reference_lines,
     const std::list<hdmap::RouteSegments> &route_segments) {
   if (reference_lines.size() != route_segments.size()) {
-    AERROR << "The calculated reference line size(" << reference_lines.size()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The calculated reference line size(" << reference_lines.size()
            << ") and route_segments size(" << route_segments.size()
            << ") are different";
     return;
@@ -196,14 +195,16 @@ void ReferenceLineProvider::GenerateThread() {
     cyber::SleepFor(std::chrono::milliseconds(kSleepTime));
     const double start_time = Clock::NowInSeconds();
     if (!has_routing_) {
-      AERROR << "Routing is not ready.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Routing is not ready.";
       continue;
     }
     std::list<ReferenceLine> reference_lines;
     std::list<hdmap::RouteSegments> segments;
     if (!CreateReferenceLine(&reference_lines, &segments)) {
       is_reference_line_updated_ = false;
-      AERROR << "Fail to get reference line";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to get reference line";
       continue;
     }
     UpdateReferenceLine(reference_lines, segments);
@@ -233,7 +234,8 @@ bool ReferenceLineProvider::GetReferenceLines(
     double start_time = Clock::NowInSeconds();
     bool result = GetReferenceLinesFromRelativeMap(reference_lines, segments);
     if (!result) {
-      AERROR << "Failed to get reference line from relative map";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get reference line from relative map";
     }
     double end_time = Clock::NowInSeconds();
     last_calculation_time_ = end_time - start_time;
@@ -259,7 +261,8 @@ bool ReferenceLineProvider::GetReferenceLines(
 
   AWARN << "Reference line is NOT ready.";
   if (reference_line_history_.empty()) {
-    AERROR << "Failed to use reference line latest history";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to use reference line latest history";
     return false;
   }
 
@@ -292,13 +295,15 @@ bool ReferenceLineProvider::GetReferenceLinesFromRelativeMap(
   CHECK_NOTNULL(segments);
 
   if (relative_map_->navigation_path().empty()) {
-    AERROR << "There isn't any navigation path in current relative map.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "There isn't any navigation path in current relative map.";
     return false;
   }
 
   auto *hdmap = HDMapUtil::BaseMapPtr(*relative_map_);
   if (!hdmap) {
-    AERROR << "hdmap is null";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "hdmap is null";
     return false;
   }
 
@@ -309,7 +314,8 @@ bool ReferenceLineProvider::GetReferenceLinesFromRelativeMap(
     navigation_lane_ids.insert(lane_id);
   }
   if (navigation_lane_ids.empty()) {
-    AERROR << "navigation path ids is empty";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "navigation path ids is empty";
     return false;
   }
   // get current adc lane info by vehicle state
@@ -323,7 +329,8 @@ bool ReferenceLineProvider::GetReferenceLinesFromRelativeMap(
   auto *adc_navigation_path = apollo::common::util::FindOrNull(
       relative_map_->navigation_path(), adc_lane_id);
   if (adc_navigation_path == nullptr) {
-    AERROR << "adc lane cannot be found in relative_map_->navigation_path";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "adc lane cannot be found in relative_map_->navigation_path";
     return false;
   }
   const uint32_t adc_lane_priority = adc_navigation_path->path_priority();
@@ -337,11 +344,13 @@ bool ReferenceLineProvider::GetReferenceLinesFromRelativeMap(
     left_neighbor_lane_ids.emplace_back(neighbor_lane_id.id());
     left_lane_ptr = hdmap->GetLaneById(neighbor_lane_id);
   }
-  ADEBUG << adc_lane_id
-         << " left neighbor size : " << left_neighbor_lane_ids.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << adc_lane_id
+          << " left neighbor size : " << left_neighbor_lane_ids.size();
   for (const auto &neighbor : left_neighbor_lane_ids) {
-    ADEBUG << adc_lane_id << " left neighbor : " << neighbor;
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << adc_lane_id << " left neighbor : " << neighbor;
+   }
   // get adc right neighbor lanes
   std::vector<std::string> right_neighbor_lane_ids;
   auto right_lane_ptr = adc_lane_way_point.lane;
@@ -352,22 +361,26 @@ bool ReferenceLineProvider::GetReferenceLinesFromRelativeMap(
     right_neighbor_lane_ids.emplace_back(neighbor_lane_id.id());
     right_lane_ptr = hdmap->GetLaneById(neighbor_lane_id);
   }
-  ADEBUG << adc_lane_id
-         << " right neighbor size : " << right_neighbor_lane_ids.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << adc_lane_id
+          << " right neighbor size : " << right_neighbor_lane_ids.size();
   for (const auto &neighbor : right_neighbor_lane_ids) {
-    ADEBUG << adc_lane_id << " right neighbor : " << neighbor;
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << adc_lane_id << " right neighbor : " << neighbor;
+   }
   // 2.get the higher priority lane info list which priority higher
   // than current lane and get the highest one as the target lane
   using LaneIdPair = std::pair<std::string, uint32_t>;
   std::vector<LaneIdPair> high_priority_lane_pairs;
-  ADEBUG << "relative_map_->navigation_path_size = "
-         << relative_map_->navigation_path_size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "relative_map_->navigation_path_size = "
+          << relative_map_->navigation_path_size();
   for (const auto &path_pair : relative_map_->navigation_path()) {
     const auto lane_id = path_pair.first;
     const uint32_t priority = path_pair.second.path_priority();
-    ADEBUG << "lane_id = " << lane_id << " priority = " << priority
-           << " adc_lane_id = " << adc_lane_id
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "lane_id = " << lane_id << " priority = " << priority
+            << " adc_lane_id = " << adc_lane_id
            << " adc_lane_priority = " << adc_lane_priority;
     // the smaller the number, the higher the priority
     if (adc_lane_id != lane_id && priority < adc_lane_priority) {
@@ -382,8 +395,9 @@ bool ReferenceLineProvider::GetReferenceLinesFromRelativeMap(
               [](const LaneIdPair &left, const LaneIdPair &right) {
                 return left.second < right.second;
               });
-    ADEBUG << "need to change lane";
-    // the highest priority lane as the target navigation lane
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "need to change lane";
+     // the highest priority lane as the target navigation lane
     target_lane_pair = high_priority_lane_pairs.front();
     is_lane_change_needed = true;
   }
@@ -429,8 +443,9 @@ bool ReferenceLineProvider::GetReferenceLinesFromRelativeMap(
 
     if (is_lane_change_needed) {
       if (lane_id == nearest_neighbor_lane_id) {
-        ADEBUG << "adc lane_id = " << adc_lane_id
-               << " nearest_neighbor_lane_id = " << lane_id;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "adc lane_id = " << adc_lane_id
+                << " nearest_neighbor_lane_id = " << lane_id;
         segment.SetIsNeighborSegment(true);
         segment.SetPreviousAction(lane_change_type);
       } else if (lane_id == adc_lane_id) {
@@ -463,12 +478,14 @@ bool ReferenceLineProvider::GetNearestWayPointFromNavigationPath(
   std::vector<hdmap::LaneInfoConstPtr> lanes;
   auto point = common::util::PointFactory::ToPointENU(state);
   if (std::isnan(point.x()) || std::isnan(point.y())) {
-    AERROR << "vehicle state is invalid";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "vehicle state is invalid";
     return false;
   }
   auto *hdmap = HDMapUtil::BaseMapPtr();
   if (!hdmap) {
-    AERROR << "hdmap is null";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "hdmap is null";
     return false;
   }
 
@@ -477,7 +494,8 @@ bool ReferenceLineProvider::GetNearestWayPointFromNavigationPath(
   const int status = hdmap->GetLanesWithHeading(
       point, kMaxDistance, state.heading(), M_PI / 2.0, &lanes);
   if (status < 0) {
-    AERROR << "failed to get lane from point " << point.ShortDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to get lane from point " << point.ShortDebugString();
     return false;
   }
 
@@ -488,7 +506,8 @@ bool ReferenceLineProvider::GetNearestWayPointFromNavigationPath(
                  return navigation_lane_ids.count(ptr->lane().id().id()) > 0;
                });
   if (valid_lanes.empty()) {
-    AERROR << "no valid lane found within " << kMaxDistance
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "no valid lane found within " << kMaxDistance
            << " meters with heading " << state.heading();
     return false;
   }
@@ -516,7 +535,8 @@ bool ReferenceLineProvider::GetNearestWayPointFromNavigationPath(
       double s = 0.0;
       double l = 0.0;
       if (!lane->GetProjection({map_point.x(), map_point.y()}, &s, &l)) {
-        AERROR << "failed to get projection for map_point "
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to get projection for map_point "
                << map_point.DebugString();
         continue;
       }
@@ -527,7 +547,8 @@ bool ReferenceLineProvider::GetNearestWayPointFromNavigationPath(
   }
 
   if (waypoint->lane == nullptr) {
-    AERROR << "failed to find nearest point " << point.ShortDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to find nearest point " << point.ShortDebugString();
   }
   return waypoint->lane != nullptr;
 }
@@ -538,7 +559,8 @@ bool ReferenceLineProvider::CreateRouteSegments(
   {
     std::lock_guard<std::mutex> lock(pnc_map_mutex_);
     if (!pnc_map_->GetRouteSegments(vehicle_state, segments)) {
-      AERROR << "Failed to extract segments from routing";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to extract segments from routing";
       return false;
     }
   }
@@ -573,21 +595,24 @@ bool ReferenceLineProvider::CreateReferenceLine(
     if (pnc_map_->IsNewRouting(routing)) {
       is_new_routing = true;
       if (!pnc_map_->UpdateRoutingResponse(routing)) {
-        AERROR << "Failed to update routing in pnc map";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to update routing in pnc map";
         return false;
       }
     }
   }
 
   if (!CreateRouteSegments(vehicle_state, segments)) {
-    AERROR << "Failed to create reference line from routing";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create reference line from routing";
     return false;
   }
   if (is_new_routing || !FLAGS_enable_reference_line_stitching) {
     for (auto iter = segments->begin(); iter != segments->end();) {
       reference_lines->emplace_back();
       if (!SmoothRouteSegment(*iter, &reference_lines->back())) {
-        AERROR << "Failed to create reference line from route segments";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create reference line from route segments";
         reference_lines->pop_back();
         iter = segments->erase(iter);
       } else {
@@ -606,7 +631,8 @@ bool ReferenceLineProvider::CreateReferenceLine(
       reference_lines->emplace_back();
       if (!ExtendReferenceLine(vehicle_state, &(*iter),
                                &reference_lines->back())) {
-        AERROR << "Failed to extend reference line";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to extend reference line";
         reference_lines->pop_back();
         iter = segments->erase(iter);
       } else {
@@ -654,8 +680,9 @@ bool ReferenceLineProvider::ExtendReferenceLine(const VehicleState &state,
     *segments = *prev_segment;
     segments->SetProperties(segment_properties);
     *reference_line = *prev_ref;
-    ADEBUG << "Reference line remain " << remain_s
-           << ", which is more than required " << look_forward_required_distance
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Reference line remain " << remain_s
+            << ", which is more than required " << look_forward_required_distance
            << " and no need to extend";
     return true;
   }
@@ -669,7 +696,8 @@ bool ReferenceLineProvider::ExtendReferenceLine(const VehicleState &state,
   if (!pnc_map_->ExtendSegments(*prev_segment, future_start_s, future_end_s,
                                 &shifted_segments)) {
     lock.unlock();
-    AERROR << "Failed to shift route segments forward";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to shift route segments forward";
     return SmoothRouteSegment(*segments, reference_line);
   }
   lock.unlock();
@@ -677,8 +705,9 @@ bool ReferenceLineProvider::ExtendReferenceLine(const VehicleState &state,
     *segments = *prev_segment;
     segments->SetProperties(segment_properties);
     *reference_line = *prev_ref;
-    ADEBUG << "Could not further extend reference line";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Could not further extend reference line";
+     return true;
   }
   hdmap::Path path(shifted_segments);
   ReferenceLine new_ref(path);
@@ -713,8 +742,9 @@ bool ReferenceLineProvider::Shrink(const common::SLPoint &sl,
   double new_forward_distance = reference_line->Length() - sl.s();
   bool need_shrink = false;
   if (sl.s() > FLAGS_look_backward_distance * 1.5) {
-    ADEBUG << "reference line back side is " << sl.s()
-           << ", shrink reference line: origin length: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "reference line back side is " << sl.s()
+            << ", shrink reference line: origin length: "
            << reference_line->Length();
     new_backward_distance = FLAGS_look_backward_distance;
     need_shrink = true;
@@ -758,14 +788,16 @@ bool ReferenceLineProvider::IsReferenceLineSmoothValid(
 
     common::SLPoint sl_new;
     if (!raw.XYToSL(xy_new, &sl_new)) {
-      AERROR << "Fail to change xy point on smoothed reference line to sl "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to change xy point on smoothed reference line to sl "
                 "point respect to raw reference line.";
       return false;
     }
 
     const double diff = std::fabs(sl_new.l());
     if (diff > FLAGS_smoothed_reference_line_max_diff) {
-      AERROR << "Fail to provide reference line because too large diff "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to provide reference line because too large diff "
                 "between smoothed and raw reference lines. diff: "
              << diff;
       return false;
@@ -802,10 +834,9 @@ AnchorPoint ReferenceLineProvider::GetAnchorPoint(
   bool is_lane_width_safe = true;
 
   if (safe_lane_width < kEpislon) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-    ADEBUG << "lane width [" << left_width + right_width << "] "
-           << "is smaller than adc width [" << adc_width << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "lane width [" << left_width + right_width << "] "
+            << "is smaller than adc width [" << adc_width << "]";
     effective_width = kEpislon;
     is_lane_width_safe = false;
   }
@@ -814,20 +845,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (hdmap::RightBoundaryType(waypoint) == hdmap::LaneBoundaryType::CURB) {
     safe_lane_width -= smoother_config_.curb_shift();
     if (safe_lane_width < kEpislon) {
-      ADEBUG << "lane width smaller than adc width and right curb shift";
-      effective_width = kEpislon;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "lane width smaller than adc width and right curb shift";
+       effective_width = kEpislon;
       is_lane_width_safe = false;
     } else {
       center_shift += 0.5 * smoother_config_.curb_shift();
     }
   }
   if (hdmap::LeftBoundaryType(waypoint) == hdmap::LaneBoundaryType::CURB) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     safe_lane_width -= smoother_config_.curb_shift();
     if (safe_lane_width < kEpislon) {
-      ADEBUG << "lane width smaller than adc width and left curb shift";
-      effective_width = kEpislon;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "lane width smaller than adc width and left curb shift";
+       effective_width = kEpislon;
       is_lane_width_safe = false;
     } else {
       center_shift -= 0.5 * smoother_config_.curb_shift();
@@ -913,11 +944,13 @@ bool ReferenceLineProvider::SmoothPrefixedReferenceLine(
 
   smoother_->SetAnchorPoints(anchor_points);
   if (!smoother_->Smooth(raw_ref, reference_line)) {
-    AERROR << "Failed to smooth prefixed reference line with anchor points";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to smooth prefixed reference line with anchor points";
     return false;
   }
   if (!IsReferenceLineSmoothValid(raw_ref, *reference_line)) {
-    AERROR << "The smoothed reference line error is too large";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The smoothed reference line error is too large";
     return false;
   }
   return true;
@@ -934,11 +967,13 @@ bool ReferenceLineProvider::SmoothReferenceLine(
   GetAnchorPoints(raw_reference_line, &anchor_points);
   smoother_->SetAnchorPoints(anchor_points);
   if (!smoother_->Smooth(raw_reference_line, reference_line)) {
-    AERROR << "Failed to smooth reference line with anchor points";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to smooth reference line with anchor points";
     return false;
   }
   if (!IsReferenceLineSmoothValid(raw_reference_line, *reference_line)) {
-    AERROR << "The smoothed reference line error is too large";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The smoothed reference line error is too large";
     return false;
   }
   return true;

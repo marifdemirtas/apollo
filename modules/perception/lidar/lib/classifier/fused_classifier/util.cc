@@ -95,7 +95,8 @@ bool LoadSingleMatrixFile(const std::string& filename, Matrixd* matrix) {
   }
   std::ifstream fin(filename);
   if (!fin.is_open()) {
-    AERROR << "Fail to open file: " << filename;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to open file: " << filename;
     return false;
   }
   LoadSingleMatrix(fin, matrix);
@@ -110,7 +111,8 @@ bool LoadMultipleMatricesFile(const std::string& filename,
   }
   std::ifstream fin(filename);
   if (!fin.is_open()) {
-    AERROR << "Fail to open file: " << filename;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to open file: " << filename;
     return false;
   }
   matrices->clear();

@@ -261,9 +261,11 @@ void filter_bbox(const MinDims &min_dims,
     }
     ++total_obj_idx;
   }
-  AINFO << valid_obj_idx << " of " << total_obj_idx << " obstacles kept";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << valid_obj_idx << " of " << total_obj_idx << " obstacles kept";
   objects->resize(valid_obj_idx);
-  AINFO << "Number of detected obstacles: " << objects->size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Number of detected obstacles: " << objects->size();
 }
 void recover_bbox(int roi_w, int roi_h, int offset_y,
                   std::vector<base::ObjectPtr> *objects) {

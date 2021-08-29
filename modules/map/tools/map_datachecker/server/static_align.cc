@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -23,16 +22,12 @@ namespace hdmap {
 
 StaticAlign::StaticAlign(std::shared_ptr<JsonConf> sp_conf)
     : Alignment(sp_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sp_conf_ = sp_conf;
   static_align_detect_method_ = StaticAlignDetectMethod::DYNAMIC_CENTROID;
   Reset();
 }
 
 void StaticAlign::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   progress_ = 0.0;
   last_progress_ = 0.0;
   start_time_ = -1.0;
@@ -45,8 +40,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool StaticAlign::IsStaticPose(const FramePose& pose) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (dynamic_centroid_.count == 0) {
     return true;
   }
@@ -56,8 +49,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   double move_dist =
       std::sqrt(move_dist_x * move_dist_x + move_dist_y * move_dist_y +
                 move_dist_z * move_dist_z);
-  AINFO << "dist thresh: " << sp_conf_->static_align_dist_thresh
-        << ", dist: " << move_dist;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "dist thresh: " << sp_conf_->static_align_dist_thresh
+         << ", dist: " << move_dist;
   if (move_dist <= sp_conf_->static_align_dist_thresh) {
     return true;
   }
@@ -65,16 +59,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void StaticAlign::UpdateDynamicCentroid(const FramePose& pose) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int count = dynamic_centroid_.count;
   if (count == 0) {
     dynamic_centroid_.start_time = pose.time_stamp;
   } else {
     dynamic_centroid_.end_time = pose.time_stamp;
   }
-  AINFO << "cetroid start: " << dynamic_centroid_.start_time
-        << ", end: " << dynamic_centroid_.end_time;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "cetroid start: " << dynamic_centroid_.start_time
+         << ", end: " << dynamic_centroid_.end_time;
 
   double x = dynamic_centroid_.center.x * count + pose.tx;
   double y = dynamic_centroid_.center.y * count + pose.ty;
@@ -88,8 +81,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 double StaticAlign::GetCentroidTimeDuring() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (dynamic_centroid_.start_time > 0 && dynamic_centroid_.end_time > 0) {
     return dynamic_centroid_.end_time - dynamic_centroid_.start_time;
   }
@@ -97,27 +88,26 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void StaticAlign::UpdateGoodPoseInfo(const FramePose& pose) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   UpdateDynamicCentroid(pose);
 }
 
 double StaticAlign::StaticAlignDynamicCentroid(
     const std::vector<FramePose>& poses) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int start_index = TimeToIndex(poses, start_time_);
-  AINFO << "start_index:" << start_index << ",pose size:" << poses.size();
-  dynamic_centroid_ = Centroid3D();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "start_index:" << start_index << ",pose size:" << poses.size();
+   dynamic_centroid_ = Centroid3D();
   for (int i = start_index + 1; i < static_cast<int>(poses.size()); ++i) {
     if (!IsGoodPose(poses, i)) {
-      AINFO << "not good pose";
-      return_state_ = ErrorCode::ERROR_GNSS_SIGNAL_FAIL;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "not good pose";
+       return_state_ = ErrorCode::ERROR_GNSS_SIGNAL_FAIL;
       return 0.0;
     }
     if (!IsStaticPose(poses[i])) {
-      AINFO << "not static pose";
-      return_state_ = ErrorCode::ERROR_NOT_STATIC;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "not static pose";
+       return_state_ = ErrorCode::ERROR_NOT_STATIC;
       return 0.0;
     }
     UpdateGoodPoseInfo(poses[i]);
@@ -132,16 +122,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 double StaticAlign::StaticAlignRansac(const std::vector<FramePose>& poses) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(yuanyijun): implementation of selecting an center by RANSAC
   return 0.0;
 }
 
 double StaticAlign::GetStaticAlignProgress(
     const std::vector<FramePose>& poses) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double progress = 0.0;
   switch (static_align_detect_method_) {
     case StaticAlignDetectMethod::DYNAMIC_CENTROID:
@@ -158,24 +144,26 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 ErrorCode StaticAlign::Process(const std::vector<FramePose>& poses) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "[StaticAlign::process] begin";
-  size_t size = poses.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "[StaticAlign::process] begin";
+   size_t size = poses.size();
   if (size <= 1) {
-    AINFO << "system has no pose, exit process";
-    return_state_ = ErrorCode::ERROR_VERIFY_NO_GNSSPOS;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "system has no pose, exit process";
+     return_state_ = ErrorCode::ERROR_VERIFY_NO_GNSSPOS;
     return return_state_;
   }
 
   progress_ = GetStaticAlignProgress(poses);
   if (return_state_ != ErrorCode::SUCCESS) {
-    AINFO << "get_static_align_progress error, progress 0.0";
-    return return_state_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "get_static_align_progress error, progress 0.0";
+     return return_state_;
   }
 
-  AINFO << "[StaticAlign::process] end, progress:" << progress_;
-  return_state_ = ErrorCode::SUCCESS;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "[StaticAlign::process] end, progress:" << progress_;
+   return_state_ = ErrorCode::SUCCESS;
   return return_state_;
 }
 

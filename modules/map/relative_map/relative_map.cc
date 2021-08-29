@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -36,16 +35,13 @@ using apollo::perception::PerceptionObstacles;
 
 RelativeMap::RelativeMap()
     : monitor_logger_buffer_(MonitorMessageItem::RELATIVE_MAP),
-      vehicle_state_provider_(nullptr) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+      vehicle_state_provider_(nullptr) {}
 
 Status RelativeMap::Init(common::VehicleStateProvider* vehicle_state_provider) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   vehicle_state_provider_ = vehicle_state_provider;
   if (!FLAGS_use_navigation_mode) {
-    AERROR << "FLAGS_use_navigation_mode is false, system is not configured "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "FLAGS_use_navigation_mode is false, system is not configured "
               "for relative map mode";
     return Status(ErrorCode::RELATIVE_MAP_ERROR,
                   "FLAGS_use_navigation_mode is not true.");
@@ -68,23 +64,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LogErrorStatus(MapMsg* map_msg, const std::string& error_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto* status = map_msg->mutable_header()->mutable_status();
   status->set_msg(error_msg);
   status->set_error_code(ErrorCode::RELATIVE_MAP_ERROR);
 }
 
 apollo::common::Status RelativeMap::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   monitor_logger_buffer_.INFO("RelativeMap started");
   return Status::OK();
 }
 
 bool RelativeMap::Process(MapMsg* const map_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
     CreateMapFromNavigationLane(map_msg);
@@ -93,10 +83,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void RelativeMap::OnNavigationInfo(const NavigationInfo& navigation_info) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
     navigation_lane_.UpdateNavigationInfo(navigation_info);
@@ -105,8 +91,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void RelativeMap::OnPerception(
     const PerceptionObstacles& perception_obstacles) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
     perception_obstacles_.CopyFrom(perception_obstacles);
@@ -114,8 +98,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void RelativeMap::OnChassis(const Chassis& chassis) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
     chassis_.CopyFrom(chassis);
@@ -123,8 +105,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void RelativeMap::OnLocalization(const LocalizationEstimate& localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   {
     std::lock_guard<std::mutex> lock(navigation_lane_mutex_);
     localization_.CopyFrom(localization);
@@ -132,8 +112,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool RelativeMap::CreateMapFromNavigationLane(MapMsg* map_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(map_msg);
 
   // update vehicle state from localization and chassis
@@ -163,18 +141,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (!navigation_lane_.CreateMap(config_.map_param(), map_msg)) {
     LogErrorStatus(map_msg,
                    "Failed to create map from current navigation path.");
-    AERROR << "Failed to create map from navigation path.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to create map from navigation path.";
     return false;
   }
 
-  ADEBUG << "There is/are " << map_msg->navigation_path().size()
-         << " navigation path(s) in the current reltative map.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There is/are " << map_msg->navigation_path().size()
+          << " navigation path(s) in the current reltative map.";
   return true;
 }
 
-void RelativeMap::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- monitor_logger_buffer_.INFO("RelativeMap stopped"); }
+void RelativeMap::Stop() { monitor_logger_buffer_.INFO("RelativeMap stopped"); }
 
 }  // namespace relative_map
 }  // namespace apollo

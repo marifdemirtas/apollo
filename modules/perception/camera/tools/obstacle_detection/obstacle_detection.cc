@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -64,8 +63,6 @@ static const cv::Scalar kFaceColorMap[] = {
 };
 
 base::ObjectSubType GetObjectSubType(const std::string &type_name) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (type_name == "car") {
     return base::ObjectSubType::CAR;
   } else if (type_name == "van") {
@@ -91,12 +88,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool LoadFromKitti(const std::string &kitti_path, CameraFrame *frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   frame->detected_objects.clear();
   FILE *fp = fopen(kitti_path.c_str(), "r");
   if (fp == nullptr) {
-    AERROR << "Failed to load object file: " << kitti_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load object file: " << kitti_path;
     return false;
   }
   while (!feof(fp)) {
@@ -117,8 +113,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                  &x2, &y2, &obj->size[2], &obj->size[1], &obj->size[0],
                  &obj->center[0], &obj->center[1], &obj->center[2], &obj->theta,
                  &score);
-    AINFO << "fscanf return: " << ret;
-    if (FLAGS_dist_type == "H-from-h") {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "fscanf return: " << ret;
+     if (FLAGS_dist_type == "H-from-h") {
       obj->size[0] = static_cast<float>(obj->center[2]);
     } else if (FLAGS_dist_type == "H-on-h") {
       obj->size[0] = static_cast<float>(obj->center[2]) * (y2 - y1);
@@ -147,10 +144,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int main() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CameraFrame frame;
   DataProvider data_provider;
   frame.data_provider = &data_provider;
@@ -165,10 +158,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   dp_init_options.image_width = FLAGS_width;
   dp_init_options.device_id = 0;
 
-  AINFO << "Init DataProvider ...";
-  ACHECK(frame.data_provider->Init(dp_init_options));
-  AINFO << "Done!";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Init DataProvider ...";
+   ACHECK(frame.data_provider->Init(dp_init_options));
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Done!";
+ 
   ObstacleDetectorInitOptions init_options;
   init_options.root_dir = FLAGS_detector_root;
   init_options.conf_file = FLAGS_detector_conf;
@@ -181,17 +176,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   Eigen::Matrix3f intrinsic = pinhole->get_intrinsic_params();
   frame.camera_k_matrix = intrinsic;
 
-  AINFO << "Init Detector ...";
-  BaseObstacleDetector *detector =
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Init Detector ...";
+   BaseObstacleDetector *detector =
       BaseObstacleDetectorRegisterer::GetInstanceByName(FLAGS_detector);
   if (FLAGS_pre_detected_dir == "") {
     CHECK_EQ(detector->Name(), FLAGS_detector);
     ACHECK(detector->Init(init_options));
   }
-  AINFO << "Done!";
-
-  AINFO << "Init Transformer ...";
-  ObstacleTransformerInitOptions transformer_init_options;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Done!";
+ 
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Init Transformer ...";
+   ObstacleTransformerInitOptions transformer_init_options;
   transformer_init_options.root_dir = FLAGS_transformer_root;
   transformer_init_options.conf_file = FLAGS_transformer_conf;
 
@@ -199,8 +197,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       BaseObstacleTransformerRegisterer::GetInstanceByName(FLAGS_transformer);
   CHECK_EQ(transformer->Name(), FLAGS_transformer);
   ACHECK(transformer->Init(transformer_init_options));
-  AINFO << "Done!";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Done!";
+ 
   ObstacleDetectorOptions options;
   ObstacleTransformerOptions transformer_options;
 
@@ -208,14 +207,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   std::ifstream fin;
   fin.open(FLAGS_test_list, std::ifstream::in);
   if (!fin.is_open()) {
-    AERROR << "Cannot open test list: " << FLAGS_test_list;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot open test list: " << FLAGS_test_list;
     return -1;
   }
 
   std::string image_name;
   while (fin >> image_name) {
-    AINFO << "image: " << image_name;
-    std::string image_path =
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "image: " << image_name;
+     std::string image_path =
         FLAGS_image_root + "/" + image_name + FLAGS_image_ext;
     std::string result_path = FLAGS_dest_dir + "/" + image_name + ".txt";
 
@@ -225,8 +226,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       std::string kitti_path =
           FLAGS_pre_detected_dir + "/" + image_name + ".txt";
       if (!LoadFromKitti(kitti_path, &frame)) {
-        AINFO << "loading kitti result failed: " << kitti_path;
-        continue;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "loading kitti result failed: " << kitti_path;
+         continue;
       }
     } else {
       base::Image8U image(cv_img.rows, cv_img.cols, base::Color::BGR);
@@ -245,8 +247,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
     FILE *fp = fopen(result_path.c_str(), "w");
     if (fp == nullptr) {
-      AINFO << "Failed to open result path: " << result_path;
-      return -1;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to open result path: " << result_path;
+       return -1;
     }
     int obj_id = 0;
     for (auto obj : frame.detected_objects) {
@@ -341,8 +344,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }  // namespace apollo
 
 int main(int argc, char *argv[]) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::ParseCommandLineFlags(&argc, &argv, true);
   google::SetUsageMessage(
       "command line brew\n"

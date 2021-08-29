@@ -24,7 +24,8 @@ namespace base {
 Eigen::Vector2f BrownCameraDistortionModel::Project(
     const Eigen::Vector3f& point3d) {
   if (std::isless(point3d[2], 0.f)) {
-    AERROR << "The input point (" << point3d
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The input point (" << point3d
            << ") should be in front of the camera";
   }
   // radial distortion coefficients

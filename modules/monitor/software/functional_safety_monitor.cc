@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -33,8 +32,6 @@ namespace monitor {
 namespace {
 
 bool IsSafe(const std::string& name, const ComponentStatus& status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (status.status() == ComponentStatus::ERROR ||
       status.status() == ComponentStatus::FATAL) {
     MonitorManager::Instance()->LogBuffer().ERROR(
@@ -47,13 +44,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }  // namespace
 
 FunctionalSafetyMonitor::FunctionalSafetyMonitor()
-    : RecurrentRunner(FLAGS_functional_safety_monitor_name, 0) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : RecurrentRunner(FLAGS_functional_safety_monitor_name, 0) {}
 
 void FunctionalSafetyMonitor::RunOnce(const double current_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto* system_status = MonitorManager::Instance()->GetStatus();
   // Everything looks good or has been handled properly.
   if (CheckSafety()) {
@@ -83,8 +76,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool FunctionalSafetyMonitor::CheckSafety() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // We only check safety in self driving mode.
   auto manager = MonitorManager::Instance();
   if (!manager->IsInAutonomousMode()) {

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -36,12 +35,14 @@ bool EvaluatorSubmodule::Init() {
   evaluator_manager_.reset(new EvaluatorManager());
   PredictionConf prediction_conf;
   if (!ComponentBase::GetProtoConfig(&prediction_conf)) {
-    AERROR << "Unable to load prediction conf file: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unable to load prediction conf file: "
            << ComponentBase::ConfigFilePath();
     return false;
   }
-  ADEBUG << "Prediction config file is loaded into: "
-         << prediction_conf.ShortDebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Prediction config file is loaded into: "
+          << prediction_conf.ShortDebugString();
   if (!MessageProcess::InitEvaluators(evaluator_manager_.get(),
                                       prediction_conf)) {
     return false;

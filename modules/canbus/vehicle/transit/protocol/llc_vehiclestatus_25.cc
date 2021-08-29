@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace transit {
 
 using ::apollo::drivers::canbus::Byte;
 
-Llcvehiclestatus25::Llcvehiclestatus25() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Llcvehiclestatus25::Llcvehiclestatus25() {}
 const int32_t Llcvehiclestatus25::ID = 0x25;
 
 void Llcvehiclestatus25::Parse(const std::uint8_t* bytes, int32_t length,
                                ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_transit()
       ->mutable_llc_vehiclestatus_25()
       ->set_llc_fbk_12voltage(llc_fbk_12voltage(bytes, length));
@@ -48,8 +43,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'intel', 'physical_unit': 'Volt'}
 double Llcvehiclestatus25::llc_fbk_12voltage(const std::uint8_t* bytes,
                                              int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -67,86 +66,91 @@ std::map<base::TLColor, TLInfo> s_tl_infos = {
 
 static int GetGpuId(
     const apollo::perception::camera::CameraPerceptionInitOptions& options) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   apollo::perception::camera::app::TrafficLightParam trafficlight_param;
   std::string work_root = apollo::perception::camera::GetCyberWorkRoot();
   std::string config_file =
       GetAbsolutePath(options.root_dir, options.conf_file);
   config_file = GetAbsolutePath(work_root, config_file);
   if (!cyber::common::GetProtoFromFile(config_file, &trafficlight_param)) {
-    AERROR << "Read config failed: " << config_file;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Read config failed: " << config_file;
     return -1;
   }
   if (trafficlight_param.detector_param().empty()) {
-    AERROR << "get gpu id failed. detector_param().empty()";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "get gpu id failed. detector_param().empty()";
     return -1;
   }
   if (!trafficlight_param.has_gpu_id()) {
-    AINFO << "gpu id not found.";
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "gpu id not found.";
+     return -1;
   }
   return trafficlight_param.gpu_id();
 }
 
 bool TrafficLightsPerceptionComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   frame_.reset(new camera::CameraFrame);
   writer_ = node_->CreateWriter<apollo::perception::TrafficLightDetection>(
       "/apollo/perception/traffic_light");
 
   if (InitConfig() != cyber::SUCC) {
-    AERROR << "TrafficLightsPerceptionComponent InitConfig failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TrafficLightsPerceptionComponent InitConfig failed.";
     return false;
   }
 
   if (InitAlgorithmPlugin() != cyber::SUCC) {
-    AERROR << "TrafficLightsPerceptionComponent InitAlgorithmPlugin failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TrafficLightsPerceptionComponent InitAlgorithmPlugin failed.";
     return false;
   }
 
   if (InitCameraFrame() != cyber::SUCC) {
-    AERROR << "TrafficLightsPerceptionComponent InitCameraFrame failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TrafficLightsPerceptionComponent InitCameraFrame failed.";
     return false;
   }
 
   if (InitCameraListeners() != cyber::SUCC) {
-    AERROR << "TrafficLightsPerceptionComponent InitCameraListeners failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TrafficLightsPerceptionComponent InitCameraListeners failed.";
     return false;
   }
 
   if (InitV2XListener() != cyber::SUCC) {
-    AERROR << "TrafficLightsPerceptionComponent InitV2XListener failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TrafficLightsPerceptionComponent InitV2XListener failed.";
     return false;
   }
 
   if (FLAGS_start_visualizer) {
-    AINFO << "TrafficLight Visualizer is ON";
-  } else {
-    AINFO << "TrafficLight Visualizer is OFF";
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "TrafficLight Visualizer is ON";
+   } else {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "TrafficLight Visualizer is OFF";
+   }
 
-  AINFO << "TrafficLight Preproc Init Success";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "TrafficLight Preproc Init Success";
+   return true;
 }
 
 int TrafficLightsPerceptionComponent::InitConfig() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   apollo::perception::onboard::TrafficLight traffic_light_param;
   if (!GetProtoConfig(&traffic_light_param)) {
-    AINFO << "load trafficlights perception component proto param failed";
-    return cyber::FAIL;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "load trafficlights perception component proto param failed";
+     return cyber::FAIL;
   }
 
   tf2_frame_id_ = traffic_light_param.tl_tf2_frame_id();
   tf2_child_frame_id_ = traffic_light_param.tl_tf2_child_frame_id();
   tf2_timeout_second_ = traffic_light_param.tf2_timeout_second();
-  AINFO << "tl_tf2_frame_id: " << tf2_frame_id_
-        << " tl_tf2_child_frame_id: " << tf2_child_frame_id_
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "tl_tf2_frame_id: " << tf2_frame_id_
+         << " tl_tf2_child_frame_id: " << tf2_child_frame_id_
         << " tf2_buff_size: " << tf2_timeout_second_;
 
   std::string camera_names_str = "";
@@ -162,12 +166,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   query_tf_interval_seconds_ = traffic_light_param.query_tf_interval_seconds();
   valid_hdmap_interval_ = traffic_light_param.valid_hdmap_interval();
   image_timestamp_offset_ = traffic_light_param.tl_image_timestamp_offset();
-  AINFO << " _image_timestamp_offset: " << image_timestamp_offset_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << " _image_timestamp_offset: " << image_timestamp_offset_;
+ 
   max_process_image_fps_ = traffic_light_param.max_process_image_fps();
   proc_interval_seconds_ = 1.0 / max_process_image_fps_;
-  AINFO << "_proc_interval_seconds: " << proc_interval_seconds_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "_proc_interval_seconds: " << proc_interval_seconds_;
+ 
   image_sys_ts_diff_threshold_ =
       traffic_light_param.image_sys_ts_diff_threshold();
   preprocessor_init_options_.sync_interval_seconds =
@@ -192,35 +198,38 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int TrafficLightsPerceptionComponent::InitAlgorithmPlugin() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // init preprocessor
   preprocessor_.reset(new camera::TLPreprocessor);
   if (!preprocessor_) {
-    AERROR << "TrafficLightsPerceptionComponent new preprocessor failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TrafficLightsPerceptionComponent new preprocessor failed";
     return cyber::FAIL;
   }
 
   preprocessor_init_options_.camera_names = camera_names_;
   if (!preprocessor_->Init(preprocessor_init_options_)) {
-    AERROR << "TrafficLightsPerceptionComponent init preprocessor failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "TrafficLightsPerceptionComponent init preprocessor failed";
     return cyber::FAIL;
   }
   const auto camera_names_by_descending_focal_len =
       preprocessor_->GetCameraNamesByDescendingFocalLen();
   if (camera_names_by_descending_focal_len.empty()) {
-    AERROR << "empty camera_names in preprocessor";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "empty camera_names in preprocessor";
     return cyber::FAIL;
   }
   if (camera_names_.size() != input_camera_channel_names_.size() ||
       camera_names_.empty()) {
-    AERROR << "invalid camera_names config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "invalid camera_names config";
     return cyber::FAIL;
   }
   SensorManager* sensor_manager = SensorManager::Instance();
   for (size_t i = 0; i < camera_names_.size(); ++i) {
     if (!sensor_manager->IsSensorExist(camera_names_[i])) {
-      AERROR << ("sensor_name: " + camera_names_[i] + " not exists.");
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << ("sensor_name: " + camera_names_[i] + " not exists.");
       return cyber::FAIL;
     }
 
@@ -241,19 +250,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   // init hdmaps
   hd_map_ = map::HDMapInput::Instance();
   if (hd_map_ == nullptr) {
-    AERROR << "PreprocessComponent get hdmap failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PreprocessComponent get hdmap failed.";
     return cyber::FAIL;
   }
 
   if (!hd_map_->Init()) {
-    AERROR << "PreprocessComponent init hd-map failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "PreprocessComponent init hd-map failed.";
     return cyber::FAIL;
   }
 
   camera_perception_init_options_.use_cyber_work_root = true;
   traffic_light_pipeline_.reset(new camera::TrafficLightCameraPerception);
   if (!traffic_light_pipeline_->Init(camera_perception_init_options_)) {
-    AERROR << "camera_obstacle_pipeline_->Init() failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "camera_obstacle_pipeline_->Init() failed";
     return cyber::FAIL;
   }
 
@@ -261,8 +273,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int TrafficLightsPerceptionComponent::InitCameraListeners() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // init camera listeners
   for (size_t i = 0; i < camera_names_.size(); ++i) {
     const auto& camera_name = camera_names_[i];
@@ -282,8 +292,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int TrafficLightsPerceptionComponent::InitV2XListener() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   typedef const std::shared_ptr<apollo::v2x::IntersectionTrafficLightData>
       V2XTrafficLightsMsgType;
   std::function<void(const V2XTrafficLightsMsgType&)> sub_v2x_tl_callback =
@@ -295,8 +303,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 int TrafficLightsPerceptionComponent::InitCameraFrame() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   data_provider_init_options_.image_height = image_height_;
   data_provider_init_options_.image_width = image_width_;
   int gpu_id = GetGpuId(camera_perception_init_options_);
@@ -304,8 +310,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     return cyber::FAIL;
   }
   data_provider_init_options_.device_id = gpu_id;
-  AINFO << "trafficlights data_provider_init_options_.device_id: "
-        << data_provider_init_options_.device_id;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "trafficlights data_provider_init_options_.device_id: "
+         << data_provider_init_options_.device_id;
   data_provider_init_options_.do_undistortion = enable_undistortion_;
 
   // init data_providers for each camrea
@@ -314,7 +321,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     std::shared_ptr<camera::DataProvider> data_provider(
         new camera::DataProvider);
     if (!data_provider->Init(data_provider_init_options_)) {
-      AERROR << "trafficlights init data_provider failed. "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "trafficlights init data_provider failed. "
              << " camera_name: " << camera_name;
       return cyber::FAIL;
     }
@@ -327,8 +335,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void TrafficLightsPerceptionComponent::OnReceiveImage(
     const std::shared_ptr<apollo::drivers::Image> msg,
     const std::string& camera_name) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lck(mutex_);
   double receive_img_timestamp = Clock::NowInSeconds();
   double image_msg_ts = msg->measurement_time();
@@ -338,8 +344,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   {
     const double cur_time = Clock::NowInSeconds();
     const double start_latency = (cur_time - msg->measurement_time()) * 1e3;
-    AINFO << "FRAME_STATISTICS:TrafficLights:Start:msg_time["
-          << FORMAT_TIMESTAMP(msg->measurement_time()) << "]:cur_time["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "FRAME_STATISTICS:TrafficLights:Start:msg_time["
+           << FORMAT_TIMESTAMP(msg->measurement_time()) << "]:cur_time["
           << FORMAT_TIMESTAMP(cur_time) << "]:cur_latency[" << start_latency
           << "]";
   }
@@ -347,7 +354,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const std::string perf_indicator = "trafficlights";
   if (!CheckCameraImageStatus(image_msg_ts, check_image_status_interval_thresh_,
                               camera_name)) {
-    AERROR << "CheckCameraImageStatus failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "CheckCameraImageStatus failed";
     return;
   }
 
@@ -362,8 +370,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   // skipping frame according to last proc image timestamp
   if (last_proc_image_ts_ > 0.0 &&
       receive_img_timestamp - last_proc_image_ts_ < proc_interval_seconds_) {
-    AINFO << "skip current image, img_ts: " << FORMAT_TIMESTAMP(image_msg_ts)
-          << " , receive_img_timestamp: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "skip current image, img_ts: " << FORMAT_TIMESTAMP(image_msg_ts)
+           << " , receive_img_timestamp: "
           << FORMAT_TIMESTAMP(receive_img_timestamp)
           << " ,_last_proc_image_ts: " << FORMAT_TIMESTAMP(last_proc_image_ts_)
           << " , _proc_interval_seconds: "
@@ -375,8 +384,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       preprocessor_->SyncInformation(image_msg_ts, camera_name);
 
   if (!sync_image_ok) {
-    AINFO << "PreprocessComponent not publish image, ts:" << image_msg_ts
-          << ", camera_name: " << camera_name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "PreprocessComponent not publish image, ts:" << image_msg_ts
+           << ", camera_name: " << camera_name;
     //    SendSimulationMsg();
     return;
   }
@@ -404,8 +414,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (!VerifyLightsProjection(image_msg_ts, preprocess_option, camera_name,
                               frame_.get())) {
-    AINFO << "VerifyLightsProjection on image failed, ts: " << image_msg_ts
-          << ", camera_name: " << camera_name
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "VerifyLightsProjection on image failed, ts: " << image_msg_ts
+           << ", camera_name: " << camera_name
           << " last_query_tf_ts_: " << last_query_tf_ts_
           << " need update_camera_selection immediately,"
           << " reset last_query_tf_ts_ to -1";
@@ -413,19 +424,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
   last_proc_image_ts_ = Clock::NowInSeconds();
 
-  AINFO << "start proc.";
-  traffic_light_pipeline_->Perception(camera_perception_options_, frame_.get());
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "start proc.";
+   traffic_light_pipeline_->Perception(camera_perception_options_, frame_.get());
 
   for (auto light : frame_->traffic_lights) {
-    AINFO << "after tl pipeline " << light->id << " color "
-          << static_cast<int>(light->status.color);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "after tl pipeline " << light->id << " color "
+           << static_cast<int>(light->status.color);
   }
 
   SyncV2XTrafficLights(frame_.get());
 
   std::shared_ptr<TrafficLightDetection> out_msg(new TrafficLightDetection);
   if (!TransformOutputMessage(frame_.get(), camera_name, &out_msg)) {
-    AERROR << "transform_output_message failed, msg_time: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "transform_output_message failed, msg_time: "
            << FORMAT_TIMESTAMP(msg->measurement_time());
     return;
   }
@@ -435,12 +449,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   //  SendSimulationMsg();
 
-  AINFO << out_msg->DebugString();
-  {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << out_msg->DebugString();
+   {
     const double end_timestamp = Clock::NowInSeconds();
     const double end_latency = (end_timestamp - msg->measurement_time()) * 1e3;
-    AINFO << "FRAME_STATISTICS:TrafficLights:End:msg_time["
-          << FORMAT_TIMESTAMP(msg->measurement_time()) << "]:cur_time["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "FRAME_STATISTICS:TrafficLights:End:msg_time["
+           << FORMAT_TIMESTAMP(msg->measurement_time()) << "]:cur_time["
           << FORMAT_TIMESTAMP(end_timestamp) << "]:cur_latency[" << end_latency
           << "]";
   }
@@ -448,8 +464,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void TrafficLightsPerceptionComponent::OnReceiveV2XMsg(
     const std::shared_ptr<apollo::v2x::IntersectionTrafficLightData> v2x_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lck(mutex_);
   v2x_msg_buffer_.push_back(*v2x_msg);
 }
@@ -457,8 +471,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void TrafficLightsPerceptionComponent::GenerateTrafficLights(
     const std::vector<apollo::hdmap::Signal>& signals,
     std::vector<base::TrafficLightPtr>* traffic_lights) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   traffic_lights->clear();
   for (auto signal : signals) {
     base::TrafficLightPtr light;
@@ -485,21 +497,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool TrafficLightsPerceptionComponent::QueryPoseAndSignals(
     const double ts, camera::CarPose* pose,
     std::vector<apollo::hdmap::Signal>* signals) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PERF_FUNCTION();
   // get pose
   if (!GetCarPose(ts, pose)) {
-    AINFO << "query_pose_and_signals failed to get car pose, ts:" << ts;
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "query_pose_and_signals failed to get car pose, ts:" << ts;
+     return false;
   }
   auto pos_x = std::to_string(pose->getCarPose()(0, 3));
   auto pos_y = std::to_string(pose->getCarPose()(1, 3));
-  AINFO << "query_pose_and_signals get position (x, y): "
-        << " (" << pos_x << ", " << pos_y << ").";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "query_pose_and_signals get position (x, y): "
+         << " (" << pos_x << ", " << pos_y << ").";
 
   if (!hd_map_) {
-    AERROR << "hd_map_ not init.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "hd_map_ not init.";
     return false;
   }
   // get signals
@@ -512,12 +525,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
             << "Now use last info. ts:" << ts << " pose:" << *pose
             << " signals.size(): " << signals->size();
     } else {
-      AERROR << "query_pose_and_signals failed to get signals info. "
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "query_pose_and_signals failed to get signals info. "
              << "ts:" << ts << " pose:" << *pose;
     }
   } else {
-    AINFO << "query_pose_and_signals succeeded, signals.size(): "
-          << signals->size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "query_pose_and_signals succeeded, signals.size(): "
+           << signals->size();
     // here need mutex lock_guard, added at the beginning of OnReceiveImage()
     last_signals_ts_ = ts;
     last_signals_ = *signals;
@@ -528,13 +543,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool TrafficLightsPerceptionComponent::VerifyLightsProjection(
     const double& ts, const camera::TLPreprocessorOption& option,
     const std::string& camera_name, camera::CameraFrame* frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PERF_FUNCTION();
   camera::CarPose pose;
   std::vector<apollo::hdmap::Signal> signals;
   if (!QueryPoseAndSignals(ts, &pose, &signals)) {
-    AERROR << "query_pose_and_signals failed, ts: " << ts;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "query_pose_and_signals failed, ts: " << ts;
     // (*image_lights)->debug_info.is_pose_valid = false;
     return false;
   }
@@ -548,50 +562,56 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     return false;
   }
 
-  AINFO << "VerifyLightsProjection success " << frame->traffic_lights.size();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "VerifyLightsProjection success " << frame->traffic_lights.size();
+ 
   return true;
 }
 
 bool TrafficLightsPerceptionComponent::UpdateCameraSelection(
     double timestamp, const camera::TLPreprocessorOption& option,
     camera::CameraFrame* frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PERF_FUNCTION();
   const double current_ts = Clock::NowInSeconds();
   if (last_query_tf_ts_ > 0.0 &&
       current_ts - last_query_tf_ts_ < query_tf_interval_seconds_) {
-    AINFO << "skip current tf msg, img_ts: " << FORMAT_TIMESTAMP(timestamp)
-          << " , last_query_tf_ts_: " << FORMAT_TIMESTAMP(last_query_tf_ts_);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "skip current tf msg, img_ts: " << FORMAT_TIMESTAMP(timestamp)
+           << " , last_query_tf_ts_: " << FORMAT_TIMESTAMP(last_query_tf_ts_);
     return true;
   }
-  AINFO << "start select camera";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "start select camera";
+ 
   camera::CarPose pose;
   std::vector<apollo::hdmap::Signal> signals;
   if (!QueryPoseAndSignals(timestamp, &pose, &signals)) {
-    AINFO << "query_pose_and_signals failed, ts: "
-          << FORMAT_TIMESTAMP(timestamp);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "query_pose_and_signals failed, ts: "
+           << FORMAT_TIMESTAMP(timestamp);
     return false;
   }
   last_query_tf_ts_ = current_ts;
 
   GenerateTrafficLights(signals, &frame->traffic_lights);
-  AINFO << "hd map signals " << frame->traffic_lights.size();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "hd map signals " << frame->traffic_lights.size();
+ 
   if (!preprocessor_->UpdateCameraSelection(pose, option,
                                             &frame->traffic_lights)) {
-    AERROR << "add_cached_lights_projections failed, ts: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "add_cached_lights_projections failed, ts: "
            << FORMAT_TIMESTAMP(timestamp);
   } else {
-    AINFO << "add_cached_lights_projections succeed, ts: "
-          << FORMAT_TIMESTAMP(timestamp);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "add_cached_lights_projections succeed, ts: "
+           << FORMAT_TIMESTAMP(timestamp);
   }
 
   for (auto& light : frame->traffic_lights) {
-    AINFO << "x " << light->region.projection_roi.x << " y "
-          << light->region.projection_roi.y << " w "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "x " << light->region.projection_roi.x << " y "
+           << light->region.projection_roi.y << " w "
           << light->region.projection_roi.width << " h "
           << light->region.projection_roi.height;
   }
@@ -600,8 +620,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool TrafficLightsPerceptionComponent::CheckCameraImageStatus(
     double timestamp, double interval, const std::string& camera_name) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PERF_FUNCTION();
   bool camera_ok = true;
   std::string no_image_camera_names = "";
@@ -616,20 +634,23 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
             << " , last_sub_camera_ts: " << FORMAT_TIMESTAMP(last_sub_camera_ts)
             << " , camera_name: " << cam_name;
       camera_ok = false;
-      AINFO << "camera status:" << camera_ok;
-      no_image_camera_names += (" " + cam_name);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "camera status:" << camera_ok;
+       no_image_camera_names += (" " + cam_name);
     }
   }
 
   bool is_camera_working = false;
   if (!preprocessor_->GetCameraWorkingFlag(camera_name, &is_camera_working)) {
-    AERROR << "get_camera_is_working_flag ts: " << FORMAT_TIMESTAMP(timestamp)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "get_camera_is_working_flag ts: " << FORMAT_TIMESTAMP(timestamp)
            << " camera_name: " << camera_name;
     return false;
   }
   if (!is_camera_working) {
     if (!preprocessor_->SetCameraWorkingFlag(camera_name, true)) {
-      AERROR << "set_camera_is_working_flag ts: " << FORMAT_TIMESTAMP(timestamp)
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "set_camera_is_working_flag ts: " << FORMAT_TIMESTAMP(timestamp)
              << " camera_name: " << camera_name;
       return false;
     }
@@ -639,14 +660,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool TrafficLightsPerceptionComponent::GetCarPose(const double timestamp,
                                                   camera::CarPose* pose) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PERF_FUNCTION();
   Eigen::Matrix4d pose_matrix;
   // get pose car(gps) to world
   if (!GetPoseFromTF(timestamp, tf2_frame_id_, tf2_child_frame_id_,
                      &pose_matrix)) {
-    AERROR << "get pose from tf failed, child_frame_id: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "get pose from tf failed, child_frame_id: "
            << tf2_child_frame_id_;
     return false;
   }
@@ -662,7 +682,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     pose_matrix = affine3d_trans.matrix();
     if (!ret) {
       pose->ClearCameraPose(camera_name);
-      AERROR << "get pose from tf failed, camera_name: " << camera_name;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "get pose from tf failed, camera_name: " << camera_name;
     } else {
       pose->c2w_poses_[camera_name] = pose_matrix;
       state += 1;
@@ -674,15 +695,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool TrafficLightsPerceptionComponent::GetPoseFromTF(
     const double timestamp, const std::string& frame_id,
     const std::string& child_frame_id, Eigen::Matrix4d* pose_matrix) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PERF_FUNCTION();
   apollo::cyber::Time query_time(timestamp);
   std::string err_string;
   if (!tf2_buffer_->canTransform(frame_id, child_frame_id, query_time,
                                  static_cast<float>(tf2_timeout_second_),
                                  &err_string)) {
-    AERROR << "Can not find transform. " << FORMAT_TIMESTAMP(timestamp)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can not find transform. " << FORMAT_TIMESTAMP(timestamp)
            << " frame_id: " << frame_id << " child_frame_id: " << child_frame_id
            << " Error info: " << err_string;
     return false;
@@ -700,9 +720,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                                 stamped_transform.transform().rotation().qy(),
                                 stamped_transform.transform().rotation().qz());
     *pose_matrix = (translation * rotation).matrix();
-    ADEBUG << "get pose: " << *pose_matrix;
-  } catch (tf2::TransformException& ex) {
-    AERROR << ex.what();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "get pose: " << *pose_matrix;
+   } catch (tf2::TransformException& ex) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << ex.what();
     return false;
   }
   return true;
@@ -711,8 +733,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool TrafficLightsPerceptionComponent::TransformOutputMessage(
     camera::CameraFrame* frame, const std::string& camera_name,
     std::shared_ptr<TrafficLightDetection>* out_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PERF_FUNCTION();
   const std::map<std::string, TLCamID> CAMERA_ID_TO_TLCAMERA_ID = {
       {"front_24mm", TrafficLightDetection::CAMERA_FRONT_LONG},
@@ -724,8 +744,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   auto* header = (*out_msg)->mutable_header();
   double publish_time = Clock::NowInSeconds();
   header->set_timestamp_sec(publish_time);  // message publishing time
-  AINFO << "set header time sec:" << FORMAT_TIMESTAMP(frame->timestamp);
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "set header time sec:" << FORMAT_TIMESTAMP(frame->timestamp);
+ 
   // Set traffic light color to unknown before the process
   detected_trafficlight_color_ = base::TLColor::TL_UNKNOWN_COLOR;
 
@@ -735,7 +756,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (CAMERA_ID_TO_TLCAMERA_ID.find(camera_name) ==
       CAMERA_ID_TO_TLCAMERA_ID.end()) {
-    AERROR << "unknown camera_name: " << camera_name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unknown camera_name: " << camera_name;
     return false;
   }
   (*out_msg)->set_camera_id(CAMERA_ID_TO_TLCAMERA_ID.at(camera_name));
@@ -844,7 +866,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
   // add traffic light debug info
   if (!TransformDebugMessage(frame, out_msg)) {
-    AERROR << "ProcComponent::Proc failed to transform debug msg.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ProcComponent::Proc failed to transform debug msg.";
     return false;
   }
 
@@ -853,8 +876,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void TrafficLightsPerceptionComponent::TransRect2Box(
     const base::RectI& rect, apollo::perception::TrafficLightBox* box) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   box->set_x(rect.x);
   box->set_y(rect.y);
   box->set_width(rect.width);
@@ -863,8 +884,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 double TrafficLightsPerceptionComponent::stopline_distance(
     const Eigen::Matrix4d& cam_pose) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (stoplines_.empty()) {
     AWARN << "compute car to stopline's distance failed(no stopline). "
           << "cam_pose:" << cam_pose;
@@ -908,8 +927,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool TrafficLightsPerceptionComponent::TransformDebugMessage(
     const camera::CameraFrame* frame,
     std::shared_ptr<apollo::perception::TrafficLightDetection>* out_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PERF_FUNCTION();
   const auto& lights = frame->traffic_lights;
   // add traffic light debug info
@@ -960,7 +977,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       cam_pose = pose.c2w_poses_.at("front_6mm");
       light_debug->set_distance_to_stop_line(stopline_distance(cam_pose));
     } else {
-      AERROR << "error occurred in calc distance to stop line";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "error occurred in calc distance to stop line";
     }
   }
 
@@ -974,8 +992,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void TrafficLightsPerceptionComponent::Visualize(
     const camera::CameraFrame& frame,
     const std::vector<base::TrafficLightPtr>& lights) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   char str[100];
   std::string tl_string;
   cv::Scalar tl_color;
@@ -1069,8 +1085,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void TrafficLightsPerceptionComponent::SyncV2XTrafficLights(
     camera::CameraFrame* frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const double camera_frame_timestamp = frame->timestamp;
   auto sync_single_light = [&](base::TrafficLightPtr light) {
     for (auto itr = v2x_msg_buffer_.rbegin(); itr != v2x_msg_buffer_.rend();
@@ -1113,8 +1127,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
               break;
           }
           // use v2x result directly
-          AINFO << "Sync V2X success. update color from "
-                << static_cast<int>(light->status.color) << " to "
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Sync V2X success. update color from "
+                 << static_cast<int>(light->status.color) << " to "
                 << static_cast<int>(v2x_color) << "; signal id: " << light->id;
           light->status.color = v2x_color;
           light->status.blink = blink;
@@ -1129,8 +1144,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void TrafficLightsPerceptionComponent::SendSimulationMsg() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   TrafficLightDetection out_msg;
   writer_->Write(out_msg);
 }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -88,8 +87,9 @@ TrajectoryEvaluator::TrajectoryEvaluator(
                           cost);
     }
   }
-  ADEBUG << "Number of valid 1d trajectory pairs: " << cost_queue_.size();
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Number of valid 1d trajectory pairs: " << cost_queue_.size();
+ }
 
 bool TrajectoryEvaluator::has_more_trajectory_pairs() const {
   return !cost_queue_.empty();
@@ -342,7 +342,8 @@ bool TrajectoryEvaluator::InterpolateDenseStPoints(
     const std::vector<SpeedPoint>& st_points, double t, double* traj_s) const {
   CHECK_GT(st_points.size(), 1U);
   if (t < st_points[0].t() || t > st_points[st_points.size() - 1].t()) {
-    AERROR << "AutoTuning InterpolateDenseStPoints Error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "AutoTuning InterpolateDenseStPoints Error";
     return false;
   }
   for (uint i = 1; i < st_points.size(); ++i) {

@@ -31,21 +31,27 @@ using cyber::common::GetAbsolutePath;
 void ClassifyBySimple::Init(
     const traffic_light::recognition::ClassifyParam& model_config,
     const int gpu_id, const std::string work_root) {
-  AINFO << "Enter Classify init";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Enter Classify init";
   net_inputs_.clear();
   net_outputs_.clear();
-  AINFO << "clear success";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "clear success";
   net_inputs_.push_back(model_config.input_blob());
   net_outputs_.push_back(model_config.output_blob());
 
-  AINFO << net_inputs_.size();
-  AINFO << net_outputs_.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << net_inputs_.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << net_outputs_.size();
 
   for (auto name : net_inputs_) {
-    AINFO << "net input blobs: " << name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "net input blobs: " << name;
   }
   for (auto name : net_outputs_) {
-    AINFO << "net output blobs: " << name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "net output blobs: " << name;
   }
 
   std::string model_root =
@@ -53,17 +59,20 @@ void ClassifyBySimple::Init(
 
   std::string proto_file =
       GetAbsolutePath(work_root, model_config.proto_file());
-  AINFO << "proto_file " << proto_file;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "proto_file " << proto_file;
 
   std::string weight_file =
       GetAbsolutePath(work_root, model_config.weight_file());
 
-  AINFO << "model_root" << model_root;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "model_root" << model_root;
 
   rt_net_.reset(inference::CreateInferenceByName(
       model_config.model_type(), proto_file, weight_file, net_outputs_,
       net_inputs_, model_root));
-  AINFO << "create success";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "create success";
 
   rt_net_->set_gpu_id(gpu_id);
   gpu_id_ = gpu_id;
@@ -91,7 +100,8 @@ void ClassifyBySimple::Init(
 
   std::map<std::string, std::vector<int>> input_reshape{
       {net_inputs_[0], shape}};
-  AINFO << "input_reshape: " << input_reshape[net_inputs_[0]][0] << ", "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "input_reshape: " << input_reshape[net_inputs_[0]][0] << ", "
         << input_reshape[net_inputs_[0]][1] << ", "
         << input_reshape[net_inputs_[0]][2] << ", "
         << input_reshape[net_inputs_[0]][3];
@@ -103,13 +113,15 @@ void ClassifyBySimple::Init(
   image_.reset(
       new base::Image8U(resize_height_, resize_width_, base::Color::BGR));
 
-  AINFO << "Init Done";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Init Done";
 }
 
 void ClassifyBySimple::Perform(const CameraFrame* frame,
                                std::vector<base::TrafficLightPtr>* lights) {
   if (cudaSetDevice(gpu_id_) != cudaSuccess) {
-    AERROR << "Failed to set device to " << gpu_id_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to set device to " << gpu_id_;
     return;
   }
   std::shared_ptr<base::Blob<uint8_t>> rectified_blob;
@@ -127,18 +139,21 @@ void ClassifyBySimple::Perform(const CameraFrame* frame,
     data_provider_image_option_.target_color = base::Color::BGR;
     frame->data_provider->GetImage(data_provider_image_option_, image_.get());
 
-    AINFO << "get img done";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "get img done";
 
     const float* mean = mean_.get()->cpu_data();
     inference::ResizeGPU(*image_, input_blob_recog,
                          frame->data_provider->src_width(), 0, mean[0], mean[1],
                          mean[2], true, scale_);
 
-    AINFO << "resize gpu finish.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "resize gpu finish.";
     cudaDeviceSynchronize();
     rt_net_->Infer();
     cudaDeviceSynchronize();
-    AINFO << "infer finish.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "infer finish.";
 
     float* out_put_data = output_blob_recog->mutable_cpu_data();
     Prob2Color(out_put_data, unknown_threshold_, light);
@@ -160,10 +175,13 @@ void ClassifyBySimple::Prob2Color(const float* out_put_data, float threshold,
 
   light->status.color = status_map[max_color_id];
   light->status.confidence = out_put_data[max_color_id];
-  AINFO << "Light status recognized as " << name_map[max_color_id];
-  AINFO << "Color Prob:";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Light status recognized as " << name_map[max_color_id];
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Color Prob:";
   for (size_t j = 0; j < status_map.size(); j++) {
-    AINFO << out_put_data[j];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << out_put_data[j];
   }
 }
 

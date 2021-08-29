@@ -39,7 +39,8 @@ std::size_t FeatureOutput::idx_tuning_ = 0;
 std::mutex FeatureOutput::mutex_feature_;
 
 void FeatureOutput::Close() {
-  ADEBUG << "Close feature output";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Close feature output";
   switch (FLAGS_prediction_offline_mode) {
     case 1: {
       WriteFeatureProto();
@@ -115,7 +116,8 @@ void FeatureOutput::InsertDataForLearning(
   *(data_for_learning->mutable_string_features_for_learning()) = {
       string_feature_values.begin(), string_feature_values.end()};
   data_for_learning->set_category(category);
-  ADEBUG << "Insert [" << category
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Insert [" << category
          << "] data for learning with size = " << feature_values.size();
   if (lane_sequence_ptr != nullptr) {
     data_for_learning->set_lane_sequence_id(
@@ -161,7 +163,8 @@ void FeatureOutput::InsertDataForTuning(
   *data_for_tuning->mutable_values_for_tuning() = {feature_values.begin(),
                                                    feature_values.end()};
   data_for_tuning->set_category(category);
-  ADEBUG << "Insert [" << category
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Insert [" << category
          << "] data for tuning with size = " << feature_values.size();
   data_for_tuning->set_lane_sequence_id(lane_sequence.lane_sequence_id());
   for (const auto& adc_traj_point : adc_trajectory) {
@@ -172,7 +175,8 @@ void FeatureOutput::InsertDataForTuning(
 void FeatureOutput::WriteFeatureProto() {
   UNIQUE_LOCK_MULTITHREAD(mutex_feature_);
   if (features_.feature().empty()) {
-    ADEBUG << "Skip writing empty feature.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip writing empty feature.";
   } else {
     const std::string file_name = absl::StrCat(
         FLAGS_prediction_data_dir, "/feature.", idx_feature_, ".bin");
@@ -185,7 +189,8 @@ void FeatureOutput::WriteFeatureProto() {
 void FeatureOutput::WriteDataForLearning() {
   UNIQUE_LOCK_MULTITHREAD(mutex_feature_);
   if (list_data_for_learning_.data_for_learning().empty()) {
-    ADEBUG << "Skip writing empty data_for_learning.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip writing empty data_for_learning.";
   } else {
     const std::string file_name = absl::StrCat(
         FLAGS_prediction_data_dir, "/datalearn.", idx_learning_, ".bin");
@@ -198,7 +203,8 @@ void FeatureOutput::WriteDataForLearning() {
 void FeatureOutput::WritePredictionResult() {
   UNIQUE_LOCK_MULTITHREAD(mutex_feature_);
   if (list_prediction_result_.prediction_result().empty()) {
-    ADEBUG << "Skip writing empty prediction_result.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip writing empty prediction_result.";
   } else {
     const std::string file_name =
         absl::StrCat(FLAGS_prediction_data_dir, "/prediction_result.",
@@ -212,7 +218,8 @@ void FeatureOutput::WritePredictionResult() {
 void FeatureOutput::WriteFrameEnv() {
   UNIQUE_LOCK_MULTITHREAD(mutex_feature_);
   if (list_frame_env_.frame_env().empty()) {
-    ADEBUG << "Skip writing empty prediction_result.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip writing empty prediction_result.";
   } else {
     const std::string file_name = absl::StrCat(
         FLAGS_prediction_data_dir, "/frame_env.", idx_frame_env_, ".bin");
@@ -225,7 +232,8 @@ void FeatureOutput::WriteFrameEnv() {
 void FeatureOutput::WriteDataForTuning() {
   UNIQUE_LOCK_MULTITHREAD(mutex_feature_);
   if (list_data_for_tuning_.data_for_tuning().empty()) {
-    ADEBUG << "Skip writing empty data_for_tuning.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip writing empty data_for_tuning.";
     return;
   }
   const std::string file_name = absl::StrCat(

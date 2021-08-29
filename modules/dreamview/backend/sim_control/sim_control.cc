@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -49,8 +48,6 @@ namespace {
 
 void TransformToVRF(const Point3D& point_mrf, const Quaternion& orientation,
                     Point3D* point_vrf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Eigen::Vector3d v_mrf(point_mrf.x(), point_mrf.y(), point_mrf.z());
   auto v_vrf = InverseQuaternionRotate(orientation, v_mrf);
   point_vrf->set_x(v_vrf.x());
@@ -59,8 +56,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool IsSameHeader(const Header& lhs, const Header& rhs) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return lhs.sequence_num() == rhs.sequence_num() &&
          lhs.timestamp_sec() == rhs.timestamp_sec();
 }
@@ -71,14 +66,10 @@ SimControl::SimControl(const MapService* map_service)
     : map_service_(map_service),
       node_(cyber::CreateNode("sim_control")),
       current_trajectory_(std::make_shared<ADCTrajectory>()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   InitTimerAndIO();
 }
 
 void SimControl::InitTimerAndIO() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_reader_ =
       node_->CreateReader<LocalizationEstimate>(FLAGS_localization_topic);
   planning_reader_ = node_->CreateReader<ADCTrajectory>(
@@ -118,8 +109,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void SimControl::Init(double start_velocity,
                       double start_acceleration) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!FLAGS_use_navigation_mode) {
     InitStartPoint(start_velocity, start_acceleration);
   }
@@ -127,8 +116,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void SimControl::InitStartPoint(double start_velocity,
                                 double start_acceleration) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   TrajectoryPoint point;
   // Use the latest localization position as start point,
   // fall back to a dummy point from map
@@ -177,23 +164,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void SimControl::SetStartPoint(const TrajectoryPoint& start_point) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   next_point_ = start_point;
   prev_point_index_ = next_point_index_ = 0;
   received_planning_ = false;
 }
 
 void SimControl::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(mutex_);
   InternalReset();
 }
 
 void SimControl::InternalReset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   current_routing_header_.Clear();
   re_routing_triggered_ = false;
   send_dummy_prediction_ = true;
@@ -201,16 +182,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void SimControl::ClearPlanning() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   current_trajectory_->Clear();
   received_planning_ = false;
 }
 
 void SimControl::OnReceiveNavigationInfo(
     const std::shared_ptr<NavigationInfo>& navigation_info) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(mutex_);
 
   if (navigation_info->navigation_path_size() > 0) {
@@ -223,8 +200,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void SimControl::OnRoutingResponse(
     const std::shared_ptr<RoutingResponse>& routing) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(mutex_);
   if (!enabled_) {
     return;
@@ -259,8 +234,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void SimControl::OnPredictionObstacles(
     const std::shared_ptr<PredictionObstacles>& obstacles) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(mutex_);
 
   if (!enabled_) {
@@ -271,8 +244,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void SimControl::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(mutex_);
 
   if (!enabled_) {
@@ -292,8 +263,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void SimControl::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(mutex_);
 
   if (enabled_) {
@@ -304,8 +273,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void SimControl::OnPlanning(const std::shared_ptr<ADCTrajectory>& trajectory) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(mutex_);
 
   if (!enabled_) {
@@ -326,22 +293,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void SimControl::Freeze() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   next_point_.set_v(0.0);
   next_point_.set_a(0.0);
   prev_point_ = next_point_;
 }
 
 void SimControl::RunOnce() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(mutex_);
 
   TrajectoryPoint trajectory_point;
   Chassis::GearPosition gear_position;
   if (!PerfectControlModel(&trajectory_point, &gear_position)) {
-    AERROR << "Failed to calculate next point with perfect control model";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to calculate next point with perfect control model";
     return;
   }
 
@@ -351,8 +315,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool SimControl::PerfectControlModel(TrajectoryPoint* point,
                                      Chassis::GearPosition* gear_position) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Result of the interpolation.
   auto current_time = Clock::NowInSeconds();
   const auto& trajectory = current_trajectory_->trajectory_point();
@@ -379,7 +341,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       }
 
       if (next_point_index_ == 0) {
-        AERROR << "First trajectory point is a future point!";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "First trajectory point is a future point!";
         return false;
       }
 
@@ -404,8 +367,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void SimControl::PublishChassis(double cur_speed,
                                 Chassis::GearPosition gear_position) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto chassis = std::make_shared<Chassis>();
   FillHeader("SimControl", chassis.get());
 
@@ -425,8 +386,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void SimControl::PublishLocalization(const TrajectoryPoint& point) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto localization = std::make_shared<LocalizationEstimate>();
   FillHeader("SimControl", localization.get());
 
@@ -495,8 +454,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void SimControl::PublishDummyPrediction() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto prediction = std::make_shared<PredictionObstacles>();
   {
     std::lock_guard<std::mutex> lock(mutex_);

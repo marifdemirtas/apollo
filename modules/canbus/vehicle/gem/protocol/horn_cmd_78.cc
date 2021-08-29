@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,32 +27,22 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Horncmd78::ID = 0x78;
 
 // public
-Horncmd78::Horncmd78() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Horncmd78::Horncmd78() { Reset(); }
 
 uint32_t Horncmd78::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
-void Horncmd78::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- set_p_horn_cmd(data, horn_cmd_); }
+void Horncmd78::UpdateData(uint8_t* data) { set_p_horn_cmd(data, horn_cmd_); }
 
 void Horncmd78::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) :you should check this manually
   horn_cmd_ = Horn_cmd_78::HORN_CMD_OFF;
 }
 
 Horncmd78* Horncmd78::set_horn_cmd(Horn_cmd_78::Horn_cmdType horn_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   horn_cmd_ = horn_cmd;
   return this;
 }
@@ -64,8 +53,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 void Horncmd78::set_p_horn_cmd(uint8_t* data,
                                Horn_cmd_78::Horn_cmdType horn_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   uint8_t x = horn_cmd;
 
   Byte to_set(data + 0);

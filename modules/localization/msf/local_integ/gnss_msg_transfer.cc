@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -24,8 +23,6 @@ namespace msf {
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::BandObservation& in,
                                BandObservationMsg* out) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(out);
   if (in.has_band_id()) {
     out->set_band_id(GnssBandID(in.band_id()));
@@ -56,8 +53,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void GnssMagTransfer::Transfer(
     const apollo::drivers::gnss::SatelliteObservation& in,
     SatelliteObservationMsg* out) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(out);
   if (in.has_sat_prn()) {
     out->set_sat_prn(in.sat_prn());
@@ -78,8 +73,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void GnssMagTransfer::Transfer(
     const apollo::drivers::gnss::EpochObservation& in,
     EpochObservationMsg* out) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(out);
   if (in.has_receiver_id()) {
     out->set_receiver_id(in.receiver_id());
@@ -117,8 +110,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::KepplerOrbit& in,
                                KepplerOrbitMsg* out) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {
     out->set_gnss_type(GnssType(in.gnss_type()));
@@ -238,8 +229,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::GlonassOrbit& in,
                                GlonassOrbitMsg* out) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {
     out->set_gnss_type(GnssType(in.gnss_type()));
@@ -326,8 +315,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void GnssMagTransfer::Transfer(const apollo::drivers::gnss::GnssEphemeris& in,
                                GnssEphemerisMsg* out) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(out);
   if (in.has_gnss_type()) {
     out->set_gnss_type(GnssType(in.gnss_type()));

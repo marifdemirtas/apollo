@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -36,8 +35,6 @@ NdtMapSingleCell::NdtMapSingleCell() {
 }
 
 void NdtMapSingleCell::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   intensity_ = 0.0;
   intensity_var_ = 0.0;
   road_pt_count_ = 0;
@@ -49,8 +46,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 size_t NdtMapSingleCell::LoadBinary(const unsigned char* buf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const float* f_buf = reinterpret_cast<const float*>(buf);
   intensity_ = *f_buf;
   ++f_buf;
@@ -94,8 +89,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 size_t NdtMapSingleCell::CreateBinary(unsigned char* buf,
                                       size_t buf_size) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   size_t target_size = GetBinarySize();
   if (buf_size >= target_size) {
     float* p = reinterpret_cast<float*>(buf);
@@ -138,8 +131,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 size_t NdtMapSingleCell::GetBinarySize() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   size_t sz = sizeof(float) * 2 + sizeof(unsigned int) * 2 + sizeof(float) * 3 +
               sizeof(float) * 9;
   if (count_ >= minimum_points_threshold_) {
@@ -149,8 +140,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 NdtMapSingleCell& NdtMapSingleCell::operator=(const NdtMapSingleCell& ref) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   count_ = ref.count_;
   intensity_ = ref.intensity_;
   intensity_var_ = ref.intensity_var_;
@@ -164,16 +153,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void NdtMapSingleCell::Reduce(NdtMapSingleCell* cell,
                               const NdtMapSingleCell& cell_new) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   cell->MergeCell(cell_new);
 }
 
 void NdtMapSingleCell::AddSample(const float intensity, const float altitude,
                                  const Eigen::Vector3f& centroid,
                                  bool is_road) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ++count_;
   float v1 = intensity - intensity_;
   intensity_ += v1 / static_cast<float>(count_);
@@ -198,8 +183,6 @@ void NdtMapSingleCell::MergeCell(const float intensity,
                                  const unsigned int count,
                                  const Eigen::Vector3f& centroid,
                                  const Eigen::Matrix3f& centroid_cov) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   unsigned int new_count = count_ + count;
   float p0 = static_cast<float>(count_) / static_cast<float>(new_count);
   float p1 = static_cast<float>(count) / static_cast<float>(new_count);
@@ -218,8 +201,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void NdtMapSingleCell::MergeCell(const NdtMapSingleCell& cell_new) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   MergeCell(cell_new.intensity_, cell_new.intensity_var_,
             cell_new.road_pt_count_, cell_new.count_, cell_new.centroid_,
             cell_new.centroid_average_cov_);
@@ -227,8 +208,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void NdtMapSingleCell::CentroidEigenSolver(
     const Eigen::Matrix3f& centroid_cov) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Contain more than five points, we calculate the eigen vector/value of cov.
   // [Magnusson 2009]
   if (count_ >= minimum_points_threshold_) {
@@ -264,15 +243,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 NdtMapCells::NdtMapCells() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   max_altitude_index_ = static_cast<int>(-1e10);
   min_altitude_index_ = static_cast<int>(1e10);
 }
 
 void NdtMapCells::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   max_altitude_index_ = static_cast<int>(-1e10);
   min_altitude_index_ = static_cast<int>(1e10);
   cells_.clear();
@@ -282,8 +257,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 int NdtMapCells::AddSample(const float intensity, const float altitude,
                            const float resolution,
                            const Eigen::Vector3f& centroid, bool is_road) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int altitude_index = CalAltitudeIndex(resolution, altitude);
   NdtMapSingleCell& cell = cells_[altitude_index];
   cell.AddSample(intensity, altitude, centroid, is_road);
@@ -305,8 +278,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 size_t NdtMapCells::LoadBinary(const unsigned char* buf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const unsigned int* p = reinterpret_cast<const unsigned int*>(buf);
   unsigned int size = *p;
   ++p;
@@ -343,8 +314,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 size_t NdtMapCells::CreateBinary(unsigned char* buf, size_t buf_size) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   size_t target_size = GetBinarySize();
   if (buf_size >= target_size) {
     unsigned int* p = reinterpret_cast<unsigned int*>(buf);
@@ -385,8 +354,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 size_t NdtMapCells::GetBinarySize() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   size_t target_size = sizeof(unsigned int);
   for (auto it = cells_.begin(); it != cells_.end(); ++it) {
     target_size += sizeof(int);
@@ -401,22 +368,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 int NdtMapCells::CalAltitudeIndex(const float resolution,
                                   const float altitude) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return static_cast<int>(altitude / resolution);
 }
 
 float NdtMapCells::CalAltitude(const float resolution,
                                const int altitude_index) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return static_cast<float>(resolution *
                             (static_cast<float>(altitude_index) + 0.5));
 }
 
 void NdtMapCells::Reduce(NdtMapCells* cell, const NdtMapCells& cell_new) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Reduce cells
   for (auto it = cell_new.cells_.begin(); it != cell_new.cells_.end(); ++it) {
     int altitude_index = it->first;
@@ -449,20 +410,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 NdtMapMatrix::NdtMapMatrix() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   rows_ = 0;
   cols_ = 0;
   map3d_cells_ = nullptr;
 }
 
-NdtMapMatrix::~NdtMapMatrix() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+NdtMapMatrix::~NdtMapMatrix() {}
 
 NdtMapMatrix::NdtMapMatrix(const NdtMapMatrix& cells) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Init(cells.rows_, cells.cols_);
   for (unsigned int y = 0; y < rows_; ++y) {
     for (unsigned int x = 0; x < cols_; ++x) {
@@ -474,26 +429,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void NdtMapMatrix::Init(const BaseMapConfig& config) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Init(config.map_node_size_y_, config.map_node_size_x_);
 }
 
-void NdtMapMatrix::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(rows_, cols_); }
+void NdtMapMatrix::Reset() { Reset(rows_, cols_); }
 
 void NdtMapMatrix::Init(unsigned int rows, unsigned int cols) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   map3d_cells_.reset(new NdtMapCells[rows * cols]);
   rows_ = rows;
   cols_ = cols;
 }
 
 void NdtMapMatrix::Reset(unsigned int rows, unsigned int cols) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   unsigned int length = rows * cols;
   for (unsigned int i = 0; i < length; ++i) {
     map3d_cells_[i].Reset();
@@ -501,8 +448,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 size_t NdtMapMatrix::LoadBinary(const unsigned char* buf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const unsigned int* p = reinterpret_cast<const unsigned int*>(buf);
   rows_ = *p;
   ++p;
@@ -521,8 +466,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 size_t NdtMapMatrix::CreateBinary(unsigned char* buf, size_t buf_size) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   size_t target_size = GetBinarySize();
   if (buf_size >= target_size) {
     unsigned int* p = reinterpret_cast<unsigned int*>(buf);
@@ -546,8 +489,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 size_t NdtMapMatrix::GetBinarySize() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   size_t target_size = sizeof(unsigned int) * 2;
   for (unsigned int y = 0; y < rows_; ++y) {
     for (unsigned int x = 0; x < cols_; ++x) {
@@ -559,8 +500,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void NdtMapMatrix::Reduce(NdtMapMatrix* cells, const NdtMapMatrix& cells_new) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (unsigned int y = 0; y < cells->GetRows(); ++y) {
     for (unsigned int x = 0; x < cells->GetCols(); ++x) {
       NdtMapCells& cell = cells->GetMapCell(y, x);
@@ -571,8 +510,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool NdtMapMatrix::GetIntensityImg(cv::Mat* intensity_img) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   *intensity_img = cv::Mat(cv::Size(cols_, rows_), CV_8UC1);
   for (unsigned int y = 0; y < rows_; ++y) {
     for (unsigned int x = 0; x < cols_; ++x) {

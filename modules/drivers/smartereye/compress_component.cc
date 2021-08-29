@@ -29,16 +29,19 @@ namespace smartereye {
 
 bool CompressComponent::Init() {
   if (!GetProtoConfig(&config_)) {
-    AERROR << "Parse config file failed: " << ConfigFilePath();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Parse config file failed: " << ConfigFilePath();
     return false;
   }
-  AINFO << "Camera config: \n" << config_.DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Camera config: \n" << config_.DebugString();
   try {
     image_pool_.reset(new CCObjectPool<CompressedImage>(
         config_.compress_conf().image_pool_size()));
     image_pool_->ConstructAll();
   } catch (const std::bad_alloc& e) {
-    AERROR << e.what();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << e.what();
     return false;
   }
 
@@ -48,7 +51,8 @@ bool CompressComponent::Init() {
 }
 
 bool CompressComponent::Proc(const std::shared_ptr<Image>& image) {
-  ADEBUG << "procing compressed";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "procing compressed";
   auto compressed_image = image_pool_->GetObject();
   compressed_image->mutable_header()->CopyFrom(image->header());
   compressed_image->set_frame_id(image->frame_id());
@@ -67,13 +71,15 @@ bool CompressComponent::Proc(const std::shared_ptr<Image>& image) {
     cv::cvtColor(mat_image, tmp_mat, cv::COLOR_RGB2BGR);
     std::vector<uint8_t> compress_buffer;
     if (!cv::imencode(".jpg", tmp_mat, compress_buffer, params)) {
-      AERROR << "cv::imencode (jpeg) failed on input image";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "cv::imencode (jpeg) failed on input image";
       return false;
     }
     compressed_image->set_data(compress_buffer.data(), compress_buffer.size());
     writer_->Write(compressed_image);
   } catch (std::exception& e) {
-    AERROR << "cv::imencode (jpeg) exception :" << e.what();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "cv::imencode (jpeg) exception :" << e.what();
     return false;
   }
   return true;

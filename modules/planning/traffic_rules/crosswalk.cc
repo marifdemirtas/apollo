@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -115,8 +114,9 @@ void Crosswalk::MakeDecisions(Frame* const frame,
         mutable_crosswalk_status->clear_stop_time();
       }
 
-      ADEBUG << "SKIP: crosswalk_id[" << crosswalk_id
-             << "] crosswalk_overlap_end_s[" << crosswalk_overlap->end_s
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "SKIP: crosswalk_id[" << crosswalk_id
+              << "] crosswalk_overlap_end_s[" << crosswalk_overlap->end_s
              << "] adc_front_edge_s[" << adc_front_edge_s
              << "]. adc_front_edge passes crosswalk_end_s + buffer.";
       continue;
@@ -126,8 +126,9 @@ void Crosswalk::MakeDecisions(Frame* const frame,
     if (finished_crosswalks.end() != std::find(finished_crosswalks.begin(),
                                                finished_crosswalks.end(),
                                                crosswalk_id)) {
-      ADEBUG << "SKIP: crosswalk_id[" << crosswalk_id << "] crosswalk_end_s["
-             << crosswalk_overlap->end_s << "] finished already";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "SKIP: crosswalk_id[" << crosswalk_id << "] crosswalk_end_s["
+              << crosswalk_overlap->end_s << "] finished already";
       continue;
     }
 
@@ -161,16 +162,18 @@ void Crosswalk::MakeDecisions(Frame* const frame,
         if (obstacle_speed <= kMaxStopSpeed) {
           if (crosswalk_stop_timer[crosswalk_id].count(obstacle_id) < 1) {
             // add timestamp
-            ADEBUG << "add timestamp: obstacle_id[" << obstacle_id
-                   << "] timestamp[" << Clock::NowInSeconds()
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "add timestamp: obstacle_id[" << obstacle_id
+                    << "] timestamp[" << Clock::NowInSeconds()
                    << "]";
             crosswalk_stop_timer[crosswalk_id].insert(
                 {obstacle_id, Clock::NowInSeconds()});
           } else {
             double stop_time = Clock::NowInSeconds() -
                                crosswalk_stop_timer[crosswalk_id][obstacle_id];
-            ADEBUG << "stop_time: obstacle_id[" << obstacle_id << "] stop_time["
-                   << stop_time << "]";
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop_time: obstacle_id[" << obstacle_id << "] stop_time["
+                    << stop_time << "]";
             if (stop_time >= config_.crosswalk().stop_timeout()) {
               stop = false;
             }
@@ -180,20 +183,23 @@ void Crosswalk::MakeDecisions(Frame* const frame,
 
       if (stop) {
         pedestrians.push_back(obstacle_id);
-        ADEBUG << "wait for: obstacle_id[" << obstacle_id << "] type["
-               << obstacle_type_name << "] crosswalk_id[" << crosswalk_id
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "wait for: obstacle_id[" << obstacle_id << "] type["
+                << obstacle_type_name << "] crosswalk_id[" << crosswalk_id
                << "]";
       } else {
-        ADEBUG << "skip: obstacle_id[" << obstacle_id << "] type["
-               << obstacle_type_name << "] crosswalk_id[" << crosswalk_id
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "skip: obstacle_id[" << obstacle_id << "] type["
+                << obstacle_type_name << "] crosswalk_id[" << crosswalk_id
                << "]";
       }
     }
 
     if (!pedestrians.empty()) {
       crosswalks_to_stop.emplace_back(crosswalk_overlap, pedestrians);
-      ADEBUG << "crosswalk_id[" << crosswalk_id << "] STOP";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "crosswalk_id[" << crosswalk_id << "] STOP";
+     }
   }
 
   double min_s = std::numeric_limits<double>::max();
@@ -201,8 +207,9 @@ void Crosswalk::MakeDecisions(Frame* const frame,
   for (auto crosswalk_to_stop : crosswalks_to_stop) {
     // build stop decision
     const auto* crosswalk_overlap = crosswalk_to_stop.first;
-    ADEBUG << "BuildStopDecision: crosswalk[" << crosswalk_overlap->object_id
-           << "] start_s[" << crosswalk_overlap->start_s << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "BuildStopDecision: crosswalk[" << crosswalk_overlap->object_id
+            << "] start_s[" << crosswalk_overlap->start_s << "]";
     std::string virtual_obstacle_id =
         CROSSWALK_VO_ID_PREFIX + crosswalk_overlap->object_id;
     util::BuildStopDecision(virtual_obstacle_id, crosswalk_overlap->start_s,
@@ -228,8 +235,9 @@ void Crosswalk::MakeDecisions(Frame* const frame,
       auto* stop_time = mutable_crosswalk_status->add_stop_time();
       stop_time->set_obstacle_id(timer.first);
       stop_time->set_stop_timestamp_sec(timer.second);
-      ADEBUG << "UPDATE stop_time: id[" << crosswalk << "] obstacle_id["
-             << timer.first << "] stop_timestamp[" << timer.second << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "UPDATE stop_time: id[" << crosswalk << "] obstacle_id["
+              << timer.first << "] stop_timestamp[" << timer.second << "]";
     }
 
     // update CrosswalkStatus.finished_crosswalk
@@ -238,13 +246,15 @@ void Crosswalk::MakeDecisions(Frame* const frame,
       if (crosswalk_overlap->start_s < firsts_crosswalk_to_stop->start_s) {
         mutable_crosswalk_status->add_finished_crosswalk(
             crosswalk_overlap->object_id);
-        ADEBUG << "UPDATE finished_crosswalk: " << crosswalk_overlap->object_id;
-      }
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "UPDATE finished_crosswalk: " << crosswalk_overlap->object_id;
+       }
     }
   }
 
-  ADEBUG << "crosswalk_status: " << mutable_crosswalk_status->DebugString();
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "crosswalk_status: " << mutable_crosswalk_status->DebugString();
+ }
 
 bool Crosswalk::FindCrosswalks(ReferenceLineInfo* const reference_line_info) {
   CHECK_NOTNULL(reference_line_info);
@@ -277,8 +287,9 @@ bool Crosswalk::CheckStopForObstacle(
       obstacle_type != PerceptionObstacle::BICYCLE &&
       obstacle_type != PerceptionObstacle::UNKNOWN_MOVABLE &&
       obstacle_type != PerceptionObstacle::UNKNOWN) {
-    ADEBUG << "obstacle_id[" << obstacle_id << "] type[" << obstacle_type_name
-           << "]. skip";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle_id[" << obstacle_id << "] type[" << obstacle_type_name
+            << "]. skip";
     return false;
   }
 
@@ -292,8 +303,9 @@ bool Crosswalk::CheckStopForObstacle(
   bool in_expanded_crosswalk = crosswalk_exp_poly.IsPointIn(point);
 
   if (!in_expanded_crosswalk) {
-    ADEBUG << "skip: obstacle_id[" << obstacle_id << "] type["
-           << obstacle_type_name << "] crosswalk_id[" << crosswalk_id
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "skip: obstacle_id[" << obstacle_id << "] type["
+            << obstacle_type_name << "] crosswalk_id[" << crosswalk_id
            << "]: not in crosswalk expanded area";
     return false;
   }
@@ -313,8 +325,9 @@ bool Crosswalk::CheckStopForObstacle(
       reference_line.IsOnRoad(obstacle.PerceptionSLBoundary());
   const bool is_path_cross = !obstacle.reference_line_st_boundary().IsEmpty();
 
-  ADEBUG << "obstacle_id[" << obstacle_id << "] type[" << obstacle_type_name
-         << "] crosswalk_id[" << crosswalk_id << "] obstacle_l["
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle_id[" << obstacle_id << "] type[" << obstacle_type_name
+          << "] crosswalk_id[" << crosswalk_id << "] obstacle_l["
          << obstacle_sl_point.l() << "] within_expanded_crosswalk_area["
          << in_expanded_crosswalk << "] obstacle_l_distance["
          << obstacle_l_distance << "] on_lane[" << is_on_lane << "] is_on_road["
@@ -326,8 +339,9 @@ bool Crosswalk::CheckStopForObstacle(
     //     STOP only if paths crosses
     if (is_path_cross) {
       stop = true;
-      ADEBUG << "need_stop(>=l2): obstacle_id[" << obstacle_id << "] type["
-             << obstacle_type_name << "] crosswalk_id[" << crosswalk_id << "]";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "need_stop(>=l2): obstacle_id[" << obstacle_id << "] type["
+              << obstacle_type_name << "] crosswalk_id[" << crosswalk_id << "]";
     }
   } else if (obstacle_l_distance <=
              config_.crosswalk().stop_strict_l_distance()) {
@@ -336,8 +350,9 @@ bool Crosswalk::CheckStopForObstacle(
       //     always STOP
       if (obstacle_sl_point.s() > adc_end_edge_s) {
         stop = true;
-        ADEBUG << "need_stop(<=l1): obstacle_id[" << obstacle_id << "] type["
-               << obstacle_type_name << "] s[" << obstacle_sl_point.s()
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "need_stop(<=l1): obstacle_id[" << obstacle_id << "] type["
+                << obstacle_type_name << "] s[" << obstacle_sl_point.s()
                << "] adc_end_edge_s[ " << adc_end_edge_s << "] crosswalk_id["
                << crosswalk_id << "] ON_ROAD";
       }
@@ -347,8 +362,9 @@ bool Crosswalk::CheckStopForObstacle(
       //     STOP if paths cross
       if (is_path_cross) {
         stop = true;
-        ADEBUG << "need_stop(<=l1): obstacle_id[" << obstacle_id << "] type["
-               << obstacle_type_name << "] crosswalk_id[" << crosswalk_id
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "need_stop(<=l1): obstacle_id[" << obstacle_id << "] type["
+                << obstacle_type_name << "] crosswalk_id[" << crosswalk_id
                << "] PATH_CRSOSS";
       } else {
         // (4) when l_distance <= strict_l_distance
@@ -366,8 +382,9 @@ bool Crosswalk::CheckStopForObstacle(
         const double kEpsilon = 1e-6;
         if (obstacle_v.InnerProd(obs_to_adc) > kEpsilon) {
           stop = true;
-          ADEBUG << "need_stop(<=l1): obstacle_id[" << obstacle_id << "] type["
-                 << obstacle_type_name << "] crosswalk_id[" << crosswalk_id
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "need_stop(<=l1): obstacle_id[" << obstacle_id << "] type["
+                  << obstacle_type_name << "] crosswalk_id[" << crosswalk_id
                  << "] MOVING_TOWARD_ADC";
         }
       }
@@ -380,8 +397,9 @@ bool Crosswalk::CheckStopForObstacle(
     if (is_path_cross) {
       stop = true;
     }
-    ADEBUG << "need_stop(between l1 & l2): obstacle_id[" << obstacle_id
-           << "] type[" << obstacle_type_name << "] obstacle_l_distance["
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "need_stop(between l1 & l2): obstacle_id[" << obstacle_id
+            << "] type[" << obstacle_type_name << "] obstacle_l_distance["
            << obstacle_l_distance << "] crosswalk_id[" << crosswalk_id
            << "] USE_PREVIOUS_DECISION";
   }

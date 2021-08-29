@@ -36,7 +36,8 @@ bool DenselineLanePostprocessor::Init(
   const std::string& proto_path =
       GetAbsolutePath(options.detect_config_root, options.detect_config_name);
   if (!cyber::common::GetProtoFromFile(proto_path, &denseline_param)) {
-    AERROR << "Failed to load proto param, root dir: " << options.root_dir;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load proto param, root dir: " << options.root_dir;
     return false;
   }
   const auto& model_param = denseline_param.model_param();
@@ -44,23 +45,27 @@ bool DenselineLanePostprocessor::Init(
   input_offset_y_ = model_param.input_offset_y();
   input_crop_width_ = model_param.crop_width();
   input_crop_height_ = model_param.crop_height();
-  AINFO << " offset_x=" << input_offset_x_ << " offset_y=" << input_offset_y_
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << " offset_x=" << input_offset_x_ << " offset_y=" << input_offset_y_
         << " crop_w=" << input_crop_width_ << " crop_h=" << input_crop_height_;
   //  read postprocessor parameter
   const std::string& root_dir = options.root_dir;
   const std::string& conf_file = options.conf_file;
   const std::string& postprocessor_config =
       GetAbsolutePath(root_dir, conf_file);
-  AINFO << "postprocessor_config: " << postprocessor_config;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "postprocessor_config: " << postprocessor_config;
   if (!cyber::common::GetProtoFromFile(postprocessor_config,
                                        &lane_postprocessor_param_)) {
-    AERROR << "Read config detect_param failed: " << postprocessor_config;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Read config detect_param failed: " << postprocessor_config;
     return false;
   }
   std::string param_str;
   google::protobuf::TextFormat::PrintToString(lane_postprocessor_param_,
                                               &param_str);
-  AINFO << "lane_postprocessor param: " << param_str;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lane_postprocessor param: " << param_str;
   //
   omit_bottom_line_num_ = lane_postprocessor_param_.omit_bottom_line_num();
   laneline_map_score_thresh_ =
@@ -99,14 +104,16 @@ bool DenselineLanePostprocessor::Process2D(
        line_index < static_cast<int>(image_group_point_set_.size());
        line_index++) {
     if (!line_flag[line_index]) {
-      ADEBUG << "line_pos_type is invalid";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "line_pos_type is invalid";
       continue;
     }
     AddImageLaneline(image_group_point_set_[line_index], line_type,
                      line_pos_type_vec[line_index], line_index,
                      &(frame->lane_objects));
   }
-  AINFO << "[AfterProcess2D]lane_lines_num: " << frame->lane_objects.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "[AfterProcess2D]lane_lines_num: " << frame->lane_objects.size();
 
   return true;
 }
@@ -348,7 +355,8 @@ bool DenselineLanePostprocessor::SelectLanecenterCCs(
   select_lane_ccs->clear();
   int lane_ccs_num = static_cast<int>(lane_ccs.size());
   if (lane_ccs_num == 0) {
-    AINFO << "lane_ccs_num is 0.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lane_ccs_num is 0.";
     return false;
   }
   //  select top 3 ccs with largest pixels size
@@ -358,14 +366,16 @@ bool DenselineLanePostprocessor::SelectLanecenterCCs(
   for (int i = 0; i < lane_ccs_num; i++) {
     const std::vector<base::Point2DI>& pixels = lane_ccs[i].GetPixels();
     if (static_cast<int>(pixels.size()) < valid_pixels_num) {
-      AINFO << "pixels_size < valid_pixels_num.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "pixels_size < valid_pixels_num.";
       continue;
     }
     valid_lane_ccs.push_back(lane_ccs[i]);
   }
   int valid_ccs_num = static_cast<int>(valid_lane_ccs.size());
   if (valid_ccs_num == 0) {
-    AINFO << "valid_ccs_num is 0.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "valid_ccs_num is 0.";
     return false;
   }
   std::sort(valid_lane_ccs.begin(), valid_lane_ccs.end(), CompareCCSize);
@@ -388,7 +398,8 @@ bool DenselineLanePostprocessor::LocateLanelinePointSet(
   std::vector<int> out_put_shape = frame->lane_detected_blob->shape();
   int channels = frame->lane_detected_blob->channels();
   if (channels < net_model_channel_num_) {
-    AERROR << "channel (" << channels << ") is less than net channel ("
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "channel (" << channels << ") is less than net channel ("
            << net_model_channel_num_ << ")";
     return false;
   }
@@ -396,7 +407,8 @@ bool DenselineLanePostprocessor::LocateLanelinePointSet(
   lane_map_height_ = frame->lane_detected_blob->height();
   lane_map_width_ = frame->lane_detected_blob->width();
   const float* output_data = frame->lane_detected_blob->cpu_data();
-  ADEBUG << "input_size: [" << input_image_width_ << "," << input_image_height_
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "input_size: [" << input_image_width_ << "," << input_image_height_
          << "] "
          << "output_shape: channels=" << channels
          << " height=" << lane_map_height_ << " width=" << lane_map_width_;
@@ -489,7 +501,8 @@ bool DenselineLanePostprocessor::ClassifyLaneCCsPosTypeInImage(
     }
   }
   if (min_index == -1) {
-    AERROR << "min_index=-1";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "min_index=-1";
     return false;
   }
   //  0: ego-lane
@@ -708,7 +721,8 @@ void DenselineLanePostprocessor::AddImageLaneline(
     avg_dist = sum_dist / static_cast<float>(count);
   }
   if (avg_dist >= laneline_reject_dist_thresh_) {
-    AERROR << "avg_dist>=laneline_reject_dist_thresh_";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "avg_dist>=laneline_reject_dist_thresh_";
     return;
   }
   lane_mark.curve_image_coord.a = img_coeff(3, 0);

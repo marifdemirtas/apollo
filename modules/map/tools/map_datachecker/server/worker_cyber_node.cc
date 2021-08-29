@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -30,19 +29,19 @@ namespace hdmap {
 
 MapDataCheckerCyberNode::MapDataCheckerCyberNode(
     std::shared_ptr<MapDataCheckerAgent> agent, bool *init_success) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!agent) {
-    AFATAL << "MapDataCheckerAgent pointer is nullptr";
-    *init_success = false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "MapDataCheckerAgent pointer is nullptr";
+     *init_success = false;
     return;
   }
 
   agent_ = agent->GetWorkerAgent();
   node_ = apollo::cyber::CreateNode(std::string("cybernode_map_datachecker"));
   if (!node_) {
-    AFATAL << "Create cybertron node failed.";
-    *init_success = false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "Create cybertron node failed.";
+     *init_success = false;
     return;
   }
 
@@ -50,21 +49,22 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   CreateChannelSubscriber();
 
   *init_success = true;
-  AINFO << "map-datachecker cyber node create successfully";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "map-datachecker cyber node create successfully";
+ }
 
 int MapDataCheckerCyberNode::CreateChannelSubscriber() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "create bestgnsspos reader, topic: " << FLAGS_topic_bestgnsspos;
-  bestgnsspos_reader_ = node_->CreateReader<GnssBestPose_t>(
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "create bestgnsspos reader, topic: " << FLAGS_topic_bestgnsspos;
+   bestgnsspos_reader_ = node_->CreateReader<GnssBestPose_t>(
       FLAGS_topic_bestgnsspos,
       [this](const std::shared_ptr<const GnssBestPose_t> &msg) {
         agent_->GetSpPoseCollectionAgent()->OnBestgnssposCallback(msg);
       });
   if (!bestgnsspos_reader_) {
-    AFATAL << "create bestgnsspos reader error";
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AFATAL << "create bestgnsspos reader error";
+     return -1;
   }
   return 0;
 }

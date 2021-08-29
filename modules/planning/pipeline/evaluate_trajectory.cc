@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -46,11 +45,13 @@ void EvaluateTrajectory() {
         ++it;
       }
     }
-    AINFO << "For input " << input << ", found " << source_files.size()
-          << " files to process";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "For input " << input << ", found " << source_files.size()
+           << " files to process";
     for (std::size_t i = 0; i < source_files.size(); ++i) {
-      AINFO << "\tProcessing: [ " << i + 1 << " / " << source_files.size()
-            << " ]: " << source_files[i];
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\tProcessing: [ " << i + 1 << " / " << source_files.size()
+             << " ]: " << source_files[i];
       evaluator.Evaluate(source_files[i]);
     }
   }

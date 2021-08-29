@@ -49,9 +49,12 @@ void ContiArsDetector::RawObs2Frame(
   Eigen::Matrix3d radar2world_rotate = radar2world.block<3, 3>(0, 0);
   Eigen::Matrix3d radar2world_rotate_t = radar2world_rotate.transpose();
   // Eigen::Vector3d radar2world_translation = radar2world.block<3, 1>(0, 3);
-  ADEBUG << "radar2novatel: " << radar2novatel;
-  ADEBUG << "angular_speed: " << angular_speed;
-  ADEBUG << "rotation_radar: " << rotation_radar;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "radar2novatel: " << radar2novatel;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "angular_speed: " << angular_speed;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "rotation_radar: " << rotation_radar;
   for (const auto radar_obs : corrected_obstacles.contiobs()) {
     base::ObjectPtr radar_object(new base::Object);
     radar_object->id = radar_obs.obstacle_id();
@@ -154,7 +157,8 @@ void ContiArsDetector::RawObs2Frame(
 
     radar_frame->objects.push_back(radar_object);
 
-    ADEBUG << "obs_id: " << radar_obs.obstacle_id() << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obs_id: " << radar_obs.obstacle_id() << ", "
            << "long_dist: " << radar_obs.longitude_dist() << ", "
            << "lateral_dist: " << radar_obs.lateral_dist() << ", "
            << "long_vel: " << radar_obs.longitude_vel() << ", "

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -37,33 +36,34 @@ using apollo::localization::LocalizationEstimate;
 using apollo::planning::ADCTrajectory;
 
 ControlComponent::ControlComponent()
-    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {}
 
 bool ControlComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   injector_ = std::make_shared<DependencyInjector>();
   init_time_ = Clock::Now();
 
-  AINFO << "Control init, starting ...";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Control init, starting ...";
+ 
   ACHECK(
       cyber::common::GetProtoFromFile(FLAGS_control_conf_file, &control_conf_))
       << "Unable to load control conf file: " + FLAGS_control_conf_file;
 
-  AINFO << "Conf file: " << FLAGS_control_conf_file << " is loaded.";
-
-  AINFO << "Conf file: " << ConfigFilePath() << " is loaded.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Conf file: " << FLAGS_control_conf_file << " is loaded.";
+ 
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Conf file: " << ConfigFilePath() << " is loaded.";
+ 
   // initial controller agent when not using control submodules
-  ADEBUG << "FLAGS_use_control_submodules: " << FLAGS_use_control_submodules;
-  if (!FLAGS_use_control_submodules &&
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "FLAGS_use_control_submodules: " << FLAGS_use_control_submodules;
+   if (!FLAGS_use_control_submodules &&
       !controller_agent_.Init(injector_, &control_conf_).ok()) {
     // set controller
-    ADEBUG << "original control";
-    monitor_logger_buffer_.ERROR("Control init controller failed! Stopping...");
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "original control";
+     monitor_logger_buffer_.ERROR("Control init controller failed! Stopping...");
     return false;
   }
 
@@ -113,58 +113,55 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   // set initial vehicle state by cmd
   // need to sleep, because advertised channel is not ready immediately
   // simple test shows a short delay of 80 ms or so
-  AINFO << "Control resetting vehicle state, sleeping for 1000 ms ...";
-  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Control resetting vehicle state, sleeping for 1000 ms ...";
+   std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
   // should init_vehicle first, let car enter work status, then use status msg
   // trigger control
 
-  AINFO << "Control default driving action is "
-        << DrivingAction_Name(control_conf_.action());
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Control default driving action is "
+         << DrivingAction_Name(control_conf_.action());
   pad_msg_.set_action(control_conf_.action());
 
   return true;
 }
 
 void ControlComponent::OnPad(const std::shared_ptr<PadMessage> &pad) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(mutex_);
   pad_msg_.CopyFrom(*pad);
-  ADEBUG << "Received Pad Msg:" << pad_msg_.DebugString();
-  AERROR_IF(!pad_msg_.has_action()) << "pad message check failed!";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received Pad Msg:" << pad_msg_.DebugString();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_IF(!pad_msg_.has_action()) << "pad message check failed!";
 }
 
 void ControlComponent::OnChassis(const std::shared_ptr<Chassis> &chassis) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  ADEBUG << "Received chassis data: run chassis callback.";
-  std::lock_guard<std::mutex> lock(mutex_);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received chassis data: run chassis callback.";
+   std::lock_guard<std::mutex> lock(mutex_);
   latest_chassis_.CopyFrom(*chassis);
 }
 
 void ControlComponent::OnPlanning(
     const std::shared_ptr<ADCTrajectory> &trajectory) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  ADEBUG << "Received chassis data: run trajectory callback.";
-  std::lock_guard<std::mutex> lock(mutex_);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received chassis data: run trajectory callback.";
+   std::lock_guard<std::mutex> lock(mutex_);
   latest_trajectory_.CopyFrom(*trajectory);
 }
 
 void ControlComponent::OnLocalization(
     const std::shared_ptr<LocalizationEstimate> &localization) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  ADEBUG << "Received control data: run localization message callback.";
-  std::lock_guard<std::mutex> lock(mutex_);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received control data: run localization message callback.";
+   std::lock_guard<std::mutex> lock(mutex_);
   latest_localization_.CopyFrom(*localization);
 }
 
 void ControlComponent::OnMonitor(
     const common::monitor::MonitorMessage &monitor_message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (const auto &item : monitor_message.item()) {
     if (item.log_level() == common::monitor::MonitorMessageItem::FATAL) {
       estop_ = true;
@@ -175,13 +172,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Status ControlComponent::ProduceControlCommand(
     ControlCommand *control_command) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Status status = CheckInput(&local_view_);
   // check data
 
   if (!status.ok()) {
-    AERROR_EVERY(100) << "Control input data failed: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "Control input data failed: "
                       << status.error_message();
     control_command->mutable_engage_advice()->set_advice(
         apollo::common::EngageAdvice::DISALLOW_ENGAGE);
@@ -192,7 +188,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   } else {
     Status status_ts = CheckTimestamp(local_view_);
     if (!status_ts.ok()) {
-      AERROR << "Input messages timeout";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input messages timeout";
       // estop_ = true;
       status = status_ts;
       if (local_view_.chassis().driving_mode() !=
@@ -239,7 +236,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (!estop_) {
     if (local_view_.chassis().driving_mode() == Chassis::COMPLETE_MANUAL) {
       controller_agent_.Reset();
-      AINFO_EVERY(100) << "Reset Controllers in Manual Mode";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO_EVERY(100) << "Reset Controllers in Manual Mode";
     }
 
     auto debug = control_command->mutable_debug()->mutable_input_debug();
@@ -263,7 +261,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         &local_view_.trajectory(), control_command);
 
     if (!status_compute.ok()) {
-      AERROR << "Control main function failed"
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Control main function failed"
              << " with localization: "
              << local_view_.localization().ShortDebugString()
              << " with chassis: " << local_view_.chassis().ShortDebugString()
@@ -294,14 +293,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool ControlComponent::Proc() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto start_time = Clock::Now();
 
   chassis_reader_->Observe();
   const auto &chassis_msg = chassis_reader_->GetLatestObserved();
   if (chassis_msg == nullptr) {
-    AERROR << "Chassis msg is not ready!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Chassis msg is not ready!";
     return false;
   }
 
@@ -310,7 +308,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   trajectory_reader_->Observe();
   const auto &trajectory_msg = trajectory_reader_->GetLatestObserved();
   if (trajectory_msg == nullptr) {
-    AERROR << "planning msg is not ready!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "planning msg is not ready!";
     return false;
   }
   OnPlanning(trajectory_msg);
@@ -318,7 +317,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   localization_reader_->Observe();
   const auto &localization_msg = localization_reader_->GetLatestObserved();
   if (localization_msg == nullptr) {
-    AERROR << "localization msg is not ready!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "localization msg is not ready!";
     return false;
   }
   OnLocalization(localization_msg);
@@ -364,10 +364,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 
   if (pad_msg != nullptr) {
-    ADEBUG << "pad_msg: " << pad_msg_.ShortDebugString();
-    if (pad_msg_.action() == DrivingAction::RESET) {
-      AINFO << "Control received RESET action!";
-      estop_ = false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "pad_msg: " << pad_msg_.ShortDebugString();
+     if (pad_msg_.action() == DrivingAction::RESET) {
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Control received RESET action!";
+       estop_ = false;
       estop_reason_.clear();
     }
     pad_received_ = true;
@@ -377,14 +379,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       control_conf_.control_test_duration() > 0 &&
       (start_time - init_time_).ToSecond() >
           control_conf_.control_test_duration()) {
-    AERROR << "Control finished testing. exit";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Control finished testing. exit";
     return false;
   }
 
   ControlCommand control_command;
 
   Status status = ProduceControlCommand(&control_command);
-  AERROR_IF(!status.ok()) << "Failed to produce control command:"
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_IF(!status.ok()) << "Failed to produce control command:"
                           << status.error_message();
 
   if (pad_received_) {
@@ -407,21 +411,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   common::util::FillHeader(node_->Name(), &control_command);
 
-  ADEBUG << control_command.ShortDebugString();
-  if (control_conf_.is_control_test_mode()) {
-    ADEBUG << "Skip publish control command in test mode";
-    return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << control_command.ShortDebugString();
+   if (control_conf_.is_control_test_mode()) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip publish control command in test mode";
+     return true;
   }
 
   const auto end_time = Clock::Now();
   const double time_diff_ms = (end_time - start_time).ToSecond() * 1e3;
-  ADEBUG << "total control time spend: " << time_diff_ms << " ms.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "total control time spend: " << time_diff_ms << " ms.";
+ 
   control_command.mutable_latency_stats()->set_total_time_ms(time_diff_ms);
   control_command.mutable_latency_stats()->set_total_time_exceeded(
       time_diff_ms > control_conf_.control_period() * 1e3);
-  ADEBUG << "control cycle time is: " << time_diff_ms << " ms.";
-  status.Save(control_command.mutable_header()->mutable_status());
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "control cycle time is: " << time_diff_ms << " ms.";
+   status.Save(control_command.mutable_header()->mutable_status());
 
   // measure latency
   if (local_view_.trajectory().header().has_lidar_timestamp()) {
@@ -437,12 +445,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Status ControlComponent::CheckInput(LocalView *local_view) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  ADEBUG << "Received localization:"
-         << local_view->localization().ShortDebugString();
-  ADEBUG << "Received chassis:" << local_view->chassis().ShortDebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received localization:"
+          << local_view->localization().ShortDebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received chassis:" << local_view->chassis().ShortDebugString();
+ 
   if (!local_view->trajectory().estop().is_estop() &&
       local_view->trajectory().trajectory_point().empty()) {
     AWARN_EVERY(100) << "planning has no trajectory point. ";
@@ -470,19 +478,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Status ControlComponent::CheckTimestamp(const LocalView &local_view) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!control_conf_.enable_input_timestamp_check() ||
       control_conf_.is_control_test_mode()) {
-    ADEBUG << "Skip input timestamp check by gflags.";
-    return Status::OK();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip input timestamp check by gflags.";
+     return Status::OK();
   }
   double current_timestamp = Clock::NowInSeconds();
   double localization_diff =
       current_timestamp - local_view.localization().header().timestamp_sec();
   if (localization_diff > (control_conf_.max_localization_miss_num() *
                            control_conf_.localization_period())) {
-    AERROR << "Localization msg lost for " << std::setprecision(6)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Localization msg lost for " << std::setprecision(6)
            << localization_diff << "s";
     monitor_logger_buffer_.ERROR("Localization msg lost");
     return Status(ErrorCode::CONTROL_COMPUTE_ERROR, "Localization msg timeout");
@@ -492,7 +500,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       current_timestamp - local_view.chassis().header().timestamp_sec();
   if (chassis_diff >
       (control_conf_.max_chassis_miss_num() * control_conf_.chassis_period())) {
-    AERROR << "Chassis msg lost for " << std::setprecision(6) << chassis_diff
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Chassis msg lost for " << std::setprecision(6) << chassis_diff
            << "s";
     monitor_logger_buffer_.ERROR("Chassis msg lost");
     return Status(ErrorCode::CONTROL_COMPUTE_ERROR, "Chassis msg timeout");
@@ -502,7 +511,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       current_timestamp - local_view.trajectory().header().timestamp_sec();
   if (trajectory_diff > (control_conf_.max_planning_miss_num() *
                          control_conf_.trajectory_period())) {
-    AERROR << "Trajectory msg lost for " << std::setprecision(6)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Trajectory msg lost for " << std::setprecision(6)
            << trajectory_diff << "s";
     monitor_logger_buffer_.ERROR("Trajectory msg lost");
     return Status(ErrorCode::CONTROL_COMPUTE_ERROR, "Trajectory msg timeout");

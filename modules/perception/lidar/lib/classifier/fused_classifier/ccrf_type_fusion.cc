@@ -55,8 +55,10 @@ bool CCRFOneShotTypeFusion::Init(const TypeFusionInitOption& option) {
   for (auto& pair : smooth_matrices_) {
     util::NormalizeRow(&pair.second);
     pair.second.transposeInPlace();
-    AINFO << "Source: " << pair.first;
-    AINFO << std::endl << pair.second;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Source: " << pair.first;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << std::endl << pair.second;
   }
 
   confidence_smooth_matrix_ = Matrixd::Identity();
@@ -65,8 +67,10 @@ bool CCRFOneShotTypeFusion::Init(const TypeFusionInitOption& option) {
     confidence_smooth_matrix_ = iter->second;
     smooth_matrices_.erase(iter);
   }
-  AINFO << "Confidence: ";
-  AINFO << std::endl << confidence_smooth_matrix_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Confidence: ";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << std::endl << confidence_smooth_matrix_;
 
   return true;
 }
@@ -148,14 +152,17 @@ bool CCRFSequenceTypeFusion::Init(const TypeFusionInitOption& option) {
                                     &transition_matrix_));
   transition_matrix_ += Matrixd::Ones() * 1e-6;
   util::NormalizeRow(&transition_matrix_);
-  AINFO << "transition matrix";
-  AINFO << std::endl << transition_matrix_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "transition matrix";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << std::endl << transition_matrix_;
   for (std::size_t i = 0; i < VALID_OBJECT_TYPE; ++i) {
     for (std::size_t j = 0; j < VALID_OBJECT_TYPE; ++j) {
       transition_matrix_(i, j) = log(transition_matrix_(i, j));
     }
   }
-  AINFO << std::endl << transition_matrix_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << std::endl << transition_matrix_;
   return true;
 }
 
@@ -172,15 +179,15 @@ bool CCRFSequenceTypeFusion::TypeFusion(const TypeFusionOption& option,
 
 bool CCRFSequenceTypeFusion::FuseWithConditionalProbabilityInference(
     TrackedObjects* tracked_objects) {
-  // AINFO << "Enter fuse with conditional probability inference";
-  fused_oneshot_probs_.resize(tracked_objects->size());
+    fused_oneshot_probs_.resize(tracked_objects->size());
 
   std::size_t i = 0;
   for (auto& pair : *tracked_objects) {
     ObjectPtr& object = pair.second;
     if (!one_shot_fuser_.FuseOneShotTypeProbs(object,
                                               &fused_oneshot_probs_[i++])) {
-      AERROR << "Failed to fuse one short probs in sequence.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to fuse one short probs in sequence.";
       return false;
     }
   }

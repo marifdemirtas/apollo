@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -27,20 +26,14 @@ using torch::indexing::None;
 using torch::indexing::Slice;
 using apollo::common::math::NormalizeAngle;
 
-DirectionDetection::DirectionDetection() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+DirectionDetection::DirectionDetection() {}
 
-DirectionDetection::~DirectionDetection() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+DirectionDetection::~DirectionDetection() {}
 
 std::pair<Point3D, double> DirectionDetection::EstimateSoundSource(
     std::vector<std::vector<double>>&& channels_vec,
     const std::string& respeaker_extrinsic_file, const int sample_rate,
     const double mic_distance) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!respeaker2imu_ptr_.get()) {
     respeaker2imu_ptr_.reset(new Eigen::Matrix4d);
     LoadExtrinsics(respeaker_extrinsic_file, respeaker2imu_ptr_.get());
@@ -62,8 +55,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 double DirectionDetection::EstimateDirection(
     std::vector<std::vector<double>>&& channels_vec, const int sample_rate,
     const double mic_distance) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::vector<torch::Tensor> channels_ts;
   auto options = torch::TensorOptions().dtype(torch::kFloat64);
   int size = static_cast<int>(channels_vec[0].size());
@@ -93,11 +84,10 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool DirectionDetection::LoadExtrinsics(const std::string& yaml_file,
                                         Eigen::Matrix4d* respeaker_extrinsic) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!apollo::cyber::common::PathExists(yaml_file)) {
-    AINFO << yaml_file << " does not exist!";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << yaml_file << " does not exist!";
+     return false;
   }
   YAML::Node node = YAML::LoadFile(yaml_file);
   double qw = 0.0;
@@ -109,8 +99,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   double tz = 0.0;
   try {
     if (node.IsNull()) {
-      AINFO << "Load " << yaml_file << " failed! please check!";
-      return false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Load " << yaml_file << " failed! please check!";
+       return false;
     }
     qw = node["transform"]["rotation"]["w"].as<double>();
     qx = node["transform"]["rotation"]["x"].as<double>();
@@ -120,7 +111,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     ty = node["transform"]["translation"]["y"].as<double>();
     tz = node["transform"]["translation"]["z"].as<double>();
   } catch (YAML::Exception& e) {
-    AERROR << "load camera extrinsic file " << yaml_file
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "load camera extrinsic file " << yaml_file
            << " with error, YAML exception:" << e.what();
     return false;
   }
@@ -141,8 +133,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 double DirectionDetection::GccPhat(const torch::Tensor& sig,
                                    const torch::Tensor& refsig, int fs,
                                    double max_tau, int interp) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const int n_sig = sig.size(0), n_refsig = refsig.size(0),
             n = n_sig + n_refsig;
   torch::Tensor psig = at::constant_pad_nd(sig, {0, n_refsig}, 0);
@@ -169,15 +159,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void DirectionDetection::ConjugateTensor(torch::Tensor* tensor) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   tensor->index_put_({"...", 1}, -tensor->index({"...", 1}));
 }
 
 torch::Tensor DirectionDetection::ComplexMultiply(const torch::Tensor& a,
                                                   const torch::Tensor& b) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   torch::Tensor real = a.index({"...", 0}) * b.index({"...", 0}) -
                        a.index({"...", 1}) * b.index({"...", 1});
   torch::Tensor imag = a.index({"...", 0}) * b.index({"...", 1}) +
@@ -186,8 +172,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 torch::Tensor DirectionDetection::ComplexAbsolute(const torch::Tensor& tensor) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   torch::Tensor res = tensor * tensor;
   res = at::sqrt(res.sum(1)).reshape({-1, 1});
 

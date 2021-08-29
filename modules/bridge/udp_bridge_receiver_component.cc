@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,14 +28,10 @@ namespace bridge {
 
 template <typename T>
 UDPBridgeReceiverComponent<T>::UDPBridgeReceiverComponent()
-    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {}
 
 template <typename T>
 UDPBridgeReceiverComponent<T>::~UDPBridgeReceiverComponent() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (auto proto : proto_list_) {
     FREE_POINTER(proto);
   }
@@ -44,52 +39,50 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "UDP bridge receiver init, startin...";
-  apollo::bridge::UDPBridgeReceiverRemoteInfo udp_bridge_remote;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "UDP bridge receiver init, startin...";
+   apollo::bridge::UDPBridgeReceiverRemoteInfo udp_bridge_remote;
   if (!this->GetProtoConfig(&udp_bridge_remote)) {
-    AINFO << "load udp bridge component proto param failed";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "load udp bridge component proto param failed";
+     return false;
   }
   bind_port_ = udp_bridge_remote.bind_port();
   proto_name_ = udp_bridge_remote.proto_name();
   topic_name_ = udp_bridge_remote.topic_name();
   enable_timeout_ = udp_bridge_remote.enable_timeout();
-  ADEBUG << "UDP Bridge remote port is: " << bind_port_;
-  ADEBUG << "UDP Bridge for Proto is: " << proto_name_;
-  writer_ = node_->CreateWriter<T>(topic_name_.c_str());
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "UDP Bridge remote port is: " << bind_port_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "UDP Bridge for Proto is: " << proto_name_;
+   writer_ = node_->CreateWriter<T>(topic_name_.c_str());
 
   if (!InitSession((uint16_t)bind_port_)) {
     return false;
   }
-  ADEBUG << "initialize session successful.";
-  MsgDispatcher();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "initialize session successful.";
+   MsgDispatcher();
   return true;
 }
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::InitSession(uint16_t port) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return listener_->Initialize(this, &UDPBridgeReceiverComponent<T>::MsgHandle,
                                port);
 }
 
 template <typename T>
 void UDPBridgeReceiverComponent<T>::MsgDispatcher() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  ADEBUG << "msg dispatcher start successful.";
-  listener_->Listen();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "msg dispatcher start successful.";
+   listener_->Listen();
 }
 
 template <typename T>
 BridgeProtoDiserializedBuf<T>
     *UDPBridgeReceiverComponent<T>::CreateBridgeProtoBuf(
         const BridgeHeader &header) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (IsTimeout(header.GetTimeStamp())) {
     typename std::vector<BridgeProtoDiserializedBuf<T> *>::iterator itor =
         proto_list_.begin();
@@ -121,8 +114,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::IsProtoExist(const BridgeHeader &header) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (auto proto : proto_list_) {
     if (proto->IsTheProto(header)) {
       return true;
@@ -133,8 +124,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::IsTimeout(double time_stamp) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (enable_timeout_ == false) {
     return false;
   }
@@ -150,8 +139,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::MsgHandle(int fd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   struct sockaddr_in client_addr;
   socklen_t sock_len = static_cast<socklen_t>(sizeof(client_addr));
   int bytes = 0;
@@ -160,16 +147,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   bytes =
       static_cast<int>(recvfrom(fd, total_buf, total_recv, 0,
                                 (struct sockaddr *)&client_addr, &sock_len));
-  ADEBUG << "total recv " << bytes;
-  if (bytes <= 0 || bytes > total_recv) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "total recv " << bytes;
+   if (bytes <= 0 || bytes > total_recv) {
     return false;
   }
   char header_flag[sizeof(BRIDGE_HEADER_FLAG) + 1] = {0};
   size_t offset = 0;
   memcpy(header_flag, total_buf, HEADER_FLAG_SIZE);
   if (strcmp(header_flag, BRIDGE_HEADER_FLAG) != 0) {
-    AINFO << "header flag not match!";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "header flag not match!";
+     return false;
   }
   offset += sizeof(BRIDGE_HEADER_FLAG) + 1;
 
@@ -178,8 +167,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   memcpy(header_size_buf, cursor, sizeof(hsize));
   hsize header_size = *(reinterpret_cast<hsize *>(header_size_buf));
   if (header_size > FRAME_SIZE) {
-    AINFO << "header size is more than FRAME_SIZE!";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "header size is more than FRAME_SIZE!";
+     return false;
   }
   offset += sizeof(hsize) + 1;
 
@@ -187,15 +177,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   size_t buf_size = header_size - offset;
   cursor = total_buf + offset;
   if (!header.Diserialize(cursor, buf_size)) {
-    AINFO << "header diserialize failed!";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "header diserialize failed!";
+     return false;
   }
 
-  ADEBUG << "proto name : " << header.GetMsgName().c_str();
-  ADEBUG << "proto sequence num: " << header.GetMsgID();
-  ADEBUG << "proto total frames: " << header.GetTotalFrames();
-  ADEBUG << "proto frame index: " << header.GetIndex();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "proto name : " << header.GetMsgName().c_str();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "proto sequence num: " << header.GetMsgID();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "proto total frames: " << header.GetTotalFrames();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "proto frame index: " << header.GetIndex();
+ 
   std::lock_guard<std::mutex> lock(mutex_);
   BridgeProtoDiserializedBuf<T> *proto_buf = CreateBridgeProtoBuf(header);
   if (!proto_buf) {
@@ -218,8 +213,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 template <typename T>
 bool UDPBridgeReceiverComponent<T>::RemoveInvalidBuf(uint32_t msg_id) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (msg_id == 0) {
     return false;
   }

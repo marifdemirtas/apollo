@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace gem {
 
 using ::apollo::drivers::canbus::Byte;
 
-Globalrpt6a::Globalrpt6a() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Globalrpt6a::Globalrpt6a() {}
 const int32_t Globalrpt6a::ID = 0x6A;
 
 void Globalrpt6a::Parse(const std::uint8_t* bytes, int32_t length,
                         ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_gem()->mutable_global_rpt_6a()->set_pacmod_status(
       pacmod_status(bytes, length));
   chassis->mutable_gem()->mutable_global_rpt_6a()->set_override_status(
@@ -60,8 +55,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Global_rpt_6a::Pacmod_statusType Globalrpt6a::pacmod_status(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 
@@ -77,8 +70,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'physical_unit': ''}
 Global_rpt_6a::Override_statusType Globalrpt6a::override_status(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(1, 1);
 
@@ -92,8 +83,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Globalrpt6a::veh_can_timeout(const std::uint8_t* bytes,
                                   int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(2, 1);
 
@@ -106,8 +95,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Globalrpt6a::str_can_timeout(const std::uint8_t* bytes,
                                   int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(3, 1);
 
@@ -122,8 +109,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'enum', 'order': 'motorola', 'physical_unit': ''}
 Global_rpt_6a::Brk_can_timeoutType Globalrpt6a::brk_can_timeout(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 1);
 
@@ -137,8 +122,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 bool Globalrpt6a::usr_can_timeout(const std::uint8_t* bytes,
                                   int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(5, 1);
 
@@ -152,8 +135,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // ''}
 int Globalrpt6a::usr_can_read_errors(const std::uint8_t* bytes,
                                      int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
 

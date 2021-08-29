@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -26,8 +25,6 @@ namespace localization {
 namespace msf {
 
 bool OnlineLocalizationExpert::Init(const LocalizationIntegParam &param) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   msf_status_.set_local_lidar_consistency(MSF_LOCAL_LIDAR_CONSISTENCY_03);
   msf_status_.set_gnss_consistency(MSF_GNSS_CONSISTENCY_03);
   msf_status_.set_local_lidar_status(MSF_LOCAL_LIDAR_UNDEFINED_STATUS);
@@ -56,8 +53,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void OnlineLocalizationExpert::AddImu(const ImuData &data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   double cur_imu_time = data.measurement_time;
   CheckImuDelayStatus(cur_imu_time);
   CheckImuMissingStatus(cur_imu_time);
@@ -66,15 +61,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void OnlineLocalizationExpert::AddFusionLocalization(
     const LocalizationEstimate &data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   SetLocalizationStatus(data);
 }
 
 void OnlineLocalizationExpert::AddLidarLocalization(
     const LocalizationEstimate &data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   msf_status_mutex_.lock();
   msf_status_.set_local_lidar_status(data.msf_status().local_lidar_status());
   msf_status_.set_local_lidar_quality(data.msf_status().local_lidar_quality());
@@ -86,8 +77,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void OnlineLocalizationExpert::AddGnssBestPose(
     const drivers::gnss::GnssBestPose &msg, const MeasureData &data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int gnss_solution_status = static_cast<int>(msg.sol_status());
   int gnss_position_type = static_cast<int>(msg.sol_type());
 
@@ -109,24 +98,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void OnlineLocalizationExpert::CheckImuDelayStatus(const double &cur_imu_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sensor_status_.set_imu_delay_status(apollo::localization::IMU_DELAY_NORMAL);
   double cur_system_time = apollo::cyber::Clock::NowInSeconds();
   double delta_system_time = cur_system_time - cur_imu_time;
   if (delta_system_time > imu_delay_time_threshold_1_) {
-    ADEBUG << std::setprecision(16) << "the imu delays " << delta_system_time
-           << ", the current system time is " << cur_system_time
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << std::setprecision(16) << "the imu delays " << delta_system_time
+            << ", the current system time is " << cur_system_time
            << ", the imu timestamp is " << cur_imu_time;
     sensor_status_.set_imu_delay_status(apollo::localization::IMU_DELAY_3);
   } else if (delta_system_time > imu_delay_time_threshold_2_) {
-    ADEBUG << std::setprecision(16) << "the imu delays " << delta_system_time
-           << ", the current system time is " << cur_system_time
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << std::setprecision(16) << "the imu delays " << delta_system_time
+            << ", the current system time is " << cur_system_time
            << ", the imu timestamp is " << cur_imu_time;
     sensor_status_.set_imu_delay_status(apollo::localization::IMU_DELAY_2);
   } else if (delta_system_time > imu_delay_time_threshold_3_) {
-    ADEBUG << std::setprecision(16) << "the imu delays " << delta_system_time
-           << ", the current system time is " << cur_system_time
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << std::setprecision(16) << "the imu delays " << delta_system_time
+            << ", the current system time is " << cur_system_time
            << ", the imu timestamp is " << cur_imu_time;
     sensor_status_.set_imu_delay_status(apollo::localization::IMU_DELAY_1);
   }
@@ -134,30 +124,32 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void OnlineLocalizationExpert::CheckImuMissingStatus(
     const double &cur_imu_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   sensor_status_.set_imu_missing_status(
       ImuMsgMissingStatus::IMU_MISSING_NORMAL);
   static double pre_imu_time = cur_imu_time;
   double delta_time = cur_imu_time - pre_imu_time;
   if (delta_time > imu_missing_time_threshold_1_) {
-    ADEBUG << std::setprecision(16) << "The imu message loss more than 100ms, "
-           << "the pre time and current time: " << pre_imu_time << " "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << std::setprecision(16) << "The imu message loss more than 100ms, "
+            << "the pre time and current time: " << pre_imu_time << " "
            << cur_imu_time;
     sensor_status_.set_imu_missing_status(ImuMsgMissingStatus::IMU_MISSING_3);
   } else if (delta_time > imu_missing_time_threshold_2_) {
-    ADEBUG << std::setprecision(16) << "The imu message loss more than 50ms, "
-           << "the pre time and current time: " << pre_imu_time << " "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << std::setprecision(16) << "The imu message loss more than 50ms, "
+            << "the pre time and current time: " << pre_imu_time << " "
            << cur_imu_time;
     sensor_status_.set_imu_missing_status(ImuMsgMissingStatus::IMU_MISSING_2);
   } else if (delta_time > imu_missing_time_threshold_3_) {
-    ADEBUG << std::setprecision(16) << "The imu message loss more than 10ms, "
-           << "the pre time and current time: " << pre_imu_time << " "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << std::setprecision(16) << "The imu message loss more than 10ms, "
+            << "the pre time and current time: " << pre_imu_time << " "
            << cur_imu_time;
     sensor_status_.set_imu_missing_status(ImuMsgMissingStatus::IMU_MISSING_1);
   } else if (delta_time < 0.0) {
-    ADEBUG << std::setprecision(16) << "Received imu message's time "
-           << "is earlier than last imu message,"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << std::setprecision(16) << "Received imu message's time "
+            << "is earlier than last imu message,"
            << "the pre time and current time: " << pre_imu_time << " "
            << cur_imu_time;
     sensor_status_.set_imu_missing_status(
@@ -168,14 +160,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void OnlineLocalizationExpert::CheckGnssLidarMsfStatus(
     const double &cur_imu_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::lock_guard<std::mutex> lock(msf_status_mutex_);
   latest_gnsspos_timestamp_mutex_.lock();
   if (cur_imu_time - latest_gnsspos_timestamp_ >
       bestgnsspose_loss_time_threshold_) {
-    AINFO << std::setprecision(15)
-          << "The bestgnsspose msg loses more than 2 seconds: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << std::setprecision(15)
+           << "The bestgnsspose msg loses more than 2 seconds: "
           << "imu time and latest gnss time: " << cur_imu_time << " "
           << latest_gnsspos_timestamp_;
     msf_status_.set_gnsspos_position_type(apollo::localization::MSG_LOSS);
@@ -183,8 +174,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   latest_gnsspos_timestamp_mutex_.unlock();
   latest_lidar_timestamp_mutex_.lock();
   if (cur_imu_time - latest_lidar_timestamp_ > lidar_loss_time_threshold_) {
-    AINFO << std::setprecision(15)
-          << "The local lidar msg loses more than 2 seconds: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << std::setprecision(15)
+           << "The local lidar msg loses more than 2 seconds: "
           << "imu time and latest local lidar time: " << cur_imu_time << " "
           << latest_lidar_timestamp_;
     msf_status_.set_local_lidar_status(
@@ -196,8 +188,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void OnlineLocalizationExpert::SetLocalizationStatus(
     const LocalizationEstimate &data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   apollo::common::Point3D position_std = data.uncertainty().position_std_dev();
   std::lock_guard<std::mutex> lock(msf_status_mutex_);
   if (position_std.x() < localization_std_x_threshold_1_ &&
@@ -446,8 +436,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void OnlineLocalizationExpert::GetFusionStatus(
     MsfStatus *msf_status, MsfSensorMsgStatus *sensor_status,
     LocalizationIntegStatus *integ_status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   {
     std::unique_lock<std::mutex> lock(msf_status_mutex_);
     msf_status->set_local_lidar_consistency(
@@ -467,8 +455,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void OnlineLocalizationExpert::GetGnssStatus(MsfStatus *msf_status) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::unique_lock<std::mutex> lock(msf_status_mutex_);
   msf_status->set_gnsspos_position_type(msf_status_.gnsspos_position_type());
 }

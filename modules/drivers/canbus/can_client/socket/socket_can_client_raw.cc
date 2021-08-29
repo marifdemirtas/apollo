@@ -35,7 +35,8 @@ using apollo::common::ErrorCode;
 
 bool SocketCanClientRaw::Init(const CANCardParameter &parameter) {
   if (!parameter.has_channel_id()) {
-    AERROR << "Init CAN failed: parameter does not have channel id. The "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Init CAN failed: parameter does not have channel id. The "
               "parameter is "
            << parameter.DebugString();
     return false;
@@ -45,7 +46,8 @@ bool SocketCanClientRaw::Init(const CANCardParameter &parameter) {
   interface_ = parameter.interface();
   auto num_ports = parameter.num_ports();
   if (port_ > static_cast<int32_t>(num_ports) || port_ < 0) {
-    AERROR << "Can port number [" << port_ << "] is out of range [0, "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can port number [" << port_ << "] is out of range [0, "
            << num_ports << ") !";
     return false;
   }
@@ -72,7 +74,8 @@ ErrorCode SocketCanClientRaw::Start() {
   // &dev_handler_);
   dev_handler_ = socket(PF_CAN, SOCK_RAW, CAN_RAW);
   if (dev_handler_ < 0) {
-    AERROR << "open device error code [" << dev_handler_ << "]: ";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "open device error code [" << dev_handler_ << "]: ";
     return ErrorCode::CAN_CLIENT_ERROR_BASE;
   }
 
@@ -89,7 +92,8 @@ ErrorCode SocketCanClientRaw::Start() {
     ret = setsockopt(dev_handler_, SOL_CAN_RAW, CAN_RAW_FILTER, &filter,
                      sizeof(filter));
     if (ret < 0) {
-      AERROR << "add receive msg id filter error code: " << ret;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "add receive msg id filter error code: " << ret;
       return ErrorCode::CAN_CLIENT_ERROR_BASE;
     }
   }
@@ -99,7 +103,8 @@ ErrorCode SocketCanClientRaw::Start() {
   ret = ::setsockopt(dev_handler_, SOL_CAN_RAW, CAN_RAW_FD_FRAMES, &enable,
                      sizeof(enable));
   if (ret < 0) {
-    AERROR << "enable reception of can frame error code: " << ret;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "enable reception of can frame error code: " << ret;
     return ErrorCode::CAN_CLIENT_ERROR_BASE;
   }
 
@@ -115,7 +120,8 @@ ErrorCode SocketCanClientRaw::Start() {
   const std::string can_name = absl::StrCat(interface_prefix, port_);
   std::strncpy(ifr.ifr_name, can_name.c_str(), IFNAMSIZ);
   if (ioctl(dev_handler_, SIOCGIFINDEX, &ifr) < 0) {
-    AERROR << "ioctl error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ioctl error";
     return ErrorCode::CAN_CLIENT_ERROR_BASE;
   }
 
@@ -127,7 +133,8 @@ ErrorCode SocketCanClientRaw::Start() {
                sizeof(addr));
 
   if (ret < 0) {
-    AERROR << "bind socket to network interface error code: " << ret;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "bind socket to network interface error code: " << ret;
     return ErrorCode::CAN_CLIENT_ERROR_BASE;
   }
 
@@ -141,9 +148,11 @@ void SocketCanClientRaw::Stop() {
 
     int ret = close(dev_handler_);
     if (ret < 0) {
-      AERROR << "close error code:" << ret << ", " << GetErrorString(ret);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "close error code:" << ret << ", " << GetErrorString(ret);
     } else {
-      AINFO << "close socket can ok. port:" << port_;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "close socket can ok. port:" << port_;
     }
   }
 }
@@ -155,12 +164,14 @@ ErrorCode SocketCanClientRaw::Send(const std::vector<CanFrame> &frames,
   CHECK_EQ(frames.size(), static_cast<size_t>(*frame_num));
 
   if (!is_started_) {
-    AERROR << "Nvidia can client has not been initiated! Please init first!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Nvidia can client has not been initiated! Please init first!";
     return ErrorCode::CAN_CLIENT_ERROR_SEND_FAILED;
   }
   for (size_t i = 0; i < frames.size() && i < MAX_CAN_SEND_FRAME_LEN; ++i) {
     if (frames[i].len > CANBUS_MESSAGE_LENGTH || frames[i].len < 0) {
-      AERROR << "frames[" << i << "].len = " << frames[i].len
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "frames[" << i << "].len = " << frames[i].len
              << ", which is not equal to can message data length ("
              << CANBUS_MESSAGE_LENGTH << ").";
       return ErrorCode::CAN_CLIENT_ERROR_SEND_FAILED;
@@ -173,7 +184,8 @@ ErrorCode SocketCanClientRaw::Send(const std::vector<CanFrame> &frames,
     int ret = static_cast<int>(
         write(dev_handler_, &send_frames_[i], sizeof(send_frames_[i])));
     if (ret <= 0) {
-      AERROR << "send message failed, error code: " << ret;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "send message failed, error code: " << ret;
       return ErrorCode::CAN_CLIENT_ERROR_BASE;
     }
   }
@@ -185,12 +197,14 @@ ErrorCode SocketCanClientRaw::Send(const std::vector<CanFrame> &frames,
 ErrorCode SocketCanClientRaw::Receive(std::vector<CanFrame> *const frames,
                                       int32_t *const frame_num) {
   if (!is_started_) {
-    AERROR << "Nvidia can client is not init! Please init first!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Nvidia can client is not init! Please init first!";
     return ErrorCode::CAN_CLIENT_ERROR_RECV_FAILED;
   }
 
   if (*frame_num > MAX_CAN_RECV_FRAME_LEN || *frame_num < 0) {
-    AERROR << "recv can frame num not in range[0, " << MAX_CAN_RECV_FRAME_LEN
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "recv can frame num not in range[0, " << MAX_CAN_RECV_FRAME_LEN
            << "], frame_num:" << *frame_num;
     // TODO(Authors): check the difference of returning frame_num/error_code
     return ErrorCode::CAN_CLIENT_ERROR_FRAME_NUM;
@@ -201,12 +215,14 @@ ErrorCode SocketCanClientRaw::Receive(std::vector<CanFrame> *const frames,
     auto ret = read(dev_handler_, &recv_frames_[i], sizeof(recv_frames_[i]));
 
     if (ret < 0) {
-      AERROR << "receive message failed, error code: " << ret;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "receive message failed, error code: " << ret;
       return ErrorCode::CAN_CLIENT_ERROR_BASE;
     }
     if (recv_frames_[i].can_dlc > CANBUS_MESSAGE_LENGTH ||
         recv_frames_[i].can_dlc < 0) {
-      AERROR << "recv_frames_[" << i
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "recv_frames_[" << i
              << "].can_dlc = " << recv_frames_[i].can_dlc
              << ", which is not equal to can message data length ("
              << CANBUS_MESSAGE_LENGTH << ").";

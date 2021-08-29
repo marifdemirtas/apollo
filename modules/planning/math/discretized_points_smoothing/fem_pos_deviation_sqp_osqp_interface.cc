@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -32,22 +31,26 @@ namespace planning {
 bool FemPosDeviationSqpOsqpInterface::Solve() {
   // Sanity Check
   if (ref_points_.empty()) {
-    AERROR << "reference points empty, solver early terminates";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "reference points empty, solver early terminates";
     return false;
   }
 
   if (ref_points_.size() != bounds_around_refs_.size()) {
-    AERROR << "ref_points and bounds size not equal, solver early terminates";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ref_points and bounds size not equal, solver early terminates";
     return false;
   }
 
   if (ref_points_.size() < 3) {
-    AERROR << "ref_points size smaller than 3, solver early terminates";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ref_points size smaller than 3, solver early terminates";
     return false;
   }
 
   if (ref_points_.size() > std::numeric_limits<int>::max()) {
-    AERROR << "ref_points size too large, solver early terminates";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ref_points size too large, solver early terminates";
     return false;
   }
 
@@ -121,7 +124,8 @@ bool FemPosDeviationSqpOsqpInterface::Solve() {
   bool initial_solve_res = OptimizeWithOsqp(primal_warm_start, &work);
 
   if (!initial_solve_res) {
-    AERROR << "initial iteration solving fails";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "initial iteration solving fails";
     osqp_cleanup(work);
     c_free(data->A);
     c_free(data->P);
@@ -152,7 +156,8 @@ bool FemPosDeviationSqpOsqpInterface::Solve() {
 
       bool iterative_solve_res = OptimizeWithOsqp(primal_warm_start, &work);
       if (!iterative_solve_res) {
-        AERROR << "iteration at " << sub_itr
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "iteration at " << sub_itr
                << ", solving fails with max sub iter " << sqp_sub_max_iter_;
         weight_curvature_constraint_slack_var_ = original_slack_penalty;
         osqp_cleanup(work);
@@ -167,9 +172,11 @@ bool FemPosDeviationSqpOsqpInterface::Solve() {
       double ftol = std::abs((last_fvalue - cur_fvalue) / last_fvalue);
 
       if (ftol < sqp_ftol_) {
-        ADEBUG << "merit function value converges at sub itr num " << sub_itr;
-        ADEBUG << "merit function value converges to " << cur_fvalue
-               << ", with ftol " << ftol << ", under max_ftol " << sqp_ftol_;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "merit function value converges at sub itr num " << sub_itr;
+         AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "merit function value converges to " << cur_fvalue
+                << ", with ftol " << ftol << ", under max_ftol " << sqp_ftol_;
         fconverged = true;
         break;
       }
@@ -179,7 +186,8 @@ bool FemPosDeviationSqpOsqpInterface::Solve() {
     }
 
     if (!fconverged) {
-      AERROR << "Max number of iteration reached";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Max number of iteration reached";
       weight_curvature_constraint_slack_var_ = original_slack_penalty;
       osqp_cleanup(work);
       c_free(data->A);
@@ -191,12 +199,15 @@ bool FemPosDeviationSqpOsqpInterface::Solve() {
 
     ctol = CalculateConstraintViolation(opt_xy_);
 
-    ADEBUG << "ctol is " << ctol << ", at pen itr " << pen_itr;
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ctol is " << ctol << ", at pen itr " << pen_itr;
+ 
     if (ctol < sqp_ctol_) {
-      ADEBUG << "constraint satisfied at pen itr num " << pen_itr;
-      ADEBUG << "constraint voilation value drops to " << ctol
-             << ", under max_ctol " << sqp_ctol_;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint satisfied at pen itr num " << pen_itr;
+       AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint voilation value drops to " << ctol
+              << ", under max_ctol " << sqp_ctol_;
       weight_curvature_constraint_slack_var_ = original_slack_penalty;
       osqp_cleanup(work);
       c_free(data->A);
@@ -210,9 +221,11 @@ bool FemPosDeviationSqpOsqpInterface::Solve() {
     ++pen_itr;
   }
 
-  ADEBUG << "constraint not satisfied with total itr num " << pen_itr;
-  ADEBUG << "constraint voilation value drops to " << ctol
-         << ", higher than max_ctol " << sqp_ctol_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint not satisfied with total itr num " << pen_itr;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "constraint voilation value drops to " << ctol
+          << ", higher than max_ctol " << sqp_ctol_;
   weight_curvature_constraint_slack_var_ = original_slack_penalty;
   osqp_cleanup(work);
   c_free(data->A);
@@ -492,12 +505,14 @@ bool FemPosDeviationSqpOsqpInterface::OptimizeWithOsqp(
   auto status = (*work)->info->status_val;
 
   if (status < 0) {
-    AERROR << "failed optimization status:\t" << (*work)->info->status;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed optimization status:\t" << (*work)->info->status;
     return false;
   }
 
   if (status != 1 && status != 2) {
-    AERROR << "failed optimization status:\t" << (*work)->info->status;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed optimization status:\t" << (*work)->info->status;
     return false;
   }
 

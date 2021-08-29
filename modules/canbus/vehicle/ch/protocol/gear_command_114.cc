@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -27,35 +26,25 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Gearcommand114::ID = 0x114;
 
 // public
-Gearcommand114::Gearcommand114() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Gearcommand114::Gearcommand114() { Reset(); }
 
 uint32_t Gearcommand114::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Gearcommand114::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_gear_cmd(data, gear_cmd_);
 }
 
 void Gearcommand114::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // you should check this manually
   gear_cmd_ = Gear_command_114::GEAR_CMD_NEUTRAL;
 }
 
 Gearcommand114* Gearcommand114::set_gear_cmd(
     Gear_command_114::Gear_cmdType gear_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   gear_cmd_ = gear_cmd;
   return this;
 }
@@ -67,8 +56,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'enum', 'order': 'intel', 'physical_unit': ''}
 void Gearcommand114::set_p_gear_cmd(uint8_t* data,
                                     Gear_command_114::Gear_cmdType gear_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = gear_cmd;
 
   Byte to_set(data + 0);

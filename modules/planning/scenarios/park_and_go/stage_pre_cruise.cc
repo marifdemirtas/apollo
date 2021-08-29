@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -34,22 +33,25 @@ using apollo::common::TrajectoryPoint;
 
 Stage::StageStatus ParkAndGoStagePreCruise::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: Pre Cruise";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: Pre Cruise";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
   frame->mutable_open_space_info()->set_is_on_open_space_trajectory(true);
   bool plan_ok = ExecuteTaskOnOpenSpace(frame);
   if (!plan_ok) {
-    AERROR << "ParkAndGoStagePreCruise planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "ParkAndGoStagePreCruise planning error";
     return StageStatus::ERROR;
   }
   // const bool ready_to_cruise =
   //     scenario::util::CheckADCReadyToCruise(frame, scenario_config_);
   auto vehicle_status = injector_->vehicle_state();
-  ADEBUG << vehicle_status->steering_percentage();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << vehicle_status->steering_percentage();
+ 
   if ((std::fabs(vehicle_status->steering_percentage()) <
        scenario_config_.max_steering_percentage_when_cruise()) &&
       scenario::util::CheckADCReadyToCruise(injector_->vehicle_state(), frame,

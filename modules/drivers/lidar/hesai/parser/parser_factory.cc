@@ -33,7 +33,8 @@ Parser* ParserFactory::CreateParser(const std::shared_ptr<Node>& node,
     return new Hesai64Parser(node, conf);
   }
 
-  AERROR << "only support HESAI40P | HESAI64";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "only support HESAI40P | HESAI64";
   return nullptr;
 }
 

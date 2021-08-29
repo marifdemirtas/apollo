@@ -51,13 +51,15 @@ void EvaluatorManager::Init() {
   semantic_map_.reset(new SemanticMap());
   semantic_map_->Init();
   evaluator_.reset(new SemanticLSTMEvaluator(semantic_map_.get()));
-  AINFO << "Init SemanticMap instance.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Init SemanticMap instance.";
 }
 
 void EvaluatorManager::Run(ObstaclesContainer* obstacles_container) {
   BuildObstacleIdHistoryMap(obstacles_container);
   semantic_map_->RunCurrFrame(obstacle_id_history_map_);
-  AINFO << "starting evaluating objects in semantic map";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "starting evaluating objects in semantic map";
   std::vector<Obstacle*> dynamic_env;
   for (int id : obstacles_container->curr_frame_considered_obstacle_ids()) {
     Obstacle* obstacle = obstacles_container->GetObstacle(id);
@@ -65,7 +67,8 @@ void EvaluatorManager::Run(ObstaclesContainer* obstacles_container) {
       continue;
     }
     if (obstacle->IsStill()) {
-      ADEBUG << "Ignore still obstacle [" << id << "] in evaluator_manager";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Ignore still obstacle [" << id << "] in evaluator_manager";
       continue;
     }
     EvaluateObstacle(obstacle, obstacles_container, dynamic_env);

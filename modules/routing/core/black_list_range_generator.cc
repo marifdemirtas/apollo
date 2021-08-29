@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -26,7 +25,8 @@ namespace {
 
 double MoveSForward(double s, double upper_bound) {
   if (s > upper_bound) {
-    AERROR << "Illegal s: " << s << ", upper bound: " << upper_bound;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Illegal s: " << s << ", upper bound: " << upper_bound;
     return s;
   }
   if (s + S_GAP_FOR_BLACK < upper_bound) {
@@ -38,7 +38,8 @@ double MoveSForward(double s, double upper_bound) {
 
 double MoveSBackward(double s, double lower_bound) {
   if (s < lower_bound) {
-    AERROR << "Illegal s: " << s << ", lower bound: " << lower_bound;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Illegal s: " << s << ", lower bound: " << lower_bound;
     return s;
   }
   if (s - S_GAP_FOR_BLACK > lower_bound) {
@@ -140,11 +141,13 @@ void BlackListRangeGenerator::AddBlackMapFromTerminal(
           end_length : end_s;
 
   if (start_s_adjusted < 0.0 || start_s_adjusted > start_length) {
-    AERROR << "Illegal start_s: " << start_s << ", length: " << start_length;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Illegal start_s: " << start_s << ", length: " << start_length;
     return;
   }
   if (end_s_adjusted < 0.0 || end_s_adjusted > end_length) {
-    AERROR << "Illegal end_s: " << end_s << ", length: " << end_length;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Illegal end_s: " << end_s << ", length: " << end_length;
     return;
   }
 

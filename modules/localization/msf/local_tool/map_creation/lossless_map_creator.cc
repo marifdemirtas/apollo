@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -44,8 +43,6 @@ typedef apollo::localization::msf::FeatureXYPlane::PointCloudPtrT
 
 bool ParseCommandLine(int argc, char* argv[],
                       boost::program_options::variables_map* vm) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   boost::program_options::options_description desc("Allowd options");
   desc.add_options()("help", "product help message")(
       "use_plane_inliers_only",
@@ -84,23 +81,24 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     boost::program_options::store(
         boost::program_options::parse_command_line(argc, argv, desc), *vm);
     if (vm->count("help")) {
-      AERROR << desc;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << desc;
       return false;
     }
     boost::program_options::notify(*vm);
   } catch (std::exception& e) {
-    AERROR << "Error: " << e.what() << " " << desc;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Error: " << e.what() << " " << desc;
     return false;
   } catch (...) {
-    AERROR << "Unknown error!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unknown error!";
     return false;
   }
   return true;
 }
 
 void VarianceOnline(double* mean, double* var, unsigned int* N, double x) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ++(*N);
   double value = (x - (*mean)) / (*N);
   double v1 = x - (*mean);
@@ -113,13 +111,12 @@ using ::apollo::common::EigenAffine3dVec;
 using ::apollo::common::EigenVector3dVec;
 
 int main(int argc, char** argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   FeatureXYPlane plane_extractor;
 
   boost::program_options::variables_map boost_args;
   if (!ParseCommandLine(argc, argv, &boost_args)) {
-    AERROR << "Parse input command line failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Parse input command line failed.";
     return -1;
   }
 
@@ -128,7 +125,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const std::vector<std::string> pose_files =
       boost_args["pose_files"].as<std::vector<std::string>>();
   if (pcd_folder_paths.size() != pose_files.size()) {
-    AERROR << "The count of pcd folders is not equal pose files";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The count of pcd folders is not equal pose files";
     return -1;
   }
 
@@ -142,14 +140,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       boost_args["coordinate_type"].as<std::string>();
   if (strcasecmp(coordinate_type.c_str(), "UTM") != 0 &&
       strcasecmp(coordinate_type.c_str(), "LTM") != 0) {
-    AERROR << "Coordinate type invalid. (UTM or LTM)";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Coordinate type invalid. (UTM or LTM)";
     return -1;
   }
   const std::string map_resolution_type =
       boost_args["map_resolution_type"].as<std::string>();
   if (strcasecmp(map_resolution_type.c_str(), "single") != 0 &&
       strcasecmp(map_resolution_type.c_str(), "multi") != 0) {
-    AERROR << "Map resolution type invalid. (single or multi)";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Map resolution type invalid. (single or multi)";
     return -1;
   }
 
@@ -172,10 +172,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   const size_t num_trials = pcd_folder_paths.size();
 
   // load all poses
-  AINFO << "Pcd folders are as follows:";
-  for (size_t i = 0; i < num_trials; ++i) {
-    AINFO << pcd_folder_paths[i];
-  }
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Pcd folders are as follows:";
+   for (size_t i = 0; i < num_trials; ++i) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << pcd_folder_paths[i];
+   }
   std::vector<EigenAffine3dVec> ieout_poses(num_trials);
   std::vector<std::vector<double>> time_stamps(num_trials);
   std::vector<std::vector<unsigned int>> pcd_indices(num_trials);
@@ -192,8 +194,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   apollo::cyber::common::EnsureDirectory(map_folder_path);
   map.SetMapFolderPath(map_folder_path);
   for (size_t i = 0; i < pcd_folder_paths.size(); ++i) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     map.AddDataset(pcd_folder_paths[i]);
   }
   if (strcasecmp(map_resolution_type.c_str(), "single") == 0) {
@@ -256,19 +256,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
             loss_less_config.max_intensity_var_value_);
     fprintf(file, "PCD folders: \n");
     for (unsigned int trial = 0; trial < num_trials; ++trial) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
       fprintf(file, "%s\n", pcd_folder_paths[trial].c_str());
     }
     fclose(file);
   } else {
-    AERROR << "Can't open file: " << file_buf;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can't open file: " << file_buf;
   }
 
   PyramidMapNodePool lossless_map_node_pool(25, 8);
@@ -287,16 +280,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       const Eigen::Affine3d& pcd_pose = poses[trial_frame_idx];
       apollo::localization::msf::velodyne::LoadPcds(
           pcd_file_path, trial_frame_idx, pcd_pose, &velodyne_frame, false);
-      AINFO << "Loaded " << velodyne_frame.pt3ds.size()
-            << "3D Points at Trial: " << trial << " Frame: " << trial_frame_idx
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Loaded " << velodyne_frame.pt3ds.size()
+             << "3D Points at Trial: " << trial << " Frame: " << trial_frame_idx
             << ".";
 
       unsigned int resolution_id = 0;
       unsigned int row = 0;
       unsigned int col = 0;
       for (size_t i = 0; i < velodyne_frame.pt3ds.size(); ++i) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
         Eigen::Vector3d& pt3d_local = velodyne_frame.pt3ds[i];
         unsigned char intensity = velodyne_frame.intensities[i];
         Eigen::Vector3d pt3d_global = velodyne_frame.pose * pt3d_local;
@@ -311,10 +303,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       }
 
       if (use_plane_inliers_only) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
         PclPointCloudPtrT pcl_pc = PclPointCloudPtrT(new PclPointCloudT);
         pcl_pc->resize(velodyne_frame.pt3ds.size());
         for (size_t i = 0; i < velodyne_frame.pt3ds.size(); ++i) {
@@ -358,10 +346,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   double var_height_diff = 0;
   unsigned int count_height_diff = 0;
   for (unsigned int trial = 0; trial < num_trials; ++trial) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
     for (unsigned int i = 0; i < ieout_poses[trial].size(); ++i) {
       const Eigen::Affine3d& ieout_pose = ieout_poses[trial][i];
       const Eigen::Vector3d& pt3d = ieout_pose.translation();
@@ -382,7 +366,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         const unsigned int* ground_count =
             map_matrix.GetGroundCountSafe(row, col);
         if (!ground_count) {
-          AERROR << "No ground layer, skip.";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No ground layer, skip.";
           continue;
         }
         if (*ground_count > 0) {
@@ -391,7 +376,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
           const float* ground_altitude =
               map_matrix.GetGroundAltitudeSafe(row, col);
           if (!ground_altitude) {
-            AERROR << "No ground points, skip.";
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No ground points, skip.";
             continue;
           }
           // float alt = layer_alts[layer_id];
@@ -416,6 +402,7 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       static_cast<float>(mean_height_diff);
   std::string config_path = map.GetMapConfig().map_folder_path_ + "/config.xml";
   map.GetMapConfig().Save(config_path);
-  ADEBUG << "Mean: " << mean_height_diff << ", Var: " << var_height_diff << ".";
-  return 0;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Mean: " << mean_height_diff << ", Var: " << var_height_diff << ".";
+   return 0;
 }

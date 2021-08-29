@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,35 +27,25 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Headlightcmd76::ID = 0x76;
 
 // public
-Headlightcmd76::Headlightcmd76() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Headlightcmd76::Headlightcmd76() { Reset(); }
 
 uint32_t Headlightcmd76::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) :modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Headlightcmd76::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_headlight_cmd(data, headlight_cmd_);
 }
 
 void Headlightcmd76::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) :you should check this manually
   headlight_cmd_ = Headlight_cmd_76::HEADLIGHT_CMD_HEADLIGHTS_OFF;
 }
 
 Headlightcmd76* Headlightcmd76::set_headlight_cmd(
     Headlight_cmd_76::Headlight_cmdType headlight_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   headlight_cmd_ = headlight_cmd;
   return this;
 }
@@ -68,8 +57,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 void Headlightcmd76::set_p_headlight_cmd(
     uint8_t* data, Headlight_cmd_76::Headlight_cmdType headlight_cmd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   uint8_t x = headlight_cmd;
 
   Byte to_set(data + 0);

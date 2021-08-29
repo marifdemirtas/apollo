@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -58,7 +57,8 @@ void StopSignUnprotectedScenario::Init() {
   Scenario::Init();
 
   if (!GetScenarioConfig()) {
-    AERROR << "fail to get scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to get scenario specific config";
     return;
   }
 
@@ -67,13 +67,15 @@ void StopSignUnprotectedScenario::Init() {
                                                .stop_sign()
                                                .current_stop_sign_overlap_id();
   if (stop_sign_overlap_id.empty()) {
-    AERROR << "Could not find stop sign";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Could not find stop sign";
     return;
   }
   hdmap::StopSignInfoConstPtr stop_sign = HDMapUtil::BaseMap().GetStopSignById(
       hdmap::MakeMapId(stop_sign_overlap_id));
   if (!stop_sign) {
-    AERROR << "Could not find stop sign: " << stop_sign_overlap_id;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Could not find stop sign: " << stop_sign_overlap_id;
     return;
   }
 
@@ -134,7 +136,8 @@ std::unique_ptr<Stage> StopSignUnprotectedScenario::CreateStage(
  */
 bool StopSignUnprotectedScenario::GetScenarioConfig() {
   if (!config_.has_stop_sign_unprotected_config()) {
-    AERROR << "miss scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "miss scenario specific config";
     return false;
   }
   context_.scenario_config.CopyFrom(config_.stop_sign_unprotected_config());
@@ -169,8 +172,9 @@ int StopSignUnprotectedScenario::GetAssociatedLanes(
         if (over_lap_info != nullptr) {
           context_.associated_lanes.push_back(
               std::make_pair(lane, stop_sign_overlap));
-          ADEBUG << "stop_sign: " << stop_sign_info.id().id()
-                 << "; associated_lane: " << lane_id.id()
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stop_sign: " << stop_sign_info.id().id()
+                  << "; associated_lane: " << lane_id.id()
                  << "; associated_stop_sign: " << stop_sign.get()->id().id();
         }
       }

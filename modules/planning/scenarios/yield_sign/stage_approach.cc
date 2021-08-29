@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -40,14 +39,16 @@ using apollo::hdmap::PathOverlap;
 
 Stage::StageStatus YieldSignStageApproach::Process(
     const TrajectoryPoint& planning_init_point, Frame* frame) {
-  ADEBUG << "stage: Approach";
-  CHECK_NOTNULL(frame);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "stage: Approach";
+   CHECK_NOTNULL(frame);
 
   scenario_config_.CopyFrom(GetContext()->scenario_config);
 
   bool plan_ok = ExecuteTaskOnReferenceLine(planning_init_point, frame);
   if (!plan_ok) {
-    AERROR << "YieldSignStageApproach planning error";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "YieldSignStageApproach planning error";
   }
 
   const auto& reference_line_info = frame->reference_line_info().front();
@@ -82,8 +83,9 @@ Stage::StageStatus YieldSignStageApproach::Process(
 
     const double distance_adc_to_stop_line =
         current_yield_sign_overlap->start_s - adc_front_edge_s;
-    ADEBUG << "yield_sign_overlap_id[" << yield_sign_overlap_id << "] start_s["
-           << current_yield_sign_overlap->start_s
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "yield_sign_overlap_id[" << yield_sign_overlap_id << "] start_s["
+            << current_yield_sign_overlap->start_s
            << "] distance_adc_to_stop_line[" << distance_adc_to_stop_line
            << "]";
     bool yield_sign_done = false;
@@ -96,8 +98,9 @@ Stage::StageStatus YieldSignStageApproach::Process(
         const std::string& obstacle_id = obstacle->Id();
         std::string obstacle_type_name =
             PerceptionObstacle_Type_Name(obstacle->Perception().type());
-        ADEBUG << "yield_sign[" << yield_sign_overlap_id << "] obstacle_id["
-               << obstacle_id << "] type[" << obstacle_type_name << "]";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "yield_sign[" << yield_sign_overlap_id << "] obstacle_id["
+                << obstacle_id << "] type[" << obstacle_type_name << "]";
         if (obstacle->IsVirtual()) {
           continue;
         }
@@ -114,8 +117,9 @@ Stage::StageStatus YieldSignStageApproach::Process(
         double obstacle_traveled_s =
             obstacle->reference_line_st_boundary().bottom_left_point().s() -
             obstacle->reference_line_st_boundary().bottom_right_point().s();
-        ADEBUG << "obstacle[" << obstacle->Id() << "] obstacle_st_min_t["
-               << obstacle->reference_line_st_boundary().min_t()
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle[" << obstacle->Id() << "] obstacle_st_min_t["
+                << obstacle->reference_line_st_boundary().min_t()
                << "] obstacle_st_min_s["
                << obstacle->reference_line_st_boundary().min_s()
                << "] obstacle_traveled_s[" << obstacle_traveled_s << "]";

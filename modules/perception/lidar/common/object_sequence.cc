@@ -37,7 +37,8 @@ bool ObjectSequence::AddTrackedFrameObjects(
     }
     auto res = iter->second.insert(std::make_pair(timestamp, obj));
     if (!res.second) {
-      AERROR << "Fail to insert object." << std::endl;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to insert object." << std::endl;
       return false;
     }
   }
@@ -70,7 +71,8 @@ bool ObjectSequence::GetTrackInTemporalWindow(TrackIdKey track_id,
 void ObjectSequence::RemoveStaleTracks(TimeStampKey current_stamp) {
   for (auto outer_iter = sequence_.begin(); outer_iter != sequence_.end();) {
     if (outer_iter->second.empty()) {
-      AERROR << "Found empty tracks";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Found empty tracks";
       continue;
     }
     auto& track = outer_iter->second;

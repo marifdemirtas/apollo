@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -48,7 +47,8 @@ void TrafficLightUnprotectedLeftTurnScenario::Init() {
   Scenario::Init();
 
   if (!GetScenarioConfig()) {
-    AERROR << "fail to get scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to get scenario specific config";
     return;
   }
 
@@ -56,7 +56,8 @@ void TrafficLightUnprotectedLeftTurnScenario::Init() {
       injector_->planning_context()->planning_status().traffic_light();
 
   if (traffic_light_status.current_traffic_light_overlap_id().empty()) {
-    AERROR << "Could not find traffic-light(s)";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Could not find traffic-light(s)";
     return;
   }
 
@@ -69,7 +70,8 @@ void TrafficLightUnprotectedLeftTurnScenario::Init() {
         HDMapUtil::BaseMap().GetSignalById(
             hdmap::MakeMapId(traffic_light_overlap_id));
     if (!traffic_light) {
-      AERROR << "Could not find traffic light: " << traffic_light_overlap_id;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Could not find traffic light: " << traffic_light_overlap_id;
     }
 
     context_.current_traffic_light_overlap_ids.push_back(
@@ -130,7 +132,8 @@ std::unique_ptr<Stage> TrafficLightUnprotectedLeftTurnScenario::CreateStage(
  */
 bool TrafficLightUnprotectedLeftTurnScenario::GetScenarioConfig() {
   if (!config_.has_traffic_light_unprotected_left_turn_config()) {
-    AERROR << "miss scenario specific config";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "miss scenario specific config";
     return false;
   }
   context_.scenario_config.CopyFrom(

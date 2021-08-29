@@ -37,7 +37,8 @@ bool Input::exract_nmea_time_from_packet(NMEATimePtr nmea_time,
       } else if (field_count == 2 && validity_field_index == 0) {
         validity_field_index = gprmc_index + 1;
         if (bytes[validity_field_index] == 'V') {
-          AERROR << "NAV receiver warning, GPS info is invalid!";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "NAV receiver warning, GPS info is invalid!";
           return false;
         }
       } else if (field_count == 9 && date_field_index == 0) {
@@ -72,7 +73,8 @@ bool Input::exract_nmea_time_from_packet(NMEATimePtr nmea_time,
       nmea_time->mon < 1 || nmea_time->day > 31 || nmea_time->day < 1 ||
       nmea_time->hour > 23 || nmea_time->hour < 0 || nmea_time->min > 59 ||
       nmea_time->min < 0 || nmea_time->sec > 59 || nmea_time->sec < 0) {
-    AERROR << "Invalid GPS time:  " << nmea_time->year << "-" << nmea_time->mon
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid GPS time:  " << nmea_time->year << "-" << nmea_time->mon
            << "-" << nmea_time->day << " " << nmea_time->hour << ":"
            << nmea_time->min << ":" << nmea_time->sec
            << ", make sure have connected to GPS device";

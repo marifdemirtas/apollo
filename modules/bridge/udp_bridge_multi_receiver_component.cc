@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -25,50 +24,45 @@ namespace apollo {
 namespace bridge {
 
 UDPBridgeMultiReceiverComponent::UDPBridgeMultiReceiverComponent()
-    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {}
 
 bool UDPBridgeMultiReceiverComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "UDP bridge multi :receiver init, startin...";
-  apollo::bridge::UDPBridgeReceiverRemoteInfo udp_bridge_remote;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "UDP bridge multi :receiver init, startin...";
+   apollo::bridge::UDPBridgeReceiverRemoteInfo udp_bridge_remote;
   if (!this->GetProtoConfig(&udp_bridge_remote)) {
-    AINFO << "load udp bridge component proto param failed";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "load udp bridge component proto param failed";
+     return false;
   }
   bind_port_ = udp_bridge_remote.bind_port();
   enable_timeout_ = udp_bridge_remote.enable_timeout();
-  ADEBUG << "UDP Bridge remote port is: " << bind_port_;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "UDP Bridge remote port is: " << bind_port_;
+ 
   if (!InitSession((uint16_t)bind_port_)) {
     return false;
   }
-  ADEBUG << "initialize session successful.";
-  MsgDispatcher();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "initialize session successful.";
+   MsgDispatcher();
   return true;
 }
 
 bool UDPBridgeMultiReceiverComponent::InitSession(uint16_t port) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return listener_->Initialize(
       this, &UDPBridgeMultiReceiverComponent::MsgHandle, port);
 }
 
 void UDPBridgeMultiReceiverComponent::MsgDispatcher() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  ADEBUG << "msg dispatcher start successful.";
-  listener_->Listen();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "msg dispatcher start successful.";
+   listener_->Listen();
 }
 
 std::shared_ptr<ProtoDiserializedBufBase>
 UDPBridgeMultiReceiverComponent::CreateBridgeProtoBuf(
     const BridgeHeader &header) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::shared_ptr<ProtoDiserializedBufBase> proto_buf;
   if (IsTimeout(header.GetTimeStamp())) {
     std::vector<std::shared_ptr<ProtoDiserializedBufBase>>::iterator itor =
@@ -99,8 +93,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool UDPBridgeMultiReceiverComponent::IsProtoExist(const BridgeHeader &header) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   for (auto proto : proto_list_) {
     if (proto->IsTheProto(header)) {
       return true;
@@ -110,8 +102,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool UDPBridgeMultiReceiverComponent::IsTimeout(double time_stamp) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (enable_timeout_ == false) {
     return false;
   }
@@ -126,8 +116,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool UDPBridgeMultiReceiverComponent::MsgHandle(int fd) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   struct sockaddr_in client_addr;
   socklen_t sock_len = static_cast<socklen_t>(sizeof(client_addr));
   int total_recv = 2 * FRAME_SIZE;
@@ -140,7 +128,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
 
   if (strncmp(total_buf, BRIDGE_HEADER_FLAG, HEADER_FLAG_SIZE) != 0) {
-    AERROR << "Header flag didn't match!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Header flag didn't match!";
     return false;
   }
   size_t offset = HEADER_FLAG_SIZE + 1;
@@ -150,7 +139,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   offset += sizeof(hsize) + 1;
 
   if (header_size < offset || header_size > FRAME_SIZE) {
-    AERROR << "header size is more than FRAME_SIZE!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "header size is more than FRAME_SIZE!";
     return false;
   }
 
@@ -158,15 +148,20 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   size_t buf_size = header_size - offset;
   BridgeHeader header;
   if (!header.Diserialize(cursor, buf_size)) {
-    AERROR << "header diserialize failed!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "header diserialize failed!";
     return false;
   }
 
-  ADEBUG << "proto name : " << header.GetMsgName().c_str();
-  ADEBUG << "proto sequence num: " << header.GetMsgID();
-  ADEBUG << "proto total frames: " << header.GetTotalFrames();
-  ADEBUG << "proto frame index: " << header.GetIndex();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "proto name : " << header.GetMsgName().c_str();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "proto sequence num: " << header.GetMsgID();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "proto total frames: " << header.GetTotalFrames();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "proto frame index: " << header.GetIndex();
+ 
   std::lock_guard<std::mutex> lock(mutex_);
   std::shared_ptr<ProtoDiserializedBufBase> proto_buf =
       CreateBridgeProtoBuf(header);
@@ -188,8 +183,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool UDPBridgeMultiReceiverComponent::RemoveInvalidBuf(
     uint32_t msg_id, const std::string &msg_name) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (msg_id == 0) {
     return false;
   }

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -30,26 +29,18 @@ using common::Status;
 using common::util::TimeUtil;
 
 LocalizationInteg::LocalizationInteg()
-    : localization_integ_impl_(new LocalizationIntegImpl()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : localization_integ_impl_(new LocalizationIntegImpl()) {}
 
 LocalizationInteg::~LocalizationInteg() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   delete localization_integ_impl_;
   localization_integ_impl_ = nullptr;
 }
 
 Status LocalizationInteg::Init(const LocalizationIntegParam &params) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return localization_integ_impl_->Init(params);
 }
 
 void LocalizationInteg::PcdProcess(const drivers::PointCloud &message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LidarFrame lidar_frame;
   LidarMsgTransfer transfer;
   transfer.Transfer(message, &lidar_frame);
@@ -57,16 +48,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocalizationInteg::RawImuProcessFlu(const drivers::gnss::Imu &imu_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ImuData imu;
   TransferImuFlu(imu_msg, &imu);
   localization_integ_impl_->RawImuProcessRfu(imu);
 }
 
 void LocalizationInteg::RawImuProcessRfu(const drivers::gnss::Imu &imu_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ImuData imu;
   TransferImuRfu(imu_msg, &imu);
   localization_integ_impl_->RawImuProcessRfu(imu);
@@ -74,57 +61,41 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LocalizationInteg::RawObservationProcess(
     const drivers::gnss::EpochObservation &raw_obs_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_integ_impl_->RawObservationProcess(raw_obs_msg);
 }
 
 void LocalizationInteg::RawEphemerisProcess(
     const drivers::gnss::GnssEphemeris &gnss_orbit_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_integ_impl_->RawEphemerisProcess(gnss_orbit_msg);
 }
 
 void LocalizationInteg::GnssBestPoseProcess(
     const drivers::gnss::GnssBestPose &bestgnsspos_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_integ_impl_->GnssBestPoseProcess(bestgnsspos_msg);
 }
 
 void LocalizationInteg::GnssHeadingProcess(
     const drivers::gnss::Heading &gnssheading_msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   localization_integ_impl_->GnssHeadingProcess(gnssheading_msg);
 }
 
 const LocalizationResult &LocalizationInteg::GetLastestLidarLocalization()
     const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return localization_integ_impl_->GetLastestLidarLocalization();
 }
 
 const LocalizationResult &LocalizationInteg::GetLastestIntegLocalization()
     const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return localization_integ_impl_->GetLastestIntegLocalization();
 }
 
 const LocalizationResult &LocalizationInteg::GetLastestGnssLocalization()
     const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return localization_integ_impl_->GetLastestGnssLocalization();
 }
 
 void LocalizationInteg::TransferImuRfu(const drivers::gnss::Imu &imu_msg,
                                        ImuData *imu_rfu) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(imu_rfu);
 
   double measurement_time = TimeUtil::Gps2Unix(imu_msg.measurement_time());
@@ -140,8 +111,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LocalizationInteg::TransferImuFlu(const drivers::gnss::Imu &imu_msg,
                                        ImuData *imu_flu) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(imu_flu);
 
   double measurement_time = TimeUtil::Gps2Unix(imu_msg.measurement_time());

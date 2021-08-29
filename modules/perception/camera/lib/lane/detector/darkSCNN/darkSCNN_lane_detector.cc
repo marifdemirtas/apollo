@@ -34,12 +34,14 @@ using apollo::cyber::common::GetProtoFromFile;
 bool DarkSCNNLaneDetector::Init(const LaneDetectorInitOptions &options) {
   std::string proto_path = GetAbsolutePath(options.root_dir, options.conf_file);
   if (!GetProtoFromFile(proto_path, &darkscnn_param_)) {
-    AINFO << "load proto param failed, root dir: " << options.root_dir;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "load proto param failed, root dir: " << options.root_dir;
     return false;
   }
   std::string param_str;
   google::protobuf::TextFormat::PrintToString(darkscnn_param_, &param_str);
-  AINFO << "darkSCNN param: " << param_str;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "darkSCNN param: " << param_str;
 
   const auto model_param = darkscnn_param_.model_param();
   std::string model_root =
@@ -48,13 +50,17 @@ bool DarkSCNNLaneDetector::Init(const LaneDetectorInitOptions &options) {
       GetAbsolutePath(model_root, model_param.proto_file());
   std::string weight_file =
       GetAbsolutePath(model_root, model_param.weight_file());
-  AINFO << " proto_file: " << proto_file;
-  AINFO << " weight_file: " << weight_file;
-  AINFO << " model_root: " << model_root;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << " proto_file: " << proto_file;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << " weight_file: " << weight_file;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << " model_root: " << model_root;
 
   base_camera_model_ = options.base_camera_model;
   if (base_camera_model_ == nullptr) {
-    AERROR << "options.intrinsic is nullptr!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "options.intrinsic is nullptr!";
     input_height_ = 1080;
     input_width_ = 1920;
   } else {
@@ -64,8 +70,10 @@ bool DarkSCNNLaneDetector::Init(const LaneDetectorInitOptions &options) {
   ACHECK(input_width_ > 0) << "input width should be more than 0";
   ACHECK(input_height_ > 0) << "input height should be more than 0";
 
-  AINFO << "input_height: " << input_height_;
-  AINFO << "input_width: " << input_width_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "input_height: " << input_height_;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "input_width: " << input_width_;
 
   // compute image provider parameters
   input_offset_y_ = static_cast<uint16_t>(model_param.input_offset_y());
@@ -99,7 +107,8 @@ bool DarkSCNNLaneDetector::Init(const LaneDetectorInitOptions &options) {
 
   cudaDeviceProp prop;
   cudaGetDeviceProperties(&prop, options.gpu_id);
-  AINFO << "GPU: " << prop.name;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GPU: " << prop.name;
 
   const auto net_param = darkscnn_param_.net_param();
   net_inputs_.push_back(net_param.input_blob());
@@ -110,15 +119,18 @@ bool DarkSCNNLaneDetector::Init(const LaneDetectorInitOptions &options) {
   }
 
   for (auto name : net_inputs_) {
-    AINFO << "net input blobs: " << name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "net input blobs: " << name;
   }
   for (auto name : net_outputs_) {
-    AINFO << "net output blobs: " << name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "net output blobs: " << name;
   }
 
   // initialize caffe net
   const auto &model_type = model_param.model_type();
-  AINFO << "model_type: " << model_type;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "model_type: " << model_type;
   cnnadapter_lane_.reset(
       inference::CreateInferenceByName(model_type, proto_file, weight_file,
                                        net_outputs_, net_inputs_, model_root));
@@ -130,23 +142,27 @@ bool DarkSCNNLaneDetector::Init(const LaneDetectorInitOptions &options) {
   std::vector<int> shape = {1, 3, resize_height_, resize_width_};
   std::map<std::string, std::vector<int>> input_reshape{
       {net_inputs_[0], shape}};
-  AINFO << "input_reshape: " << input_reshape[net_inputs_[0]][0] << ", "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "input_reshape: " << input_reshape[net_inputs_[0]][0] << ", "
         << input_reshape[net_inputs_[0]][1] << ", "
         << input_reshape[net_inputs_[0]][2] << ", "
         << input_reshape[net_inputs_[0]][3];
   if (!cnnadapter_lane_->Init(input_reshape)) {
-    AINFO << "net init fail.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "net init fail.";
     return false;
   }
 
   for (auto &input_blob_name : net_inputs_) {
     auto input_blob = cnnadapter_lane_->get_blob(input_blob_name);
-    AINFO << input_blob_name << ": " << input_blob->channels() << " "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << input_blob_name << ": " << input_blob->channels() << " "
           << input_blob->height() << " " << input_blob->width();
   }
 
   auto output_blob = cnnadapter_lane_->get_blob(net_outputs_[0]);
-  AINFO << net_outputs_[0] << " : " << output_blob->channels() << " "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << net_outputs_[0] << " : " << output_blob->channels() << " "
         << output_blob->height() << " " << output_blob->width();
   lane_output_height_ = output_blob->height();
   lane_output_width_ = output_blob->width();
@@ -168,19 +184,22 @@ bool DarkSCNNLaneDetector::Init(const LaneDetectorInitOptions &options) {
 bool DarkSCNNLaneDetector::Detect(const LaneDetectorOptions &options,
                                   CameraFrame *frame) {
   if (frame == nullptr) {
-    AINFO << "camera frame is empty.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "camera frame is empty.";
     return false;
   }
 
   auto start = std::chrono::high_resolution_clock::now();
   auto data_provider = frame->data_provider;
   if (input_width_ != data_provider->src_width()) {
-    AERROR << "Input size is not correct: " << input_width_ << " vs "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input size is not correct: " << input_width_ << " vs "
            << data_provider->src_width();
     return false;
   }
   if (input_height_ != data_provider->src_height()) {
-    AERROR << "Input size is not correct: " << input_height_ << " vs "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input size is not correct: " << input_height_ << " vs "
            << data_provider->src_height();
     return false;
   }
@@ -195,28 +214,35 @@ bool DarkSCNNLaneDetector::Detect(const LaneDetectorOptions &options,
   auto blob_channel = input_blob->channels();
   auto blob_height = input_blob->height();
   auto blob_width = input_blob->width();
-  ADEBUG << "input_blob: " << blob_channel << " " << blob_height << " "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "input_blob: " << blob_channel << " " << blob_height << " "
          << blob_width << std::endl;
 
   if (blob_height != resize_height_) {
-    AERROR << "height is not equal" << blob_height << " vs " << resize_height_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "height is not equal" << blob_height << " vs " << resize_height_;
     return false;
   }
   if (blob_width != resize_width_) {
-    AERROR << "width is not equal" << blob_width << " vs " << resize_width_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "width is not equal" << blob_width << " vs " << resize_width_;
     return false;
   }
-  ADEBUG << "image_blob: " << image_src_.blob()->shape_string();
-  ADEBUG << "input_blob: " << input_blob->shape_string();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "image_blob: " << image_src_.blob()->shape_string();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "input_blob: " << input_blob->shape_string();
   // resize the cropped image into network input blob
   inference::ResizeGPU(
       image_src_, input_blob, static_cast<int>(crop_width_), 0,
       static_cast<float>(image_mean_[0]), static_cast<float>(image_mean_[1]),
       static_cast<float>(image_mean_[2]), false, static_cast<float>(1.0));
-  ADEBUG << "resize gpu finish.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "resize gpu finish.";
   cudaDeviceSynchronize();
   cnnadapter_lane_->Infer();
-  ADEBUG << "infer finish.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "infer finish.";
 
   auto elapsed_1 = std::chrono::high_resolution_clock::now() - start;
   int64_t microseconds_1 =
@@ -225,7 +251,8 @@ bool DarkSCNNLaneDetector::Detect(const LaneDetectorOptions &options,
 
   // convert network output to color map
   const auto seg_blob = cnnadapter_lane_->get_blob(net_outputs_[0]);
-  ADEBUG << "seg_blob: " << seg_blob->shape_string();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "seg_blob: " << seg_blob->shape_string();
   std::vector<cv::Mat> masks;
   for (int i = 0; i < num_lanes_; ++i) {
     cv::Mat tmp(lane_output_height_, lane_output_width_, CV_32FC1);
@@ -260,7 +287,8 @@ bool DarkSCNNLaneDetector::Detect(const LaneDetectorOptions &options,
   // retrieve vanishing point network output
   if (net_outputs_.size() > 1) {
     const auto vpt_blob = cnnadapter_lane_->get_blob(net_outputs_[1]);
-    ADEBUG << "vpt_blob: " << vpt_blob->shape_string();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "vpt_blob: " << vpt_blob->shape_string();
     std::vector<float> v_point(2, 0);
     std::copy(vpt_blob->cpu_data(), vpt_blob->cpu_data() + 2, v_point.begin());
     // compute coordinate in net input image
@@ -276,7 +304,8 @@ bool DarkSCNNLaneDetector::Detect(const LaneDetectorOptions &options,
                      static_cast<float>(crop_height_) +
                  static_cast<float>(input_offset_y_);
 
-    ADEBUG << "vanishing point: " << v_point[0] << " " << v_point[1];
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "vanishing point: " << v_point[0] << " " << v_point[1];
     if (v_point[0] > 0 && v_point[0] < static_cast<float>(input_width_) &&
         v_point[1] > 0 && v_point[0] < static_cast<float>(input_height_)) {
       frame->pred_vpt = v_point;
@@ -289,9 +318,11 @@ bool DarkSCNNLaneDetector::Detect(const LaneDetectorOptions &options,
   time_2 += microseconds_2 - microseconds_1;
 
   time_num += 1;
-  ADEBUG << "Avg detection infer time: " << time_1 / time_num
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Avg detection infer time: " << time_1 / time_num
          << " Avg detection merge output time: " << time_2 / time_num;
-  ADEBUG << "Lane detection done!";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Lane detection done!";
   return true;
 }
 

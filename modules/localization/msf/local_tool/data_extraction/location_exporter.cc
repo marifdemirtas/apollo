@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,36 +27,36 @@ namespace localization {
 namespace msf {
 
 LocationExporter::LocationExporter(const std::string &loc_file_folder) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   gnss_loc_file_ = loc_file_folder + "/gnss_loc.txt";
   lidar_loc_file_ = loc_file_folder + "/lidar_loc.txt";
   fusion_loc_file_ = loc_file_folder + "/fusion_loc.txt";
   odometry_loc_file_ = loc_file_folder + "/odometry_loc.txt";
 
   if ((gnss_loc_file_handle_ = fopen(gnss_loc_file_.c_str(), "a")) == nullptr) {
-    AERROR << "Cannot open gnss localization file!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot open gnss localization file!";
   }
 
   if ((lidar_loc_file_handle_ = fopen(lidar_loc_file_.c_str(), "a")) ==
       nullptr) {
-    AERROR << "Cannot open lidar localization file!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot open lidar localization file!";
   }
 
   if ((fusion_loc_file_handle_ = fopen(fusion_loc_file_.c_str(), "a")) ==
       nullptr) {
-    AERROR << "Cannot open fusion localization file!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot open fusion localization file!";
   }
 
   if ((odometry_loc_file_handle_ = fopen(odometry_loc_file_.c_str(), "a")) ==
       nullptr) {
-    AERROR << "Cannot open odometry localization file!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot open odometry localization file!";
   }
 }
 
 LocationExporter::~LocationExporter() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (gnss_loc_file_handle_ != nullptr) {
     fclose(gnss_loc_file_handle_);
   }
@@ -76,10 +75,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocationExporter::GnssLocCallback(const std::string &msg_string) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "GNSS location callback.";
-  LocalizationEstimate msg;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "GNSS location callback.";
+   LocalizationEstimate msg;
   msg.ParseFromString(msg_string);
 
   static unsigned int index = 1;
@@ -106,10 +104,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocationExporter::LidarLocCallback(const std::string &msg_string) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Lidar location callback.";
-  LocalizationEstimate msg;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Lidar location callback.";
+   LocalizationEstimate msg;
   msg.ParseFromString(msg_string);
   static unsigned int index = 1;
 
@@ -141,10 +138,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocationExporter::FusionLocCallback(const std::string &msg_string) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Fusion location callback.";
-  LocalizationEstimate msg;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Fusion location callback.";
+   LocalizationEstimate msg;
   msg.ParseFromString(msg_string);
   static unsigned int index = 1;
 
@@ -176,10 +172,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void LocationExporter::OdometryLocCallback(const std::string &msg_string) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Odometry location callback.";
-  Gps msg;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Odometry location callback.";
+   Gps msg;
   msg.ParseFromString(msg_string);
   static unsigned int index = 1;
 

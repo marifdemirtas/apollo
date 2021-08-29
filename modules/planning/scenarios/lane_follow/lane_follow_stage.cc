@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -66,8 +65,9 @@ LaneFollowStage::LaneFollowStage(
 void LaneFollowStage::RecordObstacleDebugInfo(
     ReferenceLineInfo* reference_line_info) {
   if (!FLAGS_enable_record_debug) {
-    ADEBUG << "Skip record debug info";
-    return;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip record debug info";
+     return;
   }
   auto ptr_debug = reference_line_info->mutable_debug();
 
@@ -80,7 +80,8 @@ void LaneFollowStage::RecordObstacleDebugInfo(
     const auto& decider_tags = obstacle->decider_tags();
     const auto& decisions = obstacle->decisions();
     if (decider_tags.size() != decisions.size()) {
-      AERROR << "decider_tags size: " << decider_tags.size()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "decider_tags size: " << decider_tags.size()
              << " different from decisions size:" << decisions.size();
     }
     for (size_t i = 0; i < decider_tags.size(); ++i) {
@@ -95,8 +96,9 @@ Stage::StageStatus LaneFollowStage::Process(
     const TrajectoryPoint& planning_start_point, Frame* frame) {
   bool has_drivable_reference_line = false;
 
-  ADEBUG << "Number of reference lines:\t"
-         << frame->mutable_reference_line_info()->size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Number of reference lines:\t"
+          << frame->mutable_reference_line_info()->size();
 
   unsigned int count = 0;
 
@@ -105,9 +107,11 @@ Stage::StageStatus LaneFollowStage::Process(
     if (count++ == frame->mutable_reference_line_info()->size()) {
       break;
     }
-    ADEBUG << "No: [" << count << "] Reference Line.";
-    ADEBUG << "IsChangeLanePath: " << reference_line_info.IsChangeLanePath();
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "No: [" << count << "] Reference Line.";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "IsChangeLanePath: " << reference_line_info.IsChangeLanePath();
+ 
     if (has_drivable_reference_line) {
       reference_line_info.SetDrivable(false);
       break;
@@ -118,9 +122,11 @@ Stage::StageStatus LaneFollowStage::Process(
 
     if (cur_status.ok()) {
       if (reference_line_info.IsChangeLanePath()) {
-        ADEBUG << "reference line is lane change ref.";
-        ADEBUG << "FLAGS_enable_smarter_lane_change: "
-               << FLAGS_enable_smarter_lane_change;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "reference line is lane change ref.";
+         AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "FLAGS_enable_smarter_lane_change: "
+                << FLAGS_enable_smarter_lane_change;
         if (reference_line_info.Cost() < kStraightForwardLineCost &&
             (LaneChangeDecider::IsClearToChangeLane(&reference_line_info) ||
              FLAGS_enable_smarter_lane_change)) {
@@ -130,17 +136,20 @@ Stage::StageStatus LaneFollowStage::Process(
           reference_line_info.SetDrivable(true);
           LaneChangeDecider::UpdatePreparationDistance(
               true, frame, &reference_line_info, injector_->planning_context());
-          ADEBUG << "\tclear for lane change";
-        } else {
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "\tclear for lane change";
+         } else {
           LaneChangeDecider::UpdatePreparationDistance(
               false, frame, &reference_line_info,
               injector_->planning_context());
           reference_line_info.SetDrivable(false);
-          ADEBUG << "\tlane change failed";
-        }
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "\tlane change failed";
+         }
       } else {
-        ADEBUG << "reference line is NOT lane change ref.";
-        has_drivable_reference_line = true;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "reference line is NOT lane change ref.";
+         has_drivable_reference_line = true;
       }
     } else {
       reference_line_info.SetDrivable(false);
@@ -157,9 +166,11 @@ Status LaneFollowStage::PlanOnReferenceLine(
   if (!reference_line_info->IsChangeLanePath()) {
     reference_line_info->AddCost(kStraightForwardLineCost);
   }
-  ADEBUG << "planning start point:" << planning_start_point.DebugString();
-  ADEBUG << "Current reference_line_info is IsChangeLanePath: "
-         << reference_line_info->IsChangeLanePath();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "planning start point:" << planning_start_point.DebugString();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Current reference_line_info is IsChangeLanePath: "
+          << reference_line_info->IsChangeLanePath();
 
   auto ret = Status::OK();
   for (auto* task : task_list_) {
@@ -169,13 +180,16 @@ Status LaneFollowStage::PlanOnReferenceLine(
 
     const double end_timestamp = Clock::NowInSeconds();
     const double time_diff_ms = (end_timestamp - start_timestamp) * 1000;
-    ADEBUG << "after task[" << task->Name()
-           << "]:" << reference_line_info->PathSpeedDebugString();
-    ADEBUG << task->Name() << " time spend: " << time_diff_ms << " ms.";
-    RecordDebugInfo(reference_line_info, task->Name(), time_diff_ms);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "after task[" << task->Name()
+            << "]:" << reference_line_info->PathSpeedDebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << task->Name() << " time spend: " << time_diff_ms << " ms.";
+     RecordDebugInfo(reference_line_info, task->Name(), time_diff_ms);
 
     if (!ret.ok()) {
-      AERROR << "Failed to run tasks[" << task->Name()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to run tasks[" << task->Name()
              << "], Error message: " << ret.error_message();
       break;
     }
@@ -184,8 +198,7 @@ Status LaneFollowStage::PlanOnReferenceLine(
     // updated reference_line_info, because it is changed in
     // lane_change_decider by PrioritizeChangeLane().
     // reference_line_info = &frame->mutable_reference_line_info()->front();
-    // ADEBUG << "Current reference_line_info is IsChangeLanePath: "
-    //        << reference_line_info->IsChangeLanePath();
+         //        << reference_line_info->IsChangeLanePath();
   }
 
   RecordObstacleDebugInfo(reference_line_info);
@@ -201,7 +214,8 @@ Status LaneFollowStage::PlanOnReferenceLine(
           planning_start_point.relative_time(),
           planning_start_point.path_point().s(), &trajectory)) {
     const std::string msg = "Fail to aggregate planning trajectory.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -248,7 +262,8 @@ Status LaneFollowStage::PlanOnReferenceLine(
     if (ConstraintChecker::ValidTrajectory(trajectory) !=
         ConstraintChecker::Result::VALID) {
       const std::string msg = "Current planning trajectory is not valid.";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
   }
@@ -263,7 +278,8 @@ void LaneFollowStage::PlanFallbackTrajectory(
     ReferenceLineInfo* reference_line_info) {
   // path and speed fall back
   if (reference_line_info->path_data().Empty()) {
-    AERROR << "Path fallback due to algorithm failure";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Path fallback due to algorithm failure";
     GenerateFallbackPathProfile(reference_line_info,
                                 reference_line_info->mutable_path_data());
     reference_line_info->AddCost(kPathOptimizationFallbackCost);
@@ -279,14 +295,16 @@ void LaneFollowStage::PlanFallbackTrajectory(
       for (const auto& path_data : candidate_path_data) {
         if (path_data.path_label().find("self") != std::string::npos) {
           *reference_line_info->mutable_path_data() = path_data;
-          AERROR << "Use current frame self lane path as fallback ";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Use current frame self lane path as fallback ";
           break;
         }
       }
     }
   }
 
-  AERROR << "Speed fallback due to algorithm failure";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Speed fallback due to algorithm failure";
   *reference_line_info->mutable_speed_data() =
       SpeedProfileGenerator::GenerateFallbackSpeed(injector_->ego_info());
 
@@ -308,7 +326,8 @@ void LaneFollowStage::GenerateFallbackPathProfile(
 
   common::SLPoint adc_point_s_l;
   if (!reference_line.XYToSL(adc_point.path_point(), &adc_point_s_l)) {
-    AERROR << "Fail to project ADC to reference line when calculating path "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to project ADC to reference line when calculating path "
               "fallback. Straight forward path is generated";
     const auto adc_point_heading = adc_point.path_point().theta();
     const auto adc_point_kappa = adc_point.path_point().kappa();
@@ -352,7 +371,8 @@ bool LaneFollowStage::RetrieveLastFramePathProfile(
     PathData* path_data) {
   const auto* ptr_last_frame = injector_->frame_history()->Latest();
   if (ptr_last_frame == nullptr) {
-    AERROR
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
         << "Last frame doesn't succeed, fail to retrieve last frame path data";
     return false;
   }
@@ -367,11 +387,13 @@ bool LaneFollowStage::RetrieveLastFramePathProfile(
 
   bool trim_success = path_data->LeftTrimWithRefS(adc_frenet_frame_point_);
   if (!trim_success) {
-    AERROR << "Fail to trim path_data. adc_frenet_frame_point: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to trim path_data. adc_frenet_frame_point: "
            << adc_frenet_frame_point_.ShortDebugString();
     return false;
   }
-  AERROR << "Use last frame good path to do speed fallback";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Use last frame good path to do speed fallback";
   return true;
 }
 

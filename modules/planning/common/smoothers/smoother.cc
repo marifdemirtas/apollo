@@ -36,14 +36,16 @@ using apollo::common::math::Vec2d;
 bool Smoother::IsCloseStop(const common::VehicleState& vehicle_state,
                            const MainStop& main_stop) {
   if (!main_stop.has_stop_point()) {
-    ADEBUG << "not close for main stop:" << main_stop.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "not close for main stop:" << main_stop.DebugString();
     return false;
   }
   Vec2d current_car_pos(vehicle_state.x(), vehicle_state.y());
   Vec2d stop_pos(main_stop.stop_point().x(), main_stop.stop_point().y());
   auto stop_distance = stop_pos.DistanceTo(current_car_pos);
   if (stop_distance > FLAGS_smoother_stop_distance) {
-    ADEBUG << "distance between ADC position and stop position:"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "distance between ADC position and stop position:"
            << stop_distance;
     return false;
   }
@@ -57,23 +59,27 @@ apollo::common::Status Smoother::Smooth(
     ADCTrajectory* const current_trajectory_pb) {
   if (frame_history == nullptr) {
     const std::string msg = "frame history is null.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   if (current_frame == nullptr) {
     const std::string msg = "frame is null.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   if (current_trajectory_pb == nullptr) {
     const std::string msg = "current trajectory pb is null";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   const auto& main_decision = current_trajectory_pb->decision().main_decision();
   if (!main_decision.has_stop()) {
     // skip for current planning is not stop.
-    ADEBUG << "skip smoothing for current planning is not stop";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "skip smoothing for current planning is not stop";
     return Status::OK();
   }
 
@@ -83,13 +89,15 @@ apollo::common::Status Smoother::Smooth(
                                         .vehicle_param()
                                         .max_abs_speed_when_stopped();
   if (vehicle_state.linear_velocity() > max_adc_stop_speed) {
-    ADEBUG << "vehicle speed:" << vehicle_state.linear_velocity()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "vehicle speed:" << vehicle_state.linear_velocity()
            << " skip smoothing for non-stop scenario";
     return Status::OK();
   }
 
   if (!IsCloseStop(vehicle_state, main_decision.stop())) {
-    ADEBUG << "vehicle state:" << vehicle_state.DebugString()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "vehicle state:" << vehicle_state.DebugString()
            << " skip smoothing for ADC is not close to stop point";
     return Status::OK();
   }

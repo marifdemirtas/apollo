@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -45,24 +44,16 @@ HMI::HMI(WebSocketHandler* websocket, MapService* map_service)
       monitor_log_buffer_(apollo::common::monitor::MonitorMessageItem::HMI),
       websocket_(websocket),
       map_service_(map_service) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (websocket_) {
     RegisterMessageHandlers();
   }
 }
 
-void HMI::Start() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- hmi_worker_->Start(); }
+void HMI::Start() { hmi_worker_->Start(); }
 
-void HMI::Stop() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- hmi_worker_->Stop(); }
+void HMI::Stop() { hmi_worker_->Stop(); }
 
 void HMI::RegisterMessageHandlers() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Broadcast HMIStatus to clients when status changed.
   hmi_worker_->RegisterStatusUpdateHandler(
       [this](const bool status_changed, HMIStatus* status) {
@@ -73,8 +64,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         websocket_->BroadcastData(
             JsonUtil::ProtoToTypedJson("HMIStatus", *status).dump());
         if (status->current_map().empty()) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
           monitor_log_buffer_.WARN("You haven't selected a map yet!");
         }
         if (status->current_vehicle().empty()) {
@@ -96,14 +85,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         // Run HMIWorker::Trigger(action, value) if "value" field is provided.
         std::string action;
         if (!JsonUtil::GetString(json, "action", &action)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-          AERROR << "Truncated HMIAction request.";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Truncated HMIAction request.";
           return;
         }
         HMIAction hmi_action;
         if (!HMIAction_Parse(action, &hmi_action)) {
-          AERROR << "Invalid HMIAction string: " << action;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid HMIAction string: " << action;
           return;
         }
         std::string value;
@@ -143,14 +132,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
             JsonUtil::GetNumber(json, "moving_result", &moving_result) &&
             JsonUtil::GetNumber(json, "audio_direction", &audio_direction) &&
             JsonUtil::GetBoolean(json, "is_siren_on", &is_siren_on)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
           hmi_worker_->SubmitAudioEvent(event_time_ms, obstacle_id, audio_type,
                                         moving_result, audio_direction,
                                         is_siren_on);
           monitor_log_buffer_.INFO("Audio event added.");
         } else {
-          AERROR << "Truncated SubmitAudioEvent request.";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Truncated SubmitAudioEvent request.";
           monitor_log_buffer_.WARN("Failed to submit an audio event.");
         }
       });
@@ -168,13 +156,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
             JsonUtil::GetString(json, "event_msg", &event_msg) &&
             JsonUtil::GetStringVector(json, "event_type", &event_types) &&
             JsonUtil::GetBoolean(json, "is_reportable", &is_reportable)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
           hmi_worker_->SubmitDriveEvent(event_time_ms, event_msg, event_types,
                                         is_reportable);
           monitor_log_buffer_.INFO("Drive event added.");
         } else {
-          AERROR << "Truncated SubmitDriveEvent request.";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Truncated SubmitDriveEvent request.";
           monitor_log_buffer_.WARN("Failed to submit a drive event.");
         }
       });
@@ -196,18 +183,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         } else if (current_mode == FLAGS_camera_calibration_mode) {
           task_type = "camera_to_lidar";
         } else {
-          AERROR << "Unsupported mode:" << current_mode;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Unsupported mode:" << current_mode;
           return;
         }
 
         const auto iter = json.find("data");
         if (iter == json.end()) {
-          AERROR << "The json has no such key: data";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "The json has no such key: data";
           return;
         }
         PreprocessTable preprocess_table;
         if (!JsonStringToMessage(json["data"].dump(), &preprocess_table).ok()) {
-          AERROR
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
               << "Failed to get user configuration: invalid preprocess table."
               << json.dump();
         }
@@ -217,7 +207,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
             absl::StrCat("/apollo/modules/tools/sensor_calibration/config/",
                          task_type, "_user.config");
         if (!SetProtoToASCIIFile(preprocess_table, output_file)) {
-          AERROR << "Failed to generate user configuration file";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to generate user configuration file";
         }
         hmi_worker_->SensorCalibrationPreprocess(task_type);
       });
@@ -230,8 +221,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void HMI::SendVehicleParam(WebSocketHandler::Connection* conn) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (websocket_ == nullptr) {
     return;
   }
@@ -248,8 +237,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void HMI::SendStatus(WebSocketHandler::Connection* conn) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto status_json =
       JsonUtil::ProtoToTypedJson("HMIStatus", hmi_worker_->GetStatus());
   websocket_->SendData(conn, status_json.dump());

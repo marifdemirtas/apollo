@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -60,8 +59,6 @@ using cyber::record::RecordReader;
 using cyber::record::RecordViewer;
 
 std::string GetNextRecordFileName(const std::string& record_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   static constexpr int kSuffixLen = 5;
   const std::string kInitialSequence = "00000";
   if (record_path.empty()) {
@@ -77,14 +74,13 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool IsRecordValid(const std::string& record_path) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!PathExists(record_path)) {
     return false;
   }
   const std::unique_ptr<RecordFileReader> file_reader(new RecordFileReader());
   if (!file_reader->Open(record_path)) {
-    AERROR << "failed to open record file for checking header: " << record_path;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to open record file for checking header: " << record_path;
     return false;
   }
   const bool is_complete = file_reader->GetHeader().is_complete();
@@ -98,8 +94,6 @@ RealtimeRecordProcessor::RealtimeRecordProcessor(
     const std::string& source_record_dir,
     const std::string& restored_output_dir)
     : RecordProcessor(source_record_dir, restored_output_dir) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   default_output_filename_ = restored_output_dir_;
   default_output_filename_.erase(
       std::remove(default_output_filename_.begin(),
@@ -110,25 +104,26 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool RealtimeRecordProcessor::Init(const SmartRecordTrigger& trigger_conf) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Init input/output, for realtime processor create both
   // input and output dir if they do not exist
   if (!EnsureDirectory(source_record_dir_) ||
       !EnsureDirectory(restored_output_dir_)) {
-    AERROR << "unable to init input/output dir: " << source_record_dir_ << "/"
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unable to init input/output dir: " << source_record_dir_ << "/"
            << restored_output_dir_;
     return false;
   }
   if (!RemoveAllFiles(source_record_dir_)) {
-    AERROR << "unable to clear input dir: " << source_record_dir_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unable to clear input dir: " << source_record_dir_;
     return false;
   }
   // Init recorder
   cyber::Init("smart_recorder");
   smart_recorder_node_ = CreateNode(absl::StrCat("smart_recorder_", getpid()));
   if (smart_recorder_node_ == nullptr) {
-    AERROR << "create smart recorder node failed: " << getpid();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "create smart recorder node failed: " << getpid();
     return false;
   }
   recorder_status_writer_ =
@@ -147,15 +142,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       all_channels, black_channels, HeaderBuilder::GetHeader());
   // Init base
   if (!RecordProcessor::Init(trigger_conf)) {
-    AERROR << "base init failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "base init failed";
     return false;
   }
   return true;
 }
 
 bool RealtimeRecordProcessor::Process() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Recorder goes first
   recorder_->Start();
   PublishStatus(RecordingState::RECORDING, "smart recorder started");
@@ -166,14 +160,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   std::string record_path;
   do {
     if (!GetNextValidRecord(&record_path)) {
-      AINFO << "record reader " << record_path << " reached end, exit now";
-      break;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "record reader " << record_path << " reached end, exit now";
+       break;
     }
     auto reader = std::make_shared<RecordReader>(record_path);
     RecordViewer viewer(reader, 0, std::numeric_limits<uint64_t>::max(),
                         ChannelPool::Instance()->GetAllChannels());
-    AINFO << "checking " << record_path << ": " << viewer.begin_time() << " - "
-          << viewer.end_time();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "checking " << record_path << ": " << viewer.begin_time() << " - "
+           << viewer.end_time();
     if (restore_reader_time_ == 0) {
       restore_reader_time_ = viewer.begin_time();
       GetNextValidRecord(&restore_path_);
@@ -198,8 +194,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void RealtimeRecordProcessor::MonitorStatus() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int status_counter = 0;
   while (!cyber::IsShutdown()) {
     static constexpr int kCheckingFrequency = 100;
@@ -212,8 +206,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   }
   recorder_->Stop();
   is_terminating_ = true;
-  AINFO << "wait for a while trying to complete the restore work";
-  static constexpr int kMessageInterval = 1000;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "wait for a while trying to complete the restore work";
+   static constexpr int kMessageInterval = 1000;
   int interval_counter = 0;
   while (++interval_counter * kMessageInterval < recorder_wait_time_) {
     MonitorManager::Instance()->LogBuffer().WARN(
@@ -224,33 +219,29 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void RealtimeRecordProcessor::PublishStatus(const RecordingState state,
                                             const std::string& message) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   SmartRecorderStatus status;
   Header* status_headerpb = status.mutable_header();
   status_headerpb->set_timestamp_sec(Time::Now().ToSecond());
   status.set_recording_state(state);
   status.set_state_message(message);
-  AINFO << "send message with state " << state << ", " << message;
-  recorder_status_writer_->Write(status);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "send message with state " << state << ", " << message;
+   recorder_status_writer_->Write(status);
 }
 
 bool RealtimeRecordProcessor::GetNextValidRecord(
     std::string* record_path) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   *record_path = absl::StrCat(source_record_dir_, "/", default_output_filename_,
                               ".", GetNextRecordFileName(*record_path));
   while (!is_terminating_ && !IsRecordValid(*record_path)) {
-    AINFO << "next record unavailable, wait " << recorder_wait_time_ << " ms";
-    std::this_thread::sleep_for(std::chrono::milliseconds(recorder_wait_time_));
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "next record unavailable, wait " << recorder_wait_time_ << " ms";
+     std::this_thread::sleep_for(std::chrono::milliseconds(recorder_wait_time_));
   }
   return IsRecordValid(*record_path);
 }
 
 void RealtimeRecordProcessor::RestoreMessage(const uint64_t message_time) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Check and restore messages, logic is:
   // 1. If new events got triggered, restore reader proceeds all the way to the
   //    event's end
@@ -273,8 +264,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       AWARN << "invalid restore path " << restore_path_ << ", exit";
       break;
     }
-    AINFO << "target restoring " << restore_path_ << ": "
-          << restore_reader_time_ << " - " << target_end;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "target restoring " << restore_path_ << ": "
+           << restore_reader_time_ << " - " << target_end;
     auto reader = std::make_shared<RecordReader>(restore_path_);
     restore_reader_time_ =
         std::max(restore_reader_time_, reader->GetHeader().begin_time());
@@ -285,8 +277,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     }
     RecordViewer viewer(reader, restore_reader_time_, target_end,
                         ChannelPool::Instance()->GetAllChannels());
-    AINFO << "actual restoring " << restore_path_ << ": " << viewer.begin_time()
-          << " - " << viewer.end_time();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "actual restoring " << restore_path_ << ": " << viewer.begin_time()
+           << " - " << viewer.end_time();
     for (const auto& msg : viewer) {
       if ((!small_channels_only && msg.time >= interval.begin_time &&
            msg.time <= interval.end_time) ||

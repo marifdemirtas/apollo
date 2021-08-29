@@ -28,9 +28,11 @@ __attribute__((constructor)) void PoolInitialize() {
   PointDCloudPool::Instance();
   FramePool::Instance();
 #ifndef PERCEPTION_BASE_DISABLE_POOL
-  AINFO << "Initialize base object pool (no-malloc).";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Initialize base object pool (no-malloc).";
 #else
-  AINFO << "Initialize base object pool (malloc).";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Initialize base object pool (malloc).";
 #endif
 }
 

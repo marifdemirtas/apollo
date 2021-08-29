@@ -29,10 +29,12 @@ bool MultiCueObstacleTransformer::Init(
       cyber::common::GetAbsolutePath(options.root_dir, options.conf_file);
 
   if (!cyber::common::GetProtoFromFile(transformer_config, &multicue_param_)) {
-    AERROR << "Read config failed: " << transformer_config;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Read config failed: " << transformer_config;
     return false;
   }
-  AINFO << "Load transformer parameters from " << transformer_config
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Load transformer parameters from " << transformer_config
         << " \nmin dimension: " << multicue_param_.min_dimension_val()
         << " \ndo template search: " << multicue_param_.check_dimension();
 
@@ -88,10 +90,14 @@ void MultiCueObstacleTransformer::SetObjMapperOptions(
   obj_mapper_options->type_min_vol_index =
       MatchTemplates(sub_type, dimension_hwl);
 
-  ADEBUG << "#2D-to-3D for one obj:";
-  ADEBUG << "Obj pred ry:" << rotation_y;
-  ADEBUG << "Obj pred type: " << static_cast<int>(sub_type);
-  ADEBUG << "Bbox: " << bbox2d[0] << ", " << bbox2d[1] << ", " << bbox2d[2]
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "#2D-to-3D for one obj:";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obj pred ry:" << rotation_y;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obj pred type: " << static_cast<int>(sub_type);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Bbox: " << bbox2d[0] << ", " << bbox2d[1] << ", " << bbox2d[2]
          << ", " << bbox2d[3];
 }
 
@@ -176,9 +182,12 @@ void MultiCueObstacleTransformer::FillResults(
   obj->camera_supplement.local_center(0) = object_center[0];
   obj->camera_supplement.local_center(1) = object_center[1];
   obj->camera_supplement.local_center(2) = object_center[2];
-  ADEBUG << "Obj id: " << obj->track_id;
-  ADEBUG << "Obj type: " << static_cast<int>(obj->sub_type);
-  ADEBUG << "Obj ori dimension: " << obj->size[2] << ", " << obj->size[1]
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obj id: " << obj->track_id;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obj type: " << static_cast<int>(obj->sub_type);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obj ori dimension: " << obj->size[2] << ", " << obj->size[1]
          << ", " << obj->size[0];
   obj->center(0) = static_cast<double>(object_center[0]);
   obj->center(1) = static_cast<double>(object_center[1]);
@@ -205,17 +214,22 @@ void MultiCueObstacleTransformer::FillResults(
 
   obj->camera_supplement.alpha = rotation_y - theta_ray;
 
-  ADEBUG << "Dimension hwl: " << dimension_hwl[0] << ", " << dimension_hwl[1]
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Dimension hwl: " << dimension_hwl[0] << ", " << dimension_hwl[1]
          << ", " << dimension_hwl[2];
-  ADEBUG << "Obj ry:" << rotation_y;
-  ADEBUG << "Obj theta: " << obj->theta;
-  ADEBUG << "Obj center from transformer: " << obj->center.transpose();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obj ry:" << rotation_y;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obj theta: " << obj->theta;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obj center from transformer: " << obj->center.transpose();
 }
 
 bool MultiCueObstacleTransformer::Transform(
     const ObstacleTransformerOptions &options, CameraFrame *frame) {
   if (frame->detected_objects.empty()) {
-    ADEBUG << "No object input to transformer.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "No object input to transformer.";
     return true;
   }
 
@@ -227,7 +241,8 @@ bool MultiCueObstacleTransformer::Transform(
       k_mat[i3 + j] = camera_k_matrix(i, j);
     }
   }
-  ADEBUG << "Camera k matrix input to transformer: \n"
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Camera k matrix input to transformer: \n"
          << k_mat[0] << ", " << k_mat[1] << ", " << k_mat[2] << "\n"
          << k_mat[3] << ", " << k_mat[4] << ", " << k_mat[5] << "\n"
          << k_mat[6] << ", " << k_mat[7] << ", " << k_mat[8] << "\n";
@@ -245,7 +260,8 @@ bool MultiCueObstacleTransformer::Transform(
   int nr_transformed_obj = 0;
   for (auto &obj : frame->detected_objects) {
     if (obj == nullptr) {
-      ADEBUG << "Empty object input to transformer.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Empty object input to transformer.";
       continue;
     }
 

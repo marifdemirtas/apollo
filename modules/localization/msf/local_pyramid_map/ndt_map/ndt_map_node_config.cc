@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -23,17 +22,11 @@ namespace localization {
 namespace msf {
 namespace pyramid_map {
 
-NdtMapNodeConfig::NdtMapNodeConfig() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+NdtMapNodeConfig::NdtMapNodeConfig() {}
 
-NdtMapNodeConfig::~NdtMapNodeConfig() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+NdtMapNodeConfig::~NdtMapNodeConfig() {}
 
 std::shared_ptr<BaseMapNodeConfig> NdtMapNodeConfig::Clone() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::shared_ptr<NdtMapNodeConfig> map_node_config(new NdtMapNodeConfig());
   map_node_config->node_index_ = node_index_;
   map_node_config->map_version_ = map_version_;

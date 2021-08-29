@@ -44,7 +44,8 @@ class SqliteWraper {
   SqliteWraper() {
     // Open DB.
     if (sqlite3_open(FLAGS_kv_db_path.c_str(), &db_) != 0) {
-      AERROR << "Can't open Key-Value database: " << sqlite3_errmsg(db_);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can't open Key-Value database: " << sqlite3_errmsg(db_);
       Release();
       return;
     }
@@ -61,15 +62,18 @@ class SqliteWraper {
   ~SqliteWraper() { Release(); }
 
   bool SQL(std::string_view sql, std::string *value = nullptr) {
-    AINFO << "Executing SQL: " << sql;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Executing SQL: " << sql;
     if (db_ == nullptr) {
-      AERROR << "DB is not open properly.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "DB is not open properly.";
       return false;
     }
 
     char *error = nullptr;
     if (sqlite3_exec(db_, sql.data(), Callback, value, &error) != SQLITE_OK) {
-      AERROR << "Failed to execute SQL: " << error;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to execute SQL: " << error;
       sqlite3_free(error);
       return false;
     }

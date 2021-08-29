@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -30,7 +29,8 @@ void TopoGraph::Clear() {
 
 bool TopoGraph::LoadNodes(const Graph& graph) {
   if (graph.node().empty()) {
-    AERROR << "No nodes found in topology graph.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No nodes found in topology graph.";
     return false;
   }
   for (const auto& node : graph.node()) {
@@ -46,8 +46,9 @@ bool TopoGraph::LoadNodes(const Graph& graph) {
 // Need to execute load_nodes() firstly
 bool TopoGraph::LoadEdges(const Graph& graph) {
   if (graph.edge().empty()) {
-    AINFO << "0 edges found in topology graph, but it's fine";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "0 edges found in topology graph, but it's fine";
+     return true;
   }
   for (const auto& edge : graph.edge()) {
     const std::string& from_lane_id = edge.from_lane_id();
@@ -74,15 +75,18 @@ bool TopoGraph::LoadGraph(const Graph& graph) {
   map_district_ = graph.hdmap_district();
 
   if (!LoadNodes(graph)) {
-    AERROR << "Failed to load nodes from topology graph.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load nodes from topology graph.";
     return false;
   }
   if (!LoadEdges(graph)) {
-    AERROR << "Failed to load edges from topology graph.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to load edges from topology graph.";
     return false;
   }
-  AINFO << "Load Topo data successful.";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Load Topo data successful.";
+   return true;
 }
 
 const std::string& TopoGraph::MapVersion() const { return map_version_; }

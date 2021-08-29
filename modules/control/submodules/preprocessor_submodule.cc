@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -41,23 +40,15 @@ using apollo::localization::LocalizationEstimate;
 using apollo::planning::ADCTrajectory;
 
 PreprocessorSubmodule::PreprocessorSubmodule()
-    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+    : monitor_logger_buffer_(common::monitor::MonitorMessageItem::CONTROL) {}
 
-PreprocessorSubmodule::~PreprocessorSubmodule() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+PreprocessorSubmodule::~PreprocessorSubmodule() {}
 
 std::string PreprocessorSubmodule::Name() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return FLAGS_preprocessor_submodule_name;
 }
 
 bool PreprocessorSubmodule::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   injector_ = std::make_shared<DependencyInjector>();
   ACHECK(cyber::common::GetProtoFromFile(FLAGS_control_common_conf_file,
                                          &control_common_conf_))
@@ -73,10 +64,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool PreprocessorSubmodule::Proc(const std::shared_ptr<LocalView> &local_view) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  ADEBUG << "Preprocessor started ....";
-  const auto start_time = Clock::Now();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Preprocessor started ....";
+   const auto start_time = Clock::Now();
 
   Preprocessor control_preprocessor;
   // handling estop
@@ -86,7 +76,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   control_preprocessor.mutable_local_view()->CopyFrom(*local_view);
 
   Status status = ProducePreprocessorStatus(&control_preprocessor);
-  AERROR_IF(!status.ok()) << "Failed to produce control preprocessor:"
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_IF(!status.ok()) << "Failed to produce control preprocessor:"
                           << status.error_message();
 
   if (status.ok() && !estop_) {
@@ -100,8 +91,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (control_preprocessor.local_view().has_pad_msg()) {
     const auto &pad_message = control_preprocessor.local_view().pad_msg();
     if (pad_message.action() == DrivingAction::RESET) {
-      AINFO << "Control received RESET action!";
-      estop_ = false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Control received RESET action!";
+       estop_ = false;
       preprocessor_status->set_error_code(ErrorCode::OK);
       preprocessor_status->set_msg("");
     }
@@ -124,21 +116,21 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       control_preprocessor.header().lidar_timestamp(), start_time, end_time);
 
   preprocessor_writer_->Write(control_preprocessor);
-  ADEBUG << "Preprocessor finished.";
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Preprocessor finished.";
+ 
   return true;
 }
 
 Status PreprocessorSubmodule::ProducePreprocessorStatus(
     Preprocessor *control_preprocessor) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(SJiang): rename this function since local view got changed in this
   // function.
   Status status = CheckInput(control_preprocessor->mutable_local_view());
 
   if (!status.ok()) {
-    AERROR_EVERY(100) << "Control input data failed: "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR_EVERY(100) << "Control input data failed: "
                       << status.error_message();
     auto mutable_engage_advice = control_preprocessor->mutable_engage_advice();
     mutable_engage_advice->set_advice(
@@ -151,7 +143,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   Status status_ts = CheckTimestamp(control_preprocessor->local_view());
 
   if (!status_ts.ok()) {
-    AERROR << "Input messages timeout";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input messages timeout";
     status = status_ts;
     if (control_preprocessor->local_view().chassis().driving_mode() !=
         apollo::canbus::Chassis::COMPLETE_AUTO_DRIVE) {
@@ -221,12 +214,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Status PreprocessorSubmodule::CheckInput(LocalView *local_view) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  ADEBUG << "Received localization:"
-         << local_view->localization().ShortDebugString();
-  ADEBUG << "Received chassis:" << local_view->chassis().ShortDebugString();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received localization:"
+          << local_view->localization().ShortDebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Received chassis:" << local_view->chassis().ShortDebugString();
+ 
   if (!local_view->trajectory().estop().is_estop() &&
       local_view->trajectory().trajectory_point().empty()) {
     AWARN_EVERY(100) << "planning has no trajectory point. ";
@@ -254,12 +247,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Status PreprocessorSubmodule::CheckTimestamp(const LocalView &local_view) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!control_common_conf_.enable_input_timestamp_check() ||
       control_common_conf_.is_control_test_mode()) {
-    ADEBUG << "Skip input timestamp check by gflags.";
-    return Status::OK();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Skip input timestamp check by gflags.";
+     return Status::OK();
   }
 
   double current_timestamp = Clock::NowInSeconds();
@@ -268,7 +260,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (localization_diff > (control_common_conf_.max_localization_miss_num() *
                            control_common_conf_.localization_period())) {
-    AERROR << "Localization msg lost for " << std::setprecision(6)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Localization msg lost for " << std::setprecision(6)
            << localization_diff << "s";
     monitor_logger_buffer_.ERROR("Localization msg lost");
     return Status(ErrorCode::CONTROL_COMPUTE_ERROR, "Localization msg timeout");
@@ -279,7 +272,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (chassis_diff > (control_common_conf_.max_chassis_miss_num() *
                       control_common_conf_.chassis_period())) {
-    AERROR << "Chassis msg lost for " << std::setprecision(6) << chassis_diff
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Chassis msg lost for " << std::setprecision(6) << chassis_diff
            << "s";
     monitor_logger_buffer_.ERROR("Chassis msg lost");
     return Status(ErrorCode::CONTROL_COMPUTE_ERROR, "Chassis msg timeout");
@@ -290,7 +284,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (trajectory_diff > (control_common_conf_.max_planning_miss_num() *
                          control_common_conf_.trajectory_period())) {
-    AERROR << "Trajectory msg lost for " << std::setprecision(6)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Trajectory msg lost for " << std::setprecision(6)
            << trajectory_diff << "s";
     monitor_logger_buffer_.ERROR("Trajectory msg lost");
     return Status(ErrorCode::CONTROL_COMPUTE_ERROR, "Trajectory msg timeout");

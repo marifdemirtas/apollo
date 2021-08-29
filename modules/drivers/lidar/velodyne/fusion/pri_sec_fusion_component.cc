@@ -65,7 +65,8 @@ bool PriSecFusionComponent::Proc(
     std::this_thread::sleep_for(std::chrono::milliseconds(5));
   }
   auto diff = Time::Now().ToNanosecond() - target->header().lidar_timestamp();
-  AINFO << "Pointcloud fusion diff: " << diff / 1000000 << "ms";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Pointcloud fusion diff: " << diff / 1000000 << "ms";
   fusion_writer_->Write(target);
 
   return true;
@@ -84,7 +85,8 @@ bool PriSecFusionComponent::QueryPoseAffine(const std::string& target_frame_id,
   std::string err_string;
   if (!buffer_ptr_->canTransform(target_frame_id, source_frame_id,
                                  cyber::Time(0), 0.02f, &err_string)) {
-    AERROR << "Can not find transform. "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can not find transform. "
            << "target_id:" << target_frame_id << " frame_id:" << source_frame_id
            << " Error info: " << err_string;
     return false;
@@ -94,7 +96,8 @@ bool PriSecFusionComponent::QueryPoseAffine(const std::string& target_frame_id,
     stamped_transform = buffer_ptr_->lookupTransform(
         target_frame_id, source_frame_id, cyber::Time(0));
   } catch (tf2::TransformException& ex) {
-    AERROR << ex.what();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << ex.what();
     return false;
   }
   *pose =

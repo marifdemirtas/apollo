@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace gem {
 
 using ::apollo::drivers::canbus::Byte;
 
-Steeringrpt16e::Steeringrpt16e() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Steeringrpt16e::Steeringrpt16e() {}
 const int32_t Steeringrpt16e::ID = 0x6E;
 
 void Steeringrpt16e::Parse(const std::uint8_t* bytes, int32_t length,
                            ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_gem()->mutable_steering_rpt_1_6e()->set_manual_input(
       manual_input(bytes, length));
   chassis->mutable_gem()->mutable_steering_rpt_1_6e()->set_commanded_value(
@@ -50,8 +45,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 7, 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad/s'}
 double Steeringrpt16e::manual_input(const std::uint8_t* bytes,
                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 8);
 
@@ -72,8 +65,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 23, 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad/s'}
 double Steeringrpt16e::commanded_value(const std::uint8_t* bytes,
                                        int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);
 
@@ -94,8 +85,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit': 39, 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad/s'}
 double Steeringrpt16e::output_value(const std::uint8_t* bytes,
                                     int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 4);
   int32_t x = t0.get_byte(0, 8);
 

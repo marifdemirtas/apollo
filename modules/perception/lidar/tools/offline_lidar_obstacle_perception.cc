@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -63,39 +62,46 @@ class OfflineLidarObstaclePerception {
   bool setup() {
     FLAGS_config_manager_path = "./conf";
     if (!lib::ConfigManager::Instance()->Init()) {
-      AERROR << "Failed to init ConfigManage.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to init ConfigManage.";
       return false;
     }
     lidar_segmentation_.reset(new LidarObstacleSegmentation);
     if (lidar_segmentation_ == nullptr) {
-      AERROR << "Failed to get LidarObstacleSegmentation instance.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get LidarObstacleSegmentation instance.";
       return false;
     }
     segment_init_options_.enable_hdmap_input = FLAGS_use_hdmap;
     segment_init_options_.sensor_name = FLAGS_sensor_name;
     if (!lidar_segmentation_->Init(segment_init_options_)) {
-      AINFO << "Failed to init LidarObstacleSegmentation.";
-      return false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to init LidarObstacleSegmentation.";
+       return false;
     }
     lidar_tracking_.reset(new LidarObstacleTracking);
     if (lidar_tracking_ == nullptr) {
-      AERROR << "Failed to get LidarObstacleTracking instance.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get LidarObstacleTracking instance.";
       return false;
     }
     tracking_init_options_.sensor_name = FLAGS_sensor_name;
     if (!lidar_tracking_->Init(tracking_init_options_)) {
-      AINFO << "Failed to init LidarObstacleSegmentation.";
-      return false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to init LidarObstacleSegmentation.";
+       return false;
     }
 
     if (!common::SensorManager::Instance()->GetSensorInfo(FLAGS_sensor_name,
                                                           &sensor_info_)) {
-      AERROR << "Failed to get sensor info, sensor name: " << FLAGS_sensor_name;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get sensor info, sensor name: " << FLAGS_sensor_name;
       return false;
     }
 
-    ADEBUG << "Sensor_name: " << sensor_info_.name;
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Sensor_name: " << sensor_info_.name;
+     return true;
   }
 
   bool run() {
@@ -105,9 +111,8 @@ class OfflineLidarObstaclePerception {
     std::string output_path = FLAGS_output_path;
     std::vector<std::string> pcd_file_names;
     if (!common::GetFileList(pcd_folder, ".pcd", &pcd_file_names)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-      AERROR << "pcd_folder: " << pcd_folder << " get file list error.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "pcd_folder: " << pcd_folder << " get file list error.";
       return false;
     }
     std::sort(pcd_file_names.begin(), pcd_file_names.end(),
@@ -118,9 +123,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                 return lhs <= rhs;
               });
     for (size_t i = 0; i < pcd_file_names.size(); ++i) {
-      AINFO << "***************** Frame " << i << " ******************";
-      AINFO << pcd_file_names[i];
-      const std::string file_name = GetFileName(pcd_file_names[i]);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "***************** Frame " << i << " ******************";
+       AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << pcd_file_names[i];
+       const std::string file_name = GetFileName(pcd_file_names[i]);
       frame_ = LidarFramePool::Instance().Get();
       frame_->sensor_info = sensor_info_;
       frame_->reserve = file_name;
@@ -128,40 +135,45 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         frame_->cloud = base::PointFCloudPool::Instance().Get();
       }
       LoadPCLPCD(pcd_folder + "/" + file_name + ".pcd", frame_->cloud.get());
-      AINFO << "Read point cloud from " << pcd_file_names[i]
-            << " with cloud size: " << frame_->cloud->size();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Read point cloud from " << pcd_file_names[i]
+             << " with cloud size: " << frame_->cloud->size();
       if (pose_folder != "") {
         std::string pose_file_name = pose_folder + "/" + file_name + ".pose";
-        AINFO << "Pose file: " << pose_file_name;
-        if (!apollo::cyber::common::PathExists(pose_file_name)) {
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Pose file: " << pose_file_name;
+         if (!apollo::cyber::common::PathExists(pose_file_name)) {
           pose_file_name = pose_folder + "/" + file_name + ".pcd.pose";
         }
         int idt = 0;
         if (common::ReadPoseFile(pose_file_name, &frame_->lidar2world_pose,
                                  &idt, &timestamp)) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-          AINFO << "[timestamp]: " << std::setprecision(16) << timestamp;
-          frame_->timestamp = timestamp;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "[timestamp]: " << std::setprecision(16) << timestamp;
+           frame_->timestamp = timestamp;
         } else {
-          AINFO << "Failed to load pose, disable tracking pipeline.";
-          FLAGS_enable_tracking = false;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to load pose, disable tracking pipeline.";
+           FLAGS_enable_tracking = false;
         }
       }
       // TODO(shitingmin) undo timestamp.
       LidarProcessResult segment_result =
           lidar_segmentation_->Process(segment_options_, frame_.get());
       if (segment_result.error_code != LidarErrorCode::Succeed) {
-        AINFO << segment_result.log;
-        return false;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << segment_result.log;
+         return false;
       }
       if (FLAGS_enable_tracking) {
-        AINFO << "Enable tracking.";
-        LidarProcessResult tracking_result =
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Enable tracking.";
+         LidarProcessResult tracking_result =
             lidar_tracking_->Process(tracking_options_, frame_.get());
         if (tracking_result.error_code != LidarErrorCode::Succeed) {
-          AINFO << tracking_result.log;
-          return false;
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << tracking_result.log;
+           return false;
         }
         if (FLAGS_use_tracking_info) {
           auto& objects = frame_->segmented_objects;
@@ -222,7 +234,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                                    const std::string& path) {
     std::ofstream fout(path);
     if (!fout.is_open()) {
-      AERROR << "Failed to open: " << path;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to open: " << path;
       return false;
     }
     fout << frame_id << " " << objects.size() << std::endl;
@@ -335,16 +348,15 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }  // namespace apollo
 
 int main(int argc, char** argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   FLAGS_alsologtostderr = 1;
   google::ParseCommandLineFlags(&argc, &argv, true);
   google::InitGoogleLogging(argv[0]);
 
   apollo::perception::lidar::OfflineLidarObstaclePerception test;
   if (!test.setup()) {
-    AINFO << "Failed to setup OfflineLidarObstaclePerception";
-    return -1;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to setup OfflineLidarObstaclePerception";
+     return -1;
   }
   return test.run() ? 0 : -1;
 }

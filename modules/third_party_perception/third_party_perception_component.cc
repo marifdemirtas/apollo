@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,8 +28,9 @@ bool ThirdPartyPerceptionComponent::Init() {
   apollo::third_party_perception::ThirdPartyPerceptionDevice
       third_party_perception_param;
   if (!GetProtoConfig(&third_party_perception_param)) {
-    AINFO << "load third party perception param failed";
-    return false;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "load third party perception param failed";
+     return false;
   }
 
   ThirdPartyPerceptionDeviceType device_type =

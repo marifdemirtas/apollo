@@ -26,7 +26,8 @@ const double kDoubleEpsilon = 1e-6;
 
 bool Interpolation1D::Init(const DataType& xy) {
   if (xy.empty()) {
-    AERROR << "empty input.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "empty input.";
     return false;
   }
   auto data(xy);

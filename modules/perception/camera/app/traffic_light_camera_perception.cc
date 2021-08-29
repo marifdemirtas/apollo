@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -32,19 +31,20 @@ using cyber::common::GetAbsolutePath;
 
 bool TrafficLightCameraPerception::Init(
     const CameraPerceptionInitOptions &options) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Arif called TrafficLightCameraPerception::Init";
-  std::string work_root = "";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Arif called TrafficLightCameraPerception::Init";
+   std::string work_root = "";
   if (options.use_cyber_work_root) {
     work_root = GetCyberWorkRoot();
   }
   std::string proto_path = GetAbsolutePath(options.root_dir, options.conf_file);
   proto_path = GetAbsolutePath(work_root, proto_path);
-  AINFO << "proto_path " << proto_path;
-  if (!cyber::common::GetProtoFromFile(proto_path, &tl_param_)) {
-    AINFO << "load proto param failed, root dir: " << options.root_dir;
-    return false;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "proto_path " << proto_path;
+   if (!cyber::common::GetProtoFromFile(proto_path, &tl_param_)) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "load proto param failed, root dir: " << options.root_dir;
+     return false;
   }
 
   TrafficLightDetectorInitOptions init_options;
@@ -57,7 +57,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       plugin_param.name()));
   ACHECK(detector_ != nullptr);
   if (!detector_->Init(init_options)) {
-    AERROR << "tl detector init failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tl detector init failed";
     return false;
   }
 
@@ -69,7 +70,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       plugin_param.name()));
   ACHECK(recognizer_ != nullptr);
   if (!recognizer_->Init(init_options)) {
-    AERROR << "tl recognizer init failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tl recognizer init failed";
     return false;
   }
 
@@ -81,39 +83,44 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   tracker_.reset(BaseTrafficLightTrackerRegisterer::GetInstanceByName(
       tracker_plugin_param.name()));
   ACHECK(tracker_ != nullptr);
-  AINFO << tracker_init_options.root_dir << " "
-        << tracker_init_options.conf_file;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << tracker_init_options.root_dir << " "
+         << tracker_init_options.conf_file;
   if (!tracker_->Init(tracker_init_options)) {
-    AERROR << "tl tracker init failed";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tl tracker init failed";
     return false;
   }
 
-  AINFO << "tl pipeline init done";
-  return true;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "tl pipeline init done";
+   return true;
 }
 
 bool TrafficLightCameraPerception::Perception(
     const CameraPerceptionOptions &options, CameraFrame *frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << "Arif called TrafficLightCameraPerception::Perception";
-  PERF_FUNCTION();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Arif called TrafficLightCameraPerception::Perception";
+   PERF_FUNCTION();
   PERF_BLOCK_START();
   TrafficLightDetectorOptions detector_options;
   if (!detector_->Detect(detector_options, frame)) {
-    AERROR << "tl failed to detect.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tl failed to detect.";
     return false;
   }
 
   TrafficLightDetectorOptions recognizer_options;
   if (!recognizer_->Detect(recognizer_options, frame)) {
-    AERROR << "tl failed to recognize.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tl failed to recognize.";
     return false;
   }
 
   TrafficLightTrackerOptions tracker_options;
   if (!tracker_->Track(tracker_options, frame)) {
-    AERROR << "tl failed to track.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "tl failed to track.";
     return false;
   }
   return true;

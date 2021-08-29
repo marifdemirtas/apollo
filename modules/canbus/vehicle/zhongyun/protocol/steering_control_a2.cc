@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -28,28 +27,20 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Steeringcontrola2::ID = 0xA2;
 
 // public
-Steeringcontrola2::Steeringcontrola2() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Steeringcontrola2::Steeringcontrola2() { Reset(); }
 
 uint32_t Steeringcontrola2::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(ChaoM) :  modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Steeringcontrola2::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_steering_target(data, steering_target_);
   set_p_steering_enable_control(data, steering_enable_control_);
 }
 
 void Steeringcontrola2::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(ChaoM) :  you should check this manually
   steering_target_ = 0.0;
   steering_enable_control_ =
@@ -58,8 +49,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Steeringcontrola2* Steeringcontrola2::set_steering_target(
     double steering_target) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   steering_target_ = steering_target;
   return this;
 }
@@ -69,8 +58,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 8, 'type': 'double', 'order': 'intel', 'physical_unit': 'deg'}
 void Steeringcontrola2::set_p_steering_target(uint8_t* data,
                                               double steering_target) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   steering_target = ProtocolData::BoundedValue(-32.0, 32.0, steering_target);
   int x = static_cast<int>((steering_target - -1638.350000) / 0.050000);
   uint8_t t = 0;
@@ -87,8 +74,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 Steeringcontrola2* Steeringcontrola2::set_steering_enable_control(
     Steering_control_a2::Steering_enable_controlType steering_enable_control) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   steering_enable_control_ = steering_enable_control;
   return this;
 }
@@ -101,8 +86,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void Steeringcontrola2::set_p_steering_enable_control(
     uint8_t* data,
     Steering_control_a2::Steering_enable_controlType steering_enable_control) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   int x = steering_enable_control;
 
   Byte to_set(data + 0);

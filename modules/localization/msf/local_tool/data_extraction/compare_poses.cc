@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -35,8 +34,6 @@ using ::apollo::common::EigenVector3dVec;
 
 static bool LoadGnssAntennaExtrinsic(const std::string &file_path,
                                      Eigen::Vector3d *imu_ant_offset) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(imu_ant_offset);
 
   YAML::Node config = YAML::LoadFile(file_path);
@@ -60,8 +57,6 @@ static void PoseAndStdInterpolationByTime(
     const std::vector<double> &ref_timestamps,
     std::map<unsigned int, Eigen::Affine3d> *out_poses,
     std::map<unsigned int, Eigen::Vector3d> *out_stds) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   unsigned int index = 0;
   for (size_t i = 0; i < ref_timestamps.size(); ++i) {
     double ref_timestamp = ref_timestamps[i];
@@ -105,17 +100,14 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         (*out_stds)[static_cast<unsigned int>(i)] = std;
       }
     } else {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-      AERROR << "[ERROR] No more poses. Exit now.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "[ERROR] No more poses. Exit now.";
       break;
     }
   }
 }
 
 int main(int argc, char **argv) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   boost::program_options::options_description boost_desc("Allowed options");
   boost_desc.add_options()("help", "produce help message")(
       "in_folder", boost::program_options::value<std::string>(),
@@ -137,7 +129,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   boost::program_options::notify(boost_args);
 
   if (boost_args.count("help") || !boost_args.count("in_folder")) {
-    AERROR << boost_desc << std::endl;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << boost_desc << std::endl;
     return 0;
   }
 
@@ -204,8 +197,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   for (unsigned int idx = 0; idx < timestamps_a.size(); idx++) {
     auto pose_a_found_iter = out_poses_a.find(idx);
     if (pose_a_found_iter != out_poses_a.end()) {
-      AINFO << "Find pose a.";
-      const Eigen::Affine3d &pose_a = pose_a_found_iter->second;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Find pose a.";
+       const Eigen::Affine3d &pose_a = pose_a_found_iter->second;
 
       Eigen::Quaterniond quatd_a(pose_a.linear());
       Eigen::Translation3d transd_a(pose_a.translation());
@@ -217,8 +211,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
       auto pose_b_found_iter = out_poses_b.find(idx);
       if (pose_b_found_iter != out_poses_b.end()) {
-        AINFO << "Find pose b.";
-        const Eigen::Affine3d &pose_b = pose_b_found_iter->second;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Find pose b.";
+         const Eigen::Affine3d &pose_b = pose_b_found_iter->second;
         Eigen::Quaterniond quatd_b(pose_b.linear());
         Eigen::Translation3d transd_b(pose_b.translation());
         apollo::common::math::EulerAnglesZXY<double> euler_b(

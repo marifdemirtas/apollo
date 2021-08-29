@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -44,8 +43,6 @@ using apollo::cyber::common::GetAbsolutePath;
 using cyber::common::EnsureDirectory;
 
 bool LaneCameraPerception::Init(const CameraPerceptionInitOptions &options) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::string work_root = "";
   if (options.use_cyber_work_root) {
     work_root = GetCyberWorkRoot();
@@ -73,10 +70,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void LaneCameraPerception::InitLane(
     const std::string &work_root, base::BaseCameraModelPtr &model,
     const app::PerceptionParam &perception_param) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Init lane
   CHECK_GT(perception_param.lane_param_size(), 0)
       << "Failed to include lane_param";
@@ -99,14 +92,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         lane_detector_param.camera_name(), pinhole->get_intrinsic_params()));
     lane_detector_init_options.gpu_id = perception_param.gpu_id();
     lane_detector_init_options.base_camera_model = model;
-    AINFO << "lane_detector_name: " << lane_detector_plugin_param.name();
-    lane_detector_.reset(BaseLaneDetectorRegisterer::GetInstanceByName(
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lane_detector_name: " << lane_detector_plugin_param.name();
+     lane_detector_.reset(BaseLaneDetectorRegisterer::GetInstanceByName(
         lane_detector_plugin_param.name()));
     ACHECK(lane_detector_ != nullptr);
     ACHECK(lane_detector_->Init(lane_detector_init_options))
         << "Failed to init: " << lane_detector_plugin_param.name();
-    AINFO << "Detector: " << lane_detector_->Name();
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Detector: " << lane_detector_->Name();
+ 
     // Initialize lane postprocessor
     const auto &lane_postprocessor_param =
         lane_param.lane_postprocessor_param();
@@ -125,8 +120,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     ACHECK(lane_postprocessor_ != nullptr);
     ACHECK(lane_postprocessor_->Init(postprocessor_init_options))
         << "Failed to init: " << lane_postprocessor_param.name();
-    AINFO << "lane_postprocessor: " << lane_postprocessor_->Name();
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lane_postprocessor: " << lane_postprocessor_->Name();
+ 
     // Init output file folder
     if (perception_param.has_debug_param() &&
         perception_param.debug_param().has_lane_out_dir()) {
@@ -147,8 +143,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 void LaneCameraPerception::InitCalibrationService(
     const std::string &work_root, const base::BaseCameraModelPtr model,
     const app::PerceptionParam &perception_param) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Init calibration service
   ACHECK(perception_param.has_calibration_service_param())
       << "Failed to include calibration_service_param";
@@ -171,20 +165,18 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     ACHECK(calibration_service_ != nullptr);
     ACHECK(calibration_service_->Init(calibration_service_init_options))
         << "Failed to init " << calibration_service_param.plugin_param().name();
-    AINFO << "Calibration service: " << calibration_service_->Name();
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Calibration service: " << calibration_service_->Name();
+   }
 }
 
 void LaneCameraPerception::SetCameraHeightAndPitch(
     const std::map<std::string, float> name_camera_ground_height_map,
     const std::map<std::string, float> name_camera_pitch_angle_diff_map,
     const float &pitch_angle_calibrator_working_sensor) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (calibration_service_ == nullptr) {
-    AERROR << "Calibraion service is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Calibraion service is not available";
     return;
   }
   calibration_service_->SetCameraHeightAndPitch(
@@ -194,10 +186,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void LaneCameraPerception::SetIm2CarHomography(
     Eigen::Matrix3d homography_im2car) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (calibration_service_ == nullptr) {
-    AERROR << "Calibraion service is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Calibraion service is not available";
     return;
   }
   lane_postprocessor_->SetIm2CarHomography(homography_im2car);
@@ -205,22 +196,19 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool LaneCameraPerception::GetCalibrationService(
     BaseCalibrationService **calibration_service) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   *calibration_service = calibration_service_.get();
   return true;
 }
 
 bool LaneCameraPerception::Perception(const CameraPerceptionOptions &options,
                                       CameraFrame *frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PERF_FUNCTION();
   inference::CudaUtil::set_device_id(perception_param_.gpu_id());
   PERF_BLOCK_START();
 
   if (frame->calibration_service == nullptr) {
-    AERROR << "Calibraion service is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Calibraion service is not available";
     return false;
   }
 
@@ -232,14 +220,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     LaneDetectorOptions lane_detetor_options;
     LanePostprocessorOptions lane_postprocessor_options;
     if (!lane_detector_->Detect(lane_detetor_options, frame)) {
-      AERROR << "Failed to detect lane.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to detect lane.";
       return false;
     }
     PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(),
                                   "LaneDetector");
 
     if (!lane_postprocessor_->Process2D(lane_postprocessor_options, frame)) {
-      AERROR << "Failed to postprocess lane 2D.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to postprocess lane 2D.";
       return false;
     }
     PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(),
@@ -251,7 +241,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
                                   "CalibrationService");
 
     if (!lane_postprocessor_->Process3D(lane_postprocessor_options, frame)) {
-      AERROR << "Failed to postprocess lane 3D.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to postprocess lane 3D.";
       return false;
     }
     PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(),
@@ -263,9 +254,11 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       WriteLanelines(write_out_lane_file_, lane_file_path, frame->lane_objects);
     }
   } else {
-    AINFO << "Skip lane detection & calibration due to sensor mismatch.";
-    AINFO << "Will use service sync from obstacle camera instead.";
-    // fill the frame using previous estimates
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Skip lane detection & calibration due to sensor mismatch.";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Will use service sync from obstacle camera instead.";
+     // fill the frame using previous estimates
     frame->calibration_service->Update(frame);
     PERF_BLOCK_END_WITH_INDICATOR(frame->data_provider->sensor_name(),
                                   "CalibrationService");

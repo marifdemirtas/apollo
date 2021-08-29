@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -31,13 +30,15 @@ namespace apollo {
 namespace planning {
 
 void GenerateLearningData() {
-  AINFO << "map_dir: " << FLAGS_map_dir;
-  if (FLAGS_planning_offline_bags.empty()) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "map_dir: " << FLAGS_map_dir;
+   if (FLAGS_planning_offline_bags.empty()) {
     return;
   }
 
   if (!FeatureOutput::Ready()) {
-    AERROR << "Feature output is not ready.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Feature output is not ready.";
     return;
   }
 
@@ -59,11 +60,13 @@ void GenerateLearningData() {
     std::vector<std::string> offline_bags;
     util::GetFilesByPath(boost::filesystem::path(input), &offline_bags);
     std::sort(offline_bags.begin(), offline_bags.end());
-    AINFO << "For input " << input << ", found " << offline_bags.size()
-          << " rosbags to process";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "For input " << input << ", found " << offline_bags.size()
+           << " rosbags to process";
     for (std::size_t i = 0; i < offline_bags.size(); ++i) {
-      AINFO << "\tProcessing: [ " << i + 1 << " / " << offline_bags.size()
-            << " ]: " << offline_bags[i];
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "\tProcessing: [ " << i + 1 << " / " << offline_bags.size()
+             << " ]: " << offline_bags[i];
       message_process.ProcessOfflineData(offline_bags[i]);
       FeatureOutput::WriteRemainderiLearningData(offline_bags[i]);
     }
@@ -75,8 +78,6 @@ void GenerateLearningData() {
 }  // namespace apollo
 
 int main(int argc, char* argv[]) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   google::ParseCommandLineFlags(&argc, &argv, true);
   apollo::planning::GenerateLearningData();
   return 0;

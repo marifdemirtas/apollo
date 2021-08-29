@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -61,7 +60,8 @@ Status PathDecider::Process(const ReferenceLineInfo *reference_line_info,
   }
   if (!MakeObjectDecision(path_data, blocking_obstacle_id, path_decision)) {
     const std::string msg = "Failed to make decision based on tunnel";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   return Status::OK();
@@ -72,7 +72,8 @@ bool PathDecider::MakeObjectDecision(const PathData &path_data,
                                      PathDecision *const path_decision) {
   if (!MakeStaticObstacleDecision(path_data, blocking_obstacle_id,
                                   path_decision)) {
-    AERROR << "Failed to make decisions for static obstacles";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to make decisions for static obstacles";
     return false;
   }
   return true;
@@ -88,7 +89,8 @@ bool PathDecider::MakeStaticObstacleDecision(
   ACHECK(path_decision);
   const auto &frenet_path = path_data.frenet_frame_path();
   if (frenet_path.empty()) {
-    AERROR << "Path is empty.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Path is empty.";
     return false;
   }
   const double half_width =
@@ -100,8 +102,9 @@ bool PathDecider::MakeStaticObstacleDecision(
     const std::string &obstacle_id = obstacle->Id();
     const std::string obstacle_type_name =
         PerceptionObstacle_Type_Name(obstacle->Perception().type());
-    ADEBUG << "obstacle_id[<< " << obstacle_id << "] type["
-           << obstacle_type_name << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "obstacle_id[<< " << obstacle_id << "] type["
+            << obstacle_type_name << "]";
 
     if (!obstacle->IsStatic() || obstacle->IsVirtual()) {
       continue;
@@ -125,8 +128,9 @@ bool PathDecider::MakeStaticObstacleDecision(
              .path_decider()
              .is_in_path_lane_borrow_scenario()) {
       // Add stop decision
-      ADEBUG << "Blocking obstacle = " << blocking_obstacle_id;
-      ObjectDecisionType object_decision;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Blocking obstacle = " << blocking_obstacle_id;
+       ObjectDecisionType object_decision;
       *object_decision.mutable_stop() = GenerateObjectStopDecision(*obstacle);
       path_decision->AddLongitudinalDecision("PathDecider/blocking_obstacle",
                                              obstacle->Id(), object_decision);

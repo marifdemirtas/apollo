@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -54,40 +53,47 @@ bool LaneAggregatingEvaluator::Evaluate(
 
   int id = obstacle_ptr->id();
   if (!obstacle_ptr->latest_feature().IsInitialized()) {
-    AERROR << "Obstacle [" << id << "] has no latest feature.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no latest feature.";
     return false;
   }
   Feature* latest_feature_ptr = obstacle_ptr->mutable_latest_feature();
   CHECK_NOTNULL(latest_feature_ptr);
   if (!latest_feature_ptr->has_lane() ||
       !latest_feature_ptr->lane().has_lane_graph_ordered()) {
-    AERROR << "Obstacle [" << id << "] has no lane graph.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no lane graph.";
     return false;
   }
   LaneGraph* lane_graph_ptr =
       latest_feature_ptr->mutable_lane()->mutable_lane_graph_ordered();
   CHECK_NOTNULL(lane_graph_ptr);
   if (lane_graph_ptr->lane_sequence().empty()) {
-    AERROR << "Obstacle [" << id << "] has no lane sequences.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has no lane sequences.";
     return false;
   }
-  ADEBUG << "There are " << lane_graph_ptr->lane_sequence_size()
-         << " lane sequences to scan.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "There are " << lane_graph_ptr->lane_sequence_size()
+          << " lane sequences to scan.";
 
   // Extract features, and do model inferencing.
   // 1. Encode the obstacle features.
   std::vector<double> obstacle_feature_values;
   if (!ExtractObstacleFeatures(obstacle_ptr, &obstacle_feature_values)) {
-    ADEBUG << "Failed to extract obstacle features for obs_id = " << id;
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Failed to extract obstacle features for obs_id = " << id;
+   }
   if (obstacle_feature_values.size() != OBSTACLE_FEATURE_SIZE) {
-    ADEBUG << "Obstacle [" << id << "] has fewer than "
-           << "expected obstacle feature_values "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle [" << id << "] has fewer than "
+            << "expected obstacle feature_values "
            << obstacle_feature_values.size() << ".";
     return false;
   }
-  ADEBUG << "Obstacle feature size = " << obstacle_feature_values.size();
-  std::vector<torch::jit::IValue> obstacle_encoding_inputs;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle feature size = " << obstacle_feature_values.size();
+   std::vector<torch::jit::IValue> obstacle_encoding_inputs;
   torch::Tensor obstacle_encoding_inputs_tensor =
       torch::zeros({1, static_cast<int>(obstacle_feature_values.size())});
   for (size_t i = 0; i < obstacle_feature_values.size(); ++i) {
@@ -106,7 +112,8 @@ bool LaneAggregatingEvaluator::Evaluate(
   if (!ExtractStaticEnvFeatures(obstacle_ptr, lane_graph_ptr,
                                 &lane_feature_values,
                                 &lane_sequence_idx_to_remove)) {
-    AERROR << "Failed to extract static environmental features around obs_id = "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to extract static environmental features around obs_id = "
            << id;
   }
   std::vector<torch::Tensor> lane_encoding_list;
@@ -114,7 +121,8 @@ bool LaneAggregatingEvaluator::Evaluate(
     if (single_lane_feature_values.size() !=
         SINGLE_LANE_FEATURE_SIZE *
             (LANE_POINTS_SIZE + BACKWARD_LANE_POINTS_SIZE)) {
-      AERROR << "Obstacle [" << id << "] has incorrect lane feature size.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Obstacle [" << id << "] has incorrect lane feature size.";
       return false;
     }
     std::vector<torch::jit::IValue> single_lane_encoding_inputs;
@@ -175,8 +183,9 @@ bool LaneAggregatingEvaluator::Evaluate(
   for (int i = 0; i < lane_graph_ptr->lane_sequence_size(); ++i) {
     lane_graph_ptr->mutable_lane_sequence(i)->set_probability(
         output_probabilities[i]);
-    ADEBUG << output_probabilities[i];
-  }
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << output_probabilities[i];
+   }
 
   *(latest_feature_ptr->mutable_lane()->mutable_lane_graph()) = *lane_graph_ptr;
   return true;
@@ -208,8 +217,9 @@ bool LaneAggregatingEvaluator::ExtractObstacleFeatures(
   double prev_timestamp = obs_curr_feature.timestamp();
 
   // Starting from the most recent timestamp and going backward.
-  ADEBUG << "Obstacle has " << obstacle_ptr->history_size()
-         << " history timestamps.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Obstacle has " << obstacle_ptr->history_size()
+          << " history timestamps.";
   for (std::size_t i = 0; i < std::min(obstacle_ptr->history_size(),
                                        FLAGS_cruise_historical_frame_length);
        ++i) {

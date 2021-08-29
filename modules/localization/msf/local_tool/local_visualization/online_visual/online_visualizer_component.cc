@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -31,26 +30,22 @@ namespace apollo {
 namespace localization {
 namespace msf {
 
-OnlineVisualizerComponent::OnlineVisualizerComponent() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+OnlineVisualizerComponent::OnlineVisualizerComponent() {}
 
 OnlineVisualizerComponent::~OnlineVisualizerComponent() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   VisualizationManager::GetInstance().StopVisualization();
 }
 
 bool OnlineVisualizerComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   if (!InitConfig()) {
-    AERROR << "InitParams failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "InitParams failed.";
     return false;
   }
 
   if (!InitIO()) {
-    AERROR << "InitIO failed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "InitIO failed.";
     return false;
   }
 
@@ -60,8 +55,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool OnlineVisualizerComponent::InitConfig() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   map_folder_ = FLAGS_map_dir + "/" + FLAGS_local_map_name;
   map_visual_folder_ = FLAGS_map_visual_dir;
   lidar_extrinsic_file_ = FLAGS_lidar_extrinsics_file;
@@ -75,7 +68,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   bool success =
       velodyne::LoadExtrinsic(lidar_extrinsic_file_, &velodyne_extrinsic);
   if (!success) {
-    AERROR << "Load lidar extrinsic failed." << std::endl;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Load lidar extrinsic failed." << std::endl;
     return false;
   }
   std::cout << "Load lidar extrinsic succeed." << std::endl;
@@ -85,7 +79,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   map_config.map_version_ = "lossy_map";
   success = map_config.Load(config_file);
   if (!success) {
-    AERROR << "Load map config failed." << std::endl;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Load map config failed." << std::endl;
     return false;
   }
   std::cout << "Load map config succeed." << std::endl;
@@ -105,8 +100,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 bool OnlineVisualizerComponent::InitIO() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Lidar localization
   std::function<void(const std::shared_ptr<LocalizationEstimate> &)>
       lidar_local_call =
@@ -144,8 +137,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool OnlineVisualizerComponent::Proc(
     const std::shared_ptr<drivers::PointCloud> &msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LidarVisFrame lidar_vis_frame;
   lidar_vis_frame.timestamp = cyber::Time(msg->measurement_time()).ToSecond();
 
@@ -162,8 +153,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void OnlineVisualizerComponent::OnLidarLocalization(
     const std::shared_ptr<LocalizationEstimate> &msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LocalizationMsg lidar_loc_msg;
 
   lidar_loc_msg.timestamp = msg->measurement_time();
@@ -191,8 +180,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void OnlineVisualizerComponent::OnGNSSLocalization(
     const std::shared_ptr<LocalizationEstimate> &msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LocalizationMsg gnss_loc_msg;
 
   gnss_loc_msg.timestamp = msg->measurement_time();
@@ -220,8 +207,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void OnlineVisualizerComponent::OnFusionLocalization(
     const std::shared_ptr<LocalizationEstimate> &msg) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LocalizationMsg fusion_loc_msg;
 
   fusion_loc_msg.timestamp = msg->measurement_time();
@@ -251,8 +236,6 @@ void OnlineVisualizerComponent::ParsePointCloudMessage(
     const std::shared_ptr<drivers::PointCloud> &msg,
     ::apollo::common::EigenVector3dVec *pt3ds,
     std::vector<unsigned char> *intensities) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   CHECK_NOTNULL(pt3ds);
   CHECK_NOTNULL(intensities);
 
@@ -272,8 +255,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
       }
     }
   } else {
-    AINFO << "Receiving un-organized-point-cloud, width " << msg->width()
-          << " height " << msg->height() << "size " << msg->point_size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Receiving un-organized-point-cloud, width " << msg->width()
+           << " height " << msg->height() << "size " << msg->point_size();
     for (int i = 0; i < msg->point_size(); ++i) {
       Eigen::Vector3d pt3d;
       pt3d[0] = static_cast<double>(msg->point(i).x());

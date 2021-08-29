@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -32,8 +31,6 @@ namespace apollo {
 namespace canbus {
 
 void VehicleFactory::RegisterVehicleFactory() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Register(apollo::common::LINCOLN_MKZ, []() -> AbstractVehicleFactory * {
     return new LincolnVehicleFactory();
   });
@@ -68,16 +65,16 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 std::unique_ptr<AbstractVehicleFactory> VehicleFactory::CreateVehicle(
     const VehicleParameter &vehicle_parameter) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto abstract_factory = CreateObject(vehicle_parameter.brand());
   if (!abstract_factory) {
-    AERROR << "failed to create vehicle factory with "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to create vehicle factory with "
            << vehicle_parameter.DebugString();
   } else {
     abstract_factory->SetVehicleParameter(vehicle_parameter);
-    AINFO << "successfully created vehicle factory with "
-          << vehicle_parameter.DebugString();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "successfully created vehicle factory with "
+           << vehicle_parameter.DebugString();
   }
   return abstract_factory;
 }

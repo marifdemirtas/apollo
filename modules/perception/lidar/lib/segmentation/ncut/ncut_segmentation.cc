@@ -37,10 +37,12 @@ using Eigen::MatrixXf;
 bool NCutSegmentation::Init(const SegmentationInitOptions& options) {
   std::string param_file;
   ACHECK(GetConfigs(&param_file));
-  AINFO << "--    param_file: " << param_file;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "--    param_file: " << param_file;
 
   if (!Configure(param_file)) {
-    AERROR << "failed to load ncut config.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to load ncut config.";
     return false;
   }
 
@@ -61,19 +63,22 @@ bool NCutSegmentation::Init(const SegmentationInitOptions& options) {
 
   _outliers.reset(new std::vector<ObjectPtr>);
   if (!_outliers) {
-    AERROR << "Failed to reset outliers.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to reset outliers.";
     return false;
   }
   int num_threads = 1;
 #pragma omp parallel
   { num_threads = omp_get_num_threads(); }
 
-  AINFO << "number threads " << num_threads;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "number threads " << num_threads;
   _segmentors.resize(num_threads);
   for (int i = 0; i < num_threads; ++i) {
     _segmentors[i].reset(new NCut);
     if (!(_segmentors[i]->Init(ncut_param_))) {
-      AERROR << "failed to init NormalizedCut " << i << ".";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "failed to init NormalizedCut " << i << ".";
       return false;
     }
   }
@@ -91,7 +96,8 @@ bool NCutSegmentation::Init(const SegmentationInitOptions& options) {
       roi_world_cloud_->CopyPointCloud(*lidar_frame_ref_->world_cloud,
                                        lidar_frame_ref_->roi_indices);
     } else {
-      AINFO << "Fail to call roi filter, use origin cloud.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Fail to call roi filter, use origin cloud.";
       lidar_frame_ref_->roi_indices.indices.resize(original_cloud_->size());
       // we manually fill roi indices with all cloud point indices
       std::iota(lidar_frame_ref_->roi_indices.indices.begin(),
@@ -102,7 +108,8 @@ bool NCutSegmentation::Init(const SegmentationInitOptions& options) {
     }
     lidar_frame_ref_->cloud = roi_cloud_;
     lidar_frame_ref_->world_cloud = roi_world_cloud_;
-    AINFO << "lidar 2 world pose " << lidar_frame_ref_->lidar2world_pose(0, 3)
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "lidar 2 world pose " << lidar_frame_ref_->lidar2world_pose(0, 3)
           << " " << lidar_frame_ref_->lidar2world_pose(1, 3) << " "
           << lidar_frame_ref_->lidar2world_pose(2, 3);
     GroundDetectorOptions ground_detector_options;
@@ -122,7 +129,8 @@ bool NCutSegmentation::Init(const SegmentationInitOptions& options) {
   _rgb_cloud = CPointCloudPtr(new CPointCloud);
 #endif
 
-  AINFO << "NCutSegmentation init success, num_threads: " << num_threads;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "NCutSegmentation init success, num_threads: " << num_threads;
   return true;
 }
 
@@ -146,7 +154,8 @@ bool NCutSegmentation::Configure(std::string param_file) {
   roi_filter_str_ = seg_param_.roi_filter();
   ncut_param_ = seg_param_.ncut_param();
   do_classification_ = seg_param_.do_classification();
-  AINFO << "NCut Segmentation " << seg_param_.DebugString();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "NCut Segmentation " << seg_param_.DebugString();
   return true;
 }
 
@@ -175,23 +184,28 @@ bool NCutSegmentation::Segment(const SegmentationOptions& options,
                                LidarFrame* frame) {
   // check input
   if (frame == nullptr) {
-    AERROR << "Input null frame ptr.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input null frame ptr.";
     return false;
   }
   if (frame->cloud == nullptr) {
-    AERROR << "Input null frame cloud.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input null frame cloud.";
     return false;
   }
   if (frame->world_cloud == nullptr) {
-    AERROR << "Input null frame world cloud.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input null frame world cloud.";
     return false;
   }
   if (frame->cloud->size() == 0) {
-    AERROR << "Input none points.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Input none points.";
     return false;
   }
   if (frame->cloud->size() != frame->world_cloud->size()) {
-    AERROR << "Cloud size and world cloud size not consistent.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cloud size and world cloud size not consistent.";
     return false;
   }
 
@@ -206,20 +220,23 @@ bool NCutSegmentation::Segment(const SegmentationOptions& options,
 #pragma omp parallel
   { num_threads = omp_get_num_threads(); }
 
-  AINFO << "input point cloud: " << original_cloud_->size() << " points";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "input point cloud: " << original_cloud_->size() << " points";
 #ifdef DEBUG_NCUT
   VisualizePointCloud(original_cloud_);
 #endif
 
   if (remove_roi_) {
-    AINFO << "remove roi and remove ground for ncut segmentation";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "remove roi and remove ground for ncut segmentation";
     worker_.WakeUp();
     worker_.Join();
   }
 
   base::PointFCloudPtr cloud_above_ground(new base::PointFCloud);
   if (remove_ground_) {
-    AINFO << "remove ground";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "remove ground";
     cloud_above_ground->CopyPointCloud(*lidar_frame_ref_->cloud,
                                        lidar_frame_ref_->non_ground_indices);
   } else {
@@ -230,7 +247,8 @@ bool NCutSegmentation::Segment(const SegmentationOptions& options,
 
 #ifdef DEBUG_NCUT
   // filter_by_ground(cloud, non_ground_indices, &cloud_above_ground);
-  AINFO << "filter ground, elapsed time: " << omp_get_wtime() - start_t
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "filter ground, elapsed time: " << omp_get_wtime() - start_t
         << cloud_above_ground->size() << " points left";
   start_t = omp_get_wtime();
   VisualizePointCloud(cloud_above_ground);
@@ -241,7 +259,8 @@ bool NCutSegmentation::Segment(const SegmentationOptions& options,
   ObstacleFilter(cloud_above_ground, vehicle_filter_cell_size_, false,
                  &cloud_after_car_filter, segments);
 #ifdef DEBUG_NCUT
-  AINFO << "filter vehicle, elapsed time: " << omp_get_wtime() - start_t
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "filter vehicle, elapsed time: " << omp_get_wtime() - start_t
         << "filter vehicle: " << cloud_after_car_filter->size()
         << " points left";
   start_t = omp_get_wtime();
@@ -254,12 +273,15 @@ bool NCutSegmentation::Segment(const SegmentationOptions& options,
                  &cloud_after_people_filter, segments);
 
 #ifdef DEBUG_NCUT
-  AINFO << "filter pedestrian, elapsed time: " << omp_get_wtime() - start_t;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "filter pedestrian, elapsed time: " << omp_get_wtime() - start_t;
   start_t = omp_get_wtime();
-  AINFO << "filter pedestrian: " << cloud_after_people_filter->size()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "filter pedestrian: " << cloud_after_people_filter->size()
         << " points left";
   VisualizePointCloud(cloud_after_people_filter);
-  AINFO << "after filter car/pedestrian #segments " << segments->size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "after filter car/pedestrian #segments " << segments->size();
 // VisualizeSegments(*segments);
 #endif
 
@@ -269,10 +291,12 @@ bool NCutSegmentation::Segment(const SegmentationOptions& options,
                                &cloud_components);
 
 #ifdef DEBUG_NCUT
-  AINFO << "partition small regions, elapsed time: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "partition small regions, elapsed time: "
         << omp_get_wtime() - start_t;
   start_t = omp_get_wtime();
-  AINFO << "partition " << cloud_components.size() << " components";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "partition " << cloud_components.size() << " components";
 #endif
 
   std::vector<bool> cloud_outlier_flag(cloud_components.size());
@@ -303,7 +327,8 @@ bool NCutSegmentation::Segment(const SegmentationOptions& options,
     _outliers->push_back(obj);
   }
 #ifdef DEBUG_NCUT
-  AINFO << "filter outlier, elapsed time: " << omp_get_wtime() - start_t;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "filter outlier, elapsed time: " << omp_get_wtime() - start_t;
   start_t = omp_get_wtime();
 #endif
   // .6 graph cut each
@@ -326,7 +351,8 @@ bool NCutSegmentation::Segment(const SegmentationOptions& options,
 #pragma omp for schedule(guided)
     for (size_t i = 0; i < cloud_tbd.size(); ++i) {
       my_ncut->Segment(cloud_components[cloud_tbd[i]]);
-      ADEBUG << "after segment with num segments" << my_ncut->NumSegments();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "after segment with num segments" << my_ncut->NumSegments();
       for (int j = 0; j < my_ncut->NumSegments(); ++j) {
         base::PointFCloudPtr pc = my_ncut->GetSegmentPointCloud(j);
         std::string label = my_ncut->GetSegmentLabel(j);
@@ -340,7 +366,8 @@ bool NCutSegmentation::Segment(const SegmentationOptions& options,
     }
   }
 #ifdef DEBUG_NCUT
-  ADEBUG << "parallel normalized cut, elapsed time: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "parallel normalized cut, elapsed time: "
          << omp_get_wtime() - start_t;
   start_t = omp_get_wtime();
 #endif
@@ -387,9 +414,12 @@ bool NCutSegmentation::Segment(const SegmentationOptions& options,
       obj_ptr->lidar_supplement.cloud = *threads_outlier_pcs[i][j];
     }
   }
-  AINFO << "aggregate results, elapsed time: " << omp_get_wtime() - start_t;
-  AINFO << "final #segments " << segments->size();
-  AINFO << "final #outliers " << _outliers->size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "aggregate results, elapsed time: " << omp_get_wtime() - start_t;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "final #segments " << segments->size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "final #outliers " << _outliers->size();
 
 #ifdef DEBUG_NCUT
   VisualizeSegments(*segments);
@@ -441,7 +471,8 @@ void NCutSegmentation::ObstacleFilter(const base::PointFCloudPtr& in_cloud,
   FFfilter.GetSegments(in_cloud, &component_points, &num_cells_per_components);
 
 #ifdef DEBUG_NCUT
-  AINFO << "flood fill: " << component_points.size() << " components";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "flood fill: " << component_points.size() << " components";
 // VisualizeComponents(in_cloud, component_points);
 #endif
 
@@ -455,17 +486,20 @@ void NCutSegmentation::ObstacleFilter(const base::PointFCloudPtr& in_cloud,
           new base::PointFCloud(*in_cloud, component_points[i]));
       std::string label =
           _segmentors[tid]->GetPcRoughLabel(pc, filter_pedestrian_only);
-      AINFO << "before: component id: " << i << ", label: " << label;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "before: component id: " << i << ", label: " << label;
       if (filter_pedestrian_only) {
         label =
             (label == "pedestrian" || label == "nonMot") ? label : "unknown";
       }
-      AINFO << "after: component id: " << i << ", label: " << label;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "after: component id: " << i << ", label: " << label;
       component_labels[i] = label;
     }
   }  // end of for
 
-  AINFO << "classification done";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "classification done";
   std::vector<int> remaining_pids;
   std::vector<int> obstacle_components;
   for (int i = 0; i < num_components; ++i) {
@@ -476,7 +510,8 @@ void NCutSegmentation::ObstacleFilter(const base::PointFCloudPtr& in_cloud,
                             component_points[i].end());
     }
   }
-  AINFO << "obstacle_filter: filter unknown out, obstacle_components.size = "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "obstacle_filter: filter unknown out, obstacle_components.size = "
         << obstacle_components.size()
         << ", remaining_pids.size = " << remaining_pids.size();
   int offset = static_cast<int>(segments->size());

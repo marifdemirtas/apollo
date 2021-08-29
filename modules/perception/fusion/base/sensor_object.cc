@@ -50,7 +50,8 @@ double SensorObject::GetTimestamp() const {
 
 bool SensorObject::GetRelatedFramePose(Eigen::Affine3d* pose) const {
   if (pose == nullptr) {
-    AERROR << "pose is not available";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "pose is not available";
     return false;
   }
   if (frame_header_ == nullptr) {

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
@@ -54,7 +53,8 @@ Status OpenSpaceRoiDecider::Process(Frame *frame) {
   if (frame == nullptr) {
     const std::string msg =
         "Invalid frame, fail to process the OpenSpaceRoiDecider.";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -78,13 +78,15 @@ Status OpenSpaceRoiDecider::Process(Frame *frame) {
           routing_request.parking_info().parking_space_id();
     } else {
       const std::string msg = "Failed to get parking space id from routing";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
 
     if (!GetParkingSpot(frame, &spot_vertices, &nearby_path)) {
       const std::string msg = "Fail to get parking boundary from map";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
 
@@ -94,13 +96,15 @@ Status OpenSpaceRoiDecider::Process(Frame *frame) {
 
     if (!GetParkingBoundary(frame, spot_vertices, nearby_path, &roi_boundary)) {
       const std::string msg = "Fail to get parking boundary from map";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
   } else if (roi_type == OpenSpaceRoiDeciderConfig::PULL_OVER) {
     if (!GetPullOverSpot(frame, &spot_vertices, &nearby_path)) {
       const std::string msg = "Fail to get parking boundary from map";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
 
@@ -111,43 +115,53 @@ Status OpenSpaceRoiDecider::Process(Frame *frame) {
     if (!GetPullOverBoundary(frame, spot_vertices, nearby_path,
                              &roi_boundary)) {
       const std::string msg = "Fail to get parking boundary from map";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
   } else if (roi_type == OpenSpaceRoiDeciderConfig::PARK_AND_GO) {
-    ADEBUG << "in Park_and_Go";
-    nearby_path =
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "in Park_and_Go";
+     nearby_path =
         frame->reference_line_info().front().reference_line().GetMapPath();
 
-    ADEBUG << "nearby_path: " << nearby_path.DebugString();
-    ADEBUG << "found nearby_path";
-    if (!injector_->planning_context()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "nearby_path: " << nearby_path.DebugString();
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "found nearby_path";
+     if (!injector_->planning_context()
              ->planning_status()
              .park_and_go()
              .has_adc_init_position()) {
       const std::string msg = "ADC initial position is unavailable";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
     SetOriginFromADC(frame, nearby_path);
-    ADEBUG << "SetOrigin";
-    SetParkAndGoEndPose(frame);
-    ADEBUG << "SetEndPose";
-    if (!GetParkAndGoBoundary(frame, nearby_path, &roi_boundary)) {
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "SetOrigin";
+     SetParkAndGoEndPose(frame);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "SetEndPose";
+     if (!GetParkAndGoBoundary(frame, nearby_path, &roi_boundary)) {
       const std::string msg = "Fail to get park and go boundary from map";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
     }
   } else {
     const std::string msg =
         "chosen open space roi secenario type not implemented";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
   if (!FormulateBoundaryConstraints(roi_boundary, frame)) {
     const std::string msg = "Fail to formulate boundary constraints";
-    AERROR << msg;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
     return Status(ErrorCode::PLANNING_ERROR, msg);
   }
 
@@ -173,29 +187,35 @@ void OpenSpaceRoiDecider::SetOriginFromADC(Frame *const frame,
   std::vector<common::math::Vec2d> adc_corners;
   adc_box.GetAllCorners(&adc_corners);
   for (size_t i = 0; i < adc_corners.size(); ++i) {
-    ADEBUG << "ADC [" << i << "]x: " << std::setprecision(9)
-           << adc_corners[i].x();
-    ADEBUG << "ADC [" << i << "]y: " << std::setprecision(9)
-           << adc_corners[i].y();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC [" << i << "]x: " << std::setprecision(9)
+            << adc_corners[i].x();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC [" << i << "]y: " << std::setprecision(9)
+            << adc_corners[i].y();
   }
   auto left_top = adc_corners[3];
 
-  ADEBUG << "left_top x: " << std::setprecision(9) << left_top.x();
-  ADEBUG << "left_top y: " << std::setprecision(9) << left_top.y();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "left_top x: " << std::setprecision(9) << left_top.x();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "left_top y: " << std::setprecision(9) << left_top.y();
+ 
   // rotate the points to have the lane to be horizontal to x axis positive
   // direction and scale them base on the origin point
   // heading angle
   double heading;
   if (!nearby_path.GetHeadingAlongPath(left_top, &heading)) {
-    AERROR << "fail to get heading on reference line";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to get heading on reference line";
     return;
   }
 
   frame->mutable_open_space_info()->set_origin_heading(
       common::math::NormalizeAngle(heading));
-  ADEBUG << "heading: " << heading;
-  frame->mutable_open_space_info()->mutable_origin_point()->set_x(left_top.x());
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "heading: " << heading;
+   frame->mutable_open_space_info()->mutable_origin_point()->set_x(left_top.x());
   frame->mutable_open_space_info()->mutable_origin_point()->set_y(left_top.y());
 }
 
@@ -317,16 +337,19 @@ void OpenSpaceRoiDecider::SetParkAndGoEndPose(Frame *const frame) {
   const double adc_init_x = park_and_go_status->adc_init_position().x();
   const double adc_init_y = park_and_go_status->adc_init_position().y();
 
-  ADEBUG << "ADC position (x): " << std::setprecision(9) << adc_init_x;
-  ADEBUG << "ADC position (y): " << std::setprecision(9) << adc_init_y;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC position (x): " << std::setprecision(9) << adc_init_x;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC position (y): " << std::setprecision(9) << adc_init_y;
+ 
   const common::math::Vec2d adc_position = {adc_init_x, adc_init_y};
   common::SLPoint adc_position_sl;
 
   // get nearest reference line
   const auto &reference_line_list = frame->reference_line_info();
-  ADEBUG << reference_line_list.size();
-  const auto reference_line_info = std::min_element(
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << reference_line_list.size();
+   const auto reference_line_info = std::min_element(
       reference_line_list.begin(), reference_line_list.end(),
       [&](const ReferenceLineInfo &ref_a, const ReferenceLineInfo &ref_b) {
         common::SLPoint adc_position_sl_a;
@@ -350,10 +373,13 @@ void OpenSpaceRoiDecider::SetParkAndGoEndPose(Frame *const frame) {
   park_and_go_status->mutable_adc_adjust_end_pose()->set_x(target_x);
   park_and_go_status->mutable_adc_adjust_end_pose()->set_y(target_y);
 
-  ADEBUG << "center.x(): " << std::setprecision(9) << target_x;
-  ADEBUG << "center.y(): " << std::setprecision(9) << target_y;
-  ADEBUG << "target_theta: " << std::setprecision(9) << target_theta;
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "center.x(): " << std::setprecision(9) << target_x;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "center.y(): " << std::setprecision(9) << target_y;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "target_theta: " << std::setprecision(9) << target_theta;
+ 
   // Normalize according to origin_point and origin_heading
   const auto &origin_point = frame->open_space_info().origin_point();
   const auto &origin_heading = frame->open_space_info().origin_heading();
@@ -369,10 +395,13 @@ void OpenSpaceRoiDecider::SetParkAndGoEndPose(Frame *const frame) {
   end_pose->push_back(center.y());
   end_pose->push_back(target_theta);
 
-  ADEBUG << "ADC position (x): " << std::setprecision(9) << (*end_pose)[0];
-  ADEBUG << "ADC position (y): " << std::setprecision(9) << (*end_pose)[1];
-  ADEBUG << "reference_line ID: " << reference_line_info->Lanes().Id();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC position (x): " << std::setprecision(9) << (*end_pose)[0];
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC position (y): " << std::setprecision(9) << (*end_pose)[1];
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "reference_line ID: " << reference_line_info->Lanes().Id();
+ 
   // end pose velocity set to be speed limit
   double target_speed = reference_line.GetSpeedLimitFromS(target_s);
   end_pose->push_back(kSpeedRatio * target_speed);
@@ -414,8 +443,9 @@ void OpenSpaceRoiDecider::GetRoadBoundary(
         config_.open_space_roi_decider_config().roi_line_segment_min_angle();
     last_check_point_heading = check_point_heading;
 
-    ADEBUG << "is is_center_lane_heading_change: "
-           << is_center_lane_heading_change;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "is is_center_lane_heading_change: "
+            << is_center_lane_heading_change;
     // Check if the current center-lane checking-point is start point || end
     // point || or point with larger curvature. If yes, mark it as an anchor
     // point.
@@ -537,20 +567,24 @@ void OpenSpaceRoiDecider::GetRoadBoundaryFromMap(
 
   size_t left_point_size = left_lane_boundary->size();
   size_t right_point_size = right_lane_boundary->size();
-  ADEBUG << "right_road_boundary size: " << right_lane_boundary->size();
-  ADEBUG << "left_road_boundary size: " << left_lane_boundary->size();
-  for (size_t i = 0; i < left_point_size; i++) {
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "right_road_boundary size: " << right_lane_boundary->size();
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "left_road_boundary size: " << left_lane_boundary->size();
+   for (size_t i = 0; i < left_point_size; i++) {
     left_lane_boundary->at(i) -= origin_point;
     left_lane_boundary->at(i).SelfRotate(-origin_heading);
-    ADEBUG << "left_road_boundary: [" << std::setprecision(9)
-           << left_lane_boundary->at(i).x() << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "left_road_boundary: [" << std::setprecision(9)
+            << left_lane_boundary->at(i).x() << ", "
            << left_lane_boundary->at(i).y() << "]";
   }
   for (size_t i = 0; i < right_point_size; i++) {
     right_lane_boundary->at(i) -= origin_point;
     right_lane_boundary->at(i).SelfRotate(-origin_heading);
-    ADEBUG << "right_road_boundary: [" << std::setprecision(9)
-           << right_lane_boundary->at(i).x() << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "right_road_boundary: [" << std::setprecision(9)
+            << right_lane_boundary->at(i).x() << ", "
            << right_lane_boundary->at(i).y() << "]";
   }
   if (!left_lane_boundary->empty()) {
@@ -683,17 +717,22 @@ bool OpenSpaceRoiDecider::GetParkingBoundary(
     const hdmap::Path &nearby_path,
     std::vector<std::vector<common::math::Vec2d>> *const roi_parking_boundary) {
   auto left_top = vertices[0];
-  ADEBUG << "left_top: " << left_top.x() << ", " << left_top.y();
-  auto left_down = vertices[1];
-  ADEBUG << "left_down: " << left_down.x() << ", " << left_down.y();
-  auto right_down = vertices[2];
-  ADEBUG << "right_down: " << right_down.x() << ", " << left_down.y();
-  auto right_top = vertices[3];
-  ADEBUG << "right_top: " << right_top.x() << ", " << right_top.y();
-
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "left_top: " << left_top.x() << ", " << left_top.y();
+   auto left_down = vertices[1];
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "left_down: " << left_down.x() << ", " << left_down.y();
+   auto right_down = vertices[2];
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "right_down: " << right_down.x() << ", " << left_down.y();
+   auto right_top = vertices[3];
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "right_top: " << right_top.x() << ", " << right_top.y();
+ 
   const auto &origin_point = frame->open_space_info().origin_point();
-  ADEBUG << "origin_point: " << origin_point.x() << ", " << origin_point.y();
-  const auto &origin_heading = frame->open_space_info().origin_heading();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "origin_point: " << origin_point.x() << ", " << origin_point.y();
+   const auto &origin_heading = frame->open_space_info().origin_heading();
 
   double left_top_s = 0.0;
   double left_top_l = 0.0;
@@ -701,7 +740,8 @@ bool OpenSpaceRoiDecider::GetParkingBoundary(
   double right_top_l = 0.0;
   if (!(nearby_path.GetProjection(left_top, &left_top_s, &left_top_l) &&
         nearby_path.GetProjection(right_top, &right_top_s, &right_top_l))) {
-    AERROR << "fail to get parking spot points' projections on reference line";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to get parking spot points' projections on reference line";
     return false;
   }
 
@@ -753,8 +793,9 @@ bool OpenSpaceRoiDecider::GetParkingBoundary(
   if (average_l < 0) {
     // if average_l is lower than zero, the parking spot is on the right
     // lane boundary and assume that the lane half width is average_l
-    ADEBUG << "average_l is less than 0 in OpenSpaceROI";
-    size_t point_size = right_lane_boundary.size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "average_l is less than 0 in OpenSpaceROI";
+     size_t point_size = right_lane_boundary.size();
     for (size_t i = 0; i < point_size; i++) {
       right_lane_boundary[i].SelfRotate(origin_heading);
       right_lane_boundary[i] += origin_point;
@@ -841,8 +882,9 @@ bool OpenSpaceRoiDecider::GetParkingBoundary(
   } else {
     // if average_l is higher than zero, the parking spot is on the left
     // lane boundary and assume that the lane half width is average_l
-    ADEBUG << "average_l is greater than 0 in OpenSpaceROI";
-    size_t point_size = left_lane_boundary.size();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "average_l is greater than 0 in OpenSpaceROI";
+     size_t point_size = left_lane_boundary.size();
     for (size_t i = 0; i < point_size; i++) {
       left_lane_boundary[i].SelfRotate(origin_heading);
       left_lane_boundary[i] += origin_point;
@@ -852,8 +894,9 @@ bool OpenSpaceRoiDecider::GetParkingBoundary(
       left_lane_boundary[i] += center_lane_boundary_left[i];
       left_lane_boundary[i] -= origin_point;
       left_lane_boundary[i].SelfRotate(-origin_heading);
-      ADEBUG << "left_lane_boundary[" << i << "]: " << left_lane_boundary[i].x()
-             << ", " << left_lane_boundary[i].y();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "left_lane_boundary[" << i << "]: " << left_lane_boundary[i].x()
+              << ", " << left_lane_boundary[i].y();
     }
 
     auto point_right_to_right_top_connor_s = std::lower_bound(
@@ -932,7 +975,8 @@ bool OpenSpaceRoiDecider::GetParkingBoundary(
 
   // Fuse line segments into convex contraints
   if (!FuseLineSegments(roi_parking_boundary)) {
-    AERROR << "FuseLineSegments failed in parking ROI";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "FuseLineSegments failed in parking ROI";
     return false;
   }
   // Get xy boundary
@@ -955,7 +999,8 @@ bool OpenSpaceRoiDecider::GetParkingBoundary(
       vehicle_xy.x() > ROI_xy_boundary[1] ||
       vehicle_xy.y() < ROI_xy_boundary[2] ||
       vehicle_xy.y() > ROI_xy_boundary[3]) {
-    AERROR << "vehicle outside of xy boundary of parking ROI";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "vehicle outside of xy boundary of parking ROI";
     return false;
   }
   return true;
@@ -979,7 +1024,8 @@ bool OpenSpaceRoiDecider::GetPullOverBoundary(
   double right_top_l = 0.0;
   if (!(nearby_path.GetProjection(left_top, &left_top_s, &left_top_l) &&
         nearby_path.GetProjection(right_top, &right_top_s, &right_top_l))) {
-    AERROR << "fail to get parking spot points' projections on reference line";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to get parking spot points' projections on reference line";
     return false;
   }
 
@@ -1055,7 +1101,8 @@ bool OpenSpaceRoiDecider::GetPullOverBoundary(
       vehicle_xy.x() > ROI_xy_boundary[1] ||
       vehicle_xy.y() < ROI_xy_boundary[2] ||
       vehicle_xy.y() > ROI_xy_boundary[3]) {
-    AERROR << "vehicle outside of xy boundary of parking ROI";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "vehicle outside of xy boundary of parking ROI";
     return false;
   }
   return true;
@@ -1089,7 +1136,8 @@ bool OpenSpaceRoiDecider::GetParkAndGoBoundary(
   double right_top_l = 0.0;
   if (!(nearby_path.GetProjection(left_top, &left_top_s, &left_top_l) &&
         nearby_path.GetProjection(right_top, &right_top_s, &right_top_l))) {
-    AERROR << "fail to get parking spot points' projections on reference line";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail to get parking spot points' projections on reference line";
     return false;
   }
   left_top -= origin_point;
@@ -1134,12 +1182,15 @@ bool OpenSpaceRoiDecider::GetParkAndGoBoundary(
   for (size_t i = 0; i < right_lane_boundary_last_index; i++) {
     std::vector<Vec2d> segment{right_lane_boundary[i],
                                right_lane_boundary[i + 1]};
-    ADEBUG << "right segment";
-    ADEBUG << "right_road_boundary: [" << std::setprecision(9)
-           << right_lane_boundary[i].x() << ", " << right_lane_boundary[i].y()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "right segment";
+     AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "right_road_boundary: [" << std::setprecision(9)
+            << right_lane_boundary[i].x() << ", " << right_lane_boundary[i].y()
            << "]";
-    ADEBUG << "right_road_boundary: [" << std::setprecision(9)
-           << right_lane_boundary[i + 1].x() << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "right_road_boundary: [" << std::setprecision(9)
+            << right_lane_boundary[i + 1].x() << ", "
            << right_lane_boundary[i + 1].y() << "]";
     roi_parking_boundary->push_back(segment);
   }
@@ -1151,16 +1202,18 @@ bool OpenSpaceRoiDecider::GetParkAndGoBoundary(
     roi_parking_boundary->push_back(segment);
   }
 
-  ADEBUG << "roi_parking_boundary size: [" << roi_parking_boundary->size()
-         << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "roi_parking_boundary size: [" << roi_parking_boundary->size()
+          << "]";
 
   // Fuse line segments into convex contraints
   if (!FuseLineSegments(roi_parking_boundary)) {
     return false;
   }
 
-  ADEBUG << "roi_parking_boundary size: [" << roi_parking_boundary->size()
-         << "]";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "roi_parking_boundary size: [" << roi_parking_boundary->size()
+          << "]";
   // Get xy boundary
   auto xminmax = std::minmax_element(
       boundary_points.begin(), boundary_points.end(),
@@ -1181,7 +1234,8 @@ bool OpenSpaceRoiDecider::GetParkAndGoBoundary(
       vehicle_xy.x() > ROI_xy_boundary[1] ||
       vehicle_xy.y() < ROI_xy_boundary[2] ||
       vehicle_xy.y() > ROI_xy_boundary[3]) {
-    AERROR << "vehicle outside of xy boundary of parking ROI";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "vehicle outside of xy boundary of parking ROI";
     return false;
   }
   return true;
@@ -1191,7 +1245,8 @@ bool OpenSpaceRoiDecider::GetParkingSpot(Frame *const frame,
                                          std::array<Vec2d, 4> *vertices,
                                          Path *nearby_path) {
   if (frame == nullptr) {
-    AERROR << "Invalid frame, fail to GetParkingSpotFromMap from frame. ";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Invalid frame, fail to GetParkingSpotFromMap from frame. ";
     return false;
   }
 
@@ -1203,7 +1258,8 @@ bool OpenSpaceRoiDecider::GetParkingSpot(Frame *const frame,
   const auto &ptr_last_frame = injector_->frame_history()->Latest();
 
   if (ptr_last_frame == nullptr) {
-    AERROR << "Last frame failed, fail to GetParkingSpotfrom frame "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Last frame failed, fail to GetParkingSpotfrom frame "
               "history.";
     return false;
   }
@@ -1218,7 +1274,8 @@ bool OpenSpaceRoiDecider::GetParkingSpot(Frame *const frame,
         point, 10.0, vehicle_state_.heading(), M_PI / 2.0, &nearest_lane,
         &vehicle_lane_s, &vehicle_lane_l);
     if (status != 0) {
-      AERROR
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR
           << "Getlane failed at OpenSpaceRoiDecider::GetParkingSpotFromMap()";
       return false;
     }
@@ -1254,13 +1311,15 @@ bool OpenSpaceRoiDecider::GetParkingSpot(Frame *const frame,
   }
 
   if (target_parking_spot == nullptr) {
-    AERROR << "No such parking spot found after searching all path forward "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No such parking spot found after searching all path forward "
               "possible";
     return false;
   }
 
   if (!CheckDistanceToParkingSpot(*nearby_path, target_parking_spot)) {
-    AERROR << "target parking spot found, but too far, distance larger than "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "target parking spot found, but too far, distance larger than "
               "pre-defined distance";
     return false;
   }
@@ -1288,12 +1347,14 @@ bool OpenSpaceRoiDecider::GetPullOverSpot(
   if (!pull_over_status.has_position() ||
       !pull_over_status.position().has_x() ||
       !pull_over_status.position().has_y() || !pull_over_status.has_theta()) {
-    AERROR << "Pull over position not set in planning context";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Pull over position not set in planning context";
     return false;
   }
 
   if (frame->reference_line_info().size() > 1) {
-    AERROR << "Should not be in pull over when changing lane in open space "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Should not be in pull over when changing lane in open space "
               "planning";
     return false;
   }
@@ -1394,7 +1455,8 @@ bool OpenSpaceRoiDecider::FuseLineSegments(
       continue;
     }
     if (cur_segment->size() < 2 || next_segment->size() < 2) {
-      AERROR << "Single point line_segments vec not expected";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Single point line_segments vec not expected";
       return false;
     }
     size_t cur_segments_size = cur_segment->size();
@@ -1419,12 +1481,14 @@ bool OpenSpaceRoiDecider::FormulateBoundaryConstraints(
     Frame *const frame) {
   // Gather vertice needed by warm start and distance approach
   if (!LoadObstacleInVertices(roi_parking_boundary, frame)) {
-    AERROR << "fail at LoadObstacleInVertices()";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail at LoadObstacleInVertices()";
     return false;
   }
   // Transform vertices into the form of Ax>b
   if (!LoadObstacleInHyperPlanes(frame)) {
-    AERROR << "fail at LoadObstacleInHyperPlanes()";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fail at LoadObstacleInHyperPlanes()";
     return false;
   }
   return true;
@@ -1459,8 +1523,9 @@ bool OpenSpaceRoiDecider::LoadObstacleInVertices(
 
   if (config_.open_space_roi_decider_config().enable_perception_obstacles()) {
     if (perception_obstacles_num == 0) {
-      ADEBUG << "no obstacle given by perception";
-    }
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "no obstacle given by perception";
+     }
 
     // load vertices for perception obstacles(repeat the first vertice at the
     // last to form closed convex hull)
@@ -1583,7 +1648,8 @@ bool OpenSpaceRoiDecider::LoadObstacleInHyperPlanes(Frame *const frame) {
           frame->open_space_info().obstacles_vertices_vec(),
           frame->mutable_open_space_info()->mutable_obstacles_A(),
           frame->mutable_open_space_info()->mutable_obstacles_b())) {
-    AERROR << "Fail to present obstacle in hyperplane";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Fail to present obstacle in hyperplane";
     return false;
   }
   return true;
@@ -1594,7 +1660,8 @@ bool OpenSpaceRoiDecider::GetHyperPlanes(
     const std::vector<std::vector<Vec2d>> &obstacles_vertices_vec,
     Eigen::MatrixXd *A_all, Eigen::MatrixXd *b_all) {
   if (obstacles_num != obstacles_vertices_vec.size()) {
-    AERROR << "obstacles_num != obstacles_vertices_vec.size()";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "obstacles_num != obstacles_vertices_vec.size()";
     return false;
   }
 
@@ -1670,10 +1737,13 @@ bool OpenSpaceRoiDecider::IsInParkingLot(
   const double kDistance = 1.0;
   auto adc_parking_spot =
       common::util::PointFactory::ToPointENU(adc_init_x, adc_init_y, 0);
-  ADEBUG << "IsInParkingLot";
-  ADEBUG << hdmap_;
-  ADEBUG << hdmap_->GetParkingSpaces(adc_parking_spot, kDistance,
-                                     &parking_lots);
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "IsInParkingLot";
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << hdmap_;
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << hdmap_->GetParkingSpaces(adc_parking_spot, kDistance,
+                                      &parking_lots);
   if (hdmap_->GetParkingSpaces(adc_parking_spot, kDistance, &parking_lots) ==
       0) {
     GetParkSpotFromMap(parking_lots.front(), parking_lot_vertices);
@@ -1696,9 +1766,11 @@ void OpenSpaceRoiDecider::GetParkSpotFromMap(
 
   *vertices = std::move(parking_vertices);
   Vec2d tmp = (*vertices)[0];
-  ADEBUG << "Parking Lot";
-  ADEBUG << "parking_lot_vertices: (" << tmp.x() << ", " << tmp.y() << ")";
-}
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "Parking Lot";
+   AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "parking_lot_vertices: (" << tmp.x() << ", " << tmp.y() << ")";
+ }
 
 }  // namespace planning
 }  // namespace apollo

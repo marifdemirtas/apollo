@@ -166,7 +166,8 @@ void RuleBasedStopDecider::StopOnSidePass(
       if (!BuildSidePassStopFence(path_data, stop_s_on_pathdata,
                                   &change_lane_stop_path_point, frame,
                                   reference_line_info)) {
-        AERROR << "Set side pass stop fail";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Set side pass stop fail";
       }
     } else {
       if (LaneChangeDecider::IsClearToChangeLane(reference_line_info)) {
@@ -197,7 +198,8 @@ bool RuleBasedStopDecider::CheckSidePassStop(
       common::PathPoint stop_pathpoint;
       if (!path_data.GetPathPointWithRefS(*stop_s_on_pathdata,
                                           &stop_pathpoint)) {
-        AERROR << "Can't get stop point on path data";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can't get stop point on path data";
         return false;
       }
       const double ego_theta = stop_pathpoint.theta();
@@ -225,7 +227,8 @@ bool RuleBasedStopDecider::BuildSidePassStopFence(
   CHECK_NOTNULL(reference_line_info);
 
   if (!path_data.GetPathPointWithRefS(stop_s_on_pathdata, stop_point)) {
-    AERROR << "Can't get stop point on path data";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can't get stop point on path data";
     return false;
   }
 
@@ -251,13 +254,15 @@ bool RuleBasedStopDecider::CheckADCStop(
     const double stop_s_on_pathdata) {
   common::PathPoint stop_point;
   if (!path_data.GetPathPointWithRefS(stop_s_on_pathdata, &stop_point)) {
-    AERROR << "Can't get stop point on path data";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Can't get stop point on path data";
     return false;
   }
 
   const double adc_speed = injector_->vehicle_state()->linear_velocity();
   if (adc_speed > rule_based_stop_decider_config_.max_adc_stop_speed()) {
-    ADEBUG << "ADC not stopped: speed[" << adc_speed << "]";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "ADC not stopped: speed[" << adc_speed << "]";
     return false;
   }
 
@@ -274,7 +279,8 @@ bool RuleBasedStopDecider::CheckADCStop(
 
   if (distance_stop_line_to_adc_front_edge >
       rule_based_stop_decider_config_.max_valid_stop_distance()) {
-    ADEBUG << "not a valid stop. too far from stop line.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "not a valid stop. too far from stop line.";
     return false;
   }
 

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -153,7 +152,8 @@ bool DistanceApproachProblem::Solve(
 
   Ipopt::ApplicationReturnStatus status = app->Initialize();
   if (status != Ipopt::Solve_Succeeded) {
-    AERROR << "*** Distance Approach problem error during initialization!";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "*** Distance Approach problem error during initialization!";
     return false;
   }
 
@@ -163,11 +163,13 @@ bool DistanceApproachProblem::Solve(
       status == Ipopt::Solved_To_Acceptable_Level) {
     // Retrieve some statistics about the solve
     Ipopt::Index iter_count = app->Statistics()->IterationCount();
-    ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
-
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The problem solved in " << iter_count << " iterations!";
+ 
     Ipopt::Number final_obj = app->Statistics()->FinalObjective();
-    ADEBUG << "*** The final value of the objective function is " << final_obj
-           << '.';
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "*** The final value of the objective function is " << final_obj
+            << '.';
 
     PERF_BLOCK_END("DistanceApproachProblemSolving");
   } else {
@@ -197,11 +199,13 @@ bool DistanceApproachProblem::Solve(
         {-199, "Internal_Error"}};
 
     if (!failure_status.count(static_cast<size_t>(status))) {
-      AINFO << "Solver ends with unknown failure code: "
-            << static_cast<int>(status);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Solver ends with unknown failure code: "
+             << static_cast<int>(status);
     } else {
-      AINFO << "Solver failure case: "
-            << failure_status[static_cast<size_t>(status)];
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Solver failure case: "
+             << failure_status[static_cast<size_t>(status)];
     }
   }
 

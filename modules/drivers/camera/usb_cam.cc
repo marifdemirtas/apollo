@@ -83,7 +83,8 @@ bool UsbCam::init(const std::shared_ptr<Config>& cameraconfig) {
     pixel_format_ = V4L2_PIX_FMT_RGB24;
   } else {
     pixel_format_ = V4L2_PIX_FMT_YUYV;
-    AERROR << "Wrong pixel fromat:" << config_->pixel_format()
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Wrong pixel fromat:" << config_->pixel_format()
            << ",must be yuyv | uyvy | mjpeg | yuvmono10 | rgb24";
     return false;
   }
@@ -104,7 +105,8 @@ int UsbCam::init_mjpeg_decoder(int image_width, int image_height) {
 
   avcodec_ = avcodec_find_decoder(AV_CODEC_ID_MJPEG);
   if (!avcodec_) {
-    AERROR << "Could not find MJPEG decoder";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Could not find MJPEG decoder";
     return 0;
   }
 
@@ -151,7 +153,8 @@ int UsbCam::init_mjpeg_decoder(int image_width, int image_height) {
 
   /* open it */
   if (avcodec_open2(avcodec_context_, avcodec_, &avoptions_) < 0) {
-    AERROR << "Could not open MJPEG Decoder";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Could not open MJPEG Decoder";
     return 0;
   }
   return 1;
@@ -175,7 +178,8 @@ void UsbCam::mjpeg2rgb(char* mjpeg_buffer, int len, char* rgb_buffer,
                                       &got_picture, &avpkt);
 
   if (decoded_len < 0) {
-    AERROR << "Error while decoding frame.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Error while decoding frame.";
     return;
   }
 #else
@@ -184,7 +188,8 @@ void UsbCam::mjpeg2rgb(char* mjpeg_buffer, int len, char* rgb_buffer,
 #endif
 
   if (!got_picture) {
-    AERROR << "Camera: expected picture but didn't get it...";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Camera: expected picture but didn't get it...";
     return;
   }
 
@@ -192,7 +197,8 @@ void UsbCam::mjpeg2rgb(char* mjpeg_buffer, int len, char* rgb_buffer,
   int ysize = avcodec_context_->height;
   int pic_size = avpicture_get_size(avcodec_context_->pix_fmt, xsize, ysize);
   if (pic_size != avframe_camera_size_) {
-    AERROR << "outbuf size mismatch.  pic_size:" << pic_size
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "outbuf size mismatch.  pic_size:" << pic_size
            << ",buffer_size:" << avframe_camera_size_;
     return;
   }
@@ -221,7 +227,8 @@ void UsbCam::mjpeg2rgb(char* mjpeg_buffer, int len, char* rgb_buffer,
       reinterpret_cast<uint8_t*>(rgb_buffer), avframe_rgb_size_);
 #endif
   if (size != avframe_rgb_size_) {
-    AERROR << "webcam: avpicture_layout error: " << size;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "webcam: avpicture_layout error: " << size;
     return;
   }
 }
@@ -254,7 +261,8 @@ bool UsbCam::poll(const CameraImagePtr& raw_image) {
   }
 
   if (0 == r) {
-    AERROR << "select timeout";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "select timeout";
     reconnect();
   }
 
@@ -272,13 +280,15 @@ bool UsbCam::open_device(void) {
   struct stat st;
 
   if (-1 == stat(config_->camera_dev().c_str(), &st)) {
-    AERROR << "Cannot identify '" << config_->camera_dev() << "': " << errno
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot identify '" << config_->camera_dev() << "': " << errno
            << ", " << strerror(errno);
     return false;
   }
 
   if (!S_ISCHR(st.st_mode)) {
-    AERROR << config_->camera_dev() << " is no device";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << config_->camera_dev() << " is no device";
     return false;
   }
 
@@ -286,7 +296,8 @@ bool UsbCam::open_device(void) {
              0);
 
   if (-1 == fd_) {
-    AERROR << "Cannot open '" << config_->camera_dev() << "': " << errno << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Cannot open '" << config_->camera_dev() << "': " << errno << ", "
            << strerror(errno);
     return false;
   }
@@ -303,22 +314,26 @@ bool UsbCam::init_device(void) {
 
   if (-1 == xioctl(fd_, VIDIOC_QUERYCAP, &cap)) {
     if (EINVAL == errno) {
-      AERROR << config_->camera_dev() << " is no V4L2 device";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << config_->camera_dev() << " is no V4L2 device";
       return false;
     }
-    AERROR << "VIDIOC_QUERYCAP";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_QUERYCAP";
     return false;
   }
 
   if (!(cap.capabilities & V4L2_CAP_VIDEO_CAPTURE)) {
-    AERROR << config_->camera_dev() << " is no video capture device";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << config_->camera_dev() << " is no video capture device";
     return false;
   }
 
   switch (config_->io_method()) {
     case IO_METHOD_READ:
       if (!(cap.capabilities & V4L2_CAP_READWRITE)) {
-        AERROR << config_->camera_dev() << " does not support read i/o";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << config_->camera_dev() << " does not support read i/o";
         return false;
       }
 
@@ -327,13 +342,15 @@ bool UsbCam::init_device(void) {
     case IO_METHOD_MMAP:
     case IO_METHOD_USERPTR:
       if (!(cap.capabilities & V4L2_CAP_STREAMING)) {
-        AERROR << config_->camera_dev() << " does not support streaming i/o";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << config_->camera_dev() << " does not support streaming i/o";
         return false;
       }
 
       break;
     case IO_METHOD_UNKNOWN:
-      AERROR << config_->camera_dev() << " does not support unknown i/o";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << config_->camera_dev() << " does not support unknown i/o";
       return false;
       break;
   }
@@ -365,7 +382,8 @@ bool UsbCam::init_device(void) {
   fmt.fmt.pix.field = V4L2_FIELD_INTERLACED;
 
   if (-1 == xioctl(fd_, VIDIOC_S_FMT, &fmt)) {
-    AERROR << "VIDIOC_S_FMT";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_S_FMT";
     return false;
   }
 
@@ -393,20 +411,22 @@ bool UsbCam::init_device(void) {
 
   // if (xioctl(fd_, VIDIOC_G_PARM, &stream_params) < 0) {
   //   // errno_exit("Couldn't query v4l fps!");
-  //   AERROR << "Couldn't query v4l fps!";
-  //   // reconnect();
+    //   // reconnect();
   //   return false;
   // }
 
-  AINFO << "Capability flag: 0x" << stream_params.parm.capture.capability;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Capability flag: 0x" << stream_params.parm.capture.capability;
 
   stream_params.parm.capture.timeperframe.numerator = 1;
   stream_params.parm.capture.timeperframe.denominator = config_->frame_rate();
 
   if (xioctl(fd_, VIDIOC_S_PARM, &stream_params) < 0) {
-    AINFO << "Couldn't set camera framerate";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Couldn't set camera framerate";
   } else {
-    AINFO << "Set framerate to be " << config_->frame_rate();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Set framerate to be " << config_->frame_rate();
   }
 
   switch (config_->io_method()) {
@@ -423,7 +443,8 @@ bool UsbCam::init_device(void) {
       break;
 
     case IO_METHOD_UNKNOWN:
-      AERROR << " does not support unknown i/o";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << " does not support unknown i/o";
       break;
   }
 
@@ -432,7 +453,8 @@ bool UsbCam::init_device(void) {
 
 #ifndef __aarch64__
 bool UsbCam::set_adv_trigger() {
-  AINFO << "Trigger enable, dev:" << config_->camera_dev()
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Trigger enable, dev:" << config_->camera_dev()
         << ", fps:" << config_->trigger_fps()
         << ", internal:" << config_->trigger_internal();
   int ret = adv_trigger_enable(
@@ -440,7 +462,8 @@ bool UsbCam::set_adv_trigger() {
       static_cast<unsigned char>(config_->trigger_fps()),
       static_cast<unsigned char>(config_->trigger_internal()));
   if (ret != 0) {
-    AERROR << "trigger failed:" << ret;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "trigger failed:" << ret;
     return false;
   }
   return true;
@@ -460,7 +483,8 @@ bool UsbCam::init_read(unsigned int buffer_size) {
   buffers_ = reinterpret_cast<buffer*>(calloc(1, sizeof(*buffers_)));
 
   if (!buffers_) {
-    AERROR << "Out of memory";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Out of memory";
     // exit(EXIT_FAILURE);
     // reconnect();
     return false;
@@ -470,7 +494,8 @@ bool UsbCam::init_read(unsigned int buffer_size) {
   buffers_[0].start = malloc(buffer_size);
 
   if (!buffers_[0].start) {
-    AERROR << "Out of memory";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Out of memory";
     return false;
   }
 
@@ -487,7 +512,8 @@ bool UsbCam::init_mmap(void) {
 
   if (-1 == xioctl(fd_, VIDIOC_REQBUFS, &req)) {
     if (EINVAL == errno) {
-      AERROR << config_->camera_dev() << " does not support memory mapping";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << config_->camera_dev() << " does not support memory mapping";
       return false;
     }
     return false;
@@ -496,7 +522,8 @@ bool UsbCam::init_mmap(void) {
   buffers_ = reinterpret_cast<buffer*>(calloc(req.count, sizeof(*buffers_)));
 
   if (!buffers_) {
-    AERROR << "Out of memory";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Out of memory";
     return false;
   }
 
@@ -509,7 +536,8 @@ bool UsbCam::init_mmap(void) {
     buf.index = n_buffers_;
 
     if (-1 == xioctl(fd_, VIDIOC_QUERYBUF, &buf)) {
-      AERROR << "VIDIOC_QUERYBUF";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_QUERYBUF";
       return false;
     }
 
@@ -518,7 +546,8 @@ bool UsbCam::init_mmap(void) {
                                       MAP_SHARED, fd_, buf.m.offset);
 
     if (MAP_FAILED == buffers_[n_buffers_].start) {
-      AERROR << "mmap";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "mmap";
       return false;
     }
   }
@@ -541,19 +570,22 @@ bool UsbCam::init_userp(unsigned int buffer_size) {
 
   if (-1 == xioctl(fd_, VIDIOC_REQBUFS, &req)) {
     if (EINVAL == errno) {
-      AERROR << config_->camera_dev()
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << config_->camera_dev()
              << " does not support "
                 "user pointer i/o";
       return false;
     }
-    AERROR << "VIDIOC_REQBUFS";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_REQBUFS";
     return false;
   }
 
   buffers_ = reinterpret_cast<buffer*>(calloc(4, sizeof(*buffers_)));
 
   if (!buffers_) {
-    AERROR << "Out of memory";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Out of memory";
     return false;
   }
 
@@ -563,7 +595,8 @@ bool UsbCam::init_userp(unsigned int buffer_size) {
         memalign(/* boundary */ page_size, buffer_size);
 
     if (!buffers_[n_buffers_].start) {
-      AERROR << "Out of memory";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Out of memory";
       return false;
     }
   }
@@ -593,7 +626,8 @@ bool UsbCam::start_capturing(void) {
         buf.memory = V4L2_MEMORY_MMAP;
         buf.index = i;
         if (-1 == xioctl(fd_, VIDIOC_QBUF, &buf)) {
-          AERROR << "VIDIOC_QBUF";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_QBUF";
           return false;
         }
       }
@@ -601,7 +635,8 @@ bool UsbCam::start_capturing(void) {
       type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 
       if (-1 == xioctl(fd_, VIDIOC_STREAMON, &type)) {
-        AERROR << "VIDIOC_STREAMON";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_STREAMON";
         return false;
       }
 
@@ -620,7 +655,8 @@ bool UsbCam::start_capturing(void) {
         buf.length = static_cast<unsigned int>(buffers_[i].length);
 
         if (-1 == xioctl(fd_, VIDIOC_QBUF, &buf)) {
-          AERROR << "VIDIOC_QBUF";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_QBUF";
           return false;
         }
       }
@@ -628,14 +664,16 @@ bool UsbCam::start_capturing(void) {
       type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 
       if (-1 == xioctl(fd_, VIDIOC_STREAMON, &type)) {
-        AERROR << "VIDIOC_STREAMON";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_STREAMON";
         return false;
       }
 
       break;
 
     case IO_METHOD_UNKNOWN:
-      AERROR << "unknown IO";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unknown IO";
       return false;
       break;
   }
@@ -704,7 +742,8 @@ bool UsbCam::uninit_device(void) {
     case IO_METHOD_MMAP:
       for (i = 0; i < n_buffers_; ++i) {
         if (-1 == munmap(buffers_[i].start, buffers_[i].length)) {
-          AERROR << "munmap";
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "munmap";
           return false;
         }
       }
@@ -719,7 +758,8 @@ bool UsbCam::uninit_device(void) {
       break;
 
     case IO_METHOD_UNKNOWN:
-      AERROR << "unknown IO";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unknown IO";
       break;
   }
 
@@ -728,7 +768,8 @@ bool UsbCam::uninit_device(void) {
 
 bool UsbCam::close_device(void) {
   if (-1 == close(fd_)) {
-    AERROR << "close";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "close";
     return false;
   }
 
@@ -754,13 +795,15 @@ bool UsbCam::stop_capturing(void) {
       type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 
       if (-1 == xioctl(fd_, VIDIOC_STREAMOFF, &type)) {
-        AERROR << "VIDIOC_STREAMOFF";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_STREAMOFF";
         return false;
       }
 
       break;
     case IO_METHOD_UNKNOWN:
-      AERROR << "unknown IO";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unknown IO";
       return false;
       break;
   }
@@ -780,7 +823,8 @@ bool UsbCam::read_frame(CameraImagePtr raw_image) {
       if (len == -1) {
         switch (errno) {
           case EAGAIN:
-            AINFO << "EAGAIN";
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "EAGAIN";
             return false;
 
           case EIO:
@@ -790,7 +834,8 @@ bool UsbCam::read_frame(CameraImagePtr raw_image) {
             /* fall through */
 
           default:
-            AERROR << "read";
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "read";
             return false;
         }
       }
@@ -817,7 +862,8 @@ bool UsbCam::read_frame(CameraImagePtr raw_image) {
             /* fall through */
 
           default:
-            AERROR << "VIDIOC_DQBUF";
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_DQBUF";
             reconnect();
             return false;
         }
@@ -838,9 +884,11 @@ bool UsbCam::read_frame(CameraImagePtr raw_image) {
               static_cast<double>(camera_timestamp - last_nsec_) / 1e9;
           // drop image by frame_rate
           if (diff < frame_drop_interval_) {
-            AINFO << "drop image:" << camera_timestamp;
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "drop image:" << camera_timestamp;
             if (-1 == xioctl(fd_, VIDIOC_QBUF, &buf)) {
-              AERROR << "VIDIOC_QBUF ERROR";
+              AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_QBUF ERROR";
             }
             return false;
           }
@@ -864,14 +912,16 @@ bool UsbCam::read_frame(CameraImagePtr raw_image) {
         }
       }
       if (len < raw_image->width * raw_image->height) {
-        AERROR << "Wrong Buffer Len: " << len
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Wrong Buffer Len: " << len
                << ", dev: " << config_->camera_dev();
       } else {
         process_image(buffers_[buf.index].start, len, raw_image);
       }
 
       if (-1 == xioctl(fd_, VIDIOC_QBUF, &buf)) {
-        AERROR << "VIDIOC_QBUF";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_QBUF";
         return false;
       }
 
@@ -895,7 +945,8 @@ bool UsbCam::read_frame(CameraImagePtr raw_image) {
             /* fall through */
 
           default:
-            AERROR << "VIDIOC_DQBUF";
+            AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_DQBUF";
             return false;
         }
       }
@@ -912,14 +963,16 @@ bool UsbCam::read_frame(CameraImagePtr raw_image) {
       process_image(reinterpret_cast<void*>(buf.m.userptr), len, raw_image);
 
       if (-1 == xioctl(fd_, VIDIOC_QBUF, &buf)) {
-        AERROR << "VIDIOC_QBUF";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "VIDIOC_QBUF";
         return false;
       }
 
       break;
 
     case IO_METHOD_UNKNOWN:
-      AERROR << "unknown IO";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unknown IO";
       return false;
       break;
   }
@@ -929,7 +982,8 @@ bool UsbCam::read_frame(CameraImagePtr raw_image) {
 
 bool UsbCam::process_image(void* src, int len, CameraImagePtr dest) {
   if (src == nullptr || dest == nullptr) {
-    AERROR << "process image error. src or dest is null";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "process image error. src or dest is null";
     return false;
   }
   if (pixel_format_ == V4L2_PIX_FMT_YUYV ||
@@ -956,11 +1010,13 @@ bool UsbCam::process_image(void* src, int len, CameraImagePtr dest) {
                    dest->width * dest->height);
 #endif
     } else {
-      AERROR << "unsupported output format:" << config_->output_type();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unsupported output format:" << config_->output_type();
       return false;
     }
   } else {
-    AERROR << "unsupported pixel format:" << pixel_format_;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "unsupported pixel format:" << pixel_format_;
     return false;
   }
   return true;
@@ -981,11 +1037,13 @@ void UsbCam::set_auto_focus(int value) {
       perror("VIDIOC_QUERYCTRL");
       return;
     } else {
-      AINFO << "V4L2_CID_FOCUS_AUTO is not supported";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "V4L2_CID_FOCUS_AUTO is not supported";
       return;
     }
   } else if (queryctrl.flags & V4L2_CTRL_FLAG_DISABLED) {
-    AINFO << "V4L2_CID_FOCUS_AUTO is not supported";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "V4L2_CID_FOCUS_AUTO is not supported";
     return;
   } else {
     memset(&control, 0, sizeof(control));
@@ -1036,16 +1094,19 @@ void UsbCam::set_v4l_parameter(const std::string& param,
     pclose(stream);
     // any output should be an error
     if (output.length() > 0) {
-      AERROR << output.c_str();
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << output.c_str();
     }
   } else {
-    AERROR << "usb_cam_node could not run " << cmd.c_str();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "usb_cam_node could not run " << cmd.c_str();
   }
 }
 
 bool UsbCam::wait_for_device() {
   if (is_capturing_) {
-    ADEBUG << "is capturing";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ ADEBUG << "is capturing";
     return true;
   }
   if (!open_device()) {

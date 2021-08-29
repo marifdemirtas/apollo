@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2017 The Apollo Authors. All Rights Reserved.
  *
@@ -26,14 +25,13 @@ namespace dreamview {
 using apollo::common::util::ContainsKey;
 
 void WebSocketHandler::handleReadyState(CivetServer *server, Connection *conn) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   {
     std::unique_lock<std::mutex> lock(mutex_);
     connections_.emplace(conn, std::make_shared<std::mutex>());
   }
-  AINFO << name_
-        << ": Accepted connection. Total connections: " << connections_.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << name_
+         << ": Accepted connection. Total connections: " << connections_.size();
 
   // Trigger registered new connection handlers.
   for (const auto handler : connection_ready_handlers_) {
@@ -43,8 +41,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 void WebSocketHandler::handleClose(CivetServer *server,
                                    const Connection *conn) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Remove from the store of currently open connections. Copy the mutex out
   // so that it won't be reclaimed during map.erase().
   Connection *connection = const_cast<Connection *>(conn);
@@ -62,13 +58,12 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
     connections_.erase(connection);
   }
 
-  AINFO << name_
-        << ": Connection closed. Total connections: " << connections_.size();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << name_
+         << ": Connection closed. Total connections: " << connections_.size();
 }
 
 bool WebSocketHandler::BroadcastData(const std::string &data, bool skippable) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::vector<Connection *> connections_to_send;
   {
     std::unique_lock<std::mutex> lock(mutex_);
@@ -93,20 +88,17 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool WebSocketHandler::SendBinaryData(Connection *conn, const std::string &data,
                                       bool skippable) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   return SendData(conn, data, skippable, MG_WEBSOCKET_OPCODE_BINARY);
 }
 
 bool WebSocketHandler::SendData(Connection *conn, const std::string &data,
                                 bool skippable, int op_code) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   std::shared_ptr<std::mutex> connection_lock;
   {
     std::unique_lock<std::mutex> lock(mutex_);
     if (!ContainsKey(connections_, conn)) {
-      AERROR << name_
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << name_
              << ": Trying to send to an uncached connection, skipping.";
       return false;
     }
@@ -164,8 +156,6 @@ thread_local std::stringstream WebSocketHandler::data_;
 
 bool WebSocketHandler::handleData(CivetServer *server, Connection *conn,
                                   int bits, char *data, size_t data_len) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // Ignore connection close request.
   if ((bits & 0x0F) == MG_WEBSOCKET_OPCODE_CONNECTION_CLOSE) {
     return false;
@@ -191,7 +181,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
         result = handleBinaryData(conn, data_.str());
         break;
       default:
-        AERROR << name_ << ": Unknown WebSocket bits flag: " << bits;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << name_ << ": Unknown WebSocket bits flag: " << bits;
         break;
     }
 
@@ -206,24 +197,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool WebSocketHandler::handleJsonData(Connection *conn,
                                       const std::string &data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Json json;
   try {
     json = Json::parse(data.begin(), data.end());
   } catch (const std::exception &e) {
-    AERROR << "Failed to parse JSON data: " << e.what();
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to parse JSON data: " << e.what();
     return false;
   }
 
   if (!ContainsKey(json, "type")) {
-    AERROR << "Received JSON data without type field: " << json;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Received JSON data without type field: " << json;
     return true;
   }
 
   auto type = json["type"];
   if (!ContainsKey(message_handlers_, type)) {
-    AERROR << "No message handler found for message type " << type
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "No message handler found for message type " << type
            << ". The message will be discarded!";
     return true;
   }
@@ -233,8 +225,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool WebSocketHandler::handleBinaryData(Connection *conn,
                                         const std::string &data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto type = "Binary";
   message_handlers_[type](data, conn);
   return true;

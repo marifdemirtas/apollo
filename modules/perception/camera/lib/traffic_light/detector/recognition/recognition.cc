@@ -26,9 +26,11 @@ bool TrafficLightRecognition::Init(
   std::string proto_path =
       cyber::common::GetAbsolutePath(options.root_dir, options.conf_file);
 
-  AINFO << "proto_path " << proto_path;
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "proto_path " << proto_path;
   if (!cyber::common::GetProtoFromFile(proto_path, &recognize_param_)) {
-    AINFO << "load proto param failed, root dir: " << options.root_dir;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "load proto param failed, root dir: " << options.root_dir;
     return false;
   }
 
@@ -55,15 +57,18 @@ bool TrafficLightRecognition::Detect(const TrafficLightDetectorOptions& options,
       candidate[0] = light;
       if (light->region.detect_class_id ==
           base::TLDetectionClass::TL_QUADRATE_CLASS) {
-        AINFO << "Recognize Use Quadrate Model!";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Recognize Use Quadrate Model!";
         classify_quadrate_->Perform(frame, &candidate);
       } else if (light->region.detect_class_id ==
                  base::TLDetectionClass::TL_VERTICAL_CLASS) {
-        AINFO << "Recognize Use Vertical Model!";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Recognize Use Vertical Model!";
         classify_vertical_->Perform(frame, &candidate);
       } else if (light->region.detect_class_id ==
                  base::TLDetectionClass::TL_HORIZONTAL_CLASS) {
-        AINFO << "Recognize Use Horizonal Model!";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Recognize Use Horizonal Model!";
         classify_horizontal_->Perform(frame, &candidate);
       } else {
         return false;

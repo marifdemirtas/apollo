@@ -48,7 +48,8 @@ void TcpStream::open() {
   int fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (fd < 0) {
     // error
-    AERROR << "create socket failed, errno: " << errno << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "create socket failed, errno: " << errno << ", "
            << strerror(errno);
     return;
   }
@@ -66,13 +67,15 @@ bool TcpStream::InitSocket() {
     int flags = fcntl(sockfd_, F_GETFL, 0);
     if (flags == -1) {
       ::close(sockfd_);
-      AERROR << "fcntl get flag failed, error: " << strerror(errno);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fcntl get flag failed, error: " << strerror(errno);
       return false;
     }
 
     if (fcntl(sockfd_, F_SETFL, flags & ~O_NONBLOCK) == -1) {
       ::close(sockfd_);
-      AERROR << "fcntl set block failed, error: " << strerror(errno);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fcntl set block failed, error: " << strerror(errno);
       return false;
     }
 
@@ -80,27 +83,31 @@ bool TcpStream::InitSocket() {
     if (setsockopt(sockfd_, SOL_SOCKET, SO_RCVTIMEO, &block_to,
                    sizeof(block_to)) < 0) {
       ::close(sockfd_);
-      AERROR << "setsockopt set rcv timeout failed, error: " << strerror(errno);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "setsockopt set rcv timeout failed, error: " << strerror(errno);
       return false;
     }
 
     if (setsockopt(sockfd_, SOL_SOCKET, SO_SNDTIMEO, &block_to,
                    sizeof(block_to)) < 0) {
       ::close(sockfd_);
-      AERROR << "setsockopt set snd timeout failed, error: " << strerror(errno);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "setsockopt set snd timeout failed, error: " << strerror(errno);
       return false;
     }
   } else {
     int flags = fcntl(sockfd_, F_GETFL, 0);
     if (flags == -1) {
       ::close(sockfd_);
-      AERROR << "fcntl get flag failed, error: " << strerror(errno);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fcntl get flag failed, error: " << strerror(errno);
       return false;
     }
 
     if (fcntl(sockfd_, F_SETFL, flags | O_NONBLOCK) == -1) {
       ::close(sockfd_);
-      AERROR << "fcntl set non block failed, error: " << strerror(errno);
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "fcntl set non block failed, error: " << strerror(errno);
       return false;
     }
   }
@@ -112,7 +119,8 @@ bool TcpStream::InitSocket() {
                    reinterpret_cast<void*>(&enable), sizeof(enable));
   if (ret == -1) {
     ::close(sockfd_);
-    AERROR << "setsockopt disable Nagle failed, errno: " << errno << ", "
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "setsockopt disable Nagle failed, errno: " << errno << ", "
            << strerror(errno);
     return false;
   }
@@ -163,20 +171,23 @@ bool TcpStream::Connect() {
 
   int fd_flags = fcntl(sockfd_, F_GETFL);
   if (fd_flags < 0 || fcntl(sockfd_, F_SETFL, fd_flags | O_NONBLOCK) < 0) {
-    AERROR << "Failed to set noblock, error: " << strerror(errno);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to set noblock, error: " << strerror(errno);
     return false;
   }
 
   while ((ret = ::connect(sockfd_, reinterpret_cast<sockaddr*>(&peer_addr),
                           sizeof(peer_addr))) < 0) {
     if (errno == EINTR) {
-      AINFO << "Tcp connect return EINTR, continue.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Tcp connect return EINTR, continue.";
       continue;
     } else {
       if ((errno != EISCONN) && (errno != EINPROGRESS) && (errno != EALREADY)) {
         status_ = Stream::Status::ERROR;
         errno_ = errno;
-        AERROR << "Connect failed, error: " << strerror(errno);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Connect failed, error: " << strerror(errno);
         return false;
       }
 
@@ -186,10 +197,12 @@ bool TcpStream::Connect() {
       if (ret < 0) {
         status_ = Stream::Status::ERROR;
         errno_ = errno;
-        AERROR << "Wait connect failed, error: " << strerror(errno);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Wait connect failed, error: " << strerror(errno);
         return false;
       } else if (ret == 0) {
-        AINFO << "Tcp connect timeout.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Tcp connect timeout.";
         return false;
       } else if (FD_ISSET(sockfd_, &fds)) {
         int error = 0;
@@ -198,13 +211,15 @@ bool TcpStream::Connect() {
         if (getsockopt(sockfd_, SOL_SOCKET, SO_ERROR, &error, &len) < 0) {
           status_ = Stream::Status::ERROR;
           errno_ = errno;
-          AERROR << "Getsockopt failed, error: " << strerror(errno);
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Getsockopt failed, error: " << strerror(errno);
           return false;
         }
         if (error != 0) {
           status_ = Stream::Status::ERROR;
           errno_ = errno;
-          AERROR << "Socket error: " << strerror(errno);
+          AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Socket error: " << strerror(errno);
           return false;
         }
 
@@ -213,7 +228,8 @@ bool TcpStream::Connect() {
       } else {
         status_ = Stream::Status::ERROR;
         errno_ = errno;
-        AERROR << "Should not be here.";
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Should not be here.";
         return false;
       }
     }
@@ -223,10 +239,12 @@ bool TcpStream::Connect() {
     close();
     status_ = Stream::Status::ERROR;
     errno_ = errno;
-    AERROR << "Failed to init socket.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to init socket.";
     return false;
   }
-  AINFO << "Tcp connect success.";
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Tcp connect success.";
   status_ = Stream::Status::CONNECTED;
   Login();
   return true;
@@ -264,7 +282,8 @@ size_t TcpStream::read(uint8_t* buffer, size_t max_length) {
       if (errno != EAGAIN) {
         status_ = Stream::Status::ERROR;
         errno_ = errno;
-        AERROR << "Read errno " << errno << ", error " << strerror(errno);
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Read errno " << errno << ", error " << strerror(errno);
       }
     }
 
@@ -274,9 +293,11 @@ size_t TcpStream::read(uint8_t* buffer, size_t max_length) {
   if (ret == 0) {
     status_ = Stream::Status::ERROR;
     errno_ = errno;
-    AERROR << "Remote closed.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Remote closed.";
     if (Reconnect()) {
-      AINFO << "Reconnect tcp success.";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Reconnect tcp success.";
     }
   }
 
@@ -332,7 +353,8 @@ bool TcpStream::Readable(uint32_t timeout_us) {
   if (r < 0) {
     status_ = Stream::Status::ERROR;
     errno_ = errno;
-    AERROR << "Failed to wait tcp data: " << errno << ", " << strerror(errno);
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to wait tcp data: " << errno << ", " << strerror(errno);
     return false;
   } else if (r == 0 || !FD_ISSET(sockfd_, &readfds)) {
     return false;

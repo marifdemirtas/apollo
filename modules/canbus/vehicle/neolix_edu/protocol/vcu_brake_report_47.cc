@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2020 The Apollo Authors. All Rights Reserved.
  *
@@ -28,15 +27,11 @@ namespace neolix_edu {
 
 using ::apollo::drivers::canbus::Byte;
 
-Vcubrakereport47::Vcubrakereport47() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-}
+Vcubrakereport47::Vcubrakereport47() {}
 const int32_t Vcubrakereport47::ID = 0x47;
 
 void Vcubrakereport47::Parse(const std::uint8_t* bytes, int32_t length,
                              ChassisDetail* chassis) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   chassis->mutable_neolix_edu()
       ->mutable_vcu_brake_report_47()
       ->set_brake_enable_resp(brake_enable_resp(bytes, length));
@@ -85,8 +80,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 bool Vcubrakereport47::brake_enable_resp(const std::uint8_t* bytes,
                                          int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(0, 1);
 
@@ -104,8 +97,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'bit'}
 Vcu_brake_report_47::Control_mode_respType Vcubrakereport47::control_mode_resp(
     const std::uint8_t* bytes, int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(4, 3);
 
@@ -120,8 +111,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'motorola', 'physical_unit': ''}
 bool Vcubrakereport47::vcu_real_brake_valid(const std::uint8_t* bytes,
                                             int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 0);
   int32_t x = t0.get_byte(7, 1);
 
@@ -134,8 +123,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vcubrakereport47::vcu_real_brake(const std::uint8_t* bytes,
                                      int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 
@@ -150,8 +137,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 int Vcubrakereport47::vcu_real_parking_status(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 3);
 
@@ -165,8 +150,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 bool Vcubrakereport47::vcu_real_parking_valid(const std::uint8_t* bytes,
                                               int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(3, 1);
 
@@ -180,8 +163,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'order': 'motorola', 'physical_unit': ''}
 bool Vcubrakereport47::rampauxiliaryindication(const std::uint8_t* bytes,
                                                int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(4, 1);
 
@@ -195,8 +176,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '\xc2\xb0'}
 double Vcubrakereport47::vehicleslope(const std::uint8_t* bytes,
                                       int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 
@@ -209,8 +188,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|0]', 'bit': 51, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vcubrakereport47::vcu_brakerept_alivecounter(const std::uint8_t* bytes,
                                                  int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 4);
 
@@ -223,8 +200,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // '[0|0]', 'bit': 63, 'type': 'int', 'order': 'motorola', 'physical_unit': ''}
 int Vcubrakereport47::vcu_brakerept_checksum(const std::uint8_t* bytes,
                                              int32_t length) const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
 

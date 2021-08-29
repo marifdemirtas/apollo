@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -29,8 +28,6 @@ namespace lidar {
 
 bool LidarObstacleSegmentation::Init(
     const LidarObstacleSegmentationInitOptions& options) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto& sensor_name = options.sensor_name;
   auto config_manager = lib::ConfigManager::Instance();
   const lib::ModelConfig* model_config = nullptr;
@@ -63,8 +60,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (use_map_manager_) {
     MapManagerInitOptions map_manager_init_options;
     if (!map_manager_.Init(map_manager_init_options)) {
-      AINFO << "Failed to init map manager.";
-      use_map_manager_ = false;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to init map manager.";
+       use_map_manager_ = false;
     }
   }
 
@@ -88,8 +86,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 LidarProcessResult LidarObstacleSegmentation::Process(
     const LidarObstacleSegmentationOptions& options, LidarFrame* frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   PointCloudPreprocessorOptions preprocessor_options;
   preprocessor_options.sensor2novatel_extrinsics =
       options.sensor2novatel_extrinsics;
@@ -104,8 +100,6 @@ LidarProcessResult LidarObstacleSegmentation::Process(
     const LidarObstacleSegmentationOptions& options,
     const std::shared_ptr<apollo::drivers::PointCloud const>& message,
     LidarFrame* frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto& sensor_name = options.sensor_name;
 
   PERF_FUNCTION_WITH_INDICATOR(options.sensor_name);
@@ -124,8 +118,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 LidarProcessResult LidarObstacleSegmentation::ProcessCommon(
     const LidarObstacleSegmentationOptions& options, LidarFrame* frame) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   const auto& sensor_name = options.sensor_name;
 
   PERF_BLOCK_START();

@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -28,21 +27,15 @@ using ::apollo::drivers::canbus::Byte;
 const int32_t Steeringcmd12c::ID = 0x12C;
 
 // public
-Steeringcmd12c::Steeringcmd12c() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
- Reset(); }
+Steeringcmd12c::Steeringcmd12c() { Reset(); }
 
 uint32_t Steeringcmd12c::GetPeriod() const {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) : modify every protocol's period manually
   static const uint32_t PERIOD = 20 * 1000;
   return PERIOD;
 }
 
 void Steeringcmd12c::UpdateData(uint8_t* data) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   set_p_ignore_overrides(data, ignore_overrides_);
   set_p_enable(data, enable_);
   set_p_clear_override(data, clear_override_);
@@ -52,8 +45,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 void Steeringcmd12c::Reset() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(QiL) : you should check this manually
   ignore_overrides_ = false;
   enable_ = false;
@@ -64,8 +55,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Steeringcmd12c* Steeringcmd12c::set_ignore_overrides(bool ignore_overrides) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   ignore_overrides_ = ignore_overrides;
   return this;
 }
@@ -75,8 +64,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Steeringcmd12c::set_p_ignore_overrides(uint8_t* data,
                                             bool ignore_overrides) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   uint8_t x = ignore_overrides;
 
   Byte to_set(data + 0);
@@ -84,8 +71,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Steeringcmd12c* Steeringcmd12c::set_enable(bool enable) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   enable_ = enable;
   return this;
 }
@@ -94,8 +79,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool',
 // 'order': 'motorola', 'physical_unit': ''}
 void Steeringcmd12c::set_p_enable(uint8_t* data, bool enable) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   uint8_t x = enable;
 
   Byte to_set(data + 0);
@@ -103,8 +86,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Steeringcmd12c* Steeringcmd12c::set_clear_override(bool clear_override) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   clear_override_ = clear_override;
   return this;
 }
@@ -113,8 +94,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 2,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Steeringcmd12c::set_p_clear_override(uint8_t* data, bool clear_override) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   uint8_t x = clear_override;
 
   Byte to_set(data + 0);
@@ -122,8 +101,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Steeringcmd12c* Steeringcmd12c::set_clear_faults(bool clear_faults) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   clear_faults_ = clear_faults;
   return this;
 }
@@ -132,8 +109,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 3,
 // 'type': 'bool', 'order': 'motorola', 'physical_unit': ''}
 void Steeringcmd12c::set_p_clear_faults(uint8_t* data, bool clear_faults) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   uint8_t x = clear_faults;
 
   Byte to_set(data + 0);
@@ -141,8 +116,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Steeringcmd12c* Steeringcmd12c::set_position(double position) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   // TODO(AS): fix this direction and scaling.
   position_ = position;
   return this;
@@ -152,8 +125,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 16, 'is_signed_var': True, 'physical_range': '[-32.768|32.767]', 'bit': 15,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad'}
 void Steeringcmd12c::set_p_position(uint8_t* data, double position) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   position = ProtocolData::BoundedValue(-32.768, 32.767, position);
   int x = static_cast<int>(position / -0.001000);
   uint8_t t = 0;
@@ -169,8 +140,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 }
 
 Steeringcmd12c* Steeringcmd12c::set_rotation_rate(double rotation_rate) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   rotation_rate_ = rotation_rate;
   return this;
 }
@@ -179,8 +148,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|65.535]', 'bit': 31,
 // 'type': 'double', 'order': 'motorola', 'physical_unit': 'rad/s'}
 void Steeringcmd12c::set_p_rotation_rate(uint8_t* data, double rotation_rate) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   rotation_rate = ProtocolData::BoundedValue(0.0, 65.535, rotation_rate);
   int x = static_cast<int>(rotation_rate / 0.001000);
   uint8_t t = 0;

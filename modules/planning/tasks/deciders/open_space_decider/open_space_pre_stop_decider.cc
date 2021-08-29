@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -58,7 +57,8 @@ Status OpenSpacePreStopDecider::Process(
     case OpenSpacePreStopDeciderConfig::PARKING:
       if (!CheckParkingSpotPreStop(frame, reference_line_info, &target_s)) {
         const std::string msg = "Checking parking spot pre stop fails";
-        AERROR << msg;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
         return Status(ErrorCode::PLANNING_ERROR, msg);
       }
       SetParkingSpotStopFence(target_s, frame, reference_line_info);
@@ -66,14 +66,16 @@ Status OpenSpacePreStopDecider::Process(
     case OpenSpacePreStopDeciderConfig::PULL_OVER:
       if (!CheckPullOverPreStop(frame, reference_line_info, &target_s)) {
         const std::string msg = "Checking pull over pre stop fails";
-        AERROR << msg;
+        AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
         return Status(ErrorCode::PLANNING_ERROR, msg);
       }
       SetPullOverStopFence(target_s, frame, reference_line_info);
       break;
     default:
       const std::string msg = "This stop type not implemented";
-      AERROR << msg;
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << msg;
       return Status(ErrorCode::PLANNING_ERROR, msg);
   }
   return Status::OK();
@@ -102,7 +104,8 @@ bool OpenSpacePreStopDecider::CheckParkingSpotPreStop(
       frame->open_space_info().target_parking_spot_id();
   const auto& nearby_path = reference_line_info->reference_line().map_path();
   if (target_parking_spot_id.empty()) {
-    AERROR << "no target parking spot id found when setting pre stop fence";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "no target parking spot id found when setting pre stop fence";
     return false;
   }
 
@@ -137,7 +140,8 @@ bool OpenSpacePreStopDecider::CheckParkingSpotPreStop(
   }
 
   if (!target_area_found) {
-    AERROR << "no target parking spot found on reference line";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "no target parking spot found on reference line";
     return false;
   }
   *target_s = target_area_center_s;

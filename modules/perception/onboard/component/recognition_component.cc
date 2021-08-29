@@ -1,4 +1,3 @@
-#include <iostream>
 /******************************************************************************
  * Copyright 2018 The Apollo Authors. All Rights Reserved.
  *
@@ -31,18 +30,18 @@ namespace perception {
 namespace onboard {
 
 bool RecognitionComponent::Init() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   LidarRecognitionComponentConfig comp_config;
   if (!GetProtoConfig(&comp_config)) {
     return false;
   }
-  AINFO << "Lidar Component Configs: " << comp_config.DebugString();
-  output_channel_name_ = comp_config.output_channel_name();
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Lidar Component Configs: " << comp_config.DebugString();
+   output_channel_name_ = comp_config.output_channel_name();
   main_sensor_name_ = comp_config.main_sensor_name();
   writer_ = node_->CreateWriter<SensorFrameMessage>(output_channel_name_);
   if (!InitAlgorithmPlugin()) {
-    AERROR << "Failed to init recongnition component algorithm plugin.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to init recongnition component algorithm plugin.";
     return false;
   }
   return true;
@@ -50,10 +49,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
 bool RecognitionComponent::Proc(
     const std::shared_ptr<LidarFrameMessage>& message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
-  AINFO << std::setprecision(16)
-        << "Enter Tracking component, message timestamp: "
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << std::setprecision(16)
+         << "Enter Tracking component, message timestamp: "
         << message->timestamp_
         << " current timestamp: " << Clock::NowInSeconds();
 
@@ -61,24 +59,25 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (InternalProc(message, out_message)) {
     writer_->Write(out_message);
-    AINFO << "Send lidar recognition output message.";
-    return true;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Send lidar recognition output message.";
+     return true;
   }
   return false;
 }
 
 bool RecognitionComponent::InitAlgorithmPlugin() {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   tracker_.reset(new lidar::LidarObstacleTracking);
   if (tracker_ == nullptr) {
-    AERROR << "Failed to get tracking instance.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to get tracking instance.";
     return false;
   }
   lidar::LidarObstacleTrackingInitOptions init_options;
   init_options.sensor_name = main_sensor_name_;
   if (!tracker_->Init(init_options)) {
-    AERROR << "Failed to init tracking.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Failed to init tracking.";
     return false;
   }
 
@@ -88,8 +87,6 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 bool RecognitionComponent::InternalProc(
     const std::shared_ptr<const LidarFrameMessage>& in_message,
     const std::shared_ptr<SensorFrameMessage>& out_message) {
-AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
-
   auto& sensor_name = in_message->lidar_frame_->sensor_info.name;
   PERF_FUNCTION_WITH_INDICATOR(sensor_name);
   out_message->timestamp_ = in_message->timestamp_;
@@ -100,7 +97,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   if (in_message->error_code_ != apollo::common::ErrorCode::OK) {
     out_message->error_code_ = in_message->error_code_;
-    AERROR << "Lidar recognition receive message with error code, skip it.";
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Lidar recognition receive message with error code, skip it.";
     return true;
   }
 
@@ -114,7 +112,8 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
   if (ret.error_code != lidar::LidarErrorCode::Succeed) {
     out_message->error_code_ =
         apollo::common::ErrorCode::PERCEPTION_ERROR_PROCESS;
-    AERROR << "Lidar recognition process error, " << ret.log;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AERROR << "Lidar recognition process error, " << ret.log;
     return true;
   }
   // TODO(shigintmin)
@@ -131,8 +130,9 @@ AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
 
   const double end_timestamp = Clock::NowInSeconds();
   const double end_latency = (end_timestamp - in_message->timestamp_) * 1e3;
-  AINFO << std::setprecision(16) << "FRAME_STATISTICS:Lidar:End:msg_time["
-        << in_message->timestamp_ << "]:cur_time[" << end_timestamp
+  AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << std::setprecision(16) << "FRAME_STATISTICS:Lidar:End:msg_time["
+         << in_message->timestamp_ << "]:cur_time[" << end_timestamp
         << "]:cur_latency[" << end_latency << "]";
   return true;
 }

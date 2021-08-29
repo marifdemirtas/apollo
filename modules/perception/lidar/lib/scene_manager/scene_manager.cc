@@ -47,15 +47,18 @@ bool SceneManager::InitInternal(const SceneManagerInitOptions& options) {
     const auto& name = config.service_name(i);
     SceneServicePtr service(SceneServiceRegisterer::GetInstanceByName(name));
     if (service == nullptr) {
-      AINFO << "Failed to find scene service: " << name << ", skipped";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to find scene service: " << name << ", skipped";
       continue;
     }
     if (!service->Init()) {
-      AINFO << "Failed to init scene service: " << name << ", skipped";
+      AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Failed to init scene service: " << name << ", skipped";
       continue;
     }
     services_.emplace(name, service);
-    AINFO << "Scene manager add service: " << name;
+    AINFO << "[COV_LOG] " << __PRETTY_FUNCTION__;
+ AINFO << "Scene manager add service: " << name;
   }
   initialized_ = true;
   return true;
